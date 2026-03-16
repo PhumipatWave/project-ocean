@@ -8,14 +8,14 @@ namespace Game.Core
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
     public class InputReader : ScriptableObject, IPlayerActions
     {
+        public event Action<bool> OnAimed;
         public event Action<bool> OnAttacked;
         public event Action<bool> OnDashed;
         public event Action<bool> OnInteracted;
-
-        public event Action<bool> OnAimed;
-        public Vector2 MousePos { get; private set; }
-
         public event Action<Vector2> OnMoved;
+
+        public Vector2 MousePos { get; private set; }
+        public Vector2 MovePos { get; private set; }
 
         private InputSystem_Actions inputAction;
 
@@ -89,7 +89,8 @@ namespace Game.Core
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            OnMoved?.Invoke(context.ReadValue<Vector2>());
+            MovePos = context.ReadValue<Vector2>();
+            OnMoved?.Invoke(MovePos);
         }
     }
 }

@@ -1,32 +1,36 @@
 using Game.Core;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Testing
 {
     public class Player : MonoBehaviour
     {
+        [Header("Player Component")]
         public InputReader input;
+        private PlayerGunHandler gunHandler;
 
         [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
 
+        [Header("Player Object")]
         [SerializeField] private Transform playerSprite;
-        [SerializeField] private Transform gunSprite;
 
-        private int oxygen;
-        private int maxOxygen = 100;
+
+        [Header("Player Status")]
         private int faceDir = 1;
 
         [SerializeField] private float moveSpeed = 5f;
         public float MoveSpeed { get { return moveSpeed; } }
+        [SerializeField] private float dashSpeed = 25f;
 
-        private float attackDamage = 10f;
-
-        private bool isAimming;
+        private bool canDash = true;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            gunHandler = GetComponentInChildren<PlayerGunHandler>();
         }
 
         private void Start()
@@ -40,29 +44,57 @@ namespace Game.Testing
 
         private void Update()
         {
-            Aimming();
+            gunHandler.Aimming(faceDir, input.MousePos);
+            PreventMoveOutFromWater();
         }
 
         #region PlayerInputAction
         private void Aim(bool isAim)
         {
-            isAimming = isAim;
+            if (!gunHandler.CanAttack) return;
+
+            gunHandler.IsAimming = isAim;
         }
 
         private void Attack(bool isAttack)
         {
+            if (!gunHandler.IsAimming) return;
+
             if (isAttack)
             {
-                Debug.Log("Attack");
+                StartCoroutine(AttackRoutine());
             }
+        }
+
+        private IEnumerator AttackRoutine()
+        {
+            gunHandler.CanAttack = false;
+            gunHandler.Shooting();
+            Debug.Log("Attack");
+
+            yield return new WaitForSeconds(2.25f);
+            gunHandler.CanAttack = true;
         }
 
         private void Dash(bool isDash)
         {
-            if (isDash)
+            if (isDash && canDash)
             {
-                Debug.Log("Dash");
+                StartCoroutine(DashRoutine());
             }
+        }
+
+        private IEnumerator DashRoutine()
+        {
+            canDash = false;
+            Vector2 dir = input.MovePos.normalized;
+
+            rb.linearVelocity = dir * dashSpeed;
+            yield return new WaitForSeconds(0.25f);
+
+            rb.linearVelocity = Vector2.zero;
+            yield return new WaitForSeconds(2.25f);
+            canDash = true;
         }
 
         private void Interact(bool isInteract)
@@ -73,10 +105,23 @@ namespace Game.Testing
             }
         }
 
+        private void PreventMoveOutFromWater()
+        {
+            if (transform.position.y > 0)
+            {
+                transform.position = new Vector2(transform.position.x, 0);
+            }
+        }
+
         private void Move(Vector2 dir)
         {
-            rb.linearVelocity = dir * moveSpeed;
+            if (gunHandler.IsAimming)
+            {
+                rb.linearVelocity = Vector2.zero;
+                return;
+            }
 
+            rb.linearVelocity = dir * moveSpeed;
             FlipSprite();
         }
         #endregion
@@ -88,57 +133,13 @@ namespace Game.Testing
             {
                 faceDir = 1;
                 playerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
-                gunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
             else if (rb.linearVelocityX < -.1f)
             {
                 faceDir = -1;
                 playerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-                gunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-            }
-        }
-
-        private void Aimming()
-        {
-            if (isAimming)
-            {
-                Vector2 aimScreenPos = input.MousePos;
-                Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(aimScreenPos);
-
-                Vector2 dir = (aimWorldPos - (Vector2)transform.position).normalized;
-                float angle = Mathf.Atan2(aimWorldPos.y, aimWorldPos.x) * Mathf.Rad2Deg;
-
-                //bool isLeft = angle > 90 || angle < -90;
-                float clampAngle;
-
-                if (faceDir == 1)
-                {
-                    clampAngle = Mathf.Clamp(angle, -45f, 45f);
-                }
-                else
-                {
-                    if (angle > 0f)
-                    {
-                        clampAngle = Mathf.Clamp(angle, 135f, 225f);
-                    }
-                    else
-                    {
-                        clampAngle = Mathf.Clamp(angle, -180f, -135f);
-                    }
-                }
-
-                gunSprite.eulerAngles = new Vector3(0, 0, clampAngle);
-            }
-            else
-            {
-                if (faceDir == 1)
-                {
-                    gunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
-                }
-                else
-                {
-                    gunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-                }
+                gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
         }
         #endregion

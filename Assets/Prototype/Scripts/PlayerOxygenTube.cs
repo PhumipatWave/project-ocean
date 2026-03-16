@@ -6,18 +6,30 @@ namespace Game.Testing
 {
     public class PlayerOxygenTube : MonoBehaviour
     {
+        [Header("Oxygen Tube Compopnent")]
+        [SerializeField] private LineRenderer line;
+        [SerializeField] private Player player;
+        private Rigidbody2D rb;
+
+        [Header("Oxygen Tube Object")]
+        /*[SerializeField] private GameObject ropePrefab;
+        private Rigidbody2D previousRope;*/
+
         [SerializeField] private Transform anchor;
 
-        [SerializeField] private float minRopeLength = 1f;
-        [SerializeField] private float maxRopeLength = 50f;
+
+        [Header("Oxygen Tube Status")]
+        private float minRopeLength = 1f;
+        [SerializeField, Range(2f, 750f)] private float maxRopeLength = 50f;
+        [SerializeField] private float currentRopeLength;
 
         [SerializeField] private int segment = 20;
         [SerializeField] private float ropeSag = .5f;
+        [SerializeField] private float pullBackForce = 50f;
+        private bool isPullBack;
 
-        [SerializeField] private LineRenderer line;
-        [SerializeField] private Player player;
-
-        private Rigidbody2D rb;
+        private int oxygen;
+        private int maxOxygen = 100;
 
         private void Start()
         {
@@ -25,48 +37,40 @@ namespace Game.Testing
             line = GetComponent<LineRenderer>();
 
             line.positionCount = segment;
+
+            /*previousRope = anchor.GetComponent<Rigidbody2D>();
+            BuildRope(ropePrefab, anchor, previousRope, rb, segment);*/
         }
 
         private void Update()
         {
-            DrawRope();
+            RopeSystemUtil.DrawRope(line, anchor.position, player.transform.position, segment, ropeSag);
         }
 
         private void FixedUpdate()
         {
-            LimitDistance();
+            RopeSystemUtil.LimitDistance(anchor, rb.transform, maxRopeLength);
+            RopeSystemUtil.BreakRopeLimit(anchor.position, player.transform.position, ref isPullBack, ref currentRopeLength, maxRopeLength, rb, pullBackForce);
         }
 
-        private void LimitDistance()
+        /*public static void BuildRope(GameObject ropePrefab, Transform startPos, Rigidbody2D previousRope, Rigidbody2D playerRB, int segment)
         {
-            Vector2 anchorPos = anchor.position;
-            Vector2 playerPos = rb.position;
-
-            float dist = Vector2.Distance(playerPos, anchorPos);
-
-            if (dist > maxRopeLength)
-            {
-                Vector2 dir = (playerPos - anchorPos).normalized;
-                Vector2 limitedPos = anchorPos + dir * maxRopeLength;
-                rb.position = limitedPos;
-            }
-        }
-
-        private void DrawRope()
-        {
-            Vector2 startPos = anchor.position;
-            Vector2 endPos = player.transform.position;
+            previousRope = startPos.GetComponent<Rigidbody2D>();
 
             for (int i = 0; i < segment; i++)
             {
-                float t = i / (float)(segment - 1);
-                Vector2 pos = Vector2.Lerp(startPos, endPos, t);
+                GameObject seg = Instantiate(ropePrefab);
+                seg.transform.position = startPos.position + Vector3.down * i * .5f;
 
-                float sag = Mathf.Sin(t * Mathf.PI) * ropeSag;
-                pos.y -= sag;
+                Rigidbody2D rb = seg.GetComponent<Rigidbody2D>();
+                HingeJoint2D joint = seg.GetComponent<HingeJoint2D>();
+                joint.connectedBody = previousRope;
 
-                line.SetPosition(i, pos);
+                previousRope = rb;
             }
-        }
+
+            HingeJoint2D playerJoint = playerRB.GetComponent<HingeJoint2D>();
+            playerJoint.connectedBody = previousRope;
+        }*/
     }
 }
