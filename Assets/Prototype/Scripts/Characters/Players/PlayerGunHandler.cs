@@ -11,8 +11,8 @@ namespace Game.Testing
         public Transform GunSprite {  get { return gunSprite; } }
 
         [SerializeField] private Transform bulletPrefab;
-        [SerializeField] private Transform firePoint;
-        public Transform FirePoint { get { return firePoint; } }
+        [SerializeField] private GameObject firePoint;
+        public GameObject FirePoint { get { return firePoint; } }
 
         [SerializeField] private Transform currentBulletObj;
         public Transform CurrentBulletObj { get { return currentBulletObj; } }
@@ -74,16 +74,23 @@ namespace Game.Testing
                     return;
                 }
 
-                Vector2 aimScreenPos = mousePos; //input.MousePos;
                 // Convert screen position to world position
-                Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(aimScreenPos);
+                Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
                 // Calculate direction vector pointing from player to mouse
-                aimDir = (aimWorldPos - (Vector2)transform.position).normalized;
-                // Convert direction to radian and convert to degree for use in unity rotation
-                float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+                Vector2 rawDir = (aimWorldPos - (Vector2)transform.position).normalized;
 
-                gunSprite.eulerAngles = new Vector3(0, 0, HandlerGunRotation(faceDir, angle));
+                // Convert direction to radian and convert to degree for use in unity rotation
+                float angle = Mathf.Atan2(rawDir.y, rawDir.x) * Mathf.Rad2Deg;
+
+                float clamAngle = HandlerGunRotation(faceDir, angle);
+
+                float rad = clamAngle * Mathf.Deg2Rad;
+                aimDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
+
+                gunSprite.eulerAngles = new Vector3(0, 0, clamAngle);
+
+                Debug.DrawRay(transform.position, aimDir * 10f, Color.red);
             }
             else
             {
@@ -93,8 +100,15 @@ namespace Game.Testing
 
         public void Shooting()
         {
-            currentBulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+            currentBulletObj = Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
             currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
+        }
+
+        public void AttachRope(GameObject target, LineRenderer line,  int ropeSegment, ref bool isPullBack, ref float currentRopeLength, float maxRopeLength, float pullBackForce)
+        {
+            RopeSystemUtil.DrawNormalRope(line, FirePoint, target, segment: ropeSegment);
+            RopeSystemUtil.LimitNormalRopeDistance(FirePoint, target, maxRopeLength);
+            RopeSystemUtil.BreakNormalRopeLimit(FirePoint, target, ref isPullBack, ref currentRopeLength, maxRopeLength, pullBackForce);
         }
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4546348859011049732}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,10 +173,10 @@ MonoBehaviour:
   rb: {fileID: 0}
   line: {fileID: 0}
   playerGun: {fileID: 0}
+  ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}
   moveSpeed: 15
   attackDamage: 10
   currentRopeLength: 0
-  maxRopeLength: 15
   pullBackForce: 50
 --- !u!120 &4546348859011049732
 LineRenderer:
