@@ -11,6 +11,7 @@ namespace Game.Testing
         [SerializeField] private LineRenderer line;
         [SerializeField] private GameObject anchor;
         [SerializeField] private GameObject player;
+        [SerializeField] private SpringJoint2D spring;
 
         [SerializeField] private float pointSpacing = .3f;
         [SerializeField] private int smoothResolution = 5;
@@ -19,18 +20,32 @@ namespace Game.Testing
         private List<Vector2> points = new List<Vector2>();
 
         [SerializeField, Range(2f, 750f)] private float maxRopeLength = 50f;
-        [SerializeField] private float currentRopeLength;
 
-        private bool isPullBack;
+        [SerializeField] private float currentRopeLength;
+        public float CurrentRopeLength { get { return currentRopeLength; } }
+
         [SerializeField] private float pullBackForce = 50f;
 
-        [SerializeField] private SpringJoint2D spring;
+        private bool isPullBack;
+        public bool IsPullBack { get { return isPullBack; } }
 
         private void Start()
         {
             line = GetComponent<LineRenderer>();
             points.Add(transform.position);
             spring.enabled = false;
+        }
+
+        private void Update()
+        {
+            if (isPullBack)
+            {
+                player.GetComponent<Player>().input.DisablePlayerInput();
+            }
+            else
+            {
+                player.GetComponent<Player>().input.EnablePlayerInput();
+            }
         }
 
         private void FixedUpdate()

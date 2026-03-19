@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6790367413167838071}
   - component: {fileID: 2065842327901358099}
   - component: {fileID: -868136397357943645}
-  - component: {fileID: -5137251355909091495}
   - component: {fileID: 4546348859011049732}
+  - component: {fileID: 2133427171966659474}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: GrappingHookBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -158,26 +158,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &-5137251355909091495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8585697566450445355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7310025415badb14f945891312d90f46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.Bullet
-  rb: {fileID: 0}
-  line: {fileID: 0}
-  playerGun: {fileID: 0}
-  ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}
-  moveSpeed: 15
-  attackDamage: 10
-  currentRopeLength: 0
-  pullBackForce: 50
 --- !u!120 &4546348859011049732
 LineRenderer:
   serializedVersion: 3
@@ -288,3 +268,23 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &2133427171966659474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8585697566450445355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb9c75d13617474b8dff7245cd0753f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.GrapplingHookBullet
+  rb: {fileID: 0}
+  player: {fileID: 0}
+  moveSpeed: 15
+  attackDamage: 25
+  currentRopeLength: 0
+  pullBackForce: 5
+  line: {fileID: 0}
+  ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}

@@ -9,7 +9,12 @@ namespace Game.Testing
     {
         [Header("Player Component")]
         public InputReader input;
+
         private PlayerGunHandler gunHandler;
+        public PlayerGunHandler GunHandler { get { return gunHandler; } }
+
+        private PlayerOxygenTubeTrail oxygenTube;
+        public PlayerOxygenTubeTrail OxygenTube { get { return oxygenTube; } }
 
         [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
@@ -20,6 +25,7 @@ namespace Game.Testing
 
         [Header("Player Status")]
         private int faceDir = 1;
+        public int FaceDir { get { return faceDir; } }
 
         [SerializeField] private float moveSpeed = 5f;
         public float MoveSpeed { get { return moveSpeed; } }
@@ -31,6 +37,7 @@ namespace Game.Testing
         {
             rb = GetComponent<Rigidbody2D>();
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
+            oxygenTube = GetComponentInChildren<PlayerOxygenTubeTrail>();
         }
 
         private void Start()
@@ -62,18 +69,10 @@ namespace Game.Testing
 
             if (isAttack)
             {
-                StartCoroutine(AttackRoutine());
+                gunHandler.CanAttack = false;
+                gunHandler.Shooting();
+                Debug.Log("Attack");
             }
-        }
-
-        private IEnumerator AttackRoutine()
-        {
-            gunHandler.CanAttack = false;
-            gunHandler.Shooting();
-            Debug.Log("Attack");
-
-            yield return new WaitForSeconds(2.25f);
-            gunHandler.CanAttack = true;
         }
 
         private void Dash(bool isDash)

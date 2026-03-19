@@ -14,7 +14,13 @@ namespace Game.Testing
 
         [SerializeField] private bool isPullBack;
         public bool IsPullBack { get { return isPullBack; } }
-        [SerializeField] private bool isHooked;
+
+        private float maxHealth = 100;
+        [SerializeField] private float currentHealth;
+        public float CurrentHealth { get { return currentHealth; } }
+
+        private bool isHookToGun;
+        public bool IsHookToGun { get { return isHookToGun; } set { isHookToGun = value; } }
 
         private void Awake()
         {
@@ -23,19 +29,25 @@ namespace Game.Testing
             line = GetComponent<LineRenderer>();
 
             line.positionCount = ropeData.ropeSegment;
+
+            currentHealth = maxHealth;
         }
 
         private void FixedUpdate()
         {
-            if (isHooked)
+            if (playerGun.IsHooked && isHookToGun)
             {
                 playerGun.AttachRope(this.gameObject, line, ropeData.ropeSegment, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
             }
+            else if (!playerGun.IsHooked)
+            {
+                RopeSystemUtil.ClearNormalRope(line);
+            }
         }
 
-        public void IsHooked()
+        public void TakeDamage(float amount)
         {
-            isHooked = true;
+            currentHealth -= amount;
         }
     }
 }

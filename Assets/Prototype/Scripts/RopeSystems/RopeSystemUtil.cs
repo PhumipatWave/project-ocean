@@ -43,7 +43,7 @@ namespace Game.Testing
             Vector2 endPos = endObj.transform.position;
             currentLength = Vector2.Distance(endPos, startPos);
 
-            if (currentLength > maxLength)
+            if (currentLength >= maxLength)
             {
                 isPullBack = true;
             }
@@ -62,6 +62,11 @@ namespace Game.Testing
                     isPullBack = false;
                 }
             }
+        }
+
+        public static void ClearNormalRope(LineRenderer line)
+        {
+            line.enabled = false;
         }
 
         public static void DrawSmoothRopeLine(LineRenderer line, Transform anchor, Transform curPos, ref List<Vector2> points, float pointSpacing = .75f, int smoothResolution = 5)
@@ -184,7 +189,7 @@ namespace Game.Testing
         {
             float currentLength = GetRopeLength(points);
 
-            if (currentLength > maxLength)
+            if (currentLength >= maxLength)
             {
                 isPullBack = true;
                 spring.enabled = true;

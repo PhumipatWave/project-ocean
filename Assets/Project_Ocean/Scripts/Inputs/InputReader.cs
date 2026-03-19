@@ -6,12 +6,13 @@ using static InputSystem_Actions;
 namespace Game.Core
 {
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
-    public class InputReader : ScriptableObject, IPlayerActions
+    public class InputReader : ScriptableObject, IPlayerActions, IUIActions
     {
         public event Action<bool> OnAimed;
         public event Action<bool> OnAttacked;
         public event Action<bool> OnDashed;
         public event Action<bool> OnInteracted;
+        public event Action<bool> OnAmmoSelected;
         public event Action<Vector2> OnMoved;
 
         public Vector2 MousePos { get; private set; }
@@ -27,13 +28,21 @@ namespace Game.Core
                 inputAction.Player.SetCallbacks(this);
             }
 
-            inputAction.Player.Enable();
+            EnablePlayerInput();
         }
 
         private void OnDisable()
         {
-            inputAction.Player.Disable();
+            DisablePlayerInput();
         }
+
+        public void EnablePlayerInput() => inputAction.Player.Enable();
+
+        public void DisablePlayerInput() => inputAction.Player.Disable();
+
+        public void EnableUIInput() => inputAction.UI.Enable();
+
+        public void DisableUIInput() => inputAction.UI.Disable();
 
         public void OnAim(InputAction.CallbackContext context)
         {
@@ -91,6 +100,48 @@ namespace Game.Core
         {
             MovePos = context.ReadValue<Vector2>();
             OnMoved?.Invoke(MovePos);
+        }
+
+        public void OnAmmoWheel(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                OnAmmoSelected?.Invoke(true);
+            }
+            else if (context.canceled)
+            {
+                OnAmmoSelected?.Invoke(false);
+            }
+        }
+
+        public void OnSubmit(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnCancel(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnClick(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnRightClick(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMiddleClick(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnScrollWheel(InputAction.CallbackContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }
