@@ -21,6 +21,7 @@ namespace Game.Testing
 
         [Header("Player Object")]
         [SerializeField] private Transform playerSprite;
+        public Transform PlayerSprite { get { return playerSprite; } }
 
 
         [Header("Player Status")]
@@ -32,6 +33,9 @@ namespace Game.Testing
         [SerializeField] private float dashSpeed = 25f;
 
         private bool canDash = true;
+
+        private bool isAttacked;
+        public bool IsAttacked { get { return isAttacked; } }
 
         private void Awake()
         {
@@ -67,6 +71,7 @@ namespace Game.Testing
         {
             if (!gunHandler.IsAimming) return;
 
+            isAttacked = isAttack;
             if (isAttack)
             {
                 gunHandler.CanAttack = false;

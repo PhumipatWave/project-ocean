@@ -5,12 +5,15 @@ namespace Game.Testing
     public class Environment : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D rb;
+
         [SerializeField] private LineRenderer line;
+        public LineRenderer Line {  get { return line; } }
+
         [SerializeField] private PlayerGunHandler playerGun;
         [SerializeField] private RopeData ropeData;
 
         [SerializeField] private float currentRopeLength;
-        [SerializeField] private float pullBackForce = 5f;
+        [SerializeField] private float pullBackForce = 0f;
 
         [SerializeField] private bool isPullBack;
         public bool IsPullBack { get { return isPullBack; } }
@@ -32,6 +35,10 @@ namespace Game.Testing
             if (playerGun.IsHooked && isHookToGun)
             {
                 playerGun.AttachRope(this.gameObject, line, ropeData.ropeSegment, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
+            }
+            else if (!isHookToGun)
+            {
+                RopeSystemUtil.ClearNormalRope(line);
             }
         }
     }

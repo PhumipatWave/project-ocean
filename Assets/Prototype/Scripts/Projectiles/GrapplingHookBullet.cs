@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Testing
@@ -56,10 +57,10 @@ namespace Game.Testing
                         Debug.Log($"Fire : {collision.name}");
 
                         Enemy enemy = collision.GetComponent<Enemy>();
-                        if (enemy.CurrentHealth > 0f && enemy.CurrentHealth != 0f)
-                        {
-                            enemy.TakeDamage(attackDamage);
+                        enemy.TakeDamage(attackDamage);
 
+                        if (enemy.CurrentHealth > 0f)
+                        {
                             player.GunHandler.CanAttack = true;
                             player.GunHandler.ResetGunRotation(player.FaceDir);
 
@@ -81,13 +82,12 @@ namespace Game.Testing
 
                     case "Environment":
 
+                        Environment environment = collision.GetComponent<Environment>();
+                        environment.IsHookToGun = true;
+
                         player.GetComponentInChildren<PlayerGunHandler>().IsHooked = true;
-                        player.GetComponentInChildren<PlayerGunHandler>().CurrentHookObj = collision.gameObject;
 
-                        player.GunHandler.CanAttack = true;
-                        player.GunHandler.ResetGunRotation(player.FaceDir);
-
-                        Destroy(gameObject);
+                        StartCoroutine(HookDashRoutine(environment.IsHookToGun));
 
                         break;
                 }
@@ -106,6 +106,22 @@ namespace Game.Testing
                         break;
                 }
             }
+        }
+
+        public IEnumerator HookDashRoutine(bool isHookGun)
+        {
+            Vector2 dir = (transform.position - player.gameObject.transform.position).normalized;
+
+            player.RB.linearVelocity = dir * 45f;
+            yield return new WaitForSeconds(0.5f);
+
+            isHookGun = false;
+            player.GunHandler.IsHooked = false;
+            player.GunHandler.CanAttack = true;
+            player.GunHandler.ResetGunRotation(player.FaceDir);
+            rb.linearVelocity = Vector2.zero;
+
+            Destroy(gameObject);
         }
     }
 }

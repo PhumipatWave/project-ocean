@@ -9,6 +9,8 @@ namespace Game.Testing
     {
         [SerializeField] private AmmoWheel ammoWheel;
 
+        [SerializeField] private Player player;
+
         [Header("Gun Object")]
         [SerializeField] private Transform gunSprite; 
         public Transform GunSprite {  get { return gunSprite; } }
@@ -39,25 +41,54 @@ namespace Game.Testing
         private void Start()
         {
             ammoWheel = GameObject.FindGameObjectWithTag("GameHUD").GetComponent<AmmoWheel>();
+            player = GameObject.FindWithTag("Player").GetComponent<Player>();
         }
 
         private float HandlerGunRotation(int faceDir, float angle)
         {
             // Clamp angle by face direction
             float clampAngle;
-            if (faceDir == 1)
+
+            if (angle >= 0)
             {
-                clampAngle = Mathf.Clamp(angle, -45f, 45f);
-            }
-            else
-            {
-                if (angle > 0f)
+                if (angle <= 45f)
                 {
-                    clampAngle = Mathf.Clamp(angle, 135f, 180f);
+                    faceDir = 1;
+
+                    clampAngle = Mathf.Clamp(angle, 0f, 45f);
+
+                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                    GunSprite.rotation = Quaternion.Euler(0f, 0f, gunSprite.rotation.z);
                 }
                 else
                 {
+                    faceDir = -1;
+
+                    clampAngle = Mathf.Clamp(angle, 135f, 180f);
+
+                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                    gunSprite.rotation = Quaternion.Euler(0f, 180f, gunSprite.rotation.z);
+                }
+            }
+            else
+            {
+                if (angle >= -45f)
+                {
+                    faceDir = 1;
+
+                    clampAngle = Mathf.Clamp(angle, -45f, -0f);
+
+                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                    GunSprite.rotation = Quaternion.Euler(0f, 0f, gunSprite.rotation.z);
+                }
+                else
+                {
+                    faceDir = -1;
+
                     clampAngle = Mathf.Clamp(angle, -180f, -135f);
+
+                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                    gunSprite.rotation = Quaternion.Euler(0f, 180f, gunSprite.rotation.z);
                 }
             }
 
@@ -104,6 +135,10 @@ namespace Game.Testing
 
                 Debug.DrawRay(transform.position, aimDir * 10f, Color.red);
             }
+            else if (!player.IsAttacked)
+            {
+                ResetGunRotation(player.FaceDir);
+            }
         }
 
         public void Shooting()
@@ -111,8 +146,10 @@ namespace Game.Testing
             if (isHooked)
             {
                 var obj = Instantiate(currentHookObj, firePoint.transform.position, Quaternion.identity);
+                obj.GetComponent<Enemy>().IsPlayerBullet = true;
                 obj.GetComponent<Rigidbody2D>().linearVelocity = aimDir * 20f;
 
+                canAttack = true;
                 isHooked = false;
                 Destroy(currentHookObj);
             }

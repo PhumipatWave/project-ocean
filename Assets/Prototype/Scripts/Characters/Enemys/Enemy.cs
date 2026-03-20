@@ -17,11 +17,17 @@ namespace Game.Testing
         public bool IsPullBack { get { return isPullBack; } }
 
         private float maxHealth = 100;
+        public float MaxHealth { get { return maxHealth; } }
+
+
         [SerializeField] private float currentHealth;
         public float CurrentHealth { get { return currentHealth; } }
 
         private bool isHookToGun;
         public bool IsHookToGun { get { return isHookToGun; } set { isHookToGun = value; } }
+
+        private bool isPlayerBullet;
+        public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
 
         private void Awake()
         {
@@ -45,14 +51,36 @@ namespace Game.Testing
                 RopeSystemUtil.ClearNormalRope(line);
             }
 
-            Player player = playerGun.GetComponentInParent<Player>();
-            Vector2 direction = (player.gameObject.transform.position - transform.position).normalized;
-            rb.linearVelocity = direction * 2.5f;
+            Move();
         }
 
         public void TakeDamage(float amount)
         {
             currentHealth -= amount;
+        }
+
+        private void Move()
+        {
+            if (!isHookToGun && currentHealth > 0 && !isPlayerBullet)
+            {
+                Player player = playerGun.GetComponentInParent<Player>();
+                Vector2 dir = (player.gameObject.transform.position - transform.position).normalized;
+                rb.linearVelocity = dir * 2.5f;
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (isPlayerBullet)
+            {
+                if (collision.gameObject.tag == "Enemy")
+                {
+                    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                    enemy.TakeDamage(50f);
+
+                    Debug.Log($"Fish Bullet Shoot, Enemy Take damage {20f} => Health amount : {enemy.currentHealth}");
+                }
+            }
         }
     }
 }

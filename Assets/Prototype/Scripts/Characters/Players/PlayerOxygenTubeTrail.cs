@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
@@ -24,8 +25,6 @@ namespace Game.Testing
         [SerializeField] private float currentRopeLength;
         public float CurrentRopeLength { get { return currentRopeLength; } }
 
-        [SerializeField] private float pullBackForce = 50f;
-
         private bool isPullBack;
         public bool IsPullBack { get { return isPullBack; } }
 
@@ -36,23 +35,36 @@ namespace Game.Testing
             spring.enabled = false;
         }
 
-        private void Update()
+        /*private void Update()
         {
             if (isPullBack)
             {
-                player.GetComponent<Player>().input.DisablePlayerInput();
+                StartCoroutine(PullingBackRoutine());
             }
-            else
-            {
-                player.GetComponent<Player>().input.EnablePlayerInput();
-            }
-        }
+        }*/
 
         private void FixedUpdate()
         {
             RopeSystemUtil.LimitSmoothRopeDistance(ref points, ref currentRopeLength, maxRopeLength);
             RopeSystemUtil.BreakSmoothRopeLimit(line, spring, anchor, player, ref points, ref isPullBack, maxRopeLength);
             RopeSystemUtil.DrawSmoothRopeLine(line, anchor.transform, player.transform, ref points);
+        }
+
+        public void PullingBack()
+        {
+            StartCoroutine(PullingBackRoutine());
+        }
+
+        private IEnumerator PullingBackRoutine()
+        {
+            player.GetComponent<Player>().input.DisablePlayerInput();
+
+            yield return new WaitForSeconds(2f);
+            GameHUD.instance.FadeIn();
+
+            yield return new WaitForSeconds(.5f);
+            player.transform.position = Vector2.zero;
+            player.GetComponent<Player>().input.EnablePlayerInput();
         }
     }
 }

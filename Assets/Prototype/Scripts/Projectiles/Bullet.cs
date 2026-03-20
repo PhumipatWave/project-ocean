@@ -44,10 +44,11 @@ namespace Game.Testing
                 case "Enemy":
 
                     Enemy enemy = collision.GetComponent<Enemy>();
+
+                    enemy.TakeDamage(attackDamage);
+
                     if (enemy.CurrentHealth <= 0f)
                     {
-                        enemy.TakeDamage(attackDamage);
-
                         player.GunHandler.CanAttack = true;
                         player.GunHandler.ResetGunRotation(player.FaceDir);
 

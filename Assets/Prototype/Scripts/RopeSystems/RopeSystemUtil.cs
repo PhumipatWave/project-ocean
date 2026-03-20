@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace Game.Testing
@@ -209,6 +209,8 @@ namespace Game.Testing
                 {
                     line.SetPosition(i, points[i]);
                 }
+
+                endObj.GetComponent<PlayerOxygenTubeTrail>().PullingBack();
 
                 if (currentLength < 1f)
                 {
