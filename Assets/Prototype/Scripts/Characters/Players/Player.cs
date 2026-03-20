@@ -1,6 +1,7 @@
 using Game.Core;
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Game.Testing
@@ -37,6 +38,9 @@ namespace Game.Testing
         private bool isAttacked;
         public bool IsAttacked { get { return isAttacked; } }
 
+        private float originTime = 1f;
+        private float focusTime = .6f;
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -65,6 +69,15 @@ namespace Game.Testing
             if (!gunHandler.CanAttack) return;
 
             gunHandler.IsAimming = isAim;
+
+            if (isAim)
+            {
+                Time.timeScale = focusTime;
+            }
+            else
+            {
+                Time.timeScale = originTime;
+            }
         }
 
         private void Attack(bool isAttack)

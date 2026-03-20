@@ -117,10 +117,11 @@ namespace Game.Testing
 
             isHookGun = false;
             player.GunHandler.IsHooked = false;
-            player.GunHandler.CanAttack = true;
             player.GunHandler.ResetGunRotation(player.FaceDir);
             rb.linearVelocity = Vector2.zero;
 
+            yield return new WaitForSeconds(.75f);
+            player.GunHandler.CanAttack = true;
             Destroy(gameObject);
         }
     }

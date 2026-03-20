@@ -5,6 +5,7 @@ namespace Game.Testing
 {
     public class Enemy : MonoBehaviour
     {
+        [Header("Rope Component")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private LineRenderer line;
         [SerializeField] private PlayerGunHandler playerGun;
@@ -16,12 +17,15 @@ namespace Game.Testing
         [SerializeField] private bool isPullBack;
         public bool IsPullBack { get { return isPullBack; } }
 
+
+        [Header("Status Component")]
+        [SerializeField] private float currentHealth;
+        public float CurrentHealth { get { return currentHealth; } }
+
         private float maxHealth = 100;
         public float MaxHealth { get { return maxHealth; } }
 
-
-        [SerializeField] private float currentHealth;
-        public float CurrentHealth { get { return currentHealth; } }
+        [SerializeField] private float moveSpeed = 5f;
 
         private bool isHookToGun;
         public bool IsHookToGun { get { return isHookToGun; } set { isHookToGun = value; } }
@@ -65,7 +69,7 @@ namespace Game.Testing
             {
                 Player player = playerGun.GetComponentInParent<Player>();
                 Vector2 dir = (player.gameObject.transform.position - transform.position).normalized;
-                rb.linearVelocity = dir * 2.5f;
+                rb.linearVelocity = dir * moveSpeed;
             }
         }
 

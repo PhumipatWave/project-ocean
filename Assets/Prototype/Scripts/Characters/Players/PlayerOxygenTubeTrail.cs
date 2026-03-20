@@ -35,14 +35,6 @@ namespace Game.Testing
             spring.enabled = false;
         }
 
-        /*private void Update()
-        {
-            if (isPullBack)
-            {
-                StartCoroutine(PullingBackRoutine());
-            }
-        }*/
-
         private void FixedUpdate()
         {
             RopeSystemUtil.LimitSmoothRopeDistance(ref points, ref currentRopeLength, maxRopeLength);
