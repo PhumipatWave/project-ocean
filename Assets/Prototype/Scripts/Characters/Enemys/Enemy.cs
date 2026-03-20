@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 namespace Game.Testing
 {
@@ -43,6 +44,10 @@ namespace Game.Testing
             {
                 RopeSystemUtil.ClearNormalRope(line);
             }
+
+            Player player = playerGun.GetComponentInParent<Player>();
+            Vector2 direction = (player.gameObject.transform.position - transform.position).normalized;
+            rb.linearVelocity = direction * 2.5f;
         }
 
         public void TakeDamage(float amount)

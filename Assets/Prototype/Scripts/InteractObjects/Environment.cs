@@ -33,10 +33,6 @@ namespace Game.Testing
             {
                 playerGun.AttachRope(this.gameObject, line, ropeData.ropeSegment, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
             }
-            else if (!playerGun.IsHooked)
-            {
-                RopeSystemUtil.ClearNormalRope(line);
-            }
         }
     }
 }
