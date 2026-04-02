@@ -6,6 +6,7 @@ namespace Game.Testing
 {
     public static class RopeSystemUtil
     {
+        #region NormalRopeLine
         public static void DrawNormalRope(LineRenderer line, GameObject startObj, GameObject endObj, int segment = 50, float ropeSag = .5f)
         {
             for (int i = 0; i < segment; i++)
@@ -68,7 +69,9 @@ namespace Game.Testing
         {
             line.enabled = false;
         }
+        #endregion
 
+        #region SmoothRopeLine
         public static void DrawSmoothRopeLine(LineRenderer line, Transform anchor, Transform curPos, ref List<Vector2> points, float pointSpacing = .75f, int smoothResolution = 5)
         {
             if (points.Count == 0)
@@ -221,5 +224,6 @@ namespace Game.Testing
                 }
             }
         }
+        #endregion
     }
 }

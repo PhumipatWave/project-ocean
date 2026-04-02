@@ -37,7 +37,7 @@ namespace Game.Testing
         {
             if (!player.GetComponent<Player>().OxygenTube.IsPullBack)
             {
-                currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<Player>().OxygenTube.CurrentRopeLength} m.";
+                currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<RopeVerlet>().CurrentRopeLength} m.";
             }
         }
 
