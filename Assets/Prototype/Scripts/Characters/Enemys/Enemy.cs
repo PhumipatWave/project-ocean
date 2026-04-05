@@ -32,6 +32,19 @@ namespace Game.Testing
 
         private bool isPlayerBullet;
         public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
+        
+        [Header("Enemy to Inventory")]
+        [SerializeField] private string itemName;
+        [SerializeField] private int quantity;
+        [SerializeField] private Sprite itemSprite;
+        
+        private InventoryManager inventoryManager;
+        
+        private void Start()
+        {
+            inventoryManager = FindObjectOfType<InventoryManager>();
+        } // Start ===
+
 
         private void Awake()
         {
@@ -43,7 +56,14 @@ namespace Game.Testing
 
             currentHealth = maxHealth;
         }
-
+        private void Update()
+        {
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        } // Update ===
+        
         private void FixedUpdate()
         {
             if (playerGun.IsHooked && isHookToGun)
@@ -83,8 +103,28 @@ namespace Game.Testing
                     enemy.TakeDamage(50f);
 
                     Debug.Log($"Fish Bullet Shoot, Enemy Take damage {20f} => Health amount : {enemy.currentHealth}");
+                    
                 }
+                
+            }
+            
+            if (currentHealth <= 0 && collision.gameObject.tag == "Player")
+            {
+                inventoryManager.AddItam(itemName, quantity, itemSprite);
+                Debug.Log("keep to Inventary!!");
+                Destroy(gameObject);
+                        
             }
         }
+        
+        private void Die()
+        {
+            rb.linearVelocity = Vector2.zero;
+            gameObject.tag = "Enemy";
+            this.enabled = false;
+            GetComponent<SpriteRenderer>().color = Color.gray;
+            
+        } // Die ===
+
     }
 }

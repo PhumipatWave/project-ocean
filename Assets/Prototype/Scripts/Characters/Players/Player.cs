@@ -59,7 +59,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            gunHandler.Aimming(faceDir, input.MousePos);
+            //gunHandler.Aimming(faceDir, input.MousePos);
             PreventMoveOutFromWater();
         }
 

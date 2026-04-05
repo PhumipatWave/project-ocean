@@ -8,13 +8,13 @@ namespace Game.Testing
         [SerializeField] private int quantity;
         [SerializeField] private Sprite sprite;
         
-        private inventoryManager inventoryManager;
+        private InventoryManager inventoryManager;
         
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            inventoryManager = GameObject.Find("Inventory Canvas").GetComponent<inventoryManager>();
+            inventoryManager = GameObject.Find("Inventory Canvas").GetComponent<InventoryManager>();
         
         } // Start
 
