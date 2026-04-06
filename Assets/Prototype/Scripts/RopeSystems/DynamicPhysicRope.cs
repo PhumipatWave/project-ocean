@@ -7,12 +7,16 @@ namespace Game.Testing
     {
         #region Fields
         [Header("References Points")]
+        [SerializeField] private LineRenderer line;
+
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform endPoint;
 
         [Header("Rope Settings")]
         [SerializeField] private float segmentLength = 0.25f;
         [SerializeField] private int constraintIterations = 50;
+
+        [SerializeField] private float maxRopeLength = 150f;
 
         [Header("Physics")]
         [SerializeField] private Vector2 gravity = new(0f, -2f);
@@ -27,7 +31,19 @@ namespace Game.Testing
         [SerializeField] private float removeAngle = 120f;
         [SerializeField] private int wrapCooldownFrames = 8;
 
-        [SerializeField] private LineRenderer line;
+        [SerializeField] private float currentLength;
+        public float CurrentLength { get { return currentLength; } }
+
+        [Header("Checkpoint System")]
+        [SerializeField] private GameObject checkpointPrefab;
+
+        private List<CheckpointAnchor> checkpoints = new();
+        [SerializeField] private int maxCheckpoints = 3;
+
+        public int CurrentCheckpointCount => checkpoints.Count;
+        public int MaxCheckpointCount => maxCheckpoints;
+
+        private RopeSnapshot savedSnapshot;
         #endregion
 
         #region RopeStructures
@@ -35,7 +51,12 @@ namespace Game.Testing
         {
             public Vector2 pos;
             public Vector2 old;
-            public Segment(Vector2 p) { pos = p; old = p; }
+
+            public Segment(Vector2 p)
+            {
+                pos = p;
+                old = p;
+            }
         }
 
         class SubRope
@@ -53,19 +74,31 @@ namespace Game.Testing
             }
         }
 
-        // Anchor stores the wrap point and the side the rope was on when it wrapped.
-        // "side" = sign of the cross product of (inDir × outDir) at wrap time.
-        // When endPoint crosses to the opposite side, we know the rope has swung back.
         struct Anchor
         {
             public Vector2 pos;
             public float wrapSide;
+            public int ropeIndex;
         }
 
-        // State
         private List<Anchor> anchors = new();
         private List<SubRope> subRopes = new();
         private int cooldown = 0;
+
+        class CheckpointAnchor
+        {
+            public Vector2 pos;
+            public GameObject obj;
+            public RopeSnapshot snapshot;
+            public int ropeIndex;
+        }
+
+        [System.Serializable]
+        class RopeSnapshot
+        {
+            public List<SubRope> subRopes;
+            public List<Anchor> anchors;
+        }
         #endregion
 
         #region UnityCallbacks
@@ -75,6 +108,18 @@ namespace Game.Testing
             line.startWidth = 0.1f;
             line.endWidth = 0.1f;
             Rebuild();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+                CreateCheckpoint();
+
+            if (Input.GetKeyDown(KeyCode.T))
+                TeleportToLastCheckpoint();
+
+            /*if (Input.GetKeyDown(KeyCode.K))
+                DeleteLastCheckpoint();*/
         }
 
         private void FixedUpdate()
@@ -91,6 +136,8 @@ namespace Game.Testing
             Constrain();
             HandleCollision();
             TryUnwrap();
+            UpdateCurrentLength();
+            CheckRopeLimit();
         }
 
         private void LateUpdate() => Draw();
@@ -100,16 +147,19 @@ namespace Game.Testing
         private void Draw()
         {
             int total = 0;
+
             for (int s = 0; s < subRopes.Count; s++)
                 total += s == 0 ? subRopes[s].segs.Count : subRopes[s].segs.Count - 1;
 
             line.positionCount = total;
 
             int idx = 0;
+
             for (int s = 0; s < subRopes.Count; s++)
             {
                 var segs = subRopes[s].segs;
                 int startIdx = s == 0 ? 0 : 1;
+
                 for (int i = startIdx; i < segs.Count; i++)
                     line.SetPosition(idx++, segs[i].pos);
             }
@@ -128,6 +178,7 @@ namespace Game.Testing
             Segment last = sr.segs[^1];
 
             float dist = Vector2.Distance(last.pos, sr.pinEnd);
+
             if (dist > segmentLength)
             {
                 Vector2 dir = (sr.pinEnd - last.pos).normalized;
@@ -138,10 +189,12 @@ namespace Game.Testing
         private void ShrinkLastRope()
         {
             SubRope sr = subRopes[^1];
+
             if (sr.segs.Count < 3) return;
 
             Vector2 last = sr.segs[^1].pos;
             Vector2 prev = sr.segs[^2].pos;
+
             Vector2 ropeDir = (last - prev).normalized;
             Vector2 moveDir = (sr.pinEnd - last).normalized;
 
@@ -159,13 +212,17 @@ namespace Game.Testing
             foreach (SubRope sr in subRopes)
             {
                 var segs = sr.segs;
+
                 for (int i = 0; i < segs.Count; i++)
                 {
                     Segment s = segs[i];
+
                     Vector2 vel = (s.pos - s.old) * damping;
                     s.old = s.pos;
+
                     s.pos += vel;
                     s.pos += gravity * Time.fixedDeltaTime;
+
                     segs[i] = s;
                 }
             }
@@ -182,11 +239,19 @@ namespace Game.Testing
         {
             var segs = sr.segs;
 
-            Segment first = segs[0]; first.pos = sr.pinStart; segs[0] = first;
-            Segment last = segs[^1]; last.pos = sr.pinEnd; segs[^1] = last;
+            Segment first = segs[0];
+            first.pos = sr.pinStart;
+            segs[0] = first;
 
-            for (int i = 0; i < segs.Count - 1; i++) Solve(segs, i, i + 1);
-            for (int i = segs.Count - 1; i > 0; i--) Solve(segs, i, i - 1);
+            Segment last = segs[^1];
+            last.pos = sr.pinEnd;
+            segs[^1] = last;
+
+            for (int i = 0; i < segs.Count - 1; i++)
+                Solve(segs, i, i + 1);
+
+            for (int i = segs.Count - 1; i > 0; i--)
+                Solve(segs, i, i - 1);
         }
 
         private void Solve(List<Segment> segs, int i, int j)
@@ -196,6 +261,7 @@ namespace Game.Testing
 
             Vector2 delta = a.pos - b.pos;
             float dist = delta.magnitude;
+
             if (dist < 0.0001f) return;
 
             float diff = (dist - segmentLength) / dist;
@@ -216,6 +282,7 @@ namespace Game.Testing
             {
                 SubRope sr = subRopes[s];
                 bool isLast = s == subRopes.Count - 1;
+
                 var segs = sr.segs;
 
                 for (int i = 1; i < segs.Count - 1; i++)
@@ -224,10 +291,12 @@ namespace Game.Testing
                     Vector2 vel = seg.pos - seg.old;
 
                     Collider2D hit = Physics2D.OverlapCircle(seg.pos, collisionRadius, collisionMask);
+
                     if (hit != null)
                     {
                         Vector2 closest = hit.ClosestPoint(seg.pos);
                         Vector2 dir = seg.pos - closest;
+
                         float dist = dir.magnitude;
 
                         if (dist > 0f && dist < collisionRadius)
@@ -242,9 +311,10 @@ namespace Game.Testing
 
                     vel *= friction;
                     seg.old = seg.pos - vel;
+
                     segs[i] = seg;
 
-                    if (!isLast || wrapDetected || cooldown > 0) continue;
+                    if (cooldown > 0) continue;
 
                     RaycastHit2D lineHit = Physics2D.Linecast(
                         segs[i - 1].pos,
@@ -254,8 +324,7 @@ namespace Game.Testing
 
                     if (lineHit.collider == null) continue;
 
-                    RopeAnchorPoints anchorComp =
-                        lineHit.collider.GetComponent<RopeAnchorPoints>();
+                    RopeAnchorPoints anchorComp = lineHit.collider.GetComponent<RopeAnchorPoints>();
                     if (anchorComp == null) continue;
 
                     Vector2 wrapPoint = anchorComp.GetClosestPoint(lineHit.point);
@@ -263,6 +332,7 @@ namespace Game.Testing
                     if (anchors.Count >= 15) continue;
 
                     bool tooClose = false;
+
                     foreach (Anchor a in anchors)
                     {
                         if (Vector2.Distance(a.pos, wrapPoint) < segmentLength * 2f)
@@ -271,6 +341,7 @@ namespace Game.Testing
                             break;
                         }
                     }
+
                     if (tooClose) continue;
 
                     if (Vector2.Distance(wrapPoint, startPoint.position) < segmentLength * 2f)
@@ -281,12 +352,27 @@ namespace Game.Testing
                 }
             }
         }
+
+        private void UpdateCurrentLength()
+        {
+            float length = 0f;
+
+            for (int s = 0; s < subRopes.Count; s++)
+            {
+                var segs = subRopes[s].segs;
+                int startIdx = s == 0 ? 0 : 1;
+
+                for (int i = startIdx; i < segs.Count - 1; i++)
+                    length += Vector2.Distance(segs[i].pos, segs[i + 1].pos);
+            }
+
+            currentLength = length;
+        }
         #endregion
 
         #region RopeWrapping
         private void AddAnchor(Vector2 wrapPoint, Vector2 segBefore, Vector2 segAfter)
         {
-            // inDir from previous stable pin — not from physics segments
             Vector2 prevPin = anchors.Count > 0
                 ? anchors[^1].pos
                 : (Vector2)startPoint.position;
@@ -297,7 +383,6 @@ namespace Game.Testing
             float cross = inDir.x * toEnd.y - inDir.y * toEnd.x;
             float side = Mathf.Sign(cross);
 
-            // If degenerate, use segAfter direction
             if (Mathf.Abs(cross) < 0.01f)
             {
                 Vector2 alt = (segAfter - wrapPoint).normalized;
@@ -306,40 +391,42 @@ namespace Game.Testing
             }
 
             subRopes[^1].pinEnd = wrapPoint;
-            anchors.Add(new Anchor { pos = wrapPoint, wrapSide = side });
-            subRopes.Add(new SubRope(wrapPoint, endPoint.position));
 
+            anchors.Add(new Anchor
+            {
+                pos = wrapPoint,
+                wrapSide = side,
+                ropeIndex = subRopes.Count - 1
+            });
+
+            subRopes.Add(new SubRope(wrapPoint, endPoint.position));
             cooldown = wrapCooldownFrames;
+
             Debug.Log($"Wrapped at {wrapPoint} side={side}. anchors={anchors.Count}");
         }
 
         private void TryUnwrap()
         {
-            if (anchors.Count == 0) return;
-            if (cooldown > 0) return;
+            if (cooldown > 0 || subRopes.Count <= 0 || anchors.Count <= 0)
+                return;
 
-            Anchor last = anchors[^1];
+            if (anchors.Count == 0)
+                return;
+
+            Anchor last = anchors[anchors.Count - 1];
             Vector2 anchor = last.pos;
 
-            // Stable inDir: always from the previous fixed pin to this anchor
-            // These are world positions from Transform.position — never wobble
-            Vector2 prevPin = anchors.Count > 1
-                ? anchors[^2].pos
-                : (Vector2)startPoint.position;
+            Vector2 prevPin = startPoint.position;
+
+            if (anchors.Count > 1)
+                prevPin = anchors[anchors.Count - 2].pos;
 
             Vector2 inDir = (anchor - prevPin).normalized;
             Vector2 outDir = ((Vector2)endPoint.position - anchor).normalized;
 
-            // Current side of endPoint relative to the incoming rope direction
             float cross = inDir.x * outDir.y - inDir.y * outDir.x;
             float currentSide = Mathf.Sign(cross);
 
-            // Only unwrap when:
-            // 1. endPoint has crossed to the opposite side (rope no longer bends here)
-            // 2. endPoint is far enough from the anchor to be meaningful
-            // 3. The incoming and outgoing directions are not nearly opposite
-            //    (dot < -0.8 means endPoint is almost directly behind the anchor —
-            //     that's a genuine wrap, never unwrap in that case)
             float dot = Vector2.Dot(inDir, outDir);
             float dist = Vector2.Distance(endPoint.position, anchor);
 
@@ -351,9 +438,226 @@ namespace Game.Testing
             {
                 anchors.RemoveAt(anchors.Count - 1);
                 subRopes.RemoveAt(subRopes.Count - 1);
+
                 subRopes[^1].pinEnd = endPoint.position;
+
                 cooldown = wrapCooldownFrames;
+
                 Debug.Log($"Unwrapped. anchors={anchors.Count}");
+            }
+        }
+        #endregion
+
+        #region RopeLengthLimit
+        private void CheckRopeLimit()
+        {
+            if (currentLength <= maxRopeLength)
+                return;
+
+            Debug.Log("Rope limit exceeded! Resetting rope and clearing checkpoints.");
+
+            endPoint.position = startPoint.position;
+
+            anchors.Clear();
+            subRopes.Clear();
+            cooldown = 0;
+
+            SubRope root = new SubRope(startPoint.position, endPoint.position);
+            subRopes.Add(root);
+
+            currentLength = 0f;
+
+            foreach (var cp in checkpoints)
+                if (cp.obj != null)
+                    Destroy(cp.obj);
+
+            checkpoints.Clear();
+
+            savedSnapshot = null;
+        }
+        #endregion
+
+        #region RopeCheckpoint
+        private RopeSnapshot CreateSnapshot()
+        {
+            RopeSnapshot snap = new RopeSnapshot();
+
+            snap.subRopes = new List<SubRope>();
+
+            foreach (var sr in subRopes)
+            {
+                SubRope copy = new SubRope(sr.pinStart, sr.pinEnd);
+                copy.segs.Clear();
+
+                foreach (var s in sr.segs)
+                {
+                    copy.segs.Add(new Segment(s.pos) { old = s.old });
+                }
+
+                snap.subRopes.Add(copy);
+            }
+
+            snap.anchors = new List<Anchor>(anchors);
+
+            return snap;
+        }
+
+        private void CreateCheckpoint()
+        {
+            if (checkpoints.Count >= maxCheckpoints)
+            {
+                Debug.Log($"Checkpoint limit reached ({maxCheckpoints}). Use T to teleport or K to delete one.");
+                return;
+            }
+
+            Vector2 pos = endPoint.position;
+
+            GameObject obj = Instantiate(checkpointPrefab, pos, Quaternion.identity);
+
+            savedSnapshot = CreateSnapshot();
+
+            checkpoints.Add(new CheckpointAnchor
+            {
+                pos = pos,
+                obj = obj,
+                snapshot = savedSnapshot,
+                ropeIndex = subRopes.Count - 1
+            });
+
+            SplitRopeAtCheckpoint(pos);
+
+            Debug.Log($"Checkpoint created: {checkpoints.Count}/{maxCheckpoints}");
+        }
+
+        private void SplitRopeAtCheckpoint(Vector2 cp)
+        {
+            if (subRopes.Count == 0)
+                return;
+
+            SubRope last = subRopes[^1];
+
+            last.pinEnd = cp;
+
+            if (Vector2.Distance(last.pinStart, cp) < 0.01f)
+                return;
+
+            SubRope newRope = new SubRope(cp, endPoint.position);
+            subRopes.Add(newRope);
+
+            anchors.RemoveAll(a => a.ropeIndex == subRopes.Count - 1);
+            cooldown = wrapCooldownFrames;
+        }
+
+        private void TeleportToLastCheckpoint()
+        {
+            if (checkpoints.Count == 0)
+                return;
+
+            int lastIndex = checkpoints.Count - 1;
+            var cp = checkpoints[lastIndex];
+
+            Vector2 pos = cp.pos;
+
+            Destroy(cp.obj);
+            checkpoints.RemoveAt(lastIndex);
+
+            endPoint.position = pos;
+
+            if (subRopes.Count > 0)
+            {
+                SubRope r = subRopes[^1];
+                r.pinEnd = pos;
+
+                for (int i = 0; i < r.segs.Count; i++)
+                {
+                    Segment s = r.segs[i];
+                    s.pos = pos;
+                    s.old = pos;
+                    r.segs[i] = s;
+                }
+            }
+
+            int ropeIndex = cp.ropeIndex;
+
+            for (int i = subRopes.Count - 1; i > ropeIndex; i--)
+                subRopes.RemoveAt(i);
+
+            if (ropeIndex >= 0 && ropeIndex < subRopes.Count)
+                subRopes[ropeIndex].pinEnd = pos;
+
+            anchors.RemoveAll(a => a.ropeIndex > ropeIndex);
+
+            cooldown = 0;
+
+            ReindexAnchors();
+        }
+
+        private void DeleteLastCheckpoint()
+        {
+            if (checkpoints.Count == 0)
+                return;
+
+            int lastIndex = checkpoints.Count - 1;
+            var last = checkpoints[lastIndex];
+
+            if (last.obj != null)
+                Destroy(last.obj);
+
+            checkpoints.RemoveAt(lastIndex);
+
+            savedSnapshot = checkpoints.Count > 0
+                ? checkpoints[^1].snapshot
+                : null;
+
+            if (savedSnapshot != null)
+                RestoreSnapshot(savedSnapshot);
+
+            Debug.Log($"Checkpoint deleted: {checkpoints.Count}/{maxCheckpoints}");
+        }
+
+        private void RestoreSnapshot(RopeSnapshot snap)
+        {
+            subRopes.Clear();
+            anchors.Clear();
+
+            foreach (var sr in snap.subRopes)
+            {
+                SubRope copy = new SubRope(sr.pinStart, sr.pinEnd);
+
+                copy.segs.Clear();
+                foreach (var s in sr.segs)
+                {
+                    copy.segs.Add(new Segment(s.pos)
+                    {
+                        old = s.old
+                    });
+                }
+
+                subRopes.Add(copy);
+            }
+
+            anchors = new List<Anchor>(snap.anchors);
+
+            cooldown = 0;
+        }
+
+        private void ReindexAnchors()
+        {
+            for (int i = 0; i < anchors.Count; i++)
+            {
+                for (int r = 0; r < subRopes.Count; r++)
+                {
+                    if (Vector2.Distance(anchors[i].pos, subRopes[r].pinStart) < 1000f)
+                    {
+                        anchors[i] = new Anchor
+                        {
+                            pos = anchors[i].pos,
+                            wrapSide = anchors[i].wrapSide,
+                            ropeIndex = r
+                        };
+                        break;
+                    }
+                }
             }
         }
         #endregion

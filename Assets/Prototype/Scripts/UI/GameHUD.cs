@@ -35,10 +35,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (!player.GetComponent<Player>().OxygenTube.IsPullBack)
-            {
-                currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<RopeVerlet>().CurrentRopeLength} m.";
-            }
+            currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<DynamicPhysicRope>().CurrentLength} m.";
         }
 
         public void FadeIn()
