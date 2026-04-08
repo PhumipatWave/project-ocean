@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AggressiveFish : MonoBehaviour
+public class Fish_L : MonoBehaviour
 {
     [Header("Target")]
     public Transform player;
