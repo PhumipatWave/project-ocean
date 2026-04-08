@@ -32,6 +32,8 @@ namespace Game.Testing
         private bool isAimming;
         public bool IsAimming {  get { return isAimming; } set { isAimming = value; } }
 
+        private float _switchBuffer = 10f;
+
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
 
@@ -44,52 +46,44 @@ namespace Game.Testing
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
         }
 
-        private float HandlerGunRotation(int faceDir, float angle)
+        private float HandlerGunRotation(ref int faceDir, float angle)
         {
-            // Clamp angle by face direction
+            // Normalize angle (-180 to 180)
+            angle = Mathf.DeltaAngle(0f, angle);
+
             float clampAngle;
+            bool currentlyFacingRight = faceDir == 1;
 
-            if (angle >= 0)
+            if (currentlyFacingRight)
             {
-                if (angle <= 45f)
-                {
-                    faceDir = 1;
-
-                    clampAngle = Mathf.Clamp(angle, 0f, 45f);
-
-                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
-                    GunSprite.rotation = Quaternion.Euler(0f, 0f, gunSprite.rotation.z);
-                }
-                else
-                {
+                // Only switch to LEFT if angle clearly exits the right zone
+                if (angle > 90f + _switchBuffer || angle < -90f - _switchBuffer)
                     faceDir = -1;
-
-                    clampAngle = Mathf.Clamp(angle, 135f, 180f);
-
-                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-                    gunSprite.rotation = Quaternion.Euler(0f, 180f, gunSprite.rotation.z);
-                }
             }
             else
             {
-                if (angle >= -45f)
-                {
+                // Only switch to RIGHT if angle clearly enters the right zone
+                if (angle >= -90f + _switchBuffer && angle <= 90f - _switchBuffer)
                     faceDir = 1;
+            }
 
-                    clampAngle = Mathf.Clamp(angle, -45f, -0f);
-
-                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
-                    GunSprite.rotation = Quaternion.Euler(0f, 0f, gunSprite.rotation.z);
-                }
+            // RIGHT SIDE
+            if (faceDir == 1)
+            {
+                clampAngle = Mathf.Clamp(angle, -45f, 45f);
+                player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                gunSprite.rotation = Quaternion.Euler(0f, 0f, clampAngle);
+            }
+            // LEFT SIDE
+            else
+            {
+                if (angle > 0)
+                    clampAngle = Mathf.Clamp(angle, 135f, 180f);
                 else
-                {
-                    faceDir = -1;
-
                     clampAngle = Mathf.Clamp(angle, -180f, -135f);
 
-                    player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-                    gunSprite.rotation = Quaternion.Euler(0f, 180f, gunSprite.rotation.z);
-                }
+                player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                gunSprite.rotation = Quaternion.Euler(0f, 180f, clampAngle);
             }
 
             return clampAngle;
@@ -107,7 +101,7 @@ namespace Game.Testing
             }
         }
 
-        public void Aimming(int faceDir, Vector2 mousePos)
+        public void Aimming(ref int faceDir, Vector2 mousePos)
         {
             if (isAimming)
             {
@@ -126,7 +120,7 @@ namespace Game.Testing
                 // Convert direction to radian and convert to degree for use in unity rotation
                 float angle = Mathf.Atan2(rawDir.y, rawDir.x) * Mathf.Rad2Deg;
 
-                float clamAngle = HandlerGunRotation(faceDir, angle);
+                float clamAngle = HandlerGunRotation(ref faceDir, angle);
 
                 float rad = clamAngle * Mathf.Deg2Rad;
                 aimDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class RopeAnchorPoints : MonoBehaviour
+public class ObjectWrapPoint : MonoBehaviour
 {
     [Header("Circle/Capsule Settings")]
     [SerializeField] private int circleResolution = 32; // was 12 — needs to be dense

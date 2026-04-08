@@ -35,7 +35,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<DynamicPhysicRope>().CurrentLength} m.";
+            currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<PlayerOxygenTube>().CurrentLength} m.";
         }
 
         public void FadeIn()

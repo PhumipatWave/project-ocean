@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class DynamicPhysicRope : MonoBehaviour
+    public class PlayerOxygenTube : MonoBehaviour
     {
         #region Fields
         [Header("References Points")]
@@ -324,7 +324,7 @@ namespace Game.Testing
 
                     if (lineHit.collider == null) continue;
 
-                    RopeAnchorPoints anchorComp = lineHit.collider.GetComponent<RopeAnchorPoints>();
+                    ObjectWrapPoint anchorComp = lineHit.collider.GetComponent<ObjectWrapPoint>();
                     if (anchorComp == null) continue;
 
                     Vector2 wrapPoint = anchorComp.GetClosestPoint(lineHit.point);

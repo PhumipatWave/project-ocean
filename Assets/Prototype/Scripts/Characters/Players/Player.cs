@@ -14,9 +14,6 @@ namespace Game.Testing
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
-        private PlayerOxygenTubeTrail oxygenTube;
-        public PlayerOxygenTubeTrail OxygenTube { get { return oxygenTube; } }
-
         [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
 
@@ -45,7 +42,6 @@ namespace Game.Testing
         {
             rb = GetComponent<Rigidbody2D>();
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
-            oxygenTube = GetComponentInChildren<PlayerOxygenTubeTrail>();
         }
 
         private void Start()
@@ -59,7 +55,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            gunHandler.Aimming(faceDir, input.MousePos);
+            gunHandler.Aimming(ref faceDir, input.MousePos);
             PreventMoveOutFromWater();
         }
 
