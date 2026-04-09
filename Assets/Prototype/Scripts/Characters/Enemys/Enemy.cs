@@ -33,18 +33,6 @@ namespace Game.Testing
         private bool isPlayerBullet;
         public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
         
-        [Header("Enemy to Inventory")]
-        [SerializeField] private string itemName;
-        [SerializeField] private int quantity;
-        [SerializeField] private Sprite itemSprite;
-        
-        private InventoryManager inventoryManager;
-        
-        private void Start()
-        {
-            inventoryManager = FindObjectOfType<InventoryManager>();
-        } // Start ===
-
 
         private void Awake()
         {
@@ -56,13 +44,13 @@ namespace Game.Testing
 
             currentHealth = maxHealth;
         }
-        private void Update()
+        /*private void Update()
         {
             if (currentHealth <= 0)
             {
                 Die();
             }
-        } // Update ===
+        } // Update ===*/
         
         private void FixedUpdate()
         {
@@ -108,23 +96,16 @@ namespace Game.Testing
                 
             }
             
-            if (currentHealth <= 0 && collision.gameObject.tag == "Player")
-            {
-                inventoryManager.AddItam(itemName, quantity, itemSprite);
-                Debug.Log("keep to Inventary!!");
-                Destroy(gameObject);
-                        
-            }
         }
         
-        private void Die()
+        /*private void Die()
         {
             rb.linearVelocity = Vector2.zero;
             gameObject.tag = "Enemy";
             this.enabled = false;
             GetComponent<SpriteRenderer>().color = Color.gray;
             
-        } // Die ===
+        } // Die ===*/
 
     }
 }

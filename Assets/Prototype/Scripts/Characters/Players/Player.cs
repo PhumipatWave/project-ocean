@@ -40,6 +40,9 @@ namespace Game.Testing
 
         private float originTime = 1f;
         private float focusTime = .6f;
+        
+        
+        
 
         private void Awake()
         {
@@ -160,5 +163,11 @@ namespace Game.Testing
             }
         }
         #endregion
+
+        
+        
+        
     }
+
+   
 }

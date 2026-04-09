@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: Wall 2
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  tile: {fileID: 0}
+  type: 3
+  actionType: 0
+  range: {x: 5, y: 4}
+  stackable: 1
+  image: {fileID: 3912320822816903335, guid: 6d73d2baf0daa694a8c52248bffa709f, type: 3}
