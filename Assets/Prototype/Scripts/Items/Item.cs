@@ -18,6 +18,12 @@ namespace Game.Testing
         
         [Header("Both")]
         public Sprite image;
+        
+        [Header("Shop")]
+        public int buyPrice = 10;
+        public int sellPrice = 5;
+        
+        
     }
 
 

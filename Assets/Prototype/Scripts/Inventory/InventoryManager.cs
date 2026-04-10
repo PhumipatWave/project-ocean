@@ -43,11 +43,25 @@ namespace Game.Testing
             {
                 int number;
                 bool isNumber = int.TryParse(Input.inputString, out number);
-                if (isNumber && number > 0 && number < 8)
+                if (isNumber && number > 0 && number < 2)
                 {
                     ChangeSelectedSlot(number -1);
                 }
             }
+
+            /*if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ChangeSelectedSlot(0);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                ChangeSelectedSlot(1);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                ChangeSelectedSlot(2);
+            }*/
+            
         }
         
         void ChangeSelectedSlot(int newValue)
@@ -55,10 +69,9 @@ namespace Game.Testing
             if (selectedSlot >= 0)
             {
                 inventorySlots[selectedSlot].Deselect();
-                inventorySlots[newValue].Select();
-                selectedSlot = newValue;
             }
-            
+            inventorySlots[newValue].Select();
+            selectedSlot = newValue;
         }
         
         public bool AddItem(Item item)
