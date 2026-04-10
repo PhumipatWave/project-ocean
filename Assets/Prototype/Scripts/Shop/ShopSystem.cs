@@ -34,7 +34,7 @@ namespace Game.Testing
             }
 
             // อัปเดตเงิน
-            moneyText.text = "Gold: " + playerMoney.money;
+            moneyText.text = "Money: " + playerMoney.money;
         }
 
         // เลือก Item จากร้าน
