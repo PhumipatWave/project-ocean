@@ -33,6 +33,9 @@ namespace Game.Testing
         private bool isPlayerBullet;
         public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
         
+        [Header("Drop Item")]
+        [SerializeField] private Item dropItem;
+        private bool isDead = false;
 
         private void Awake()
         {
@@ -51,6 +54,14 @@ namespace Game.Testing
                 Die();
             }
         } // Update ===*/
+        
+        private void Update()
+        {
+            if (!isDead && currentHealth <= 0)
+            {
+                Die();
+            }
+        }
         
         private void FixedUpdate()
         {
@@ -93,10 +104,25 @@ namespace Game.Testing
                     Debug.Log($"Fish Bullet Shoot, Enemy Take damage {20f} => Health amount : {enemy.currentHealth}");
                     
                 }
-                
-            }
+                return;
+            } // isPlayerBullet ===
             
-        }
+            if (isDead && collision.gameObject.tag == "Player")
+            {
+                Debug.Log("Tag to Enemy!!");
+                InventoryManager inv = FindObjectOfType<InventoryManager>();
+
+                if (inv != null)
+                {
+                    if (inv.AddItem(dropItem))
+                    {
+                        Debug.Log("เก็บสำเร็จ");
+                        Destroy(gameObject);
+                    }
+                }
+            } // isDead ===
+            
+        } // OnCollisionEnter2D ===
         
         /*private void Die()
         {
@@ -106,6 +132,15 @@ namespace Game.Testing
             GetComponent<SpriteRenderer>().color = Color.gray;
             
         } // Die ===*/
+        
+        private void Die()
+        {
+            isDead = true;
+            rb.linearVelocity = Vector2.zero;
+            gameObject.tag = "Items";
+            GetComponent<SpriteRenderer>().color = Color.gray;
+            
+        }
 
     }
 }

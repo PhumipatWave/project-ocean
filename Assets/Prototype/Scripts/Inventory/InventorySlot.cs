@@ -9,7 +9,7 @@ namespace Game.Testing
         public Image image;
         public Color SelectedColor , notSelectedColor;
 
-        private void Start()
+        private void Awake()
         {
             Deselect();
         }
