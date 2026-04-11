@@ -135,7 +135,7 @@ namespace Game.Testing
             Simulate();
             Constrain();
             HandleCollision();
-            TryUnwrap();
+            UnattachRope();
             UpdateCurrentLength();
             CheckRopeLimit();
         }
@@ -347,7 +347,7 @@ namespace Game.Testing
                     if (Vector2.Distance(wrapPoint, startPoint.position) < segmentLength * 2f)
                         continue;
 
-                    AddAnchor(wrapPoint, segs[i - 1].pos, segs[i].pos);
+                    AttachRope(wrapPoint, segs[i - 1].pos, segs[i].pos);
                     wrapDetected = true;
                 }
             }
@@ -371,7 +371,7 @@ namespace Game.Testing
         #endregion
 
         #region RopeWrapping
-        private void AddAnchor(Vector2 wrapPoint, Vector2 segBefore, Vector2 segAfter)
+        private void AttachRope(Vector2 wrapPoint, Vector2 segBefore, Vector2 segAfter)
         {
             Vector2 prevPin = anchors.Count > 0
                 ? anchors[^1].pos
@@ -405,7 +405,7 @@ namespace Game.Testing
             Debug.Log($"Wrapped at {wrapPoint} side={side}. anchors={anchors.Count}");
         }
 
-        private void TryUnwrap()
+        private void UnattachRope()
         {
             if (cooldown > 0 || subRopes.Count <= 0 || anchors.Count <= 0)
                 return;
@@ -443,7 +443,7 @@ namespace Game.Testing
 
                 cooldown = wrapCooldownFrames;
 
-                Debug.Log($"Unwrapped. anchors={anchors.Count}");
+                //Debug.Log($"Unwrapped. anchors={anchors.Count}");
             }
         }
         #endregion

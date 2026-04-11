@@ -7,8 +7,11 @@ namespace Game.Testing
     public static class RopeSystemUtil
     {
         #region NormalRopeLine
-        public static void DrawNormalRope(LineRenderer line, GameObject startObj, GameObject endObj, int segment = 50, float ropeSag = .5f)
+        public static void DrawNormalRope(LineRenderer line, GameObject startObj, GameObject endObj, int segment = 20, float ropeSag = .5f)
         {
+            line.enabled = true;
+            line.positionCount = segment;
+
             for (int i = 0; i < segment; i++)
             {
                 float t = i / (float)(segment - 1);
@@ -20,21 +23,6 @@ namespace Game.Testing
                 pos.y -= sag;
 
                 line.SetPosition(i, pos);
-            }
-        }
-
-        public static void LimitNormalRopeDistance(GameObject startObj, GameObject endObj, float maxLength)
-        {
-            Vector2 anchorPos = startObj.transform.position;
-            Vector2 objsPos = endObj.transform.position;
-
-            float dist = Vector2.Distance(objsPos, anchorPos);
-
-            if (dist > maxLength)
-            {
-                Vector2 dir = (objsPos - anchorPos).normalized;
-                Vector2 limitedPos = anchorPos + dir * maxLength;
-                endObj.transform.position = limitedPos;
             }
         }
 
@@ -67,7 +55,10 @@ namespace Game.Testing
 
         public static void ClearNormalRope(LineRenderer line)
         {
+            line.positionCount = 2;
             line.enabled = false;
+
+            Debug.Log("Clear Rope");
         }
         #endregion
 

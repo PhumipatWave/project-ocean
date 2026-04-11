@@ -10,10 +10,12 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (!enemy.IsPlayerBullet)
+            if (enemy.IsBullet)
             {
-                healthValueImage.fillAmount = enemy.CurrentHealth / enemy.MaxHealth;
+                healthValueImage.enabled = false;
             }
+
+            healthValueImage.fillAmount = enemy.CurrentHealth / enemy.MaxHealth;
         }
     }
 }

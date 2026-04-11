@@ -28,7 +28,9 @@ namespace Game.Testing
 
         [SerializeField] private float moveSpeed = 5f;
         public float MoveSpeed { get { return moveSpeed; } }
+
         [SerializeField] private float dashSpeed = 25f;
+        public float DashSpeed { get { return dashSpeed; } }
 
         private bool canDash = true;
 
