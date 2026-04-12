@@ -1,40 +1,41 @@
+using Game.Testing;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class FishAgent : MonoBehaviour
 {
     [Header("Target")]
-    public Transform player;
+    [SerializeField] private Enemy enemy;
 
     [Header("Movement")]
-    public float speed = 2f;
-    public float boostSpeed = 7f;
-    public float changeDirectionTime = 3f;
-    public float turnSpeed = 3f;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private float boostSpeed = 7f;
+    [SerializeField] private float changeDirectionTime = 3f;
+    [SerializeField] private float turnSpeed = 3f;
 
     [Header("Movement Area")]
-    public Vector2 areaSize = new Vector2(10f, 10f);
-    public Transform areaCenter;
+    [SerializeField] private Vector2 areaSize = new Vector2(10f, 10f);
+    [SerializeField] private Transform areaCenter;
 
     private Vector3 currentTarget;
 
     [Header("Detection")]
-    public float detectDistance = 3f;
-    public float viewAngle = 90f;
+    [SerializeField] private float detectDistance = 3f;
+    [SerializeField] private float viewAngle = 90f;
 
     [Header("Flee")]
-    public float fleeDuration = 4f;
+    [SerializeField] private float fleeDuration = 4f;
 
     [Header("Flocking")]
-    public float neighborRadius = 2f;
-    public float separationDistance = 0.5f;
-    public float flockWeight = 1f;
-
-    [Header("Leader")]
-    public bool isLeader = false;
+    [SerializeField] private float neighborRadius = 2f;
+    [SerializeField] private float separationDistance = 0.5f;
+    [SerializeField] private float flockWeight = 1f;
 
     [Header("Group")]
-    public int groupID = 0;
+    [SerializeField] private string groupTagName = "EnemyGroup";
+
+    [SerializeField] private bool isLeader = false;
+    [SerializeField] private int groupID = 0;
 
     private NavMeshAgent agent;
 
@@ -44,22 +45,28 @@ public class FishAgent : MonoBehaviour
     private bool isFleeing = false;
     private float fleeTimer = 0f;
 
-    void Start()
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
+    }
+
+    private void Start()
+    {
         PickRandomPointInArea();
     }
 
-    void Update()
+    private void Update()
     {
         Debug.Log(agent.hasPath);
         Debug.Log(agent.velocity);
 
-        if (player == null) return;
+        if (enemy.Player == null || enemy.IsDeath) 
+            return;
 
         if (isLeader)
             LeaderLogic();
@@ -69,7 +76,7 @@ public class FishAgent : MonoBehaviour
         RotateFish();
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         // Draw movement area
         Gizmos.color = Color.cyan;
@@ -87,11 +94,10 @@ public class FishAgent : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + (Vector3)direction * 2f);
     }
 
-    // Leader
-    void LeaderLogic()
+    private void LeaderLogic()
     {
-        float dist = Vector2.Distance(transform.position, player.position);
-        Vector2 toPlayer = (player.position - transform.position).normalized;
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
+        Vector2 toPlayer = (enemy.Player.transform.position - transform.position).normalized;
         float angle = Vector2.Angle(direction, toPlayer);
 
         if (!isFleeing && dist < detectDistance && angle < viewAngle / 2f)
@@ -103,7 +109,7 @@ public class FishAgent : MonoBehaviour
         if (isFleeing)
         {
             fleeTimer -= Time.deltaTime;
-            MoveInDirection((transform.position - player.position).normalized, boostSpeed);
+            MoveInDirection((transform.position - enemy.Player.transform.position).normalized, boostSpeed);
 
             if (fleeTimer <= 0f)
                 isFleeing = false;
@@ -114,8 +120,7 @@ public class FishAgent : MonoBehaviour
         }
     }
 
-    // Follower
-    void FollowerLogic()
+    private void FollowerLogic()
     {
         FishAgent leader = GetLeader();
 
@@ -130,26 +135,24 @@ public class FishAgent : MonoBehaviour
         }
     }
 
-    // Start flee
-    void StartFlee()
+    private void StartFlee()
     {
         isFleeing = true;
         fleeTimer = fleeDuration;
     }
 
-    // Wander
-    void Wander()
+    private void Wander()
     {
         timer += Time.deltaTime;
 
-        // 🔥 Get flock influence
+        // Get flock influence
         Vector2 flockDir = GetFlockDirection();
 
         // Combine random + flock
         Vector2 finalDir = direction + flockDir * flockWeight;
         finalDir.Normalize();
 
-        // 🔥 Convert direction → position
+        // Convert direction → position
         Vector3 rawTarget = transform.position + (Vector3)finalDir * 2f;
 
         NavMeshHit hit;
@@ -158,7 +161,7 @@ public class FishAgent : MonoBehaviour
             currentTarget = hit.position;
         }
 
-        // 🔥 Only update destination when needed
+        // Only update destination when needed
         if (!agent.hasPath || agent.remainingDistance < 0.2f || timer >= changeDirectionTime)
         {
             agent.speed = speed;
@@ -169,8 +172,7 @@ public class FishAgent : MonoBehaviour
         direction = finalDir;
     }
 
-    // CORE: Move using NavMesh
-    void MoveInDirection(Vector2 dir, float moveSpeed)
+    private void MoveInDirection(Vector2 dir, float moveSpeed)
     {
         agent.speed = moveSpeed;
 
@@ -189,8 +191,7 @@ public class FishAgent : MonoBehaviour
         }
     }
 
-    // Rotation from velocity
-    void RotateFish()
+    private void RotateFish()
     {
         Vector2 vel = agent.velocity;
 
@@ -202,10 +203,9 @@ public class FishAgent : MonoBehaviour
         }
     }
 
-    // Leader finder
-    FishAgent GetLeader()
+    private FishAgent GetLeader()
     {
-        GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+        GameObject[] fishes = GameObject.FindGameObjectsWithTag(groupTagName);
 
         foreach (GameObject f in fishes)
         {
@@ -217,10 +217,9 @@ public class FishAgent : MonoBehaviour
         return null;
     }
 
-    // Broadcast flee
-    void BroadcastFlee()
+    private void BroadcastFlee()
     {
-        GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+        GameObject[] fishes = GameObject.FindGameObjectsWithTag(groupTagName);
 
         foreach (GameObject f in fishes)
         {
@@ -231,10 +230,9 @@ public class FishAgent : MonoBehaviour
         }
     }
 
-    // Flocking
-    Vector2 GetFlockDirection()
+    private Vector2 GetFlockDirection()
     {
-        GameObject[] fishes = GameObject.FindGameObjectsWithTag("Fish");
+        GameObject[] fishes = GameObject.FindGameObjectsWithTag(groupTagName);
 
         Vector2 center = Vector2.zero;
         Vector2 avoid = Vector2.zero;
@@ -271,7 +269,7 @@ public class FishAgent : MonoBehaviour
         return (cohesion + align + avoid).normalized;
     }
 
-    void PickRandomPointInArea()
+    private void PickRandomPointInArea()
     {
         Vector3 center = areaCenter != null ? areaCenter.position : transform.position;
 

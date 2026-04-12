@@ -8,6 +8,7 @@ namespace Game.Testing
         [Header("Rope Component")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Player player;
+        public Player Player { get { return player; } }
 
         [Header("Status Component")]
         [SerializeField] private float currentHealth;
@@ -26,7 +27,7 @@ namespace Game.Testing
         
         [Header("Drop Item")]
         [SerializeField] private Item dropItem;
-        private bool isDead = false;
+
         [SerializeField] private bool isBullet;
         public bool IsBullet { get { return isBullet; } set { isBullet = value; } }
 
@@ -37,19 +38,12 @@ namespace Game.Testing
 
             currentHealth = maxHealth;
         }
-        /*private void Update()
-        {
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
-        } // Update ===*/
         
         private void Update()
         {
-            if (!isDead && currentHealth <= 0)
+            if (!isDeath && currentHealth <= 0)
             {
-                Die();
+                Death();
             }
         }
         
@@ -58,7 +52,7 @@ namespace Game.Testing
             if (isBullet)
                 return;
 
-            Move();
+            //Move();
         }
 
         public void TakeDamage(float amount)
@@ -71,7 +65,7 @@ namespace Game.Testing
             }
         }
 
-        private void Move()
+        /*private void Move()
         {
             if (!isDeath)
             {
@@ -82,7 +76,7 @@ namespace Game.Testing
             {
                 rb.linearVelocity = Vector2.zero;
             }
-        }
+        }*/
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -98,7 +92,7 @@ namespace Game.Testing
                 return;
             } // isPlayerBullet ===
             
-            if (isDead && collision.gameObject.tag == "Player")
+            if (isDeath && collision.gameObject.tag == "Player")
             {
                 Debug.Log("Tag to Enemy!!");
                 InventoryManager inv = FindObjectOfType<InventoryManager>();
@@ -115,23 +109,13 @@ namespace Game.Testing
             
         } // OnCollisionEnter2D ===
         
-        /*private void Die()
+        private void Death()
         {
-            rb.linearVelocity = Vector2.zero;
-            gameObject.tag = "Enemy";
-            this.enabled = false;
-            GetComponent<SpriteRenderer>().color = Color.gray;
-            
-        } // Die ===*/
-        
-        private void Die()
-        {
-            isDead = true;
-            rb.linearVelocity = Vector2.zero;
-            gameObject.tag = "Items";
+            isDeath = true;
+            //rb.linearVelocity = Vector2.zero;
+            //gameObject.tag = "Items";
             GetComponent<SpriteRenderer>().color = Color.gray;
             
         }
-
     }
 }

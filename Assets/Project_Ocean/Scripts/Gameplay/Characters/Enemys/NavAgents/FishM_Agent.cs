@@ -1,33 +1,36 @@
+using Game.Testing;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class FishM_Agent : MonoBehaviour
 {
     [Header("Target")]
-    public Transform player;
+    [SerializeField] private Enemy enemy;
 
     [Header("Movement")]
-    public float speed = 2.5f;
-    public float turnSpeed = 5f;
+    [SerializeField] private float speed = 2.5f;
+    [SerializeField] private float turnSpeed = 5f;
 
     [Header("Attack Settings")]
-    public float detectDistance = 6f;
-    public float attackRange = 1.5f;
-    public float attackCooldown = 2f;
-    private float attackTimer = 0f;
+    [SerializeField] private float detectDistance = 6f;
+    [SerializeField] private float attackRange = 1.5f;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float attackTimer = 0f;
 
     [Header("Wander Settings")]
-    public float wanderRadius = 3f;
-    public float wanderChangeInterval = 2f;
+    [SerializeField] private float wanderRadius = 3f;
+    [SerializeField] private float wanderChangeInterval = 2f;
+
     private float wanderTimer = 0f;
 
     private NavMeshAgent agent;
     private bool isFollowing = false;
     private Vector2 currentDirection;
 
-    void Start()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
 
         // IMPORTANT for 2D
         agent.updateRotation = false;
@@ -37,11 +40,11 @@ public class FishM_Agent : MonoBehaviour
         wanderTimer = wanderChangeInterval;
     }
 
-    void Update()
+    private void Update()
     {
-        if (player == null) return;
+        if (enemy.Player == null || enemy.IsDeath) return;
 
-        float dist = Vector2.Distance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
         // cooldown
         if (attackTimer > 0f)
@@ -61,15 +64,15 @@ public class FishM_Agent : MonoBehaviour
         RotateFish();
     }
 
-    void FollowAndBite()
+    private void FollowAndBite()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(enemy.Player.transform.position);
 
         // update direction from velocity
         if (agent.velocity.magnitude > 0.1f)
             currentDirection = agent.velocity.normalized;
 
-        float dist = Vector2.Distance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
         if (dist <= attackRange && attackTimer <= 0f)
         {
@@ -78,7 +81,7 @@ public class FishM_Agent : MonoBehaviour
         }
     }
 
-    void Wander()
+    private void Wander()
     {
         wanderTimer -= Time.deltaTime;
 
@@ -95,7 +98,7 @@ public class FishM_Agent : MonoBehaviour
             currentDirection = agent.velocity.normalized;
     }
 
-    void RotateFish()
+    private void RotateFish()
     {
         if (currentDirection != Vector2.zero)
         {

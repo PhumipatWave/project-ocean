@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerGun
-  - CollectBox
   - Enemy
   - Environment
   - Bullet
@@ -13,6 +12,8 @@ TagManager:
   - PlayerCam
   - Items
   - Fish
+  - EnemyGroup
+  - CollectBox
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,6 @@ TagManager:
   - Rope
   - Obstacle
   - Player
-  - 
-  - 
   - 
   - 
   - 
@@ -69,6 +68,12 @@ TagManager:
     locked: 0
   - name: Building
     uniqueID: 2932453927
+    locked: 0
+  - name: Item
+    uniqueID: 126978437
+    locked: 0
+  - name: Enemy
+    uniqueID: 2870514783
     locked: 0
   - name: Player
     uniqueID: 3384958525
