@@ -1,0 +1,11 @@
+RaycastHit hit;
+
+if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit))
+{
+    BodyPart part = hit.collider.GetComponent<BodyPart>();
+
+    if (part != null)
+    {
+        part.TakeHit(10f); // base damage
+    }
+}

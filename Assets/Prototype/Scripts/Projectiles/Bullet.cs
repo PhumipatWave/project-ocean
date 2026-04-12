@@ -47,7 +47,7 @@ namespace Game.Testing
 
                     enemy.TakeDamage(attackDamage);
 
-                    if (enemy.CurrentHealth <= 0f)
+                    if (!enemy.IsDeath)
                     {
                         player.GunHandler.CanAttack = true;
                         player.GunHandler.ResetGunRotation(player.FaceDir);
