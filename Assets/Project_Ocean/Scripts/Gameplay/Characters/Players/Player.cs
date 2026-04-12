@@ -61,7 +61,7 @@ namespace Game.Testing
         private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
-            PreventMoveOutFromWater();
+            //PreventMoveOutFromWater();
         }
 
         #region PlayerInputAction
