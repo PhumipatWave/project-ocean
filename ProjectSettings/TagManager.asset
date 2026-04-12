@@ -12,14 +12,17 @@ TagManager:
   - GameHUD
   - PlayerCam
   - Items
+  - Fish
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - Rope
+  - Obstacle
+  - Player
   - 
   - 
   - 
@@ -48,6 +51,27 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BG
+    uniqueID: 431090777
+    locked: 0
+  - name: Stone
+    uniqueID: 939201407
+    locked: 0
+  - name: Surface
+    uniqueID: 1920547277
+    locked: 0
+  - name: Way
+    uniqueID: 3765431601
+    locked: 0
+  - name: Prop
+    uniqueID: 1453530473
+    locked: 0
+  - name: Building
+    uniqueID: 2932453927
+    locked: 0
+  - name: Player
+    uniqueID: 3384958525
     locked: 0
   m_RenderingLayers:
   - Default

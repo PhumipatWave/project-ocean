@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -284,7 +284,11 @@ MonoBehaviour:
   player: {fileID: 0}
   moveSpeed: 15
   attackDamage: 25
-  line: {fileID: 0}
-  ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}
-  currentRopeLength: 0
-  pullBackForce: 5
+  player: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  attachedToObject: 0
