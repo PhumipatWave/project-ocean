@@ -123,7 +123,7 @@ namespace Game.Testing
 
         public IEnumerator HookDashRoutine(Vector2 hitPos)
         {
-            float stopDist = .5f;
+            float stopDist = 2f;
             isDashReachingTarget = false;
 
             int playerLayerIndex = LayerMask.NameToLayer("Player");

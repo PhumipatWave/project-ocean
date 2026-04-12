@@ -1,28 +1,30 @@
+using Game.Testing;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class FishL_Agent : MonoBehaviour
 {
     [Header("Target")]
-    public Transform player;
+    [SerializeField] private Enemy enemy;
 
     [Header("Movement")]
-    public float speed = 2f;
-    public float boostSpeed = 7f;
-    public float turnSpeed = 5f;
-    public float swayAmount = 0.1f;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private float boostSpeed = 7f;
+    [SerializeField] private float turnSpeed = 5f;
+    [SerializeField] private float swayAmount = 0.1f;
 
     [Header("Wander Settings")]
-    public float wanderRadius = 3f;
-    public float wanderChangeInterval = 2f;
+    [SerializeField] private float wanderRadius = 3f;
+    [SerializeField] private float wanderChangeInterval = 2f;
+
     private float wanderTimer;
 
     [Header("Attack Settings")]
-    public float detectDistance = 5f;
-    public float attackRange = 1.5f;
-    public float prepareTime = 2f;
-    public float attackCooldown = 2f;
-    public float followAfterLost = 6f;
+    [SerializeField] private float detectDistance = 5f;
+    [SerializeField] private float attackRange = 1.5f;
+    [SerializeField] private float prepareTime = 2f;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float followAfterLost = 6f;
 
     private NavMeshAgent agent;
 
@@ -36,9 +38,10 @@ public class FishL_Agent : MonoBehaviour
 
     private Vector3 wanderTarget;
 
-    void Start()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -47,11 +50,11 @@ public class FishL_Agent : MonoBehaviour
         PickNewWanderPoint();
     }
 
-    void Update()
+    private void Update()
     {
-        if (player == null) return;
+        if (enemy.Player == null || enemy.IsDeath) return;
 
-        float dist = Vector2.Distance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
         if (attackTimer > 0f) attackTimer -= Time.deltaTime;
         if (followTimer > 0f) followTimer -= Time.deltaTime;
@@ -81,7 +84,7 @@ public class FishL_Agent : MonoBehaviour
         RotateFish();
     }
 
-    void StartPrepare()
+    private void StartPrepare()
     {
         isPreparing = true;
         prepareTimer = prepareTime;
@@ -89,12 +92,12 @@ public class FishL_Agent : MonoBehaviour
         agent.isStopped = true; // stop moving while aiming
     }
 
-    void Prepare()
+    private void Prepare()
     {
         prepareTimer -= Time.deltaTime;
 
         // Look at player
-        Vector2 dir = (player.position - transform.position).normalized;
+        Vector2 dir = (enemy.Player.transform.position - transform.position).normalized;
         RotateTowards(dir);
 
         if (prepareTimer <= 0f)
@@ -107,9 +110,9 @@ public class FishL_Agent : MonoBehaviour
         }
     }
 
-    void Attack()
+    private void Attack()
     {
-        float dist = Vector2.Distance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
         if (dist <= attackRange)
         {
@@ -120,7 +123,7 @@ public class FishL_Agent : MonoBehaviour
 
         // Add sway to make it feel alive
         Vector2 sway = new Vector2(Mathf.Sin(Time.time * 2f), Mathf.Cos(Time.time * 2f)) * swayAmount;
-        Vector3 target = player.position + (Vector3)sway;
+        Vector3 target = enemy.Player.transform.position + (Vector3)sway;
 
         agent.SetDestination(target);
 
@@ -132,19 +135,19 @@ public class FishL_Agent : MonoBehaviour
         }
     }
 
-    void StopAttack()
+    private void StopAttack()
     {
         isAttacking = false;
         attackTimer = attackCooldown;
         agent.speed = speed;
     }
 
-    void Follow()
+    private void Follow()
     {
         agent.speed = speed;
-        agent.SetDestination(player.position);
+        agent.SetDestination(enemy.Player.transform.position);
 
-        float dist = Vector2.Distance(transform.position, player.position);
+        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
         if (followTimer <= 0f || dist > detectDistance + 10f)
         {
@@ -152,7 +155,7 @@ public class FishL_Agent : MonoBehaviour
         }
     }
 
-    void Wander()
+    private void Wander()
     {
         agent.speed = speed;
 
@@ -167,13 +170,13 @@ public class FishL_Agent : MonoBehaviour
         agent.SetDestination(wanderTarget);
     }
 
-    void PickNewWanderPoint()
+    private void PickNewWanderPoint()
     {
         Vector2 randomDir = Random.insideUnitCircle * wanderRadius;
         wanderTarget = transform.position + new Vector3(randomDir.x, randomDir.y, 0f);
     }
 
-    void RotateFish()
+    private void RotateFish()
     {
         if (agent.velocity.sqrMagnitude > 0.01f)
         {
@@ -181,7 +184,7 @@ public class FishL_Agent : MonoBehaviour
         }
     }
 
-    void RotateTowards(Vector2 dir)
+    private void RotateTowards(Vector2 dir)
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion targetRot = Quaternion.Euler(0, 0, angle);

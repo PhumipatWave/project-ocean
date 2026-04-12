@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class EnemyHealth : MonoBehaviour
+    public class EnemyHealthDisplay : MonoBehaviour
     {
         [SerializeField] private Enemy enemy;
         [SerializeField] private Image healthValueImage;
