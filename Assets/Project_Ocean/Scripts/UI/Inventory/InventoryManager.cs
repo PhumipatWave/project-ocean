@@ -21,7 +21,17 @@ namespace Game.Testing
         private void Start()
         {
             ChangeSelectedSlot(0);
-        }
+            
+            int startSlot = 5;
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (i >= startSlot)
+                {
+                    inventorySlots[i].SetLocked(true);
+                }
+            } // Lock Slot +1
+            
+        } // Start ===
 
         private void Update()
         {
@@ -72,7 +82,8 @@ namespace Game.Testing
             }
             inventorySlots[newValue].Select();
             selectedSlot = newValue;
-        }
+            
+        } // ChangeSelectedSlot ===
         
         public bool AddItem(Item item)
         {
@@ -88,7 +99,6 @@ namespace Game.Testing
                 }
             }
             
-            
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
@@ -100,7 +110,20 @@ namespace Game.Testing
                 }
             }
             return false;
-        }
+            
+        } // AddItem ===
+
+        public void AddSlot(InventorySlot newSlot)
+        {
+            InventorySlot[] newSlots = new InventorySlot[inventorySlots.Length + 1];
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                newSlots[i] = inventorySlots[i];
+            }
+            newSlots[newSlots.Length - 1] = newSlot;
+            inventorySlots = newSlots;
+
+        } // AddSlot ===
         
         void SpawnNewItem(Item item,InventorySlot slot)
         {
@@ -108,7 +131,8 @@ namespace Game.Testing
             newItemGo = Instantiate(InventoryItemPrefab,slot.transform);
             Draggableltem inventoryItem = newItemGo.GetComponent<Draggableltem>();
             inventoryItem.InitialiseItem(item);
-        }
+            
+        } // SpawnNewItem ===
 
         public Item GetSelectedItem()
         {
@@ -119,10 +143,25 @@ namespace Game.Testing
                 return itemInSlot.item;
             }
             return null;
-        }
+            
+        } // GetSelectedItem ===
+        
+        public void UnlockNextSlot()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (!inventorySlots[i].isUnlocked)
+                {
+                    inventorySlots[i].SetLocked(false);
+                    return;
+                }
+            }
+
+            Debug.Log("UnLocked Slot Full!!!");
+        } // UnlockNextSlot ===
 
         
-    }
+    } // InventoryManager ===
     
     
 }
