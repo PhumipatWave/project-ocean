@@ -14,6 +14,7 @@ TagManager:
   - Fish
   - EnemyGroup
   - CollectBox
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX
@@ -77,6 +78,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3384958525
+    locked: 0
+  - name: Wound
+    uniqueID: 3019882391
     locked: 0
   m_RenderingLayers:
   - Default
