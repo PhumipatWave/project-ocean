@@ -28,7 +28,9 @@ namespace Game.Testing
 
         private bool isPlayerBullet;
         public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
-        
+
+        [SerializeField] private bool isHasAnim = false;
+
         [Header("Drop Item")]
         [SerializeField] private Item dropItem;
 
@@ -38,7 +40,12 @@ namespace Game.Testing
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            anim = GetComponentInChildren<Animator>();
+
+            if (isHasAnim)
+            {
+                anim = GetComponentInChildren<Animator>();
+            }
+
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             currentHealth = maxHealth;
@@ -127,17 +134,26 @@ namespace Game.Testing
 
         private void Attack01_Anim()
         {
-            anim.SetBool("isAttack_01", fishL_Agent.IsAttacking);
+            if (isHasAnim)
+            {
+                anim.SetBool("isAttack_01", fishL_Agent.IsAttacking);
+            }
         }
 
         private void TakeDamageAnim()
         {
-            anim.SetTrigger("takeDamage");
+            if (isHasAnim)
+            {
+                anim.SetTrigger("takeDamage");
+            }
         }
 
         private void DeathAnim()
         {
-            anim.SetBool("death", true);
+            if (isHasAnim)
+            {
+                anim.SetBool("death", true);
+            }
         }
     }
 }

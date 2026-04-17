@@ -22,6 +22,9 @@ namespace Game.Testing
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             var player = GameObject.FindGameObjectWithTag("Player");
+
+            playerCam = FindFirstObjectByType<CinemachineCamera>();
+
             playerCam.Follow = player.transform;
             playerCam.LookAt = player.transform;
 
