@@ -6,17 +6,7 @@ namespace Game.Testing
     {
         [Header("Drop Item")]
         [SerializeField] private Item dropItem;
-
-        public void Start()
-        {
-            
-        }
-
-        public void Update()
-        {
-            
-        }
-
+        
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag == "Player")
@@ -28,7 +18,7 @@ namespace Game.Testing
                 {
                     if (inv.AddItem(dropItem))
                     {
-                        Debug.Log("เก็บสำเร็จ");
+                        Debug.Log("Keep Destroy!!");
                         Destroy(gameObject);
                     }
                 }
