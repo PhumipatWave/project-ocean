@@ -16,7 +16,7 @@ namespace Game.Testing
         [SerializeField] private Image fadeImage;
         [SerializeField] private float fadeDuration = 1f;
 
-        public static GameHUD instance;
+        public static GameHUD instance {  get; private set; }
         private void Awake()
         {
             if (instance != null)
@@ -35,6 +35,15 @@ namespace Game.Testing
 
         private void Update()
         {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+            {
+                currentOxygenTubeLenght.enabled = false;
+            }
+            else
+            {
+                currentOxygenTubeLenght.enabled = true;
+            }
+
             currentOxygenTubeLenght.text = $"Length : {(int)player.GetComponent<PlayerOxygenTube>().CurrentLength} m.";
         }
 
