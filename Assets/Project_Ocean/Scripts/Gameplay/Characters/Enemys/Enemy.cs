@@ -7,6 +7,10 @@ namespace Game.Testing
     {
         [Header("Rope Component")]
         [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private Animator anim;
+
+        [SerializeField] private FishL_Agent fishL_Agent;
+
         [SerializeField] private Player player;
         public Player Player { get { return player; } }
 
@@ -34,6 +38,7 @@ namespace Game.Testing
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            anim = GetComponentInChildren<Animator>();
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             currentHealth = maxHealth;
@@ -45,6 +50,8 @@ namespace Game.Testing
             {
                 Death();
             }
+
+            Attack01_Anim();
         }
         
         private void FixedUpdate()
@@ -62,6 +69,10 @@ namespace Game.Testing
             if (currentHealth <= 0)
             {
                 isDeath = true;
+            }
+            else
+            {
+                TakeDamageAnim();
             }
         }
 
@@ -109,7 +120,24 @@ namespace Game.Testing
             //rb.linearVelocity = Vector2.zero;
             gameObject.tag = "Items";
             GetComponent<SpriteRenderer>().color = Color.gray;
-            
+            DeathAnim();
+
+
+        }
+
+        private void Attack01_Anim()
+        {
+            anim.SetBool("isAttack_01", fishL_Agent.IsAttacking);
+        }
+
+        private void TakeDamageAnim()
+        {
+            anim.SetTrigger("takeDamage");
+        }
+
+        private void DeathAnim()
+        {
+            anim.SetBool("death", true);
         }
     }
 }
