@@ -14,6 +14,9 @@ namespace Game.Testing
 
         [SerializeField] private Animator anim;
 
+        [SerializeField] private AudioSource audio;
+        public AudioSource Audio { get { return audio; } }
+
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
