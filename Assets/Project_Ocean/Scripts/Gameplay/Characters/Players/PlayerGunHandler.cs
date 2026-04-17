@@ -12,6 +12,8 @@ namespace Game.Testing
         [SerializeField] private AmmoWheel ammoWheel;
         [SerializeField] private Player player;
 
+        [SerializeField] private AudioClip shootSound;
+
         [Header("Rope System")]
         [SerializeField] private LineRenderer line;
         public LineRenderer Line { get { return line; } }
@@ -159,6 +161,8 @@ namespace Game.Testing
             }
             else
             {
+                player.Audio.PlayOneShot(shootSound);
+
                 currentBulletObj = Instantiate(bulletTypePrefab[(int)ammoWheel.currentAmmoType], firePoint.transform.position, Quaternion.identity);
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
