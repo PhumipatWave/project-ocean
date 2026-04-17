@@ -8,21 +8,26 @@ namespace Game.Testing
     {
         public Image image;
         public Color SelectedColor , notSelectedColor;
+        
+        // Lock Slot
+        public bool isUnlocked = true;
+
 
         private void Awake()
         {
             Deselect();
-        }
+        } // Awake ===
 
         public void Select()
         {
             image.color = SelectedColor;
-        }
+        } // Select ===
 
         public void Deselect()
         {
             image.color = notSelectedColor;
-        }
+            
+        } // Deselect ===
         
         public void OnDrop(PointerEventData eventData)
         {
@@ -33,7 +38,14 @@ namespace Game.Testing
                 draggableltem.parentAfterDrag = transform;
                 
             }
-        }
+        } // OnDrop ===
         
+        public void SetLocked(bool locked)
+        {
+            isUnlocked = !locked;
+
+            gameObject.SetActive(!locked); // ซ่อนทั้งช่อง
+            
+        } // SetLocked ===
     }
 }
