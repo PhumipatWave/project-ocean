@@ -95,16 +95,10 @@ namespace Game.Testing
             if (isDeath && collision.gameObject.tag == "Player")
             {
                 Debug.Log("Tag to Enemy!!");
-                InventoryManager inv = FindObjectOfType<InventoryManager>();
 
-                if (inv != null)
-                {
-                    if (inv.AddItem(dropItem))
-                    {
-                        Debug.Log("เก็บสำเร็จ");
-                        Destroy(gameObject);
-                    }
-                }
+                InventoryManager.Instance.AddItem(dropItem);
+                Debug.Log("เก็บสำเร็จ");
+                Destroy(gameObject);
             } // isDead ===
             
         } // OnCollisionEnter2D ===

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Testing
 {
@@ -13,6 +14,9 @@ namespace Game.Testing
 
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
+
+        private PlayerOxygenTube oxygenTube;
+        public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
 
         [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
@@ -40,13 +44,13 @@ namespace Game.Testing
         private float originTime = 1f;
         private float focusTime = .6f;
         
-        
-        
-
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
+            oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
@@ -56,6 +60,49 @@ namespace Game.Testing
             input.OnAttacked += Attack;
             input.OnDashed += Dash;
             input.OnInteracted += Interact;
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "Graybox_Oceans")
+            {
+                Debug.Log($"Start scene {scene.name}");
+
+                transform.position = new Vector3(-75f, 45f, 0f);
+
+                Debug.Log(oxygenTube.StartPointPrefab);
+
+                var point = Instantiate(oxygenTube.StartPointPrefab, new Vector3(-75f, 45f, 0f), Quaternion.identity);
+                oxygenTube.StartPoint = point;
+                oxygenTube.Rebuild();
+
+                //StartCoroutine(SetupOnOceanRoutine());
+            }
+        }
+
+        private IEnumerator SetupOnOceanRoutine()
+        {
+            GameObject point = null;
+
+            // wait until found (max safety)
+            while (point == null)
+            {
+                point = GameObject.FindGameObjectWithTag("OxygenTubePoint");
+                yield return null;
+            }
+
+            oxygenTube.StartPoint = point;
+            oxygenTube.Rebuild();
         }
 
         private void Update()
@@ -161,11 +208,5 @@ namespace Game.Testing
             }
         }
         #endregion
-
-        
-        
-        
     }
-
-   
 }
