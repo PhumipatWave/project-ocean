@@ -519,6 +519,17 @@ namespace Game.Testing
 
             savedSnapshot = null;
         }
+        
+        public void IncreaseMaxLength(float amount)
+        {
+            maxRopeLength += amount;
+            
+        } // IncreaseMaxLength ===
+
+        public float GetMaxLength()
+        {
+            return maxRopeLength;
+        } // GetMaxLength ===
         #endregion
 
         #region RopeCheckpoint
