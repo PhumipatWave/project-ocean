@@ -769,7 +769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &65644316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7318,6 +7318,7 @@ MonoBehaviour:
   friction: 0.9
   removeAngle: 120
   wrapCooldownFrames: 8
+  mergeDistance: 1
   currentLength: 0
   checkpointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   maxCheckpoints: 3
