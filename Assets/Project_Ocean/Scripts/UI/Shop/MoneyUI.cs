@@ -11,7 +11,7 @@ namespace Game.Testing
         
             void Update()
             {
-                moneyText.text = "Money: " + playerMoney.money;
+                moneyText.text = "Money: " + playerMoney.Money;
             }
     }
 }

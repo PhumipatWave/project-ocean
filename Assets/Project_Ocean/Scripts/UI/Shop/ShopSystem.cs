@@ -6,7 +6,6 @@ namespace Game.Testing
     public class ShopSystem : MonoBehaviour
     {
         [Header("Core")]
-        public InventoryManager inventory;
         public PlayerMoney playerMoney;
 
         [Header("UI")]
@@ -27,14 +26,27 @@ namespace Game.Testing
 
         void Update()
         {
+            if (GameManager.Instance.GameState != GameState.Land)
+                return;
+
             // เปิด/ปิดร้าน
-            if (Input.GetKeyDown(KeyCode.B))
+            /*if (Input.GetKeyDown(KeyCode.B))
             {
                 shopPanel.SetActive(!shopPanel.activeSelf);
-            }
+            }*/
 
             // อัปเดตเงิน
-            moneyText.text = "Money: " + playerMoney.money;
+            moneyText.text = "Money: " + playerMoney.Money;
+        }
+
+        public void OpenShop()
+        {
+            shopPanel.SetActive(true);
+        }
+
+        public void CloseShop()
+        {
+            shopPanel.SetActive(false);
         }
 
         // เลือก Item จากร้าน
@@ -53,7 +65,7 @@ namespace Game.Testing
 
             if (playerMoney.Use(selectedItem.buyPrice))
             {
-                bool added = inventory.AddItem(selectedItem);
+                bool added = InventoryManager.Instance.AddItem(selectedItem);
 
                 if (!added)
                 {
@@ -92,7 +104,7 @@ namespace Game.Testing
         // หา slot ที่เลือก
         private InventorySlot GetSelectedSlot()
         {
-            foreach (InventorySlot slot in inventory.inventorySlots)
+            foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
             {
                 if (slot.image.color == slot.SelectedColor)
                 {

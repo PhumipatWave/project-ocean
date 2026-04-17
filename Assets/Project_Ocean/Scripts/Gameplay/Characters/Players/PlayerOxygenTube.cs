@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Testing
 {
@@ -9,7 +11,12 @@ namespace Game.Testing
         [Header("References Points")]
         [SerializeField] private LineRenderer line;
 
-        [SerializeField] private Transform startPoint;
+        [SerializeField] private GameObject startPointPrefab;
+        public GameObject StartPointPrefab { get { return startPointPrefab; } }
+
+        [SerializeField] private GameObject startPoint;
+        public GameObject StartPoint { get { return startPoint; } set { startPoint = value; } }
+
         [SerializeField] private Transform endPoint;
 
         [Header("Rope Settings")]
@@ -44,6 +51,8 @@ namespace Game.Testing
 
         public int CurrentCheckpointCount => checkpoints.Count;
         public int MaxCheckpointCount => maxCheckpoints;
+
+        [SerializeField] private GameObject blackScene;
 
         private RopeSnapshot savedSnapshot;
         #endregion
@@ -109,11 +118,14 @@ namespace Game.Testing
             line = GetComponent<LineRenderer>();
             line.startWidth = 0.1f;
             line.endWidth = 0.1f;
-            Rebuild();
+            //Rebuild();
         }
 
         private void Update()
         {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+                return;
+
             if (Input.GetKeyDown(KeyCode.H))
                 CreateCheckpoint();
 
@@ -126,9 +138,12 @@ namespace Game.Testing
 
         private void FixedUpdate()
         {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+                return;
+
             if (cooldown > 0) cooldown--;
 
-            subRopes[0].pinStart = startPoint.position;
+            subRopes[0].pinStart = startPoint.transform.position;
             subRopes[^1].pinEnd = endPoint.position;
 
             GrowLastRope();
@@ -142,7 +157,13 @@ namespace Game.Testing
             CheckRopeLimit();
         }
 
-        private void LateUpdate() => Draw();
+        private void LateUpdate() 
+        {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+                return;
+
+            Draw();
+        } 
         #endregion
 
         #region RopeBuilding
@@ -167,11 +188,11 @@ namespace Game.Testing
             }
         }
 
-        private void Rebuild()
+        public void Rebuild()
         {
             anchors.Clear();
             subRopes.Clear();
-            subRopes.Add(new SubRope(startPoint.position, endPoint.position));
+            subRopes.Add(new SubRope(startPoint.transform.position, endPoint.position));
         }
 
         private void GrowLastRope()
@@ -282,7 +303,7 @@ namespace Game.Testing
         /// or would cause the new subrope to immediately re-cross an existing anchor.
         private bool IsValidWrapPoint(Vector2 wrapPoint, Collider2D hitCollider)
         {
-            if (Vector2.Distance(wrapPoint, startPoint.position) < segmentLength * 3f) return false;
+            if (Vector2.Distance(wrapPoint, startPoint.transform.position) < segmentLength * 3f) return false;
             if (Vector2.Distance(wrapPoint, endPoint.position) < segmentLength * 3f) return false;
 
             foreach (Anchor a in anchors)
@@ -294,7 +315,7 @@ namespace Game.Testing
             // "behind" us — the rope would fold back on itself.
             Vector2 prevPin = anchors.Count > 0
                 ? anchors[^1].pos
-                : (Vector2)startPoint.position;
+                : (Vector2)startPoint.transform.position;
 
             Vector2 inDir = (wrapPoint - prevPin).normalized;
             Vector2 toEnd = ((Vector2)endPoint.position - wrapPoint).normalized;
@@ -405,7 +426,7 @@ namespace Game.Testing
         {
             Vector2 prevPin = anchors.Count > 0
                 ? anchors[^1].pos
-                : (Vector2)startPoint.position;
+                : (Vector2)startPoint.transform.position;
 
             Vector2 inDir = (wrapPoint - prevPin).normalized;
             Vector2 toEnd = ((Vector2)endPoint.position - wrapPoint).normalized;
@@ -460,7 +481,7 @@ namespace Game.Testing
 
             Vector2 prevPin = anchors.Count > 1
                 ? anchors[anchors.Count - 2].pos
-                : (Vector2)startPoint.position;
+                : (Vector2)startPoint.transform.position;
 
             Vector2 inDir = (anchor - prevPin).normalized;
             Vector2 outDir = ((Vector2)endPoint.position - anchor).normalized;
@@ -500,13 +521,13 @@ namespace Game.Testing
 
             Debug.Log("Rope limit exceeded! Resetting rope and clearing checkpoints.");
 
-            endPoint.position = startPoint.position;
+            endPoint.position = startPoint.transform.position;
 
             anchors.Clear();
             subRopes.Clear();
             cooldown = 0;
 
-            SubRope root = new SubRope(startPoint.position, endPoint.position);
+            SubRope root = new SubRope(startPoint.transform.position, endPoint.position);
             subRopes.Add(root);
 
             currentLength = 0f;
@@ -518,6 +539,19 @@ namespace Game.Testing
             checkpoints.Clear();
 
             savedSnapshot = null;
+
+            StartCoroutine(BreakRopeLimitRoutine());
+        }
+
+        private IEnumerator BreakRopeLimitRoutine()
+        {
+            yield return new WaitForSeconds(.25f);
+
+            blackScene.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
+
+            GameManager.Instance.ReturnToLand();
+            blackScene.SetActive(false);
         }
         
         public void IncreaseMaxLength(float amount)

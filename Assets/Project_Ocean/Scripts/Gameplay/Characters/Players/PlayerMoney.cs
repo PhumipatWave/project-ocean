@@ -4,7 +4,8 @@ namespace Game.Testing
 {
     public class PlayerMoney : MonoBehaviour
     {
-        public int money = 100;
+        private int money = 100;
+        public int Money { get { return money; } }
 
         public void Add(int amount)
         {
@@ -20,6 +21,5 @@ namespace Game.Testing
             }
             return false;
         }
-
     }
 }

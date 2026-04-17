@@ -12,16 +12,10 @@ namespace Game.Testing
             if (collision.gameObject.tag == "Player")
             {
                 Debug.Log("Keep Items to Inventory!!");
-                InventoryManager inv = FindObjectOfType<InventoryManager>();
-                
-                if (inv != null)
-                {
-                    if (inv.AddItem(dropItem))
-                    {
-                        Debug.Log("Keep Destroy!!");
-                        Destroy(gameObject);
-                    }
-                }
+
+                InventoryManager.Instance.AddItem(dropItem);
+                Debug.Log("Keep Destroy!!");
+                Destroy(gameObject);
             } // collision.gameObject.tag == "Player"
             
         } // OnCollisionEnter2D ===

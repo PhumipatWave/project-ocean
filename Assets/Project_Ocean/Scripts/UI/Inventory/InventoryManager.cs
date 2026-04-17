@@ -18,6 +18,19 @@ namespace Game.Testing
 
         int selectedSlot = -1;
 
+        public static InventoryManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(this);
+                return;
+            }
+
+            Instance = this;
+        }
+
         private void Start()
         {
             ChangeSelectedSlot(0);
@@ -35,18 +48,16 @@ namespace Game.Testing
 
         private void Update()
         {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+                return;
+
             if (Input.GetButtonDown("Inventory") && menuActivetad)
             {
-                Debug.Log("I to Inventory");
-                Time.timeScale = 1;
-                InventoryMenu.SetActive(false);
-                menuActivetad = false;
+                OpenInventory();
             } // I to Show UI
             else if (Input.GetButtonDown("Inventory") && !menuActivetad)
             {
-                Time.timeScale = 0;
-                InventoryMenu.SetActive(true);
-                menuActivetad = true;
+                CloseInventory();
             } // I to Show UI
             
             if (Input.inputString != null)
@@ -73,7 +84,22 @@ namespace Game.Testing
             }*/
             
         }
-        
+
+        public void OpenInventory()
+        {
+            Debug.Log("I to Inventory");
+            Time.timeScale = 1;
+            InventoryMenu.SetActive(false);
+            menuActivetad = false;
+        }
+
+        public void CloseInventory()
+        {
+            Time.timeScale = 0;
+            InventoryMenu.SetActive(true);
+            menuActivetad = true;
+        }
+
         void ChangeSelectedSlot(int newValue)
         {
             if (selectedSlot >= 0)

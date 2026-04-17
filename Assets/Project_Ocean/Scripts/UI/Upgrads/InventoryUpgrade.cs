@@ -5,7 +5,6 @@ namespace Game.Testing
 {
     public class InventoryUpgrade : MonoBehaviour
     {
-        public InventoryManager inventory;
         public PlayerMoney playerMoney;
 
         [Header("UI")]
@@ -36,7 +35,7 @@ namespace Game.Testing
                 return;
             }
 
-            inventory.UnlockNextSlot();
+            InventoryManager.Instance.UnlockNextSlot();
             currentLevel++;
 
             Debug.Log("Unlocked Slot !!!");
