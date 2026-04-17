@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerGunHandler
   ammoWheel: {fileID: 0}
   player: {fileID: 839586600274386325}
+  shootSound: {fileID: 0}
   line: {fileID: 0}
   ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}
   currentRopeLength: 0
@@ -247,6 +248,9 @@ MonoBehaviour:
   currentBulletObj: {fileID: 0}
   currentHookObj: {fileID: 0}
   canAttack: 1
+  stabHitbox: {fileID: 0}
+  stabActiveTime: 0.15
+  stabCooldown: 0.5
 --- !u!114 &3920244353337492007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +610,7 @@ GameObject:
   - component: {fileID: 2783980782925508106}
   - component: {fileID: 7315970702637260282}
   - component: {fileID: 8257265314751005390}
+  - component: {fileID: -5444332486349790352}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -706,10 +711,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   input: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+  anim: {fileID: 0}
+  audio: {fileID: 0}
   rb: {fileID: 0}
-  playerSprite: {fileID: 0}
+  playerSprite: {fileID: 1845563972653589313}
   moveSpeed: 8
   dashSpeed: 25
+  isDeath: 0
 --- !u!120 &5126783939423844365
 LineRenderer:
   serializedVersion: 3
@@ -924,3 +932,100 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!82 &-5444332486349790352
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

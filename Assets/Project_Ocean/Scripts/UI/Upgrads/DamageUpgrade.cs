@@ -5,8 +5,6 @@ namespace Game.Testing
 {
     public class DamageUpgrade : MonoBehaviour
     {
-        public PlayerMoney playerMoney;
-
         [Header("Damage")]
         public float currentDamage = 10f;
         public float damageIncrease = 5f;
@@ -30,7 +28,7 @@ namespace Game.Testing
         {
             int price = GetPrice();
 
-            if (!playerMoney.Use(price))
+            if (!GameManager.CurPlayer.GetComponent<PlayerMoney>().Use(price))
             {
                 Debug.Log("No Money to Upgrade!!");
                 return;

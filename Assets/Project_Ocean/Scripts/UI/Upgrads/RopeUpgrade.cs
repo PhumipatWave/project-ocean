@@ -5,9 +5,6 @@ namespace Game.Testing
 {
     public class RopeUpgrade : MonoBehaviour
     {
-        public PlayerMoney playerMoney;
-        public PlayerOxygenTube rope;
-
         [Header("Upgrade")]
         public int level = 1;
         public int basePrice = 100;
@@ -29,13 +26,13 @@ namespace Game.Testing
         {
             int price = GetPrice();
 
-            if (!playerMoney.Use(price))
+            if (!GameManager.CurPlayer.GetComponent<PlayerMoney>().Use(price))
             {
                 Debug.Log("No Money to Upgrade!!");
                 return;
             }
 
-            rope.IncreaseMaxLength(lengthIncrease);
+            GameManager.CurPlayer.GetComponent<PlayerOxygenTube>().IncreaseMaxLength(lengthIncrease);
             level++;
 
             Debug.Log("Upgraded Rope!!");
@@ -48,7 +45,7 @@ namespace Game.Testing
 
         float ropeMax()
         {
-            return rope.GetMaxLength();
+            return GameManager.CurPlayer.GetComponent<PlayerOxygenTube>().GetMaxLength();
         }
     }
 }
