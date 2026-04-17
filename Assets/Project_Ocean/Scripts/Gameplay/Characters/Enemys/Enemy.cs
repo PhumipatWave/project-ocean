@@ -113,7 +113,7 @@ namespace Game.Testing
         {
             isDeath = true;
             //rb.linearVelocity = Vector2.zero;
-            //gameObject.tag = "Items";
+            gameObject.tag = "Items";
             GetComponent<SpriteRenderer>().color = Color.gray;
             
         }
