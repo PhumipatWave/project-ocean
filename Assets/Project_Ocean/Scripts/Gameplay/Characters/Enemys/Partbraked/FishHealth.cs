@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FishHealth : MonoBehaviour
 {
-    public float maxHP = 100f;
+    public float maxHP = 20f;
     private float currentHP;
 
     void Start()
@@ -10,9 +10,10 @@ public class FishHealth : MonoBehaviour
         currentHP = maxHP;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float dmg)
     {
-        currentHP -= damage;
+        currentHP -= dmg;
+
         Debug.Log("Fish HP: " + currentHP);
 
         if (currentHP <= 0)
@@ -23,7 +24,7 @@ public class FishHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Fish Dead");
+        Debug.Log("Fish Dead!");
         Destroy(gameObject);
     }
 }
