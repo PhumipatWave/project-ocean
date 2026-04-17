@@ -93,7 +93,7 @@ namespace Game.Testing
             if (faceDir == 1)
             {
                 clampAngle = Mathf.Clamp(angle, -45f, 45f);
-                player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                player.PlayerSprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 gunSprite.rotation = Quaternion.Euler(0f, 0f, clampAngle);
             }
             else
@@ -103,7 +103,7 @@ namespace Game.Testing
                 else
                     clampAngle = Mathf.Clamp(angle, -180f, -135f);
 
-                player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                player.PlayerSprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 gunSprite.rotation = Quaternion.Euler(0f, 180f, clampAngle);
             }
 
