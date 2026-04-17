@@ -5,9 +5,6 @@ namespace Game.Testing
 {
     public class ShopSystem : MonoBehaviour
     {
-        [Header("Core")]
-        public PlayerMoney playerMoney;
-
         [Header("UI")]
         public GameObject shopPanel;
         public TMP_Text moneyText;
@@ -36,7 +33,7 @@ namespace Game.Testing
             }*/
 
             // อัปเดตเงิน
-            moneyText.text = "Money: " + playerMoney.Money;
+            moneyText.text = "Money: " + GameManager.CurPlayer.GetComponent<PlayerMoney>().Money;
         }
 
         public void OpenShop()
@@ -63,13 +60,13 @@ namespace Game.Testing
         {
             if (selectedItem == null) return;
 
-            if (playerMoney.Use(selectedItem.buyPrice))
+            if (GameManager.CurPlayer.GetComponent<PlayerMoney>().Use(selectedItem.buyPrice))
             {
                 bool added = InventoryManager.Instance.AddItem(selectedItem);
 
                 if (!added)
                 {
-                    playerMoney.Add(selectedItem.buyPrice); // คืนเงิน
+                    GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(selectedItem.buyPrice); // คืนเงิน
                     Debug.Log("Inventory เต็ม");
                 }
             }
@@ -90,7 +87,7 @@ namespace Game.Testing
 
             Item item = itemUI.item;
 
-            playerMoney.Add(item.sellPrice);
+            GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(item.sellPrice);
 
             itemUI.count--;
             itemUI.RefreshCount();
@@ -127,7 +124,7 @@ namespace Game.Testing
 
             int totalPrice = item.sellPrice * itemUI.count;
 
-            playerMoney.Add(totalPrice);
+            GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(totalPrice);
 
             Debug.Log($"ขาย {item.name} x{itemUI.count} ได้ {totalPrice}");
 

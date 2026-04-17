@@ -24,6 +24,7 @@ namespace Game.Testing
         [SerializeField] private int constraintIterations = 50;
 
         [SerializeField] private float maxRopeLength = 150f;
+        public float MaxRopeLength { get { return maxRopeLength; } set { maxRopeLength = value; } }
 
         [Header("Physics")]
         [SerializeField] private Vector2 gravity = new(0f, -2f);
@@ -51,8 +52,6 @@ namespace Game.Testing
 
         public int CurrentCheckpointCount => checkpoints.Count;
         public int MaxCheckpointCount => maxCheckpoints;
-
-        [SerializeField] private GameObject blackScene;
 
         private RopeSnapshot savedSnapshot;
         #endregion
@@ -540,18 +539,7 @@ namespace Game.Testing
 
             savedSnapshot = null;
 
-            StartCoroutine(BreakRopeLimitRoutine());
-        }
-
-        private IEnumerator BreakRopeLimitRoutine()
-        {
-            yield return new WaitForSeconds(.25f);
-
-            blackScene.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
-
             GameManager.Instance.ReturnToLand();
-            blackScene.SetActive(false);
         }
         
         public void IncreaseMaxLength(float amount)

@@ -27,8 +27,8 @@ namespace Game.Testing
         public Rigidbody2D RB { get { return rb; } }
 
         [Header("Player Object")]
-        [SerializeField] private Transform playerSprite;
-        public Transform PlayerSprite { get { return playerSprite; } }
+        [SerializeField] private GameObject playerSprite;
+        public GameObject PlayerSprite { get { return playerSprite; } }
 
 
         [Header("Player Status")]
@@ -48,10 +48,14 @@ namespace Game.Testing
 
         private float originTime = 1f;
         private float focusTime = .6f;
-        
+
+        [SerializeField] private bool isDeath;
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            audio = GetComponent<AudioSource>();
+
             anim = GetComponentInChildren<Animator>();
 
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
@@ -67,6 +71,8 @@ namespace Game.Testing
             input.OnAttacked += Attack;
             input.OnDashed += Dash;
             input.OnInteracted += Interact;
+
+            
         }
 
         private void OnEnable()
@@ -81,15 +87,20 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Graybox_Oceans")
+            if (scene.name == "Graybox_Land")
+            {
+                transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+            }
+            else if (scene.name == "Graybox_Oceans")
             {
                 Debug.Log($"Start scene {scene.name}");
 
-                transform.position = new Vector3(-75f, 45f, 0f);
+                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                transform.position = spawnPoint.position;
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
-                var point = Instantiate(oxygenTube.StartPointPrefab, new Vector3(-75f, 45f, 0f), Quaternion.identity);
+                var point = Instantiate(oxygenTube.StartPointPrefab, spawnPoint.position, Quaternion.identity);
                 oxygenTube.StartPoint = point;
                 oxygenTube.Rebuild();
 
@@ -231,15 +242,20 @@ namespace Game.Testing
             if (rb.linearVelocityX > .1f)
             {
                 faceDir = 1;
-                playerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                playerSprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
             else if (rb.linearVelocityX < -.1f)
             {
                 faceDir = -1;
-                playerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                playerSprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
+        }
+
+        public void TakeDamage(float amount)
+        {
+            oxygenTube.MaxRopeLength -= amount;
         }
         #endregion
     }

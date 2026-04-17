@@ -370,8 +370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238757cbe8b1f544da00c5205f6cc019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.RopeUpgrade
-  playerMoney: {fileID: 773628110}
-  rope: {fileID: 773628111}
   level: 1
   basePrice: 100
   lengthIncrease: 10
@@ -389,7 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70be1a355c70a04a922c89cb2016c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.DamageUpgrade
-  playerMoney: {fileID: 773628110}
   currentDamage: 10
   damageIncrease: 5
   level: 1
@@ -408,7 +405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e15027db57108e54b9ce9624d61b98f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryUpgrade
-  playerMoney: {fileID: 773628110}
   priceText: {fileID: 2046347556}
   currentLevel: 1
   basePrice: 20
@@ -626,6 +622,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab14f057caecb3147bc877cfdfcd3714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.GameManager
+  playerPrefab: {fileID: 839586600274386325, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
+  playerSpawnPoint: {fileID: 673059820}
+  gameUI:
+  - {fileID: 1396698782}
+  - {fileID: 1481487607}
+  - {fileID: 721591479}
+  - {fileID: 826858683}
+  - {fileID: 2046899358}
+  blackScene: {fileID: 1318793221}
 --- !u!1 &84426519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4310,10 +4315,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 826858683}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1697440696}
+        m_TargetAssemblyTypeName: Game.Testing.ZoneUI, Game.Testing
+        m_MethodName: OpenUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4372,6 +4377,8 @@ GameObject:
   - component: {fileID: 444388849}
   - component: {fileID: 444388851}
   - component: {fileID: 444388852}
+  - component: {fileID: 444388854}
+  - component: {fileID: 444388853}
   m_Layer: 0
   m_Name: Fish Shop
   m_TagString: Untagged
@@ -4513,6 +4520,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
   interactIcon: {fileID: 1396477325}
+--- !u!114 &444388853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444388848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d594fd311ba835f4a99417710905a35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ZoneUI
+  indexTargetUI: 2
+--- !u!114 &444388854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444388848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d594fd311ba835f4a99417710905a35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ZoneUI
+  indexTargetUI: 1
 --- !u!1001 &453580743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4846,10 +4879,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1396698782}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1242405994}
+        m_TargetAssemblyTypeName: Game.Testing.ZoneUI, Game.Testing
+        m_MethodName: OpenUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5687,7 +5720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88d63c227c4a2c42b4182d5f311e118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ShopSystem
-  playerMoney: {fileID: 773628110}
   shopPanel: {fileID: 721591479}
   moneyText: {fileID: 920098498}
   itemNameText: {fileID: 1539157291}
@@ -5831,6 +5863,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &673059819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 673059820}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: PlayerSpawnPoint
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &673059820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673059819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &676400975
 GameObject:
   m_ObjectHideFlags: 0
@@ -6212,7 +6275,7 @@ GameObject:
   - component: {fileID: 721591480}
   m_Layer: 5
   m_Name: ShopPanel UI
-  m_TagString: Untagged
+  m_TagString: ShopUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6543,126 +6606,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756871679}
   m_CullTransparentMesh: 1
---- !u!1001 &773628103
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 839586600274386325, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: rb
-      value: 
-      objectReference: {fileID: 1114316486}
-    - target: {fileID: 839586600274386325, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: audio
-      value: 
-      objectReference: {fileID: 1114316487}
-    - target: {fileID: 839586600274386325, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: playerSprite
-      value: 
-      objectReference: {fileID: 1156007803}
-    - target: {fileID: 870197470260652012, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: shootSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 34bf12988b672aa42803dfa25840372f, type: 3}
-    - target: {fileID: 870197470260652012, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: stabHitbox
-      value: 
-      objectReference: {fileID: 1285593330}
-    - target: {fileID: 2783980782925508106, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: blackScene
-      value: 
-      objectReference: {fileID: 1318793221}
-    - target: {fileID: 3920244353337492007, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8747670493676788167, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8747670493676788167, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1114316487}
-  m_SourcePrefab: {fileID: 100100000, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
---- !u!1 &773628104 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8747670493676788167, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &773628109 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &773628110 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7315970702637260282, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773628104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0ca40ebc69e40498b5b2d3ccd88c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerMoney
---- !u!114 &773628111 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2783980782925508106, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773628104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc85d89dcb9128449dc79b6ba22734d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerOxygenTube
 --- !u!1 &784359261
 GameObject:
   m_ObjectHideFlags: 0
@@ -7036,7 +6979,7 @@ GameObject:
   - component: {fileID: 826858684}
   m_Layer: 5
   m_Name: Upgrade UI
-  m_TagString: Untagged
+  m_TagString: UpgradeUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8201,10 +8144,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2046899358}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2048741280}
+        m_TargetAssemblyTypeName: Game.Testing.ZoneUI, Game.Testing
+        m_MethodName: OpenUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9440,108 +9383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cdf3a1fc598b664e89eca66dc13f9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventorySlot
---- !u!50 &1114316486 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 6074467683018909699, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1114316487
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773628104}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1116235565
 GameObject:
   m_ObjectHideFlags: 0
@@ -9815,11 +9656,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!4 &1156007803 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7459784542025724296, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1161269962
 GameObject:
   m_ObjectHideFlags: 0
@@ -10230,6 +10066,7 @@ GameObject:
   - component: {fileID: 1242405990}
   - component: {fileID: 1242405992}
   - component: {fileID: 1242405993}
+  - component: {fileID: 1242405994}
   m_Layer: 0
   m_Name: "Player\u2019s House"
   m_TagString: Untagged
@@ -10371,6 +10208,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
   interactIcon: {fileID: 493171298}
+--- !u!114 &1242405994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242405989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d594fd311ba835f4a99417710905a35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ZoneUI
+  indexTargetUI: 0
 --- !u!1001 &1270032466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10623,11 +10473,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281761786}
   m_CullTransparentMesh: 1
---- !u!1 &1285593330 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 525948967679550721, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
-  m_PrefabInstance: {fileID: 773628103}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1300742076
 GameObject:
   m_ObjectHideFlags: 0
@@ -10929,7 +10774,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b571a2cfe3ab704c93306b05fc47089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.MoneyUI
-  playerMoney: {fileID: 773628110}
   moneyText: {fileID: 379741978}
 --- !u!114 &1326040887
 MonoBehaviour:
@@ -11052,10 +10896,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 721591479}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 444388854}
+        m_TargetAssemblyTypeName: Game.Testing.ZoneUI, Game.Testing
+        m_MethodName: OpenUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11064,10 +10908,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1481487607}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 444388853}
+        m_TargetAssemblyTypeName: Game.Testing.ZoneUI, Game.Testing
+        m_MethodName: OpenUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11126,7 +10970,7 @@ GameObject:
   - component: {fileID: 1396698784}
   m_Layer: 5
   m_Name: HomePanel
-  m_TagString: Untagged
+  m_TagString: HouseUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11813,7 +11657,7 @@ GameObject:
   - component: {fileID: 1481487609}
   m_Layer: 5
   m_Name: InventoryMenu
-  m_TagString: Untagged
+  m_TagString: InventoryUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13396,7 +13240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryManager
   InventoryMenu: {fileID: 1481487607}
-  audio: {fileID: 1114316487}
+  audio: {fileID: 0}
   openInventorySound: {fileID: 8300000, guid: a8b502fe648f35144941714d70d6d152, type: 3}
   maxStackedItems: 4
   inventorySlots:
@@ -13722,6 +13566,7 @@ GameObject:
   - component: {fileID: 1697440692}
   - component: {fileID: 1697440694}
   - component: {fileID: 1697440695}
+  - component: {fileID: 1697440696}
   m_Layer: 0
   m_Name: Upgrade Shop
   m_TagString: Untagged
@@ -13863,6 +13708,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
   interactIcon: {fileID: 411367670}
+--- !u!114 &1697440696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697440691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d594fd311ba835f4a99417710905a35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ZoneUI
+  indexTargetUI: 3
 --- !u!1 &1698142231
 GameObject:
   m_ObjectHideFlags: 0
@@ -17127,7 +16985,7 @@ GameObject:
   - component: {fileID: 2046899360}
   m_Layer: 5
   m_Name: DivePanel
-  m_TagString: Untagged
+  m_TagString: DiveUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17180,6 +17038,7 @@ GameObject:
   - component: {fileID: 2048741277}
   - component: {fileID: 2048741278}
   - component: {fileID: 2048741279}
+  - component: {fileID: 2048741280}
   m_Layer: 0
   m_Name: "Player\u2019s Ship"
   m_TagString: Untagged
@@ -17334,6 +17193,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
   interactIcon: {fileID: 967744136}
+--- !u!114 &2048741280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048741274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d594fd311ba835f4a99417710905a35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.DiveZone
+  indexTargetUI: 4
 --- !u!1 &2061717588
 GameObject:
   m_ObjectHideFlags: 0
@@ -18085,7 +17957,7 @@ PrefabInstance:
     - target: {fileID: 5900582328686986835, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 773628109}
+      objectReference: {fileID: 0}
     - target: {fileID: 5910291340403103138, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.1
@@ -18139,6 +18011,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 673059820}
   - {fileID: 2048741276}
   - {fileID: 1625306778}
   - {fileID: 444388850}
@@ -18148,6 +18021,5 @@ SceneRoots:
   - {fileID: 1678483871}
   - {fileID: 74638416}
   - {fileID: 1464375031}
-  - {fileID: 773628103}
   - {fileID: 6852310717569750652}
   - {fileID: 1300742079}

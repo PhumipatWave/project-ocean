@@ -45,7 +45,9 @@ namespace Game.Testing
                     inventorySlots[i].SetLocked(true);
                 }
             } // Lock Slot +1
-            
+
+            audio = GameManager.CurPlayer.Audio;
+
         } // Start ===
 
         private void Update()
