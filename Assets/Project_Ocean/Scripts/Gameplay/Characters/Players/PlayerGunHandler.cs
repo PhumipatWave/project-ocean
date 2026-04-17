@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -49,6 +50,7 @@ namespace Game.Testing
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
 
+
         private void Start()
         {
             ammoWheel = GameObject.FindGameObjectWithTag("GameHUD").GetComponent<AmmoWheel>();
@@ -60,7 +62,6 @@ namespace Game.Testing
 
         private float HandlerGunRotation(ref int faceDir, float angle)
         {
-            // Normalize angle (-180 to 180)
             angle = Mathf.DeltaAngle(0f, angle);
 
             float clampAngle;
@@ -69,25 +70,21 @@ namespace Game.Testing
 
             if (currentlyFacingRight)
             {
-                // Only switch to LEFT if angle clearly exits the right zone
                 if (angle > 90f + switchBuffer || angle < -90f - switchBuffer)
                     faceDir = -1;
             }
             else
             {
-                // Only switch to RIGHT if angle clearly enters the right zone
                 if (angle >= -90f + switchBuffer && angle <= 90f - switchBuffer)
                     faceDir = 1;
             }
 
-            // RIGHT SIDE
             if (faceDir == 1)
             {
                 clampAngle = Mathf.Clamp(angle, -45f, 45f);
                 player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
                 gunSprite.rotation = Quaternion.Euler(0f, 0f, clampAngle);
             }
-            // LEFT SIDE
             else
             {
                 if (angle > 0)
@@ -105,13 +102,9 @@ namespace Game.Testing
         public void ResetGunRotation(int faceDir)
         {
             if (faceDir == 1)
-            {
                 gunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
-            }
             else
-            {
                 gunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
-            }
         }
 
         public void Aimming(ref int faceDir, Vector2 mousePos)
@@ -124,15 +117,10 @@ namespace Game.Testing
                     return;
                 }
 
-                // Convert screen position to world position
                 Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-                // Calculate direction vector pointing from player to mouse
                 Vector2 rawDir = (aimWorldPos - (Vector2)transform.position).normalized;
 
-                // Convert direction to radian and convert to degree for use in unity rotation
                 float angle = Mathf.Atan2(rawDir.y, rawDir.x) * Mathf.Rad2Deg;
-
                 float clamAngle = HandlerGunRotation(ref faceDir, angle);
 
                 float rad = clamAngle * Mathf.Deg2Rad;
@@ -150,9 +138,6 @@ namespace Game.Testing
 
         public void Shooting()
         {
-            /*currentBulletObj = Instantiate(bulletTypePrefab[(int)ammoWheel.currentAmmoType], firePoint.transform.position, Quaternion.identity);
-            currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);*/
-
             if (isHooked)
             {
                 currentHookObj.transform.SetParent(null);
@@ -162,14 +147,6 @@ namespace Game.Testing
 
                 canAttack = true;
                 isHooked = false;
-
-                /*var obj = Instantiate(currentHookObj, firePoint.transform.position, Quaternion.identity);
-                obj.GetComponent<Enemy>().IsPlayerBullet = true;
-                obj.GetComponent<Rigidbody2D>().linearVelocity = aimDir * 20f;
-
-                canAttack = true;
-                isHooked = false;
-                Destroy(currentHookObj);*/
             }
             else
             {
@@ -181,8 +158,12 @@ namespace Game.Testing
         public void AttachRope(GameObject target)
         {
             RopeSystemUtil.DrawNormalRope(line, FirePoint, target);
-            //RopeSystemUtil.LimitNormalRopeDistance(FirePoint, target, maxRopeLength);
             RopeSystemUtil.BreakNormalRopeLimit(FirePoint, target, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
         }
+
+
+       
+        
+
     }
 }
