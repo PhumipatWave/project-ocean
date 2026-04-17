@@ -29,7 +29,10 @@ public class FishL_Agent : MonoBehaviour
     private NavMeshAgent agent;
 
     private bool isPreparing = false;
+
     private bool isAttacking = false;
+    public bool IsAttacking { get { return isAttacking; } }
+
     private bool isFollowing = false;
 
     private float prepareTimer = 0f;

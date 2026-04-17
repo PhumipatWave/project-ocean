@@ -12,6 +12,8 @@ namespace Game.Testing
         [Header("Player Component")]
         public InputReader input;
 
+        [SerializeField] private Animator anim;
+
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
@@ -47,6 +49,8 @@ namespace Game.Testing
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            anim = GetComponentInChildren<Animator>();
+
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
             oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
 
@@ -108,6 +112,14 @@ namespace Game.Testing
         private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
+            AimAnim();
+
+            if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
+            {
+                StabAnim();
+                StartCoroutine(gunHandler.Stab());
+            }
+
             //PreventMoveOutFromWater();
         }
 
@@ -187,7 +199,26 @@ namespace Game.Testing
             }
 
             rb.linearVelocity = dir * moveSpeed;
+            MovementAnim();
             FlipSprite();
+        }
+        #endregion
+
+        #region PlayerAnimation
+        private void MovementAnim()
+        {
+            anim.SetFloat("velX", rb.linearVelocity.x);
+            anim.SetFloat("velY", rb.linearVelocity.y);
+        }
+
+        private void AimAnim()
+        {
+            anim.SetBool("isAim", gunHandler.IsAimming);
+        }
+
+        private void StabAnim()
+        {
+            anim.SetTrigger("stab");
         }
         #endregion
 

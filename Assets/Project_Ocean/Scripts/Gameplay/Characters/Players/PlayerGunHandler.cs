@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
@@ -50,6 +51,14 @@ namespace Game.Testing
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
 
+        [Header("Gun Stab")]
+        [SerializeField] private GameObject stabHitbox;
+
+        [SerializeField] private float stabActiveTime = 0.15f;
+        [SerializeField] private float stabCooldown = 0.5f;
+
+        private bool canStabAttack = true;
+        public bool CanStabAttack { get { return canStabAttack; } set { canStabAttack = value; } }
 
         private void Start()
         {
@@ -161,9 +170,19 @@ namespace Game.Testing
             RopeSystemUtil.BreakNormalRopeLimit(FirePoint, target, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
         }
 
+        public IEnumerator Stab()
+        {
+            CanStabAttack = false;
 
-       
-        
+            stabHitbox.SetActive(true);
 
+            yield return new WaitForSeconds(stabActiveTime);
+
+            stabHitbox.SetActive(false);
+
+            yield return new WaitForSeconds(stabCooldown);
+
+            CanStabAttack = true;
+        }
     }
 }
