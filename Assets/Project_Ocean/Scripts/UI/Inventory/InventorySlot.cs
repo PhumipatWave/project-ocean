@@ -8,6 +8,7 @@ namespace Game.Testing
     {
         public Image image;
         public Color SelectedColor , notSelectedColor;
+        public bool isSelected = false;
         
         // Lock Slot
         public bool isUnlocked = true;
@@ -16,6 +17,7 @@ namespace Game.Testing
         private void Awake()
         {
             Deselect();
+            image = GetComponent<Image>();
         } // Awake ===
 
         public void Select()
@@ -47,5 +49,12 @@ namespace Game.Testing
             gameObject.SetActive(!locked); // ซ่อนทั้งช่อง
             
         } // SetLocked ===
+        
+        public void OnClickSlot()
+        {
+            isSelected = !isSelected;
+
+            image.color = isSelected ? Color.yellow : Color.white;
+        }
     }
 }
