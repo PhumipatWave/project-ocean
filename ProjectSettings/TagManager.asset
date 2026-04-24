@@ -15,11 +15,12 @@ TagManager:
   - EnemyGroup
   - CollectBox
   - PlayerAttack
+  - Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
   - Rope
