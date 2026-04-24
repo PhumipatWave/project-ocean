@@ -17,6 +17,7 @@ namespace Game.Testing
         public int maxStackedItems = 4;
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
+        
 
         int selectedSlot = -1;
 

@@ -1,93 +1,93 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
+
 
 namespace Game.Testing
 {
     public class ShopSystem : MonoBehaviour
     {
+        public InventoryManager inventory;
+        public PlayerMoney playerMoney;
+
         [Header("UI")]
-        public GameObject shopPanel;
         public TMP_Text moneyText;
-        public TMP_Text itemNameText;
-        public TMP_Text itemPriceText;
-        
-        public Transform sellSlot;
+        public TMP_Text totalPriceText;
 
-        private Item selectedItem;
-        
+        public Button[] sellOneButtons;
+        private bool isSellMode = false;
 
-        void Start()
-        {
-            shopPanel.SetActive(false);
-        }
+        
+        
 
         void Update()
         {
-            if (GameManager.Instance.GameState != GameState.Land)
-                return;
+            UpdateUI();
+            
+        } // Update ===
 
-            // เปิด/ปิดร้าน
-            /*if (Input.GetKeyDown(KeyCode.B))
+        void UpdateUI()
+        {
+            moneyText.text = "Money: " + playerMoney.CurrentMoney;
+            totalPriceText.text = "Sell Total: " + CalculateTotal();
+            
+        } // UpdateUI ===
+
+        public int CalculateTotal()
+        {
+            int total = 0;
+
+            foreach (InventorySlot slot in inventory.inventorySlots)
             {
-                shopPanel.SetActive(!shopPanel.activeSelf);
-            }*/
+                ItemUI itemUI = slot.GetComponentInChildren<ItemUI>();
 
-            // อัปเดตเงิน
-            moneyText.text = "Money: " + GameManager.CurPlayer.GetComponent<PlayerMoney>().Money;
-        }
-
-        public void OpenShop()
-        {
-            shopPanel.SetActive(true);
-        }
-
-        public void CloseShop()
-        {
-            shopPanel.SetActive(false);
-        }
-
-        // เลือก Item จากร้าน
-        public void SelectItem(Item item)
-        {
-            selectedItem = item;
-
-            itemNameText.text = item.name;
-            itemPriceText.text = "Buy: " + item.buyPrice + " / Sell: " + item.sellPrice;
-        }
-
-        // 🟢 ซื้อ
-        public void Buy()
-        {
-            if (selectedItem == null) return;
-
-            if (GameManager.CurPlayer.GetComponent<PlayerMoney>().Use(selectedItem.buyPrice))
-            {
-                bool added = InventoryManager.Instance.AddItem(selectedItem);
-
-                if (!added)
+                if (itemUI != null)
                 {
-                    GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(selectedItem.buyPrice); // คืนเงิน
-                    Debug.Log("Inventory เต็ม");
+                    Item item = itemUI.itemData;
+                    total += item.sellPrice;
                 }
             }
-            else
-            {
-                Debug.Log("เงินไม่พอ");
-            }
-        } // Buy ===
 
-        // 🔴 ขาย
+            return total;
+        } // CalculateTotal ===
+
+        void Start()
+        {
+            for (int i = 0; i < sellOneButtons.Length; i++)
+            {
+                int index = i; // กัน bug index เพี้ยน
+                sellOneButtons[i].onClick.AddListener(() => SellItem(index));
+            }
+        }
+
+        void SellItem(int index)
+        {
+            Debug.Log("ขายช่องที่: " + index);
+        }
+
         public void Sell()
         {
             InventorySlot slot = GetSelectedSlot();
-            if (slot == null) return;
+            if (slot == null)
+            {
+                Debug.Log("GetSelectedSlot!!");
+                return;
+            }
 
             Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-            if (itemUI == null) return;
+            if (itemUI == null)
+            {
+                Debug.Log("No Item!!");
+                return;
+            }
 
             Item item = itemUI.item;
 
             GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(item.sellPrice);
+
+            Debug.Log($"Sell {item.name} + {item.sellPrice}");
+            
 
             itemUI.count--;
             itemUI.RefreshCount();
@@ -96,9 +96,43 @@ namespace Game.Testing
             {
                 Destroy(itemUI.gameObject);
             }
+            
         } // Sell ===
 
-        // หา slot ที่เลือก
+        public void SellAll()
+        {
+            if (!isSellMode) return;
+            
+            int total = 0;
+
+            foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
+            {
+                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
+                if (itemUI == null) continue;
+
+                total += itemUI.item.sellPrice * itemUI.count;
+
+                Destroy(itemUI.gameObject);
+            }
+
+            GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(total);
+
+            Debug.Log("Sell All: " + total);
+            
+        } // SellAll ===
+
+        public void ToggleSellMode()
+        {
+            isSellMode = !isSellMode;
+
+            foreach (Button btn in sellOneButtons)
+            {
+                btn.gameObject.SetActive(isSellMode);
+            }
+
+            Debug.Log("Sell Mode: " + isSellMode);
+        } // ToggleSellMode สลับ Mode
+
         private InventorySlot GetSelectedSlot()
         {
             foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
@@ -109,26 +143,9 @@ namespace Game.Testing
                 }
             }
             return null;
-        } // InventorySlot ===
+            
+        } // GetSelectedSlot ===
         
-        public void SellFromSlot()
-        {
-            if (sellSlot.childCount == 0)
-            {
-                Debug.Log("ไม่มีของในช่องขาย");
-                return;
-            }
-
-            Draggableltem itemUI = sellSlot.GetChild(0).GetComponent<Draggableltem>();
-            Item item = itemUI.item;
-
-            int totalPrice = item.sellPrice * itemUI.count;
-
-            GameManager.CurPlayer.GetComponent<PlayerMoney>().Add(totalPrice);
-
-            Debug.Log($"ขาย {item.name} x{itemUI.count} ได้ {totalPrice}");
-
-            Destroy(itemUI.gameObject); // ลบออกจากช่องขาย
-        } // SellFromSlot ===
-    }
-}
+    } // ShopSystem ===
+    
+} // Game.Testing ===

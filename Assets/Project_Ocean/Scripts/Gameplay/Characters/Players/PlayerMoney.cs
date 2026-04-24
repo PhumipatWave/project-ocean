@@ -21,5 +21,13 @@ namespace Game.Testing
             }
             return false;
         }
+        
+        public int CurrentMoney
+        {
+            get { return money; } // หรือชื่อตัวแปรจริงของนาย
+        }
+        
+        
+        
     }
 }
