@@ -82,20 +82,19 @@ namespace Game.Testing
         /// </summary>
         public void Simulate(List<SubRope> subRopes)
         {
-            foreach (SubRope sr in subRopes)
+            for (int s = 0; s < subRopes.Count - 1; s++)
+                FlattenToStraightLine(subRopes[s]);
+
+            SubRope active = subRopes[^1];
+            var segs = active.segs;
+
+            for (int i = 0; i < segs.Count; i++)
             {
-                var segs = sr.segs;
-
-                for (int i = 0; i < segs.Count; i++)
-                {
-                    RopeSegment s = segs[i];
-
-                    Vector2 vel = (s.pos - s.old) * damping;
-                    s.old = s.pos;
-                    s.pos += vel + gravity * Time.fixedDeltaTime;
-
-                    segs[i] = s;
-                }
+                RopeSegment seg = segs[i];
+                Vector2 vel = (seg.pos - seg.old) * damping;
+                seg.old = seg.pos;
+                seg.pos += vel + gravity * Time.fixedDeltaTime;
+                segs[i] = seg;
             }
         }
 
@@ -104,6 +103,10 @@ namespace Game.Testing
         /// </summary>
         public void Constrain(List<SubRope> subRopes)
         {
+            // Re-flatten taut ropes each frame to fight any drift
+            for (int s = 0; s < subRopes.Count - 1; s++)
+                FlattenToStraightLine(subRopes[s]);
+
             for (int iter = 0; iter < constraintIterations; iter++)
                 foreach (SubRope sr in subRopes)
                     SolveSubRope(sr);
@@ -160,13 +163,33 @@ namespace Game.Testing
             for (int s = 0; s < subRopes.Count; s++)
             {
                 var segs = subRopes[s].segs;
-                int startIdx = s == 0 ? 0 : 1; // skip shared pin on sub-rope joins
+                int startIdx = s == 0 ? 0 : 1;
 
                 for (int i = startIdx; i < segs.Count - 1; i++)
                     length += Vector2.Distance(segs[i].pos, segs[i + 1].pos);
             }
 
             return length;
+        }
+
+        /// <summary>
+        /// Redistributes segment positions along a straight line from pinStart to pinEnd.
+        /// This makes wrapped sub-ropes visually taut and stops them from sagging.
+        /// </summary>
+        private void FlattenToStraightLine(SubRope sr)
+        {
+            int count = sr.segs.Count;
+            if (count < 2) return;
+
+            for (int i = 0; i < count; i++)
+            {
+                float t = (float)i / (count - 1);
+                Vector2 p = Vector2.Lerp(sr.pinStart, sr.pinEnd, t);
+                RopeSegment seg = sr.segs[i];
+                seg.pos = p;
+                seg.old = p; // Zero out velocity so it won't drift when it becomes active again
+                sr.segs[i] = seg;
+            }
         }
 
         /// <summary>
