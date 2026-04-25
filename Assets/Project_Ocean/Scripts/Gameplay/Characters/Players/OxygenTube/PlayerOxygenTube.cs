@@ -145,10 +145,11 @@ namespace Game.Testing
             subRopes.Clear();
             cooldown = 0;
             currentLength = 0f;
-            subRopes.Add(new SubRope(startPoint.transform.position, endPoint.position));
 
-            // Destroy all checkpoint markers
             checkpoint.ClearAll();
+            Rebuild();
+
+            ropeVisual.Draw(subRopes);
 
             GameManager.Instance.ReturnToLand();
         }
