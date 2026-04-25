@@ -554,11 +554,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   rb: {fileID: 0}
+  anim: {fileID: 0}
+  fishL_Agent: {fileID: 0}
   player: {fileID: 0}
   currentHealth: 0
   moveSpeed: 5
   isDeath: 0
-  dropItem: {fileID: 11400000, guid: ccb0f12b7d2593248aae4d9c942bb463, type: 2}
+  isHasAnim: 0
+  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
   isBullet: 0
 --- !u!114 &5434500675454789899
 MonoBehaviour:

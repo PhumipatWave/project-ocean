@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class InventorySlot : MonoBehaviour,IDropHandler
+    public class InventorySlot : MonoBehaviour,IDropHandler, IPointerClickHandler
     {
         public Image image;
         public Color SelectedColor , notSelectedColor;
@@ -13,12 +13,16 @@ namespace Game.Testing
         // Lock Slot
         public bool isUnlocked = true;
 
-
-        private void Awake()
+        public void OnPointerClick(PointerEventData eventData)
         {
-            Deselect();
-            image = GetComponent<Image>();
-        } // Awake ===
+            // สั่งให้ InventoryManager เปลี่ยนมาเลือกช่องนี้
+            // โดยการ Deselect ช่องอื่นทั้งหมดก่อน แล้วค่อย Select ช่องนี้
+            foreach (var slot in InventoryManager.Instance.inventorySlots)
+            {
+                slot.Deselect();
+            }
+            Select();
+        }
 
         public void Select()
         {
@@ -28,8 +32,19 @@ namespace Game.Testing
         public void Deselect()
         {
             image.color = notSelectedColor;
-            
+
         } // Deselect ===
+
+        private void Awake()
+        {
+            Deselect();
+            image = GetComponent<Image>();
+
+            // เพิ่มบรรทัดนี้เพื่อให้มันซ่อนตัวเองตามสถานะเริ่มต้นที่ตั้งไว้ใน Inspector
+            gameObject.SetActive(isUnlocked);
+        } // Awake ===
+
+        
         
         public void OnDrop(PointerEventData eventData)
         {
@@ -49,12 +64,14 @@ namespace Game.Testing
             gameObject.SetActive(!locked); // ซ่อนทั้งช่อง
             
         } // SetLocked ===
-        
-        public void OnClickSlot()
+
+        /*public void OnClickSlot()
         {
             isSelected = !isSelected;
 
             image.color = isSelected ? Color.yellow : Color.white;
-        }
+        }*/
+
+        
     }
 }

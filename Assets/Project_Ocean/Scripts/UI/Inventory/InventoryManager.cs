@@ -17,8 +17,9 @@ namespace Game.Testing
         public int maxStackedItems = 4;
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
-        
 
+
+        
         int selectedSlot = -1;
 
         public static InventoryManager Instance { get; private set; }
@@ -43,7 +44,7 @@ namespace Game.Testing
             {
                 if (i >= startSlot)
                 {
-                    inventorySlots[i].SetLocked(true);
+                    inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
             } // Lock Slot +1
 
