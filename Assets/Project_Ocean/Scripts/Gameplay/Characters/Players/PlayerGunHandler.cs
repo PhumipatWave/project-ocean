@@ -18,7 +18,7 @@ namespace Game.Testing
         [SerializeField] private LineRenderer line;
         public LineRenderer Line { get { return line; } }
 
-        [SerializeField] private RopeData ropeData;
+        [SerializeField] private RopeStructureData ropeData;
 
         [SerializeField] private float currentRopeLength;
         [SerializeField] private float pullBackForce = 5f;
