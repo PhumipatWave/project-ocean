@@ -6,12 +6,19 @@ namespace Game.Testing
 {
     public class MoneyUI : MonoBehaviour
     {
-        public PlayerMoney playerMoney;
-            public TMP_Text moneyText;
+        public TMP_Text moneyText;
         
-            void Update()
+        void Update()
+        {
+            if (GameManager.CurPlayer != null)
             {
-                moneyText.text = "Money: " + playerMoney.money;
+                PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+                if (pm != null && moneyText != null)
+                {
+                    // ใช้ .Money หรือ .CurrentMoney ตามที่นิยามไว้ใน PlayerMoney.cs
+                    moneyText.text = "Money: " + pm.Money;
+                }
             }
+        }
     }
 }

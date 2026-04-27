@@ -5,9 +5,6 @@ namespace Game.Testing
 {
     public class InventoryUpgrade : MonoBehaviour
     {
-        public InventoryManager inventory;
-        public PlayerMoney playerMoney;
-
         [Header("UI")]
         public TMP_Text priceText;
         
@@ -30,13 +27,13 @@ namespace Game.Testing
         {
             int price = GetPrice();
 
-            if (!playerMoney.Use(price))
+            if (!GameManager.CurPlayer.GetComponent<PlayerMoney>().Use(price))
             {
                 Debug.Log("No Money to Upgrade!!");
                 return;
             }
 
-            inventory.UnlockNextSlot();
+            InventoryManager.Instance.UnlockNextSlot();
             currentLevel++;
 
             Debug.Log("Unlocked Slot !!!");
