@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
@@ -11,11 +12,13 @@ namespace Game.Testing
         [SerializeField] private AmmoWheel ammoWheel;
         [SerializeField] private Player player;
 
+        [SerializeField] private AudioClip shootSound;
+
         [Header("Rope System")]
         [SerializeField] private LineRenderer line;
         public LineRenderer Line { get { return line; } }
 
-        [SerializeField] private RopeData ropeData;
+        [SerializeField] private RopeStructureData ropeData;
 
         [SerializeField] private float currentRopeLength;
         [SerializeField] private float pullBackForce = 5f;
@@ -50,6 +53,14 @@ namespace Game.Testing
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
 
+        [Header("Gun Stab")]
+        [SerializeField] private GameObject stabHitbox;
+
+        [SerializeField] private float stabActiveTime = 0.15f;
+        [SerializeField] private float stabCooldown = 0.5f;
+
+        private bool canStabAttack = true;
+        public bool CanStabAttack { get { return canStabAttack; } set { canStabAttack = value; } }
 
         private void Start()
         {
@@ -82,7 +93,7 @@ namespace Game.Testing
             if (faceDir == 1)
             {
                 clampAngle = Mathf.Clamp(angle, -45f, 45f);
-                player.PlayerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                player.PlayerSprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 gunSprite.rotation = Quaternion.Euler(0f, 0f, clampAngle);
             }
             else
@@ -92,7 +103,7 @@ namespace Game.Testing
                 else
                     clampAngle = Mathf.Clamp(angle, -180f, -135f);
 
-                player.PlayerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                player.PlayerSprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 gunSprite.rotation = Quaternion.Euler(0f, 180f, clampAngle);
             }
 
@@ -150,6 +161,8 @@ namespace Game.Testing
             }
             else
             {
+                player.Audio.PlayOneShot(shootSound);
+
                 currentBulletObj = Instantiate(bulletTypePrefab[(int)ammoWheel.currentAmmoType], firePoint.transform.position, Quaternion.identity);
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
@@ -161,9 +174,19 @@ namespace Game.Testing
             RopeSystemUtil.BreakNormalRopeLimit(FirePoint, target, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
         }
 
+        public IEnumerator Stab()
+        {
+            CanStabAttack = false;
 
-       
-        
+            stabHitbox.SetActive(true);
 
+            yield return new WaitForSeconds(stabActiveTime);
+
+            stabHitbox.SetActive(false);
+
+            yield return new WaitForSeconds(stabCooldown);
+
+            CanStabAttack = true;
+        }
     }
 }

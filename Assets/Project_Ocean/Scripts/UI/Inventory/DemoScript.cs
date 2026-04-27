@@ -4,12 +4,11 @@ namespace Game.Testing
 {
     public class DemoScript : MonoBehaviour
     {
-        public InventoryManager inventoryManager;
         public Item[] itemsToPickUp;
 
         public void PickUpItem(int id)
         {
-            bool result =  inventoryManager.AddItem(itemsToPickUp[id]);
+            bool result = InventoryManager.Instance.AddItem(itemsToPickUp[id]);
             if (result == true)
             {
                 Debug.Log("Picked up item");
@@ -22,7 +21,7 @@ namespace Game.Testing
 
         public void GetSelectedItem()
         {
-            Item receivedItem = inventoryManager.GetSelectedItem();
+            Item receivedItem = InventoryManager.Instance.GetSelectedItem();
             if (receivedItem != null)
             {
                 Debug.Log("Received selected item" + receivedItem);

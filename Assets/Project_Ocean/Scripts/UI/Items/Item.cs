@@ -4,14 +4,15 @@ using UnityEngine.Tilemaps;
 
 namespace Game.Testing
 {
+    [System.Serializable]
     [CreateAssetMenu(fileName = "New Item", menuName = "Object/Item")]
     public class Item : ScriptableObject
     {
         [Header("Only gameplay")]
+        public string itemID;
         public  TileBase tile;
-        public ItemType type;
-        public ActionType actionType;
-        public Vector2Int range = new Vector2Int(5, 4);
+        public ItemType itemType;
+        public GameObject itemPrefab;
         
         [Header("Only UI")]
         public bool stackable = true;
@@ -22,24 +23,14 @@ namespace Game.Testing
         [Header("Shop")]
         public int buyPrice = 10;
         public int sellPrice = 5;
-        
-        
     }
-
 
     public enum ItemType
     {
-        BuildingBlock,
-        Boom,
-        Item,
-        Tool
+        Normal,
+        Quest,
+        Consumable,
+        Building,
+        Ammo,
     }
-
-    public enum ActionType
-    {
-        Dig,
-        Mine
-    }
-    
-    
 }
