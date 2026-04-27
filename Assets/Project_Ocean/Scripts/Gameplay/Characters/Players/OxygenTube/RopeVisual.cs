@@ -20,21 +20,37 @@ namespace Game.Testing
         /// </summary>
         public void Draw(List<SubRope> subRopes)
         {
-            int total = 0;
-            for (int s = 0; s < subRopes.Count; s++)
-                total += s == 0 ? subRopes[s].segs.Count : subRopes[s].segs.Count - 1;
+            if (subRopes == null || subRopes.Count == 0)
+            {
+                line.positionCount = 0;
+                return;
+            }
+            int tautCount = subRopes.Count - 1;
+            SubRope active = subRopes[^1];
 
+            if (active.segs.Count < 2)
+            {
+                line.positionCount = 0;
+                return;
+            }
+
+            int total = 1 + tautCount + (active.segs.Count - 1);
             line.positionCount = total;
 
             int idx = 0;
-            for (int s = 0; s < subRopes.Count; s++)
-            {
-                var segs = subRopes[s].segs;
-                int startIdx = s == 0 ? 0 : 1;
 
-                for (int i = startIdx; i < segs.Count; i++)
-                    line.SetPosition(idx++, segs[i].pos);
+            for (int s = 0; s < tautCount; s++)
+            {
+                if (s == 0)
+                    line.SetPosition(idx++, subRopes[s].pinStart);
+
+                line.SetPosition(idx++, subRopes[s].pinEnd);
             }
+
+            int segStart = tautCount > 0 ? 1 : 0;
+
+            for (int i = segStart; i < active.segs.Count; i++)
+                line.SetPosition(idx++, active.segs[i].pos);
         }
     }
 }
