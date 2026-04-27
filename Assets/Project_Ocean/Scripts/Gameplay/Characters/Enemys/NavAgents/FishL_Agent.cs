@@ -7,6 +7,9 @@ public class FishL_Agent : MonoBehaviour
     [Header("Target")]
     [SerializeField] private Enemy enemy;
 
+    [Header("Alert UI")]
+    [SerializeField] private FishAlertUI fishAlertUI;
+
     [Header("Movement")]
     [SerializeField] private float speed = 2f;
     [SerializeField] private float boostSpeed = 7f;
@@ -92,18 +95,31 @@ public class FishL_Agent : MonoBehaviour
         if (enemy != null && enemy.Player != null)
             lastKnownPlayerPosition = enemy.Player.transform.position;
 
+        if (fishAlertUI != null)
+            fishAlertUI.HideAll();
+
         wanderTimer = wanderChangeInterval;
         PickNewWanderPoint();
     }
 
     private void Update()
     {
-        if (enemy == null || enemy.Player == null || enemy.IsDeath) return;
+        if (enemy == null || enemy.Player == null || enemy.IsDeath)
+        {
+            if (fishAlertUI != null)
+                fishAlertUI.HideAll();
+
+            return;
+        }
+
         if (agent == null || !agent.isOnNavMesh) return;
 
         float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
         bool canSeePlayer = CanSeePlayer(dist);
         bool alertedByHit = hitChaseTimer > 0f;
+
+        if (fishAlertUI != null)
+            fishAlertUI.SetSeeingPlayer(canSeePlayer);
 
         if (hitChaseTimer > 0f)
             hitChaseTimer -= Time.deltaTime;
@@ -128,6 +144,9 @@ public class FishL_Agent : MonoBehaviour
         if (!isPreparing && !isAttacking && !canSeePlayer && !alertedByHit && isFollowing && followTimer <= 0f)
         {
             isFollowing = false;
+
+            if (fishAlertUI != null)
+                fishAlertUI.HideAttackWarning();
         }
 
         if (!isPreparing && !isAttacking && (canSeePlayer || alertedByHit) && attackTimer > 0f)
@@ -154,6 +173,9 @@ public class FishL_Agent : MonoBehaviour
         isFollowing = false;
         prepareTimer = prepareTime;
         agent.isStopped = true;
+
+        if (fishAlertUI != null)
+            fishAlertUI.ShowAttackWarning();
     }
 
     private void Prepare()
@@ -188,6 +210,10 @@ public class FishL_Agent : MonoBehaviour
             isAttacking = false;
             isFollowing = true;
             followTimer = followAfterLost;
+
+            if (fishAlertUI != null)
+                fishAlertUI.HideAttackWarning();
+
             return;
         }
 
@@ -205,9 +231,7 @@ public class FishL_Agent : MonoBehaviour
         bool success = SetSafeDestination(target);
 
         if (!success)
-        {
             success = SetSafeDestinationNearPlayer(enemy.Player.transform.position);
-        }
 
         if (!success)
         {
@@ -225,6 +249,9 @@ public class FishL_Agent : MonoBehaviour
             isAttacking = false;
             isFollowing = true;
             followTimer = followAfterLost;
+
+            if (fishAlertUI != null)
+                fishAlertUI.HideAttackWarning();
         }
     }
 
@@ -233,6 +260,9 @@ public class FishL_Agent : MonoBehaviour
         isAttacking = false;
         attackTimer = attackCooldown;
         agent.speed = speed;
+
+        if (fishAlertUI != null)
+            fishAlertUI.HideAttackWarning();
     }
 
     private void Follow()
@@ -242,9 +272,7 @@ public class FishL_Agent : MonoBehaviour
         bool success = SetSafeDestination(lastKnownPlayerPosition);
 
         if (!success)
-        {
             success = SetSafeDestinationNearPlayer(lastKnownPlayerPosition);
-        }
 
         if (!success)
         {
@@ -257,12 +285,18 @@ public class FishL_Agent : MonoBehaviour
         if (distToLastKnown < 0.5f && followTimer <= 0f && hitChaseTimer <= 0f)
         {
             isFollowing = false;
+
+            if (fishAlertUI != null)
+                fishAlertUI.HideAttackWarning();
         }
     }
 
     private void Wander()
     {
         agent.speed = speed;
+
+        if (fishAlertUI != null)
+            fishAlertUI.HideAttackWarning();
 
         wanderTimer -= Time.deltaTime;
 
@@ -374,12 +408,7 @@ public class FishL_Agent : MonoBehaviour
 
     private bool CanFishFitAt(Vector3 point)
     {
-        Collider2D hit = Physics2D.OverlapCircle(
-            point,
-            fishClearanceRadius,
-            wallLayer
-        );
-
+        Collider2D hit = Physics2D.OverlapCircle(point, fishClearanceRadius, wallLayer);
         return hit == null;
     }
 
@@ -407,12 +436,7 @@ public class FishL_Agent : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, enemy.Player.transform.position);
 
-        RaycastHit2D hit = Physics2D.Raycast(
-            transform.position,
-            toPlayer,
-            distanceToPlayer,
-            wallLayer
-        );
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer, distanceToPlayer, wallLayer);
 
         if (hit.collider != null)
             return false;
@@ -474,9 +498,7 @@ public class FishL_Agent : MonoBehaviour
             return;
 
         if (agent.velocity.sqrMagnitude > 0.01f)
-        {
             RotateTowards(agent.velocity.normalized);
-        }
     }
 
     private bool RotateTowards(Vector2 dir)
@@ -490,13 +512,9 @@ public class FishL_Agent : MonoBehaviour
         bool wantsFaceRight = facingRight;
 
         if (dir.x > flipDeadZone)
-        {
             wantsFaceRight = true;
-        }
         else if (dir.x < -flipDeadZone)
-        {
             wantsFaceRight = false;
-        }
 
         if (wantsFaceRight != facingRight)
         {
@@ -606,13 +624,9 @@ public class FishL_Agent : MonoBehaviour
             return;
 
         if (attacker != null)
-        {
             lastKnownPlayerPosition = attacker.position;
-        }
         else if (enemy != null && enemy.Player != null)
-        {
             lastKnownPlayerPosition = enemy.Player.transform.position;
-        }
         else
         {
             Debug.LogWarning("Fish was hit, but no player transform found.");
@@ -626,6 +640,9 @@ public class FishL_Agent : MonoBehaviour
         isPreparing = false;
         isAttacking = false;
         isFollowing = true;
+
+        if (fishAlertUI != null)
+            fishAlertUI.ShowAttackWarning();
 
         if (agent != null && agent.isOnNavMesh)
         {

@@ -1493,12 +1493,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &39612982
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4858,12 +4873,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &125176410
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5776,12 +5806,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &146526145
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7831,12 +7876,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &218866930
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9498,6 +9558,97 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: a98c17ec
+--- !u!1 &258317742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 258317744}
+  - component: {fileID: 258317743}
+  m_Layer: 0
+  m_Name: InteractExclamation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &258317743
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258317742}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 431090777
+  m_SortingLayer: 1
+  m_SortingOrder: 4
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 2807bdc13ab804a4db5b06b30f6c85a4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &258317744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258317742}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.72, y: -128.05, z: 0}
+  m_LocalScale: {x: 6.08, y: 6.08, z: 6.08}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &268864737
 GameObject:
   m_ObjectHideFlags: 0
@@ -11560,6 +11711,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335258634}
   m_CullTransparentMesh: 1
+--- !u!1 &336999383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 336999385}
+  - component: {fileID: 336999384}
+  m_Layer: 0
+  m_Name: InteractExclamation2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &336999384
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336999383}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 431090777
+  m_SortingLayer: 1
+  m_SortingOrder: 4
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: e4acf8e919294594c873c5c1603af808, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!4 &336999385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336999383}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.249409, w: 0.9683983}
+  m_LocalPosition: {x: 0.96472526, y: 0.2579574, z: 0}
+  m_LocalScale: {x: 1.0212734, y: 1.0212734, z: 1.0212733}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1795147376}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.885}
 --- !u!1 &342771911
 GameObject:
   m_ObjectHideFlags: 0
@@ -16812,6 +17054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
+  fishAlertUI: {fileID: 0}
   speed: 2
   boostSpeed: 7
   turnSmoothTime: 0.25
@@ -19528,13 +19771,13 @@ MonoBehaviour:
   keepAlertIconUpright: 1
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   fishClearanceRadius: 0.8
   wallCheckDistance: 0.8
   maxWanderSampleTries: 20
   wanderRadius: 3
   wanderChangeInterval: 2
-  detectDistance: 3
+  detectDistance: 22.37
   attackRange: 1.5
   prepareTime: 0.5
   attackCooldown: 0.3
@@ -23309,12 +23552,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &674999580
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23837,12 +24095,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &683109734
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24763,12 +25036,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &715284161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -26205,7 +26493,7 @@ Transform:
   m_GameObject: {fileID: 753941777}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50.18177, y: 320.91156, z: 0}
+  m_LocalPosition: {x: -2, y: 194.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -26551,12 +26839,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 4185178759584980633, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5163963638166007297, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 459533597}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1377102414}
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1377102405}
@@ -26566,6 +26858,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1377102407}
+    - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1377102413}
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1377102406}
@@ -27776,12 +28071,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &790939307
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29602,7 +29912,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854292211}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
@@ -29660,6 +29970,31 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+--- !u!114 &854292221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854292211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dc604fb3f104545be7c89ffd9fbadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::FishS_Agent
+  speed: 2
+  turnSpeed: 5
+  groupRadius: 3
+  separationDistance: 5
+  neighbors: []
+  viewDistance: 7.5
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &857278186 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
@@ -30917,12 +31252,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
-  wanderRadius: 4
-  wanderChangeInterval: 4
+  wanderRadius: 8
+  wanderChangeInterval: 6
+  wallDetectDistance: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  viewDistance: 20.1
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &888927238
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -33032,12 +33382,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &939826991
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -34683,7 +35048,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970588243}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
@@ -34741,6 +35106,43 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+--- !u!114 &970588253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970588243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c3f946817194948bee9d045b799382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.FishS_Agent
+--- !u!114 &970588254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970588243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dc604fb3f104545be7c89ffd9fbadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::FishS_Agent
+  speed: 2
+  turnSpeed: 5
+  groupRadius: 3
+  separationDistance: 5
+  neighbors: []
+  viewDistance: 7.5
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &972424425
 GameObject:
   m_ObjectHideFlags: 0
@@ -35171,12 +35573,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &975051004
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -40282,7 +40699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1107441393
 Transform:
   m_ObjectHideFlags: 0
@@ -44307,12 +44724,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1224848702
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47708,12 +48140,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1315979294
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48401,12 +48848,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1338397141
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49223,6 +49685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
+  fishAlertUI: {fileID: 0}
   speed: 2
   boostSpeed: 7
   turnSmoothTime: 0.25
@@ -49902,12 +50365,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 4185178759584980633, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5163963638166007297, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 152164989}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 970588254}
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 970588245}
@@ -49917,6 +50384,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 970588247}
+    - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 970588253}
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 970588246}
@@ -51111,7 +51581,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377102403}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
@@ -51169,6 +51639,43 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+--- !u!114 &1377102413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377102403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c3f946817194948bee9d045b799382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.FishS_Agent
+--- !u!114 &1377102414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377102403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66dc604fb3f104545be7c89ffd9fbadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::FishS_Agent
+  speed: 2
+  turnSpeed: 5
+  groupRadius: 3
+  separationDistance: 5
+  neighbors: []
+  viewDistance: 7.5
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1379838778
 GameObject:
   m_ObjectHideFlags: 0
@@ -52781,7 +53288,7 @@ MonoBehaviour:
   maxWanderSampleTries: 20
   wanderRadius: 3
   wanderChangeInterval: 2
-  detectDistance: 3
+  detectDistance: 13.3
   attackRange: 1.5
   prepareTime: 0.5
   attackCooldown: 0.3
@@ -55731,12 +56238,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1512509619
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -62341,7 +62863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1699186961
 Transform:
   m_ObjectHideFlags: 0
@@ -65944,6 +66466,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 505659103}
+  - {fileID: 336999385}
   m_Father: {fileID: 2037385624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -67515,12 +68038,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1837902688
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -69234,12 +69772,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
+    - {fileID: 4185178759584980633, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5163963638166007297, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 731235445}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 854292221}
     - targetCorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 854292213}
@@ -70553,12 +71095,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &1918286901
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -75096,6 +75653,7 @@ GameObject:
   - component: {fileID: 2037385624}
   - component: {fileID: 2037385623}
   - component: {fileID: 2037385622}
+  - component: {fileID: 2037385627}
   - component: {fileID: 2037385625}
   - component: {fileID: 2037385621}
   - component: {fileID: 2037385620}
@@ -75168,15 +75726,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
+  fishAlertUI: {fileID: 2037385627}
   speed: 5
-  boostSpeed: 30
+  boostSpeed: 50
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
   flipDelay: 0.4
   flipCooldown: 0
   spriteAngleOffset: 0
-  attackAngleThreshold: 15
+  attackAngleThreshold: 45
   viewAngle: 90
   wallLayer:
     serializedVersion: 2
@@ -75188,8 +75747,8 @@ MonoBehaviour:
   wanderChangeInterval: 15
   detectDistance: 25
   attackRange: 3
-  prepareTime: 2
-  attackCooldown: 3
+  prepareTime: 1.5
+  attackCooldown: 2
   followAfterLost: 6
   hitChaseDuration: 5
   chasePlayerWhenHit: 1
@@ -75292,7 +75851,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037385618}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -75311,6 +75870,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2037385627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037385618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491d60e7bd2f4674c952d08af5ac7a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::FishAlertUI
+  seenPlayerAlertImage: {fileID: 336999383}
+  attackWarningImage: {fileID: 336999383}
 --- !u!1001 &2044925306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76507,7 +77080,7 @@ MonoBehaviour:
   maxWanderSampleTries: 20
   wanderRadius: 3
   wanderChangeInterval: 2
-  detectDistance: 3
+  detectDistance: 13.3
   attackRange: 1.5
   prepareTime: 0.5
   attackCooldown: 0.3
@@ -77986,12 +78559,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &2109570195
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78602,12 +79190,27 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 10
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
   wanderRadius: 4
   wanderChangeInterval: 4
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  viewDistance: 6
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!61 &2121755765
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -79642,3 +80245,4 @@ SceneRoots:
   - {fileID: 1349127759}
   - {fileID: 1278085162}
   - {fileID: 2572476174631974810}
+  - {fileID: 258317744}
