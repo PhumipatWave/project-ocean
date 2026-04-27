@@ -10,15 +10,7 @@ namespace Game.Testing
         
         void Update()
         {
-            if (GameManager.CurPlayer != null)
-            {
-                PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-                if (pm != null && moneyText != null)
-                {
-                    // ใช้ .Money หรือ .CurrentMoney ตามที่นิยามไว้ใน PlayerMoney.cs
-                    moneyText.text = "Money: " + pm.Money;
-                }
-            }
+            moneyText.text = "Money: " + GameManager.CurPlayer.GetComponent<PlayerMoney>().Money;
         }
     }
 }
