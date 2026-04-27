@@ -24,10 +24,6 @@ namespace Game.Testing
         public int buyPrice = 10;
         public int sellPrice = 5;
 
-        public string itemName;
-        public int amount;
-        public int price;
-
 
     }
 
@@ -38,7 +34,8 @@ namespace Game.Testing
         FishSizeM,
         FishSizeL,
         Item,
-        Tool
+        Tool,
+        Ammo 
     }
 
     public enum ActionType
