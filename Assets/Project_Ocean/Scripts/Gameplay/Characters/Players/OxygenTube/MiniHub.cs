@@ -11,18 +11,22 @@ namespace Game.Testing
             public GameObject obj;
         }
 
-        private List<HubEntry> hubs = new();
+        private HubEntry hub;
         private GameObject hubPrefab;
 
-        public int Count => hubs.Count;
+        public bool HasHub => hub != null;
 
-        public List<Vector2> HubPositions
+        public Vector2 HubPosition
         {
             get
             {
-                List<Vector2> list = new();
-                foreach (var h in hubs) list.Add(h.pos);
-                return list;
+                if (hub == null)
+                {
+                    Debug.LogWarning("[MiniHub] No hub exists.");
+                    return Vector2.zero;
+                }
+
+                return hub.pos;
             }
         }
 
@@ -33,14 +37,11 @@ namespace Game.Testing
 
         public void RegisterHub(Vector2 pos)
         {
-            // Prevent duplicates
-            foreach (var h in hubs)
+            // If already has hub → replace it
+            if (hub != null)
             {
-                if (Vector2.Distance(h.pos, pos) < 0.1f)
-                {
-                    Debug.Log("[MiniHub] Hub already exists.");
-                    return;
-                }
+                Debug.Log("[MiniHub] Already has.");
+                return;
             }
 
             GameObject obj = null;
@@ -51,64 +52,38 @@ namespace Game.Testing
             }
             else
             {
-                Debug.LogWarning("[MiniHub] No prefab assigned!");
+                Debug.Log("[MiniHub] No prefab assigned!");
             }
 
-            hubs.Add(new HubEntry
+            hub = new HubEntry
             {
                 pos = pos,
                 obj = obj
-            });
+            };
 
-            Debug.Log($"[MiniHub] Created Hub #{hubs.Count} at {pos}");
+            Debug.Log($"[MiniHub] Created at {pos}");
         }
 
-        public bool HasHubs() => hubs.Count > 0;
-
-        public Vector2 GetHub(int index)
+        public Vector2 GetHub()
         {
-            if (index < 0 || index >= hubs.Count)
+            if (hub == null)
             {
-                Debug.LogWarning("[MiniHub] Invalid index");
+                Debug.LogWarning("[MiniHub] No hub exists.");
                 return Vector2.zero;
             }
 
-            return hubs[index].pos;
+            return hub.pos;
         }
 
-        public void DebugList(bool hasCheckpoint)
+        public void Clear()
         {
-            Debug.Log("=== TELEPORT OPTIONS ===");
-
-            if (hubs.Count > 0)
+            if (hub != null && hub.obj != null)
             {
-                Debug.Log("[Mini Hubs]");
-                for (int i = 0; i < hubs.Count; i++)
-                {
-                    Debug.Log($"{i}: {hubs[i].pos}");
-                }
-            }
-            else
-            {
-                Debug.Log("[Mini Hubs] None");
+                Object.Destroy(hub.obj);
             }
 
-            if (hasCheckpoint)
-                Debug.Log("[Checkpoint] Last available");
-            else
-                Debug.Log("[Checkpoint] None");
-        }
-
-        public void ClearAll()
-        {
-            foreach (var h in hubs)
-            {
-                if (h.obj != null)
-                    Object.Destroy(h.obj);
-            }
-
-            hubs.Clear();
-            Debug.Log("[MiniHub] Cleared all hubs.");
+            hub = null;
+            Debug.Log("[MiniHub] Cleared.");
         }
     }
 }

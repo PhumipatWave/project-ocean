@@ -2,7 +2,6 @@ using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace Game.Testing
 {
     public class InventoryManager : MonoBehaviour
@@ -52,8 +51,8 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (GameManager.Instance.GameState != GameState.Ocean)
-                return;
+            //if (GameManager.Instance.GameState != GameState.Ocean)
+            //    return;
 
             if (Input.GetButtonDown("Inventory") && menuActivetad)
             {
@@ -165,6 +164,23 @@ namespace Game.Testing
             
         } // SpawnNewItem ===
 
+        public Item FindItem(ItemType checkType, string checkID)
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null &&
+                    itemInSlot.item.itemType == checkType &&
+                    itemInSlot.item.itemID == checkID)
+                {
+                    return itemInSlot.item;
+                }
+            }
+
+            return null;
+        }
+
         public Item GetSelectedItem()
         {
             InventorySlot slot = inventorySlots[selectedSlot];
@@ -176,7 +192,33 @@ namespace Game.Testing
             return null;
             
         } // GetSelectedItem ===
-        
+
+        public bool ConsumeItem(ItemType checkType, out Item foundItem)
+        {
+            foundItem = null;
+
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null && itemInSlot.item.itemType == checkType)
+                {
+                    foundItem = itemInSlot.item;
+
+                    itemInSlot.count--;
+
+                    if (itemInSlot.count <= 0)
+                        Destroy(itemInSlot.gameObject);
+                    else
+                        itemInSlot.RefreshCount();
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void UnlockNextSlot()
         {
             for (int i = 0; i < inventorySlots.Length; i++)
@@ -193,6 +235,4 @@ namespace Game.Testing
 
         
     } // InventoryManager ===
-    
-    
 }
