@@ -20,15 +20,7 @@ namespace Game.Testing
         #endregion
 
         // Constructor
-        public RopePhysic(
-            float segmentLength,
-            int constraintIterations,
-            Vector2 gravity,
-            float damping,
-            LayerMask collisionMask,
-            float collisionRadius,
-            float friction,
-            float removeAngle)
+        public RopePhysic(float segmentLength, int constraintIterations, Vector2 gravity, float damping, LayerMask collisionMask, float collisionRadius, float friction, float removeAngle)
         {
             this.segmentLength = segmentLength;
             this.constraintIterations = constraintIterations;

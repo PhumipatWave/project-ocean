@@ -71,10 +71,7 @@ namespace Game.Testing
         /// Teleports the endpoint to the last checkpoint and restores the rope to that state.
         /// Returns the new cooldown value (0 after teleport).
         /// </summary>
-        public int TeleportToLast(
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint)
+        public int TeleportToLast(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint)
         {
             if (checkpoints.Count == 0) return 0;
 
