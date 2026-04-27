@@ -23496,16 +23496,6 @@ CompositeCollider2D:
         Y: 401998784
       - X: -809469312
         Y: 301998752
-  - m_Collider: {fileID: 618246523}
-    m_ColliderPaths:
-    - - X: -493469216
-        Y: 242498816
-      - X: -493469216
-        Y: 302498848
-      - X: -693469248
-        Y: 302498816
-      - X: -693469248
-        Y: 242498800
   - m_Collider: {fileID: 1104941763}
     m_ColliderPaths:
     - - X: -293569216
@@ -23516,6 +23506,16 @@ CompositeCollider2D:
         Y: 272398784
       - X: -293569216
         Y: 272398784
+  - m_Collider: {fileID: 618246523}
+    m_ColliderPaths:
+    - - X: -493469216
+        Y: 242498816
+      - X: -493469216
+        Y: 302498848
+      - X: -693469248
+        Y: 302498816
+      - X: -693469248
+        Y: 242498800
   m_CompositePaths:
     m_Paths:
     - - {x: -69.346924, y: 24.249908}
@@ -23999,7 +23999,6 @@ GameObject:
   - component: {fileID: 618246521}
   - component: {fileID: 618246523}
   - component: {fileID: 618246524}
-  - component: {fileID: 618246525}
   m_Layer: 0
   m_Name: Stone_wall (21)
   m_TagString: Untagged
@@ -24143,23 +24142,6 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
---- !u!114 &618246525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618246520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
-  m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
-  m_Area: 1
-  m_AffectedAgents: a98c17ec
 --- !u!1 &619534838
 GameObject:
   m_ObjectHideFlags: 0
@@ -27826,7 +27808,6 @@ GameObject:
   - component: {fileID: 720601759}
   - component: {fileID: 720601761}
   - component: {fileID: 720601762}
-  - component: {fileID: 720601763}
   m_Layer: 0
   m_Name: Stone_wall (20)
   m_TagString: Untagged
@@ -27970,23 +27951,6 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
---- !u!114 &720601763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 720601758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
-  m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
-  m_Area: 1
-  m_AffectedAgents: a98c17ec
 --- !u!1 &723305813
 GameObject:
   m_ObjectHideFlags: 0
@@ -28051,7 +28015,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 830d122dee7a45143aa1f89a42276ed8, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 5e66a46652dbc6d438e79122d3433936, type: 2}
 --- !u!4 &723305816
 Transform:
   m_ObjectHideFlags: 0
@@ -44782,7 +44746,6 @@ GameObject:
   - component: {fileID: 1104941761}
   - component: {fileID: 1104941763}
   - component: {fileID: 1104941764}
-  - component: {fileID: 1104941765}
   m_Layer: 0
   m_Name: Stone_wall (22)
   m_TagString: Untagged
@@ -44926,23 +44889,6 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
---- !u!114 &1104941765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104941760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifierVolume
-  m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
-  m_Area: 1
-  m_AffectedAgents: a98c17ec
 --- !u!1 &1105212037
 GameObject:
   m_ObjectHideFlags: 0
@@ -57358,6 +57304,7 @@ MonoBehaviour:
   mergeDistance: 1
   checkpointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   maxCheckpoints: 3
+  miniHubPrefab: {fileID: 0}
 --- !u!114 &1390370702
 MonoBehaviour:
   m_ObjectHideFlags: 0

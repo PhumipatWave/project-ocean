@@ -161,7 +161,7 @@ namespace Game.Testing
                     if (pm.Money >= itemInShop.item.buyPrice)
                     {
                         // --- ส่วนที่เพิ่มเข้ามาเพื่ออัปเดตกระสุน ---
-                        if (itemInShop.item.type == ItemType.Ammo) // ตรวจสอบว่าเป็นชนิด Ammo
+                        if (itemInShop.item.itemType == ItemType.Ammo) // ตรวจสอบว่าเป็นชนิด Ammo
                         {
                             // สมมติว่าเราเช็คจากชื่อหรือการตั้งค่าใน Item Data
                             // ตัวอย่าง: ถ้าชื่อมีคำว่า Red ให้บวกช่องที่ 0
