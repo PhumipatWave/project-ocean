@@ -17,6 +17,8 @@ namespace Game.Testing
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
 
+
+        
         int selectedSlot = -1;
 
         public static InventoryManager Instance { get; private set; }
@@ -41,7 +43,7 @@ namespace Game.Testing
             {
                 if (i >= startSlot)
                 {
-                    inventorySlots[i].SetLocked(true);
+                    inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
             } // Lock Slot +1
 
@@ -114,12 +116,14 @@ namespace Game.Testing
             selectedSlot = newValue;
             
         } // ChangeSelectedSlot ===
-        
+
         public bool AddItem(Item item)
         {
+
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
+                if (!slot.isUnlocked) continue;
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
                 if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackedItems)
                 {
@@ -128,20 +132,24 @@ namespace Game.Testing
                     return true;
                 }
             }
+
             
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
+
+                
+                if (!slot.isUnlocked) continue;
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
                 if (itemInSlot == null)
                 {
-                    SpawnNewItem(item,slot);
+                    SpawnNewItem(item, slot);
                     return true;
                 }
             }
             return false;
-            
-        } // AddItem ===
+
+        } // AddItem
 
         public void AddSlot(InventorySlot newSlot)
         {

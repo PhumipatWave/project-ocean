@@ -76,7 +76,7 @@ namespace Game.Testing
             line = GetComponent<LineRenderer>();
 
             physics = new RopePhysic(segmentLength, constraintIterations, gravity, damping, collisionMask, collisionRadius, friction, removeAngle);
-            wrap = new RopeWrap(segmentLength, collisionMask, collisionRadius, wrapCooldownFrames);
+            wrap = new RopeWrap(segmentLength, collisionMask, wrapCooldownFrames);
             checkpoint = new RopeCheckPoint(maxCheckpoints, wrapCooldownFrames);
             ropeVisual = new RopeVisual(line);
             miniHub = new MiniHub(miniHubPrefab);
@@ -156,10 +156,11 @@ namespace Game.Testing
             subRopes.Clear();
             cooldown = 0;
             currentLength = 0f;
-            subRopes.Add(new SubRope(startPoint.transform.position, endPoint.position));
 
-            // Destroy all checkpoint markers
             checkpoint.ClearAll();
+            Rebuild();
+
+            ropeVisual.Draw(subRopes);
 
             GameManager.Instance.ReturnToLand();
         }

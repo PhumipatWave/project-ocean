@@ -1,26 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ObjectWrapPoint;
 
 namespace Game.Testing
 {
     public class RopeWrap : MonoBehaviour
     {
-        // ─── Settings ─────────────────────────────────────────────────
-
         private float segmentLength;
         private LayerMask collisionMask;
-        private float collisionRadius;
         private int wrapCooldownFrames;
 
-        public RopeWrap(
-            float segmentLength,
-            LayerMask collisionMask,
-            float collisionRadius,
-            int wrapCooldownFrames)
+        public RopeWrap(float segmentLength, LayerMask collisionMask, int wrapCooldownFrames)
         {
             this.segmentLength = segmentLength;
             this.collisionMask = collisionMask;
-            this.collisionRadius = collisionRadius;
             this.wrapCooldownFrames = wrapCooldownFrames;
         }
 
@@ -28,12 +21,7 @@ namespace Game.Testing
         /// Scans every segment for a surface crossing and wraps if valid.
         /// Returns the new cooldown value (unchanged if no wrap happened).
         /// </summary>
-        public int TryAttach(
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint,
-            int cooldown)
+        public int TryAttach(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint, int cooldown)
         {
             if (cooldown > 0) return cooldown;
 
@@ -58,7 +46,7 @@ namespace Game.Testing
                         continue;
 
                     Attach(wrapPoint, segs[i - 1].pos, segs[i].pos, subRopes, anchors, endPoint, startPoint);
-                    return Mathf.Max(wrapCooldownFrames, 20); // generous cooldown to survive fixed-update catch-up
+                    return Mathf.Max(wrapCooldownFrames, 20);
                 }
             }
 
@@ -67,14 +55,10 @@ namespace Game.Testing
 
         /// Removes the last anchor if the player has swung back past it.
         /// Returns the new cooldown value (unchanged if no unwrap happened).
-        public int TryDetach(
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint,
-            int cooldown)
+        public int TryDetach(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint, int cooldown)
         {
-            if (cooldown > 0 || anchors.Count == 0) return cooldown;
+            if (cooldown > 0 || anchors.Count == 0) 
+                return cooldown;
 
             RopeAnchor last = anchors[^1];
             Vector2 anchor = last.pos;
@@ -84,22 +68,22 @@ namespace Game.Testing
             Vector2 outDir = ((Vector2)endPoint.position - anchor).normalized;
             Vector2 toEnd = (Vector2)endPoint.position - anchor;
 
-            float cross = inDir.x * outDir.y - inDir.y * outDir.x;
-            float dist = Vector2.Distance(endPoint.position, anchor);
-            float dot = Vector2.Dot(inDir, outDir);
-            float alongInDir = Vector2.Dot(toEnd, inDir); // negative = player moved back past anchor
+            float currentCross = inDir.x * toEnd.y - inDir.y * toEnd.x;
 
-            bool sideCrossed = Mathf.Sign(cross) != last.wrapSide;
-            bool farEnough = dist > segmentLength * 3f;
-            bool notBehind = dot > -0.5f;
-            bool clearCross = Mathf.Abs(cross) > 0.3f;
-            bool movedPastCorner = alongInDir < -(segmentLength * 2f);
+            bool sideCrossed = Mathf.Sign(currentCross) != last.wrapSide;
 
-            if (sideCrossed && farEnough && notBehind && clearCross && movedPastCorner)
+            float alongIn = Vector2.Dot(toEnd, inDir);
+            bool passedAnchor = alongIn < segmentLength;
+
+            float dist = toEnd.magnitude;
+            bool notTooClose = dist > segmentLength * 1.5f;
+
+            if ((sideCrossed || passedAnchor) && notTooClose)
             {
                 anchors.RemoveAt(anchors.Count - 1);
                 subRopes.RemoveAt(subRopes.Count - 1);
                 subRopes[^1].pinEnd = endPoint.position;
+
                 return wrapCooldownFrames;
             }
 
@@ -113,12 +97,7 @@ namespace Game.Testing
         ///   - The rope would fold back on itself (>~135°)
         ///   - The new sub-rope path crosses an existing anchor or the same collider
         /// </summary>
-        private bool IsValidWrapPoint(
-            Vector2 wrapPoint,
-            Collider2D hitCollider,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint)
+        private bool IsValidWrapPoint(Vector2 wrapPoint, Collider2D hitCollider, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint)
         {
             if (Vector2.Distance(wrapPoint, startPoint.transform.position) < segmentLength * 3f) return false;
             if (Vector2.Distance(wrapPoint, endPoint.position) < segmentLength * 3f) return false;
@@ -150,14 +129,7 @@ namespace Game.Testing
         /// <summary>
         /// Creates a new anchor at wrapPoint and adds a new sub-rope from there to the endpoint.
         /// </summary>
-        private void Attach(
-            Vector2 wrapPoint,
-            Vector2 segBefore,
-            Vector2 segAfter,
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint)
+        private void Attach(Vector2 wrapPoint, Vector2 segBefore, Vector2 segAfter, List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint)
         {
             Vector2 prevPin = anchors.Count > 0 ? anchors[^1].pos : (Vector2)startPoint.transform.position;
             Vector2 inDir = (wrapPoint - prevPin).normalized;
