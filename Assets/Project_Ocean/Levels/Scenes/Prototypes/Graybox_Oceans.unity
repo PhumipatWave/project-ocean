@@ -2285,11 +2285,11 @@ PrefabInstance:
       objectReference: {fileID: 5391942441593155919, guid: c194faecf3048b4449c7eaa01827f882, type: 3}
     - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -75
+      value: -23.82
       objectReference: {fileID: 0}
     - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 45
+      value: -113.82
       objectReference: {fileID: 0}
     - target: {fileID: 4470129359587397084, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6485,7 +6485,7 @@ Transform:
   m_GameObject: {fileID: 182416507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -75, y: 45, z: -10}
+  m_LocalPosition: {x: -23.82, y: -113.82, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13385,7 +13385,7 @@ Transform:
   m_GameObject: {fileID: 397362790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -75, y: 45, z: -10}
+  m_LocalPosition: {x: -23.82, y: -113.82, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13497,7 +13497,7 @@ Transform:
   m_GameObject: {fileID: 399162154}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.3, y: -0.47, z: 0}
+  m_LocalPosition: {x: -16.600002, y: -0.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16481,12 +16481,14 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  swayAmount: 0.1
   turnSmoothTime: 0.25
   maxTiltAngle: 45
   flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
   spriteAngleOffset: 0
   attackAngleThreshold: 15
+  viewAngle: 90
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -16500,6 +16502,17 @@ MonoBehaviour:
   prepareTime: 2
   attackCooldown: 2
   followAfterLost: 6
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: PlayerBullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!114 &485971364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23504,7 +23517,7 @@ Transform:
   m_GameObject: {fileID: 703790888}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.6, y: -1.25, z: 0}
+  m_LocalPosition: {x: 3.1, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42123,7 +42136,7 @@ Transform:
   m_GameObject: {fileID: 1194738153}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.959998, y: 0, z: 0}
+  m_LocalPosition: {x: -7.260002, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48105,12 +48118,14 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  swayAmount: 0.1
   turnSmoothTime: 0.25
   maxTiltAngle: 45
   flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
   spriteAngleOffset: 0
   attackAngleThreshold: 15
+  viewAngle: 90
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -48124,6 +48139,17 @@ MonoBehaviour:
   prepareTime: 2
   attackCooldown: 2
   followAfterLost: 6
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: PlayerBullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!114 &1346874302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64411,7 +64437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -6.000004, y: 0}
   m_SizeDelta: {x: 321, y: 181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795147377
@@ -73225,8 +73251,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2037385624}
   - component: {fileID: 2037385623}
-  - component: {fileID: 2037385625}
   - component: {fileID: 2037385622}
+  - component: {fileID: 2037385625}
   - component: {fileID: 2037385621}
   - component: {fileID: 2037385620}
   - component: {fileID: 2037385619}
@@ -73299,26 +73325,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
   speed: 5
-  boostSpeed: 7
-  swayAmount: 0.1
+  boostSpeed: 30
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0
   spriteAngleOffset: 0
   attackAngleThreshold: 15
+  viewAngle: 90
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
-  fishClearanceRadius: 7
-  wallCheckDistance: 6
-  maxWanderSampleTries: 20
+  fishClearanceRadius: 2
+  wallCheckDistance: 1
+  maxWanderSampleTries: 2
   wanderRadius: 45
   wanderChangeInterval: 15
   detectDistance: 25
   attackRange: 3
   prepareTime: 2
-  attackCooldown: 2
+  attackCooldown: 3
   followAfterLost: 6
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 6
+  nearPlayerSearchSamples: 36
+  nearPlayerSearchStep: 0.5
 --- !u!61 &2037385623
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -73353,7 +73392,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -11.279792, y: -0.03569269}
+  m_Offset: {x: -7.292595, y: -0.03569269}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -73363,7 +73402,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 29.600012, y: 7.5468903}
+  m_Size: {x: 28.40981, y: 7.5468903}
   m_EdgeRadius: 0
 --- !u!4 &2037385624
 Transform:
@@ -73374,7 +73413,7 @@ Transform:
   m_GameObject: {fileID: 2037385618}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -34.12, y: -128.16, z: 0}
+  m_LocalPosition: {x: -5.24, y: -128.16, z: 0}
   m_LocalScale: {x: 0.3945628, y: 0.3945628, z: 0.3945628}
   m_ConstrainProportionsScale: 1
   m_Children:
