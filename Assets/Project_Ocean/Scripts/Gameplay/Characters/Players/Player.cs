@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
 
 namespace Game.Testing
 {
@@ -11,15 +13,23 @@ namespace Game.Testing
         [Header("Player Component")]
         public InputReader input;
 
+        [SerializeField] private Animator anim;
+
+        [SerializeField] private AudioSource audio;
+        public AudioSource Audio { get { return audio; } }
+
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
+
+        private PlayerOxygenTube oxygenTube;
+        public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
 
         [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
 
         [Header("Player Object")]
-        [SerializeField] private Transform playerSprite;
-        public Transform PlayerSprite { get { return playerSprite; } }
+        [SerializeField] private GameObject playerSprite;
+        public GameObject PlayerSprite { get { return playerSprite; } }
 
 
         [Header("Player Status")]
@@ -39,14 +49,20 @@ namespace Game.Testing
 
         private float originTime = 1f;
         private float focusTime = .6f;
-        
-        
-        
+
+        [SerializeField] private bool isDeath;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            audio = GetComponent<AudioSource>();
+
+            anim = GetComponentInChildren<Animator>();
+
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
+            oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
@@ -58,10 +74,97 @@ namespace Game.Testing
             input.OnInteracted += Interact;
         }
 
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "Graybox_Land")
+            {
+                transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+            }
+            else if (scene.name == "Graybox_Oceans")
+            {
+                Debug.Log($"Start scene {scene.name}");
+
+                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                transform.position = spawnPoint.position;
+
+                Debug.Log(oxygenTube.StartPointPrefab);
+
+                var point = Instantiate(oxygenTube.StartPointPrefab, spawnPoint.position, Quaternion.identity);
+                oxygenTube.StartPoint = point;
+                oxygenTube.Rebuild();
+            }
+        }
+
         private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
+            AimAnim();
+
+
+            // Test Input
+            if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
+            {
+                StabAnim();
+                StartCoroutine(gunHandler.Stab());
+            }
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                //UseItem();
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+                oxygenTube.TeleportToCheckPoint();
+
             //PreventMoveOutFromWater();
+        }
+
+        void UseItem(ItemType type)
+        {
+            Item itemData;
+
+            bool success = InventoryManager.Instance.ConsumeItem(type, out itemData);
+
+            if (!success)
+            {
+                Debug.Log("No item : " + type);
+                return;
+            }
+
+            ExecuteItem(itemData);
+        }
+
+        void ExecuteItem(Item item)
+        {
+            switch (item.itemType)
+            {
+                case ItemType.Normal:
+
+                    break;
+
+
+                case ItemType.Quest:
+
+                    break;
+
+                case ItemType.Consumable:
+                    
+                    break;
+
+                case ItemType.Building:
+                    oxygenTube.SpawnCheckPoint(item.itemPrefab);
+                    break;
+            }
         }
 
         #region PlayerInputAction
@@ -140,7 +243,26 @@ namespace Game.Testing
             }
 
             rb.linearVelocity = dir * moveSpeed;
+            MovementAnim();
             FlipSprite();
+        }
+        #endregion
+
+        #region PlayerAnimation
+        private void MovementAnim()
+        {
+            anim.SetFloat("velX", rb.linearVelocity.x);
+            anim.SetFloat("velY", rb.linearVelocity.y);
+        }
+
+        private void AimAnim()
+        {
+            anim.SetBool("isAim", gunHandler.IsAimming);
+        }
+
+        private void StabAnim()
+        {
+            anim.SetTrigger("stab");
         }
         #endregion
 
@@ -150,22 +272,21 @@ namespace Game.Testing
             if (rb.linearVelocityX > .1f)
             {
                 faceDir = 1;
-                playerSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
+                playerSprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
             else if (rb.linearVelocityX < -.1f)
             {
                 faceDir = -1;
-                playerSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
+                playerSprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
         }
+
+        public void TakeDamage(float amount)
+        {
+            oxygenTube.MaxRopeLength -= amount;
+        }
         #endregion
-
-        
-        
-        
     }
-
-   
 }

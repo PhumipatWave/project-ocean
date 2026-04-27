@@ -2,7 +2,6 @@ using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace Game.Testing
 {
     public class InventoryManager : MonoBehaviour
@@ -10,13 +9,30 @@ namespace Game.Testing
         // I to Show UI
         public GameObject InventoryMenu;
         private bool menuActivetad;
-        
-        
+
+        [SerializeField] private AudioSource audio;
+        [SerializeField] private AudioClip openInventorySound;
+
         public int maxStackedItems = 4;
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
 
+
+        
         int selectedSlot = -1;
+
+        public static InventoryManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(this);
+                return;
+            }
+
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -27,26 +43,26 @@ namespace Game.Testing
             {
                 if (i >= startSlot)
                 {
-                    inventorySlots[i].SetLocked(true);
+                    inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
             } // Lock Slot +1
-            
+
+            audio = GameManager.CurPlayer.Audio;
+
         } // Start ===
 
         private void Update()
         {
+            //if (GameManager.Instance.GameState != GameState.Ocean)
+            //    return;
+
             if (Input.GetButtonDown("Inventory") && menuActivetad)
             {
-                Debug.Log("I to Inventory");
-                Time.timeScale = 1;
-                InventoryMenu.SetActive(false);
-                menuActivetad = false;
+                OpenInventory();
             } // I to Show UI
             else if (Input.GetButtonDown("Inventory") && !menuActivetad)
             {
-                Time.timeScale = 0;
-                InventoryMenu.SetActive(true);
-                menuActivetad = true;
+                CloseInventory();
             } // I to Show UI
             
             if (Input.inputString != null)
@@ -73,7 +89,23 @@ namespace Game.Testing
             }*/
             
         }
-        
+
+        public void OpenInventory()
+        {
+            Debug.Log("I to Inventory");
+            audio.PlayOneShot(openInventorySound);
+            Time.timeScale = 1;
+            InventoryMenu.SetActive(false);
+            menuActivetad = false;
+        }
+
+        public void CloseInventory()
+        {
+            Time.timeScale = 0;
+            InventoryMenu.SetActive(true);
+            menuActivetad = true;
+        }
+
         void ChangeSelectedSlot(int newValue)
         {
             if (selectedSlot >= 0)
@@ -84,12 +116,14 @@ namespace Game.Testing
             selectedSlot = newValue;
             
         } // ChangeSelectedSlot ===
-        
+
         public bool AddItem(Item item)
         {
+
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
+                if (!slot.isUnlocked) continue;
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
                 if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackedItems)
                 {
@@ -98,20 +132,24 @@ namespace Game.Testing
                     return true;
                 }
             }
+
             
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
+
+                
+                if (!slot.isUnlocked) continue;
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
                 if (itemInSlot == null)
                 {
-                    SpawnNewItem(item,slot);
+                    SpawnNewItem(item, slot);
                     return true;
                 }
             }
             return false;
-            
-        } // AddItem ===
+
+        } // AddItem
 
         public void AddSlot(InventorySlot newSlot)
         {
@@ -134,6 +172,23 @@ namespace Game.Testing
             
         } // SpawnNewItem ===
 
+        public Item FindItem(ItemType checkType, string checkID)
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null &&
+                    itemInSlot.item.itemType == checkType &&
+                    itemInSlot.item.itemID == checkID)
+                {
+                    return itemInSlot.item;
+                }
+            }
+
+            return null;
+        }
+
         public Item GetSelectedItem()
         {
             InventorySlot slot = inventorySlots[selectedSlot];
@@ -145,7 +200,33 @@ namespace Game.Testing
             return null;
             
         } // GetSelectedItem ===
-        
+
+        public bool ConsumeItem(ItemType checkType, out Item foundItem)
+        {
+            foundItem = null;
+
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null && itemInSlot.item.itemType == checkType)
+                {
+                    foundItem = itemInSlot.item;
+
+                    itemInSlot.count--;
+
+                    if (itemInSlot.count <= 0)
+                        Destroy(itemInSlot.gameObject);
+                    else
+                        itemInSlot.RefreshCount();
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void UnlockNextSlot()
         {
             for (int i = 0; i < inventorySlots.Length; i++)
@@ -162,6 +243,4 @@ namespace Game.Testing
 
         
     } // InventoryManager ===
-    
-    
 }
