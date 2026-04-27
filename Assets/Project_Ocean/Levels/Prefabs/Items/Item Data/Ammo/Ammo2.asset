@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: Ammo2
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  tile: {fileID: 0}
+  type: 5
+  actionType: 0
+  range: {x: 5, y: 4}
+  stackable: 1
+  image: {fileID: 21300000, guid: d0e0c9ae4afa40d49a48e0f95bae7f0b, type: 3}
+  buyPrice: 20
+  sellPrice: 10
