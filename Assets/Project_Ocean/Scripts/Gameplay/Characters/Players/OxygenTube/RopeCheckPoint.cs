@@ -5,7 +5,6 @@ namespace Game.Testing
 {
     public class RopeCheckPoint
     {
-        private GameObject checkpointPrefab;
         private int maxCheckpoints;
         private int wrapCooldownFrames;
 
@@ -24,9 +23,8 @@ namespace Game.Testing
         private readonly List<CheckpointEntry> checkpoints = new();
         private RopeSnapshot savedSnapshot;
 
-        public RopeCheckPoint(GameObject checkpointPrefab, int maxCheckpoints, int wrapCooldownFrames)
+        public RopeCheckPoint(int maxCheckpoints, int wrapCooldownFrames)
         {
-            this.checkpointPrefab = checkpointPrefab;
             this.maxCheckpoints = maxCheckpoints;
             this.wrapCooldownFrames = wrapCooldownFrames;
         }
@@ -36,11 +34,7 @@ namespace Game.Testing
         /// Splits the last sub-rope so the rope continues from the checkpoint.
         /// Returns the new cooldown value.
         /// </summary>
-        public int CreateCheckpoint(
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            ref int cooldown)
+        public int CreateCheckpoint(GameObject checkPointPrefab, List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, ref int cooldown)
         {
             if (checkpoints.Count >= maxCheckpoints)
             {
@@ -49,7 +43,7 @@ namespace Game.Testing
             }
 
             Vector2 pos = endPoint.position;
-            GameObject obj = Object.Instantiate(checkpointPrefab, pos, Quaternion.identity);
+            GameObject obj = Object.Instantiate(checkPointPrefab, pos, Quaternion.identity);
 
             savedSnapshot = TakeSnapshot(subRopes, anchors);
 
@@ -71,10 +65,7 @@ namespace Game.Testing
         /// Teleports the endpoint to the last checkpoint and restores the rope to that state.
         /// Returns the new cooldown value (0 after teleport).
         /// </summary>
-        public int TeleportToLast(
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint)
+        public int TeleportToLast( List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint)
         {
             if (checkpoints.Count == 0) return 0;
 
