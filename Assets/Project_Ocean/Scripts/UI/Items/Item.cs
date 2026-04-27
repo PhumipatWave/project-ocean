@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace Game.Testing
 {
+    [System.Serializable]
     [CreateAssetMenu(fileName = "New Item", menuName = "Object/Item")]
     public class Item : ScriptableObject
     {
@@ -22,17 +23,19 @@ namespace Game.Testing
         [Header("Shop")]
         public int buyPrice = 10;
         public int sellPrice = 5;
-        
-        
+
+
     }
 
 
     public enum ItemType
     {
-        BuildingBlock,
-        Boom,
+        FishSizeS,
+        FishSizeM,
+        FishSizeL,
         Item,
-        Tool
+        Tool,
+        Ammo 
     }
 
     public enum ActionType
@@ -40,6 +43,8 @@ namespace Game.Testing
         Dig,
         Mine
     }
+
+    
     
     
 }
