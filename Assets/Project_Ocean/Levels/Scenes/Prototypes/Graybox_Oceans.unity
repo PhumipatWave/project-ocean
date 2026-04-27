@@ -18337,7 +18337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b571a2cfe3ab704c93306b05fc47089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.MoneyUI
-  playerMoney: {fileID: 0}
   moneyText: {fileID: 2019393897}
 --- !u!114 &483428354
 MonoBehaviour:
@@ -57357,10 +57356,8 @@ MonoBehaviour:
   removeAngle: 120
   wrapCooldownFrames: 30
   mergeDistance: 1
-  currentLength: 0
   checkpointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   maxCheckpoints: 3
-  blackScene: {fileID: 0}
 --- !u!114 &1390370702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88720,6 +88717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FishM
       objectReference: {fileID: 0}
+    - target: {fileID: 9098824303329575402, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -88810,6 +88811,10 @@ PrefabInstance:
     - target: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
       propertyPath: m_Name
       value: FishS
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -88909,6 +88914,10 @@ PrefabInstance:
     - target: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
       propertyPath: m_Name
       value: FishL
+      objectReference: {fileID: 0}
+    - target: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4774483354577623506, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
       propertyPath: dropItem

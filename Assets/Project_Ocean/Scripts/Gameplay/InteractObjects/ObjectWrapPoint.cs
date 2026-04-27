@@ -21,7 +21,7 @@ public class ObjectWrapPoint : MonoBehaviour
     [Header("Points")]
     [SerializeField] private List<WrapPoint> wrapPoints = new();
 
-    [Header("Filter")]
+    [Header("Setting")]
     [Tooltip("Merge points closer than this distance (fixes composite seam artifacts)")]
     [SerializeField] private float mergeDistance = 0.5f;
     [Tooltip("Skip concave corners (inward corners the rope can't wrap around)")]
@@ -35,8 +35,7 @@ public class ObjectWrapPoint : MonoBehaviour
 
     private Collider2D col;
 
-    // ── Unity Callbacks ───────────────────────────────────────────────────────
-
+    #region UnityCallback
     private void Awake()
     {
         col = GetComponent<Collider2D>();
@@ -78,8 +77,7 @@ public class ObjectWrapPoint : MonoBehaviour
             for (int i = 0; i < group.Count; i++)
                 Gizmos.DrawLine(group[i], group[(i + 1) % group.Count]);
     }
-
-    // ── Public API ────────────────────────────────────────────────────────────
+    #endregion
 
     public IEnumerable<Vector2> GetActivePoints()
     {
@@ -103,8 +101,6 @@ public class ObjectWrapPoint : MonoBehaviour
 
         return result;
     }
-
-    // ── Point Generation ──────────────────────────────────────────────────────
 
     public void GeneratePoints()
     {
@@ -171,13 +167,10 @@ public class ObjectWrapPoint : MonoBehaviour
         }
     }
 
-    // ── Filter ────────────────────────────────────────────────────────────────
-
     /// Adds points from a closed path, optionally skipping concave or
     /// too-sharp corners based on the Inspector settings.
     private void AddFilteredPath(List<Vector2> pts, int pathIndex)
     {
-        // ① Merge near-duplicate points first (composite seam artifacts)
         var merged = MergeClosePoints(pts, mergeDistance);
 
         int count = merged.Count;
