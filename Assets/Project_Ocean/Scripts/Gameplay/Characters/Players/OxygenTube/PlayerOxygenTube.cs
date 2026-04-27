@@ -71,7 +71,7 @@ namespace Game.Testing
             line = GetComponent<LineRenderer>();
 
             physics = new RopePhysic(segmentLength, constraintIterations, gravity, damping, collisionMask, collisionRadius, friction, removeAngle);
-            wrap = new RopeWrap(segmentLength, collisionMask, collisionRadius, wrapCooldownFrames);
+            wrap = new RopeWrap(segmentLength, collisionMask, wrapCooldownFrames);
             checkpoint = new RopeCheckPoint(checkpointPrefab, maxCheckpoints, wrapCooldownFrames);
             ropeVisual = new RopeVisual(line);
 

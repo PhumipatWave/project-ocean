@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ObjectWrapPoint;
 
 namespace Game.Testing
 {
@@ -7,18 +8,12 @@ namespace Game.Testing
     {
         private float segmentLength;
         private LayerMask collisionMask;
-        private float collisionRadius;
         private int wrapCooldownFrames;
 
-        public RopeWrap(
-            float segmentLength,
-            LayerMask collisionMask,
-            float collisionRadius,
-            int wrapCooldownFrames)
+        public RopeWrap(float segmentLength, LayerMask collisionMask, int wrapCooldownFrames)
         {
             this.segmentLength = segmentLength;
             this.collisionMask = collisionMask;
-            this.collisionRadius = collisionRadius;
             this.wrapCooldownFrames = wrapCooldownFrames;
         }
 
@@ -51,7 +46,7 @@ namespace Game.Testing
                         continue;
 
                     Attach(wrapPoint, segs[i - 1].pos, segs[i].pos, subRopes, anchors, endPoint, startPoint);
-                    return Mathf.Max(wrapCooldownFrames, 20); // generous cooldown to survive fixed-update catch-up
+                    return Mathf.Max(wrapCooldownFrames, 20);
                 }
             }
 
@@ -88,6 +83,7 @@ namespace Game.Testing
                 anchors.RemoveAt(anchors.Count - 1);
                 subRopes.RemoveAt(subRopes.Count - 1);
                 subRopes[^1].pinEnd = endPoint.position;
+
                 return wrapCooldownFrames;
             }
 
@@ -101,12 +97,7 @@ namespace Game.Testing
         ///   - The rope would fold back on itself (>~135°)
         ///   - The new sub-rope path crosses an existing anchor or the same collider
         /// </summary>
-        private bool IsValidWrapPoint(
-            Vector2 wrapPoint,
-            Collider2D hitCollider,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint)
+        private bool IsValidWrapPoint(Vector2 wrapPoint, Collider2D hitCollider, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint)
         {
             if (Vector2.Distance(wrapPoint, startPoint.transform.position) < segmentLength * 3f) return false;
             if (Vector2.Distance(wrapPoint, endPoint.position) < segmentLength * 3f) return false;
@@ -138,14 +129,7 @@ namespace Game.Testing
         /// <summary>
         /// Creates a new anchor at wrapPoint and adds a new sub-rope from there to the endpoint.
         /// </summary>
-        private void Attach(
-            Vector2 wrapPoint,
-            Vector2 segBefore,
-            Vector2 segAfter,
-            List<SubRope> subRopes,
-            List<RopeAnchor> anchors,
-            Transform endPoint,
-            GameObject startPoint)
+        private void Attach(Vector2 wrapPoint, Vector2 segBefore, Vector2 segAfter, List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint)
         {
             Vector2 prevPin = anchors.Count > 0 ? anchors[^1].pos : (Vector2)startPoint.transform.position;
             Vector2 inDir = (wrapPoint - prevPin).normalized;
