@@ -2,7 +2,7 @@ using Game.Testing;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FishL_Agent : MonoBehaviour
+public class FishAgent : MonoBehaviour
 {
     private enum FishState
     {

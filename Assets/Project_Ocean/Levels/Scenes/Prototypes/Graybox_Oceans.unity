@@ -734,19 +734,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 8
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &18273545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,19 +1623,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 2
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &43075104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,19 +2602,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 12
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &79065684
 GameObject:
   m_ObjectHideFlags: 0
@@ -3341,19 +3452,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 11
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &99991129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,19 +3730,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 7
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &103772644
 GameObject:
   m_ObjectHideFlags: 0
@@ -6087,19 +6272,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 18
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &166468071
 GameObject:
   m_ObjectHideFlags: 0
@@ -6569,19 +6791,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 9
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &187124532
 GameObject:
   m_ObjectHideFlags: 0
@@ -6768,19 +7027,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 17
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &197412208
 GameObject:
   m_ObjectHideFlags: 0
@@ -7881,19 +8177,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 11
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &226744081
 GameObject:
   m_ObjectHideFlags: 0
@@ -16502,9 +16835,6 @@ MonoBehaviour:
   prepareTime: 2
   attackCooldown: 2
   followAfterLost: 6
-  searchDuration: 3
-  searchRadius: 3
-  searchChangeInterval: 1
   hitChaseDuration: 5
   chasePlayerWhenHit: 1
   playerBulletTag: PlayerBullet
@@ -17529,19 +17859,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 5
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &515755021
 GameObject:
   m_ObjectHideFlags: 0
@@ -17762,19 +18129,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 14
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &521861061
 GameObject:
   m_ObjectHideFlags: 0
@@ -18272,19 +18676,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 2
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &531299551
 GameObject:
   m_ObjectHideFlags: 0
@@ -18711,19 +19152,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 18
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &538660974
 GameObject:
   m_ObjectHideFlags: 0
@@ -19032,19 +19510,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 4
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &546418872 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
@@ -19123,19 +19638,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 8
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &547329645
 GameObject:
   m_ObjectHideFlags: 0
@@ -22322,19 +22874,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 18
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &668516874
 GameObject:
   m_ObjectHideFlags: 0
@@ -25153,19 +25742,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 16
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &736619390
 GameObject:
   m_ObjectHideFlags: 0
@@ -25666,19 +26292,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 6
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &757610386
 GameObject:
   m_ObjectHideFlags: 0
@@ -28947,19 +29610,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 3
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &857278186 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
@@ -29038,19 +29738,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &858388187
 GameObject:
   m_ObjectHideFlags: 0
@@ -31372,19 +32109,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 13
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &909431082 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
@@ -31463,19 +32237,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 10
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &917248205
 GameObject:
   m_ObjectHideFlags: 0
@@ -32463,19 +33274,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 9
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &949247620
 GameObject:
   m_ObjectHideFlags: 0
@@ -33843,19 +34691,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 3
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &972424425
 GameObject:
   m_ObjectHideFlags: 0
@@ -36542,19 +37427,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 6
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1041618574
 GameObject:
   m_ObjectHideFlags: 0
@@ -37360,19 +38282,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 7
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1059881507
 GameObject:
   m_ObjectHideFlags: 0
@@ -37601,19 +38560,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 13
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1001 &1070419657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41089,19 +42085,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 11
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1167397993
 GameObject:
   m_ObjectHideFlags: 0
@@ -45070,19 +46103,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 6
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1286348076
 GameObject:
   m_ObjectHideFlags: 0
@@ -46768,19 +47838,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 15
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1327104913
 GameObject:
   m_ObjectHideFlags: 0
@@ -48139,9 +49246,6 @@ MonoBehaviour:
   prepareTime: 2
   attackCooldown: 2
   followAfterLost: 6
-  searchDuration: 3
-  searchRadius: 3
-  searchChangeInterval: 1
   hitChaseDuration: 5
   chasePlayerWhenHit: 1
   playerBulletTag: PlayerBullet
@@ -49048,19 +50152,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1001 &1360061006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49978,19 +51119,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 3
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1379838778
 GameObject:
   m_ObjectHideFlags: 0
@@ -51579,19 +52757,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 4
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1417106926
 GameObject:
   m_ObjectHideFlags: 0
@@ -52095,19 +53310,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 14
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1001 &1433074513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52523,19 +53775,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 15
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1439683781
 GameObject:
   m_ObjectHideFlags: 0
@@ -52844,19 +54133,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 13
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1442777342
 GameObject:
   m_ObjectHideFlags: 0
@@ -54184,19 +55510,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 17
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1512032434
 GameObject:
   m_ObjectHideFlags: 0
@@ -56374,19 +57737,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 12
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1575418357
 GameObject:
   m_ObjectHideFlags: 0
@@ -57761,19 +59161,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 16
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1611313107
 GameObject:
   m_ObjectHideFlags: 0
@@ -61424,19 +62861,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 5
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1708147219
 GameObject:
   m_ObjectHideFlags: 0
@@ -62179,19 +63653,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 17
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1732141844
 GameObject:
   m_ObjectHideFlags: 0
@@ -64748,19 +66259,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1796051689
 GameObject:
   m_ObjectHideFlags: 0
@@ -67377,19 +68925,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 2
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1001 &1886336799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68629,19 +70214,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 10
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1915767215
 GameObject:
   m_ObjectHideFlags: 0
@@ -69061,19 +70683,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 10
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1924400302
 GameObject:
   m_ObjectHideFlags: 0
@@ -69726,19 +71385,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 5
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1949124235
 GameObject:
   m_ObjectHideFlags: 0
@@ -71902,19 +73598,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 9
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1990960729
 GameObject:
   m_ObjectHideFlags: 0
@@ -72101,19 +73834,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 16
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &1992583550
 GameObject:
   m_ObjectHideFlags: 0
@@ -72648,19 +74418,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 14
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &2009932875
 GameObject:
   m_ObjectHideFlags: 0
@@ -73155,19 +74962,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 15
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1001 &2036803964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73347,9 +75191,6 @@ MonoBehaviour:
   prepareTime: 2
   attackCooldown: 3
   followAfterLost: 6
-  searchDuration: 3
-  searchRadius: 3
-  searchChangeInterval: 1
   hitChaseDuration: 5
   chasePlayerWhenHit: 1
   playerBulletTag: Bullet
@@ -73814,19 +75655,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 12
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &2060071442
 GameObject:
   m_ObjectHideFlags: 0
@@ -74055,19 +75933,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 8
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &2069386797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4843701201942774701, guid: 550367f051fd04a46ad8a39ed80d18bf, type: 3}
@@ -74146,19 +76061,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 7
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &2075457491
 GameObject:
   m_ObjectHideFlags: 0
@@ -74531,19 +76483,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 4
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!1 &2080620221
 GameObject:
   m_ObjectHideFlags: 0
@@ -75372,19 +77361,56 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 2
   boostSpeed: 7
-  changeDirectionTime: 5
-  turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
+  normalAcceleration: 8
+  dashAcceleration: 60
+  turnSmoothTime: 0.25
+  maxTiltAngle: 35
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.7
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
   viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
-  separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 0
+  alertIcon: {fileID: 0}
+  alertIconPoint: {fileID: 0}
+  alertIconOffset: {x: 0, y: 1.2, z: 0}
+  alertIconDuration: 1
+  alertResetDelay: 1.2
+  keepAlertIconUpright: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 3
+  wanderChangeInterval: 2
+  detectDistance: 3
+  attackRange: 1.5
+  prepareTime: 0.5
+  attackCooldown: 0.3
+  followAfterLost: 6
+  dashSpeed: 18
+  dashDuration: 0.45
+  dashRecoveryTime: 0.5
+  dashStopDistance: 0.3
+  visualRoot: {fileID: 0}
+  fishAnimator: {fileID: 0}
+  swimBoolName: IsSwimming
+  dashBoolName: IsDashing
+  dashWiggleAmount: 8
+  dashWiggleSpeed: 25
+  searchDuration: 3
+  searchRadius: 3
+  searchChangeInterval: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
 --- !u!114 &2088286274
 MonoBehaviour:
   m_ObjectHideFlags: 0
