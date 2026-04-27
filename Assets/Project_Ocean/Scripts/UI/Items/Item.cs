@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace Game.Testing
 {
+    [System.Serializable]
     [CreateAssetMenu(fileName = "New Item", menuName = "Object/Item")]
     public class Item : ScriptableObject
     {
@@ -30,5 +31,6 @@ namespace Game.Testing
         Quest,
         Consumable,
         Building,
+        Ammo,
     }
 }
