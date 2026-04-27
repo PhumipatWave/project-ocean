@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
 
 namespace Game.Testing
 {
@@ -71,8 +72,6 @@ namespace Game.Testing
             input.OnAttacked += Attack;
             input.OnDashed += Dash;
             input.OnInteracted += Interact;
-
-            
         }
 
         private void OnEnable()
@@ -103,24 +102,7 @@ namespace Game.Testing
                 var point = Instantiate(oxygenTube.StartPointPrefab, spawnPoint.position, Quaternion.identity);
                 oxygenTube.StartPoint = point;
                 oxygenTube.Rebuild();
-
-                //StartCoroutine(SetupOnOceanRoutine());
             }
-        }
-
-        private IEnumerator SetupOnOceanRoutine()
-        {
-            GameObject point = null;
-
-            // wait until found (max safety)
-            while (point == null)
-            {
-                point = GameObject.FindGameObjectWithTag("OxygenTubePoint");
-                yield return null;
-            }
-
-            oxygenTube.StartPoint = point;
-            oxygenTube.Rebuild();
         }
 
         private void Update()
@@ -128,13 +110,61 @@ namespace Game.Testing
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
 
+
+            // Test Input
             if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
             {
                 StabAnim();
                 StartCoroutine(gunHandler.Stab());
             }
 
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                //UseItem();
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+                oxygenTube.TeleportToCheckPoint();
+
             //PreventMoveOutFromWater();
+        }
+
+        void UseItem(ItemType type)
+        {
+            Item itemData;
+
+            bool success = InventoryManager.Instance.ConsumeItem(type, out itemData);
+
+            if (!success)
+            {
+                Debug.Log("No item : " + type);
+                return;
+            }
+
+            ExecuteItem(itemData);
+        }
+
+        void ExecuteItem(Item item)
+        {
+            switch (item.itemType)
+            {
+                case ItemType.Normal:
+
+                    break;
+
+
+                case ItemType.Quest:
+
+                    break;
+
+                case ItemType.Consumable:
+                    
+                    break;
+
+                case ItemType.Building:
+                    oxygenTube.SpawnCheckPoint(item.itemPrefab);
+                    break;
+            }
         }
 
         #region PlayerInputAction

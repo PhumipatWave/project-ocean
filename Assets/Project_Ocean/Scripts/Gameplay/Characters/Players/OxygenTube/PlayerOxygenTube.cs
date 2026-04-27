@@ -60,15 +60,13 @@ namespace Game.Testing
         [SerializeField] private float mergeDistance = 1.0f;
 
         [Header("Checkpoint System")]
-        [SerializeField] private GameObject checkpointPrefab;
         [SerializeField] private int maxCheckpoints = 3;
 
         private RopeCheckPoint checkpoint;
-        public int CurrentCheckpointCount => checkpoint.CheckpointCount;
-        public int MaxCheckpointCount => checkpoint.MaxCheckpoints;
 
         [Header("Mini Hub System")]
         private MiniHub miniHub;
+
         [SerializeField] private GameObject miniHubPrefab;
         #endregion
 
@@ -79,7 +77,7 @@ namespace Game.Testing
 
             physics = new RopePhysic(segmentLength, constraintIterations, gravity, damping, collisionMask, collisionRadius, friction, removeAngle);
             wrap = new RopeWrap(segmentLength, collisionMask, collisionRadius, wrapCooldownFrames);
-            checkpoint = new RopeCheckPoint(checkpointPrefab, maxCheckpoints, wrapCooldownFrames);
+            checkpoint = new RopeCheckPoint(maxCheckpoints, wrapCooldownFrames);
             ropeVisual = new RopeVisual(line);
             miniHub = new MiniHub(miniHubPrefab);
 
@@ -91,12 +89,24 @@ namespace Game.Testing
             if (GameManager.Instance.GameState != GameState.Ocean) return;
 
             // ── Debug / test inputs (remove in production) ────────────
-            if (Input.GetKeyDown(KeyCode.G)) checkpoint.CreateCheckpoint(subRopes, anchors, endPoint, ref cooldown);
-            if (Input.GetKeyDown(KeyCode.T)) cooldown = checkpoint.TeleportToLast(subRopes, anchors, endPoint);
-            if (Input.GetKeyDown(KeyCode.H)) miniHub.RegisterHub(transform.position);
+            if (Input.GetKeyDown(KeyCode.H)) 
+                miniHub.RegisterHub(transform.position);
         }
 
         private void FixedUpdate()
+        {
+            SimulateRopeSystem();
+        }
+
+        private void LateUpdate()
+        {
+            if (GameManager.Instance.GameState != GameState.Ocean) return;
+
+            ropeVisual.Draw(subRopes);
+        }
+        #endregion
+
+        private void SimulateRopeSystem()
         {
             if (GameManager.Instance.GameState != GameState.Ocean) return;
 
@@ -121,14 +131,6 @@ namespace Game.Testing
             currentLength = physics.CalculateTotalLength(subRopes);
             CheckRopeLimit();
         }
-
-        private void LateUpdate()
-        {
-            if (GameManager.Instance.GameState != GameState.Ocean) return;
-
-            ropeVisual.Draw(subRopes);
-        }
-        #endregion
 
         /// <summary>
         /// Resets the rope data.
@@ -164,5 +166,15 @@ namespace Game.Testing
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
         public float GetMaxLength() => maxRopeLength;
+
+        public void SpawnCheckPoint(GameObject checkPointPrefab)
+        {
+            checkpoint.CreateCheckpoint(checkPointPrefab, subRopes, anchors, endPoint, ref cooldown);
+        }
+
+        public void TeleportToCheckPoint()
+        {
+            cooldown = checkpoint.TeleportToLast(subRopes, anchors, endPoint);
+        }
     }
 }
