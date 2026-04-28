@@ -25,6 +25,10 @@ namespace Game.Testing
         public TMP_Text[] ammoTexts; // ลาก Text ตัวเลขกระสุน 4 อันมาใส่เรียงตามลำดับ (แดง, เหลือง, ฟ้า, เขียว)
         private int[] ammoCounts = new int[4]; // ตัวแปรเก็บจำนวนกระสุนจริงในโปรแกรม
 
+        [Header("Item UI Display (Sup Items)")]
+        public TMP_Text[] itemTexts; // ลาก Text Element 0 และ 1 มาใส่
+        private int[] itemCounts = new int[2];
+
 
 
         void Update()
@@ -44,6 +48,14 @@ namespace Game.Testing
                 if (ammoTexts[i] != null)
                 {
                     ammoTexts[i].text = ammoCounts[i].ToString();
+                }
+            }
+
+            for (int i = 0; i < itemTexts.Length; i++)
+            {
+                if (itemTexts[i] != null)
+                {
+                    itemTexts[i].text = itemCounts[i].ToString();
                 }
             }
         }
@@ -180,8 +192,19 @@ namespace Game.Testing
                             if (InventoryManager.Instance.AddItem(itemInShop.item))
                             {
                                 pm.Use(itemInShop.item.buyPrice);
+
+                                // เช็คชื่อเพื่อไปอัปเดต UI ขวาล่าง (แก้ชื่อ "ItemName1" เป็นชื่อไอเทมของคุณจริงๆ)
+                                if (itemInShop.item.name == "ItemName1") // Element 0
+                                {
+                                    itemCounts[0]++;
+                                }
+                                else if (itemInShop.item.name == "ItemName2") // Element 1
+                                {
+                                    itemCounts[1]++;
+                                }
                             }
                         }
+
                     }
                 }
 
