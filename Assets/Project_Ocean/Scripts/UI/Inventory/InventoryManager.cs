@@ -10,7 +10,6 @@ namespace Game.Testing
         public GameObject InventoryMenu;
         private bool menuActivetad;
 
-        [SerializeField] private AudioSource audio;
         [SerializeField] private AudioClip openInventorySound;
 
         public int maxStackedItems = 4;
@@ -46,8 +45,6 @@ namespace Game.Testing
                     inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
             } // Lock Slot +1
-
-            audio = GameManager.CurPlayer.Audio;
 
         } // Start ===
 
@@ -93,7 +90,7 @@ namespace Game.Testing
         public void OpenInventory()
         {
             Debug.Log("I to Inventory");
-            audio.PlayOneShot(openInventorySound);
+            GameManager.CurPlayer.Audio.PlayOneShot(openInventorySound);
             Time.timeScale = 1;
             InventoryMenu.SetActive(false);
             menuActivetad = false;

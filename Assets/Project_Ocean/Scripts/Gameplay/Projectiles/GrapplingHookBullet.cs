@@ -73,7 +73,15 @@ namespace Game.Testing
                         Enemy enemy = collision.GetComponent<Enemy>();
                         enemy.TakeDamage(attackDamage);
 
-                        if (!enemy.IsDeath)
+                        Debug.Log($"Grappling Hook Fire : {collision.name}");
+
+                        player.GunHandler.CanAttack = true;
+                        RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
+                        player.GunHandler.ResetGunRotation(player.FaceDir);
+
+                        Destroy(gameObject);
+
+                        /*if (!enemy.IsDeath)
                         {
                             Debug.Log($"Grappling Hook Fire : {collision.name}");
 
@@ -87,7 +95,7 @@ namespace Game.Testing
                         {
                             Debug.Log($"Grappling hook fire death enemy");
                             StartCoroutine(HookFishRoutine(collision.gameObject));
-                        }
+                        }*/
 
                         break;
 

@@ -769,14 +769,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &15917083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1647,6 +1666,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -1813,14 +1837,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &39929282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2782,14 +2825,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &78814698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3656,14 +3718,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &95924839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4071,14 +4152,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &101651201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5665,6 +5765,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -6653,6 +6758,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -7048,14 +7158,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &163964699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7817,14 +7946,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &185508301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8190,14 +8338,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &196782592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9197,6 +9364,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -9582,14 +9754,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &220272682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18639,6 +18830,9 @@ MonoBehaviour:
   spriteAngleOffset: 0
   attackAngleThreshold: 15
   viewAngle: 90
+  visionObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -18647,6 +18841,8 @@ MonoBehaviour:
   maxWanderSampleTries: 20
   wanderRadius: 4
   wanderChangeInterval: 3
+  searchDuration: 4
+  searchRadius: 2.5
   detectDistance: 25
   attackRange: 3
   prepareTime: 2
@@ -19725,14 +19921,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &515055746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20132,14 +20347,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &520519751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20816,14 +21050,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &530983612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21429,14 +21682,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &538396896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21811,14 +22083,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &543806827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22209,14 +22500,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &546418878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25636,14 +25946,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &664803132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26051,6 +26380,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -26597,6 +26931,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -27624,6 +27963,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -28095,7 +28439,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 5e66a46652dbc6d438e79122d3433936, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 36362dfaa0974ad4692b5dfa7cbda088, type: 2}
 --- !u!4 &723305816
 Transform:
   m_ObjectHideFlags: 0
@@ -28621,14 +28965,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &735537097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29421,14 +29784,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &757558976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31266,6 +31648,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -33128,14 +33515,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &854292217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33393,14 +33799,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &857278192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34691,6 +35116,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -35908,14 +36338,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &908340854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36208,14 +36657,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &909431088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37040,12 +37508,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ShopSystem
   inventory: {fileID: 0}
   playerMoney: {fileID: 0}
+  fishshopMan: {fileID: 0}
   sellAllButton: {fileID: 0}
   sellSelectButton: {fileID: 0}
   inventorySlot: {fileID: 0}
   shopbuySlot: {fileID: 0}
   totalPriceText: {fileID: 0}
   ammoTexts: []
+  itemTexts: []
 --- !u!4 &931371981
 Transform:
   m_ObjectHideFlags: 0
@@ -37212,6 +37682,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -37490,14 +37965,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &943502623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39044,14 +39538,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &970588249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39643,6 +40156,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -42309,14 +42827,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1040204834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43301,14 +43838,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1058379990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43603,14 +44159,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1066235168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47247,14 +47822,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1166930922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49607,6 +50201,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -51622,14 +52221,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1281582942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53107,6 +53725,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -53273,14 +53896,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1318071893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54146,6 +54788,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -54980,6 +55627,9 @@ MonoBehaviour:
   spriteAngleOffset: 0
   attackAngleThreshold: 15
   viewAngle: 90
+  visionObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -54988,6 +55638,8 @@ MonoBehaviour:
   maxWanderSampleTries: 20
   wanderRadius: 4
   wanderChangeInterval: 3
+  searchDuration: 4
+  searchRadius: 2.5
   detectDistance: 25
   attackRange: 3
   prepareTime: 2
@@ -55736,14 +56388,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1358921840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56803,14 +57474,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1377102409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57567,6 +58257,7 @@ MonoBehaviour:
   wrapCooldownFrames: 30
   mergeDistance: 1
   maxCheckpoints: 3
+  checkPointPrefab: {fileID: 0}
   miniHubPrefab: {fileID: 0}
 --- !u!114 &1390370702
 MonoBehaviour:
@@ -59193,14 +59884,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1416911707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59883,14 +60593,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1429256398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60368,14 +61097,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1437008930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60976,14 +61724,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1441479270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62807,14 +63574,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1511337859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63147,6 +63933,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -65189,14 +65980,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1569973289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66898,14 +67708,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1605332957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70536,14 +71365,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1706587369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71485,14 +72333,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1726083164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74202,14 +75069,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1795336125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75582,6 +76468,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -76782,14 +77673,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1882545533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78159,14 +79069,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1915566801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78617,6 +79546,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -78896,14 +79830,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1921651977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79772,14 +80725,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1943532614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81557,14 +82529,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1990670951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81930,14 +82921,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &1991094399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82722,14 +83732,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2006176653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83493,14 +84522,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2028197268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83675,7 +84723,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryManager
   InventoryMenu: {fileID: 214904573}
-  audio: {fileID: 0}
   openInventorySound: {fileID: 0}
   maxStackedItems: 4
   inventorySlots:
@@ -83877,6 +84924,9 @@ MonoBehaviour:
   spriteAngleOffset: 0
   attackAngleThreshold: 15
   viewAngle: 90
+  visionObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -83885,6 +84935,8 @@ MonoBehaviour:
   maxWanderSampleTries: 20
   wanderRadius: 4
   wanderChangeInterval: 3
+  searchDuration: 4
+  searchRadius: 2.5
   detectDistance: 25
   attackRange: 3
   prepareTime: 2
@@ -84392,14 +85444,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2052107511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84807,14 +85878,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2064331337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85072,14 +86162,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2069386803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85631,14 +86740,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2077792703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86780,14 +87908,33 @@ MonoBehaviour:
   groupRadius: 3
   separationDistance: 1.5
   neighbors: []
+  leader: {fileID: 0}
+  groupID: 0
   viewDistance: 6
   viewAngle: 90
   wanderRadius: 3
   wanderInterval: 3
+  cohesionWeight: 1
+  separationWeight: 1.5
+  alignmentWeight: 0.5
+  panicSpeedMultiplier: 2.5
+  panicDuration: 3
+  panicRandomAngle: 60
   wallDetectDistance: 1
+  wallAvoidWeight: 3
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!114 &2088286274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87527,6 +88674,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1
@@ -88172,6 +89324,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
   turnSmoothTime: 0.25
   maxTiltAngle: 35
   flipDeadZone: 0.1

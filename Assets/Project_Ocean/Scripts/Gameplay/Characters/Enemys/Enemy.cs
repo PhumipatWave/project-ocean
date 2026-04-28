@@ -47,7 +47,7 @@ namespace Game.Testing
                 anim = GetComponentInChildren<Animator>();
             }
 
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            player = GameManager.CurPlayer.GetComponent<Player>();
 
             currentHealth = maxHealth;
         }
@@ -153,7 +153,7 @@ namespace Game.Testing
         {
             if (isHasAnim)
             {
-                anim.SetBool("death", true);
+                anim.SetBool("isDeath", true);
             }
         }
     }

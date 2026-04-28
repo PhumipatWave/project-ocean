@@ -247,6 +247,7 @@ public class FishL_Agent : MonoBehaviour
         if (dist <= attackRange)
         {
             Debug.Log("Player hit by fish!");
+            enemy.Player.TakeDamage(10.25f);
             StopAttack();
             return;
         }

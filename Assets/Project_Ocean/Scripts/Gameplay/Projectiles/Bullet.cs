@@ -47,13 +47,10 @@ namespace Game.Testing
                     var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
-                    if (!enemy.IsDeath)
-                    {
-                        player.GunHandler.CanAttack = true;
-                        player.GunHandler.ResetGunRotation(player.FaceDir);
+                    player.GunHandler.CanAttack = true;
+                    player.GunHandler.ResetGunRotation(player.FaceDir);
 
-                        Destroy(gameObject);
-                    }
+                    Destroy(gameObject);
 
                     break;
             }

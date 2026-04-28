@@ -45,17 +45,45 @@ namespace Game.Testing
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
+            gameState = GameState.Land;
             CurPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            gameState = GameState.Land;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Transform spawnPoint;
+
+            if (scene.name == "Land_Map")
+            {
+                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                CurPlayer.transform.position = spawnPoint.position;
+            }
+            else if (scene.name == "Ocean_Map")
+            {
+                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                CurPlayer.transform.position = spawnPoint.position;
+            }
+        }
+
+        public void ToMainMenu()
+        {
+            SceneManager.LoadScene("MainMenuScene");
+            gameState = GameState.Ocean;
         }
 
         public void StartDive()
         {
-            StartCoroutine(FadeRoutine());
+            //StartCoroutine(FadeRoutine());
 
             SceneManager.LoadScene("Ocean_Map");
             gameState = GameState.Ocean;
@@ -63,7 +91,7 @@ namespace Game.Testing
 
         public void ReturnToLand()
         {
-            StartCoroutine(FadeRoutine());
+            //StartCoroutine(FadeRoutine());
 
             SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;
