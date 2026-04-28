@@ -20,6 +20,12 @@ namespace Game.Testing
         [SerializeField] private AudioSource audio;
         public AudioSource Audio { get { return audio; } }
 
+        [SerializeField] private AudioClip playerHurtSound;
+        [SerializeField] private AudioClip playerDashSound;
+        [SerializeField] private AudioClip playerRopeSound;
+        [SerializeField] private AudioClip playerShootSound;
+        public AudioClip playerCollectItemSound;
+
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
@@ -46,6 +52,8 @@ namespace Game.Testing
 
         private bool canDash = true;
         private bool isDash;
+
+        private bool isLand;
 
         private bool isAttacked;
         public bool IsAttacked { get { return isAttacked; } }
@@ -94,14 +102,23 @@ namespace Game.Testing
                 transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
                 oxygenTube.MaxRopeLength += oxygenTube.ReduceMaxRopeLenght;
                 oxygenTube.ReduceMaxRopeLenght = 0f;
+
+                isLand = true;
+                anim.SetBool("isLand", isLand);
             }
             else if (scene.name == "Ocean_Map")
             {
                 Transform spawnPoint;
 
-                if (GameManager.Instance.MiniHubAvaliable)
+                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                transform.position = spawnPoint.position;
+
+                isLand = false;
+                anim.SetBool("isLand", isLand);
+
+                /*if (GameManager.Instance.MiniHubAvaliable)
                 {
-                    spawnPoint = GameManager.Instance.MiniHubLocation;
+                    spawnPoint = GameManager.Instance.MiniHubLocation.transform;
                     transform.position = spawnPoint.position;
 
                     GameManager.Instance.MiniHubAvaliable = false;
@@ -110,7 +127,7 @@ namespace Game.Testing
                 {
                     spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
                     transform.position = spawnPoint.position;
-                }
+                }*/
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
@@ -148,13 +165,16 @@ namespace Game.Testing
                 StartCoroutine(gunHandler.Stab());
             }*/
 
-            if (Input.GetKeyDown(KeyCode.G))
+            if (GameManager.Instance.GameState == GameState.Ocean)
             {
-                UseItem(ItemType.Building);
-            }
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    UseItem(ItemType.Building);
+                }
 
-            if (Input.GetKeyDown(KeyCode.T))
-                oxygenTube.TeleportToCheckPoint();
+                /*if (Input.GetKeyDown(KeyCode.T))
+                    oxygenTube.TeleportToCheckPoint();*/
+            }
 
             //PreventMoveOutFromWater();
         }
@@ -200,7 +220,7 @@ namespace Game.Testing
         #region PlayerInputAction
         private void Aim(bool isAim)
         {
-            if (!gunHandler.CanAttack) return;
+            if (!gunHandler.CanAttack || isLand) return;
 
             gunHandler.IsAimming = isAim;
 
@@ -222,6 +242,7 @@ namespace Game.Testing
             if (isAttack)
             {
                 gunHandler.CanAttack = false;
+                audio.PlayOneShot(playerShootSound);
                 gunHandler.Shooting();
                 Debug.Log("Attack");
             }
@@ -229,9 +250,13 @@ namespace Game.Testing
 
         private void Dash(bool isDash)
         {
+            if (isLand)
+                return;
+
             if (isDash && canDash)
             {
                 StartCoroutine(DashRoutine());
+                audio.PlayOneShot(playerDashSound);
             }
         }
 
@@ -285,12 +310,20 @@ namespace Game.Testing
             }
 
             rb.linearVelocity = dir * moveSpeed;
+
+            if (rb.linearVelocity != Vector2.zero && GameManager.Instance.GameState == GameState.Ocean)
+            {
+                audio.PlayOneShot(playerRopeSound);
+            }
+
             MovementAnim();
             FlipSprite();
         }
 
         public void TakeDamage(float amount)
         {
+
+            audio.PlayOneShot(playerHurtSound);
             oxygenTube.ReduceMaxRopeLenght += amount;
             oxygenTube.MaxRopeLength = oxygenTube.MaxRopeLength - amount;
         }

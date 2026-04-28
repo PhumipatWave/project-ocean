@@ -661,6 +661,7 @@ MonoBehaviour:
   fishL_Agent: {fileID: 0}
   player: {fileID: 0}
   currentHealth: 0
+  maxHealth: 150
   moveSpeed: 5
   isDeath: 0
   isHasAnim: 0
@@ -699,7 +700,7 @@ MonoBehaviour:
   playerTag: Player
   destroyBulletOnHit: 1
   hitChaseDuration: 5
-  chasePlayerWhenHit: 1
+  chasePlayerWhenHit: 0
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
