@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +24,8 @@ namespace Game.Testing
 
         [Header("Rope Settings")]
         private RopeVisual ropeVisual;
+
+        [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
 
         [SerializeField] private float segmentLength = 0.25f;
         [SerializeField] private int constraintIterations = 50;
@@ -92,11 +95,25 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (GameManager.Instance.GameState != GameState.Ocean) return;
+            if (GameManager.Instance.GameState != GameState.Ocean) 
+            {
+                currentOxygenTubeLength.enabled = false;
+                return;
+            }
 
             // ── Debug / test inputs (remove in production) ────────────
             if (Input.GetKeyDown(KeyCode.H)) 
                 SpawnCheckPoint(checkPointPrefab);
+
+            currentOxygenTubeLength.enabled = true;
+
+            currentOxygenTubeLength.color = Color.white;
+            currentOxygenTubeLength.text = $"Length : {(int)currentLength} m.";
+
+            if (currentLength >= maxRopeLength - 20)
+            {
+                currentOxygenTubeLength.color = Color.red;
+            }
         }
 
         private void FixedUpdate()
