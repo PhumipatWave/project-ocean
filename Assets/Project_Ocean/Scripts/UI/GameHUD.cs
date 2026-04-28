@@ -76,21 +76,12 @@ namespace Game.Testing
         {
             if (GameManager.Instance.GameState != GameState.Ocean)
             {
-                currentOxygenTubeLength.enabled = false;
                 maxLengthPanel.SetActive(false);
             }
             else
             {
-                currentOxygenTubeLength.enabled = true;
                 maxLengthPanel.SetActive(true);
-                currentOxygenTubeLength.color = Color.white;
-                currentOxygenTubeLength.text = $"Length : {(int)player.GetComponent<PlayerOxygenTube>().CurrentLength} m.";
                 dangerLengthText.text = $"{Mathf.Abs(player.GetComponent<PlayerOxygenTube>().MaxRopeLength).ToString("F2")} m.";
-
-                if (player.GetComponent<PlayerOxygenTube>().CurrentLength >= player.GetComponent<PlayerOxygenTube>().MaxRopeLength - 20)
-                {
-                    currentOxygenTubeLength.color = Color.red;
-                }
             }
         }
 
