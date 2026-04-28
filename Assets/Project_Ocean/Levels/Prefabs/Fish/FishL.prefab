@@ -758,6 +758,7 @@ MonoBehaviour:
   fishL_Agent: {fileID: 5434500675454789899}
   player: {fileID: 0}
   currentHealth: 0
+  maxHealth: 300
   moveSpeed: 5
   isDeath: 0
   isHasAnim: 1
@@ -777,8 +778,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
   fishAlertUI: {fileID: 9207587733961278760}
-  speed: 5
-  boostSpeed: 30
+  speed: 5.25
+  boostSpeed: 32
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
@@ -806,11 +807,11 @@ MonoBehaviour:
   attackCooldown: 2
   followAfterLost: 6
   hitChaseDuration: 5
-  chasePlayerWhenHit: 1
+  chasePlayerWhenHit: 0
   playerBulletTag: Bullet
   playerTag: Player
   destroyBulletOnHit: 1
-  nearPlayerSearchRadius: 5
+  nearPlayerSearchRadius: 8
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
 --- !u!114 &7273885174344228482

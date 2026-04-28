@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace Game.Testing
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
 
-
+        [SerializeField] private TextMeshProUGUI miniHubCount;
         
         int selectedSlot = -1;
 
@@ -211,9 +212,13 @@ namespace Game.Testing
                     foundItem = itemInSlot.item;
 
                     itemInSlot.count--;
+                    miniHubCount.text = itemInSlot.count.ToString();
 
                     if (itemInSlot.count <= 0)
+                    {
+                        miniHubCount.text = "0";
                         Destroy(itemInSlot.gameObject);
+                    }
                     else
                         itemInSlot.RefreshCount();
 

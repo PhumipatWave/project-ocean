@@ -16,10 +16,11 @@ namespace Game.Testing
         public Player Player { get { return player; } }
 
         [Header("Status Component")]
+
         [SerializeField] private float currentHealth;
         public float CurrentHealth { get { return currentHealth; } }
 
-        private float maxHealth = 100;
+        [SerializeField] private float maxHealth = 100;
         public float MaxHealth { get { return maxHealth; } }
 
         [SerializeField] private float moveSpeed = 5f;
@@ -99,7 +100,7 @@ namespace Game.Testing
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (IsBullet)
+            /*if (IsBullet)
             {
                 if (collision.gameObject.tag == "Enemy")
                 {
@@ -109,12 +110,14 @@ namespace Game.Testing
                     Debug.Log($"Fish Bullet Shoot, Enemy Take damage {50f} => Health amount : {enemy.currentHealth}");
                 }
                 return;
-            } // isPlayerBullet ===
+            } // isPlayerBullet ===*/
             
             if (isDeath && collision.gameObject.tag == "Player")
             {
                 Debug.Log("Tag to Enemy!!");
 
+
+                GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
                 InventoryManager.Instance.AddItem(dropItem);
                 Debug.Log("เก็บสำเร็จ");
                 Destroy(gameObject);
@@ -127,7 +130,7 @@ namespace Game.Testing
             isDeath = true;
             //rb.linearVelocity = Vector2.zero;
             gameObject.tag = "Items";
-            GetComponent<SpriteRenderer>().color = Color.gray;
+            GetComponentInChildren<SpriteRenderer>().color = Color.red;
             DeathAnim();
 
 

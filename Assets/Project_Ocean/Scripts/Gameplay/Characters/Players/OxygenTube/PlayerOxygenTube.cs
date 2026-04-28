@@ -102,8 +102,8 @@ namespace Game.Testing
             }
 
             // ── Debug / test inputs (remove in production) ────────────
-            if (Input.GetKeyDown(KeyCode.H)) 
-                SpawnCheckPoint(checkPointPrefab);
+            /*if (Input.GetKeyDown(KeyCode.H)) 
+                SpawnCheckPoint(checkPointPrefab);*/
 
             currentOxygenTubeLength.enabled = true;
 
