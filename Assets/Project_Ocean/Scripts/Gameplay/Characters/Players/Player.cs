@@ -112,11 +112,26 @@ namespace Game.Testing
 
 
             // Test Input
-            if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                gunHandler.currentAmmoType = AmmoType.Normal;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                gunHandler.currentAmmoType = AmmoType.GrapplingHook;
+            }
+            /*else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+            }*/
+
+            /*if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
             {
                 StabAnim();
                 StartCoroutine(gunHandler.Stab());
-            }
+            }*/
 
             if (Input.GetKeyDown(KeyCode.G))
             {
