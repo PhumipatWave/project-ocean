@@ -229,7 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d9db0c6f74dfee42b2e54ecf23b3d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerGunHandler
-  ammoWheel: {fileID: 0}
   player: {fileID: 839586600274386325}
   shootSound: {fileID: 0}
   line: {fileID: 0}
@@ -248,6 +247,7 @@ MonoBehaviour:
   currentBulletObj: {fileID: 0}
   currentHookObj: {fileID: 0}
   canAttack: 1
+  currentAmmoType: 0
   stabHitbox: {fileID: 0}
   stabActiveTime: 0.15
   stabCooldown: 0.5
@@ -856,8 +856,8 @@ MonoBehaviour:
   removeAngle: 120
   wrapCooldownFrames: 8
   mergeDistance: 0.25
-  checkpointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   maxCheckpoints: 3
+  checkPointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   miniHubPrefab: {fileID: 2016369825598416511, guid: a12d0b890f8fa3f49beeb32aba9d755f, type: 3}
 --- !u!114 &7315970702637260282
 MonoBehaviour:
