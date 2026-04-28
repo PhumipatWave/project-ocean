@@ -202,6 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6859541925114978355}
   - component: {fileID: 3198828334094354248}
+  - component: {fileID: 754063398898505774}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -284,6 +285,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &754063398898505774
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342600035640313377}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6678090152419062419
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +393,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9098824303329575402}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -489,7 +512,7 @@ MonoBehaviour:
   moveSpeed: 5
   isDeath: 0
   isHasAnim: 0
-  dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
+  dropItem: {fileID: 11400000, guid: d73a160f69c4dba4fbdcd82c90d82f95, type: 2}
   isBullet: 0
 --- !u!114 &635624327409578881
 MonoBehaviour:
@@ -506,12 +529,32 @@ MonoBehaviour:
   enemy: {fileID: 0}
   speed: 4
   turnSpeed: 5
-  detectDistance: 6
   attackRange: 1.5
   attackCooldown: 2
   attackTimer: 0
-  wanderRadius: 4
-  wanderChangeInterval: 4
+  wanderRadius: 15
+  wanderChangeInterval: 12
+  wallDetectDistance: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  viewDistance: 20
+  viewAngle: 90
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 1
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
 --- !u!114 &6346075893321601506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,7 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHitbox
   hitPart: 1
   enemy: {fileID: 5060759525976410366}
-  woundSystem: {fileID: 0}
+  woundSystem: {fileID: 6346075893321601506}
   headDamage: 25
   bodyDamage: 10
   tailDamage: 5

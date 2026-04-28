@@ -16,7 +16,7 @@ public class FishL_Agent : MonoBehaviour
 
     [Header("Rotation")]
     [SerializeField] private float turnSmoothTime = 0.25f;
-    [SerializeField] private float maxTiltAngle = 35f;
+    [SerializeField] private float maxTiltAngle = 360f;
     [SerializeField] private float flipDeadZone = 0.1f;
     [SerializeField] private float flipDelay = 0.4f;
     [SerializeField] private float flipCooldown = 0.7f;
@@ -30,6 +30,8 @@ public class FishL_Agent : MonoBehaviour
 
     [Header("Vision Settings")]
     [SerializeField] private float viewAngle = 90f;
+    [Tooltip("Layers ที่บังสายตาปลา (ใส่ทุก layer ของ Map/Terrain/Wall)")]
+    [SerializeField] private LayerMask visionObstacleMask;
 
     [Header("Wall Avoidance")]
     [SerializeField] private LayerMask wallLayer;
@@ -42,6 +44,10 @@ public class FishL_Agent : MonoBehaviour
     [SerializeField] private float wanderChangeInterval = 2f;
 
     private float wanderTimer;
+
+    [Header("Last Seen Search")]
+    [SerializeField] private float searchDuration = 4f;
+    [SerializeField] private float searchRadius = 2.5f;
 
     [Header("Attack Settings")]
     [SerializeField] private float detectDistance = 5f;
@@ -75,13 +81,16 @@ public class FishL_Agent : MonoBehaviour
     public bool IsAttacking { get { return isAttacking; } }
 
     private bool isFollowing = false;
+    private bool isSearching = false;
 
     private float prepareTimer = 0f;
     private float attackTimer = 0f;
     private float followTimer = 0f;
+    private float searchTimer = 0f;
 
     private Vector3 wanderTarget;
     private Vector3 lastKnownPlayerPosition;
+    private Vector3 lastSeenPosition;
 
     private void Start()
     {
@@ -131,6 +140,11 @@ public class FishL_Agent : MonoBehaviour
         {
             lastKnownPlayerPosition = enemy.Player.transform.position;
             followTimer = followAfterLost;
+
+            if (isSearching)
+            {
+                isSearching = false;
+            }
         }
 
         if (attackTimer > 0f)
@@ -141,12 +155,17 @@ public class FishL_Agent : MonoBehaviour
 
         if (!isPreparing && !isAttacking && (canSeePlayer || alertedByHit) && dist > attackRange && attackTimer <= 0f)
         {
+            isSearching = false;
             StartPrepare();
         }
 
         if (!isPreparing && !isAttacking && !canSeePlayer && !alertedByHit && isFollowing && followTimer <= 0f)
         {
             isFollowing = false;
+            isSearching = true;
+            searchTimer = searchDuration;
+            lastSeenPosition = lastKnownPlayerPosition;
+            PickSearchWanderPoint();
 
             if (fishAlertUI != null)
                 fishAlertUI.HideAttackWarning();
@@ -163,6 +182,8 @@ public class FishL_Agent : MonoBehaviour
             Attack();
         else if (isFollowing)
             Follow();
+        else if (isSearching)
+            Search();
         else
             Wander();
 
@@ -174,6 +195,7 @@ public class FishL_Agent : MonoBehaviour
     {
         isPreparing = true;
         isFollowing = false;
+        isSearching = false;
         prepareTimer = prepareTime;
         agent.isStopped = true;
 
@@ -285,13 +307,57 @@ public class FishL_Agent : MonoBehaviour
 
         float distToLastKnown = Vector2.Distance(transform.position, lastKnownPlayerPosition);
 
-        if (distToLastKnown < 0.5f && followTimer <= 0f && hitChaseTimer <= 0f)
+        if (distToLastKnown < 0.5f && hitChaseTimer <= 0f)
         {
             isFollowing = false;
+            isSearching = true;
+            searchTimer = searchDuration;
+            lastSeenPosition = lastKnownPlayerPosition;
+            PickSearchWanderPoint();
 
             if (fishAlertUI != null)
                 fishAlertUI.HideAttackWarning();
         }
+    }
+
+    private void Search()
+    {
+        agent.speed = speed;
+
+        searchTimer -= Time.deltaTime;
+
+        if (searchTimer <= 0f)
+        {
+            isSearching = false;
+            wanderTimer = wanderChangeInterval;
+            PickNewWanderPoint();
+            return;
+        }
+
+        if (Vector2.Distance(transform.position, wanderTarget) < 0.5f)
+            PickSearchWanderPoint();
+
+        SetSafeDestination(wanderTarget);
+    }
+
+    private void PickSearchWanderPoint()
+    {
+        for (int i = 0; i < maxWanderSampleTries; i++)
+        {
+            Vector2 randomDir = Random.insideUnitCircle * searchRadius;
+            Vector3 randomPoint = lastSeenPosition + new Vector3(randomDir.x, randomDir.y, 0f);
+
+            if (!CanFishFitAt(randomPoint))
+                continue;
+
+            if (IsPathComplete(randomPoint))
+            {
+                wanderTarget = randomPoint;
+                return;
+            }
+        }
+
+        wanderTarget = transform.position;
     }
 
     private void Wander()
@@ -437,9 +503,15 @@ public class FishL_Agent : MonoBehaviour
         if (angleToPlayer > viewAngle * 0.5f)
             return false;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, enemy.Player.transform.position);
+        // ใช้ LayerMask ที่เหมาะสม: visionObstacleMask ถ้าตั้งค่าไว้ ไม่งั้น fallback เป็น wallLayer
+        LayerMask obstacleMask = (visionObstacleMask.value != 0) ? visionObstacleMask : wallLayer;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer, distanceToPlayer, wallLayer);
+        Vector2 fishPos = transform.position;
+        Vector2 playerPos = enemy.Player.transform.position;
+
+        // Linecast จาก fish → player: ไม่ขึ้นกับ direction คำนวณ
+        // และไม่มีปัญหา start-inside-collider เหมือน Raycast
+        RaycastHit2D hit = Physics2D.Linecast(fishPos, playerPos, obstacleMask);
 
         if (hit.collider != null)
             return false;
@@ -642,6 +714,7 @@ public class FishL_Agent : MonoBehaviour
 
         isPreparing = false;
         isAttacking = false;
+        isSearching = false;
         isFollowing = true;
 
         if (fishAlertUI != null)
