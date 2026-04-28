@@ -63,9 +63,11 @@ namespace Game.Testing
         [SerializeField] private int maxCheckpoints = 3;
 
         private RopeCheckPoint checkpoint;
+        [SerializeField] private GameObject checkPointPrefab;
 
         [Header("Mini Hub System")]
         private MiniHub miniHub;
+        public MiniHub MiniHub { get => miniHub;}
 
         [SerializeField] private GameObject miniHubPrefab;
         #endregion
@@ -90,7 +92,7 @@ namespace Game.Testing
 
             // ── Debug / test inputs (remove in production) ────────────
             if (Input.GetKeyDown(KeyCode.H)) 
-                miniHub.RegisterHub(transform.position);
+                SpawnCheckPoint(checkPointPrefab);
         }
 
         private void FixedUpdate()
