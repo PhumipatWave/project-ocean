@@ -29,9 +29,18 @@ public class FishM_Agent : MonoBehaviour
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private LayerMask obstacleLayer;
 
+    [Header("Hit Receiver")]
+    [SerializeField] private string playerBulletTag = "Bullet";
+    [SerializeField] private string playerTag = "Player";
+    [SerializeField] private bool destroyBulletOnHit = true;
+
+    [Header("Hit Reaction")]
+    [SerializeField] private float hitChaseDuration = 5f;
+    [SerializeField] private bool chasePlayerWhenHit = true;
+
     [Header("Rotation/Flip Settings")]
     [SerializeField] private float turnSmoothTime = 0.25f;
-    [SerializeField] private float maxTiltAngle = 35f;
+    [SerializeField] private float maxTiltAngle = 360f;
     [SerializeField] private float flipDeadZone = 0.1f;
     [SerializeField] private float flipDelay = 0.4f;
     [SerializeField] private float flipCooldown = 0.5f;
@@ -49,6 +58,9 @@ public class FishM_Agent : MonoBehaviour
     private float flipTimer = 0f;
     private float flipCooldownTimer = 0f;
 
+    // Hit Reaction
+    private float hitChaseTimer = 0f;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -65,10 +77,18 @@ public class FishM_Agent : MonoBehaviour
     {
         if (enemy.Player == null || enemy.IsDeath) return;
 
-        // Sensor ตรวจจับผู้เล่น
-        isFollowing = CanSeePlayer();
+        // Hit Reaction: ไล่ผู้เล่นถ้าโดนยิงหรือชน
+        if (hitChaseTimer > 0f)
+        {
+            hitChaseTimer -= Time.deltaTime;
+            isFollowing = true;
+        }
+        else
+        {
+            // Sensor ตรวจจับผู้เล่นปกติ
+            isFollowing = CanSeePlayer();
+        }
 
-        // cooldown
         if (attackTimer > 0f)
             attackTimer -= Time.deltaTime;
 
@@ -220,6 +240,31 @@ public class FishM_Agent : MonoBehaviour
 
         float angleDifference = Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.z, targetAngle));
         return angleDifference <= attackAngleThreshold;
+    }
+
+    // ===== Hit Reaction =====
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // โดนกระสุนผู้เล่น
+        if (collision.CompareTag(playerBulletTag))
+        {
+            if (destroyBulletOnHit)
+                Destroy(collision.gameObject);
+
+            if (chasePlayerWhenHit)
+                hitChaseTimer = hitChaseDuration;
+
+            Debug.Log("โดนกระสุนผู้เล่น!");
+        }
+
+        // โดนผู้เล่นชน
+        if (collision.CompareTag(playerTag))
+        {
+            if (chasePlayerWhenHit)
+                hitChaseTimer = hitChaseDuration;
+
+            Debug.Log("โดนผู้เล่นชน!");
+        }
     }
 
     // ===== Visual Debug ของ Sensor =====
