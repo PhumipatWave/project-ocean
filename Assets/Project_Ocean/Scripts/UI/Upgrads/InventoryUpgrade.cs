@@ -7,7 +7,7 @@ namespace Game.Testing
     {
         [Header("UI")]
         public TMP_Text priceText;
-        
+
 
         [Header("Upgrade Setting")]
         public int currentLevel = 1;
@@ -20,7 +20,7 @@ namespace Game.Testing
         void Update()
         {
             priceText.text = "$" + GetPrice();
-            
+
         } // Update ===
 
         public void UpgradeSlot()
@@ -37,15 +37,15 @@ namespace Game.Testing
             currentLevel++;
 
             Debug.Log("Unlocked Slot !!!");
-            
+
         } // UpgradeSlot ===
 
         int GetPrice()
         {
             return basePrice * currentLevel;
-            
+
         } // GetPrice ===
-        
-        
+
+
     }
 }
