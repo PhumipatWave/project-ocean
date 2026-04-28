@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,10 @@ namespace Game.Testing
         [Header("Play")]
         public InventoryManager inventory;
         public PlayerMoney playerMoney;
+
+        [Header("NPC")]
+        public GameObject fishshopMan;
+        
 
         [Header("UI Objects (Drag & Drop Here)")]
         public GameObject sellAllButton;      // ปุ่ม Sell All
@@ -121,6 +126,16 @@ namespace Game.Testing
                 if (itemUI.count <= 0) Destroy(itemUI.gameObject);
                 UpdateUI();
             }
+
+            StartCoroutine(SellRoutine());
+      
+        }
+
+        public IEnumerator SellRoutine()
+        {
+            yield return new WaitForSeconds(2f);
+            fishshopMan.SetActive(false);
+            //fishshopFemen.SetActive(false);
         }
 
         public void SellAll()
@@ -137,6 +152,8 @@ namespace Game.Testing
                 Destroy(itemUI.gameObject);
             }
             pm.AddMoney(total);
+
+            StartCoroutine(SellRoutine());
         }
 
         private InventorySlot GetSelectedSlot()
@@ -209,6 +226,8 @@ namespace Game.Testing
                 }
 
             } // selectedSlot != null ===
+
+            StartCoroutine(SellRoutine());
 
         } // BuySelectedItem ===
 
