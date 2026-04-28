@@ -5,6 +5,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
+using static UnityEditor.PlayerSettings;
 
 namespace Game.Testing
 {
@@ -94,8 +95,20 @@ namespace Game.Testing
             {
                 Debug.Log($"Start scene {scene.name}");
 
-                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
-                transform.position = spawnPoint.position;
+                Transform spawnPoint;
+
+                if (GameManager.Instance.MiniHubAvaliable)
+                {
+                    spawnPoint = GameManager.Instance.MiniHubLocation;
+                    transform.position = spawnPoint.position;
+
+                    GameManager.Instance.MiniHubAvaliable = false;
+                }
+                else
+                {
+                    spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                    transform.position = spawnPoint.position;
+                }
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
@@ -135,7 +148,7 @@ namespace Game.Testing
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                //UseItem();
+                UseItem(ItemType.Building);
             }
 
             if (Input.GetKeyDown(KeyCode.T))
@@ -177,7 +190,7 @@ namespace Game.Testing
                     break;
 
                 case ItemType.Building:
-                    oxygenTube.SpawnCheckPoint(item.itemPrefab);
+                    Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
                     break;
             }
         }
