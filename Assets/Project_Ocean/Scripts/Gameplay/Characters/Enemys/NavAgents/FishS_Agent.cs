@@ -1,3 +1,4 @@
+using Game.Testing;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -63,7 +64,7 @@ public class FishS_Agent : MonoBehaviour
     private float flipTimer = 0f;
     private float flipCooldownTimer = 0f;
 
-    private Transform playerTransform;
+    [SerializeField] private Transform playerTransform;
 
     private float neighborUpdateInterval = 0.2f;
     private float neighborTimer = 0f;
@@ -86,14 +87,14 @@ public class FishS_Agent : MonoBehaviour
         agent.speed = speed;
         SetNewWanderTarget();
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+        GameObject playerObj = GameManager.CurPlayer.gameObject;
         if (playerObj != null)
             playerTransform = playerObj.transform;
     }
 
     private void Update()
     {
-        if (isBouncing) return; // บล็อก Update ชั่วคราวให้ WallBounceRoutine ทำงาน
+        if (isBouncing || GetComponent<Enemy>().IsDeath) return; // บล็อก Update ชั่วคราวให้ WallBounceRoutine ทำงาน
 
         neighborTimer -= Time.deltaTime;
         if (neighborTimer <= 0f)

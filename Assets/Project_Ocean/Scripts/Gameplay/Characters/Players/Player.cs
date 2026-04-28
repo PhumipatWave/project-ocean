@@ -92,11 +92,11 @@ namespace Game.Testing
             if (scene.name == "Land_Map")
             {
                 transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+                oxygenTube.MaxRopeLength += oxygenTube.ReduceMaxRopeLenght;
+                oxygenTube.ReduceMaxRopeLenght = 0f;
             }
             else if (scene.name == "Ocean_Map")
             {
-                Debug.Log($"Start scene {scene.name}");
-
                 Transform spawnPoint;
 
                 if (GameManager.Instance.MiniHubAvaliable)
@@ -288,6 +288,12 @@ namespace Game.Testing
             MovementAnim();
             FlipSprite();
         }
+
+        public void TakeDamage(float amount)
+        {
+            oxygenTube.ReduceMaxRopeLenght += amount;
+            oxygenTube.MaxRopeLength = oxygenTube.MaxRopeLength - amount;
+        }
         #endregion
 
         #region PlayerAnimation
@@ -323,11 +329,6 @@ namespace Game.Testing
                 playerSprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
                 gunHandler.GunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
-        }
-
-        public void TakeDamage(float amount)
-        {
-            oxygenTube.MaxRopeLength -= amount;
         }
         #endregion
     }

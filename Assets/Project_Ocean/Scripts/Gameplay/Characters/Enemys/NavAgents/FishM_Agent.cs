@@ -132,6 +132,7 @@ public class FishM_Agent : MonoBehaviour
         if (dist <= attackRange && attackTimer <= 0f)
         {
             Debug.Log("Player ถูกกัดโดย NavMesh Fish!");
+            enemy.Player.TakeDamage(7.5f);
             attackTimer = attackCooldown;
         }
     }
