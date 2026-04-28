@@ -4,7 +4,7 @@ namespace Game.Testing
 {
     public class PlayerMoney : MonoBehaviour
     {
-        private int money = 100;
+        [SerializeField] private int money = 100;
         public int Money { get { return money; } }
 
         public void AddMoney(int amount)

@@ -12,8 +12,8 @@ namespace Game.Testing
         public InventoryManager inventory;
         public PlayerMoney playerMoney;
 
-        [Header("NPC")]
-        public GameObject fishshopMan;
+        //[Header("NPC")]
+        //public GameObject fishshopMan;
         
 
         [Header("UI Objects (Drag & Drop Here)")]
@@ -134,7 +134,7 @@ namespace Game.Testing
         public IEnumerator SellRoutine()
         {
             yield return new WaitForSeconds(2f);
-            fishshopMan.SetActive(false);
+            //fishshopMan.SetActive(false);
             //fishshopFemen.SetActive(false);
         }
 
