@@ -764,22 +764,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 8
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &15917083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1811,22 +1808,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 2
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &39929282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2783,22 +2777,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 12
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &78814698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3660,22 +3651,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 11
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &95924839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4078,22 +4066,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 7
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &101651201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6336,19 +6321,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 533902208323506948, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.7688065
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 533902208323506948, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7442093
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 533902208323506948, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 814753871126769728, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: orthographic size
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1130847296169436422, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: playerCam
@@ -7058,22 +7043,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 18
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &163964699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7632,7 +7614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &182416508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7830,22 +7812,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 9
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &185508301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8206,22 +8185,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 17
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &196782592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9601,22 +9577,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 11
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &220272682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12792,8 +12765,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552a922fbad62ff4999b33afcef1693f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.GameHUD
-  currentOxygenTubeLenght: {fileID: 260659736}
+  currentOxygenTubeLength: {fileID: 0}
   player: {fileID: 0}
+  dangerLengthText: {fileID: 0}
+  dangerLengthPanel: {fileID: 0}
   fadeImage: {fileID: 474161983}
   fadeDuration: 1
 --- !u!1 &325794709
@@ -19745,22 +19720,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 5
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &515055746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20155,22 +20127,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 14
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &520519751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20842,22 +20811,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 2
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &530983612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21458,22 +21424,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 18
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &538396896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21843,22 +21806,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 4
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &543806827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22244,22 +22204,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 8
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &546418878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25674,22 +25631,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 18
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &664803132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28662,22 +28616,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 16
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &735537097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29465,22 +29416,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 6
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &757558976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33175,22 +33123,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 3
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &854292217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33443,22 +33388,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &857278192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35961,22 +35903,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 13
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &908340854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36264,22 +36203,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 10
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &909431088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37549,22 +37485,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 9
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &943502623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39106,22 +39039,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 3
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &970588249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42374,22 +42304,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 6
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1040204834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43369,22 +43296,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 7
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1058379990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43674,22 +43598,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 13
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1066235168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47321,22 +47242,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 11
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1166930922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51699,22 +51617,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 6
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1281582942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53353,22 +53268,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 15
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1318071893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55819,22 +55731,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1358921840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56889,22 +56798,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 3
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1377102409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59282,22 +59188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 4
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1416911707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59975,22 +59878,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 14
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1429256398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60463,22 +60363,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 15
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1437008930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61074,22 +60971,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 13
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1441479270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62908,22 +62802,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 17
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1511337859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65293,22 +65184,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 12
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1569973289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67005,22 +66893,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 16
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1605332957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70646,22 +70531,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 5
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1706587369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71598,22 +71480,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 17
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1726083164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74318,22 +74197,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 0
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1795336125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76901,22 +76777,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 2
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1882545533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78281,22 +78154,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 10
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1915566801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79021,22 +78891,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 10
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1921651977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79900,22 +79767,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 5
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1943532614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81688,22 +81552,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 9
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1990670951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82064,22 +81925,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 16
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1991094399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82859,22 +82717,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 14
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2006176653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83633,22 +83488,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 15
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2028197268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84535,22 +84387,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 12
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2052107511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84953,22 +84802,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 8
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2064331337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85221,22 +85067,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 7
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2069386803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85783,22 +85626,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 0
-  groupID: 4
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2077792703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86935,22 +86775,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 0
+  neighbors: []
+  viewDistance: 6
+  viewAngle: 90
+  wanderRadius: 3
+  wanderInterval: 3
+  wallDetectDistance: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &2088286274
 MonoBehaviour:
   m_ObjectHideFlags: 0

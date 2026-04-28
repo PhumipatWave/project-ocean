@@ -86,11 +86,11 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Graybox_Land")
+            if (scene.name == "Land_Map")
             {
                 transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
             }
-            else if (scene.name == "Graybox_Oceans")
+            else if (scene.name == "Ocean_Map")
             {
                 Debug.Log($"Start scene {scene.name}");
 
