@@ -1,7 +1,5 @@
 using TMPro;
-using UnityEditor.Graphs;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Testing
 {

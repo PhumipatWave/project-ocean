@@ -4,9 +4,6 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
-using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
-using static UnityEditor.PlayerSettings;
 
 namespace Game.Testing
 {
