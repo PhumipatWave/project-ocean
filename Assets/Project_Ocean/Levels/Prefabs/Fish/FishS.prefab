@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2653153789481178184}
   - component: {fileID: 9006960900880424039}
+  - component: {fileID: 6323510245216081359}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -91,6 +92,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &6323510245216081359
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2966242172060711453}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3842815907524500297
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +381,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHealth
   enemy: {fileID: 3207163715615100706}
   healthValueImage: {fileID: 6207817181258293960}
+--- !u!1 &4831653524659553649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3098862392694724590}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3098862392694724590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831653524659553649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4373255698068515926}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5080745948179623942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4216440058723623674}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4216440058723623674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080745948179623942}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4373255698068515926}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9139675658421198065
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +517,8 @@ Transform:
   m_Children:
   - {fileID: 2653153789481178184}
   - {fileID: 5689489070595076599}
+  - {fileID: 4216440058723623674}
+  - {fileID: 3098862392694724590}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1217555987416005051
@@ -442,7 +529,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9199869032875626201}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -527,7 +614,7 @@ MonoBehaviour:
   moveSpeed: 5
   isDeath: 0
   isHasAnim: 0
-  dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
+  dropItem: {fileID: 11400000, guid: 0869aa76b9fd89c42a4a3eb5330be261, type: 2}
   isBullet: 0
 --- !u!114 &8507428723810097256
 MonoBehaviour:
@@ -541,22 +628,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  enemy: {fileID: 0}
   speed: 2
-  boostSpeed: 7
-  changeDirectionTime: 5
   turnSpeed: 4
-  areaSize: {x: 20, y: 20}
-  areaCenter: {fileID: 0}
-  detectDistance: 3
-  viewAngle: 90
-  fleeDuration: 5
-  neighborRadius: 8
+  groupRadius: 3
   separationDistance: 1.5
-  flockWeight: 1
-  groupTagName: Enemy
-  isLeader: 1
-  groupID: 2
+  neighbors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  leader: {fileID: 8507428723810097256}
+  groupID: 1
+  viewDistance: 15
+  viewAngle: 90
+  wanderRadius: 20
+  wanderInterval: 10
+  cohesionWeight: 1
+  separationWeight: 3
+  alignmentWeight: 3
+  panicSpeedMultiplier: 4
+  panicDuration: 5
+  panicRandomAngle: 90
+  wallDetectDistance: 4
+  wallAvoidWeight: 10
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  hitChaseDuration: 5
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
 --- !u!195 &2849432993923143802
 NavMeshAgent:
   m_ObjectHideFlags: 0
