@@ -30,6 +30,9 @@ namespace Game.Testing
         private float currentLength;
         public float CurrentLength => currentLength;
 
+        private float reduchMaxRopeLenght;
+        public float ReduceMaxRopeLenght { get { return reduchMaxRopeLenght; } set {  reduchMaxRopeLenght = value;} }
+
         [SerializeField] private float maxRopeLength = 150f;
         public float MaxRopeLength
         {
@@ -65,14 +68,15 @@ namespace Game.Testing
         private RopeCheckPoint checkpoint;
         [SerializeField] private GameObject checkPointPrefab;
 
-        [Header("Mini Hub System")]
+        /*[Header("Mini Hub System")]
         private MiniHub miniHub;
-        public MiniHub MiniHub { get => miniHub;}
+        public MiniHub MiniHub { get => miniHub;}*/
 
         [SerializeField] private GameObject miniHubPrefab;
         #endregion
 
         #region UnityCallbacks
+
         private void Awake()
         {
             line = GetComponent<LineRenderer>();
@@ -81,7 +85,7 @@ namespace Game.Testing
             wrap = new RopeWrap(segmentLength, collisionMask, wrapCooldownFrames);
             checkpoint = new RopeCheckPoint(maxCheckpoints, wrapCooldownFrames);
             ropeVisual = new RopeVisual(line);
-            miniHub = new MiniHub(miniHubPrefab);
+            //miniHub = new MiniHub(miniHubPrefab);
 
             //Rebuild();
         }
@@ -142,6 +146,20 @@ namespace Game.Testing
             anchors.Clear();
             subRopes.Clear();
             subRopes.Add(new SubRope(startPoint.transform.position, endPoint.position));
+        }
+
+        public void SetNewStartPoint(Vector3 newPos)
+        {
+            if (startPoint != null)
+            {
+                startPoint.transform.position = newPos;
+            }
+            else
+            {
+                startPoint = Instantiate(startPointPrefab, newPos, Quaternion.identity);
+            }
+
+            Rebuild();
         }
 
         private void CheckRopeLimit()

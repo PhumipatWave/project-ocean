@@ -21,7 +21,7 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            var player = GameObject.FindGameObjectWithTag("Player");
+            var player = GameManager.CurPlayer;
 
             playerCam = FindFirstObjectByType<CinemachineCamera>();
 

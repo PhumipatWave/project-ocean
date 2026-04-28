@@ -825,7 +825,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   playerSprite: {fileID: 1845563972653589313}
   moveSpeed: 8
-  dashSpeed: 32
+  dashSpeed: 25
   isDeath: 0
 --- !u!114 &2783980782925508106
 MonoBehaviour:
@@ -850,7 +850,7 @@ MonoBehaviour:
   damping: 0.98
   collisionMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 512
   collisionRadius: 0.15
   friction: 0.9
   removeAngle: 120

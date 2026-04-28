@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game.Testing
@@ -13,7 +14,10 @@ namespace Game.Testing
         [SerializeField] private GameObject player;
 
         [SerializeField] private TextMeshProUGUI dangerLengthText;
-        [SerializeField] private GameObject dangerLengthPanel;
+        [SerializeField] private GameObject maxLengthPanel;
+
+        [SerializeField] private GameObject menuButton;
+        [SerializeField] private GameObject landButton;
 
         [Header("Black Fade")]
         [SerializeField] private Image fadeImage;
@@ -30,12 +34,42 @@ namespace Game.Testing
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Transform spawnPoint;
+
+            if (scene.name == "MainMenuScene")
+            {
+                menuButton.SetActive(false);
+                landButton.SetActive(false);
+            }
+            else if(scene.name == "Land_Map")
+            {
+                menuButton.SetActive(true);
+                landButton.SetActive(false);
+            }
+            else if (scene.name == "Ocean_Map")
+            {
+                menuButton.SetActive(false);
+                landButton.SetActive(true);
+            }
+        }
 
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
 
-            dangerLengthPanel.SetActive(false);
+            maxLengthPanel.SetActive(false);
         }
 
         private void Update()
@@ -43,25 +77,20 @@ namespace Game.Testing
             if (GameManager.Instance.GameState != GameState.Ocean)
             {
                 currentOxygenTubeLength.enabled = false;
+                maxLengthPanel.SetActive(false);
             }
             else
             {
                 currentOxygenTubeLength.enabled = true;
-            }
+                maxLengthPanel.SetActive(true);
+                currentOxygenTubeLength.color = Color.white;
+                currentOxygenTubeLength.text = $"Length : {(int)player.GetComponent<PlayerOxygenTube>().CurrentLength} m.";
+                dangerLengthText.text = $"{Mathf.Abs(player.GetComponent<PlayerOxygenTube>().MaxRopeLength).ToString("F2")} m.";
 
-            currentOxygenTubeLength.color = Color.white;
-            currentOxygenTubeLength.text = $"Length : {(int)player.GetComponent<PlayerOxygenTube>().CurrentLength} m.";
-
-            if (player.GetComponent<PlayerOxygenTube>().CurrentLength >= player.GetComponent<PlayerOxygenTube>().MaxRopeLength - 20)
-            {
-                dangerLengthPanel.SetActive(true);
-                dangerLengthText.text = Mathf.Abs((player.GetComponent<PlayerOxygenTube>().CurrentLength - player.GetComponent<PlayerOxygenTube>().MaxRopeLength)).ToString("F2");
-
-                currentOxygenTubeLength.color = Color.red;
-            }
-            else
-            {
-                dangerLengthPanel.SetActive(false);
+                if (player.GetComponent<PlayerOxygenTube>().CurrentLength >= player.GetComponent<PlayerOxygenTube>().MaxRopeLength - 20)
+                {
+                    currentOxygenTubeLength.color = Color.red;
+                }
             }
         }
 
