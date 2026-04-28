@@ -194,11 +194,11 @@ namespace Game.Testing
                                 pm.Use(itemInShop.item.buyPrice);
 
                                 // เช็คชื่อเพื่อไปอัปเดต UI ขวาล่าง (แก้ชื่อ "ItemName1" เป็นชื่อไอเทมของคุณจริงๆ)
-                                if (itemInShop.item.name == "ItemName1") // Element 0
+                                if (itemInShop.item.itemID == "CheckPoint") // Element 0
                                 {
                                     itemCounts[0]++;
                                 }
-                                else if (itemInShop.item.name == "ItemName2") // Element 1
+                                else if (itemInShop.item.itemID == "MiniHub") // Element 1
                                 {
                                     itemCounts[1]++;
                                 }
