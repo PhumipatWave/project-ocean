@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
 using static UnityEditor.PlayerSettings;
 
@@ -44,6 +45,7 @@ namespace Game.Testing
         public float DashSpeed { get { return dashSpeed; } }
 
         private bool canDash = true;
+        private bool isDash;
 
         private bool isAttacked;
         public bool IsAttacked { get { return isAttacked; } }
@@ -235,13 +237,25 @@ namespace Game.Testing
 
         private IEnumerator DashRoutine()
         {
+            isDash = true;
             canDash = false;
-            Vector2 dir = input.MovePos.normalized;
+
+            Vector2 dir;
+            if (input.MovePos.normalized != Vector2.zero)
+            {
+                dir = input.MovePos.normalized;
+            }
+            else
+            {
+                dir = Vector2.right * faceDir;
+            }
 
             rb.linearVelocity = dir * dashSpeed;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(.5f);
 
-            rb.linearVelocity = Vector2.zero;
+            isDash = false;
+            rb.linearVelocity = input.MovePos.normalized * moveSpeed;
+
             yield return new WaitForSeconds(2.25f);
             canDash = true;
         }
@@ -264,7 +278,7 @@ namespace Game.Testing
 
         private void Move(Vector2 dir)
         {
-            if (gunHandler.IsAimming)
+            if (gunHandler.IsAimming || isDash)
             {
                 rb.linearVelocity = Vector2.zero;
                 return;
