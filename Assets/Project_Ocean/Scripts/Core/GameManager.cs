@@ -26,6 +26,12 @@ namespace Game.Testing
 
         [SerializeField] private GameObject blackScene;
 
+        [SerializeField] private bool miniHubAvaliable;
+        public bool MiniHubAvaliable { get { return miniHubAvaliable; } set { miniHubAvaliable = value; } }
+
+        [SerializeField] private Transform miniHubLocation;
+        public Transform MiniHubLocation { get { return miniHubLocation; } set { miniHubLocation = value; } }
+
         public static GameManager Instance { get; private set; }
 
         private void Awake()
@@ -51,7 +57,7 @@ namespace Game.Testing
         {
             StartCoroutine(FadeRoutine());
 
-            SceneManager.LoadScene("Graybox_Oceans");
+            SceneManager.LoadScene("Ocean_Map");
             gameState = GameState.Ocean;
         }
 
@@ -59,7 +65,7 @@ namespace Game.Testing
         {
             StartCoroutine(FadeRoutine());
 
-            SceneManager.LoadScene("Graybox_Land");
+            SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;
         }
 
