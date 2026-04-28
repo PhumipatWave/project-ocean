@@ -5,6 +5,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PlasticGui.WorkspaceWindow.Items.LockRules.LockRuleGenerator;
+using static UnityEditor.PlayerSettings;
 
 namespace Game.Testing
 {
@@ -86,16 +87,28 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == "Graybox_Land")
+            if (scene.name == "Land_Map")
             {
                 transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
             }
-            else if (scene.name == "Graybox_Oceans")
+            else if (scene.name == "Ocean_Map")
             {
                 Debug.Log($"Start scene {scene.name}");
 
-                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
-                transform.position = spawnPoint.position;
+                Transform spawnPoint;
+
+                if (GameManager.Instance.MiniHubAvaliable)
+                {
+                    spawnPoint = GameManager.Instance.MiniHubLocation;
+                    transform.position = spawnPoint.position;
+
+                    GameManager.Instance.MiniHubAvaliable = false;
+                }
+                else
+                {
+                    spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                    transform.position = spawnPoint.position;
+                }
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
@@ -112,15 +125,30 @@ namespace Game.Testing
 
 
             // Test Input
-            if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                gunHandler.currentAmmoType = AmmoType.Normal;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                gunHandler.currentAmmoType = AmmoType.GrapplingHook;
+            }
+            /*else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+            }*/
+
+            /*if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
             {
                 StabAnim();
                 StartCoroutine(gunHandler.Stab());
-            }
+            }*/
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                //UseItem();
+                UseItem(ItemType.Building);
             }
 
             if (Input.GetKeyDown(KeyCode.T))
@@ -162,7 +190,7 @@ namespace Game.Testing
                     break;
 
                 case ItemType.Building:
-                    oxygenTube.SpawnCheckPoint(item.itemPrefab);
+                    Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
                     break;
             }
         }
