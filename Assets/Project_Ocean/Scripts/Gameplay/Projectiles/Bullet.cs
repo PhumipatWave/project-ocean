@@ -8,8 +8,6 @@ namespace Game.Testing
         [SerializeField] protected Rigidbody2D rb;
         [SerializeField] protected Player player;
 
-        //[SerializeField] protected BulletData bulletData;
-
         [SerializeField] protected float moveSpeed = 15f;
         [SerializeField] protected float attackDamage = 25f;
 
@@ -44,8 +42,10 @@ namespace Game.Testing
                 case "Enemy":
 
                     Enemy enemy = collision.GetComponent<Enemy>();
-
                     enemy.TakeDamage(attackDamage);
+
+                    var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
+                    darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
                     if (!enemy.IsDeath)
                     {

@@ -166,6 +166,8 @@ namespace Game.Testing
                 currentBulletObj = Instantiate(bulletTypePrefab[(int)ammoWheel.currentAmmoType], firePoint.transform.position, Quaternion.identity);
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
+
+            CameraShakeManager.Instance.SmallShake();
         }
 
         public void AttachRope(GameObject target)
