@@ -51,7 +51,7 @@ namespace Game.Testing
         {
             StartCoroutine(FadeRoutine());
 
-            SceneManager.LoadScene("Graybox_Oceans");
+            SceneManager.LoadScene("Ocean_Map");
             gameState = GameState.Ocean;
         }
 
@@ -59,7 +59,7 @@ namespace Game.Testing
         {
             StartCoroutine(FadeRoutine());
 
-            SceneManager.LoadScene("Graybox_Land");
+            SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;
         }
 
