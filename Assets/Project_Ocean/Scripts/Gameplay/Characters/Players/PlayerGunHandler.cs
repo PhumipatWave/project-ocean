@@ -9,7 +9,7 @@ namespace Game.Testing
 {
     public class PlayerGunHandler : MonoBehaviour
     {
-        [SerializeField] private AmmoWheel ammoWheel;
+        //[SerializeField] private AmmoWheel ammoWheel;
         [SerializeField] private Player player;
 
         [SerializeField] private AudioClip shootSound;
@@ -53,6 +53,8 @@ namespace Game.Testing
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
 
+        public AmmoType currentAmmoType;
+
         [Header("Gun Stab")]
         [SerializeField] private GameObject stabHitbox;
 
@@ -64,7 +66,7 @@ namespace Game.Testing
 
         private void Start()
         {
-            ammoWheel = GameObject.FindGameObjectWithTag("GameHUD").GetComponent<AmmoWheel>();
+            //ammoWheel = GameObject.FindGameObjectWithTag("GameHUD").GetComponent<AmmoWheel>();
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
 
             line = GetComponent<LineRenderer>();
@@ -163,9 +165,11 @@ namespace Game.Testing
             {
                 player.Audio.PlayOneShot(shootSound);
 
-                currentBulletObj = Instantiate(bulletTypePrefab[(int)ammoWheel.currentAmmoType], firePoint.transform.position, Quaternion.identity);
+                currentBulletObj = Instantiate(bulletTypePrefab[(int)currentAmmoType], firePoint.transform.position, Quaternion.identity);
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
+
+            CameraShakeManager.Instance.SmallShake();
         }
 
         public void AttachRope(GameObject target)
