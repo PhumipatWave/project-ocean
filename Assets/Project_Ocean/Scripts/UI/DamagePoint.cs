@@ -13,6 +13,13 @@ namespace Game.Testing
             damagePointText.enabled = false;
         }
 
+        public void ShowDeath()
+        {
+            damagePointText.text = "Death";
+            damagePointText.color = Color.red;
+            damagePointText.enabled = true;
+        }
+
         public void ShowDamagePoint(string damageText)
         {
             damagePointText.text = damageText;
