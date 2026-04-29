@@ -4719,8 +4719,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -285.733, y: 162.801}
-  m_SizeDelta: {x: 68.693, y: 80.05}
+  m_AnchoredPosition: {x: -344.87787, y: 156}
+  m_SizeDelta: {x: 86.58, y: 80.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &383716181
 MonoBehaviour:
@@ -6397,11 +6397,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -91
+      value: -33.999954
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -48.999966
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6418,6 +6418,18 @@ PrefabInstance:
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9960785
       objectReference: {fileID: 0}
     - target: {fileID: 4545334587011888175, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_Name
@@ -8166,7 +8178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.1, y: 11.1}
+  m_AnchoredPosition: {x: -18.6, y: 11.1}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &688138681
@@ -8189,7 +8201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Price :'
+  m_text: 'Price : '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8798,11 +8810,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -90.99998
+      value: -34
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 252
+      value: 195
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8819,6 +8831,18 @@ PrefabInstance:
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4545334587011888175, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_Name
@@ -13337,7 +13361,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Money :'
+  m_text: 'Money : '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13433,7 +13457,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.099998, y: 30.5}
+  m_AnchoredPosition: {x: -18.600006, y: 30.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1086411236
@@ -19802,11 +19826,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -90.99996
+      value: -33.999916
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 286
+      value: 229.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -19823,6 +19847,18 @@ PrefabInstance:
     - target: {fileID: 1820919210170392791, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689979239702695745, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9960785
       objectReference: {fileID: 0}
     - target: {fileID: 4545334587011888175, guid: 8037b9f99eb1e394c888196044c2cfaa, type: 3}
       propertyPath: m_Name
@@ -1369442,7 +1369478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.81960785, g: 0.81960785, b: 0.8235294, a: 1}
+  m_Color: {r: 0.9056604, g: 0.791669, b: 0.6023496, a: 0.8627451}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1369679,7 +1369715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Money :'
+  m_text: 'Money : '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1370469,7 +1370505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -357, y: -239.66}
+  m_AnchoredPosition: {x: -357, y: -194}
   m_SizeDelta: {x: 100, y: 40.085}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1954751878
