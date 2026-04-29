@@ -9,6 +9,7 @@ namespace Game.Testing
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Animator anim;
 
+        [SerializeField] private SpriteRenderer fishSprite;
         [SerializeField] private FishL_Agent fishL_Agent;
 
         [SerializeField] private Player player;
@@ -128,10 +129,9 @@ namespace Game.Testing
         {
             isDeath = true;
             //rb.linearVelocity = Vector2.zero;
-            gameObject.tag = "Items";
-            GetComponentInChildren<SpriteRenderer>().color = Color.black;
-
-            Debug.Log($"Fish sprite {GetComponentInChildren<SpriteRenderer>()}");
+            gameObject.tag = "Items"; 
+            var darmagePoint = GetComponentInChildren<DamagePoint>();
+            darmagePoint.ShowDeath();
 
             DeathAnim();
         }
