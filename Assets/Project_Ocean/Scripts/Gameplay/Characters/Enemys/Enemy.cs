@@ -129,10 +129,11 @@ namespace Game.Testing
             isDeath = true;
             //rb.linearVelocity = Vector2.zero;
             gameObject.tag = "Items";
-            GetComponentInChildren<SpriteRenderer>().color = Color.red;
+            GetComponentInChildren<SpriteRenderer>().color = Color.black;
+
+            Debug.Log($"Fish sprite {GetComponentInChildren<SpriteRenderer>()}");
+
             DeathAnim();
-
-
         }
 
         private void Attack01_Anim()

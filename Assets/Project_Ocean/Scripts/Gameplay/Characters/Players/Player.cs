@@ -100,6 +100,8 @@ namespace Game.Testing
                 oxygenTube.MaxRopeLength += oxygenTube.ReduceMaxRopeLenght;
                 oxygenTube.ReduceMaxRopeLenght = 0f;
 
+                gunHandler.gameObject.SetActive(false);
+
                 isLand = true;
                 anim.SetBool("isLand", isLand);
             }
@@ -109,6 +111,8 @@ namespace Game.Testing
 
                 spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
                 transform.position = spawnPoint.position;
+
+                gunHandler.gameObject.SetActive(true);
 
                 isLand = false;
                 anim.SetBool("isLand", isLand);
