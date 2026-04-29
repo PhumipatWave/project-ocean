@@ -186854,6 +186854,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FishL
       objectReference: {fileID: 0}
+    - target: {fileID: 4774483354577623506, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
+      propertyPath: fishSprite
+      value: 
+      objectReference: {fileID: 182508664}
     - target: {fileID: 5434500675454789899, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
       propertyPath: speed
       value: 7.25
@@ -186890,6 +186894,11 @@ PrefabInstance:
 --- !u!4 &182508663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3109035116890205398, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
+  m_PrefabInstance: {fileID: 182508662}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &182508664 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8611409687765085744, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
   m_PrefabInstance: {fileID: 182508662}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &189282394
