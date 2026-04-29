@@ -14,7 +14,7 @@ namespace Game.Testing
 
         public void ShowShopMain()
         {
-            ShopPanel.SetActive(true);
+            ShopPanel.SetActive(false);
             upgradePanel.SetActive(false);
         }
 
