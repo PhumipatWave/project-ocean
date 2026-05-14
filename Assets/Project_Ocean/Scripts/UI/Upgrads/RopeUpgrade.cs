@@ -7,10 +7,10 @@ namespace Game.Testing
     {
         [Header("Upgrade")]
         public int level = 1;
-        public int basePrice = 100;
+        public int basePrice = 100; 
 
         [Header("Rope")]
-        public float lengthIncrease = 20f;
+        public float lengthIncrease = 20f; 
 
         [Header("UI")]
         public TMP_Text priceText;
