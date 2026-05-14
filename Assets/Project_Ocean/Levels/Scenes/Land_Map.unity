@@ -123468,6 +123468,8 @@ MonoBehaviour:
   warpDestination: {fileID: 747886767}
   requireInteraction: 0
   playerTag: Player
+  audioSource: {fileID: 0}
+  doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -131716,6 +131718,7 @@ GameObject:
   - component: {fileID: 826679905}
   - component: {fileID: 826679907}
   - component: {fileID: 826679906}
+  - component: {fileID: 826679908}
   m_Layer: 0
   m_Name: DoorFishShop
   m_TagString: Untagged
@@ -131753,6 +131756,8 @@ MonoBehaviour:
   warpDestination: {fileID: 2005062175}
   requireInteraction: 1
   playerTag: Player
+  audioSource: {fileID: 826679908}
+  doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -131802,6 +131807,103 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.34499103, y: 0.39510083}
   m_EdgeRadius: 0
+--- !u!82 &826679908
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826679904}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &826780525
 GameObject:
   m_ObjectHideFlags: 0
@@ -133230,6 +133332,7 @@ GameObject:
   - component: {fileID: 883596738}
   - component: {fileID: 883596740}
   - component: {fileID: 883596739}
+  - component: {fileID: 883596741}
   m_Layer: 0
   m_Name: DoorBlacksmith
   m_TagString: Untagged
@@ -133267,6 +133370,8 @@ MonoBehaviour:
   warpDestination: {fileID: 1164321513}
   requireInteraction: 1
   playerTag: Player
+  audioSource: {fileID: 826679908}
+  doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -133316,6 +133421,103 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4058386, y: 0.42731404}
   m_EdgeRadius: 0
+--- !u!82 &883596741
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883596737}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &890686315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144086,6 +144288,8 @@ MonoBehaviour:
   warpDestination: {fileID: 1059331912}
   requireInteraction: 0
   playerTag: Player
+  audioSource: {fileID: 0}
+  doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -145650,6 +145854,8 @@ MonoBehaviour:
   warpDestination: {fileID: 636494875}
   requireInteraction: 0
   playerTag: Player
+  audioSource: {fileID: 0}
+  doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -145858,6 +146064,7 @@ GameObject:
   - component: {fileID: 1437612635}
   - component: {fileID: 1437612637}
   - component: {fileID: 1437612636}
+  - component: {fileID: 1437612638}
   m_Layer: 0
   m_Name: DoorPlayer
   m_TagString: Untagged
@@ -145895,6 +146102,8 @@ MonoBehaviour:
   warpDestination: {fileID: 1968271399}
   requireInteraction: 1
   playerTag: Player
+  audioSource: {fileID: 826679908}
+  doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 734432859}
   fadeDuration: 1
   snapCamera: 1
@@ -145944,6 +146153,103 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5085647, y: 0.43435508}
   m_EdgeRadius: 0
+--- !u!82 &1437612638
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437612634}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1441738683
 GameObject:
   m_ObjectHideFlags: 0

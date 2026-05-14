@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Cinemachine; // มั่นใจว่าใช้แพ็คเกจ Cinemachine เวอร์ชันล่าสุด
+using Unity.Cinemachine;
 
 public class DoorInteract : MonoBehaviour
 {
@@ -9,9 +9,13 @@ public class DoorInteract : MonoBehaviour
     [SerializeField] private bool requireInteraction = true;
     [SerializeField] private string playerTag = "Player";
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource; // ลาก AudioSource มาใส่
+    [SerializeField] private AudioClip doorOpenSound; // ลากไฟล์เสียงประตูมาใส่
+
     [Header("UI Reference")]
     [SerializeField] private CanvasGroup blackScreenGroup;
-    [SerializeField] private float fadeDuration = 0.5f; // แนะนำ 0.5 กำลังสวย
+    [SerializeField] private float fadeDuration = 0.5f;
 
     [Header("Camera Control")]
     [SerializeField] private bool snapCamera = true;
@@ -44,6 +48,7 @@ public class DoorInteract : MonoBehaviour
 
     void Update()
     {
+        // จังหวะคลิกขวา (Input.GetMouseButtonDown(1))
         if (requireInteraction && isPlayerInside && Input.GetMouseButtonDown(1) && !isWarping)
         {
             StartCoroutine(WarpSequence());
@@ -54,10 +59,16 @@ public class DoorInteract : MonoBehaviour
     {
         isWarping = true;
 
+        // --- เพิ่มส่วนการเล่นเสียง ---
+        if (audioSource != null && doorOpenSound != null)
+        {
+            audioSource.PlayOneShot(doorOpenSound);
+        }
+
         if (blackScreenGroup != null)
         {
             blackScreenGroup.gameObject.SetActive(true);
-            blackScreenGroup.alpha = 0; // บังคับเริ่มที่ 0 เสมอ
+            blackScreenGroup.alpha = 0;
         }
 
         // 1. Fade In
@@ -75,14 +86,12 @@ public class DoorInteract : MonoBehaviour
         Vector3 oldPosition = playerObject.transform.position;
         playerObject.transform.position = warpDestination.position;
 
-        // 3. Warp Cinemachine (แก้ปัญหากล้องตามช้า)
+        // 3. Warp Cinemachine
         if (snapCamera)
         {
-            // หา Virtual Camera ในฉาก
             var vcam = Object.FindFirstObjectByType<CinemachineCamera>();
             if (vcam != null)
             {
-                // คำสั่งวาร์ปของ Cinemachine โดยเฉพาะ
                 vcam.OnTargetObjectWarped(playerObject.transform, warpDestination.position - oldPosition);
             }
         }
