@@ -93,14 +93,19 @@ public class TrashInteract : MonoBehaviour
         if (targetPlayerMoney != null) targetPlayerMoney.AddMoney(randomAmount);
         SpawnObject(moneyPrefab);
 
-        yield return new WaitForSeconds(0.5f); // รอจังหวะสั่น
+        // 1. รอจังหวะสั่นและไอเทมกระเด็นสักครู่ (0.5 วินาที)
+        yield return new WaitForSeconds(0.5f);
+
+        // 2. หยุดการสั่นและเสียง เพื่อเตรียมโชว์ข้อความ
         StopEverything();
 
-        // แสดง UI
+        // 3. แสดง UI ข้อความเจอเงิน
         ShowUI(string.Format(dialogueText, randomAmount));
 
-        // รอเวลาแล้วปิดเองอัตโนมัติ
-        yield return new WaitForSeconds(autoCloseTime);
+        // 4. หน่วงเวลาไว้ 1.5 วินาทีตามที่ต้องการ เพื่อให้ผู้เล่นอ่านทัน
+        yield return new WaitForSeconds(1.5f);
+
+        // 5. ปิด UI อัตโนมัติ
         if (dialogueBox != null) dialogueBox.SetActive(false);
     }
 

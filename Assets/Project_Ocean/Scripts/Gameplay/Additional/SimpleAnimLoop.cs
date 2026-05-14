@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
+
 namespace Game.Testing
 {
-    [RequireComponent(typeof(Animator))] // บังคับว่า Object นี้ต้องมี Animator ถึงจะแปะสคริปต์ได้
+    [RequireComponent(typeof(Animator))]
     public class SimpleAnimLoop : MonoBehaviour
     {
         [Header("Wait Time Settings")]
@@ -26,28 +27,33 @@ namespace Game.Testing
 
         IEnumerator ToggleAnimRoutine()
         {
+            // --- ส่วนที่เพิ่ม: ปิดการทำงาน 1 วินาทีก่อนเริ่มครั้งแรก ---
+            anim.enabled = false;
+            yield return new WaitForSeconds(1f);
+            // --------------------------------------------------
+
             while (true)
             {
-                // 1. เปิดการทำงาน Animator
+                // 1. เปิด Animator และเริ่มว่ายจากเฟรม 0
                 anim.enabled = true;
-
-                // บรรทัดที่ต้องเพิ่ม: บังคับให้เล่นแอนิเมชันใหม่ตั้งแต่เฟรม 0
-                // (0 คือชื่อ Layer, 0f คือเวลาเริ่มต้นที่วินาทีที่ 0)
                 anim.Play(0, 0, 0f);
 
-                // 2. รอจนจบ 1 ลูป
-                yield return null; // สำคัญ: รอ 1 เฟรมเพื่อให้ Animator อัปเดตค่าความยาวใหม่
+                // 2. รอจนแอนิเมชันเล่นจบ
+                yield return null;
                 float animLength = anim.GetCurrentAnimatorStateInfo(0).length;
                 yield return new WaitForSeconds(animLength);
 
-                // 3. ปิด Animator ให้ค้างท่าสุดท้าย
+                // 3. บังคับไปเฟรมสุดท้ายก่อนปิด เพื่อไม่ให้เห็นเป็นภาพขาว/ปลาหาย
+                anim.Play(0, 0, 0.99f);
+                yield return new WaitForEndOfFrame(); // รอให้ GPU วาดเฟรมสุดท้ายเสร็จ
+
+                // 4. ปิด Animator เพื่อค้างท่าจบไว้
                 anim.enabled = false;
 
-                // 4. สุ่มเวลาพัก
+                // 5. สุ่มเวลาพัก 5-10 วินาที
                 float waitTime = Random.Range(minWaitTime, maxWaitTime);
                 yield return new WaitForSeconds(waitTime);
             }
         }
-
     }
 }
