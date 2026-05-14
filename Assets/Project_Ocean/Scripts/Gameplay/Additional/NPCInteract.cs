@@ -10,7 +10,7 @@ public class NPCInteract : MonoBehaviour
     [SerializeField] private Sprite npcPortrait; 
     [SerializeField] private string playerTag = "Player";
 
-    [Header("UI Reference (ลากจาก Hierarchy มาใส่)")]
+    [Header("UI Reference")]
     [SerializeField] private GameObject dialogueBox; 
     [SerializeField] private TextMeshProUGUI contentDisplay; 
     [SerializeField] private GameObject portraitDisplay;
