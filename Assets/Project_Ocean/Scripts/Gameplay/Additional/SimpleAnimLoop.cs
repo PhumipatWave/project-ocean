@@ -28,18 +28,22 @@ namespace Game.Testing
         {
             while (true)
             {
-                // 1. เปิดการทำงาน Animator ให้เล่นไป
+                // 1. เปิดการทำงาน Animator
                 anim.enabled = true;
 
-                // 2. รอจนจบ 1 ลูป (ดึงค่าจากคลิปที่เล่นอยู่)
-                yield return null; // รอให้ Animator อัปเดต 1 เฟรม
+                // บรรทัดที่ต้องเพิ่ม: บังคับให้เล่นแอนิเมชันใหม่ตั้งแต่เฟรม 0
+                // (0 คือชื่อ Layer, 0f คือเวลาเริ่มต้นที่วินาทีที่ 0)
+                anim.Play(0, 0, 0f);
+
+                // 2. รอจนจบ 1 ลูป
+                yield return null; // สำคัญ: รอ 1 เฟรมเพื่อให้ Animator อัปเดตค่าความยาวใหม่
                 float animLength = anim.GetCurrentAnimatorStateInfo(0).length;
                 yield return new WaitForSeconds(animLength);
 
-                // 3. ปิด Animator (ภาพจะหยุดนิ่งอยู่ที่เฟรมสุดท้าย)
+                // 3. ปิด Animator ให้ค้างท่าสุดท้าย
                 anim.enabled = false;
 
-                // 4. สุ่มเวลาพัก 5-10 วินาที
+                // 4. สุ่มเวลาพัก
                 float waitTime = Random.Range(minWaitTime, maxWaitTime);
                 yield return new WaitForSeconds(waitTime);
             }
