@@ -656,17 +656,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  config: {fileID: 0}
   rb: {fileID: 0}
-  anim: {fileID: 0}
   fishSprite: {fileID: 3198828334094354248}
-  fishL_Agent: {fileID: 0}
-  player: {fileID: 0}
-  currentHealth: 0
-  maxHealth: 150
-  moveSpeed: 5
-  isDeath: 0
-  isHasAnim: 0
+  anim: {fileID: 0}
   dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
+  maxHealthFallback: 100
+  isHasAnim: 0
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
   isBullet: 0
 --- !u!114 &635624327409578881
 MonoBehaviour:
@@ -680,7 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b051a91f7575e246b78b8dff8643ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishM_Agent
-  enemy: {fileID: 0}
+  config: {fileID: 0}
   fishAlertUI: {fileID: 0}
   playerBulletTag: Bullet
   playerTag: Player
@@ -695,23 +692,7 @@ MonoBehaviour:
   attackAngleThreshold: 15
   facingTurnMode: 0
   turnSpeed: 5
-  speed: 4
-  attackRange: 1.5
-  attackCooldown: 2
-  attackDamage: 7.5
-  wanderRadius: 15
-  wanderChangeInterval: 12
-  wallDetectDistance: 2
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  viewDistance: 20
-  viewAngle: 90
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  hitChaseDuration: 5
-  chasePlayerWhenHit: 0
+  brainSettings: {fileID: 11400000, guid: e5f93e3f455d80b4faf9b8a0afd95e3a, type: 2}
 --- !u!114 &6346075893321601506
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,20 +4,22 @@ using UnityEngine.AI;
 namespace Game.Testing
 {
     /// <summary>
-    /// Main enemy controller: health, death, visuals, loot, and nav-agent coordination.
-    /// Fish agents (FishL/M/S) handle movement AI and sync through Initialize().
+    /// Main enemy controller: health, death, visuals, loot, and brain coordination.
     /// </summary>
     [DisallowMultipleComponent]
     public class Enemy : MonoBehaviour
     {
+        [Header("Config")]
+        [SerializeField] private EnemyConfig config;
+
         [Header("References")]
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private SpriteRenderer fishSprite;
         [SerializeField] private Animator anim;
         [SerializeField] private Item dropItem;
 
-        [Header("Health")]
-        [SerializeField] private float maxHealth = 100f;
+        [Header("Health Override (if no config asset)")]
+        [SerializeField] private float maxHealthFallback = 100f;
 
         [Header("Animation")]
         [SerializeField] private bool isHasAnim;
@@ -32,25 +34,33 @@ namespace Game.Testing
         private bool isDeath;
         private Player player;
 
-        private EnemyNavAgentBase[] navAgents;
-        private IEnemyAttackState attackState;
+        private EnemyNavAgentBase navHost;
+        private IEnemyBrain brain;
+
+        public EnemyConfig Config => config;
 
         public Player Player => player;
+
         public float CurrentHealth => currentHealth;
-        public float MaxHealth => maxHealth;
+
+        public float MaxHealth => config != null ? config.maxHealth : maxHealthFallback;
+
         public bool IsDeath => isDeath;
+
+        public IEnemyBrain Brain => brain;
+
         public bool IsBullet
         {
             get => isBullet;
             set => isBullet = value;
         }
 
-        public bool IsAttacking => !isDeath && attackState != null && attackState.IsAttacking;
+        public bool IsAttacking => !isDeath && brain != null && brain.IsAttacking;
 
         private void Awake()
         {
             CacheComponents();
-            BindNavAgents();
+            InitializeNavHost();
             InitializeState();
         }
 
@@ -96,15 +106,14 @@ namespace Game.Testing
             CollectByPlayer();
         }
 
-        /// <summary>
-        /// Called by EnemyNavAgentBase on the same GameObject during Awake/Start.
-        /// </summary>
         public void RegisterNavAgent(EnemyNavAgentBase agent)
         {
             if (agent == null)
                 return;
 
             agent.Initialize(this);
+            navHost = agent;
+            brain = agent.ActiveBrain;
         }
 
         private void CacheComponents()
@@ -125,17 +134,17 @@ namespace Game.Testing
             if (isHasAnim && anim == null)
                 anim = GetComponentInChildren<Animator>();
 
-            navAgents = GetComponents<EnemyNavAgentBase>();
-            attackState = GetComponent<IEnemyAttackState>();
+            if (navHost == null)
+                navHost = GetComponent<EnemyNavAgentBase>();
         }
 
-        private void BindNavAgents()
+        private void InitializeNavHost()
         {
-            if (navAgents == null)
-                return;
+            if (navHost == null)
+                navHost = GetComponent<EnemyNavAgentBase>();
 
-            foreach (EnemyNavAgentBase agent in navAgents)
-                agent.Initialize(this);
+            if (navHost != null)
+                navHost.Initialize(this);
         }
 
         private void InitializeState()
@@ -144,7 +153,7 @@ namespace Game.Testing
                 ? GameManager.CurPlayer.GetComponent<Player>()
                 : null;
 
-            currentHealth = maxHealth;
+            currentHealth = MaxHealth;
             isDeath = false;
         }
 
@@ -160,8 +169,9 @@ namespace Game.Testing
 
             gameObject.tag = "Items";
 
+            brain?.OnDeath();
             StopAllNavigation();
-            DisableAllNavAgents();
+            DisableNavHost();
             ApplyDeathVisual();
 
             DamagePoint damagePoint = GetComponentInChildren<DamagePoint>();
@@ -182,16 +192,10 @@ namespace Game.Testing
             navAgent.velocity = Vector3.zero;
         }
 
-        private void DisableAllNavAgents()
+        private void DisableNavHost()
         {
-            if (navAgents == null)
-                navAgents = GetComponents<EnemyNavAgentBase>();
-
-            foreach (EnemyNavAgentBase agent in navAgents)
-            {
-                if (agent != null)
-                    agent.enabled = false;
-            }
+            if (navHost != null)
+                navHost.enabled = false;
         }
 
         private void ApplyDeathVisual()

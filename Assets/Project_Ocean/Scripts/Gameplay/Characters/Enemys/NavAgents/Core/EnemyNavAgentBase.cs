@@ -3,10 +3,13 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// Base class for fish NavMesh AI. Synced with <see cref="Enemy"/> via Initialize().
+/// NavMesh host: facing, hits, and <see cref="IEnemyBrain"/> execution.
 /// </summary>
 public abstract class EnemyNavAgentBase : MonoBehaviour
 {
+    [Header("Data (optional)")]
+    [SerializeField] protected EnemyConfig config;
+
     [Header("Alert UI (optional)")]
     [SerializeField] protected FishAlertUI fishAlertUI;
 
@@ -31,8 +34,11 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
     protected Enemy Owner { get; private set; }
     protected NavMeshAgent Agent { get; private set; }
     protected EnemyFacingController Facing { get; private set; }
+    protected IEnemyBrain Brain { get; private set; }
 
     private bool deathHandled;
+
+    public IEnemyBrain ActiveBrain => Brain;
 
     protected bool IsEnemyDead => Owner != null && Owner.IsDeath;
 
@@ -47,27 +53,29 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
     protected virtual EnemyFacingController.FacingTurnMode DefaultFacingTurnMode =>
         facingTurnMode;
 
-    /// <summary>
-    /// Called by <see cref="Enemy"/> to link this agent to the main controller.
-    /// </summary>
     public virtual void Initialize(Enemy owner)
     {
         Owner = owner;
+
+        if (config == null && owner != null)
+            config = owner.Config;
     }
+
+    protected abstract IEnemyBrain CreateBrain();
 
     protected virtual void Awake()
     {
         if (Owner == null)
             Owner = GetComponent<Enemy>();
-
-        if (Owner != null)
-            Owner.RegisterNavAgent(this);
     }
 
     protected virtual void Start()
     {
         if (Owner == null)
             Owner = GetComponent<Enemy>();
+
+        if (config == null && Owner != null)
+            config = Owner.Config;
 
         Agent = GetComponent<NavMeshAgent>();
 
@@ -92,21 +100,43 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
         );
         Facing.Initialize();
 
-        OnAgentStarted();
+        Brain = CreateBrain();
+        Brain.Initialize(BuildBrainContext());
+        OnBrainInitialized();
+
+        if (Owner != null)
+            Owner.RegisterNavAgent(this);
     }
 
-    protected virtual void OnAgentStarted() { }
+    protected virtual void OnBrainInitialized() { }
+
+    protected EnemyBrainContext BuildBrainContext()
+    {
+        return new EnemyBrainContext
+        {
+            Owner = Owner,
+            Config = config,
+            Transform = transform,
+            Agent = Agent,
+            Facing = Facing,
+            AlertUI = fishAlertUI,
+            Host = this
+        };
+    }
 
     protected virtual void Update()
     {
         if (!CanTick())
             return;
 
-        TickAgent();
+        Brain.Tick(Time.deltaTime);
     }
 
     protected virtual bool CanTick()
     {
+        if (Brain == null)
+            return false;
+
         if (IsEnemyDead)
         {
             OnEnemyDead();
@@ -131,6 +161,7 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
             return;
 
         deathHandled = true;
+        Brain?.OnDeath();
         OnEnemyUnavailable();
         StopAgentMovement();
     }
@@ -150,8 +181,6 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
         Agent.ResetPath();
         Agent.velocity = Vector3.zero;
     }
-
-    protected abstract void TickAgent();
 
     protected void TickFacingFromAgentVelocity(float minSpeed = 0.01f)
     {
@@ -207,23 +236,8 @@ public abstract class EnemyNavAgentBase : MonoBehaviour
 
     protected virtual void HandlePlayerCollision() { }
 
-    protected virtual void OnHitByPlayer(Transform attacker) { }
-
-    protected void ShowAttackWarning()
+    protected virtual void OnHitByPlayer(Transform attacker)
     {
-        if (fishAlertUI != null)
-            fishAlertUI.ShowAttackWarning();
-    }
-
-    protected void HideAttackWarning()
-    {
-        if (fishAlertUI != null)
-            fishAlertUI.HideAttackWarning();
-    }
-
-    protected void SetSeeingPlayer(bool canSee)
-    {
-        if (fishAlertUI != null)
-            fishAlertUI.SetSeeingPlayer(canSee);
+        Brain?.OnHit(attacker);
     }
 }

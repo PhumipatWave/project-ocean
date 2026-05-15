@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c88c172611a5a74a955229d3ecae740, type: 3}
+  m_Name: FishLBrainSettings_Default
+  m_EditorClassIdentifier: Game.Testing::FishLBrainSettings
+  speed: 7.25
+  boostSpeed: 35
+  viewAngle: 90
+  visionObstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+  debugVision: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  fishClearanceRadius: 0.8
+  wallCheckDistance: 0.8
+  maxWanderSampleTries: 20
+  wanderRadius: 75
+  wanderChangeInterval: 10
+  searchDuration: 5
+  searchRadius: 12
+  detectDistance: 30
+  attackRange: 8
+  prepareTime: 3
+  attackCooldown: 4.5
+  followAfterLost: 6
+  attackDamage: 10.25
+  hitChaseDuration: 6
+  chasePlayerWhenHit: 1
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
