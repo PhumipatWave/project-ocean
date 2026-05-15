@@ -158,6 +158,7 @@ namespace Game.Testing
             foreach (var sr in subRopes)
             {
                 SubRope copy = new SubRope(sr.pinStart, sr.pinEnd);
+                copy.CopyEdgePathFrom(sr);
                 copy.segs.Clear();
 
                 foreach (var s in sr.segs)
@@ -180,6 +181,7 @@ namespace Game.Testing
             foreach (var sr in snap.subRopes)
             {
                 SubRope copy = new SubRope(sr.pinStart, sr.pinEnd);
+                copy.CopyEdgePathFrom(sr);
                 copy.segs.Clear();
 
                 foreach (var s in sr.segs)
@@ -230,6 +232,8 @@ namespace Game.Testing
                         {
                             pos = anchors[i].pos,
                             wrapSide = anchors[i].wrapSide,
+                            wrapNormal = anchors[i].wrapNormal,
+                            obstacleId = anchors[i].obstacleId,
                             ropeIndex = r
                         };
                         break;

@@ -40,11 +40,37 @@ namespace Game.Testing
             SubRope sr = subRopes[^1];
             RopeSegment last = sr.segs[^1];
 
+            float targetLen = sr.edgePath != null && sr.edgePath.Count >= 2
+                ? PolylineLength(sr.edgePath)
+                : Vector2.Distance(sr.pinStart, sr.pinEnd);
+
+            float currentLen = 0f;
+            for (int i = 0; i < sr.segs.Count - 1; i++)
+                currentLen += Vector2.Distance(sr.segs[i].pos, sr.segs[i + 1].pos);
+
+            if (currentLen + segmentLength * 0.5f >= targetLen)
+                return;
+
+            if (sr.edgePath != null && sr.edgePath.Count >= 2)
+            {
+                float walked = currentLen + segmentLength;
+                sr.segs.Add(new RopeSegment(SamplePolyline(sr.edgePath, walked)));
+                return;
+            }
+
             if (Vector2.Distance(last.pos, sr.pinEnd) > segmentLength)
             {
                 Vector2 dir = (sr.pinEnd - last.pos).normalized;
                 sr.segs.Add(new RopeSegment(last.pos + dir * segmentLength));
             }
+        }
+
+        private static float PolylineLength(List<Vector2> path)
+        {
+            float len = 0f;
+            for (int i = 0; i < path.Count - 1; i++)
+                len += Vector2.Distance(path[i], path[i + 1]);
+            return len;
         }
 
         /// <summary>
@@ -78,6 +104,13 @@ namespace Game.Testing
                 FlattenToStraightLine(subRopes[s]);
 
             SubRope active = subRopes[^1];
+
+            if (active.edgePath != null && active.edgePath.Count >= 2)
+            {
+                FlattenAlongPolyline(active);
+                return;
+            }
+
             var segs = active.segs;
 
             for (int i = 0; i < segs.Count; i++)
@@ -100,8 +133,18 @@ namespace Game.Testing
                 FlattenToStraightLine(subRopes[s]);
 
             for (int iter = 0; iter < constraintIterations; iter++)
+            {
                 foreach (SubRope sr in subRopes)
+                {
+                    if (sr == subRopes[^1] && sr.edgePath != null && sr.edgePath.Count >= 2)
+                        continue;
                     SolveSubRope(sr);
+                }
+            }
+
+            SubRope activeRope = subRopes[^1];
+            if (activeRope.edgePath != null && activeRope.edgePath.Count >= 2)
+                FlattenAlongPolyline(activeRope);
         }
 
         /// <summary>
@@ -119,22 +162,50 @@ namespace Game.Testing
                 {
                     RopeSegment seg = segs[i];
                     Vector2 vel = seg.pos - seg.old;
+                    Vector2 move = seg.pos - seg.old;
+                    float moveDist = move.magnitude;
 
-                    Collider2D hit = Physics2D.OverlapCircle(seg.pos, collisionRadius, collisionMask);
-                    if (hit != null)
+                    Collider2D hitCollider = null;
+                    Vector2 closest = seg.pos;
+                    Vector2 pushNormal = Vector2.zero;
+
+                    if (moveDist > 0.0001f)
                     {
-                        Vector2 closest = hit.ClosestPoint(seg.pos);
-                        Vector2 dir = seg.pos - closest;
-                        float dist = dir.magnitude;
+                        Vector2 moveDir = move / moveDist;
+                        RaycastHit2D swept = Physics2D.CircleCast(
+                            seg.old, collisionRadius, moveDir, moveDist + collisionRadius * 0.1f, collisionMask);
 
-                        if (dist > 0f && dist < collisionRadius)
+                        if (swept.collider != null)
                         {
-                            Vector2 normal = dir / dist;
-                            seg.pos = closest + normal * collisionRadius;
-
-                            float vn = Vector2.Dot(vel, normal);
-                            if (vn < 0f) vel -= normal * vn;
+                            hitCollider = swept.collider;
+                            pushNormal = swept.normal;
+                            seg.pos = swept.point + pushNormal * collisionRadius;
+                            closest = swept.point;
                         }
+                    }
+
+                    if (hitCollider == null)
+                    {
+                        Collider2D overlap = Physics2D.OverlapCircle(seg.pos, collisionRadius, collisionMask);
+                        if (overlap != null)
+                        {
+                            hitCollider = overlap;
+                            closest = overlap.ClosestPoint(seg.pos);
+                            Vector2 dir = seg.pos - closest;
+                            float dist = dir.magnitude;
+
+                            if (dist > 0.0001f && dist < collisionRadius)
+                            {
+                                pushNormal = dir / dist;
+                                seg.pos = closest + pushNormal * collisionRadius;
+                            }
+                        }
+                    }
+
+                    if (hitCollider != null && pushNormal.sqrMagnitude > 0.0001f)
+                    {
+                        float vn = Vector2.Dot(vel, pushNormal);
+                        if (vn < 0f) vel -= pushNormal * vn;
                     }
 
                     vel *= friction;
@@ -154,6 +225,14 @@ namespace Game.Testing
 
             for (int s = 0; s < subRopes.Count; s++)
             {
+                if (subRopes[s].edgePath != null && subRopes[s].edgePath.Count >= 2)
+                {
+                    var path = subRopes[s].edgePath;
+                    for (int i = 0; i < path.Count - 1; i++)
+                        length += Vector2.Distance(path[i], path[i + 1]);
+                    continue;
+                }
+
                 var segs = subRopes[s].segs;
                 int startIdx = s == 0 ? 0 : 1;
 
@@ -165,13 +244,18 @@ namespace Game.Testing
         }
 
         /// <summary>
-        /// Redistributes segment positions along a straight line from pinStart to pinEnd.
-        /// This makes wrapped sub-ropes visually taut and stops them from sagging.
+        /// Redistributes segment positions along pinStart→pinEnd, or along edgePath when wrapped on an obstacle.
         /// </summary>
         private void FlattenToStraightLine(SubRope sr)
         {
             int count = sr.segs.Count;
             if (count < 2) return;
+
+            if (sr.edgePath != null && sr.edgePath.Count >= 2)
+            {
+                FlattenAlongPolyline(sr);
+                return;
+            }
 
             for (int i = 0; i < count; i++)
             {
@@ -179,9 +263,46 @@ namespace Game.Testing
                 Vector2 p = Vector2.Lerp(sr.pinStart, sr.pinEnd, t);
                 RopeSegment seg = sr.segs[i];
                 seg.pos = p;
-                seg.old = p; // Zero out velocity so it won't drift when it becomes active again
+                seg.old = p;
                 sr.segs[i] = seg;
             }
+        }
+
+        private void FlattenAlongPolyline(SubRope sr)
+        {
+            var path = sr.edgePath;
+            int count = sr.segs.Count;
+            float totalLen = 0f;
+            for (int i = 0; i < path.Count - 1; i++)
+                totalLen += Vector2.Distance(path[i], path[i + 1]);
+
+            if (totalLen < 0.0001f) return;
+
+            for (int i = 0; i < count; i++)
+            {
+                float targetDist = totalLen * ((float)i / (count - 1));
+                Vector2 p = SamplePolyline(path, targetDist);
+                RopeSegment seg = sr.segs[i];
+                seg.pos = p;
+                seg.old = p;
+                sr.segs[i] = seg;
+            }
+        }
+
+        private static Vector2 SamplePolyline(List<Vector2> path, float distance)
+        {
+            float walked = 0f;
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                float segLen = Vector2.Distance(path[i], path[i + 1]);
+                if (walked + segLen >= distance)
+                {
+                    float t = segLen < 0.0001f ? 0f : (distance - walked) / segLen;
+                    return Vector2.Lerp(path[i], path[i + 1], t);
+                }
+                walked += segLen;
+            }
+            return path[^1];
         }
 
         /// <summary>
