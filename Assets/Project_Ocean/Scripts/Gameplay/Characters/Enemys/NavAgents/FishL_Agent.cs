@@ -1,36 +1,25 @@
-using Game.Testing;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class FishL_Agent : MonoBehaviour
+/// <summary>
+/// Large fish: wander, search, prepare, attack, and follow states with alert UI.
+/// </summary>
+public class FishL_Agent : EnemyNavAgentBase, IEnemyAttackState
 {
-    [Header("Target")]
-    [SerializeField] private Enemy enemy;
-
-    [Header("Alert UI")]
-    [SerializeField] private FishAlertUI fishAlertUI;
+    private enum BehaviourState
+    {
+        Wander,
+        Prepare,
+        Attack,
+        Follow,
+        Search
+    }
 
     [Header("Movement")]
     [SerializeField] private float speed = 2f;
     [SerializeField] private float boostSpeed = 7f;
 
-    [Header("Rotation")]
-    [SerializeField] private float turnSmoothTime = 0.25f;
-    [SerializeField] private float maxTiltAngle = 360f;
-    [SerializeField] private float flipDeadZone = 0.1f;
-    [SerializeField] private float flipDelay = 0.4f;
-    [SerializeField] private float flipCooldown = 0.7f;
-    [SerializeField] private float spriteAngleOffset = 0f;
-    [SerializeField] private float attackAngleThreshold = 15f;
-
-    private float turnVelocity;
-    private bool facingRight = true;
-    private float flipTimer = 0f;
-    private float flipCooldownTimer = 0f;
-
-    [Header("Vision Settings")]
+    [Header("Vision")]
     [SerializeField] private float viewAngle = 90f;
-    [Tooltip("Layers ที่บังสายตาปลา (ใส่ทุก layer ของ Map/Terrain/Wall)")]
     [SerializeField] private LayerMask visionObstacleMask;
 
     [Header("Wall Avoidance")]
@@ -39,73 +28,62 @@ public class FishL_Agent : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private int maxWanderSampleTries = 20;
 
-    [Header("Wander Settings")]
+    [Header("Wander")]
     [SerializeField] private float wanderRadius = 3f;
     [SerializeField] private float wanderChangeInterval = 2f;
 
-    private float wanderTimer;
-
-    [Header("Last Seen Search")]
+    [Header("Search")]
     [SerializeField] private float searchDuration = 4f;
     [SerializeField] private float searchRadius = 2.5f;
 
-    [Header("Attack Settings")]
+    [Header("Attack")]
     [SerializeField] private float detectDistance = 5f;
     [SerializeField] private float attackRange = 1.5f;
     [SerializeField] private float prepareTime = 2f;
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private float followAfterLost = 6f;
+    [SerializeField] private float attackDamage = 10.25f;
 
     [Header("Hit Reaction")]
     [SerializeField] private float hitChaseDuration = 5f;
     [SerializeField] private bool chasePlayerWhenHit = true;
 
-    private float hitChaseTimer = 0f;
-
-    [Header("Hit Receiver")]
-    [SerializeField] private string playerBulletTag = "Bullet";
-    [SerializeField] private string playerTag = "Player";
-    [SerializeField] private bool destroyBulletOnHit = true;
-
-    [Header("Near Wall Attack Fix")]
+    [Header("Near Wall Attack")]
     [SerializeField] private float nearPlayerSearchRadius = 5f;
     [SerializeField] private int nearPlayerSearchSamples = 24;
     [SerializeField] private float nearPlayerSearchStep = 0.5f;
 
-    private NavMeshAgent agent;
-    private NavMeshPath path;
+    private EnemyNavPathfinder pathfinder;
 
-    private bool isPreparing = false;
+    private BehaviourState state = BehaviourState.Wander;
+    private bool isAttacking;
+    public bool IsAttacking => isAttacking;
 
-    private bool isAttacking = false;
-    public bool IsAttacking { get { return isAttacking; } }
-
-    private bool isFollowing = false;
-    private bool isSearching = false;
-
-    private float prepareTimer = 0f;
-    private float attackTimer = 0f;
-    private float followTimer = 0f;
-    private float searchTimer = 0f;
+    private float prepareTimer;
+    private float attackTimer;
+    private float followTimer;
+    private float searchTimer;
+    private float wanderTimer;
+    private float hitChaseTimer;
 
     private Vector3 wanderTarget;
     private Vector3 lastKnownPlayerPosition;
     private Vector3 lastSeenPosition;
 
-    private void Start()
+    protected override void OnAgentStarted()
     {
-        agent = GetComponent<NavMeshAgent>();
-        enemy = GetComponent<Enemy>();
+        pathfinder = new EnemyNavPathfinder(
+            Agent,
+            wallLayer,
+            fishClearanceRadius,
+            maxWanderSampleTries,
+            nearPlayerSearchRadius,
+            nearPlayerSearchSamples,
+            nearPlayerSearchStep
+        );
 
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-
-        path = new NavMeshPath();
-
-        facingRight = transform.localScale.x >= 0f;
-
-        if (enemy != null && enemy.Player != null)
-            lastKnownPlayerPosition = enemy.Player.transform.position;
+        if (PlayerTransform != null)
+            lastKnownPlayerPosition = PlayerTransform.position;
 
         if (fishAlertUI != null)
             fishAlertUI.HideAll();
@@ -114,37 +92,21 @@ public class FishL_Agent : MonoBehaviour
         PickNewWanderPoint();
     }
 
-    private void Update()
+    protected override void TickAgent()
     {
-        if (enemy == null || enemy.Player == null || enemy.IsDeath)
-        {
-            if (fishAlertUI != null)
-                fishAlertUI.HideAll();
-
-            return;
-        }
-
-        if (agent == null || !agent.isOnNavMesh) return;
-
-        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
+        float dist = Vector2.Distance(transform.position, PlayerTransform.position);
         bool canSeePlayer = CanSeePlayer(dist);
         bool alertedByHit = hitChaseTimer > 0f;
 
-        if (fishAlertUI != null)
-            fishAlertUI.SetSeeingPlayer(canSeePlayer);
+        SetSeeingPlayer(canSeePlayer);
 
         if (hitChaseTimer > 0f)
             hitChaseTimer -= Time.deltaTime;
 
         if (canSeePlayer || alertedByHit)
         {
-            lastKnownPlayerPosition = enemy.Player.transform.position;
+            lastKnownPlayerPosition = PlayerTransform.position;
             followTimer = followAfterLost;
-
-            if (isSearching)
-            {
-                isSearching = false;
-            }
         }
 
         if (attackTimer > 0f)
@@ -153,156 +115,153 @@ public class FishL_Agent : MonoBehaviour
         if (followTimer > 0f)
             followTimer -= Time.deltaTime;
 
-        if (!isPreparing && !isAttacking && (canSeePlayer || alertedByHit) && dist > attackRange && attackTimer <= 0f)
+        UpdateStateTransitions(canSeePlayer, alertedByHit, dist);
+
+        switch (state)
         {
-            isSearching = false;
-            StartPrepare();
+            case BehaviourState.Prepare:
+                TickPrepare();
+                break;
+            case BehaviourState.Attack:
+                TickAttack();
+                break;
+            case BehaviourState.Follow:
+                TickFollow();
+                break;
+            case BehaviourState.Search:
+                TickSearch();
+                break;
+            default:
+                TickWander();
+                break;
         }
 
-        if (!isPreparing && !isAttacking && !canSeePlayer && !alertedByHit && isFollowing && followTimer <= 0f)
+        AvoidWallWhileMoving();
+        TickFacing();
+    }
+
+    private void UpdateStateTransitions(bool canSeePlayer, bool alertedByHit, float dist)
+    {
+        if (state != BehaviourState.Prepare && state != BehaviourState.Attack
+            && (canSeePlayer || alertedByHit) && dist > attackRange && attackTimer <= 0f)
         {
-            isFollowing = false;
-            isSearching = true;
+            state = BehaviourState.Prepare;
+            BeginPrepare();
+        }
+
+        if (state != BehaviourState.Prepare && state != BehaviourState.Attack
+            && !canSeePlayer && !alertedByHit && state == BehaviourState.Follow && followTimer <= 0f)
+        {
+            state = BehaviourState.Search;
             searchTimer = searchDuration;
             lastSeenPosition = lastKnownPlayerPosition;
             PickSearchWanderPoint();
-
-            if (fishAlertUI != null)
-                fishAlertUI.HideAttackWarning();
+            HideAttackWarning();
         }
 
-        if (!isPreparing && !isAttacking && (canSeePlayer || alertedByHit) && attackTimer > 0f)
+        if (state != BehaviourState.Prepare && state != BehaviourState.Attack
+            && (canSeePlayer || alertedByHit) && attackTimer > 0f)
         {
-            isFollowing = true;
+            state = BehaviourState.Follow;
         }
-
-        if (isPreparing)
-            Prepare();
-        else if (isAttacking)
-            Attack();
-        else if (isFollowing)
-            Follow();
-        else if (isSearching)
-            Search();
-        else
-            Wander();
-
-        AvoidWallWhileMoving();
-        RotateFish();
     }
 
-    private void StartPrepare()
+    private void BeginPrepare()
     {
-        isPreparing = true;
-        isFollowing = false;
-        isSearching = false;
         prepareTimer = prepareTime;
-        agent.isStopped = true;
-
-        if (fishAlertUI != null)
-            fishAlertUI.ShowAttackWarning();
+        Agent.isStopped = true;
+        ShowAttackWarning();
     }
 
-    private void Prepare()
+    private void TickPrepare()
     {
         prepareTimer -= Time.deltaTime;
 
-        Vector2 dir = enemy.Player.transform.position - transform.position;
-
+        Vector2 dir = PlayerTransform.position - transform.position;
         if (dir.sqrMagnitude <= 0.01f)
             return;
 
-        bool facingPlayer = RotateTowards(dir.normalized);
+        Facing.SetSuppressRotation(true);
+        bool facingPlayer = Facing.RotateTowards(dir.normalized);
+        Facing.SetSuppressRotation(false);
 
         if (prepareTimer <= 0f && facingPlayer)
         {
-            isPreparing = false;
+            state = BehaviourState.Attack;
             isAttacking = true;
-
-            agent.isStopped = false;
-            agent.speed = boostSpeed;
+            Agent.isStopped = false;
+            Agent.speed = boostSpeed;
         }
     }
 
-    private void Attack()
+    private void TickAttack()
     {
-        float dist = Vector2.Distance(transform.position, enemy.Player.transform.position);
+        float dist = Vector2.Distance(transform.position, PlayerTransform.position);
         bool canSeePlayer = CanSeePlayer(dist);
         bool alertedByHit = hitChaseTimer > 0f;
 
         if (!canSeePlayer && !alertedByHit)
         {
-            isAttacking = false;
-            isFollowing = true;
+            EndAttack(applyCooldown: false);
+            state = BehaviourState.Follow;
             followTimer = followAfterLost;
-
-            if (fishAlertUI != null)
-                fishAlertUI.HideAttackWarning();
-
             return;
         }
 
-        lastKnownPlayerPosition = enemy.Player.transform.position;
+        lastKnownPlayerPosition = PlayerTransform.position;
 
         if (dist <= attackRange)
         {
-            Debug.Log("Player hit by fish!");
-            enemy.Player.TakeDamage(10.25f);
-            StopAttack();
+            Player.TakeDamage(attackDamage);
+            EndAttack(applyCooldown: true);
             return;
         }
 
-        Vector3 target = enemy.Player.transform.position;
-
-        bool success = SetSafeDestination(target);
+        Vector3 target = PlayerTransform.position;
+        bool success = pathfinder.SetSafeDestination(target);
 
         if (!success)
-            success = SetSafeDestinationNearPlayer(enemy.Player.transform.position);
+            success = pathfinder.SetSafeDestinationNear(target);
 
         if (!success)
         {
-            agent.ResetPath();
-
-            Vector2 dir = enemy.Player.transform.position - transform.position;
+            Agent.ResetPath();
+            Vector2 dir = PlayerTransform.position - transform.position;
             if (dir.sqrMagnitude > 0.01f)
-                RotateTowards(dir.normalized);
-
+                Facing.RotateTowards(dir.normalized);
             return;
         }
 
         if (dist > detectDistance && !alertedByHit)
         {
-            isAttacking = false;
-            isFollowing = true;
+            EndAttack(applyCooldown: false);
+            state = BehaviourState.Follow;
             followTimer = followAfterLost;
-
-            if (fishAlertUI != null)
-                fishAlertUI.HideAttackWarning();
         }
     }
 
-    private void StopAttack()
+    private void EndAttack(bool applyCooldown)
     {
         isAttacking = false;
-        attackTimer = attackCooldown;
-        agent.speed = speed;
 
-        if (fishAlertUI != null)
-            fishAlertUI.HideAttackWarning();
+        if (applyCooldown)
+            attackTimer = attackCooldown;
+
+        Agent.speed = speed;
+        HideAttackWarning();
     }
 
-    private void Follow()
+    private void TickFollow()
     {
-        agent.speed = speed;
+        Agent.speed = speed;
 
-        bool success = SetSafeDestination(lastKnownPlayerPosition);
-
+        bool success = pathfinder.SetSafeDestination(lastKnownPlayerPosition);
         if (!success)
-            success = SetSafeDestinationNearPlayer(lastKnownPlayerPosition);
+            success = pathfinder.SetSafeDestinationNear(lastKnownPlayerPosition);
 
         if (!success)
         {
-            agent.ResetPath();
+            Agent.ResetPath();
             return;
         }
 
@@ -310,26 +269,22 @@ public class FishL_Agent : MonoBehaviour
 
         if (distToLastKnown < 0.5f && hitChaseTimer <= 0f)
         {
-            isFollowing = false;
-            isSearching = true;
+            state = BehaviourState.Search;
             searchTimer = searchDuration;
             lastSeenPosition = lastKnownPlayerPosition;
             PickSearchWanderPoint();
-
-            if (fishAlertUI != null)
-                fishAlertUI.HideAttackWarning();
+            HideAttackWarning();
         }
     }
 
-    private void Search()
+    private void TickSearch()
     {
-        agent.speed = speed;
-
+        Agent.speed = speed;
         searchTimer -= Time.deltaTime;
 
         if (searchTimer <= 0f)
         {
-            isSearching = false;
+            state = BehaviourState.Wander;
             wanderTimer = wanderChangeInterval;
             PickNewWanderPoint();
             return;
@@ -338,35 +293,13 @@ public class FishL_Agent : MonoBehaviour
         if (Vector2.Distance(transform.position, wanderTarget) < 0.5f)
             PickSearchWanderPoint();
 
-        SetSafeDestination(wanderTarget);
+        pathfinder.SetSafeDestination(wanderTarget);
     }
 
-    private void PickSearchWanderPoint()
+    private void TickWander()
     {
-        for (int i = 0; i < maxWanderSampleTries; i++)
-        {
-            Vector2 randomDir = Random.insideUnitCircle * searchRadius;
-            Vector3 randomPoint = lastSeenPosition + new Vector3(randomDir.x, randomDir.y, 0f);
-
-            if (!CanFishFitAt(randomPoint))
-                continue;
-
-            if (IsPathComplete(randomPoint))
-            {
-                wanderTarget = randomPoint;
-                return;
-            }
-        }
-
-        wanderTarget = transform.position;
-    }
-
-    private void Wander()
-    {
-        agent.speed = speed;
-
-        if (fishAlertUI != null)
-            fishAlertUI.HideAttackWarning();
+        Agent.speed = speed;
+        HideAttackWarning();
 
         wanderTimer -= Time.deltaTime;
 
@@ -376,367 +309,122 @@ public class FishL_Agent : MonoBehaviour
             wanderTimer = wanderChangeInterval;
         }
 
-        SetSafeDestination(wanderTarget);
+        pathfinder.SetSafeDestination(wanderTarget);
     }
 
     private void PickNewWanderPoint()
     {
-        for (int i = 0; i < maxWanderSampleTries; i++)
-        {
-            Vector2 randomDir = Random.insideUnitCircle * wanderRadius;
-            Vector3 randomPoint = transform.position + new Vector3(randomDir.x, randomDir.y, 0f);
-
-            if (!CanFishFitAt(randomPoint))
-                continue;
-
-            if (IsPathComplete(randomPoint))
-            {
-                wanderTarget = randomPoint;
-                return;
-            }
-        }
-
-        wanderTarget = transform.position;
+        pathfinder.TryPickWanderPoint(transform.position, wanderRadius, out wanderTarget);
     }
 
-    private bool SetSafeDestination(Vector3 target)
+    private void PickSearchWanderPoint()
     {
-        if (agent == null || !agent.isOnNavMesh)
-            return false;
-
-        if (!CanFishFitAt(target))
-            return false;
-
-        if (!IsPathComplete(target))
-            return false;
-
-        return agent.SetDestination(target);
-    }
-
-    private bool SetSafeDestinationNearPlayer(Vector3 playerPosition)
-    {
-        if (agent == null || !agent.isOnNavMesh)
-            return false;
-
-        Vector2 fromPlayerToFish = transform.position - playerPosition;
-
-        if (fromPlayerToFish.sqrMagnitude < 0.01f)
-            fromPlayerToFish = Random.insideUnitCircle;
-
-        fromPlayerToFish.Normalize();
-
-        for (float radius = nearPlayerSearchStep; radius <= nearPlayerSearchRadius; radius += nearPlayerSearchStep)
-        {
-            Vector3 candidate = playerPosition + (Vector3)(fromPlayerToFish * radius);
-
-            if (CanFishFitAt(candidate) && IsPathComplete(candidate))
-            {
-                agent.SetDestination(candidate);
-                return true;
-            }
-        }
-
-        for (int i = 0; i < nearPlayerSearchSamples; i++)
-        {
-            float angle = (360f / nearPlayerSearchSamples) * i;
-
-            Vector2 dir = new Vector2(
-                Mathf.Cos(angle * Mathf.Deg2Rad),
-                Mathf.Sin(angle * Mathf.Deg2Rad)
-            );
-
-            for (float radius = nearPlayerSearchStep; radius <= nearPlayerSearchRadius; radius += nearPlayerSearchStep)
-            {
-                Vector3 candidate = playerPosition + (Vector3)(dir * radius);
-
-                if (!CanFishFitAt(candidate))
-                    continue;
-
-                if (!IsPathComplete(candidate))
-                    continue;
-
-                agent.SetDestination(candidate);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private bool IsPathComplete(Vector3 target)
-    {
-        if (agent == null || !agent.isOnNavMesh)
-            return false;
-
-        if (path == null)
-            path = new NavMeshPath();
-
-        bool hasPath = agent.CalculatePath(target, path);
-
-        return hasPath && path.status == NavMeshPathStatus.PathComplete;
-    }
-
-    private bool CanFishFitAt(Vector3 point)
-    {
-        Collider2D hit = Physics2D.OverlapCircle(point, fishClearanceRadius, wallLayer);
-        return hit == null;
+        pathfinder.TryPickWanderPoint(lastSeenPosition, searchRadius, out wanderTarget);
     }
 
     private bool CanSeePlayer(float dist)
     {
-        if (enemy == null || enemy.Player == null)
+        if (PlayerTransform == null || dist > detectDistance)
             return false;
 
-        if (dist > detectDistance)
-            return false;
+        LayerMask obstacleMask = visionObstacleMask.value != 0 ? visionObstacleMask : wallLayer;
 
-        Vector2 toPlayer = enemy.Player.transform.position - transform.position;
-
-        if (toPlayer.sqrMagnitude < 0.01f)
-            return true;
-
-        toPlayer.Normalize();
-
-        Vector2 facingDir = GetFacingDirection();
-
-        float angleToPlayer = Vector2.Angle(facingDir, toPlayer);
-
-        if (angleToPlayer > viewAngle * 0.5f)
-            return false;
-
-        // ใช้ LayerMask ที่เหมาะสม: visionObstacleMask ถ้าตั้งค่าไว้ ไม่งั้น fallback เป็น wallLayer
-        LayerMask obstacleMask = (visionObstacleMask.value != 0) ? visionObstacleMask : wallLayer;
-
-        Vector2 fishPos = transform.position;
-        Vector2 playerPos = enemy.Player.transform.position;
-
-        // Linecast จาก fish → player: ไม่ขึ้นกับ direction คำนวณ
-        // และไม่มีปัญหา start-inside-collider เหมือน Raycast
-        RaycastHit2D hit = Physics2D.Linecast(fishPos, playerPos, obstacleMask);
-
-        if (hit.collider != null)
-            return false;
-
-        return true;
-    }
-
-    private Vector2 GetFacingDirection()
-    {
-        Vector2 dir = facingRight ? transform.right : -transform.right;
-        return dir.normalized;
+        return EnemyVisionHelper.HasLineOfSight(
+            transform.position,
+            PlayerTransform.position,
+            Facing.GetFacingDirection(),
+            detectDistance,
+            viewAngle,
+            obstacleMask
+        );
     }
 
     private void AvoidWallWhileMoving()
     {
-        if (agent == null || !agent.isOnNavMesh)
+        if (Agent.velocity.sqrMagnitude < 0.01f)
             return;
 
-        if (agent.velocity.sqrMagnitude < 0.01f)
-            return;
-
-        Vector2 direction = agent.velocity.normalized;
-        Vector2 origin = transform.position;
-
+        Vector2 direction = Agent.velocity.normalized;
         RaycastHit2D hit = Physics2D.CircleCast(
-            origin,
+            transform.position,
             fishClearanceRadius,
             direction,
             wallCheckDistance,
             wallLayer
         );
 
-        if (hit.collider != null)
+        if (hit.collider == null)
+            return;
+
+        Agent.ResetPath();
+
+        if (state == BehaviourState.Attack || state == BehaviourState.Follow)
         {
-            agent.ResetPath();
-
-            if (isAttacking || isFollowing)
+            if (!pathfinder.SetSafeDestinationNear(lastKnownPlayerPosition))
             {
-                bool success = SetSafeDestinationNearPlayer(lastKnownPlayerPosition);
-
-                if (!success)
-                {
-                    Vector2 dir = lastKnownPlayerPosition - transform.position;
-                    if (dir.sqrMagnitude > 0.01f)
-                        RotateTowards(dir.normalized);
-                }
-
-                return;
+                Vector2 dir = lastKnownPlayerPosition - transform.position;
+                if (dir.sqrMagnitude > 0.01f)
+                    Facing.RotateTowards(dir.normalized);
             }
 
-            PickNewWanderPoint();
-            SetSafeDestination(wanderTarget);
+            return;
         }
+
+        PickNewWanderPoint();
+        pathfinder.SetSafeDestination(wanderTarget);
     }
 
-    private void RotateFish()
+    private void TickFacing()
     {
-        if (isPreparing)
+        if (state == BehaviourState.Prepare)
             return;
 
-        if (agent.velocity.sqrMagnitude > 0.01f)
-            RotateTowards(agent.velocity.normalized);
+        TickFacingFromAgentVelocity();
     }
 
-    private bool RotateTowards(Vector2 dir)
+    private bool IsCommittedToAttack =>
+        state == BehaviourState.Prepare || state == BehaviourState.Attack;
+
+    protected override void OnHitByPlayer(Transform attacker)
     {
-        if (dir.sqrMagnitude < 0.01f)
-            return true;
-
-        if (flipCooldownTimer > 0f)
-            flipCooldownTimer -= Time.deltaTime;
-
-        bool wantsFaceRight = facingRight;
-
-        if (dir.x > flipDeadZone)
-            wantsFaceRight = true;
-        else if (dir.x < -flipDeadZone)
-            wantsFaceRight = false;
-
-        if (wantsFaceRight != facingRight)
-        {
-            flipTimer += Time.deltaTime;
-
-            if (flipTimer >= flipDelay && flipCooldownTimer <= 0f)
-            {
-                facingRight = wantsFaceRight;
-                flipTimer = 0f;
-                flipCooldownTimer = flipCooldown;
-                turnVelocity = 0f;
-            }
-        }
-        else
-        {
-            flipTimer = 0f;
-        }
-
-        float targetAngle;
-
-        if (facingRight)
-        {
-            transform.localScale = new Vector3(
-                Mathf.Abs(transform.localScale.x),
-                Mathf.Abs(transform.localScale.y),
-                transform.localScale.z
-            );
-
-            targetAngle = Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
-        }
-        else
-        {
-            transform.localScale = new Vector3(
-                -Mathf.Abs(transform.localScale.x),
-                Mathf.Abs(transform.localScale.y),
-                transform.localScale.z
-            );
-
-            targetAngle = Mathf.Atan2(-dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
-        }
-
-        targetAngle = Mathf.Clamp(targetAngle, -maxTiltAngle, maxTiltAngle);
-        targetAngle += spriteAngleOffset;
-
-        float smoothAngle = Mathf.SmoothDampAngle(
-            transform.eulerAngles.z,
-            targetAngle,
-            ref turnVelocity,
-            turnSmoothTime
-        );
-
-        transform.rotation = Quaternion.Euler(0f, 0f, smoothAngle);
-
-        float angleDifference = Mathf.Abs(
-            Mathf.DeltaAngle(transform.eulerAngles.z, targetAngle)
-        );
-
-        return angleDifference <= attackAngleThreshold;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        TryReceiveBulletHit(other.gameObject);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        TryReceiveBulletHit(collision.collider.gameObject);
-    }
-
-    private void TryReceiveBulletHit(GameObject hitObject)
-    {
-        if (hitObject == null)
-            return;
-
-        if (!hitObject.CompareTag(playerBulletTag))
-            return;
-
-        Debug.Log("Fish was hit by bullet object!");
-
-        Transform playerTransform = FindPlayerTransform();
-
-        OnHitByPlayer(playerTransform);
-
-        if (destroyBulletOnHit)
-            Destroy(hitObject);
-    }
-
-    private Transform FindPlayerTransform()
-    {
-        if (enemy != null && enemy.Player != null)
-            return enemy.Player.transform;
-
-        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-
-        if (playerObject != null)
-            return playerObject.transform;
-
-        return null;
-    }
-
-    public void OnHitByPlayer(Transform attacker)
-    {
-        Debug.Log("FISH HIT REACTION CALLED");
-
         if (!chasePlayerWhenHit)
             return;
 
         if (attacker != null)
             lastKnownPlayerPosition = attacker.position;
-        else if (enemy != null && enemy.Player != null)
-            lastKnownPlayerPosition = enemy.Player.transform.position;
+        else if (PlayerTransform != null)
+            lastKnownPlayerPosition = PlayerTransform.position;
         else
+            return;
+
+        // Keep prepare / attack going when shot; only refresh chase awareness.
+        if (IsCommittedToAttack)
         {
-            Debug.LogWarning("Fish was hit, but no player transform found.");
+            hitChaseTimer = hitChaseDuration;
+            followTimer = followAfterLost;
             return;
         }
 
         hitChaseTimer = hitChaseDuration;
         followTimer = followAfterLost;
         attackTimer = 0f;
-
-        isPreparing = false;
         isAttacking = false;
-        isSearching = false;
-        isFollowing = true;
+        state = BehaviourState.Follow;
 
-        if (fishAlertUI != null)
-            fishAlertUI.ShowAttackWarning();
+        ShowAttackWarning();
 
-        if (agent != null && agent.isOnNavMesh)
+        if (Agent.isOnNavMesh)
         {
-            agent.isStopped = false;
-            agent.speed = boostSpeed;
+            Agent.isStopped = false;
+            Agent.speed = boostSpeed;
 
-            bool success = SetSafeDestination(lastKnownPlayerPosition);
-
-            if (!success)
-                SetSafeDestinationNearPlayer(lastKnownPlayerPosition);
+            if (!pathfinder.SetSafeDestination(lastKnownPlayerPosition))
+                pathfinder.SetSafeDestinationNear(lastKnownPlayerPosition);
         }
 
         Vector2 dir = lastKnownPlayerPosition - transform.position;
         if (dir.sqrMagnitude > 0.01f)
-            RotateTowards(dir.normalized);
-
-        Debug.Log("Fish got hit! Chase player!");
+            Facing.RotateTowards(dir.normalized);
     }
 
     private void OnDrawGizmosSelected()
@@ -751,8 +439,9 @@ public class FishL_Agent : MonoBehaviour
         );
 
         Gizmos.color = Color.green;
-
-        Vector2 facingDir = Application.isPlaying ? GetFacingDirection() : transform.right;
+        Vector2 facingDir = Application.isPlaying && Facing != null
+            ? Facing.GetFacingDirection()
+            : transform.right;
 
         Vector3 leftDir = Quaternion.Euler(0f, 0f, viewAngle * 0.5f) * facingDir;
         Vector3 rightDir = Quaternion.Euler(0f, 0f, -viewAngle * 0.5f) * facingDir;

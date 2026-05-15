@@ -1,101 +1,98 @@
 using Game.Testing;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class FishS_Agent : MonoBehaviour
+/// <summary>
+/// Small fish: flocking, panic flee, and wall bounce behaviour.
+/// </summary>
+public class FishS_Agent : EnemyNavAgentBase
 {
-    [Header("Fish Settings")]
-    public float speed = 2.5f;
-    public float turnSpeed = 5f;
-    public float groupRadius = 3f;
-    public float separationDistance = 1f;
-    public List<FishS_Agent> neighbors = new List<FishS_Agent>();
+    private const float NavDestinationDistance = 3f;
 
-    [Header("Leader Settings")]
-    public FishS_Agent leader; // null = leader
-    public int groupID = 0;
+    [Header("Movement")]
+    [SerializeField] private float speed = 2.5f;
 
-    [Header("Sensor Settings")]
-    public float viewDistance = 6f;
-    public float viewAngle = 90f;
+    [Header("Flock")]
+    [SerializeField] private float groupRadius = 3f;
+    [SerializeField] private float separationDistance = 1f;
+    [SerializeField] private List<FishS_Agent> neighbors = new List<FishS_Agent>();
+    public FishS_Agent leader;
+    public int groupID;
 
-    [Header("Wander Settings")]
-    public float wanderRadius = 3f;
-    public float wanderInterval = 3f;
+    [Header("Vision")]
+    [SerializeField] private float viewDistance = 6f;
+    [SerializeField] private float viewAngle = 90f;
+
+    [Header("Wander")]
+    [SerializeField] private float wanderRadius = 3f;
+    [SerializeField] private float wanderInterval = 3f;
 
     [Header("Flocking Weights")]
-    public float cohesionWeight = 1f;       // ดึงเข้าหาศูนย์กลางกลุ่ม
-    public float separationWeight = 1.5f;   // ผลักออกเมื่อใกล้เกินไป
-    public float alignmentWeight = 0.5f;    // หันหน้าตามทิศกลุ่ม
+    [SerializeField] private float cohesionWeight = 1f;
+    [SerializeField] private float separationWeight = 1.5f;
+    [SerializeField] private float alignmentWeight = 0.5f;
 
     [Header("Panic Flee")]
-    public float panicSpeedMultiplier = 2.5f;  // speed boost ตอน panic
-    public float panicDuration = 3f;           // นานแค่ไหนก่อน speed กลับปกติ
-    public float panicRandomAngle = 60f;       // องศาสุ่มทิศหนี (0=ตรง, 180=สุ่มเต็ม)
+    [SerializeField] private float panicSpeedMultiplier = 2.5f;
+    [SerializeField] private float panicDuration = 3f;
+    [SerializeField] private float panicRandomAngle = 60f;
 
     [Header("Wall Avoid")]
-    public float wallDetectDistance = 2f;      // เพิ่มให้ detect ไวขึ้น
-    public float wallAvoidWeight = 3f;         // น้ำหนักการหลีกกำแพง
-    public LayerMask wallLayer;
+    [SerializeField] private float wallDetectDistance = 2f;
+    [SerializeField] private float wallAvoidWeight = 3f;
+    [SerializeField] private LayerMask wallLayer;
 
-    [Header("Hit Receiver")]
-    public string playerBulletTag = "Bullet";
-    public string playerTag = "Player";
-    public bool destroyBulletOnHit = true;
-    public float hitChaseDuration = 5f;
-
-    [Header("Rotation/Flip Settings")]
-    public float turnSmoothTime = 0.25f;
-    public float maxTiltAngle = 360f;
-    public float flipDeadZone = 0.1f;
-    public float flipDelay = 0.4f;
-    public float flipCooldown = 0.5f;
-    public float spriteAngleOffset = 0f;
-
-    private Vector2 currentDirection;
-    private NavMeshAgent agent;
-    private Vector2 wanderTarget;
-    private float wanderTimer = 0f;
-    private float hitChaseTimer = 0f;
-
-    private bool facingRight = true;
-    private float turnVelocity;
-    private float flipTimer = 0f;
-    private float flipCooldownTimer = 0f;
+    [Header("Hit")]
+    [SerializeField] private float hitChaseDuration = 5f;
 
     [SerializeField] private Transform playerTransform;
 
+    private Vector2 currentDirection;
+    private Vector2 wanderTarget;
+    private float wanderTimer;
+    private float hitChaseTimer;
+    private float neighborTimer;
+    private float panicTimer;
+    private Vector2 panicDirection;
+
+    private bool isPanicking;
+    private bool isBouncing;
+
     private float neighborUpdateInterval = 0.2f;
-    private float neighborTimer = 0f;
 
-    private const float NAV_DESTINATION_DISTANCE = 3f;
+    protected override bool RequiresPlayer => false;
 
-    // Panic state
-    private bool isPanicking = false;
-    private float panicTimer = 0f;
-    private Vector2 panicDirection = Vector2.zero;
+    protected override EnemyFacingController.FacingTurnMode DefaultFacingTurnMode =>
+        EnemyFacingController.FacingTurnMode.TurnSpeed;
 
-    // Wall Bounce state
-    private bool isBouncing = false;
-
-    private void Start()
+    protected override void OnAgentStarted()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-        agent.speed = speed;
+        Agent.speed = speed;
         SetNewWanderTarget();
 
-        GameObject playerObj = GameManager.CurPlayer.gameObject;
-        if (playerObj != null)
-            playerTransform = playerObj.transform;
+        if (PlayerTransform != null)
+            playerTransform = PlayerTransform;
+        else if (GameManager.CurPlayer != null)
+            playerTransform = GameManager.CurPlayer.transform;
     }
 
-    private void Update()
+    protected override bool CanTick()
     {
-        if (isBouncing || GetComponent<Enemy>().IsDeath) return; // บล็อก Update ชั่วคราวให้ WallBounceRoutine ทำงาน
+        if (IsEnemyDead)
+        {
+            OnEnemyDead();
+            return false;
+        }
 
+        if (isBouncing)
+            return false;
+
+        return Agent != null && Agent.isOnNavMesh;
+    }
+
+    protected override void TickAgent()
+    {
         neighborTimer -= Time.deltaTime;
         if (neighborTimer <= 0f)
         {
@@ -103,7 +100,6 @@ public class FishS_Agent : MonoBehaviour
             neighborTimer = neighborUpdateInterval;
         }
 
-        // ── Panic timer ───────────────────────────────────────────
         if (isPanicking)
         {
             panicTimer -= Time.deltaTime;
@@ -112,98 +108,95 @@ public class FishS_Agent : MonoBehaviour
         }
 
         Vector2 moveDir = Vector2.zero;
-        bool playerNearby = false;
+        bool playerNearby = playerTransform != null && CanSeePlayer(playerTransform);
 
-        // ── Player detection → Panic Flee ─────────────────────────
-        if (playerTransform != null && CanSeePlayer(playerTransform))
+        if (playerNearby)
         {
-            playerNearby = true;
-
             if (!isPanicking)
                 StartPanic(playerTransform.position);
 
             moveDir += panicDirection * 3f;
 
-            // Leader broadcast ให้ follower panic ด้วย
             if (leader == null)
-            {
-                foreach (var fish in neighbors)
-                {
-                    if (fish.leader == this && fish.groupID == groupID)
-                        fish.FleeFrom(playerTransform.position);
-                }
-            }
+                BroadcastPanicToFollowers();
         }
-
-        // ── ยังคง panic อยู่แม้ไม่เห็น player แล้ว ────────────────
-        if (!playerNearby && isPanicking)
+        else if (isPanicking)
         {
             moveDir += panicDirection * 2f;
         }
 
-        // ── Hit reaction ─────────────────────────────────────────
-        if (hitChaseTimer > 0f)
+        moveDir += TickHitReaction();
+        moveDir += TickLeaderAndWander(playerNearby);
+        moveDir += CalcFlocking();
+        moveDir += WallAvoidance();
+
+        if (moveDir.sqrMagnitude > 0.01f)
         {
-            hitChaseTimer -= Time.deltaTime;
-            if (playerTransform != null)
-            {
-                Vector2 tempFlee = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
-                moveDir += tempFlee * 3f;
-            }
+            currentDirection = moveDir.normalized;
+            Agent.SetDestination(
+                (Vector3)transform.position + (Vector3)currentDirection * NavDestinationDistance
+            );
         }
 
-        // ── Follower follow leader หรือ wander ถ้าหัวหน้าออกฝูง ────
-        if (!playerNearby && !isPanicking && leader != null)
-        {
-            bool leaderNearby = neighbors.Contains(leader);
+        if (currentDirection.sqrMagnitude > 0.01f)
+            Facing.RotateTowards(currentDirection);
+    }
 
-            if (leaderNearby)
+    private Vector2 TickHitReaction()
+    {
+        if (hitChaseTimer <= 0f || playerTransform == null)
+            return Vector2.zero;
+
+        hitChaseTimer -= Time.deltaTime;
+        Vector2 flee = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
+        return flee * 3f;
+    }
+
+    private Vector2 TickLeaderAndWander(bool playerNearby)
+    {
+        Vector2 moveDir = Vector2.zero;
+
+        if (playerNearby || isPanicking)
+            return moveDir;
+
+        if (leader != null)
+        {
+            if (neighbors.Contains(leader))
             {
                 Vector2 toLeader = (Vector2)leader.transform.position - (Vector2)transform.position;
                 moveDir += toLeader.normalized;
             }
             else
             {
-                // หัวหน้าออกฝูงไปแล้ว — wander เองเหมือนปลาอิสระ
-                wanderTimer -= Time.deltaTime;
-                if (wanderTimer <= 0f || Vector2.Distance(transform.position, wanderTarget) < 0.5f)
-                    SetNewWanderTarget();
-
-                Vector2 toTarget = wanderTarget - (Vector2)transform.position;
-                moveDir += toTarget.normalized;
+                moveDir += TickWanderDirection();
             }
         }
-
-        // ── Leader wander ─────────────────────────────────────────
-        if (!playerNearby && !isPanicking && leader == null && hitChaseTimer <= 0f)
+        else if (hitChaseTimer <= 0f)
         {
-            wanderTimer -= Time.deltaTime;
-            if (wanderTimer <= 0f || Vector2.Distance(transform.position, wanderTarget) < 0.5f)
-                SetNewWanderTarget();
-
-            Vector2 toTarget = wanderTarget - (Vector2)transform.position;
-            moveDir += toTarget.normalized;
+            moveDir += TickWanderDirection();
         }
 
-        // ── Flocking: Cohesion + Separation + Alignment ───────────
-        moveDir += CalcFlocking();
-
-        // ── Wall Avoidance ────────────────────────────────────────
-        moveDir += WallAvoidance();
-
-        // ── Move ──────────────────────────────────────────────────
-        if (moveDir.sqrMagnitude > 0.01f)
-        {
-            currentDirection = moveDir.normalized;
-            agent.SetDestination((Vector3)transform.position + (Vector3)currentDirection * NAV_DESTINATION_DISTANCE);
-        }
-
-        RotateFish(currentDirection);
+        return moveDir;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Panic Flee
-    // ─────────────────────────────────────────────────────────────
+    private Vector2 TickWanderDirection()
+    {
+        wanderTimer -= Time.deltaTime;
+
+        if (wanderTimer <= 0f || Vector2.Distance(transform.position, wanderTarget) < 0.5f)
+            SetNewWanderTarget();
+
+        return wanderTarget - (Vector2)transform.position;
+    }
+
+    private void BroadcastPanicToFollowers()
+    {
+        foreach (FishS_Agent fish in neighbors)
+        {
+            if (fish.leader == this && fish.groupID == groupID)
+                fish.FleeFrom(playerTransform.position);
+        }
+    }
 
     private void StartPanic(Vector2 playerPos)
     {
@@ -214,17 +207,17 @@ public class FishS_Agent : MonoBehaviour
         float randomAngle = Random.Range(-panicRandomAngle, panicRandomAngle);
         panicDirection = RotateVector(awayFromPlayer, randomAngle);
 
-        agent.speed = speed * panicSpeedMultiplier;
+        Agent.speed = speed * panicSpeedMultiplier;
     }
 
     private void StopPanic()
     {
         isPanicking = false;
         panicTimer = 0f;
-        agent.speed = speed;
+        Agent.speed = speed;
     }
 
-    private Vector2 RotateVector(Vector2 v, float degrees)
+    private static Vector2 RotateVector(Vector2 v, float degrees)
     {
         float rad = degrees * Mathf.Deg2Rad;
         float cos = Mathf.Cos(rad);
@@ -232,20 +225,17 @@ public class FishS_Agent : MonoBehaviour
         return new Vector2(v.x * cos - v.y * sin, v.x * sin + v.y * cos);
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Flocking — Boid 3 Rules
-    // ─────────────────────────────────────────────────────────────
-
     private Vector2 CalcFlocking()
     {
-        if (neighbors.Count == 0) return Vector2.zero;
+        if (neighbors.Count == 0)
+            return Vector2.zero;
 
-        Vector2 cohesionSum   = Vector2.zero;
+        Vector2 cohesionSum = Vector2.zero;
         Vector2 separationSum = Vector2.zero;
-        Vector2 alignmentSum  = Vector2.zero;
-        int separationCount   = 0;
+        Vector2 alignmentSum = Vector2.zero;
+        int separationCount = 0;
 
-        foreach (var neighbor in neighbors)
+        foreach (FishS_Agent neighbor in neighbors)
         {
             Vector2 toNeighbor = (Vector2)neighbor.transform.position - (Vector2)transform.position;
             float dist = toNeighbor.magnitude;
@@ -278,28 +268,21 @@ public class FishS_Agent : MonoBehaviour
         return result;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Neighbors
-    // ─────────────────────────────────────────────────────────────
-
     private void UpdateNeighbors()
     {
         neighbors.Clear();
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, groupRadius);
-        foreach (var hit in hits)
+
+        foreach (Collider2D hit in hits)
         {
-            if (hit != null && hit != GetComponent<Collider2D>())
-            {
-                FishS_Agent fish = hit.GetComponent<FishS_Agent>();
-                if (fish != null && fish.groupID == groupID)
-                    neighbors.Add(fish);
-            }
+            if (hit == null || hit == GetComponent<Collider2D>())
+                continue;
+
+            FishS_Agent fish = hit.GetComponent<FishS_Agent>();
+            if (fish != null && fish.groupID == groupID)
+                neighbors.Add(fish);
         }
     }
-
-    // ─────────────────────────────────────────────────────────────
-    // Wander
-    // ─────────────────────────────────────────────────────────────
 
     private void SetNewWanderTarget()
     {
@@ -308,201 +291,130 @@ public class FishS_Agent : MonoBehaviour
         wanderTimer = wanderInterval;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Sensors
-    // ─────────────────────────────────────────────────────────────
-
     private bool CanSeePlayer(Transform target)
     {
-        Vector2 toPlayer = (Vector2)target.position - (Vector2)transform.position;
-        if (toPlayer.magnitude > viewDistance) return false;
-
-        Vector2 checkDir = currentDirection.sqrMagnitude > 0.01f ? currentDirection : toPlayer.normalized;
-        float angle = Vector2.Angle(checkDir, toPlayer);
-        if (angle > viewAngle / 2f) return false;
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer, toPlayer.magnitude, wallLayer);
-        if (hit.collider != null && hit.transform != target) return false;
-
-        return true;
+        return EnemyVisionHelper.HasLineOfSightRay(
+            transform.position,
+            target.position,
+            currentDirection,
+            viewDistance,
+            viewAngle,
+            wallLayer,
+            target
+        );
     }
-
-    // ─────────────────────────────────────────────────────────────
-    // Wall Avoidance — Raycast 8 ทิศ + hit.normal + scale ตาม speed
-    // ─────────────────────────────────────────────────────────────
 
     private Vector2 WallAvoidance()
     {
-        if (currentDirection.sqrMagnitude < 0.01f) return Vector2.zero;
+        if (currentDirection.sqrMagnitude < 0.01f)
+            return Vector2.zero;
 
         Vector2 avoidDir = Vector2.zero;
-
-        // scale detect distance ตาม speed ปัจจุบัน — ยิ่งเร็วยิ่ง detect ไกล
-        float currentSpeed = agent.speed;
-        float detectDist = wallDetectDistance * (currentSpeed / speed);
-
-        // Raycast 8 ทิศรอบตัว ครอบคลุมทุกมุม
+        float detectDist = wallDetectDistance * (Agent.speed / speed);
         float[] angles = { 0f, 45f, 90f, 135f, 180f, -45f, -90f, -135f };
 
-        foreach (float a in angles)
+        foreach (float angle in angles)
         {
-            Vector2 dir = RotateVector(currentDirection, a);
+            Vector2 dir = RotateVector(currentDirection, angle);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, detectDist, wallLayer);
 
-            if (hit.collider != null)
-            {
-                // ใช้ hit.normal แทน Perpendicular — ผลักออกจากผนังในทิศที่ถูกต้องเสมอ
-                float proximity = 1f - (hit.distance / detectDist); // ยิ่งใกล้ยิ่งผลักแรง
-                avoidDir += hit.normal * proximity;
-            }
+            if (hit.collider == null)
+                continue;
+
+            float proximity = 1f - hit.distance / detectDist;
+            avoidDir += hit.normal * proximity;
         }
 
-        return avoidDir.sqrMagnitude > 0.01f ? avoidDir.normalized * wallAvoidWeight : Vector2.zero;
+        return avoidDir.sqrMagnitude > 0.01f
+            ? avoidDir.normalized * wallAvoidWeight
+            : Vector2.zero;
     }
-
-    // ─────────────────────────────────────────────────────────────
-    // Rotation & Sprite Flip
-    // ─────────────────────────────────────────────────────────────
-
-    private void RotateFish(Vector2 dir)
-    {
-        if (dir.sqrMagnitude < 0.01f) return;
-
-        if (flipCooldownTimer > 0f)
-            flipCooldownTimer -= Time.deltaTime;
-
-        bool wantsFaceRight = facingRight;
-        if (dir.x >  flipDeadZone) wantsFaceRight = true;
-        else if (dir.x < -flipDeadZone) wantsFaceRight = false;
-
-        if (wantsFaceRight != facingRight)
-        {
-            flipTimer += Time.deltaTime;
-            if (flipTimer >= flipDelay && flipCooldownTimer <= 0f)
-            {
-                facingRight = wantsFaceRight;
-                flipTimer = 0f;
-                flipCooldownTimer = flipCooldown;
-                turnVelocity = 0f;
-            }
-        }
-        else flipTimer = 0f;
-
-        float targetAngle;
-        if (facingRight)
-        {
-            transform.localScale = new Vector3( Mathf.Abs(transform.localScale.x),
-                                                Mathf.Abs(transform.localScale.y),
-                                                transform.localScale.z);
-            targetAngle = Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
-        }
-        else
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x),
-                                                Mathf.Abs(transform.localScale.y),
-                                                transform.localScale.z);
-            targetAngle = Mathf.Atan2(-dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
-        }
-
-        targetAngle = Mathf.Clamp(targetAngle, -maxTiltAngle, maxTiltAngle);
-        targetAngle += spriteAngleOffset;
-
-        float smoothTime = 1f / Mathf.Max(turnSpeed, 0.01f);
-        float smoothAngle = Mathf.SmoothDampAngle(
-            transform.eulerAngles.z,
-            targetAngle,
-            ref turnVelocity,
-            smoothTime
-        );
-
-        transform.rotation = Quaternion.Euler(0f, 0f, smoothAngle);
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // Public API
-    // ─────────────────────────────────────────────────────────────
 
     public void FleeFrom(Vector2 targetPos)
     {
         if (!isPanicking)
             StartPanic(targetPos);
 
-        Vector2 fleeDir = ((Vector2)transform.position - targetPos).normalized;
-        currentDirection = fleeDir;
-        agent.SetDestination((Vector3)transform.position + (Vector3)currentDirection * NAV_DESTINATION_DISTANCE);
+        currentDirection = ((Vector2)transform.position - targetPos).normalized;
+        Agent.SetDestination(
+            (Vector3)transform.position + (Vector3)currentDirection * NavDestinationDistance
+        );
         hitChaseTimer = hitChaseDuration;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // Collision
-    // ─────────────────────────────────────────────────────────────
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void HandleBulletHit(GameObject bullet)
     {
-        if (collision.CompareTag(playerBulletTag))
-        {
-            if (destroyBulletOnHit) Destroy(collision.gameObject);
-            FleeFrom(collision.transform.position);
-        }
+        if (IsEnemyDead)
+            return;
 
-        if (collision.CompareTag(playerTag))
-        {
-            FleeFrom(collision.transform.position);
-        }
+        if (bullet == null || !bullet.CompareTag(playerBulletTag))
+            return;
+
+        FleeFrom(bullet.transform.position);
+
+        if (destroyBulletOnHit)
+            Destroy(bullet);
     }
+
+    protected override void HandlePlayerCollision()
+    {
+        if (playerTransform != null)
+            FleeFrom(playerTransform.position);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
-{
-    // ตรวจสอบว่าชนกำแพง (wallLayer) หรือไม่
-    if (((1 << collision.gameObject.layer) & wallLayer) == 0) return;
-
-    // กำหนดให้หันหน้าออกจากกำแพง (Reflect + Random)
-    Vector2 normal = collision.contacts[0].normal;
-    currentDirection = Vector2.Reflect(currentDirection, normal).normalized;
-
-    // ถ้ากำลัง panic อยู่ ให้สุ่มทิศทางหนีใหม่
-    if (isPanicking)
     {
-        float randomAngle = Random.Range(-panicRandomAngle, panicRandomAngle);
-        panicDirection = RotateVector(currentDirection, randomAngle).normalized;
-    }
+        if (IsEnemyDead)
+            return;
 
-    // เรียก Coroutine ปรับทิศทางออกจากกำแพง
-    StopAllCoroutines();
-    StartCoroutine(WallBounceRoutine());
-}
+        if (((1 << collision.gameObject.layer) & wallLayer) == 0)
+            return;
 
-private System.Collections.IEnumerator WallBounceRoutine()
-{
-    isBouncing = true;
+        Vector2 normal = collision.contacts[0].normal;
+        currentDirection = Vector2.Reflect(currentDirection, normal).normalized;
 
-    int attempts = 0;
-    bool freeFromWall = false;
-
-    while (attempts < 10 && !freeFromWall)
-    {
-        // ตรวจสอบว่าทิศทางปัจจุบันชนกำแพงหรือไม่
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, currentDirection, wallDetectDistance, wallLayer);
-        if (hit.collider == null)
+        if (isPanicking)
         {
-            freeFromWall = true; // ออกจากกำแพงได้แล้ว
-            break;
+            float randomAngle = Random.Range(-panicRandomAngle, panicRandomAngle);
+            panicDirection = RotateVector(currentDirection, randomAngle).normalized;
         }
 
-        // หมุนทิศทางออกกำแพงมากขึ้น
-        float angle = Random.Range(45f, 135f);
-        currentDirection = RotateVector(currentDirection, angle).normalized;
-
-        attempts++;
-        yield return null;
+        StopAllCoroutines();
+        StartCoroutine(WallBounceRoutine());
     }
 
-    // อัปเดต NavMeshAgent destination หลังปรับทิศแล้ว
-    agent.SetDestination((Vector3)transform.position + (Vector3)currentDirection * NAV_DESTINATION_DISTANCE);
+    private IEnumerator WallBounceRoutine()
+    {
+        isBouncing = true;
 
-    isBouncing = false; // ปล่อยให้ Update ทำงานต่อ
-}
-    
+        int attempts = 0;
+        bool freeFromWall = false;
 
-    
+        while (attempts < 10 && !freeFromWall)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(
+                transform.position,
+                currentDirection,
+                wallDetectDistance,
+                wallLayer
+            );
 
+            if (hit.collider == null)
+            {
+                freeFromWall = true;
+                break;
+            }
+
+            float angle = Random.Range(45f, 135f);
+            currentDirection = RotateVector(currentDirection, angle).normalized;
+            attempts++;
+            yield return null;
+        }
+
+        Agent.SetDestination(
+            (Vector3)transform.position + (Vector3)currentDirection * NavDestinationDistance
+        );
+
+        isBouncing = false;
+    }
 }

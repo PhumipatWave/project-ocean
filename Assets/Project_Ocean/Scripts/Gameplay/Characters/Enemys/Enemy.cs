@@ -1,163 +1,242 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Game.Testing
 {
+    /// <summary>
+    /// Main enemy controller: health, death, visuals, loot, and nav-agent coordination.
+    /// Fish agents (FishL/M/S) handle movement AI and sync through Initialize().
+    /// </summary>
+    [DisallowMultipleComponent]
     public class Enemy : MonoBehaviour
     {
-        [Header("Rope Component")]
+        [Header("References")]
         [SerializeField] private Rigidbody2D rb;
-        [SerializeField] private Animator anim;
-
         [SerializeField] private SpriteRenderer fishSprite;
-        [SerializeField] private FishL_Agent fishL_Agent;
-
-        [SerializeField] private Player player;
-        public Player Player { get { return player; } }
-
-        [Header("Status Component")]
-
-        [SerializeField] private float currentHealth;
-        public float CurrentHealth { get { return currentHealth; } }
-
-        [SerializeField] private float maxHealth = 100;
-        public float MaxHealth { get { return maxHealth; } }
-
-        [SerializeField] private float moveSpeed = 5f;
-
-        [SerializeField] private bool isDeath;
-        public bool IsDeath { get { return isDeath; } }
-
-        private bool isPlayerBullet;
-        public bool IsPlayerBullet { get { return isPlayerBullet; } set { isPlayerBullet = value; }  }
-
-        [SerializeField] private bool isHasAnim = false;
-
-        [Header("Drop Item")]
+        [SerializeField] private Animator anim;
         [SerializeField] private Item dropItem;
 
+        [Header("Health")]
+        [SerializeField] private float maxHealth = 100f;
+
+        [Header("Animation")]
+        [SerializeField] private bool isHasAnim;
+
+        [Header("Death")]
+        [SerializeField] private Color deathSpriteColor = Color.red;
+
+        [Header("Flags")]
         [SerializeField] private bool isBullet;
-        public bool IsBullet { get { return isBullet; } set { isBullet = value; } }
+
+        private float currentHealth;
+        private bool isDeath;
+        private Player player;
+
+        private EnemyNavAgentBase[] navAgents;
+        private IEnemyAttackState attackState;
+
+        public Player Player => player;
+        public float CurrentHealth => currentHealth;
+        public float MaxHealth => maxHealth;
+        public bool IsDeath => isDeath;
+        public bool IsBullet
+        {
+            get => isBullet;
+            set => isBullet = value;
+        }
+
+        public bool IsAttacking => !isDeath && attackState != null && attackState.IsAttacking;
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
-
-            if (isHasAnim)
-            {
-                anim = GetComponentInChildren<Animator>();
-            }
-
-            player = GameManager.CurPlayer.GetComponent<Player>();
-
-            currentHealth = maxHealth;
+            CacheComponents();
+            BindNavAgents();
+            InitializeState();
         }
-        
+
         private void Update()
         {
-            if (!isDeath && currentHealth <= 0)
-            {
-                Death();
-            }
+            if (!isDeath && currentHealth <= 0f)
+                Die();
 
-            Attack01_Anim();
+            if (isDeath)
+                return;
+
+            SyncAttackAnimation();
         }
-        
+
         private void FixedUpdate()
         {
             if (isBullet)
                 return;
-
-            //Move();
         }
 
         public void TakeDamage(float amount)
         {
+            if (isDeath)
+                return;
+
             currentHealth -= amount;
 
-            if (currentHealth <= 0)
+            if (currentHealth <= 0f)
             {
-                isDeath = true;
+                currentHealth = 0f;
+                Die();
+                return;
             }
-            else
-            {
-                TakeDamageAnim();
-            }
-        }
 
-        /*private void Move()
-        {
-            if (!isDeath)
-            {
-                Vector2 dir = (player.gameObject.transform.position - transform.position).normalized;
-                rb.linearVelocity = dir * moveSpeed;
-            }
-            else
-            {
-                rb.linearVelocity = Vector2.zero;
-            }
-        }*/
+            PlayTakeDamageAnimation();
+        }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            /*if (IsBullet)
-            {
-                if (collision.gameObject.tag == "Enemy")
-                {
-                    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                    enemy.TakeDamage(50f);
-
-                    Debug.Log($"Fish Bullet Shoot, Enemy Take damage {50f} => Health amount : {enemy.currentHealth}");
-                }
+            if (!isDeath || !collision.gameObject.CompareTag("Player"))
                 return;
-            } // isPlayerBullet ===*/
-            
-            if (isDeath && collision.gameObject.tag == "Player")
-            {
-                Debug.Log("Tag to Enemy!!");
 
+            CollectByPlayer();
+        }
 
-                GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
-                InventoryManager.Instance.AddItem(dropItem);
-                Debug.Log("เก็บสำเร็จ");
-                Destroy(gameObject);
-            } // isDead ===
-            
-        } // OnCollisionEnter2D ===
-        
-        private void Death()
+        /// <summary>
+        /// Called by EnemyNavAgentBase on the same GameObject during Awake/Start.
+        /// </summary>
+        public void RegisterNavAgent(EnemyNavAgentBase agent)
         {
+            if (agent == null)
+                return;
+
+            agent.Initialize(this);
+        }
+
+        private void CacheComponents()
+        {
+            if (rb == null)
+                rb = GetComponent<Rigidbody2D>();
+
+            if (fishSprite == null)
+            {
+                Transform visual = transform.Find("Visual");
+                if (visual != null)
+                    fishSprite = visual.GetComponent<SpriteRenderer>();
+            }
+
+            if (fishSprite == null)
+                fishSprite = GetComponentInChildren<SpriteRenderer>();
+
+            if (isHasAnim && anim == null)
+                anim = GetComponentInChildren<Animator>();
+
+            navAgents = GetComponents<EnemyNavAgentBase>();
+            attackState = GetComponent<IEnemyAttackState>();
+        }
+
+        private void BindNavAgents()
+        {
+            if (navAgents == null)
+                return;
+
+            foreach (EnemyNavAgentBase agent in navAgents)
+                agent.Initialize(this);
+        }
+
+        private void InitializeState()
+        {
+            player = GameManager.CurPlayer != null
+                ? GameManager.CurPlayer.GetComponent<Player>()
+                : null;
+
+            currentHealth = maxHealth;
+            isDeath = false;
+        }
+
+        private void Die()
+        {
+            if (isDeath)
+                return;
+
             isDeath = true;
-            //rb.linearVelocity = Vector2.zero;
-            gameObject.tag = "Items"; 
-            var darmagePoint = GetComponentInChildren<DamagePoint>();
-            darmagePoint.ShowDeath();
 
-            DeathAnim();
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+
+            gameObject.tag = "Items";
+
+            StopAllNavigation();
+            DisableAllNavAgents();
+            ApplyDeathVisual();
+
+            DamagePoint damagePoint = GetComponentInChildren<DamagePoint>();
+            if (damagePoint != null)
+                damagePoint.ShowDeath();
+
+            PlayDeathAnimation();
         }
 
-        private void Attack01_Anim()
+        private void StopAllNavigation()
         {
-            if (isHasAnim)
+            NavMeshAgent navAgent = GetComponent<NavMeshAgent>();
+            if (navAgent == null)
+                return;
+
+            navAgent.isStopped = true;
+            navAgent.ResetPath();
+            navAgent.velocity = Vector3.zero;
+        }
+
+        private void DisableAllNavAgents()
+        {
+            if (navAgents == null)
+                navAgents = GetComponents<EnemyNavAgentBase>();
+
+            foreach (EnemyNavAgentBase agent in navAgents)
             {
-                anim.SetBool("isAttack_01", fishL_Agent.IsAttacking);
+                if (agent != null)
+                    agent.enabled = false;
             }
         }
 
-        private void TakeDamageAnim()
+        private void ApplyDeathVisual()
         {
-            if (isHasAnim)
-            {
-                anim.SetTrigger("takeDamage");
-            }
+            if (fishSprite == null)
+                return;
+
+            Color color = deathSpriteColor;
+            color.a = fishSprite.color.a;
+            fishSprite.color = color;
         }
 
-        private void DeathAnim()
+        private void CollectByPlayer()
         {
-            if (isHasAnim)
-            {
-                anim.SetBool("isDeath", true);
-            }
+            if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null)
+                GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
+
+            if (dropItem != null)
+                InventoryManager.Instance.AddItem(dropItem);
+
+            Destroy(gameObject);
+        }
+
+        private void SyncAttackAnimation()
+        {
+            if (!isHasAnim || anim == null)
+                return;
+
+            anim.SetBool("isAttack_01", IsAttacking);
+        }
+
+        private void PlayTakeDamageAnimation()
+        {
+            if (!isHasAnim || anim == null)
+                return;
+
+            anim.SetTrigger("takeDamage");
+        }
+
+        private void PlayDeathAnimation()
+        {
+            if (!isHasAnim || anim == null)
+                return;
+
+            anim.SetBool("isDeath", true);
         }
     }
 }

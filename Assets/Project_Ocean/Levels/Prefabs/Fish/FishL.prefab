@@ -755,7 +755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   rb: {fileID: 0}
   anim: {fileID: 0}
-  fishSprite: {fileID: 8835613204073223987}
+  fishSprite: {fileID: 8611409687765085744}
   fishL_Agent: {fileID: 5434500675454789899}
   player: {fileID: 0}
   currentHealth: 0
@@ -779,8 +779,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
   enemy: {fileID: 0}
   fishAlertUI: {fileID: 9207587733961278760}
-  speed: 5.25
-  boostSpeed: 32
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  visualFlipRoot: {fileID: 3634935542475205251}
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
@@ -788,6 +790,10 @@ MonoBehaviour:
   flipCooldown: 0.7
   spriteAngleOffset: 0
   attackAngleThreshold: 15
+  facingTurnMode: 0
+  turnSpeed: 5
+  speed: 5.25
+  boostSpeed: 32
   viewAngle: 90
   visionObstacleMask:
     serializedVersion: 2
@@ -807,11 +813,9 @@ MonoBehaviour:
   prepareTime: 1.5
   attackCooldown: 2
   followAfterLost: 6
+  attackDamage: 10.25
   hitChaseDuration: 5
   chasePlayerWhenHit: 0
-  playerBulletTag: Bullet
-  playerTag: Player
-  destroyBulletOnHit: 1
   nearPlayerSearchRadius: 8
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
