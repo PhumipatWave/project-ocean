@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <RopeStructureData>
-/// Shared data structures used by all rope components.
-/// </RopeStructureData>
 namespace Game.Testing
 {
-    /// <summary>
-    /// Point along the rope. Stores current 
-    /// and previous pos for Verlet integration.
-    /// </summary>
+    public static class RopeLimits
+    {
+        public const int MaxAnchors = 15;
+    }
+
+    /// <summary>Point along the rope with Verlet state.</summary>
     public struct RopeSegment
     {
         public Vector2 pos;
@@ -20,19 +19,24 @@ namespace Game.Testing
             pos = p;
             old = p;
         }
+
+        public void PinTo(Vector2 p)
+        {
+            pos = p;
+            old = p;
+        }
     }
 
-    /// <summary>
-    /// Section of rope between two pinned endpoints.
-    /// The rope is made of multiple RopeSegments.
-    /// </summary>
+    /// <summary>Taut or simulated section between two pinned endpoints.</summary>
     public class SubRope
     {
         public Vector2 pinStart;
         public Vector2 pinEnd;
-        /// <summary>When set, taut rope follows obstacle corners instead of a straight chord.</summary>
         public List<Vector2> edgePath;
         public List<RopeSegment> segs = new();
+
+        public bool HasEdgePath => edgePath != null && edgePath.Count >= 2;
+        public bool IsTaut => HasEdgePath || segs.Count <= 2;
 
         public SubRope(Vector2 from, Vector2 to)
         {
@@ -42,42 +46,59 @@ namespace Game.Testing
             segs.Add(new RopeSegment(to));
         }
 
-        public void CopyEdgePathFrom(SubRope other)
+        public void ClearEdgePath() => edgePath = null;
+
+        public void SetEdgePath(IReadOnlyList<Vector2> path)
         {
-            if (other?.edgePath == null || other.edgePath.Count < 2)
+            if (path == null || path.Count < 2)
             {
-                edgePath = null;
+                ClearEdgePath();
                 return;
             }
 
             edgePath ??= new List<Vector2>();
             edgePath.Clear();
-            edgePath.AddRange(other.edgePath);
+            foreach (var p in path)
+                edgePath.Add(p);
+        }
+
+        public void CopyEdgePathFrom(SubRope other)
+        {
+            if (other == null || !other.HasEdgePath)
+            {
+                ClearEdgePath();
+                return;
+            }
+
+            SetEdgePath(other.edgePath);
+        }
+
+        public float TargetLength() =>
+            HasEdgePath ? RopeMath.PolylineLength(edgePath) : Vector2.Distance(pinStart, pinEnd);
+
+        public SubRope Clone()
+        {
+            var copy = new SubRope(pinStart, pinEnd);
+            copy.CopyEdgePathFrom(this);
+            copy.segs.Clear();
+
+            foreach (var s in segs)
+                copy.segs.Add(new RopeSegment(s.pos) { old = s.old });
+
+            return copy;
         }
     }
 
-    /// <summary>
-    /// A point where the rope has wrapped around a corner.
-    /// wrapSide tracks which side the player was on when wrapping happened,
-    /// so we know when they've unwrapped by crossing back to the other side.
-    /// </summary>
+    /// <summary>Wrap pin on an obstacle corner.</summary>
     public struct RopeAnchor
     {
         public Vector2 pos;
-        // +1 or -1 (cross product sign at wrap time)
         public float wrapSide;
-        // Outward surface normal at the wrap contact (used for stable unwrap)
         public Vector2 wrapNormal;
-        // Collider instance id for boundary routing on the same obstacle
         public int obstacleId;
-        // Which SubRope ends at this anchor
         public int ropeIndex;
     }
 
-    /// <summary>
-    /// A full snapshot of the rope state — used by the checkpoint system
-    /// to restore the rope if the player teleports back.
-    /// </summary>
     [System.Serializable]
     public class RopeWrapSettings
     {
@@ -98,17 +119,14 @@ namespace Game.Testing
         public float crossHysteresis = 0.06f;
 
         [Tooltip("UNWRAP ONLY: how far past the anchor (in Segment Lengths) along the incoming rope " +
-                 "direction the player must move before 'passed corner' counts. " +
-                 "Does NOT fix the blue rope drawing through walls — use Object Wrap Point on obstacles for that. " +
-                 "Raise (0.8–1.2) if unwrap happens before you clear the corner; lower (0.3–0.5) if you cannot unwrap.")]
+                 "direction the player must move before 'passed corner' counts.")]
         public float passedCornerFactor = 0.75f;
 
         [Tooltip("When the rope follows an obstacle edge (boundary path), cross-sign may not flip. " +
                  "Enable to allow unwrap using wide angle + passed/cleared instead.")]
         public bool allowUnwrapWithoutSideCross = true;
 
-        [Tooltip("Corner opening angle (degrees) required for the boundary-path unwrap fallback " +
-                 "(only used when Allow Unwrap Without Side Cross is on).")]
+        [Tooltip("Corner opening angle (degrees) required for the boundary-path unwrap fallback.")]
         public float minUnwrapAngleForNoSideCross = 100f;
     }
 

@@ -376,23 +376,6 @@ public class ObjectWrapPoint : MonoBehaviour
         return best;
     }
 
-    private static int FindSecondClosestIndex(List<Vector2> loop, Vector2 pos, int exclude)
-    {
-        int best = -1;
-        float bestSqr = float.MaxValue;
-        for (int i = 0; i < loop.Count; i++)
-        {
-            if (i == exclude) continue;
-            float d = (loop[i] - pos).sqrMagnitude;
-            if (d < bestSqr)
-            {
-                bestSqr = d;
-                best = i;
-            }
-        }
-        return best;
-    }
-
     private static List<Vector2> BuildArc(List<Vector2> loop, int iFrom, int iTo, int step, Vector2 fromPos, Vector2 toPos)
     {
         int n = loop.Count;

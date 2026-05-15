@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Keeps taut and active sub-ropes following obstacle wrap corners when a straight chord would cut through geometry.
+    /// Routes taut sub-ropes along obstacle wrap corners when a straight chord would cut geometry.
     /// </summary>
     public class RopeBoundaryRouter
     {
@@ -28,103 +28,86 @@ namespace Game.Testing
 
             for (int i = 0; i < subRopes.Count; i++)
             {
-                SubRope sr = subRopes[i];
                 bool isActive = i == subRopes.Count - 1;
+                float sideSign = ResolveSideSign(subRopes, anchors, startPos, isActive, i);
+                RopeAnchor? segmentAnchor = ResolveSegmentAnchor(anchors, isActive, i);
 
-                float sideSign = ResolveSideSign(subRopes, anchors, startPos, endPos);
-                if (!isActive && i < anchors.Count)
-                    sideSign = anchors[i].wrapSide;
-                else if (isActive && anchors.Count > 0)
-                    sideSign = anchors[^1].wrapSide;
-
-                RopeAnchor? segmentAnchor = null;
-                if (!isActive && i < anchors.Count)
-                    segmentAnchor = anchors[i];
-                else if (anchors.Count > 0)
-                    segmentAnchor = anchors[^1];
-
-                TryApplyPath(sr, sr.pinStart, sr.pinEnd, sideSign, endPos, segmentAnchor, isActive);
+                TryApplyPath(subRopes[i], sideSign, endPos, segmentAnchor, isActive);
             }
         }
 
-        private float ResolveSideSign(List<SubRope> subRopes, List<RopeAnchor> anchors, Vector2 startPos, Vector2 endPos)
+        private static float ResolveSideSign(
+            List<SubRope> subRopes,
+            List<RopeAnchor> anchors,
+            Vector2 startPos,
+            bool isActive,
+            int subRopeIndex)
         {
-            if (anchors.Count > 0)
+            if (!isActive && subRopeIndex < anchors.Count)
+                return anchors[subRopeIndex].wrapSide;
+
+            if (isActive && anchors.Count > 0)
                 return anchors[^1].wrapSide;
 
             SubRope active = subRopes[^1];
             Vector2 chord = active.pinEnd - active.pinStart;
-            if (chord.sqrMagnitude < 0.0001f) return 1f;
+            if (chord.sqrMagnitude < RopeMath.Epsilon) return 1f;
 
-            float cross = Cross(active.pinStart - startPos, chord);
-            float side = Mathf.Sign(cross);
-            return side == 0f ? 1f : side;
+            return RopeMath.SignOrDefault(RopeMath.Cross(active.pinStart - startPos, chord));
+        }
+
+        private static RopeAnchor? ResolveSegmentAnchor(List<RopeAnchor> anchors, bool isActive, int subRopeIndex)
+        {
+            if (anchors.Count == 0) return null;
+            if (isActive) return anchors[^1];
+            if (subRopeIndex < anchors.Count) return anchors[subRopeIndex];
+            return null;
         }
 
         private void TryApplyPath(
             SubRope sr,
-            Vector2 from,
-            Vector2 to,
             float sideSign,
             Vector2 sideReference,
             RopeAnchor? segmentAnchor,
             bool isActive)
         {
-            if (!FindWrapForSegment(from, to, segmentAnchor, out ObjectWrapPoint wrapSource, out Collider2D col))
+            if (!FindWrapForSegment(sr.pinStart, sr.pinEnd, segmentAnchor,
+                    out ObjectWrapPoint wrapSource, out Collider2D col))
             {
-                if (isActive)
-                    sr.edgePath = null;
+                if (isActive) sr.ClearEdgePath();
                 return;
             }
 
-            bool chordCuts = ChordCutsCollider(from, to, col, collisionMask);
+            bool chordCuts = RopeMath.ChordCutsCollider(sr.pinStart, sr.pinEnd, col, collisionMask);
 
-            pathScratch.Clear();
-            if (!wrapSource.TryBuildBoundaryPath(from, to, sideSign, sideReference, pathScratch)
-                || pathScratch.Count < 2)
-            {
-                if (chordCuts && !isActive)
-                {
-                    pathScratch.Clear();
-                    if (wrapSource.TryBuildBoundaryPath(from, to, -sideSign, sideReference, pathScratch)
-                        && pathScratch.Count >= 2
-                        && !wrapSource.PathPenetratesCollider(pathScratch))
-                    {
-                        AssignPath(sr, pathScratch, isActive);
-                        return;
-                    }
-                }
-
-                if (isActive) sr.edgePath = null;
+            if (TryBuildAndAssign(sr, wrapSource, col, sideSign, sideReference, chordCuts))
                 return;
-            }
 
-            if (wrapSource.PathPenetratesCollider(pathScratch))
-            {
-                pathScratch.Clear();
-                if (!wrapSource.TryBuildBoundaryPath(from, to, -sideSign, sideReference, pathScratch)
-                    || pathScratch.Count < 2
-                    || wrapSource.PathPenetratesCollider(pathScratch))
-                {
-                    if (isActive) sr.edgePath = null;
-                    return;
-                }
-            }
-
-            if (!chordCuts && pathScratch.Count <= 2 && !wrapSource.PathPenetratesCollider(pathScratch))
-            {
-                if (isActive) sr.edgePath = null;
+            if (TryBuildAndAssign(sr, wrapSource, col, -sideSign, sideReference, chordCuts))
                 return;
-            }
 
-            AssignPath(sr, pathScratch, isActive);
+            if (isActive) sr.ClearEdgePath();
         }
 
-        private void AssignPath(SubRope sr, List<Vector2> path, bool isActive)
+        private bool TryBuildAndAssign(
+            SubRope sr,
+            ObjectWrapPoint wrapSource,
+            Collider2D col,
+            float sideSign,
+            Vector2 sideReference,
+            bool chordCuts)
         {
-            sr.edgePath ??= new List<Vector2>();
-            sr.edgePath.Clear();
-            sr.edgePath.AddRange(path);
+            pathScratch.Clear();
+            if (!wrapSource.TryBuildBoundaryPath(sr.pinStart, sr.pinEnd, sideSign, sideReference, pathScratch)
+                || pathScratch.Count < 2
+                || wrapSource.PathPenetratesCollider(pathScratch))
+                return false;
+
+            if (!chordCuts && pathScratch.Count <= 2)
+                return false;
+
+            sr.SetEdgePath(pathScratch);
+            return true;
         }
 
         private bool FindWrapForSegment(
@@ -142,14 +125,13 @@ namespace Game.Testing
 
             if (segmentAnchor.HasValue)
             {
-                RopeAnchor a = segmentAnchor.Value;
-                Collider2D anchorCol = FindColliderById(a.obstacleId, a.pos);
+                RopeAnchor anchor = segmentAnchor.Value;
+                Collider2D anchorCol = FindColliderById(anchor.obstacleId, anchor.pos);
                 if (anchorCol != null)
                 {
-                    var wp = anchorCol.GetComponent<ObjectWrapPoint>();
-                    if (wp != null && ChordCutsCollider(from, to, anchorCol, collisionMask))
+                    wrapSource = anchorCol.GetComponent<ObjectWrapPoint>();
+                    if (wrapSource != null && RopeMath.ChordCutsCollider(from, to, anchorCol, collisionMask))
                     {
-                        wrapSource = wp;
                         col = anchorCol;
                         return true;
                     }
@@ -158,8 +140,6 @@ namespace Game.Testing
 
             RaycastHit2D[] hits = Physics2D.LinecastAll(from, to, collisionMask);
             float bestDepth = 0f;
-            ObjectWrapPoint bestWrap = null;
-            Collider2D bestCol = null;
 
             foreach (var h in hits)
             {
@@ -167,73 +147,27 @@ namespace Game.Testing
                 if (wp == null) continue;
 
                 float depth = Mathf.Min(h.fraction, 1f - h.fraction);
-                if (depth <= 0.01f) continue;
+                if (depth <= 0.01f || depth <= bestDepth) continue;
 
-                if (depth > bestDepth)
-                {
-                    bestDepth = depth;
-                    bestWrap = wp;
-                    bestCol = h.collider;
-                }
+                bestDepth = depth;
+                wrapSource = wp;
+                col = h.collider;
             }
 
-            if (bestWrap != null)
-            {
-                wrapSource = bestWrap;
-                col = bestCol;
-                return true;
-            }
-
-            return false;
+            return wrapSource != null;
         }
 
         private Collider2D FindColliderById(int instanceId, Vector2 near)
         {
             if (instanceId == 0) return null;
 
-            Collider2D[] nearCols = Physics2D.OverlapCircleAll(near, segmentLength * 4f, collisionMask);
-            foreach (var c in nearCols)
+            foreach (var c in Physics2D.OverlapCircleAll(near, segmentLength * 4f, collisionMask))
             {
                 if (c != null && c.GetInstanceID() == instanceId)
                     return c;
             }
+
             return null;
         }
-
-        public static bool ChordCutsCollider(Vector2 fromPos, Vector2 toPos, Collider2D col, LayerMask mask)
-        {
-            if (col == null) return false;
-
-            float span = Vector2.Distance(fromPos, toPos);
-            if (span < 0.01f) return false;
-
-            for (int s = 1; s <= 3; s++)
-            {
-                float t = s / 4f;
-                Vector2 sample = Vector2.Lerp(fromPos, toPos, t);
-                if (col.OverlapPoint(sample))
-                    return true;
-            }
-
-            RaycastHit2D[] hits = Physics2D.LinecastAll(fromPos, toPos, mask);
-            foreach (var h in hits)
-            {
-                if (h.collider != col) continue;
-                if (h.fraction > 0.02f && h.fraction < 0.98f)
-                    return true;
-            }
-
-            return false;
-        }
-
-        private static float PolylineLength(List<Vector2> path)
-        {
-            float len = 0f;
-            for (int i = 0; i < path.Count - 1; i++)
-                len += Vector2.Distance(path[i], path[i + 1]);
-            return len;
-        }
-
-        private static float Cross(Vector2 a, Vector2 b) => a.x * b.y - a.y * b.x;
     }
 }

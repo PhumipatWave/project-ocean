@@ -3,15 +3,18 @@ using UnityEngine;
 
 namespace Game.Testing
 {
+    /// <summary>Attach and detach rope anchors on obstacle wrap corners.</summary>
     public class RopeWrap
     {
+        private const float ReattachBlockDistanceFactor = 4f;
+        private const float WrapPointMatchFactor = 0.75f;
+
         private readonly float segmentLength;
         private readonly float collisionRadius;
         private readonly LayerMask collisionMask;
         private readonly int wrapCooldownFrames;
-
         private readonly RopeWrapSettings settings;
-        private const float ReattachBlockDistanceFactor = 4f;
+        private readonly List<Vector2> pathScratch = new();
 
         private int reattachBlockFrames;
         private Vector2 reattachBlockPos;
@@ -36,50 +39,42 @@ namespace Game.Testing
                 reattachBlockFrames--;
         }
 
-        public int TryAttach(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint, int cooldown)
+        public int TryAttach(
+            List<SubRope> subRopes,
+            List<RopeAnchor> anchors,
+            Transform endPoint,
+            GameObject startPoint,
+            int cooldown)
         {
             if (cooldown > 0) return cooldown;
 
             for (int s = subRopes.Count - 1; s >= 0; s--)
             {
-                SubRope sr = subRopes[s];
-                var segs = sr.segs;
-
+                var segs = subRopes[s].segs;
                 for (int i = 1; i < segs.Count - 1; i++)
                 {
-                    if (anchors.Count >= 15) return cooldown;
+                    if (anchors.Count >= RopeLimits.MaxAnchors) return cooldown;
 
                     Vector2 segBefore = segs[i - 1].pos;
                     Vector2 segAfter = segs[i].pos;
-                    Vector2 segBeforeOld = segs[i - 1].old;
-                    Vector2 segAfterOld = segs[i].old;
 
-                    if (!TryFindWrapHit(segBeforeOld, segAfterOld, segBefore, segAfter, out RaycastHit2D lineHit))
+                    if (!TryFindWrapHit(segs[i - 1].old, segs[i].old, segBefore, segAfter, out RaycastHit2D hit))
                         continue;
 
-                    ObjectWrapPoint anchorComp = lineHit.collider.GetComponent<ObjectWrapPoint>();
-                    if (anchorComp == null) continue;
+                    var wrapSource = hit.collider.GetComponent<ObjectWrapPoint>();
+                    if (wrapSource == null) continue;
 
-                    Vector2 wrapPoint = anchorComp.GetWrapPointForContact(
-                        lineHit.point, lineHit.normal, segBefore, segAfter);
+                    Vector2 wrapPoint = wrapSource.GetWrapPointForContact(
+                        hit.point, hit.normal, segBefore, segAfter);
 
-                    if (!anchorComp.IsNearEnabledWrapPoint(wrapPoint, segmentLength * 0.75f))
+                    if (!wrapSource.IsNearEnabledWrapPoint(wrapPoint, segmentLength * WrapPointMatchFactor))
                         continue;
 
-                    if (!IsValidWrapPoint(wrapPoint, lineHit.normal, lineHit.collider, anchors, endPoint, startPoint))
+                    if (!IsValidWrapPoint(wrapPoint, hit.normal, hit.collider, anchors, endPoint, startPoint))
                         continue;
 
-                    Attach(
-                        wrapPoint,
-                        lineHit.normal,
-                        lineHit.collider,
-                        anchorComp,
-                        segBefore,
-                        segAfter,
-                        subRopes,
-                        anchors,
-                        endPoint,
-                        startPoint);
+                    Attach(wrapPoint, hit.normal, hit.collider, wrapSource, segBefore, segAfter,
+                        subRopes, anchors, endPoint, startPoint);
                     return wrapCooldownFrames;
                 }
             }
@@ -87,31 +82,32 @@ namespace Game.Testing
             return cooldown;
         }
 
-        /// <summary>
-        /// Removes the last anchor when the player has unwrapped.
-        /// Cooldown is NOT checked here — cooldown only blocks TryAttach after a detach.
-        /// </summary>
-        public int TryDetach(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint, GameObject startPoint, int cooldown)
+        public int TryDetach(
+            List<SubRope> subRopes,
+            List<RopeAnchor> anchors,
+            Transform endPoint,
+            GameObject startPoint,
+            int cooldown)
         {
-            if (anchors.Count == 0)
-                return cooldown;
+            if (anchors.Count == 0) return cooldown;
 
             RopeAnchor last = anchors[^1];
-            Vector2 anchor = last.pos;
-            Vector2 prevPin = anchors.Count > 1 ? anchors[^2].pos : (Vector2)startPoint.transform.position;
-            Vector2 playerPos = endPoint.position;
+            Vector2 prevPin = anchors.Count > 1
+                ? anchors[^2].pos
+                : (Vector2)startPoint.transform.position;
 
-            if (!ShouldUnwrap(last, anchor, prevPin, playerPos))
+            if (!ShouldUnwrap(last, last.pos, prevPin, endPoint.position))
                 return cooldown;
 
             anchors.RemoveAt(anchors.Count - 1);
             subRopes.RemoveAt(subRopes.Count - 1);
-            subRopes[^1].pinEnd = playerPos;
-            subRopes[^1].edgePath = null;
 
-            reattachBlockPos = anchor;
+            SubRope active = subRopes[^1];
+            active.pinEnd = endPoint.position;
+            active.ClearEdgePath();
+
+            reattachBlockPos = last.pos;
             reattachBlockFrames = wrapCooldownFrames + 4;
-
             return wrapCooldownFrames;
         }
 
@@ -129,7 +125,7 @@ namespace Game.Testing
             if (openAngle < settings.minUnwrapAngle)
                 return false;
 
-            float cross = Cross(inDir, toPlayerDir);
+            float cross = RopeMath.Cross(inDir, toPlayerDir);
             bool sideCrossed = Mathf.Sign(cross) != last.wrapSide
                                && Mathf.Abs(cross) > settings.crossHysteresis;
 
@@ -152,28 +148,13 @@ namespace Game.Testing
             return clearedCorner || passedCorner;
         }
 
-        private Collider2D ResolveObstacleCollider(RopeAnchor anchor, Vector2 near)
-        {
-            if (anchor.obstacleId != 0)
-            {
-                Collider2D[] hits = Physics2D.OverlapCircleAll(near, segmentLength * 4f, collisionMask);
-                foreach (var c in hits)
-                {
-                    if (c != null && c.GetInstanceID() == anchor.obstacleId)
-                        return c;
-                }
-            }
-
-            return Physics2D.OverlapCircle(near, segmentLength * 2f, collisionMask);
-        }
-
         private bool TryFindWrapHit(Vector2 oldA, Vector2 oldB, Vector2 a, Vector2 b, out RaycastHit2D bestHit)
         {
             bestHit = default;
 
             Vector2 delta = b - a;
             float dist = delta.magnitude;
-            if (dist < 0.0001f) return false;
+            if (dist < RopeMath.Epsilon) return false;
 
             Vector2 dir = delta / dist;
             float castRadius = Mathf.Max(collisionRadius * 0.75f, segmentLength * 0.2f);
@@ -194,9 +175,11 @@ namespace Game.Testing
 
             Vector2 oldDelta = b - oldA;
             float oldDist = oldDelta.magnitude;
-            if (oldDist < 0.0001f) return false;
+            if (oldDist < RopeMath.Epsilon) return false;
 
-            RaycastHit2D frameSweep = Physics2D.CircleCast(oldA, castRadius, oldDelta / oldDist, oldDist + castRadius, collisionMask);
+            RaycastHit2D frameSweep = Physics2D.CircleCast(
+                oldA, castRadius, oldDelta / oldDist, oldDist + castRadius, collisionMask);
+
             if (frameSweep.collider == null) return false;
 
             bestHit = frameSweep;
@@ -211,17 +194,24 @@ namespace Game.Testing
             Transform endPoint,
             GameObject startPoint)
         {
-            if (Vector2.Distance(wrapPoint, startPoint.transform.position) < segmentLength * 3f) return false;
-            if (Vector2.Distance(wrapPoint, endPoint.position) < segmentLength * 3f) return false;
+            float minDist = segmentLength * 3f;
+            if (Vector2.Distance(wrapPoint, startPoint.transform.position) < minDist) return false;
+            if (Vector2.Distance(wrapPoint, endPoint.position) < minDist) return false;
 
             if (reattachBlockFrames > 0
                 && Vector2.Distance(wrapPoint, reattachBlockPos) < segmentLength * ReattachBlockDistanceFactor)
                 return false;
 
             foreach (RopeAnchor a in anchors)
-                if (Vector2.Distance(a.pos, wrapPoint) < segmentLength * 4f) return false;
+            {
+                if (Vector2.Distance(a.pos, wrapPoint) < segmentLength * 4f)
+                    return false;
+            }
 
-            Vector2 prevPin = anchors.Count > 0 ? anchors[^1].pos : (Vector2)startPoint.transform.position;
+            Vector2 prevPin = anchors.Count > 0
+                ? anchors[^1].pos
+                : (Vector2)startPoint.transform.position;
+
             Vector2 inDir = (wrapPoint - prevPin).normalized;
             Vector2 toEnd = ((Vector2)endPoint.position - wrapPoint).normalized;
 
@@ -234,14 +224,15 @@ namespace Game.Testing
             }
 
             Vector2 scanStart = wrapPoint + toEnd * (segmentLength * 2f);
-            RaycastHit2D[] hits = Physics2D.LinecastAll(scanStart, endPoint.position, collisionMask);
-
-            foreach (var h in hits)
+            foreach (var h in Physics2D.LinecastAll(scanStart, endPoint.position, collisionMask))
             {
                 foreach (RopeAnchor a in anchors)
-                    if (Vector2.Distance(h.point, a.pos) < segmentLength * 3f) return false;
+                {
+                    if (Vector2.Distance(h.point, a.pos) < minDist)
+                        return false;
+                }
 
-                if (h.collider == hitCollider && Vector2.Distance(h.point, wrapPoint) < segmentLength * 3f)
+                if (h.collider == hitCollider && Vector2.Distance(h.point, wrapPoint) < minDist)
                     return false;
             }
 
@@ -260,20 +251,19 @@ namespace Game.Testing
             Transform endPoint,
             GameObject startPoint)
         {
-            Vector2 prevPin = anchors.Count > 0 ? anchors[^1].pos : (Vector2)startPoint.transform.position;
+            Vector2 prevPin = anchors.Count > 0
+                ? anchors[^1].pos
+                : (Vector2)startPoint.transform.position;
+
             Vector2 inDir = (wrapPoint - prevPin).normalized;
             Vector2 toEnd = ((Vector2)endPoint.position - wrapPoint).normalized;
 
-            float cross = Cross(inDir, toEnd);
-            float side = Mathf.Sign(cross);
-
-            if (Mathf.Abs(cross) < 0.01f)
+            float side = RopeMath.SignOrDefault(RopeMath.Cross(inDir, toEnd));
+            if (Mathf.Abs(RopeMath.Cross(inDir, toEnd)) < 0.01f)
             {
                 Vector2 segDir = (segAfter - segBefore).normalized;
-                side = Mathf.Sign(Cross(inDir, segDir));
+                side = RopeMath.SignOrDefault(RopeMath.Cross(inDir, segDir));
             }
-
-            if (side == 0f) side = 1f;
 
             if (wrapNormal.sqrMagnitude < 0.01f)
             {
@@ -283,7 +273,10 @@ namespace Game.Testing
 
             SubRope taut = subRopes[^1];
             taut.pinEnd = wrapPoint;
-            ApplyBoundaryPath(taut, wrapSource, prevPin, wrapPoint, side, endPoint.position, hitCollider);
+
+            RopeEdgePathUtility.TryAssign(
+                taut, wrapSource, prevPin, wrapPoint, side, endPoint.position,
+                hitCollider, collisionMask, pathScratch);
 
             anchors.Add(new RopeAnchor
             {
@@ -296,7 +289,7 @@ namespace Game.Testing
 
             Vector2 end = endPoint.position;
             int numSegs = Mathf.Max(2, Mathf.CeilToInt(Vector2.Distance(wrapPoint, end) / segmentLength));
-            SubRope newRope = new SubRope(wrapPoint, end);
+            var newRope = new SubRope(wrapPoint, end);
             newRope.segs.Clear();
 
             for (int i = 0; i <= numSegs; i++)
@@ -304,40 +297,5 @@ namespace Game.Testing
 
             subRopes.Add(newRope);
         }
-
-        private void ApplyBoundaryPath(
-            SubRope taut,
-            ObjectWrapPoint wrapSource,
-            Vector2 fromPos,
-            Vector2 toPos,
-            float side,
-            Vector2 sideReference,
-            Collider2D hitCollider)
-        {
-            taut.edgePath = null;
-            if (wrapSource == null) return;
-
-            var path = new List<Vector2>();
-            if (!wrapSource.TryBuildBoundaryPath(fromPos, toPos, side, sideReference, path) || path.Count < 2)
-                return;
-
-            float chord = Vector2.Distance(fromPos, toPos);
-            float along = 0f;
-            for (int i = 0; i < path.Count - 1; i++)
-                along += Vector2.Distance(path[i], path[i + 1]);
-
-            bool cuts = RopeBoundaryRouter.ChordCutsCollider(fromPos, toPos, hitCollider, collisionMask);
-            if (wrapSource.PathPenetratesCollider(path))
-                return;
-
-            if (!cuts && path.Count <= 2 && along <= chord * 1.005f)
-                return;
-
-            taut.edgePath ??= new List<Vector2>();
-            taut.edgePath.Clear();
-            taut.edgePath.AddRange(path);
-        }
-
-        private static float Cross(Vector2 a, Vector2 b) => a.x * b.y - a.y * b.x;
     }
 }
