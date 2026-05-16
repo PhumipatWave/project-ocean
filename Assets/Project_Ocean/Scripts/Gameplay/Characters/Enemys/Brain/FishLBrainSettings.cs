@@ -14,6 +14,10 @@ public class FishLBrainSettings : ScriptableObject
     [Tooltip("Vision cone angle in degrees while checking if the player is visible.")]
     public float viewAngle = 90f;
 
+    [Header("Vision")]
+    [Tooltip("Maximum distance at which this fish can detect the player.")]
+    public float viewDistance = 15f;
+
     [Tooltip("Layers that block vision. If empty, the wall layer is used instead.")]
     public LayerMask visionObstacleMask;
 

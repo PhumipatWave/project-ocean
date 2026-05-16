@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FishMBrain : EnemyBrainBase
+public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
 {
     private readonly FishMBrainSettings settings;
 
@@ -34,7 +34,7 @@ public class FishMBrain : EnemyBrainBase
         }
         else
         {
-            isFollowing = CanSeePlayer();
+            isFollowing = CheckLineOfSight();
         }
 
         if (attackTimer > 0f)
@@ -61,7 +61,23 @@ public class FishMBrain : EnemyBrainBase
             hitChaseTimer = settings.hitChaseDuration;
     }
 
-    private bool CanSeePlayer()
+    // ── IBrainVision ──────────────────────────────────────────────
+    public float ViewDistance => settings.viewDistance;
+    public float ViewAngle    => settings.viewAngle;
+    public bool CanSeePlayer() => Ctx?.PlayerTransform != null && CheckLineOfSight();
+
+    // ── IBrainAttack ─────────────────────────────────────────────
+    public float AttackRange => settings.attackRange;
+    public void TryAttack()
+    {
+        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        if (dist > settings.attackRange) return;
+        Ctx.Player.TakeDamage(settings.attackDamage);
+        attackTimer = settings.attackCooldown;
+    }
+
+    private bool CheckLineOfSight()
     {
         return EnemyVisionHelper.HasLineOfSightRay(
             Ctx.Transform.position,

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishSBrain : EnemyBrainBase
+public class FishSBrain : EnemyBrainBase, IBrainVision
 {
     private readonly FishSBrainSettings settings;
     private FishS_Agent host;
@@ -20,6 +20,11 @@ public class FishSBrain : EnemyBrainBase
     private bool isPanicking;
 
     public Vector2 CurrentDirection => currentDirection;
+
+    // ── IBrainVision ──────────────────────────────────────────────
+    public float ViewDistance => settings.viewDistance;
+    public float ViewAngle    => settings.viewAngle;
+    public bool CanSeePlayer() => playerTransform != null && CheckLineOfSight(playerTransform);
 
     public FishSBrain(FishSBrainSettings settings)
     {
@@ -63,7 +68,7 @@ public class FishSBrain : EnemyBrainBase
         }
 
         Vector2 moveDir = Vector2.zero;
-        bool playerNearby = playerTransform != null && CanSeePlayer(playerTransform);
+        bool playerNearby = playerTransform != null && CheckLineOfSight(playerTransform);
 
         if (playerNearby)
         {
@@ -297,7 +302,7 @@ public class FishSBrain : EnemyBrainBase
         wanderTimer = settings.wanderInterval;
     }
 
-    private bool CanSeePlayer(Transform target)
+    private bool CheckLineOfSight(Transform target)
     {
         return EnemyVisionHelper.HasLineOfSightRay(
             Ctx.Transform.position,

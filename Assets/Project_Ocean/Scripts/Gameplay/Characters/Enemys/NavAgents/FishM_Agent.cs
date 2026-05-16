@@ -29,12 +29,12 @@ public class FishM_Agent : EnemyNavAgentBase
     protected override void HandleBulletHit(GameObject bullet)
     {
         base.HandleBulletHit(bullet);
-        fishMBrain?.OnBulletHit();
+        (fishMBrain as IBrainHitReaction)?.OnBulletHit();
     }
 
     protected override void HandlePlayerCollision()
     {
-        fishMBrain?.OnPlayerCollision();
+        (fishMBrain as IBrainHitReaction)?.OnPlayerCollision();
     }
 
 #if UNITY_EDITOR

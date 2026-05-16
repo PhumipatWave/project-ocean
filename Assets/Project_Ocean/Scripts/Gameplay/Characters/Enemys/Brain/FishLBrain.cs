@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Large fish AI: wander, search, prepare, attack, and follow.
 /// </summary>
-public class FishLBrain : EnemyBrainBase
+public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
 {
     private enum BehaviourState
     {
@@ -68,7 +68,7 @@ public class FishLBrain : EnemyBrainBase
             return;
 
         float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
-        bool canSeePlayer = CanSeePlayer(dist);
+        bool canSeePlayer = CheckLineOfSight(dist);
         bool alertedByHit = hitChaseTimer > 0f;
 
         SetSeeingPlayer(canSeePlayer);
@@ -153,6 +153,31 @@ public class FishLBrain : EnemyBrainBase
         if (dir.sqrMagnitude > 0.01f)
             Ctx.Facing.RotateTowards(dir.normalized);
     }
+    // ── IBrainHitReaction ───────────────────────────────────────
+    public void OnBulletHit() => OnHit(Ctx?.PlayerTransform);
+    public void OnPlayerCollision() => OnHit(Ctx?.PlayerTransform);
+
+    // ── IBrainVision ──────────────────────────────────────────────
+    public float ViewDistance => settings.viewDistance;
+    public float ViewAngle    => settings.viewAngle;
+    public bool CanSeePlayer()
+    {
+        if (Ctx?.PlayerTransform == null) return false;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        return CheckLineOfSight(dist);
+    }
+
+    // ── IBrainAttack ─────────────────────────────────────────────
+    public float AttackRange => settings.attackRange;
+    public void TryAttack()
+    {
+        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        if (dist > settings.attackRange) return;
+        Ctx.Player.TakeDamage(settings.attackDamage);
+        EndAttack(applyCooldown: true);
+    }
+
 
     private bool IsCommittedToAttack =>
         state == BehaviourState.Prepare || state == BehaviourState.Attack;
@@ -216,7 +241,7 @@ public class FishLBrain : EnemyBrainBase
     private void TickAttack()
     {
         float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
-        bool canSeePlayer = CanSeePlayer(dist);
+        bool canSeePlayer = CheckLineOfSight(dist);
         bool alertedByHit = hitChaseTimer > 0f;
 
         if (!canSeePlayer && !alertedByHit)
@@ -351,7 +376,7 @@ public class FishLBrain : EnemyBrainBase
         pathfinder.TryPickWanderPoint(lastSeenPosition, settings.searchRadius, out wanderTarget);
     }
 
-    private bool CanSeePlayer(float dist)
+    private bool CheckLineOfSight(float dist)
     {
         if (Ctx.PlayerTransform == null)
             return false;
