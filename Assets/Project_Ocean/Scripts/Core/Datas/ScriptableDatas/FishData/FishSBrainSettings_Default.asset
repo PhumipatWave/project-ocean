@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: FishSBrainSettings_Default
   m_EditorClassIdentifier: Game.Testing::FishSBrainSettings
   speed: 4
+  viewDistance: 4.5
+  viewAngle: 90
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallDetectDistance: 2
+  wanderRadius: 35
+  wanderInterval: 7.5
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 0
   navDestinationDistance: 35
   groupRadius: 5
   separationDistance: 1
   neighborUpdateInterval: 1
-  viewDistance: 4.5
-  viewAngle: 90
-  wanderRadius: 35
-  wanderInterval: 7.5
   cohesionWeight: 1
   separationWeight: 1.5
   alignmentWeight: 0.5
   panicSpeedMultiplier: 1.25
   panicDuration: 3
   panicRandomAngle: 60
-  wallDetectDistance: 2
   wallAvoidWeight: 3
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  hitChaseDuration: 5

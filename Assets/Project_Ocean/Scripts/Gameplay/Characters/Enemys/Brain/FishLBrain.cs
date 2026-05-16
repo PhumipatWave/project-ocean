@@ -35,6 +35,34 @@ public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
 
     public override bool IsAttacking => isAttacking;
 
+    #region IBrainVision
+    public float ViewDistance => settings.viewDistance;
+    public float ViewAngle => settings.viewAngle;
+    public bool CanSeePlayer()
+    {
+        if (Ctx?.PlayerTransform == null) return false;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        return CheckLineOfSight(dist);
+    }
+    #endregion
+
+    #region IBrainHitReaction
+    public void OnBulletHit() => OnHit(Ctx?.PlayerTransform);
+    public void OnPlayerCollision() => OnHit(Ctx?.PlayerTransform);
+    #endregion
+
+    #region IBrainAttack
+    public float AttackRange => settings.attackRange;
+    public void TryAttack()
+    {
+        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        if (dist > settings.attackRange) return;
+        Ctx.Player.TakeDamage(settings.attackDamage);
+        EndAttack(applyCooldown: true);
+    }
+    #endregion
+
     public FishLBrain(FishLBrainSettings settings)
     {
         this.settings = settings;
@@ -58,7 +86,7 @@ public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
             lastKnownPlayerPosition = Ctx.PlayerTransform.position;
 
         HideAllAlerts();
-        wanderTimer = settings.wanderChangeInterval;
+        wanderTimer = settings.wanderInterval;
         PickNewWanderPoint();
     }
 
@@ -153,31 +181,6 @@ public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
         if (dir.sqrMagnitude > 0.01f)
             Ctx.Facing.RotateTowards(dir.normalized);
     }
-    // ── IBrainHitReaction ───────────────────────────────────────
-    public void OnBulletHit() => OnHit(Ctx?.PlayerTransform);
-    public void OnPlayerCollision() => OnHit(Ctx?.PlayerTransform);
-
-    // ── IBrainVision ──────────────────────────────────────────────
-    public float ViewDistance => settings.viewDistance;
-    public float ViewAngle    => settings.viewAngle;
-    public bool CanSeePlayer()
-    {
-        if (Ctx?.PlayerTransform == null) return false;
-        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
-        return CheckLineOfSight(dist);
-    }
-
-    // ── IBrainAttack ─────────────────────────────────────────────
-    public float AttackRange => settings.attackRange;
-    public void TryAttack()
-    {
-        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
-        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
-        if (dist > settings.attackRange) return;
-        Ctx.Player.TakeDamage(settings.attackDamage);
-        EndAttack(applyCooldown: true);
-    }
-
 
     private bool IsCommittedToAttack =>
         state == BehaviourState.Prepare || state == BehaviourState.Attack;
@@ -339,7 +342,7 @@ public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
         if (searchTimer <= 0f)
         {
             state = BehaviourState.Wander;
-            wanderTimer = settings.wanderChangeInterval;
+                        wanderTimer = settings.wanderInterval;
             PickNewWanderPoint();
             return;
         }
@@ -360,7 +363,7 @@ public class FishLBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
         if (wanderTimer <= 0f || Vector2.Distance(Ctx.Transform.position, wanderTarget) < 0.5f)
         {
             PickNewWanderPoint();
-            wanderTimer = settings.wanderChangeInterval;
+                        wanderTimer = settings.wanderInterval;
         }
 
         pathfinder.SetSafeDestination(wanderTarget);

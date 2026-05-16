@@ -10,6 +10,51 @@ public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
     private Vector2 currentDirection;
     private bool isFollowing;
 
+    #region IBrainVision
+    public float ViewAngle => settings.viewAngle;
+    public float ViewDistance => settings.viewDistance;
+    public bool CanSeePlayer() => Ctx?.PlayerTransform != null && CheckLineOfSight();
+    #endregion
+
+    #region IBrainHitReaction
+    public void OnBulletHit()
+    {
+        if (settings.chasePlayerWhenHit)
+            hitChaseTimer = settings.hitChaseDuration;
+    }
+
+    public void OnPlayerCollision()
+    {
+        if (settings.chasePlayerWhenHit)
+            hitChaseTimer = settings.hitChaseDuration;
+    }
+    #endregion
+
+    #region IBrainAttack
+    public float AttackRange => settings.attackRange;
+
+    public void TryAttack()
+    {
+        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
+        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
+        if (dist > settings.attackRange) return;
+        Ctx.Player.TakeDamage(settings.attackDamage);
+        attackTimer = settings.attackCooldown;
+    }
+
+    private bool CheckLineOfSight()
+    {
+        return EnemyVisionHelper.HasLineOfSightRay(
+            Ctx.Transform.position,
+            Ctx.PlayerTransform.position,
+            currentDirection,
+            settings.viewDistance,
+            settings.viewAngle,
+            settings.obstacleLayer
+        );
+    }
+    #endregion
+
     public FishMBrain(FishMBrainSettings settings)
     {
         this.settings = settings;
@@ -19,7 +64,7 @@ public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
     {
         base.Initialize(context);
         Ctx.Agent.speed = settings.speed;
-        wanderTimer = settings.wanderChangeInterval;
+        wanderTimer = settings.wanderInterval;
     }
 
     public override void Tick(float deltaTime)
@@ -49,46 +94,6 @@ public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
         TickFacing();
     }
 
-    public void OnBulletHit()
-    {
-        if (settings.chasePlayerWhenHit)
-            hitChaseTimer = settings.hitChaseDuration;
-    }
-
-    public void OnPlayerCollision()
-    {
-        if (settings.chasePlayerWhenHit)
-            hitChaseTimer = settings.hitChaseDuration;
-    }
-
-    // ── IBrainVision ──────────────────────────────────────────────
-    public float ViewDistance => settings.viewDistance;
-    public float ViewAngle    => settings.viewAngle;
-    public bool CanSeePlayer() => Ctx?.PlayerTransform != null && CheckLineOfSight();
-
-    // ── IBrainAttack ─────────────────────────────────────────────
-    public float AttackRange => settings.attackRange;
-    public void TryAttack()
-    {
-        if (Ctx?.PlayerTransform == null || attackTimer > 0f) return;
-        float dist = Vector2.Distance(Ctx.Transform.position, Ctx.PlayerTransform.position);
-        if (dist > settings.attackRange) return;
-        Ctx.Player.TakeDamage(settings.attackDamage);
-        attackTimer = settings.attackCooldown;
-    }
-
-    private bool CheckLineOfSight()
-    {
-        return EnemyVisionHelper.HasLineOfSightRay(
-            Ctx.Transform.position,
-            Ctx.PlayerTransform.position,
-            currentDirection,
-            settings.viewDistance,
-            settings.viewAngle,
-            settings.obstacleLayer
-        );
-    }
-
     private void TickFollowAndBite()
     {
         Ctx.Agent.SetDestination(Ctx.PlayerTransform.position);
@@ -114,7 +119,7 @@ public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitR
             Vector2 randomPos = Random.insideUnitCircle * settings.wanderRadius;
             Vector3 target = Ctx.Transform.position + new Vector3(randomPos.x, randomPos.y, 0f);
             Ctx.Agent.SetDestination(target);
-            wanderTimer = settings.wanderChangeInterval;
+            wanderTimer = settings.wanderInterval;
         }
 
         if (Ctx.Agent.velocity.magnitude > 0.1f)

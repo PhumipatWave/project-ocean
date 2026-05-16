@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Medium fish host — AI lives in <see cref="FishMBrain"/>.
-/// </summary>
 public class FishM_Agent : EnemyNavAgentBase
 {
     [SerializeField] private FishMBrainSettings brainSettings;

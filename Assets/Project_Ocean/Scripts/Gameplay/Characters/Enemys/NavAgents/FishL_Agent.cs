@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Large fish host — AI lives in <see cref="FishLBrain"/>.
-/// </summary>
 public class FishL_Agent : EnemyNavAgentBase, IEnemyAttackState
 {
     [SerializeField] private FishLBrainSettings brainSettings;

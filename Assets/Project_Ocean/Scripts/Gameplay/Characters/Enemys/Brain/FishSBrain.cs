@@ -21,10 +21,11 @@ public class FishSBrain : EnemyBrainBase, IBrainVision
 
     public Vector2 CurrentDirection => currentDirection;
 
-    // ── IBrainVision ──────────────────────────────────────────────
+    #region IBrainVision
     public float ViewDistance => settings.viewDistance;
     public float ViewAngle    => settings.viewAngle;
     public bool CanSeePlayer() => playerTransform != null && CheckLineOfSight(playerTransform);
+    #endregion
 
     public FishSBrain(FishSBrainSettings settings)
     {

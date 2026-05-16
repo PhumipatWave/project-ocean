@@ -2,9 +2,6 @@ using Game.Testing;
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Small fish host — flock AI in <see cref="FishSBrain"/>; wall bounce stays on host.
-/// </summary>
 public class FishS_Agent : EnemyNavAgentBase
 {
     [SerializeField] private FishSBrainSettings brainSettings;
