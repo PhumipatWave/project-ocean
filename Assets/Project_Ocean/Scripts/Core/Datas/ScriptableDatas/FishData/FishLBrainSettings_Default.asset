@@ -13,30 +13,31 @@ MonoBehaviour:
   m_Name: FishLBrainSettings_Default
   m_EditorClassIdentifier: Game.Testing::FishLBrainSettings
   speed: 7.25
-  boostSpeed: 35
+  viewDistance: 25
   viewAngle: 90
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallDetectDistance: 1
+  wanderRadius: 75
+  wanderInterval: 12
+  hitChaseDuration: 6
+  chasePlayerWhenHit: 1
+  boostSpeed: 35
   visionObstacleMask:
     serializedVersion: 2
     m_Bits: 128
   debugVision: 1
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
   fishClearanceRadius: 0.8
   wallCheckDistance: 0.8
   maxWanderSampleTries: 20
-  wanderRadius: 75
-  wanderChangeInterval: 10
-  searchDuration: 5
-  searchRadius: 12
-  detectDistance: 30
-  attackRange: 8
+  searchDuration: 6
+  searchRadius: 25
+  attackRange: 6
   prepareTime: 3
   attackCooldown: 4.5
-  followAfterLost: 6
+  followAfterLost: 8
   attackDamage: 10.25
-  hitChaseDuration: 6
-  chasePlayerWhenHit: 1
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5

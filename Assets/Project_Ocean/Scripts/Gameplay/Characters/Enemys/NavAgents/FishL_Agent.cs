@@ -25,6 +25,24 @@ public class FishL_Agent : EnemyNavAgentBase, IEnemyAttackState
         return fishLBrain;
     }
 
+protected override void HandleBulletHit(GameObject bullet)
+    {
+        if (IsEnemyDead) return;
+        if (bullet == null || !bullet.CompareTag(playerBulletTag)) return;
+
+        (fishLBrain as IBrainHitReaction)?.OnBulletHit();
+
+        if (destroyBulletOnHit)
+            Destroy(bullet);
+    }
+
+    protected override void HandlePlayerCollision()
+    {
+        if (IsEnemyDead) return;
+        (fishLBrain as IBrainHitReaction)?.OnPlayerCollision();
+    }
+
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

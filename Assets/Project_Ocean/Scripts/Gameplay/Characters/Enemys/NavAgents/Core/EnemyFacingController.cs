@@ -75,7 +75,7 @@ public class EnemyFacingController
         return dir.normalized;
     }
 
-    public void RotateFromVelocity(Vector2 velocity, float minSpeed = 0.01f)
+public void RotateFromVelocity(Vector2 velocity, float minSpeed = 0.01f)
     {
         if (suppressRotation || velocity.sqrMagnitude < minSpeed * minSpeed)
             return;
@@ -83,7 +83,22 @@ public class EnemyFacingController
         RotateTowards(velocity.normalized);
     }
 
-    public bool RotateTowards(Vector2 dir)
+    /// <summary>
+    /// Overload that accepts a Vector3 from NavMeshAgent.velocity.
+    /// Maps XZ-plane velocity to 2D (X,Y) for games using a 2D NavMesh surface.
+    /// Falls back to (X,Y) if the Z component is effectively zero.
+    /// </summary>
+    public void RotateFromVelocity(Vector3 velocity3d, float minSpeed = 0.01f)
+    {
+        // Prefer XZ if the agent is on an XZ navmesh (Z is significant)
+        Vector2 vel2d = Mathf.Abs(velocity3d.z) > Mathf.Abs(velocity3d.y)
+            ? new Vector2(velocity3d.x, velocity3d.z)
+            : new Vector2(velocity3d.x, velocity3d.y);
+
+        RotateFromVelocity(vel2d, minSpeed);
+    }
+
+public bool RotateTowards(Vector2 dir)
     {
         if (dir.sqrMagnitude < 0.01f)
             return true;
@@ -98,6 +113,7 @@ public class EnemyFacingController
         else if (dir.x < -flipDeadZone)
             wantsFaceRight = false;
 
+        bool flippedThisFrame = false;
         if (wantsFaceRight != facingRight)
         {
             flipTimer += Time.deltaTime;
@@ -107,7 +123,9 @@ public class EnemyFacingController
                 facingRight = wantsFaceRight;
                 flipTimer = 0f;
                 flipCooldownTimer = flipCooldown;
-                turnVelocity = 0f;
+                // Mirror the current rotation velocity so the tilt doesn't snap
+                turnVelocity = -turnVelocity;
+                flippedThisFrame = true;
             }
         }
         else
@@ -117,6 +135,7 @@ public class EnemyFacingController
 
         EnemyFacing2D.ApplyHorizontalFlip(body, visualRoot, facingRight);
 
+        // Compute tilt relative to the facing side so it stays within [-maxTiltAngle, maxTiltAngle]
         float targetAngle = facingRight
             ? Mathf.Atan2(dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg
             : Mathf.Atan2(-dir.y, Mathf.Abs(dir.x)) * Mathf.Rad2Deg;
@@ -128,8 +147,12 @@ public class EnemyFacingController
             ? 1f / Mathf.Max(turnSpeed, 0.01f)
             : turnSmoothTime;
 
+        // Use body.rotation.eulerAngles mapped to [-180,180] to avoid 0/360 wrap-around
+        // that causes SmoothDampAngle to spin the wrong way.
+        float currentAngle = Mathf.DeltaAngle(0f, body.eulerAngles.z);
+
         float smoothAngle = Mathf.SmoothDampAngle(
-            body.eulerAngles.z,
+            currentAngle,
             targetAngle,
             ref turnVelocity,
             smoothDuration
@@ -137,7 +160,7 @@ public class EnemyFacingController
 
         body.rotation = Quaternion.Euler(0f, 0f, smoothAngle);
 
-        float angleDifference = Mathf.Abs(Mathf.DeltaAngle(body.eulerAngles.z, targetAngle));
+        float angleDifference = Mathf.Abs(Mathf.DeltaAngle(smoothAngle, targetAngle));
         return angleDifference <= attackAngleThreshold;
     }
 }

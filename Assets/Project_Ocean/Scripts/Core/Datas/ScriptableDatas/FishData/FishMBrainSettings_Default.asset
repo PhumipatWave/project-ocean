@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: FishMBrainSettings_Default
   m_EditorClassIdentifier: Game.Testing::FishMBrainSettings
   speed: 6
-  attackRange: 3
-  attackCooldown: 3.25
-  attackDamage: 7.5
-  wanderRadius: 45
-  wanderChangeInterval: 7.5
-  wallDetectDistance: 1
+  viewDistance: 6
+  viewAngle: 90
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
-  viewDistance: 6
-  viewAngle: 90
+  wallDetectDistance: 1
+  wanderRadius: 45
+  wanderInterval: 8
+  hitChaseDuration: 6
+  chasePlayerWhenHit: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
-  hitChaseDuration: 5
-  chasePlayerWhenHit: 1
+  attackRange: 3
+  attackCooldown: 3.25
+  attackDamage: 7.5

@@ -98,13 +98,20 @@ namespace Game.Testing
             PlayTakeDamageAnimation();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (!isDeath || !collision.gameObject.CompareTag("Player"))
-                return;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
 
+        if (isDeath)
+        {
             CollectByPlayer();
+            return;
         }
+
+        // Live fish touched by player — notify brain but do NOT collect
+        (brain as IBrainHitReaction)?.OnPlayerCollision();
+    }
 
         public void RegisterNavAgent(EnemyNavAgentBase agent)
         {
