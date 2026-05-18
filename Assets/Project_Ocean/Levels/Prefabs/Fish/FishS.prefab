@@ -694,17 +694,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  config: {fileID: 0}
   rb: {fileID: 0}
+  fishSprite: {fileID: 9006960900880424039}
   anim: {fileID: 0}
-  fishSprite: {fileID: 2966242172060711453}
-  fishL_Agent: {fileID: 0}
-  player: {fileID: 0}
-  currentHealth: 0
-  maxHealth: 80
-  moveSpeed: 5
-  isDeath: 0
-  isHasAnim: 0
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
+  maxHealthFallback: 100
+  isHasAnim: 0
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
   isBullet: 0
 --- !u!114 &8507428723810097256
 MonoBehaviour:
@@ -718,42 +715,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  speed: 2
-  turnSpeed: 4
-  groupRadius: 3
-  separationDistance: 1.5
-  neighbors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  leader: {fileID: 8507428723810097256}
-  groupID: 1
-  viewDistance: 15
-  viewAngle: 90
-  wanderRadius: 20
-  wanderInterval: 10
-  cohesionWeight: 1
-  separationWeight: 3
-  alignmentWeight: 3
-  panicSpeedMultiplier: 4
-  panicDuration: 5
-  panicRandomAngle: 90
-  wallDetectDistance: 4
-  wallAvoidWeight: 10
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  config: {fileID: 0}
+  fishAlertUI: {fileID: 0}
   playerBulletTag: Bullet
   playerTag: Player
   destroyBulletOnHit: 1
-  hitChaseDuration: 5
+  visualFlipRoot: {fileID: 2653153789481178184}
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
   flipDelay: 0.4
   flipCooldown: 0.5
   spriteAngleOffset: 0
+  attackAngleThreshold: 15
+  facingTurnMode: 0
+  turnSpeed: 4
+  brainSettings: {fileID: 11400000, guid: af3ce6f543f4eaa499d8edc949122a4c, type: 2}
   playerTransform: {fileID: 0}
+  leader: {fileID: 8507428723810097256}
+  groupID: 1
 --- !u!195 &2849432993923143802
 NavMeshAgent:
   m_ObjectHideFlags: 0

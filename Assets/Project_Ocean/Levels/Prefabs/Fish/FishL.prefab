@@ -753,17 +753,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  config: {fileID: 0}
   rb: {fileID: 0}
+  fishSprite: {fileID: 8611409687765085744}
   anim: {fileID: 0}
-  fishSprite: {fileID: 8835613204073223987}
-  fishL_Agent: {fileID: 5434500675454789899}
-  player: {fileID: 0}
-  currentHealth: 0
-  maxHealth: 300
-  moveSpeed: 5
-  isDeath: 0
-  isHasAnim: 1
   dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+  maxHealthFallback: 100
+  isHasAnim: 1
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
   isBullet: 0
 --- !u!114 &5434500675454789899
 MonoBehaviour:
@@ -777,10 +774,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f129e41a371e914a80639a3c6f29187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishL_Agent
-  enemy: {fileID: 0}
+  config: {fileID: 0}
   fishAlertUI: {fileID: 9207587733961278760}
-  speed: 5.25
-  boostSpeed: 32
+  playerBulletTag: Bullet
+  playerTag: Player
+  destroyBulletOnHit: 1
+  visualFlipRoot: {fileID: 3634935542475205251}
   turnSmoothTime: 0.25
   maxTiltAngle: 360
   flipDeadZone: 0.1
@@ -788,33 +787,9 @@ MonoBehaviour:
   flipCooldown: 0.7
   spriteAngleOffset: 0
   attackAngleThreshold: 15
-  viewAngle: 90
-  visionObstacleMask:
-    serializedVersion: 2
-    m_Bits: 128
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  fishClearanceRadius: 2
-  wallCheckDistance: 4
-  maxWanderSampleTries: 20
-  wanderRadius: 45
-  wanderChangeInterval: 15
-  searchDuration: 4
-  searchRadius: 2.5
-  detectDistance: 25
-  attackRange: 3
-  prepareTime: 1.5
-  attackCooldown: 2
-  followAfterLost: 6
-  hitChaseDuration: 5
-  chasePlayerWhenHit: 0
-  playerBulletTag: Bullet
-  playerTag: Player
-  destroyBulletOnHit: 1
-  nearPlayerSearchRadius: 8
-  nearPlayerSearchSamples: 24
-  nearPlayerSearchStep: 0.5
+  facingTurnMode: 1
+  turnSpeed: 5
+  brainSettings: {fileID: 11400000, guid: 59a2c39b44634424ba13c869ecc4e160, type: 2}
 --- !u!114 &7273885174344228482
 MonoBehaviour:
   m_ObjectHideFlags: 0
