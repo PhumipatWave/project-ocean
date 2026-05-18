@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class InventorySlot : MonoBehaviour,IDropHandler, IPointerClickHandler
+    public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         public Image image;
         public Color SelectedColor , notSelectedColor;

@@ -43,6 +43,7 @@ namespace Game.Testing
 
                     Enemy enemy = collision.GetComponent<Enemy>();
                     enemy.TakeDamage(attackDamage);
+                    (enemy.Brain as IBrainHitReaction)?.OnBulletHit();
 
                     var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());

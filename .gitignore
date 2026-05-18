@@ -64,6 +64,17 @@ sysinfo.txt
 *.unitypackage.meta
 *.app
 
+# Python cache
+__pycache__/
+*.pyc
+
+# MCP logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
 # Crashlytics generated file
 crashlytics-build.properties
 
