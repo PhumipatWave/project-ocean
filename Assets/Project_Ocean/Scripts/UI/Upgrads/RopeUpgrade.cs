@@ -19,7 +19,7 @@ namespace Game.Testing
         void Update()
         {
             priceText.text = "$" + GetPrice();
-            lengthText.text = "Max Length: " + ropeMax();
+            lengthText.text = "Length: " + ropeMax();
         }
 
         public void UpgradeRope()
