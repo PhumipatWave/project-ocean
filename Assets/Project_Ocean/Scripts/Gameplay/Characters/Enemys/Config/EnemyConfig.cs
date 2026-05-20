@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
+    // Merge to scriptable brain later*****
     [CreateAssetMenu(fileName = "EnemyConfig", menuName = "Project Ocean/Enemy/Enemy Config")]
     public class EnemyConfig : ScriptableObject
     {

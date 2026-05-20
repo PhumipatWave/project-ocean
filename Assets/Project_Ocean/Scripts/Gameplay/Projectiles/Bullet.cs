@@ -39,6 +39,10 @@ namespace Game.Testing
         {
             switch (collision.tag)
             {
+                case "Wall":
+                    gameObject.SetActive(false);
+                    break;
+
                 case "Enemy":
 
                     Enemy enemy = collision.GetComponent<Enemy>();
@@ -48,11 +52,9 @@ namespace Game.Testing
                     var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
-                    player.GunHandler.CanAttack = true;
                     player.GunHandler.ResetGunRotation(player.FaceDir);
 
-                    Destroy(gameObject);
-
+                    gameObject.SetActive(false);
                     break;
             }
         }
@@ -70,6 +72,7 @@ namespace Game.Testing
 
             yield return new WaitForSeconds(2.25f);
             player.GunHandler.CanAttack = true;
+            Destroy(gameObject);
         }
     }
 }
