@@ -1,66 +1,69 @@
 using UnityEngine;
 
-/// <summary>
-/// Encapsulates the line-of-sight check shared by all FishL states,
-/// keeping each state free of raw physics calls.
-/// </summary>
-public class FishLVisionHelper
+namespace Game.Testing
 {
-    private readonly FishLBrainSettings s;
-    private readonly EnemyBrainContext ctx;
-
-    private bool wasInDetectRadius;
-    private bool couldSeeLastTick;
-
-    public FishLVisionHelper(FishLBrainSettings settings, EnemyBrainContext context)
+    /// <summary>
+    /// Encapsulates the line-of-sight check shared by all FishL states,
+    /// keeping each state free of raw physics calls.
+    /// </summary>
+    public class FishLVisionHelper
     {
-        s = settings;
-        ctx = context;
-    }
+        private FishLBrainSettings fishLBrainSettings;
+        private EnemyBrainContext enemyBrainContext;
 
-    public bool CheckLineOfSight()
-    {
-        if (ctx.PlayerTransform == null) return false;
+        private bool wasInDetectRadius;
+        private bool couldSeeLastTick;
 
-        float dist = Vector2.Distance(ctx.Transform.position, ctx.PlayerTransform.position);
-        bool inRadius = dist <= s.detectDistance;
-
-        if (inRadius != wasInDetectRadius)
+        public FishLVisionHelper(FishLBrainSettings settings, EnemyBrainContext context)
         {
-            wasInDetectRadius = inRadius;
-            if (s.debugVision)
-                Debug.Log(inRadius
-                    ? $"[FishL] Player entered detect radius ({dist:0.00})"
-                    : $"[FishL] Player left detect radius ({dist:0.00})", ctx.Host);
+            fishLBrainSettings = settings;
+            enemyBrainContext = context;
         }
 
-        if (!inRadius)
+        public bool CheckLineOfSight()
         {
-            LogSeeChange(false);
-            return false;
+            if (enemyBrainContext.PlayerTransform == null) return false;
+
+            float dist = Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position);
+            bool inRadius = dist <= fishLBrainSettings.detectDistance;
+
+            if (inRadius != wasInDetectRadius)
+            {
+                wasInDetectRadius = inRadius;
+                if (fishLBrainSettings.debugVision)
+                    Debug.Log(inRadius
+                        ? $"[FishL] Player entered detect radius ({dist:0.00})"
+                        : $"[FishL] Player left detect radius ({dist:0.00})", enemyBrainContext.Host);
+            }
+
+            if (!inRadius)
+            {
+                LogSeeChange(false);
+                return false;
+            }
+
+            LayerMask obstacleMask = fishLBrainSettings.visionObstacleMask.value != 0 ? fishLBrainSettings.visionObstacleMask : fishLBrainSettings.wallLayer;
+
+            bool canSee = EnemyVisionHelper.HasLineOfSightRay(
+                enemyBrainContext.Transform.position,
+                enemyBrainContext.PlayerTransform.position,
+                Vector2.zero,
+                fishLBrainSettings.detectDistance,
+                fishLBrainSettings.viewAngle,
+                obstacleMask,
+                enemyBrainContext.PlayerTransform
+            );
+
+            LogSeeChange(canSee);
+            return canSee;
         }
 
-        LayerMask obstacleMask = s.visionObstacleMask.value != 0 ? s.visionObstacleMask : s.wallLayer;
-
-        bool canSee = EnemyVisionHelper.HasLineOfSightRay(
-            ctx.Transform.position,
-            ctx.PlayerTransform.position,
-            Vector2.zero,
-            s.detectDistance,
-            s.viewAngle,
-            obstacleMask,
-            ctx.PlayerTransform
-        );
-
-        LogSeeChange(canSee);
-        return canSee;
-    }
-
-    private void LogSeeChange(bool canSee)
-    {
-        if (canSee == couldSeeLastTick) return;
-        couldSeeLastTick = canSee;
-        if (s.debugVision)
-            Debug.Log(canSee ? "[FishL] Can see player." : "[FishL] Cannot see player.", ctx.Host);
+        private void LogSeeChange(bool canSee)
+        {
+            if (canSee == couldSeeLastTick) return;
+            couldSeeLastTick = canSee;
+            if (fishLBrainSettings.debugVision)
+                Debug.Log(canSee ? "[FishL] Can see player." : "[FishL] Cannot see player.", enemyBrainContext.Host);
+        }
     }
 }

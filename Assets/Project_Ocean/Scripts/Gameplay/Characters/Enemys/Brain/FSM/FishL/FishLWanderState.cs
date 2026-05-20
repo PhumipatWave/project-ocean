@@ -1,61 +1,64 @@
 using UnityEngine;
 
-/// <summary>
-/// FishL Wander state: picks random nav points and roams.
-/// Transitions -> Follow when player is seen or hit alert fires.
-/// </summary>
-public class FishLWanderState : EnemyStateBase
+namespace Game.Testing
 {
-    public override EnemyStateTag StateTag => EnemyStateTag.Wander;
-
-    private readonly FishLBrainSettings s;
-    private readonly EnemyNavPathfinder pathfinder;
-    private readonly FishLVisionHelper vision;
-
-
-    private float wanderTimer;
-    private Vector3 wanderTarget;
-
-    public FishLWanderState(FishLBrainSettings settings, EnemyNavPathfinder pathfinder, FishLVisionHelper vision)
+    /// <summary>
+    /// FishL Wander state: picks random nav points and roams.
+    /// Transitions -> Follow when player is seen or hit alert fires.
+    /// </summary>
+    public class FishLWanderState : EnemyStateBase
     {
-        s = settings;
-        this.pathfinder = pathfinder;
-        this.vision = vision;
-    }
+        public override EnemyStateTag StateTag => EnemyStateTag.Wander;
 
-    public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
-    {
-        base.Enter(ctx, fsm);
-        Ctx.Agent.speed = s.speed;
-        wanderTimer = s.wanderInterval;
-        PickWanderPoint();
-        if (Ctx.AlertUI != null) Ctx.AlertUI.HideAll();
-    }
+        private FishLBrainSettings fishLBrainSettings;
+        private EnemyNavPathfinder pathfinder;
+        private FishLVisionHelper vision;
 
-public override void Tick(float deltaTime)
-    {
-        wanderTimer -= deltaTime;
-        if (wanderTimer <= 0f || Vector2.Distance(Ctx.Transform.position, wanderTarget) < 0.5f)
+
+        private float wanderTimer;
+        private Vector3 wanderTarget;
+
+        public FishLWanderState(FishLBrainSettings settings, EnemyNavPathfinder pathfinder, FishLVisionHelper vision)
         {
+            fishLBrainSettings = settings;
+            this.pathfinder = pathfinder;
+            this.vision = vision;
+        }
+
+        public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
+        {
+            base.Enter(ctx, fsm);
+            enemyBrainContext.Agent.speed = fishLBrainSettings.speed;
+            wanderTimer = fishLBrainSettings.wanderInterval;
             PickWanderPoint();
-            wanderTimer = s.wanderInterval;
+            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAll();
         }
-        pathfinder.SetSafeDestination(wanderTarget);
 
-        if (Ctx.Agent.velocity.sqrMagnitude > 0.01f)
-            Ctx.Facing.RotateFromVelocity(Ctx.Agent.velocity);
-
-        // Detect player -> Follow
-        if (Ctx.PlayerTransform != null && vision != null && vision.CheckLineOfSight())
+        public override void Tick(float deltaTime)
         {
-            if (Fsm.GetState(EnemyStateTag.Follow) is FishLFollowState follow)
-                follow.LastKnownPlayerPosition = Ctx.PlayerTransform.position;
-            Fsm.TransitionTo(EnemyStateTag.Follow);
-        }
-    }
+            wanderTimer -= deltaTime;
+            if (wanderTimer <= 0f || Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f)
+            {
+                PickWanderPoint();
+                wanderTimer = fishLBrainSettings.wanderInterval;
+            }
+            pathfinder.SetSafeDestination(wanderTarget);
 
-    private void PickWanderPoint()
-    {
-        pathfinder.TryPickWanderPoint(Ctx.Transform.position, s.wanderRadius, out wanderTarget);
+            if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
+                enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
+
+            // Detect player -> Follow
+            if (enemyBrainContext.PlayerTransform != null && vision != null && vision.CheckLineOfSight())
+            {
+                if (enemyFSM.GetState(EnemyStateTag.Follow) is FishLFollowState follow)
+                    follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
+                enemyFSM.TransitionTo(EnemyStateTag.Follow);
+            }
+        }
+
+        private void PickWanderPoint()
+        {
+            pathfinder.TryPickWanderPoint(enemyBrainContext.Transform.position, fishLBrainSettings.wanderRadius, out wanderTarget);
+        }
     }
 }

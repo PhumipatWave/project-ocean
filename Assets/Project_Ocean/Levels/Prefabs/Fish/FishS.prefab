@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2966242172060711453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -580,7 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4373255698068515926}
   - component: {fileID: 1217555987416005051}
-  - component: {fileID: 574381775822762139}
+  - component: {fileID: 1811057275969045065}
   - component: {fileID: 3207163715615100706}
   - component: {fileID: 8507428723810097256}
   - component: {fileID: 2849432993923143802}
@@ -636,8 +636,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &574381775822762139
-BoxCollider2D:
+--- !u!70 &1811057275969045065
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -670,18 +670,9 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.038002014, y: 0.0011196136}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12.8, y: 8.06}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.4484863, y: 0.99325943}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.2, y: 0}
+  m_Size: {x: 1, y: 0.75}
+  m_Direction: 1
 --- !u!114 &3207163715615100706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,14 +686,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   config: {fileID: 0}
+  maxHealthFallback: 100
   rb: {fileID: 0}
   fishSprite: {fileID: 9006960900880424039}
   anim: {fileID: 0}
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
-  maxHealthFallback: 100
   isHasAnim: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
-  isBullet: 0
 --- !u!114 &8507428723810097256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,7 +709,6 @@ MonoBehaviour:
   fishAlertUI: {fileID: 0}
   playerBulletTag: Bullet
   playerTag: Player
-  destroyBulletOnHit: 1
   visualFlipRoot: {fileID: 2653153789481178184}
   turnSmoothTime: 0.25
   maxTiltAngle: 360

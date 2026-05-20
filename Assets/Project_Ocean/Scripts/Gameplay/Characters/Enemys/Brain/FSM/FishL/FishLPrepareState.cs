@@ -1,77 +1,80 @@
 using UnityEngine;
 
-/// <summary>
-/// FishL Prepare state: stops, faces the player, then charges.
-/// Transitions -> Attack when prepareTimer and facing are both satisfied.
-/// </summary>
-public class FishLPrepareState : EnemyStateBase
+namespace Game.Testing
 {
-    public override EnemyStateTag StateTag => EnemyStateTag.Prepare;
-
-    private readonly FishLBrainSettings s;
-    private readonly FishLVisionHelper vision;
-
-    private float prepareTimer;
-
-    public float AttackCooldownTimer { get; set; }
-
-    public FishLPrepareState(FishLBrainSettings settings, FishLVisionHelper vision)
+    /// <summary>
+    /// FishL Prepare state: stops, faces the player, then charges.
+    /// Transitions -> Attack when prepareTimer and facing are both satisfied.
+    /// </summary>
+    public class FishLPrepareState : EnemyStateBase
     {
-        s = settings;
-        this.vision = vision;
-    }
+        public override EnemyStateTag StateTag => EnemyStateTag.Prepare;
 
-public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
-    {
-        base.Enter(ctx, fsm);
-        prepareTimer = s.prepareTime;
-        AttackCooldownTimer = 0f;  // reset so a fresh prepare always leads to attack
-        StopAgent();
-        if (Ctx.AlertUI != null) Ctx.AlertUI.ShowAttackWarning();
-    }
+        private FishLBrainSettings fishLBrainSettings;
+        private FishLVisionHelper vision;
 
-public override void Tick(float deltaTime)
-    {
-        StopAgent();
-        prepareTimer -= deltaTime;
-        if (AttackCooldownTimer > 0f) AttackCooldownTimer -= deltaTime;
+        private float prepareTimer;
 
-        if (Ctx.PlayerTransform == null) { Fsm.TransitionTo(EnemyStateTag.Wander); return; }
+        public float AttackCooldownTimer { get; set; }
 
-        // If player left sight during prepare, fall back to Follow
-        if (!vision.CheckLineOfSight())
+        public FishLPrepareState(FishLBrainSettings settings, FishLVisionHelper vision)
         {
-            Fsm.TransitionTo(EnemyStateTag.Follow);
-            return;
+            fishLBrainSettings = settings;
+            this.vision = vision;
         }
 
-        Vector2 dir = Ctx.PlayerTransform.position - Ctx.Transform.position;
-        if (dir.sqrMagnitude <= 0.01f) return;
-
-        Ctx.Facing.SetSuppressRotation(true);
-        bool facingPlayer = Ctx.Facing.RotateTowards(dir.normalized);
-        Ctx.Facing.SetSuppressRotation(false);
-
-        if (prepareTimer <= 0f && facingPlayer && AttackCooldownTimer <= 0f)
+        public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
-            Fsm.TransitionTo(EnemyStateTag.Attack);
+            base.Enter(ctx, fsm);
+            prepareTimer = fishLBrainSettings.prepareTime;
+            AttackCooldownTimer = 0f;  // reset so a fresh prepare always leads to attack
+            StopAgent();
+            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.ShowAttackWarning();
         }
-    }
 
-    public override void Exit()
-    {
-        if (Ctx.Agent != null && Ctx.Agent.isOnNavMesh)
+        public override void Tick(float deltaTime)
         {
-            Ctx.Agent.isStopped = false;
-            Ctx.Agent.speed = s.boostSpeed;
-        }
-    }
+            StopAgent();
+            prepareTimer -= deltaTime;
+            if (AttackCooldownTimer > 0f) AttackCooldownTimer -= deltaTime;
 
-    private void StopAgent()
-    {
-        if (Ctx.Agent == null || !Ctx.Agent.isOnNavMesh) return;
-        Ctx.Agent.isStopped = true;
-        Ctx.Agent.ResetPath();
-        Ctx.Agent.velocity = UnityEngine.Vector3.zero;
+            if (enemyBrainContext.PlayerTransform == null) { enemyFSM.TransitionTo(EnemyStateTag.Wander); return; }
+
+            // If player left sight during prepare, fall back to Follow
+            if (!vision.CheckLineOfSight())
+            {
+                enemyFSM.TransitionTo(EnemyStateTag.Follow);
+                return;
+            }
+
+            Vector2 dir = enemyBrainContext.PlayerTransform.position - enemyBrainContext.Transform.position;
+            if (dir.sqrMagnitude <= 0.01f) return;
+
+            enemyBrainContext.Facing.SetSuppressRotation(true);
+            bool facingPlayer = enemyBrainContext.Facing.RotateTowards(dir.normalized);
+            enemyBrainContext.Facing.SetSuppressRotation(false);
+
+            if (prepareTimer <= 0f && facingPlayer && AttackCooldownTimer <= 0f)
+            {
+                enemyFSM.TransitionTo(EnemyStateTag.Attack);
+            }
+        }
+
+        public override void Exit()
+        {
+            if (enemyBrainContext.Agent != null && enemyBrainContext.Agent.isOnNavMesh)
+            {
+                enemyBrainContext.Agent.isStopped = false;
+                enemyBrainContext.Agent.speed = fishLBrainSettings.boostSpeed;
+            }
+        }
+
+        private void StopAgent()
+        {
+            if (enemyBrainContext.Agent == null || !enemyBrainContext.Agent.isOnNavMesh) return;
+            enemyBrainContext.Agent.isStopped = true;
+            enemyBrainContext.Agent.ResetPath();
+            enemyBrainContext.Agent.velocity = UnityEngine.Vector3.zero;
+        }
     }
 }

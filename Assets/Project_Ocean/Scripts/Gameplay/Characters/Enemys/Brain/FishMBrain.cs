@@ -1,56 +1,59 @@
 using UnityEngine;
 
-/// <summary>
-/// Medium fish AI refactored to FSM.
-/// Registers 2 states: Wander and Follow (with built-in biting).
-/// </summary>
-public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
+namespace Game.Testing
 {
-    private readonly FishMBrainSettings settings;
-    private FishMFollowState followState;
-
-    #region IBrainVision
-    public float ViewAngle => settings.viewAngle;
-    public float ViewDistance => settings.viewDistance;
-    public bool CanSeePlayer() => Ctx?.PlayerTransform != null;
-    #endregion
-
-    #region IBrainHitReaction
-    public void OnBulletHit()
+    /// <summary>
+    /// Medium fish AI refactored to FSM.
+    /// Registers 2 states: Wander and Follow (with built-in biting).
+    /// </summary>
+    public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
     {
-        if (!settings.chasePlayerWhenHit) return;
-        followState?.SetHitChaseTimer(settings.hitChaseDuration);
-        FSM.TransitionTo(EnemyStateTag.Follow);
-    }
+        private readonly FishMBrainSettings settings;
+        private FishMFollowState followState;
 
-    public void OnPlayerCollision()
-    {
-        if (!settings.chasePlayerWhenHit) return;
-        followState?.SetHitChaseTimer(settings.hitChaseDuration);
-        FSM.TransitionTo(EnemyStateTag.Follow);
-    }
-    #endregion
+        #region IBrainVision
+        public float ViewAngle => settings.viewAngle;
+        public float ViewDistance => settings.viewDistance;
+        public bool CanSeePlayer() => enemyBrainContext?.PlayerTransform != null;
+        #endregion
 
-    #region IBrainAttack
-    public float AttackRange => settings.attackRange;
-    public void TryAttack() { /* Handled inside FollowState */ }
-    #endregion
+        #region IBrainHitReaction
+        public void OnBulletHit()
+        {
+            if (!settings.chasePlayerWhenHit) return;
+            followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
 
-    public FishMBrain(FishMBrainSettings settings)
-    {
-        this.settings = settings;
-    }
+        public void OnPlayerCollision()
+        {
+            if (!settings.chasePlayerWhenHit) return;
+            followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
+        #endregion
 
-    public override void Initialize(EnemyBrainContext context)
-    {
-        base.Initialize(context);
+        #region IBrainAttack
+        public float AttackRange => settings.attackRange;
+        public void TryAttack() { /* Handled inside FollowState */ }
+        #endregion
 
-        followState = new FishMFollowState(settings);
+        public FishMBrain(FishMBrainSettings settings)
+        {
+            this.settings = settings;
+        }
 
-        FSM.Register(new FishMWanderState(settings));
-        FSM.Register(followState);
+        public override void Initialize(EnemyBrainContext context)
+        {
+            base.Initialize(context);
 
-        Ctx.Agent.speed = settings.speed;
-        FSM.Start(EnemyStateTag.Wander);
+            followState = new FishMFollowState(settings);
+
+            enemyFSM.Register(new FishMWanderState(settings));
+            enemyFSM.Register(followState);
+
+            enemyBrainContext.Agent.speed = settings.speed;
+            enemyFSM.Start(EnemyStateTag.Wander);
+        }
     }
 }

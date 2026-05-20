@@ -1,53 +1,56 @@
 using UnityEngine;
 
-public abstract class EnemyBrainBase : IEnemyBrain
+namespace Game.Testing
 {
-    protected EnemyBrainContext Ctx;
-    protected EnemyFSM FSM { get; private set; }
-
-    public virtual bool IsAttacking => false;
-
-    public virtual void Initialize(EnemyBrainContext context)
+    public abstract class EnemyBrainBase : IEnemyBrain
     {
-        Ctx = context;
-        FSM = new EnemyFSM();
-        FSM.Initialize(context);
-    }
+        protected EnemyBrainContext enemyBrainContext;
+        protected EnemyFSM enemyFSM { get; private set; }
 
-    public virtual void Tick(float deltaTime)
-    {
-        FSM.Tick(deltaTime);
-    }
+        public virtual bool IsAttacking => false;
 
-    public virtual void OnHit(Transform attacker) { }
+        public virtual void Initialize(EnemyBrainContext context)
+        {
+            enemyBrainContext = context;
+            enemyFSM = new EnemyFSM();
+            enemyFSM.Initialize(context);
+        }
 
-    public virtual void OnDeath()
-    {
-        HideAttackWarning();
-        SetSeeingPlayer(false);
-    }
+        public virtual void Tick(float deltaTime)
+        {
+            enemyFSM.Tick(deltaTime);
+        }
 
-    protected void ShowAttackWarning()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.ShowAttackWarning();
-    }
+        public virtual void OnHit(Transform attacker) { }
 
-    protected void HideAttackWarning()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.HideAttackWarning();
-    }
+        public virtual void OnDeath()
+        {
+            HideAttackWarning();
+            SetSeeingPlayer(false);
+        }
 
-    protected void SetSeeingPlayer(bool canSee)
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.SetSeeingPlayer(canSee);
-    }
+        protected void ShowAttackWarning()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.ShowAttackWarning();
+        }
 
-    protected void HideAllAlerts()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.HideAll();
+        protected void HideAttackWarning()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.HideAttackWarning();
+        }
+
+        protected void SetSeeingPlayer(bool canSee)
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.SetSeeingPlayer(canSee);
+        }
+
+        protected void HideAllAlerts()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.HideAll();
+        }
     }
 }
