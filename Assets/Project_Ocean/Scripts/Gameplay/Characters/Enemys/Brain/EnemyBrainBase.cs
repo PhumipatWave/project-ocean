@@ -1,53 +1,64 @@
 using UnityEngine;
 
-public abstract class EnemyBrainBase : IEnemyBrain
+namespace Game.Testing
 {
-    protected EnemyBrainContext Ctx;
-    protected EnemyFSM FSM { get; private set; }
-
-    public virtual bool IsAttacking => false;
-
-    public virtual void Initialize(EnemyBrainContext context)
+    public abstract class EnemyBrainBase : IEnemyBrain
     {
-        Ctx = context;
-        FSM = new EnemyFSM();
-        FSM.Initialize(context);
-    }
+        protected EnemyBrainContext enemyBrainContext;
+        protected EnemyFSM enemyFSM { get; private set; }
 
-    public virtual void Tick(float deltaTime)
-    {
-        FSM.Tick(deltaTime);
-    }
+        public virtual bool IsAttacking => false;
 
-    public virtual void OnHit(Transform attacker) { }
+        public virtual void Initialize(EnemyBrainContext context)
+        {
+            enemyBrainContext = context;
+            enemyFSM = new EnemyFSM();
+            enemyFSM.Initialize(context);
+        }
 
-    public virtual void OnDeath()
-    {
-        HideAttackWarning();
-        SetSeeingPlayer(false);
-    }
+/// <summary>Sets the NavMeshAgent speed from the brain's settings. Call after base.Initialize().</summary>
+        protected void SetAgentSpeed(float speed)
+        {
+            if (enemyBrainContext?.Agent != null)
+                enemyBrainContext.Agent.speed = speed;
+        }
 
-    protected void ShowAttackWarning()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.ShowAttackWarning();
-    }
 
-    protected void HideAttackWarning()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.HideAttackWarning();
-    }
+        public virtual void Tick(float deltaTime)
+        {
+            enemyFSM.Tick(deltaTime);
+        }
 
-    protected void SetSeeingPlayer(bool canSee)
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.SetSeeingPlayer(canSee);
-    }
+        public virtual void OnHit(Transform attacker) { }
 
-    protected void HideAllAlerts()
-    {
-        if (Ctx?.AlertUI != null)
-            Ctx.AlertUI.HideAll();
+        public virtual void OnDeath()
+        {
+            HideAttackWarning();
+            SetSeeingPlayer(false);
+        }
+
+        protected void ShowAttackWarning()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.ShowAttackWarning();
+        }
+
+        protected void HideAttackWarning()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.HideAttackWarning();
+        }
+
+        protected void SetSeeingPlayer(bool canSee)
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.SetSeeingPlayer(canSee);
+        }
+
+        protected void HideAllAlerts()
+        {
+            if (enemyBrainContext?.AlertUI != null)
+                enemyBrainContext.AlertUI.HideAll();
+        }
     }
 }

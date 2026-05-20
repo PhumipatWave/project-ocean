@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static Unity.Cinemachine.CinemachineSplineRoll;
 
 namespace Game.Testing
 {
@@ -21,11 +20,6 @@ namespace Game.Testing
             base.Awake();
 
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        }
-
-        protected override void Start()
-        {
-
         }
 
         protected override void FixedUpdate()
@@ -167,7 +161,7 @@ namespace Game.Testing
             Destroy(gameObject);
         }
 
-        public IEnumerator HookFishRoutine(GameObject target)
+        /*public IEnumerator HookFishRoutine(GameObject target)
         {
             attachedToObject = true;
             player.GunHandler.IsHooked = true;
@@ -198,6 +192,6 @@ namespace Game.Testing
 
             RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
             Destroy(gameObject);
-        }
+        }*/
     }
 }

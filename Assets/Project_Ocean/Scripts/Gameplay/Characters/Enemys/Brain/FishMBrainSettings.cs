@@ -1,19 +1,22 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FishMBrainSettings", menuName = "Enemy/Fish M Brain Settings")]
-public class FishMBrainSettings : EnemyBrainSettingsBase
+namespace Game.Testing
 {
-    [Header("Vision (Medium Fish)")]
-    [Tooltip("Layers that block line of sight to the player. Separate from wall layer.")]
-    public LayerMask obstacleLayer;
+    [CreateAssetMenu(fileName = "FishMBrainSettings", menuName = "Enemy/Fish M Brain Settings")]
+    public class FishMBrainSettings : EnemyBrainSettingsBase
+    {
+        [Header("Vision (Medium Fish)")]
+        [Tooltip("Layers that block line of sight to the player. Separate from wall layer.")]
+        public LayerMask obstacleLayer;
 
-    [Header("Attack")]
-    [Tooltip("Distance from the player required before this fish can bite.")]
-    public float attackRange = 1.5f;
+        [Header("Attack")]
+        [Tooltip("Distance from the player required before this fish can bite.")]
+        public float attackRange = 1.5f;
 
-    [Tooltip("Time in seconds before another bite can happen.")]
-    public float attackCooldown = 2f;
+        [Tooltip("Time in seconds before another bite can happen.")]
+        public float attackCooldown = 2f;
 
-    [Tooltip("Damage dealt to the player when the bite connects.")]
-    public float attackDamage = 7.5f;
+        [Tooltip("Damage dealt to the player when the bite connects.")]
+        public float attackDamage = 7.5f;
+    }
 }
