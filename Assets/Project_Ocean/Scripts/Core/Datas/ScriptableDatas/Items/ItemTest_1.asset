@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: ItemTest_1
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  itemID: 1150
+  itemName: ItemTest_1
+  tile: {fileID: 0}
+  itemType: 0
+  itemPrefab: {fileID: 0}
+  stackable: 1
+  image: {fileID: 7604862275182696803, guid: 6042d402fbec96c44a9155a9b3e92d95, type: 3}
+  buyPrice: 1
+  sellPrice: 67
