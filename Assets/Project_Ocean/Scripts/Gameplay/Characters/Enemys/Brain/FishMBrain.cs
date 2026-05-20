@@ -3,8 +3,7 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Medium fish AI refactored to FSM.
-    /// Registers 2 states: Wander and Follow (with built-in biting).
+    /// Medium fish AI — FSM with 2 states: Wander and Follow (with built-in biting).
     /// </summary>
     public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
     {
@@ -12,9 +11,33 @@ namespace Game.Testing
         private FishMFollowState followState;
 
         #region IBrainVision
-        public float ViewAngle => settings.viewAngle;
+        public float ViewAngle    => settings.viewAngle;
         public float ViewDistance => settings.viewDistance;
-        public bool CanSeePlayer() => enemyBrainContext?.PlayerTransform != null;
+
+        public bool CanSeePlayer()
+        {
+            if (enemyBrainContext?.PlayerTransform == null) return false;
+
+            // Use the agent's current velocity as the facing direction; fall back to Vector2.right.
+            Vector2 facing = enemyBrainContext.Agent != null && enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f
+                ? (Vector2)enemyBrainContext.Agent.velocity.normalized
+                : Vector2.right;
+
+            return EnemyVisionHelper.HasLineOfSightRay(
+                enemyBrainContext.Transform.position,
+                enemyBrainContext.PlayerTransform.position,
+                facing,
+                settings.viewDistance,
+                settings.viewAngle,
+                settings.obstacleLayer
+            );
+        }
+        #endregion
+
+        #region IBrainAttack
+        // FishM has no sustained attack phase — biting is instant inside FollowState.
+        public override bool IsAttacking => false;
+        public float AttackRange => settings.attackRange;
         #endregion
 
         #region IBrainHitReaction
@@ -33,11 +56,6 @@ namespace Game.Testing
         }
         #endregion
 
-        #region IBrainAttack
-        public float AttackRange => settings.attackRange;
-        public void TryAttack() { /* Handled inside FollowState */ }
-        #endregion
-
         public FishMBrain(FishMBrainSettings settings)
         {
             this.settings = settings;
@@ -52,7 +70,7 @@ namespace Game.Testing
             enemyFSM.Register(new FishMWanderState(settings));
             enemyFSM.Register(followState);
 
-            enemyBrainContext.Agent.speed = settings.speed;
+            SetAgentSpeed(settings.speed);
             enemyFSM.Start(EnemyStateTag.Wander);
         }
     }

@@ -40,7 +40,7 @@ namespace Game.Testing
             enemyFSM.Register(flockState);
             enemyFSM.Register(panicState);
 
-            enemyBrainContext.Agent.speed = fishSBrainSettings.speed;
+            SetAgentSpeed(fishSBrainSettings.speed);
             enemyFSM.Start(EnemyStateTag.Flock);
         }
 

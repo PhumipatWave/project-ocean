@@ -4,61 +4,65 @@ namespace Game.Testing
 {
     /// <summary>
     /// FishL Wander state: picks random nav points and roams.
+    /// Extends WanderStateBase — the timer loop and player-detection hook
+    /// are inherited; this class only supplies FishL-specific implementations.
     /// Transitions -> Follow when player is seen or hit alert fires.
     /// </summary>
-    public class FishLWanderState : EnemyStateBase
+    public class FishLWanderState : WanderStateBase
     {
-        public override EnemyStateTag StateTag => EnemyStateTag.Wander;
+        private readonly FishLBrainSettings settings;
+        private readonly EnemyNavPathfinder pathfinder;
+        private readonly FishLVisionHelper vision;
 
-        private FishLBrainSettings fishLBrainSettings;
-        private EnemyNavPathfinder pathfinder;
-        private FishLVisionHelper vision;
-
-
-        private float wanderTimer;
         private Vector3 wanderTarget;
 
         public FishLWanderState(FishLBrainSettings settings, EnemyNavPathfinder pathfinder, FishLVisionHelper vision)
         {
-            fishLBrainSettings = settings;
+            this.settings   = settings;
             this.pathfinder = pathfinder;
-            this.vision = vision;
+            this.vision     = vision;
         }
 
-        public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
+        // ── WanderStateBase overrides ────────────────────────────────────────────
+
+        protected override void OnEnterWander()
         {
-            base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = fishLBrainSettings.speed;
-            wanderTimer = fishLBrainSettings.wanderInterval;
-            PickWanderPoint();
+            enemyBrainContext.Agent.speed = settings.speed;
             if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAll();
         }
 
-        public override void Tick(float deltaTime)
+        protected override float GetWanderInterval() => settings.wanderInterval;
+
+        protected override bool HasArrived() =>
+            Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f;
+
+        protected override void PickNewWanderTarget()
         {
-            wanderTimer -= deltaTime;
-            if (wanderTimer <= 0f || Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f)
-            {
-                PickWanderPoint();
-                wanderTimer = fishLBrainSettings.wanderInterval;
-            }
-            pathfinder.SetSafeDestination(wanderTarget);
-
-            if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
-                enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
-
-            // Detect player -> Follow
-            if (enemyBrainContext.PlayerTransform != null && vision != null && vision.CheckLineOfSight())
-            {
-                if (enemyFSM.GetState(EnemyStateTag.Follow) is FishLFollowState follow)
-                    follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
-                enemyFSM.TransitionTo(EnemyStateTag.Follow);
-            }
+            pathfinder.TryPickWanderPoint(
+                enemyBrainContext.Transform.position,
+                settings.wanderRadius,
+                out wanderTarget
+            );
         }
 
-        private void PickWanderPoint()
+        protected override void ApplyMovement()
         {
-            pathfinder.TryPickWanderPoint(enemyBrainContext.Transform.position, fishLBrainSettings.wanderRadius, out wanderTarget);
+            pathfinder.SetSafeDestination(wanderTarget);
+        }
+
+        protected override bool ShouldTransitionAway()
+        {
+            return enemyBrainContext.PlayerTransform != null
+                && vision != null
+                && vision.CheckLineOfSight();
+        }
+
+        protected override void OnPlayerDetected()
+        {
+            if (enemyFSM.GetState(EnemyStateTag.Follow) is FishLFollowState follow)
+                follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
+
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
     }
 }

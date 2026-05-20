@@ -28,7 +28,7 @@ namespace Game.Testing
         {
             Vector2 away = ((Vector2)enemyBrainContext.Transform.position - sourcePos).normalized;
             float randomAngle = Random.Range(-fishSBrainSetting.panicRandomAngle, fishSBrainSetting.panicRandomAngle);
-            panicDirection = RotateVector(away, randomAngle);
+            panicDirection = EnemyMathHelper.RotateVector(away, randomAngle);
         }
 
         public void SetHitChaseTimer(float duration) => hitChaseTimer = duration;
@@ -84,10 +84,6 @@ namespace Game.Testing
             }
         }
 
-        private static Vector2 RotateVector(Vector2 v, float deg)
-        {
-            float r = deg * Mathf.Deg2Rad;
-            return new Vector2(v.x * Mathf.Cos(r) - v.y * Mathf.Sin(r), v.x * Mathf.Sin(r) + v.y * Mathf.Cos(r));
-        }
+        
     }
 }

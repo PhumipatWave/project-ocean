@@ -152,7 +152,7 @@ namespace Game.Testing
             float[] angles = { 0f, 45f, 90f, 135f, 180f, -45f, -90f, -135f };
             foreach (float a in angles)
             {
-                Vector2 dir = RotateVector(currentDirection, a);
+                Vector2 dir = EnemyMathHelper.RotateVector(currentDirection, a);
                 RaycastHit2D hit = Physics2D.Raycast(enemyBrainContext.Transform.position, dir, detectDist, fishSBrainSetting.wallLayer);
                 if (hit.collider == null) continue;
                 avoid += hit.normal * (1f - hit.distance / detectDist);
@@ -160,10 +160,6 @@ namespace Game.Testing
             return avoid.sqrMagnitude > 0.01f ? avoid.normalized * fishSBrainSetting.wallAvoidWeight : Vector2.zero;
         }
 
-        private static Vector2 RotateVector(Vector2 v, float deg)
-        {
-            float r = deg * Mathf.Deg2Rad;
-            return new Vector2(v.x * Mathf.Cos(r) - v.y * Mathf.Sin(r), v.x * Mathf.Sin(r) + v.y * Mathf.Cos(r));
-        }
+        
     }
 }

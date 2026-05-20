@@ -11,9 +11,9 @@ namespace Game.Testing
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Search;
 
-        private FishLBrainSettings fishLBrainSettings;
-        private EnemyNavPathfinder pathfinder;
-        private FishLVisionHelper vision;
+        private readonly FishLBrainSettings settings;
+        private readonly EnemyNavPathfinder pathfinder;
+        private readonly FishLVisionHelper vision;
 
         private float searchTimer;
         private Vector3 wanderTarget;
@@ -22,16 +22,16 @@ namespace Game.Testing
 
         public FishLSearchState(FishLBrainSettings settings, EnemyNavPathfinder pathfinder, FishLVisionHelper vision)
         {
-            fishLBrainSettings = settings;
+            this.settings   = settings;
             this.pathfinder = pathfinder;
-            this.vision = vision;
+            this.vision     = vision;
         }
 
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = fishLBrainSettings.speed;
-            searchTimer = fishLBrainSettings.searchDuration;
+            enemyBrainContext.Agent.speed = settings.speed;
+            searchTimer = settings.searchDuration;
             PickSearchPoint();
             if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAttackWarning();
         }
@@ -66,7 +66,7 @@ namespace Game.Testing
 
         private void PickSearchPoint()
         {
-            pathfinder.TryPickWanderPoint(SearchOrigin, fishLBrainSettings.searchRadius, out wanderTarget);
+            pathfinder.TryPickWanderPoint(SearchOrigin, settings.searchRadius, out wanderTarget);
         }
     }
 }

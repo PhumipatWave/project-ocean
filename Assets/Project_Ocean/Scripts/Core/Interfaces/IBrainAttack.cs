@@ -1,11 +1,9 @@
-using UnityEngine;
-
 namespace Game.Testing
 {
     /// <summary>
     /// Implemented by any enemy brain that can attack the player.
     /// Lets the Agent side and external systems (combat log, UI) query attack state
-    /// and trigger attack attempts without knowing the concrete brain type.
+    /// and range without knowing the concrete brain type.
     /// FishS does NOT implement this — FishM and FishL do.
     /// </summary>
     public interface IBrainAttack
@@ -15,11 +13,5 @@ namespace Game.Testing
 
         /// <summary>Distance from the player at which this brain will land a hit.</summary>
         float AttackRange { get; }
-
-        /// <summary>
-        /// Called by the brain's own Tick to check range and deal damage.
-        /// Can also be called externally to force an attack attempt.
-        /// </summary>
-        void TryAttack();
     }
 }
