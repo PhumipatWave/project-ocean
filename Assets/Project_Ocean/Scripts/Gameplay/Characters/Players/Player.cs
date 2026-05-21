@@ -193,6 +193,9 @@ namespace Game.Testing
             }
 
             ExecuteItem(itemData);
+
+            if (WeaponUIController.Instance != null)
+                WeaponUIController.Instance.Refresh();
         }
 
         void ExecuteItem(Item item)
