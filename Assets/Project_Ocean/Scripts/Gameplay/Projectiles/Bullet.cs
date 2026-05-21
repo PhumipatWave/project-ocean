@@ -39,8 +39,8 @@ namespace Game.Testing
         {
             switch (collision.tag)
             {
-                case "Wall":
-                    gameObject.SetActive(false);
+                case "Environment":
+                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                     break;
 
                 case "Enemy":
@@ -54,7 +54,7 @@ namespace Game.Testing
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
 
-                    gameObject.SetActive(false);
+                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                     break;
             }
         }
@@ -67,7 +67,6 @@ namespace Game.Testing
 
         protected IEnumerator ShootCooldownRoutine()
         {
-            Destroy(gameObject, 3f);
             player.GunHandler.ResetGunRotation(player.FaceDir);
 
             yield return new WaitForSeconds(2.25f);

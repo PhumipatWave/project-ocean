@@ -7,8 +7,6 @@ namespace Game.Testing
 {
     public class Draggableltem : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHandler
     {
-        
-        
         [Header("UI")]
         public Image image;
         public TMP_Text countText;
@@ -20,7 +18,7 @@ namespace Game.Testing
         public void InitialiseItem(Item newItem)
         {
             item = newItem;
-            image.sprite = newItem.image;
+            image.sprite = newItem.ItemVisual;
             RefreshCount();
             
         }// InitialiseItem === 
@@ -56,9 +54,5 @@ namespace Game.Testing
             image.raycastTarget = true;
             
         }// OnEndDrag ===
-        
-        
-        
-        
     }// Draggableltem ===
 }
