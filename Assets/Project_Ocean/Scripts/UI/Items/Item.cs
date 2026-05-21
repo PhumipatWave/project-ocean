@@ -9,9 +9,11 @@ namespace Game.Testing
     {
         [Header("Only gameplay")]
         public string itemID;
+        public string itemName;
         public  TileBase tile;
         public ItemType itemType;
         public GameObject itemPrefab;
+
         
         [Header("Only UI")]
         public bool stackable = true;

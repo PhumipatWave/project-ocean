@@ -30,6 +30,7 @@ namespace Game.Testing
             }
 
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()
@@ -210,21 +211,33 @@ namespace Game.Testing
                     foundItem = itemInSlot.item;
 
                     itemInSlot.count--;
-                    miniHubCount.text = itemInSlot.count.ToString();
 
                     if (itemInSlot.count <= 0)
-                    {
-                        miniHubCount.text = "0";
                         Destroy(itemInSlot.gameObject);
-                    }
                     else
                         itemInSlot.RefreshCount();
 
+                    NotifySupportItemConsumed(foundItem);
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private void NotifySupportItemConsumed(Item consumedItem)
+        {
+            if (consumedItem == null)
+                return;
+
+            if (WeaponUIController.Instance != null)
+                WeaponUIController.Instance.Refresh();
+
+            ShopSystem shop = FindFirstObjectByType<ShopSystem>();
+            if (shop != null)
+                shop.OnSupportItemConsumed(consumedItem.itemID);
+            else if (miniHubCount != null && consumedItem.itemID == "MiniHub")
+                miniHubCount.text = WeaponUIController.GetInventoryCount("MiniHub").ToString();
         }
 
         public void UnlockNextSlot()

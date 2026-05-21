@@ -81,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 126978437
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1b386b4610cb34ea5fb045bb00d409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Itemdrop
-  dropItem: {fileID: 0}
+  dropItem: {fileID: 11400000, guid: 2eb7bcd110c6544498f1ea47972da1b6, type: 2}
   audio: {fileID: 4577766320789340656}
   dropSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
 --- !u!61 &-8757550227528707518
@@ -127,7 +127,7 @@ BoxCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 500
   m_ForceSendLayers:
     serializedVersion: 2
     m_Bits: 4294967295
