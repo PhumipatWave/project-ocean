@@ -1,4 +1,3 @@
-using NUnit.Framework.Interfaces;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -52,15 +51,37 @@ namespace Game.Testing
                 }
             }
 
-            for (int i = 0; i < itemTexts.Length; i++)
-            {
-                if (itemTexts[i] != null)
-                {
-                    itemTexts[i].text = itemCounts[i].ToString();
-                }
-            }
+            RefreshSupportItemDisplay();
 
         } // UpdateUI ===
+
+        /// <summary>
+        /// WP_TextMH / WP_TextCP show live inventory counts (not shop-only counters).
+        /// </summary>
+        public void RefreshSupportItemDisplay()
+        {
+            if (itemTexts == null)
+                return;
+
+            if (itemTexts.Length > 0 && itemTexts[0] != null)
+                itemTexts[0].text = WeaponUIController.GetInventoryCount("CheckPoint").ToString();
+
+            if (itemTexts.Length > 1 && itemTexts[1] != null)
+                itemTexts[1].text = WeaponUIController.GetInventoryCount("MiniHub").ToString();
+
+            if (WeaponUIController.Instance != null)
+                WeaponUIController.Instance.Refresh();
+        }
+
+        public void OnSupportItemConsumed(string itemId)
+        {
+            if (itemId == "CheckPoint" && itemCounts[0] > 0)
+                itemCounts[0]--;
+            else if (itemId == "MiniHub" && itemCounts[1] > 0)
+                itemCounts[1]--;
+
+            RefreshSupportItemDisplay();
+        }
 
         // ระบบตรวจสอบไอเทมที่ถูกเลือกและแสดงราคาชิ้นนั้นๆ 
         void UpdateClickedItemPriceDisplay()
@@ -270,6 +291,8 @@ namespace Game.Testing
                                 {
                                     itemCounts[1]++;
                                 }
+
+                                RefreshSupportItemDisplay();
                             }
                         }
                     }
