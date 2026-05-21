@@ -33,6 +33,9 @@ namespace Game.Testing
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            if (GetComponent<WeaponUIController>() == null)
+                gameObject.AddComponent<WeaponUIController>();
         }
         private void OnEnable()
         {
