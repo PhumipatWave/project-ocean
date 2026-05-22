@@ -660,13 +660,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3109035116890205398}
-  - component: {fileID: 1056449737075941171}
+  - component: {fileID: 4214589482347048590}
+  - component: {fileID: 392775262761255314}
   - component: {fileID: 4774483354577623506}
   - component: {fileID: 5434500675454789899}
   - component: {fileID: 7273885174344228482}
   - component: {fileID: 1437088641783751109}
   - component: {fileID: 683323476657014}
-  - component: {fileID: 4214589482347048590}
   - component: {fileID: 9207587733961278760}
   m_Layer: 0
   m_Name: FishL
@@ -695,8 +695,35 @@ Transform:
   - {fileID: 5811248619569492794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1056449737075941171
-BoxCollider2D:
+--- !u!50 &4214589482347048590
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &392775262761255314
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -729,18 +756,9 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -2.6419744, y: -0.067840576}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.79, y: 4.06}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 9.597483, y: 2.9177246}
-  m_EdgeRadius: 0
+  m_Offset: {x: -2.5, y: 0}
+  m_Size: {x: 8, y: 2}
+  m_Direction: 1
 --- !u!114 &4774483354577623506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,14 +772,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   config: {fileID: 0}
+  maxHealthFallback: 100
   rb: {fileID: 0}
   fishSprite: {fileID: 8611409687765085744}
   anim: {fileID: 0}
   dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  maxHealthFallback: 100
   isHasAnim: 1
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
-  isBullet: 0
 --- !u!114 &5434500675454789899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,7 +795,6 @@ MonoBehaviour:
   fishAlertUI: {fileID: 9207587733961278760}
   playerBulletTag: Bullet
   playerTag: Player
-  destroyBulletOnHit: 1
   visualFlipRoot: {fileID: 3634935542475205251}
   turnSmoothTime: 0.25
   maxTiltAngle: 360
@@ -837,33 +853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Extensions.AgentOverride2d
---- !u!50 &4214589482347048590
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &9207587733961278760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,7 +1273,7 @@ Transform:
   m_GameObject: {fileID: 8835613204073223987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.62, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []

@@ -1,56 +1,77 @@
 using UnityEngine;
 
-/// <summary>
-/// Medium fish AI refactored to FSM.
-/// Registers 2 states: Wander and Follow (with built-in biting).
-/// </summary>
-public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
+namespace Game.Testing
 {
-    private readonly FishMBrainSettings settings;
-    private FishMFollowState followState;
-
-    #region IBrainVision
-    public float ViewAngle => settings.viewAngle;
-    public float ViewDistance => settings.viewDistance;
-    public bool CanSeePlayer() => Ctx?.PlayerTransform != null;
-    #endregion
-
-    #region IBrainHitReaction
-    public void OnBulletHit()
+    /// <summary>
+    /// Medium fish AI — FSM with 2 states: Wander and Follow (with built-in biting).
+    /// </summary>
+    public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
     {
-        if (!settings.chasePlayerWhenHit) return;
-        followState?.SetHitChaseTimer(settings.hitChaseDuration);
-        FSM.TransitionTo(EnemyStateTag.Follow);
-    }
+        private readonly FishMBrainSettings settings;
+        private FishMFollowState followState;
 
-    public void OnPlayerCollision()
-    {
-        if (!settings.chasePlayerWhenHit) return;
-        followState?.SetHitChaseTimer(settings.hitChaseDuration);
-        FSM.TransitionTo(EnemyStateTag.Follow);
-    }
-    #endregion
+        #region IBrainVision
+        public float ViewAngle    => settings.viewAngle;
+        public float ViewDistance => settings.viewDistance;
 
-    #region IBrainAttack
-    public float AttackRange => settings.attackRange;
-    public void TryAttack() { /* Handled inside FollowState */ }
-    #endregion
+        public bool CanSeePlayer()
+        {
+            if (enemyBrainContext?.PlayerTransform == null) return false;
 
-    public FishMBrain(FishMBrainSettings settings)
-    {
-        this.settings = settings;
-    }
+            // Use the agent's current velocity as the facing direction; fall back to Vector2.right.
+            Vector2 facing = enemyBrainContext.Agent != null && enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f
+                ? (Vector2)enemyBrainContext.Agent.velocity.normalized
+                : Vector2.right;
 
-    public override void Initialize(EnemyBrainContext context)
-    {
-        base.Initialize(context);
+            return EnemyVisionHelper.HasLineOfSightRay(
+                enemyBrainContext.Transform.position,
+                enemyBrainContext.PlayerTransform.position,
+                facing,
+                settings.viewDistance,
+                settings.viewAngle,
+                settings.obstacleLayer
+            );
+        }
+        #endregion
 
-        followState = new FishMFollowState(settings);
+        #region IBrainAttack
+        // FishM has no sustained attack phase — biting is instant inside FollowState.
+        public override bool IsAttacking => false;
+        public float AttackRange => settings.attackRange;
+        #endregion
 
-        FSM.Register(new FishMWanderState(settings));
-        FSM.Register(followState);
+        #region IBrainHitReaction
+        public void OnBulletHit()
+        {
+            if (!settings.chasePlayerWhenHit) return;
+            followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
 
-        Ctx.Agent.speed = settings.speed;
-        FSM.Start(EnemyStateTag.Wander);
+        public void OnPlayerCollision()
+        {
+            if (!settings.chasePlayerWhenHit) return;
+            followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
+        #endregion
+
+        public FishMBrain(FishMBrainSettings settings)
+        {
+            this.settings = settings;
+        }
+
+        public override void Initialize(EnemyBrainContext context)
+        {
+            base.Initialize(context);
+
+            followState = new FishMFollowState(settings);
+
+            enemyFSM.Register(new FishMWanderState(settings));
+            enemyFSM.Register(followState);
+
+            SetAgentSpeed(settings.speed);
+            enemyFSM.Start(EnemyStateTag.Wander);
+        }
     }
 }

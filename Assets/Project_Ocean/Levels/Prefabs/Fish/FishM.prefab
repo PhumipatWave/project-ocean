@@ -234,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 2342600035640313377}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -506,7 +506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 745126138116000233}
   - component: {fileID: 393881358497423767}
-  - component: {fileID: 812261763767908165}
+  - component: {fileID: 8655588748950056951}
   - component: {fileID: 8720175931245338848}
   - component: {fileID: 9112809200364948923}
   - component: {fileID: 5060759525976410366}
@@ -564,8 +564,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &812261763767908165
-BoxCollider2D:
+--- !u!70 &8655588748950056951
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -598,18 +598,9 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.019316196, y: -0.07707971}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.07, y: 1.54}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 13.26, y: 1.9931031}
-  m_EdgeRadius: 0
+  m_Offset: {x: -3.75, y: 0}
+  m_Size: {x: 14, y: 2.75}
+  m_Direction: 1
 --- !u!195 &8720175931245338848
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -657,14 +648,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   config: {fileID: 0}
+  maxHealthFallback: 100
   rb: {fileID: 0}
   fishSprite: {fileID: 3198828334094354248}
   anim: {fileID: 0}
   dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
-  maxHealthFallback: 100
   isHasAnim: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
-  isBullet: 0
 --- !u!114 &635624327409578881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +671,6 @@ MonoBehaviour:
   fishAlertUI: {fileID: 0}
   playerBulletTag: Bullet
   playerTag: Player
-  destroyBulletOnHit: 1
   visualFlipRoot: {fileID: 6859541925114978355}
   turnSmoothTime: 0.25
   maxTiltAngle: 360
@@ -700,7 +689,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9098824303329575402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d0c97eac3b6dfe4b86dbb3ace72cedb, type: 3}
   m_Name: 
@@ -716,7 +705,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9098824303329575402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fcf222aa7d28bd4c861cdfe73b30703, type: 3}
   m_Name: 
