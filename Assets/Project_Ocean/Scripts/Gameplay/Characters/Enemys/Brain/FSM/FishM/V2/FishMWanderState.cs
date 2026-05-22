@@ -5,15 +5,19 @@ namespace Game.Testing
     /// <summary>
     /// FishM Wander state: random wandering with wall avoidance.
     /// Transitions -> Follow when line-of-sight or hit alert fires.
+    /// Vision delegated to FishMVisionHelper (no raw physics calls here).
     /// </summary>
     public class FishMWanderState : WanderStateBase
     {
         private readonly FishMBrainSettings settings;
+        private readonly FishMVisionHelper  vision;
+
         private Vector2 currentDirection;
 
-        public FishMWanderState(FishMBrainSettings settings)
+        public FishMWanderState(FishMBrainSettings settings, FishMVisionHelper vision)
         {
             this.settings = settings;
+            this.vision   = vision;
         }
 
         protected override void OnEnterWander()
@@ -39,19 +43,7 @@ namespace Game.Testing
             if (enemyBrainContext.Agent.velocity.magnitude > 0.1f)
                 currentDirection = enemyBrainContext.Agent.velocity.normalized;
 
-            if (currentDirection == Vector2.zero) return;
-            RaycastHit2D hit = Physics2D.Raycast(
-                enemyBrainContext.Transform.position, currentDirection,
-                settings.wallDetectDistance, settings.wallLayer
-            );
-            if (hit.collider != null)
-            {
-                Vector2 avoid = Vector2.Perpendicular(currentDirection)
-                                * (UnityEngine.Random.value > 0.5f ? 1f : -1f);
-                enemyBrainContext.Agent.SetDestination(
-                    enemyBrainContext.Transform.position + new Vector3(avoid.x, avoid.y, 0f)
-                );
-            }
+            ApplyWallAvoidance(currentDirection, settings.wallDetectDistance, settings.wallLayer);
         }
 
         protected override void UpdateFacing()
@@ -62,16 +54,7 @@ namespace Game.Testing
 
         protected override bool ShouldTransitionAway()
         {
-            if (enemyBrainContext.PlayerTransform == null) return false;
-            Vector2 dir = currentDirection.sqrMagnitude > 0.01f ? currentDirection : Vector2.right;
-            return EnemyVisionHelper.HasLineOfSightRay(
-                enemyBrainContext.Transform.position,
-                enemyBrainContext.PlayerTransform.position,
-                dir,
-                settings.viewDistance,
-                settings.viewAngle,
-                settings.obstacleLayer
-            );
+            return vision.CheckLineOfSight();
         }
 
         protected override void OnPlayerDetected() =>
