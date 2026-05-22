@@ -1,57 +1,62 @@
 using UnityEngine;
 
-public class FishAlertUI : MonoBehaviour
+namespace Game.Testing
 {
-    [Header("Alert UI")]
-    [SerializeField] private GameObject seenPlayerAlertImage;
-    [SerializeField] private GameObject attackWarningImage;
-
-    private bool wasSeeingPlayer = false;
-
-    private void Start()
+    public class FishAlertUI : MonoBehaviour
     {
-        HideAll();
-    }
+        #region FieldProperties
+        [Header("Alert UI")]
+        [SerializeField] private GameObject seenPlayerAlertImage;
+        [SerializeField] private GameObject attackWarningImage;
 
-    public void SetSeeingPlayer(bool canSeePlayer)
-    {
-        if (canSeePlayer && !wasSeeingPlayer)
+        private bool wasSeeingPlayer = false;
+        #endregion
+
+        private void Start()
         {
-            if (seenPlayerAlertImage != null)
-                seenPlayerAlertImage.SetActive(true);
-
-            wasSeeingPlayer = true;
+            HideAll();
         }
 
-        if (!canSeePlayer && wasSeeingPlayer)
+        public void SetSeeingPlayer(bool canSeePlayer)
+        {
+            if (canSeePlayer && !wasSeeingPlayer)
+            {
+                if (seenPlayerAlertImage != null)
+                    seenPlayerAlertImage.SetActive(true);
+
+                wasSeeingPlayer = true;
+            }
+
+            if (!canSeePlayer && wasSeeingPlayer)
+            {
+                if (seenPlayerAlertImage != null)
+                    seenPlayerAlertImage.SetActive(false);
+
+                wasSeeingPlayer = false;
+            }
+        }
+
+        public void ShowAttackWarning()
+        {
+            if (attackWarningImage != null)
+                attackWarningImage.SetActive(true);
+        }
+
+        public void HideAttackWarning()
+        {
+            if (attackWarningImage != null)
+                attackWarningImage.SetActive(false);
+        }
+
+        public void HideAll()
         {
             if (seenPlayerAlertImage != null)
                 seenPlayerAlertImage.SetActive(false);
 
+            if (attackWarningImage != null)
+                attackWarningImage.SetActive(false);
+
             wasSeeingPlayer = false;
         }
-    }
-
-    public void ShowAttackWarning()
-    {
-        if (attackWarningImage != null)
-            attackWarningImage.SetActive(true);
-    }
-
-    public void HideAttackWarning()
-    {
-        if (attackWarningImage != null)
-            attackWarningImage.SetActive(false);
-    }
-
-    public void HideAll()
-    {
-        if (seenPlayerAlertImage != null)
-            seenPlayerAlertImage.SetActive(false);
-
-        if (attackWarningImage != null)
-            attackWarningImage.SetActive(false);
-
-        wasSeeingPlayer = false;
     }
 }
