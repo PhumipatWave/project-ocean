@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FishSBrainSettings_Default
   m_EditorClassIdentifier: Game.Testing::FishSBrainSettings
   speed: 4
-  viewDistance: 4.5
+  viewDistance: 10
   viewAngle: 90
   wallLayer:
     serializedVersion: 2
@@ -25,8 +25,8 @@ MonoBehaviour:
   chasePlayerWhenHit: 0
   navDestinationDistance: 35
   groupRadius: 5
-  separationDistance: 1
-  neighborUpdateInterval: 1
+  separationDistance: 2
+  neighborUpdateInterval: 2
   cohesionWeight: 1
   separationWeight: 1.5
   alignmentWeight: 0.5
