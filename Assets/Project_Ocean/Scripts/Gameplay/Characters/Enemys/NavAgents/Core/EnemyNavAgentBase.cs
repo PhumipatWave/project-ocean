@@ -1,243 +1,230 @@
-using Game.Testing;
 using UnityEngine;
 using UnityEngine.AI;
 
-/// <summary>
-/// NavMesh host: facing, hits, and <see cref="IEnemyBrain"/> execution.
-/// </summary>
-public abstract class EnemyNavAgentBase : MonoBehaviour
+namespace Game.Testing
 {
-    [Header("Data (optional)")]
-    [SerializeField] protected EnemyConfig config;
-
-    [Header("Alert UI (optional)")]
-    [SerializeField] protected FishAlertUI fishAlertUI;
-
-    [Header("Hit Receiver")]
-    [SerializeField] protected string playerBulletTag = "Bullet";
-    [SerializeField] protected string playerTag = "Player";
-    [SerializeField] protected bool destroyBulletOnHit = true;
-
-    [Header("Facing")]
-    [SerializeField] protected Transform visualFlipRoot;
-    [SerializeField] protected float turnSmoothTime = 0.25f;
-    [SerializeField] protected float maxTiltAngle = 360f;
-    [SerializeField] protected float flipDeadZone = 0.1f;
-    [SerializeField] protected float flipDelay = 0.4f;
-    [SerializeField] protected float flipCooldown = 0.5f;
-    [SerializeField] protected float spriteAngleOffset = 0f;
-    [SerializeField] protected float attackAngleThreshold = 15f;
-    [SerializeField] protected EnemyFacingController.FacingTurnMode facingTurnMode =
-        EnemyFacingController.FacingTurnMode.SmoothTime;
-    [SerializeField] protected float turnSpeed = 5f;
-
-    protected Enemy Owner { get; private set; }
-    protected NavMeshAgent Agent { get; private set; }
-    protected EnemyFacingController Facing { get; private set; }
-    protected IEnemyBrain Brain { get; private set; }
-
-    private bool deathHandled;
-
-    public IEnemyBrain ActiveBrain => Brain;
-
-    protected bool IsEnemyDead => Owner != null && Owner.IsDeath;
-
-    protected Player Player => Owner != null ? Owner.Player : null;
-
-    protected Transform PlayerTransform =>
-        Player != null ? Player.transform : null;
-
-    protected virtual bool RequiresPlayer => true;
-    protected virtual bool RequiresNavMesh => true;
-
-    protected virtual EnemyFacingController.FacingTurnMode DefaultFacingTurnMode =>
-        facingTurnMode;
-
-    public virtual void Initialize(Enemy owner)
+    public abstract class EnemyNavAgentBase : MonoBehaviour
     {
-        Owner = owner;
+        #region FieldProperties
+        // Merge to scriptable brain later***** (health, damage, speed, drop item).
+        [Header("Data (optional)")]
+        [SerializeField] protected EnemyConfig config;
+        //*****
 
-        if (config == null && owner != null)
-            config = owner.Config;
-    }
+        [Header("Alert UI (optional)")]
+        [SerializeField] protected FishAlertUI fishAlertUI;
 
-    protected abstract IEnemyBrain CreateBrain();
+        [Header("Hit Receiver")]
+        [SerializeField] protected string playerBulletTag = "Bullet";
+        [SerializeField] protected string playerTag = "Player";
 
-    protected virtual void Awake()
-    {
-        if (Owner == null)
-            Owner = GetComponent<Enemy>();
-    }
+        [Header("Facing")]
+        [SerializeField] protected Transform visualFlipRoot;
+        [SerializeField] protected float turnSmoothTime = 0.25f;
+        [SerializeField] protected float maxTiltAngle = 360f;
+        [SerializeField] protected float flipDeadZone = 0.1f;
+        [SerializeField] protected float flipDelay = 0.4f;
+        [SerializeField] protected float flipCooldown = 0.5f;
+        [SerializeField] protected float spriteAngleOffset = 0f;
+        [SerializeField] protected float attackAngleThreshold = 15f;
+        [SerializeField] protected EnemyFacingController.FacingTurnMode facingTurnMode = EnemyFacingController.FacingTurnMode.SmoothTime;
+        [SerializeField] protected float turnSpeed = 5f;
 
-    protected virtual void Start()
-    {
-        if (Owner == null)
-            Owner = GetComponent<Enemy>();
+        protected Enemy enemy { get; private set; }
+        protected NavMeshAgent navAgent { get; private set; }
+        protected EnemyFacingController facingCtr { get; private set; }
 
-        if (config == null && Owner != null)
-            config = Owner.Config;
+        protected IEnemyBrain enemyBrain { get; private set; }
+        public IEnemyBrain ActiveBrain => enemyBrain;
 
-        Agent = GetComponent<NavMeshAgent>();
+        private bool deathHandled;
 
-        if (Agent != null)
+        protected bool isEnemyDead => enemy != null && enemy.IsDeath;
+
+        protected Player player => enemy != null ? enemy.Player : null;
+        protected Transform playerTransform => player != null ? player.transform : null;
+
+        protected virtual bool requiresPlayer => true;
+        protected virtual bool requiresNavMesh => true;
+
+        protected virtual EnemyFacingController.FacingTurnMode defaultFacingTurnMode => facingTurnMode;
+        #endregion
+
+        #region UnityCallbacks
+        protected virtual void Awake()
         {
-            Agent.updateRotation = false;
-            Agent.updateUpAxis = false;
+            if (enemy == null)
+                enemy = GetComponent<Enemy>();
         }
 
-        Facing = new EnemyFacingController(
-            transform,
-            visualFlipRoot,
-            turnSmoothTime,
-            maxTiltAngle,
-            flipDeadZone,
-            flipDelay,
-            flipCooldown,
-            spriteAngleOffset,
-            attackAngleThreshold,
-            DefaultFacingTurnMode,
-            turnSpeed
-        );
-        Facing.Initialize();
-
-        Brain = CreateBrain();
-        Brain.Initialize(BuildBrainContext());
-        OnBrainInitialized();
-
-        if (Owner != null)
-            Owner.RegisterNavAgent(this);
-    }
-
-    protected virtual void OnBrainInitialized() { }
-
-    protected EnemyBrainContext BuildBrainContext()
-    {
-        return new EnemyBrainContext
+        protected virtual void Start()
         {
-            Owner = Owner,
-            Config = config,
-            Transform = transform,
-            Agent = Agent,
-            Facing = Facing,
-            AlertUI = fishAlertUI,
-            Host = this
-        };
-    }
+            if (enemy == null)
+                enemy = GetComponent<Enemy>();
 
-    protected virtual void Update()
-    {
-        if (!CanTick())
-            return;
+            if (config == null && enemy != null)
+                config = enemy.Config;
 
-        Brain.Tick(Time.deltaTime);
-    }
+            navAgent = GetComponent<NavMeshAgent>();
 
-    protected virtual bool CanTick()
-    {
-        if (Brain == null)
-            return false;
+            if (navAgent != null)
+            {
+                navAgent.updateRotation = false;
+                navAgent.updateUpAxis = false;
+            }
 
-        if (IsEnemyDead)
-        {
-            OnEnemyDead();
-            return false;
+            facingCtr = new EnemyFacingController(transform, visualFlipRoot, turnSmoothTime, maxTiltAngle, flipDeadZone, flipDelay, flipCooldown, spriteAngleOffset, attackAngleThreshold, defaultFacingTurnMode, turnSpeed);
+            facingCtr.Initialize();
+
+            enemyBrain = CreateBrain();
+            enemyBrain.Initialize(BuildBrainContext());
+            OnBrainInitialized();
+
+            if (enemy != null)
+                enemy.RegisterNavAgent(this);
         }
 
-        if (RequiresPlayer && PlayerTransform == null)
+        protected virtual void Update()
         {
+            if (!CanTick())
+                return;
+
+            enemyBrain.Tick(Time.deltaTime);
+        }
+
+        protected virtual void OnTriggerEnter2D(Collider2D other)
+        {
+            if (isEnemyDead)
+                return;
+
+            if (other.CompareTag(playerBulletTag))
+                HandleBulletHit(other.gameObject);
+
+            if (other.CompareTag(playerTag))
+                HandlePlayerCollision();
+        }
+
+        protected virtual void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (isEnemyDead)
+                return;
+
+            if (collision.collider.CompareTag(playerBulletTag))
+                HandleBulletHit(collision.collider.gameObject);
+        }
+        #endregion
+
+        #region Initialization
+        public virtual void Initialize(Enemy owner)
+        {
+            enemy = owner;
+
+            if (config == null && owner != null)
+                config = owner.Config;
+        }
+
+        protected abstract IEnemyBrain CreateBrain();
+
+        protected virtual void OnBrainInitialized() { }
+
+        protected EnemyBrainContext BuildBrainContext()
+        {
+            return new EnemyBrainContext
+            {
+                Owner = enemy,
+                Config = config,
+                Transform = transform,
+                Agent = navAgent,
+                Facing = facingCtr,
+                AlertUI = fishAlertUI,
+                Host = this
+            };
+        }
+
+        protected virtual bool CanTick()
+        {
+            if (enemyBrain == null)
+                return false;
+
+            if (isEnemyDead)
+            {
+                OnEnemyDead();
+                return false;
+            }
+
+            if (requiresPlayer && playerTransform == null)
+            {
+                OnEnemyUnavailable();
+                return false;
+            }
+
+            if (requiresNavMesh && (navAgent == null || !navAgent.isOnNavMesh))
+                return false;
+
+            return true;
+        }
+        #endregion
+
+        protected Transform FindPlayerTransform()
+        {
+            if (playerTransform != null)
+                return playerTransform;
+
+            GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
+            return playerObject != null ? playerObject.transform : null;
+        }
+
+        protected virtual void OnEnemyUnavailable()
+        {
+            if (fishAlertUI != null)
+                fishAlertUI.HideAll();
+        }
+
+        protected void StopAgentMovement()
+        {
+            if (navAgent == null)
+                return;
+
+            navAgent.isStopped = true;
+            navAgent.ResetPath();
+            navAgent.velocity = Vector3.zero;
+        }
+
+        protected virtual void OnEnemyDead()
+        {
+            if (deathHandled)
+                return;
+
+            deathHandled = true;
+            enemyBrain?.OnDeath();
             OnEnemyUnavailable();
-            return false;
+            StopAgentMovement();
         }
 
-        if (RequiresNavMesh && (Agent == null || !Agent.isOnNavMesh))
-            return false;
+        protected void TickFacingFromAgentVelocity(float minSpeed = 0.01f)
+        {
+            if (navAgent == null)
+                return;
 
-        return true;
-    }
+            facingCtr.RotateFromVelocity(navAgent.velocity, minSpeed);
+        }
 
-    protected virtual void OnEnemyDead()
-    {
-        if (deathHandled)
-            return;
+        protected virtual void HandleBulletHit(GameObject bullet)
+        {
+            if (isEnemyDead)
+                return;
 
-        deathHandled = true;
-        Brain?.OnDeath();
-        OnEnemyUnavailable();
-        StopAgentMovement();
-    }
+            if (bullet == null || !bullet.CompareTag(playerBulletTag))
+                return;
 
-    protected virtual void OnEnemyUnavailable()
-    {
-        if (fishAlertUI != null)
-            fishAlertUI.HideAll();
-    }
+            OnHitByPlayer(FindPlayerTransform());
+        }
 
-    protected void StopAgentMovement()
-    {
-        if (Agent == null)
-            return;
+        protected virtual void HandlePlayerCollision() { }
 
-        Agent.isStopped = true;
-        Agent.ResetPath();
-        Agent.velocity = Vector3.zero;
-    }
-
-    protected void TickFacingFromAgentVelocity(float minSpeed = 0.01f)
-    {
-        if (Agent == null)
-            return;
-
-        Facing.RotateFromVelocity(Agent.velocity, minSpeed);
-    }
-
-    protected Transform FindPlayerTransform()
-    {
-        if (PlayerTransform != null)
-            return PlayerTransform;
-
-        GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-        return playerObject != null ? playerObject.transform : null;
-    }
-
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        if (IsEnemyDead)
-            return;
-
-        if (other.CompareTag(playerBulletTag))
-            HandleBulletHit(other.gameObject);
-
-        if (other.CompareTag(playerTag))
-            HandlePlayerCollision();
-    }
-
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (IsEnemyDead)
-            return;
-
-        if (collision.collider.CompareTag(playerBulletTag))
-            HandleBulletHit(collision.collider.gameObject);
-    }
-
-    protected virtual void HandleBulletHit(GameObject bullet)
-    {
-        if (IsEnemyDead)
-            return;
-
-        if (bullet == null || !bullet.CompareTag(playerBulletTag))
-            return;
-
-        OnHitByPlayer(FindPlayerTransform());
-
-        if (destroyBulletOnHit)
-            Destroy(bullet);
-    }
-
-    protected virtual void HandlePlayerCollision() { }
-
-    protected virtual void OnHitByPlayer(Transform attacker)
-    {
-        Brain?.OnHit(attacker);
+        protected virtual void OnHitByPlayer(Transform attacker)
+        {
+            enemyBrain?.OnHit(attacker);
+        }
     }
 }
