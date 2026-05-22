@@ -8,30 +8,14 @@ namespace Game.Testing
     public class FishMBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
     {
         private readonly FishMBrainSettings settings;
-        private FishMFollowState followState;
+        private FishMVisionHelper vision;
+        private FishMFollowState  followState;
 
         #region IBrainVision
         public float ViewAngle    => settings.viewAngle;
         public float ViewDistance => settings.viewDistance;
 
-        public bool CanSeePlayer()
-        {
-            if (enemyBrainContext?.PlayerTransform == null) return false;
-
-            // Use the agent's current velocity as the facing direction; fall back to Vector2.right.
-            Vector2 facing = enemyBrainContext.Agent != null && enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f
-                ? (Vector2)enemyBrainContext.Agent.velocity.normalized
-                : Vector2.right;
-
-            return EnemyVisionHelper.HasLineOfSightRay(
-                enemyBrainContext.Transform.position,
-                enemyBrainContext.PlayerTransform.position,
-                facing,
-                settings.viewDistance,
-                settings.viewAngle,
-                settings.obstacleLayer
-            );
-        }
+        public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
         #endregion
 
         #region IBrainAttack
@@ -65,9 +49,10 @@ namespace Game.Testing
         {
             base.Initialize(context);
 
-            followState = new FishMFollowState(settings);
+            vision      = new FishMVisionHelper(settings, context);
+            followState = new FishMFollowState(settings, vision);
 
-            enemyFSM.Register(new FishMWanderState(settings));
+            enemyFSM.Register(new FishMWanderState(settings, vision));
             enemyFSM.Register(followState);
 
             SetAgentSpeed(settings.speed);
