@@ -11,6 +11,8 @@ namespace Game.Testing
         [SerializeField] protected float moveSpeed = 15f;
         [SerializeField] protected float attackDamage = 25f;
 
+        protected bool isHit;
+
         protected Vector2 shootDir;
 
         protected virtual void Awake()
@@ -31,6 +33,8 @@ namespace Game.Testing
 
         protected virtual void FixedUpdate()
         {
+            if (isHit) return;
+
             BulletDirection();
             rb.linearVelocity = shootDir * moveSpeed;
         }
@@ -40,6 +44,9 @@ namespace Game.Testing
             switch (collision.tag)
             {
                 case "Environment":
+                    isHit = true;
+                    rb.linearVelocity = Vector2.zero;
+                    gameObject.GetComponent<Collider2D>().enabled = false;
                     gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                     break;
 
@@ -53,7 +60,10 @@ namespace Game.Testing
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
-
+                    
+                    isHit = true;
+                    rb.linearVelocity = Vector2.zero;
+                    gameObject.GetComponent<Collider2D>().enabled = false;
                     gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                     break;
             }
