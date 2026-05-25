@@ -9,6 +9,23 @@ namespace Game.Testing
         [Tooltip("How far ahead the fish asks the NavMeshAgent to move each tick.")]
         public float navDestinationDistance = 3f;
 
+        [Header("Vision (Small Fish)")]
+        [Tooltip("Layers that block vision. If empty, wallLayer from the base is used instead.")]
+        public LayerMask visionObstacleMask;
+
+        [Tooltip("Print detection messages when the player enters radius, is seen, or is blocked.")]
+        public bool debugVision;
+
+        [Header("Wall Avoidance (Small Fish)")]
+        [Tooltip("Circle radius used when checking whether the fish has enough clearance.")]
+        public float fishClearanceRadius = 0.5f;
+
+        [Tooltip("Distance checked in front of the fish for nearby walls via CircleCast.")]
+        public float wallCheckDistance = 0.5f;
+
+        [Tooltip("Maximum attempts used when sampling a safe wander point.")]
+        public int maxWanderSampleTries = 20;
+
         [Header("Flock")]
         [Tooltip("Radius used to find nearby small fish in the same group.")]
         public float groupRadius = 3f;
@@ -29,18 +46,35 @@ namespace Game.Testing
         [Tooltip("Strength of matching nearby fish movement direction.")]
         public float alignmentWeight = 0.5f;
 
-        [Header("Panic Flee")]
-        [Tooltip("Speed multiplier applied while fleeing from the player or bullets.")]
-        public float panicSpeedMultiplier = 2.5f;
-
-        [Tooltip("How long panic fleeing lasts after being triggered.")]
-        public float panicDuration = 3f;
-
-        [Tooltip("Random angle range added to panic direction so fish do not flee identically.")]
-        public float panicRandomAngle = 60f;
-
-        [Header("Wall Avoid")]
+        [Header("Wall Avoid (Flock)")]
         [Tooltip("Strength of the steering force applied away from detected walls.")]
         public float wallAvoidWeight = 3f;
+
+        [Header("Search")]
+        [Tooltip("How long the fish searches the area after losing sight of the player.")]
+        public float searchDuration = 4f;
+
+        [Tooltip("Radius around the last seen player position used while searching.")]
+        public float searchRadius = 2.5f;
+
+        [Header("Follow")]
+        [Tooltip("How long the fish follows the last known player position after losing sight.")]
+        public float followAfterLost = 6f;
+
+        [Header("Prepare (Scatter)")]
+        [Tooltip("Time spent pausing before scattering away from the player.")]
+        public float prepareTime = 1f;
+
+        [Header("Near-Wall Sampling")]
+        [Tooltip("Radius used to find a reachable destination near the player.")]
+        public float nearPlayerSearchRadius = 5f;
+
+        [Tooltip("Number of sample directions checked around the player.")]
+        public int nearPlayerSearchSamples = 24;
+
+        [Tooltip("Distance between sample rings when searching around the player.")]
+        public float nearPlayerSearchStep = 0.5f;
+
+        public float detectDistance => viewDistance;
     }
 }
