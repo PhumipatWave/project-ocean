@@ -38,10 +38,14 @@ namespace Game.Testing
                 return false;
             }
 
+            // FIX #2: pass the fish's actual facing direction so the view-angle cone
+            // is evaluated correctly instead of collapsing to a zero vector.
+            Vector2 facingDir = enemyBrainContext.Facing.GetFacingDirection();
+
             bool canSee = EnemyVisionHelper.HasLineOfSightRay(
                 enemyBrainContext.Transform.position,
                 enemyBrainContext.PlayerTransform.position,
-                Vector2.zero,
+                facingDir,
                 settings.viewDistance,
                 settings.viewAngle,
                 settings.obstacleLayer
