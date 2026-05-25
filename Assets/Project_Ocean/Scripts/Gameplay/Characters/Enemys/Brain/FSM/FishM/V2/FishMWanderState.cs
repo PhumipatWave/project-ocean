@@ -4,7 +4,7 @@ namespace Game.Testing
 {
     /// <summary>
     /// FishM Wander state: random wandering with wall avoidance.
-    /// Transitions -> Follow when line-of-sight or hit alert fires.
+    /// Transitions -> Follow when line-of-sight OR hit alert fires.
     /// Vision delegated to FishMVisionHelper (no raw physics calls here).
     /// </summary>
     public class FishMWanderState : WanderStateBase
@@ -12,12 +12,23 @@ namespace Game.Testing
         private readonly FishMBrainSettings settings;
         private readonly FishMVisionHelper  vision;
 
+        // FIX #4: reference to FollowState so we can push the hit-chase timer
+        // before transitioning, ensuring Follow knows the player was just hit.
+        private readonly FishMFollowState followState;
+
         private Vector2 currentDirection;
 
-        public FishMWanderState(FishMBrainSettings settings, FishMVisionHelper vision)
+        // FIX #4: hitChaseTimer is set externally (e.g. by the damage receiver)
+        //         so Wander can react to hits even without line-of-sight.
+        private float hitAlertTimer;
+
+        public void SetHitAlertTimer(float duration) { hitAlertTimer = duration; }
+
+        public FishMWanderState(FishMBrainSettings settings, FishMVisionHelper vision, FishMFollowState followState)
         {
-            this.settings = settings;
-            this.vision   = vision;
+            this.settings    = settings;
+            this.vision      = vision;
+            this.followState = followState;
         }
 
         protected override void OnEnterWander()
@@ -52,12 +63,28 @@ namespace Game.Testing
                 enemyBrainContext.Facing.RotateTowards(currentDirection.normalized);
         }
 
-        protected override bool ShouldTransitionAway()
+        public override void Tick(float deltaTime)
         {
-            return vision.CheckLineOfSight();
+            // FIX #4: count down the hit-alert timer each tick.
+            if (hitAlertTimer > 0f) hitAlertTimer -= deltaTime;
+
+            base.Tick(deltaTime);
         }
 
-        protected override void OnPlayerDetected() =>
+        // FIX #4: detect either line-of-sight OR an active hit-alert.
+        protected override bool ShouldTransitionAway()
+        {
+            return vision.CheckLineOfSight() || hitAlertTimer > 0f;
+        }
+
+        protected override void OnPlayerDetected()
+        {
+            // FIX #4: forward the remaining hit-alert time into FollowState so it
+            // keeps chasing even if it loses sight immediately after the transition.
+            if (hitAlertTimer > 0f)
+                followState.SetHitChaseTimer(hitAlertTimer);
+
             enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
     }
 }

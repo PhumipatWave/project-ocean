@@ -5,8 +5,7 @@ namespace Game.Testing
     /// <summary>
     /// FishM Follow state: chases player and bites on contact.
     /// Tracks last known player position; transitions -> Search when sight is lost
-    /// and all timers expire, mirroring FishL's follow behaviour.
-    /// Transitions -> Wander only if no Search state is registered.
+    /// and all timers expire. Falls back to Wander if no Search state is registered.
     /// </summary>
     public class FishMFollowState : EnemyStateBase
     {
@@ -20,7 +19,8 @@ namespace Game.Testing
         private float   hitChaseTimer;
         private float   followTimer;
 
-        public Vector3 LastKnownPlayerPosition { get; set; }
+        // FIX #3: private set — only this state should update the last known position.
+        public Vector3 LastKnownPlayerPosition { get; private set; }
 
         public void SetHitChaseTimer(float duration) { hitChaseTimer = duration; }
 
@@ -55,7 +55,7 @@ namespace Game.Testing
             bool canSee  = vision.CheckLineOfSight();
             bool alerted = hitChaseTimer > 0f;
 
-            // Refresh last known position while player is visible or we're hit-alerted
+            // Refresh last known position while player is visible or we're hit-alerted.
             if (canSee || alerted)
             {
                 LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
@@ -68,16 +68,16 @@ namespace Game.Testing
                 return;
             }
 
-            // Move toward last known position
+            // Move toward last known position.
             enemyBrainContext.Agent.SetDestination(LastKnownPlayerPosition);
 
             if (enemyBrainContext.Agent.velocity.magnitude > 0.1f)
                 currentDirection = enemyBrainContext.Agent.velocity.normalized;
 
-            // Bite attack on close contact
+            // FIX #5: use LastKnownPlayerPosition consistently for attack range check.
             float dist = Vector2.Distance(
                 enemyBrainContext.Transform.position,
-                enemyBrainContext.PlayerTransform.position
+                LastKnownPlayerPosition
             );
 
             if (dist <= settings.attackRange && attackTimer <= 0f)
@@ -96,7 +96,11 @@ namespace Game.Testing
 
         private void TransitionOnLost()
         {
-            enemyFSM.TransitionTo(EnemyStateTag.Wander);
+            // FIX #1: Try Search state first; fall back to Wander if it is not registered.
+            if (enemyFSM.HasState(EnemyStateTag.Search))
+                enemyFSM.TransitionTo(EnemyStateTag.Search);
+            else
+                enemyFSM.TransitionTo(EnemyStateTag.Wander);
         }
     }
 }
