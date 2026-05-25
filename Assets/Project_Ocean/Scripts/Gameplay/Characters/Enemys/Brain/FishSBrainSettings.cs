@@ -26,6 +26,13 @@ namespace Game.Testing
         [Tooltip("Maximum attempts used when sampling a safe wander point.")]
         public int maxWanderSampleTries = 20;
 
+        [Header("Wander")]
+        [Tooltip("เวลาก่อนเปลี่ยน wander target ใหม่")]
+        public float wanderInterval = 3f;
+
+        [Tooltip("รัศมีสุ่ม wander target รอบตัวปลา")]
+        public float wanderRadius = 5f;
+
         [Header("Flock")]
         [Tooltip("Radius used to find nearby small fish in the same group.")]
         public float groupRadius = 3f;

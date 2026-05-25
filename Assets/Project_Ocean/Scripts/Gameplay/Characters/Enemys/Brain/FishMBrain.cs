@@ -10,6 +10,7 @@ namespace Game.Testing
         private readonly FishMBrainSettings settings;
         private FishMVisionHelper vision;
         private FishMFollowState  followState;
+        private FishMWanderState  wanderState;   // FIX: keep reference to forward hit-alert
 
         #region IBrainVision
         public float ViewAngle    => settings.viewAngle;
@@ -29,6 +30,7 @@ namespace Game.Testing
         {
             if (!settings.chasePlayerWhenHit) return;
             followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            wanderState?.SetHitAlertTimer(settings.hitChaseDuration); // FIX: alert Wander too
             enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
 
@@ -36,6 +38,7 @@ namespace Game.Testing
         {
             if (!settings.chasePlayerWhenHit) return;
             followState?.SetHitChaseTimer(settings.hitChaseDuration);
+            wanderState?.SetHitAlertTimer(settings.hitChaseDuration); // FIX: alert Wander too
             enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
         #endregion
@@ -51,8 +54,9 @@ namespace Game.Testing
 
             vision      = new FishMVisionHelper(settings, context);
             followState = new FishMFollowState(settings, vision);
+            wanderState = new FishMWanderState(settings, vision, followState); // FIX: pass followState
 
-            enemyFSM.Register(new FishMWanderState(settings, vision));
+            enemyFSM.Register(wanderState);
             enemyFSM.Register(followState);
 
             SetAgentSpeed(settings.speed);

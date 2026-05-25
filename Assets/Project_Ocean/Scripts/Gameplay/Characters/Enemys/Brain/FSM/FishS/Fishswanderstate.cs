@@ -58,6 +58,23 @@ namespace Game.Testing
             if (enemyFSM.GetState(EnemyStateTag.Follow) is FishSFollowState follow)
                 follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
 
+            // แจ้ง neighbor ในรัศมี groupRadius
+            Collider2D[] hits = Physics2D.OverlapCircleAll(
+                enemyBrainContext.Transform.position,
+                settings.groupRadius
+            );
+
+            foreach (var hit in hits)
+            {
+                if (hit.gameObject == enemyBrainContext.Host.gameObject) continue;
+                if (!hit.TryGetComponent<FishS_Agent>(out var other)) continue;
+
+                var otherAgent = other.GetComponent<EnemyNavAgentBase>();
+                if (otherAgent == null) continue;
+
+                (otherAgent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
+            }
+
             enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
     }
