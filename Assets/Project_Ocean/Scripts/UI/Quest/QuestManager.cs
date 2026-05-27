@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Game.Testing; // 💡 เพิ่มบรรทัดนี้เพื่อให้รู้จักระบบ Inventory และ Item ของคุณ
+using Game.Testing;
 
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
 
-    [Header("Quest Data")]
+    [Header("Quest Database")]
+    // คลังเก็บเควสทั้งหมดในเกม (สร้างไฟล์ QuestData แล้วมาลากใส่ตรงนี้ให้ครบ)
     [SerializeField] private QuestData[] allQuestData;
 
     [Header("UI Panels")]
@@ -33,13 +34,34 @@ public class QuestManager : MonoBehaviour
         instance = this;
     }
 
+    // 💡 ฟังก์ชันใหม่: ค้นหาเควสในคลัง All Quest Data ด้วย ID
+    public Quest GetQuestById(int id)
+    {
+        if (allQuestData == null) return null;
+
+        foreach (QuestData data in allQuestData)
+        {
+            if (data != null && data.questId == id)
+            {
+                // ส่งเควสในรูปแบบ Runtime กลับไปใช้งาน
+                return new Quest(data);
+            }
+        }
+        Debug.LogError($"ไม่พบเควส ID: {id} ใน All Quest Data ของ QuestManager!");
+        return null;
+    }
+
+    // ปรับให้รับค่า FishingNPC เข้ามาเหมือนเดิม แต่ข้างในจะไปดึงเควสจากคลังส่วนกลางแทน
     public void OpenQuestSystem(FishingNPC npc)
     {
         curNpc = npc;
-        curQuest = npc.GetNpcQuest();
+
+        // 💡 เปลี่ยนตรงนี้: ให้วิ่งไปถามคลังส่วนกลางตามรหัส ID ที่ NPC คนนี้พกมา
+        curQuest = GetQuestById(npc.AssignQuestId);
 
         if (curQuest == null) return;
 
+        Time.timeScale = 0f;
         questWindow.SetActive(true);
 
         if (curQuest.Status == QuestStatus.New)
@@ -49,14 +71,9 @@ public class QuestManager : MonoBehaviour
         }
         else if (curQuest.Status == QuestStatus.InProgress)
         {
-            textNpcName.text = npc.NpcName;
-            avatarNpc.sprite = npc.NpcAvatar;
-            textPlayerName.text = "";
-            avatarPlayer.sprite = null;
-
+            SetupNpcUI();
             textTalk.text = curQuest.QuestionInProgress;
 
-            // 💡 เปลี่ยนมาเช็กไอเทมผ่านตัวแปร string itemID ใน InventoryManager.Instance ของคุณ
             if (InventoryManager.Instance.HasQuestItem(curQuest.QuestItemId))
             {
                 buttonNext.SetActive(true);
@@ -64,6 +81,8 @@ public class QuestManager : MonoBehaviour
             }
             else
             {
+                textPlayerName.text = "Player";
+                textTalk.text = curQuest.AnswerNotFinish;
                 buttonNext.SetActive(false);
                 buttonClose.SetActive(true);
             }
@@ -76,25 +95,23 @@ public class QuestManager : MonoBehaviour
     {
         if (curQuest.Status == QuestStatus.New)
         {
-            if (curStep == 0)
+            if (curQuest.QuestDialogue == null || curStep >= curQuest.QuestDialogue.Length)
             {
-                textNpcName.text = curNpc.NpcName;
-                avatarNpc.sprite = curNpc.NpcAvatar;
-                textTalk.text = curQuest.QuestDialogue[curStep];
-
-                buttonNext.SetActive(true);
-                buttonAccept.SetActive(false);
-                buttonReject.SetActive(false);
-            }
-            else if (curStep == 1)
-            {
-                textPlayerName.text = "Player";
-                textTalk.text = curQuest.AnswerNext[curStep - 1];
-
+                SetupPlayerUI();
+                textTalk.text = "คุณจะรับคำขอนี้ไหม?";
                 buttonNext.SetActive(false);
                 buttonAccept.SetActive(true);
                 buttonReject.SetActive(true);
+                return;
             }
+
+            SetupNpcUI();
+            textTalk.text = curQuest.QuestDialogue[curStep];
+
+            buttonNext.SetActive(true);
+            buttonAccept.SetActive(false);
+            buttonReject.SetActive(false);
+            buttonClose.SetActive(false);
         }
     }
 
@@ -110,7 +127,6 @@ public class QuestManager : MonoBehaviour
             textPlayerName.text = "Player";
             textTalk.text = curQuest.AnswerFinish;
 
-            // 💡 สั่งหักไอเทมเควสและรับรางวัลผ่าน ID ชนิดข้อความ (string)
             InventoryManager.Instance.RemoveQuestItem(curQuest.QuestItemId);
             InventoryManager.Instance.AddRewardItem(curQuest.RewardItemId);
 
@@ -124,7 +140,9 @@ public class QuestManager : MonoBehaviour
     public void AcceptQuest()
     {
         curQuest.Status = QuestStatus.InProgress;
+        textPlayerName.text = "Player";
         textTalk.text = curQuest.AnswerAccept;
+
         buttonAccept.SetActive(false);
         buttonReject.SetActive(false);
         buttonClose.SetActive(true);
@@ -133,7 +151,9 @@ public class QuestManager : MonoBehaviour
     public void RejectQuest()
     {
         curQuest.Status = QuestStatus.Reject;
+        textPlayerName.text = "Player";
         textTalk.text = curQuest.AnswerReject;
+
         buttonAccept.SetActive(false);
         buttonReject.SetActive(false);
         buttonClose.SetActive(true);
@@ -143,5 +163,26 @@ public class QuestManager : MonoBehaviour
     {
         questWindow.SetActive(false);
         curStep = 0;
+        Time.timeScale = 1f;
+    }
+
+    private void SetupNpcUI()
+    {
+        textNpcName.text = curNpc.NpcName;
+        if (avatarNpc != null)
+        {
+            avatarNpc.gameObject.SetActive(true);
+            avatarNpc.sprite = curNpc.NpcAvatar;
+        }
+        textPlayerName.text = "";
+        if (avatarPlayer != null) avatarPlayer.gameObject.SetActive(false);
+    }
+
+    private void SetupPlayerUI()
+    {
+        textNpcName.text = "";
+        if (avatarNpc != null) avatarNpc.gameObject.SetActive(false);
+        textPlayerName.text = "Player";
+        if (avatarPlayer != null) avatarPlayer.gameObject.SetActive(true);
     }
 }

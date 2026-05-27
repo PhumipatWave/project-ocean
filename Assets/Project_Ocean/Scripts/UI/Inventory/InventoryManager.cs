@@ -16,7 +16,11 @@ namespace Game.Testing
         public GameObject InventoryItemPrefab;
 
         [SerializeField] private TextMeshProUGUI miniHubCount;
-        
+
+        [Header("Item Database")]
+        // ลากไฟล์ไอเทม (.asset) ทั้งหมดในเกมมาใส่รวมกันไว้ในอาร์เรย์นี้ที่หน้าต่าง Inspector
+        [SerializeField] private Item[] allItems;
+
         int selectedSlot = -1;
 
         public static InventoryManager Instance { get; private set; }
@@ -303,7 +307,41 @@ namespace Game.Testing
         public void AddRewardItem(string itemId)
         {
             Debug.Log("QuestManager สั่งจ่ายไอเทมรางวัลรหัส: " + itemId);
-            // 💡 โน้ต: คุณสามารถนำฟังก์ชัน SpawnItem หรือ AddItem เดิมในเครื่องของคุณมาใส่ตรงนี้เพื่อเสกของรางวัลได้เลยครับ
+
+            // 1. วนลูปค้นหาไฟล์ข้อมูลไอเทมในคลัง (allItems) ที่มี itemID ตรงกับที่เควสส่งมา
+            Item rewardItem = null;
+            if (allItems != null)
+            {
+                foreach (Item item in allItems)
+                {
+                    if (item != null && item.itemID == itemId)
+                    {
+                        rewardItem = item;
+                        break;
+                    }
+                }
+            }
+
+            // 2. ถ้าเจอไอเทมในคลัง ให้ทำการแอดเข้ากระเป๋าโดยใช้ฟังก์ชัน AddItem ตัวเดิมของคุณ
+            if (rewardItem != null)
+            {
+                // ฟังก์ชัน AddItem จะหาช่องว่างและเสก Prefab (SpawnNewItem) ให้เองตามลอจิกเดิมของคุณ
+                bool isAdded = AddItem(rewardItem);
+
+                if (isAdded)
+                {
+                    Debug.Log($"[Quest Reward] ผู้เล่นได้รับไอเทมรางวัล: {rewardItem.itemName} เรียบร้อยแล้ว!");
+                }
+                else
+                {
+                    Debug.LogWarning("กระเป๋าเต็ม! ไม่สามารถรับไอเทมรางวัลจากเควสได้");
+                    // 💡 ทริคเสริม: ถ้าอยากทำไอเทมตกพื้น สามารถเขียนโค้ด Instantiate(rewardItem.itemPrefab) ตรงนี้ได้เลยครับ
+                }
+            }
+            else
+            {
+                Debug.LogError($"ไม่พบไอเทมที่มี ID: '{itemId}' ในคลัง All Items ของ InventoryManager! กรุณาตรวจสอบการลากไฟล์ลงช่องบอร์ด");
+            }
         }
 
     } // InventoryManager ===
