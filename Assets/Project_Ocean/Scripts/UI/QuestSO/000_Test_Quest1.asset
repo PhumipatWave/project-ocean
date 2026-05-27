@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
+  m_Name: 000_Test_Quest1
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  questId: 0
+  type: 0
+  status: 0
+  questName: 'Start the journey '
+  questDetail: 'Talk to the local fishermen on the island. '
+  questItemId: 0
+  questDialogue:
+  - Hello
+  - Can I ask you
+  - I Need you
+  answerNext:
+  - Hi
+  - WTF!!
+  answerAccept: Yessss
+  answerReject: Nooo
+  rewardItemId: 0
+  rewardExp: 0
+  questionInProgress: Are you Gay?
+  answerFinish: Yess I'm Gay!!
+  answerNotFinish: Nahh
