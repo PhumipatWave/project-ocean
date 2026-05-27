@@ -254,6 +254,57 @@ namespace Game.Testing
             Debug.Log("UnLocked Slot Full!!!");
         } // UnlockNextSlot ===
 
-        
+        // Quest ==================================================
+        public bool HasQuestItem(string itemId)
+        {
+            // วนลูปตรวจเช็กสล็อตทั้งหมดในกระเป๋าของคุณ
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i] == null) continue;
+
+                // ดึงสคริปต์ Draggableltem (ตัวพิมพ์แอลเล็ก) ที่อยู่ภายในช่องสล็อตออกมาเช็ก
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                // ตรวจเช็กว่าถ้ามีไอเทมอยู่ในช่อง และข้อมูล itemID ตรงกับที่เควสต้องการ
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.itemID == itemId)
+                {
+                    return true; // เจอไอเทมส่งเควสในกระเป๋าแล้ว!
+                }
+            }
+            return false;
+        }
+
+        public void RemoveQuestItem(string itemId)
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i] == null) continue;
+
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.itemID == itemId)
+                {
+                    // ลอจิกการหักของ: ถ้าในกองไอเทมมีจำนวนมากกว่า 1 ชิ้น
+                    if (itemInSlot.count > 1)
+                    {
+                        itemInSlot.count--; // ลดจำนวนลง 1
+                        itemInSlot.RefreshCount(); // เรียกใช้ฟังก์ชันอัปเดตตัวเลข UI บนสล็อตจริงของคุณ
+                    }
+                    else
+                    {
+                        // ถ้าเหลือเป็นชิ้นสุดท้าย ให้ทำลาย GameObject ของไอเทมนั้นทิ้งทันที
+                        Destroy(itemInSlot.gameObject);
+                    }
+                    return; // เมื่อหักของชิ้นแรกที่เจอเรียบร้อยแล้ว ให้จบลูปทันที
+                }
+            }
+        }
+
+        public void AddRewardItem(string itemId)
+        {
+            Debug.Log("QuestManager สั่งจ่ายไอเทมรางวัลรหัส: " + itemId);
+            // 💡 โน้ต: คุณสามารถนำฟังก์ชัน SpawnItem หรือ AddItem เดิมในเครื่องของคุณมาใส่ตรงนี้เพื่อเสกของรางวัลได้เลยครับ
+        }
+
     } // InventoryManager ===
 }
