@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
+  m_Name: 100_QB_Test
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  questId: 100
+  type: 0
+  status: 0
+  questName: "It\u2019s fine, it\u2019s cool"
+  questDetail: They generally mean that they accept a situation, agree with a plan, 
+    or are giving something their approval.  It is a highly versatile phrase that
+    relies heavily on context and tone.
+  questItemId: 1150
+  questDialogue: []
+  answerNext: []
+  answerAccept: 
+  answerReject: 
+  rewardItemId: 
+  rewardExp: 0
+  questionInProgress: 
+  answerFinish: 
+  answerNotFinish: 
