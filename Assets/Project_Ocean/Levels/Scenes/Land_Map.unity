@@ -125136,7 +125136,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
   - {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
   - {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
-  - {fileID: 11400000, guid: ccb0f12b7d2593248aae4d9c942bb463, type: 2}
+  - {fileID: 0}
 --- !u!1 &472428393
 GameObject:
   m_ObjectHideFlags: 0
@@ -142504,10 +142504,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.DemoScript
   itemsToPickUp:
-  - {fileID: 11400000, guid: e835bcffc60e66844870079efbf375cf, type: 2}
-  - {fileID: 11400000, guid: 0869aa76b9fd89c42a4a3eb5330be261, type: 2}
-  - {fileID: 11400000, guid: d73a160f69c4dba4fbdcd82c90d82f95, type: 2}
-  - {fileID: 11400000, guid: ccb0f12b7d2593248aae4d9c942bb463, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1117092146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2189137,6 +2189137,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2125888984}
   - component: {fileID: 2125888983}
+  - component: {fileID: 2125888986}
+  - component: {fileID: 2125888985}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2189186,6 +2189188,30 @@ Transform:
   - {fileID: 727766512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2125888985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125888982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b5a31277c805f4f9c9fb254e1cf76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.SaveTester
+--- !u!114 &2125888986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125888982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a749da144eb31fd4abf4af4a09b8199e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.SaveBridge
 --- !u!1 &2134801003
 GameObject:
   m_ObjectHideFlags: 0
