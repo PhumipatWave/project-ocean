@@ -157,11 +157,6 @@ namespace Game.Testing
                         itemInSlot.RefreshCount();
                         return true;
                     }
-                    else
-                    {
-                        SpawnNewItem(item, slot);
-                        return true;
-                    }
                 }
             }
             return false;

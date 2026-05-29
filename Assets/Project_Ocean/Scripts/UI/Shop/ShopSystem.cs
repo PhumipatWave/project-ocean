@@ -63,7 +63,7 @@ namespace Game.Testing
                     Draggableltem itemUI = selectedInventorySlot.GetComponentInChildren<Draggableltem>();
                     if (itemUI != null)
                     {
-                        int unitPrice = (int)(itemUI.item.ItemPrice * 0.1f); // Decrease price to 10% for selling
+                        int unitPrice = (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f); // Decrease price to 10% for selling
                         int totalValue = unitPrice * itemUI.count;
 
                         // แสดงทั้งราคาต่อชิ้น และราคารวมใน Stack ของมัน
@@ -155,7 +155,7 @@ namespace Game.Testing
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
                 if (itemUI != null)
                 {
-                    total += (int)(itemUI.item.ItemPrice * 0.1f) * itemUI.count;
+                    total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
                 }
             }
             return total;
