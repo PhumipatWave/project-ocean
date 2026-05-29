@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2b75c3acdf6114f898488e1ee2b8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BodyPart
-  fish: {fileID: 7273885174344228482}
+  fish: {fileID: 0}
   damageMultiplier: 1
 --- !u!114 &7656300043523325573
 MonoBehaviour:
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2b75c3acdf6114f898488e1ee2b8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BodyPart
-  fish: {fileID: 7273885174344228482}
+  fish: {fileID: 0}
   damageMultiplier: 0.5
 --- !u!114 &7130581979016853645
 MonoBehaviour:
@@ -662,12 +662,15 @@ GameObject:
   - component: {fileID: 3109035116890205398}
   - component: {fileID: 4214589482347048590}
   - component: {fileID: 392775262761255314}
-  - component: {fileID: 4774483354577623506}
-  - component: {fileID: 7273885174344228482}
   - component: {fileID: 1437088641783751109}
   - component: {fileID: 683323476657014}
-  - component: {fileID: 9207587733961278760}
+  - component: {fileID: 4774483354577623506}
+  - component: {fileID: 1315119472288882382}
+  - component: {fileID: 3280145725471776177}
+  - component: {fileID: 434995709220117282}
+  - component: {fileID: 3110771221692778764}
   - component: {fileID: 2234005039591698591}
+  - component: {fileID: 9207587733961278760}
   m_Layer: 0
   m_Name: FishL
   m_TagString: Enemy
@@ -759,39 +762,6 @@ CapsuleCollider2D:
   m_Offset: {x: -2.5, y: 0}
   m_Size: {x: 8, y: 2}
   m_Direction: 1
---- !u!114 &4774483354577623506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
-  config: {fileID: 0}
-  maxHealthFallback: 100
-  rb: {fileID: 0}
-  fishSprite: {fileID: 8611409687765085744}
-  anim: {fileID: 0}
-  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  isHasAnim: 1
-  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &7273885174344228482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ca679bc51009434e8e0d225005263be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishHealth
-  maxHP: 100
 --- !u!195 &1437088641783751109
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -826,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Extensions.AgentOverride2d
---- !u!114 &9207587733961278760
+--- !u!114 &4774483354577623506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -835,11 +805,76 @@ MonoBehaviour:
   m_GameObject: {fileID: 4626553553997363230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 520b93f3992a37347aecd0ee6b1c72ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::FishAlertUI
-  seenPlayerAlertImage: {fileID: 2868211091880993229}
-  attackWarningImage: {fileID: 4553878320220729934}
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  maxHealth: 100
+  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+  rb: {fileID: 0}
+  fishSprite: {fileID: 8611409687765085744}
+  anim: {fileID: 0}
+  hasAnimator: 1
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
+  health: {fileID: 1315119472288882382}
+  loot: {fileID: 3280145725471776177}
+  enemyAnimation: {fileID: 434995709220117282}
+  deathHandler: {fileID: 3110771221692778764}
+  navAgentHost: {fileID: 2234005039591698591}
+--- !u!114 &1315119472288882382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89e6f3734701764cb23df7f4e30d500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHealth
+  maxHealth: 100
+--- !u!114 &3280145725471776177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
+  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+--- !u!114 &434995709220117282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b3548c40a71b048a1f1d504a10295e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAnimation
+  hasAnimator: 1
+  anim: {fileID: 618586056456793344}
+--- !u!114 &3110771221692778764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed664f5186ae3504383667c9dfc8017d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyDeathHandler
+  rb: {fileID: 4214589482347048590}
+  fishSprite: {fileID: 8611409687765085744}
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2234005039591698591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,8 +886,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.ModularEnemyAgent
-  config: {fileID: 0}
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
   fishAlertUI: {fileID: 0}
   playerBulletTag: Bullet
   playerTag: Player
@@ -867,6 +901,20 @@ MonoBehaviour:
   facingTurnMode: 0
   turnSpeed: 5
   brainProfile: {fileID: 11400000, guid: 626d40eb2abb8db4db9baf03017fba46, type: 2}
+--- !u!114 &9207587733961278760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520b93f3992a37347aecd0ee6b1c72ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::FishAlertUI
+  seenPlayerAlertImage: {fileID: 2868211091880993229}
+  attackWarningImage: {fileID: 4553878320220729934}
 --- !u!1 &5542936470861045379
 GameObject:
   m_ObjectHideFlags: 0
@@ -998,7 +1046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2b75c3acdf6114f898488e1ee2b8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BodyPart
-  fish: {fileID: 7273885174344228482}
+  fish: {fileID: 0}
   damageMultiplier: 2
 --- !u!114 &8529742267183383302
 MonoBehaviour:

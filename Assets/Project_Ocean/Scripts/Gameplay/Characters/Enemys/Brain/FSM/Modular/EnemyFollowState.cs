@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class ModularFollowState : EnemyStateBase
+    public class EnemyFollowState : EnemyStateBase
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Follow;
 
         private readonly EnemyBrainProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
-        private readonly ModularEnemyVision vision;
+        private readonly EnemyVision vision;
 
         private Vector2 currentDirection;
         private float followTimer;
@@ -20,7 +20,7 @@ namespace Game.Testing
 
         public void SetHitChaseTimer(float duration) { hitChaseTimer = duration; }
 
-        public ModularFollowState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, ModularEnemyVision vision)
+        public EnemyFollowState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
