@@ -11,7 +11,7 @@ namespace Game.Testing
     }
 
     [CreateAssetMenu(fileName = "BulletData", menuName = "Data/BulletData")]
-    public class BulletData : MonoBehaviour
+    public class BulletData : ScriptableObject
     {
         public float attackDamage;
         public float qualityMultiplier;
