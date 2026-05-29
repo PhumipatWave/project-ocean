@@ -33,7 +33,7 @@ namespace Game.Testing
 
         protected override void OnEnterWander()
         {
-            enemyBrainContext.Agent.speed = settings.speed;
+            SetAgentSpeed(settings.speed);
         }
 
         protected override float GetWanderInterval() => settings.wanderInterval;
@@ -51,16 +51,13 @@ namespace Game.Testing
 
         protected override void ApplyMovement()
         {
-            if (enemyBrainContext.Agent.velocity.magnitude > 0.1f)
-                currentDirection = enemyBrainContext.Agent.velocity.normalized;
-
+            UpdateDirectionFromAgentVelocity(ref currentDirection);
             ApplyWallAvoidance(currentDirection, settings.wallDetectDistance, settings.wallLayer);
         }
 
         protected override void UpdateFacing()
         {
-            if (currentDirection.sqrMagnitude > 0.01f)
-                enemyBrainContext.Facing.RotateTowards(currentDirection.normalized);
+            RotateTowardsDirection(currentDirection);
         }
 
         public override void Tick(float deltaTime)

@@ -27,7 +27,7 @@ namespace Game.Testing
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = settings.speed;
+            SetAgentSpeed(settings.speed);
             followTimer   = settings.followAfterLost;
             hasSeenPlayer = false;
 
@@ -99,22 +99,18 @@ namespace Game.Testing
                 }
             }
 
-            if (enemyBrainContext.Agent.velocity.magnitude > 0.1f)
-                currentDirection = enemyBrainContext.Agent.velocity.normalized;
+            UpdateDirectionFromAgentVelocity(ref currentDirection);
 
             ApplyWallAvoidance(currentDirection, settings.wallDetectDistance, settings.wallLayer);
 
-            if (currentDirection.sqrMagnitude > 0.01f)
-                enemyBrainContext.Facing.RotateTowards(currentDirection.normalized);
+            RotateTowardsDirection(currentDirection);
         }
 
         private void TransitionOnLost()
         {
             if (hasSeenPlayer && enemyFSM.HasState(EnemyStateTag.Search))
             {
-                if (enemyFSM.GetState(EnemyStateTag.Search) is FishSSearchState search)
-                    search.SearchOrigin = LastKnownPlayerPosition;
-                enemyFSM.TransitionTo(EnemyStateTag.Search);
+                TransitionToSearchOrWander(LastKnownPlayerPosition);
             }
             else
             {

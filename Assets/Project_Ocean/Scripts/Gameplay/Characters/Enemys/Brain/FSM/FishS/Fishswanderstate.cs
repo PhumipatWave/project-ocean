@@ -3,48 +3,27 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// FishS Wander state: picks random nav points and roams.
-    /// Transitions -> Follow when player is spotted.
+    /// FishS Wander state: uses shared pathfinder wander, then alerts nearby small fish when the player is spotted.
     /// </summary>
     public class FishSWanderState : WanderStateBase
     {
         private readonly FishSBrainSettings settings;
-        private readonly EnemyNavPathfinder pathfinder;
         private readonly FishSVisionHelper vision;
-
-        private Vector3 wanderTarget;
 
         public FishSWanderState(FishSBrainSettings settings, EnemyNavPathfinder pathfinder, FishSVisionHelper vision)
         {
-            this.settings   = settings;
-            this.pathfinder = pathfinder;
-            this.vision     = vision;
+            this.settings = settings;
+            this.vision = vision;
+            UsePathfinderWander(pathfinder, settings.wanderRadius);
         }
 
         protected override void OnEnterWander()
         {
-            enemyBrainContext.Agent.speed = settings.speed;
-            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAll();
+            SetAgentSpeed(settings.speed);
+            enemyBrainContext.AlertUI?.HideAll();
         }
 
         protected override float GetWanderInterval() => settings.wanderInterval;
-
-        protected override bool HasArrived() =>
-            Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f;
-
-        protected override void PickNewWanderTarget()
-        {
-            pathfinder.TryPickWanderPoint(
-                enemyBrainContext.Transform.position,
-                settings.wanderRadius,
-                out wanderTarget
-            );
-        }
-
-        protected override void ApplyMovement()
-        {
-            pathfinder.SetSafeDestination(wanderTarget);
-        }
 
         protected override bool ShouldTransitionAway()
         {
@@ -58,7 +37,12 @@ namespace Game.Testing
             if (enemyFSM.GetState(EnemyStateTag.Follow) is FishSFollowState follow)
                 follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
 
-            // แจ้ง neighbor ในรัศมี groupRadius
+            AlertNearbySmallFish();
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+        }
+
+        private void AlertNearbySmallFish()
+        {
             Collider2D[] hits = Physics2D.OverlapCircleAll(
                 enemyBrainContext.Transform.position,
                 settings.groupRadius
@@ -74,8 +58,6 @@ namespace Game.Testing
 
                 (otherAgent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
             }
-
-            enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Game.Testing
             base.Enter(ctx, fsm);
             prepareTimer = settings.prepareTime;
             StopAgent();
-            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.ShowAttackWarning();
+            enemyBrainContext.AlertUI?.ShowAttackWarning();
         }
 
         public override void Tick(float deltaTime)
@@ -47,14 +47,7 @@ namespace Game.Testing
                 return;
             }
 
-            // Face the player while preparing
-            Vector2 dir = enemyBrainContext.PlayerTransform.position - enemyBrainContext.Transform.position;
-            if (dir.sqrMagnitude > 0.01f)
-            {
-                enemyBrainContext.Facing.SetSuppressRotation(true);
-                enemyBrainContext.Facing.RotateTowards(dir.normalized);
-                enemyBrainContext.Facing.SetSuppressRotation(false);
-            }
+            RotateFacingToPlayer();
 
             // Timer done -> scatter (Wander away from player)
             if (prepareTimer <= 0f)
@@ -63,21 +56,9 @@ namespace Game.Testing
 
         public override void Exit()
         {
-            if (enemyBrainContext.Agent != null && enemyBrainContext.Agent.isOnNavMesh)
-            {
-                enemyBrainContext.Agent.isStopped = false;
-                enemyBrainContext.Agent.speed     = settings.speed;
-            }
+            ResumeAgent(settings.speed);
 
-            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAttackWarning();
-        }
-
-        private void StopAgent()
-        {
-            if (enemyBrainContext.Agent == null || !enemyBrainContext.Agent.isOnNavMesh) return;
-            enemyBrainContext.Agent.isStopped = true;
-            enemyBrainContext.Agent.ResetPath();
-            enemyBrainContext.Agent.velocity  = Vector3.zero;
+            enemyBrainContext.AlertUI?.HideAttackWarning();
         }
     }
 }

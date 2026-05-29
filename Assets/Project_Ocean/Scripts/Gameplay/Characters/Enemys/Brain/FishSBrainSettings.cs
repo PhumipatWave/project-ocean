@@ -9,13 +9,6 @@ namespace Game.Testing
         [Tooltip("How far ahead the fish asks the NavMeshAgent to move each tick.")]
         public float navDestinationDistance = 3f;
 
-        [Header("Vision (Small Fish)")]
-        [Tooltip("Layers that block vision. If empty, wallLayer from the base is used instead.")]
-        public LayerMask visionObstacleMask;
-
-        [Tooltip("Print detection messages when the player enters radius, is seen, or is blocked.")]
-        public bool debugVision;
-
         [Header("Wall Avoidance (Small Fish)")]
         [Tooltip("Circle radius used when checking whether the fish has enough clearance.")]
         public float fishClearanceRadius = 0.5f;
@@ -25,13 +18,6 @@ namespace Game.Testing
 
         [Tooltip("Maximum attempts used when sampling a safe wander point.")]
         public int maxWanderSampleTries = 20;
-
-        [Header("Wander")]
-        [Tooltip("เวลาก่อนเปลี่ยน wander target ใหม่")]
-        public float wanderInterval = 3f;
-
-        [Tooltip("รัศมีสุ่ม wander target รอบตัวปลา")]
-        public float wanderRadius = 5f;
 
         [Header("Flock")]
         [Tooltip("Radius used to find nearby small fish in the same group.")]
@@ -63,10 +49,6 @@ namespace Game.Testing
 
         [Tooltip("Radius around the last seen player position used while searching.")]
         public float searchRadius = 2.5f;
-
-        [Header("Follow")]
-        [Tooltip("How long the fish follows the last known player position after losing sight.")]
-        public float followAfterLost = 6f;
 
         [Header("Prepare (Scatter)")]
         [Tooltip("Time spent pausing before scattering away from the player.")]
