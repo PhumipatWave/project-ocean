@@ -80,6 +80,13 @@ namespace Game.Testing
         private string answerNotFinish; // answerNotFinish คือคำตอบของเราที่บอกว่ายังไม่พร้อมส่งเควส
         public string AnswerNotFinish { get { return answerNotFinish; } }
 
+        [Header("NPCName")]
+        private string npcName;
+        public string NpcName { get { return npcName; } }
+
+        private Sprite npcAvatar;
+        public Sprite NpcAvatar { get { return npcAvatar; } } // <--- เพิ่มตรงนี้
+
         public Quest(QuestData questData)
         {
             questId = questData.questId;
@@ -97,6 +104,8 @@ namespace Game.Testing
             questionInProgress = questData.questionInProgress;
             answerFinish = questData.answerFinish;
             answerNotFinish = questData.answerNotFinish;
+            npcName = questData.npcName;
+            npcAvatar = questData.npcAvatar;
         }
 
     }

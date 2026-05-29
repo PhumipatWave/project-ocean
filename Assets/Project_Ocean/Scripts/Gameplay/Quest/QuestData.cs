@@ -5,6 +5,9 @@ namespace Game.Testing
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]
     public class QuestData : ScriptableObject
     {
+        public string npcName; 
+        public Sprite npcAvatar;
+
         public int questId;
         public QuestType type;
         public QuestStatus status;
