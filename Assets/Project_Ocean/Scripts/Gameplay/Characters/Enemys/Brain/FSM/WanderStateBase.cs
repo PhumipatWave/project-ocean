@@ -3,16 +3,19 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Shared wander skeleton for FishM and FishL.
-    /// Handles the timer + arrival loop and player-detection transition.
-    /// Subclasses implement how targets are picked and how movement is applied.
-    /// FishS is intentionally excluded — its Flock state is a steering system, not a wander.
+    /// Shared wander skeleton for enemy states.
+    /// Handles the timer, arrival loop, movement, facing, and player-detection hook.
     /// </summary>
     public abstract class WanderStateBase : EnemyStateBase
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Wander;
 
         protected float wanderTimer;
+        protected Vector3 wanderTarget;
+
+        private EnemyNavPathfinder pathfinder;
+        private float pathfinderWanderRadius;
+        private float pathfinderArrivalDistance = 0.5f;
 
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
@@ -39,33 +42,38 @@ namespace Game.Testing
                 OnPlayerDetected();
         }
 
-        // ── Required overrides ───────────────────────────────────────────────────
+        protected void UsePathfinderWander(EnemyNavPathfinder wanderPathfinder, float wanderRadius, float arrivalDistance = 0.5f)
+        {
+            pathfinder = wanderPathfinder;
+            pathfinderWanderRadius = wanderRadius;
+            pathfinderArrivalDistance = arrivalDistance;
+        }
 
-        /// <summary>Pick and store the next wander destination.</summary>
-        protected abstract void PickNewWanderTarget();
+        protected virtual void PickNewWanderTarget()
+        {
+            pathfinder.TryPickWanderPoint(
+                enemyBrainContext.Transform.position,
+                pathfinderWanderRadius,
+                out wanderTarget
+            );
+        }
 
-        /// <summary>Push the destination to the NavMeshAgent this frame.</summary>
-        protected abstract void ApplyMovement();
+        protected virtual void ApplyMovement()
+        {
+            pathfinder.SetSafeDestination(wanderTarget);
+        }
 
-        /// <summary>Returns the wander interval from this fish's settings.</summary>
         protected abstract float GetWanderInterval();
 
-        /// <summary>Returns true when the fish is close enough to its current target.</summary>
-        protected abstract bool HasArrived();
+        protected virtual bool HasArrived() =>
+            Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < pathfinderArrivalDistance;
 
-        /// <summary>Returns true when the player is detected and a transition should fire.</summary>
         protected abstract bool ShouldTransitionAway();
 
-        /// <summary>Fire the FSM transition (and any bookkeeping) when the player is spotted.</summary>
         protected abstract void OnPlayerDetected();
 
-        // ── Optional hooks ───────────────────────────────────────────────────────
-
-        /// <summary>Called at the start of Enter before the timer and first target are set.
-        /// Override to set agent speed, hide UI, etc.</summary>
         protected virtual void OnEnterWander() { }
 
-        /// <summary>Rotate the facing controller from agent velocity. Override to change behaviour.</summary>
         protected virtual void UpdateFacing()
         {
             if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)

@@ -5,17 +5,6 @@ namespace Game.Testing
     [CreateAssetMenu(fileName = "FishMBrainSettings", menuName = "Enemy/Fish M Brain Settings")]
     public class FishMBrainSettings : EnemyBrainSettingsBase
     {
-        [Header("Vision (Medium Fish)")]
-        [Tooltip("Layers that block line of sight to the player. Separate from wall layer.")]
-        public LayerMask obstacleLayer;
-
-        [Tooltip("Log vision state changes to the console (disable in production).")]
-        public bool debugVision = false;
-
-        [Header("Follow")]
-        [Tooltip("How long (seconds) the fish keeps chasing after losing sight of the player.")]
-        public float followAfterLost = 3f;
-
         [Header("Attack")]
         [Tooltip("Distance from the player required before this fish can bite.")]
         public float attackRange = 1.5f;

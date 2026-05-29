@@ -9,13 +9,6 @@ namespace Game.Testing
         [Tooltip("High movement speed used during a committed attack charge.")]
         public float boostSpeed = 7f;
 
-        [Header("Vision (Large Fish)")]
-        [Tooltip("Layers that block vision. If empty, wallLayer from the base is used instead.")]
-        public LayerMask visionObstacleMask;
-
-        [Tooltip("Print detection messages when the player enters radius, is seen, or is blocked.")]
-        public bool debugVision;
-
         [Header("Wall Avoidance (Large Fish)")]
         [Tooltip("Circle radius used when checking whether the fish has enough clearance.")]
         public float fishClearanceRadius = 0.8f;
@@ -42,9 +35,6 @@ namespace Game.Testing
 
         [Tooltip("Time in seconds before the fish can attack again after a hit.")]
         public float attackCooldown = 2f;
-
-        [Tooltip("How long the fish follows the last known player position after losing sight.")]
-        public float followAfterLost = 6f;
 
         [Tooltip("Damage dealt to the player when the attack connects.")]
         public float attackDamage = 10.25f;

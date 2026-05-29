@@ -1,50 +1,61 @@
+using System;
 using UnityEngine;
 
 namespace Game.Testing
 {
     /// <summary>
-    /// FishS Search state: wanders around the last seen position for a limited time.
-    /// Transitions -> Follow if player spotted again.
-    /// Transitions -> Wander when timer expires.
+    /// Shared search state used by enemies that investigate the last known player position.
     /// </summary>
-    public class FishSSearchState : EnemyStateBase
+    public class EnemySearchState : EnemyStateBase
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Search;
 
-        private readonly FishSBrainSettings settings;
+        private readonly float speed;
+        private readonly float searchDuration;
+        private readonly float searchRadius;
         private readonly EnemyNavPathfinder pathfinder;
-        private readonly FishSVisionHelper vision;
+        private readonly Func<bool> canSeePlayer;
+        private readonly Action<Vector3> onPlayerSpotted;
 
         private float searchTimer;
         private Vector3 wanderTarget;
 
         public Vector3 SearchOrigin { get; set; }
 
-        public FishSSearchState(FishSBrainSettings settings, EnemyNavPathfinder pathfinder, FishSVisionHelper vision)
+        public EnemySearchState(
+            float speed,
+            float searchDuration,
+            float searchRadius,
+            EnemyNavPathfinder pathfinder,
+            Func<bool> canSeePlayer,
+            Action<Vector3> onPlayerSpotted)
         {
-            this.settings   = settings;
+            this.speed = speed;
+            this.searchDuration = searchDuration;
+            this.searchRadius = searchRadius;
             this.pathfinder = pathfinder;
-            this.vision     = vision;
+            this.canSeePlayer = canSeePlayer;
+            this.onPlayerSpotted = onPlayerSpotted;
         }
 
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = settings.speed;
-            searchTimer = settings.searchDuration;
+            enemyBrainContext.Agent.speed = speed;
+            searchTimer = searchDuration;
             PickSearchPoint();
-            if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.HideAttackWarning();
+            enemyBrainContext.AlertUI?.HideAttackWarning();
         }
 
         public override void Tick(float deltaTime)
         {
             searchTimer -= deltaTime;
 
-            // Re-spot player -> Follow
-            if (vision.CheckLineOfSight())
+            if (canSeePlayer())
             {
-                if (enemyFSM.GetState(EnemyStateTag.Follow) is FishSFollowState follow)
-                    follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
+                if (enemyBrainContext.PlayerTransform != null)
+                    onPlayerSpotted?.Invoke(enemyBrainContext.PlayerTransform.position);
+
                 enemyFSM.TransitionTo(EnemyStateTag.Follow);
                 return;
             }
@@ -66,7 +77,7 @@ namespace Game.Testing
 
         private void PickSearchPoint()
         {
-            pathfinder.TryPickWanderPoint(SearchOrigin, settings.searchRadius, out wanderTarget);
+            pathfinder.TryPickWanderPoint(SearchOrigin, searchRadius, out wanderTarget);
         }
     }
 }

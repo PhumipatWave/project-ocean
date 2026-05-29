@@ -48,7 +48,7 @@ namespace Game.Testing
                 facingDir,
                 settings.viewDistance,
                 settings.viewAngle,
-                settings.obstacleLayer
+                settings.visionObstacleMask.value != 0 ? settings.visionObstacleMask : settings.wallLayer
             );
 
             LogSeeChange(canSee);

@@ -33,7 +33,7 @@ namespace Game.Testing
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = settings.speed;
+            SetAgentSpeed(settings.speed);
             followTimer = settings.followAfterLost;
 
             if (enemyBrainContext.PlayerTransform != null)
@@ -71,8 +71,7 @@ namespace Game.Testing
             // Move toward last known position.
             enemyBrainContext.Agent.SetDestination(LastKnownPlayerPosition);
 
-            if (enemyBrainContext.Agent.velocity.magnitude > 0.1f)
-                currentDirection = enemyBrainContext.Agent.velocity.normalized;
+            UpdateDirectionFromAgentVelocity(ref currentDirection);
 
             // FIX #5: use LastKnownPlayerPosition consistently for attack range check.
             float dist = Vector2.Distance(
@@ -88,8 +87,7 @@ namespace Game.Testing
 
             ApplyWallAvoidance(currentDirection, settings.wallDetectDistance, settings.wallLayer);
 
-            if (currentDirection.sqrMagnitude > 0.01f)
-                enemyBrainContext.Facing.RotateTowards(currentDirection.normalized);
+            RotateTowardsDirection(currentDirection);
         }
 
         // ── Helpers ─────────────────────────────────────────────────────────────────────
@@ -97,10 +95,7 @@ namespace Game.Testing
         private void TransitionOnLost()
         {
             // FIX #1: Try Search state first; fall back to Wander if it is not registered.
-            if (enemyFSM.HasState(EnemyStateTag.Search))
-                enemyFSM.TransitionTo(EnemyStateTag.Search);
-            else
-                enemyFSM.TransitionTo(EnemyStateTag.Wander);
+            TransitionToSearchOrWander(LastKnownPlayerPosition);
         }
     }
 }

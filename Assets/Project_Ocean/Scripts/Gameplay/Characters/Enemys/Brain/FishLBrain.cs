@@ -56,7 +56,13 @@ namespace Game.Testing
 
             enemyFSM.Register(new FishLWanderState(settings, pathfinder, vision));
             enemyFSM.Register(followState);
-            enemyFSM.Register(new FishLSearchState(settings, pathfinder, vision));
+            enemyFSM.Register(new EnemySearchState(
+                settings.speed,
+                settings.searchDuration,
+                settings.searchRadius,
+                pathfinder,
+                vision.CheckLineOfSight,
+                position => followState.LastKnownPlayerPosition = position));
             enemyFSM.Register(new FishLPrepareState(settings, vision));
             enemyFSM.Register(attackState);
 

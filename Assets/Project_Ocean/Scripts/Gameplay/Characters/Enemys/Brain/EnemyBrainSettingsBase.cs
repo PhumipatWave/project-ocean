@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Testing
 {
@@ -18,6 +19,13 @@ namespace Game.Testing
 
         [Tooltip("Vision cone full angle in degrees, centered on the current move direction.")]
         public float viewAngle = 90f;
+
+        [Tooltip("Layers that block vision. If empty, wallLayer is used instead.")]
+        [FormerlySerializedAs("obstacleLayer")]
+        public LayerMask visionObstacleMask;
+
+        [Tooltip("Print detection messages when the player enters radius, is seen, or is blocked.")]
+        public bool debugVision;
 
         [Header("Wall Avoidance")]
         [Tooltip("Layers treated as walls or blocked space.")]
@@ -39,5 +47,9 @@ namespace Game.Testing
 
         [Tooltip("If enabled, being hit or colliding with the player forces an alert reaction.")]
         public bool chasePlayerWhenHit = true;
+
+        [Header("Follow")]
+        [Tooltip("How long the enemy follows the last known player position after losing sight.")]
+        public float followAfterLost = 6f;
     }
 }

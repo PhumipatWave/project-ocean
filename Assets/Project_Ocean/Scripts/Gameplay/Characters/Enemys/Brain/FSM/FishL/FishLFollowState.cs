@@ -34,7 +34,7 @@ namespace Game.Testing
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            enemyBrainContext.Agent.speed = settings.speed;
+            SetAgentSpeed(settings.speed);
             followTimer = settings.followAfterLost;
             if (enemyBrainContext.AlertUI != null) enemyBrainContext.AlertUI.ShowAttackWarning();
         }
@@ -77,9 +77,7 @@ namespace Game.Testing
             bool timersExpired = followTimer <= 0f && hitChaseTimer <= 0f;
             if (distToLast < 0.5f && timersExpired && enemyFSM.HasState(EnemyStateTag.Search))
             {
-                if (enemyFSM.GetState(EnemyStateTag.Search) is FishLSearchState search)
-                    search.SearchOrigin = LastKnownPlayerPosition;
-                enemyFSM.TransitionTo(EnemyStateTag.Search);
+                TransitionToSearchOrWander(LastKnownPlayerPosition);
                 return;
             }
         }
