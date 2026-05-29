@@ -9,7 +9,6 @@ namespace Game.Testing
     public class EnemyBrainContext
     {
         public Enemy Owner;
-        public EnemyConfig Config;
         public Transform Transform;
         public NavMeshAgent Agent;
         public EnemyFacingController Facing;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class ModularEnemyVision
+    public class EnemyVision
     {
         private readonly EnemyBrainProfile profile;
         private readonly EnemyBrainContext context;
@@ -10,7 +10,7 @@ namespace Game.Testing
         private bool wasInDetectRadius;
         private bool couldSeeLastTick;
 
-        public ModularEnemyVision(EnemyBrainProfile profile, EnemyBrainContext context)
+        public EnemyVision(EnemyBrainProfile profile, EnemyBrainContext context)
         {
             this.profile = profile;
             this.context = context;
