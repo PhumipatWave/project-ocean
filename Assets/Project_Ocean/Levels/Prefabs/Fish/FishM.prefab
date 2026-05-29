@@ -510,9 +510,9 @@ GameObject:
   - component: {fileID: 8720175931245338848}
   - component: {fileID: 9112809200364948923}
   - component: {fileID: 5060759525976410366}
-  - component: {fileID: 635624327409578881}
   - component: {fileID: 6346075893321601506}
   - component: {fileID: 8238845052178538524}
+  - component: {fileID: 8810485351442315744}
   m_Layer: 0
   m_Name: FishM
   m_TagString: Enemy
@@ -655,33 +655,6 @@ MonoBehaviour:
   dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
   isHasAnim: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &635624327409578881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098824303329575402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b051a91f7575e246b78b8dff8643ccc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishM_Agent
-  config: {fileID: 0}
-  fishAlertUI: {fileID: 0}
-  playerBulletTag: Bullet
-  playerTag: Player
-  visualFlipRoot: {fileID: 6859541925114978355}
-  turnSmoothTime: 0.25
-  maxTiltAngle: 360
-  flipDeadZone: 0.1
-  flipDelay: 0.4
-  flipCooldown: 0.5
-  spriteAngleOffset: 0
-  attackAngleThreshold: 15
-  facingTurnMode: 1
-  turnSpeed: 5
-  brainSettings: {fileID: 11400000, guid: e5f93e3f455d80b4faf9b8a0afd95e3a, type: 2}
 --- !u!114 &6346075893321601506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +689,33 @@ MonoBehaviour:
   headDamage: 25
   bodyDamage: 10
   tailDamage: 5
+--- !u!114 &8810485351442315744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098824303329575402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ModularEnemyAgent
+  config: {fileID: 0}
+  fishAlertUI: {fileID: 0}
+  playerBulletTag: Bullet
+  playerTag: Player
+  visualFlipRoot: {fileID: 6859541925114978355}
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
+  facingTurnMode: 0
+  turnSpeed: 5
+  brainProfile: {fileID: 11400000, guid: d5c1b12748d3cdb42a539f4c07c6ceb5, type: 2}
 --- !u!1 &9206617243502325059
 GameObject:
   m_ObjectHideFlags: 0

@@ -582,9 +582,9 @@ GameObject:
   - component: {fileID: 1217555987416005051}
   - component: {fileID: 1811057275969045065}
   - component: {fileID: 3207163715615100706}
-  - component: {fileID: 8507428723810097256}
   - component: {fileID: 2849432993923143802}
   - component: {fileID: 8349145242798058967}
+  - component: {fileID: 3769312427449725687}
   m_Layer: 0
   m_Name: FishS
   m_TagString: Enemy
@@ -693,36 +693,6 @@ MonoBehaviour:
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
   isHasAnim: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &8507428723810097256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199869032875626201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5536f9506efb4454fa207e7ba7616764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishAgent
-  config: {fileID: 0}
-  fishAlertUI: {fileID: 0}
-  playerBulletTag: Bullet
-  playerTag: Player
-  visualFlipRoot: {fileID: 2653153789481178184}
-  turnSmoothTime: 0.25
-  maxTiltAngle: 360
-  flipDeadZone: 0.1
-  flipDelay: 0.4
-  flipCooldown: 0.5
-  spriteAngleOffset: 0
-  attackAngleThreshold: 15
-  facingTurnMode: 0
-  turnSpeed: 4
-  brainSettings: {fileID: 11400000, guid: af3ce6f543f4eaa499d8edc949122a4c, type: 2}
-  playerTransform: {fileID: 0}
-  leader: {fileID: 8507428723810097256}
-  groupID: 1
 --- !u!195 &2849432993923143802
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -757,3 +727,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Extensions.AgentOverride2d
+--- !u!114 &3769312427449725687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199869032875626201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ModularEnemyAgent
+  config: {fileID: 0}
+  fishAlertUI: {fileID: 0}
+  playerBulletTag: Bullet
+  playerTag: Player
+  visualFlipRoot: {fileID: 2653153789481178184}
+  turnSmoothTime: 0.25
+  maxTiltAngle: 360
+  flipDeadZone: 0.1
+  flipDelay: 0.4
+  flipCooldown: 0.5
+  spriteAngleOffset: 0
+  attackAngleThreshold: 15
+  facingTurnMode: 0
+  turnSpeed: 5
+  brainProfile: {fileID: 11400000, guid: afa1de4371a729746b245587d312ca39, type: 2}
