@@ -89,6 +89,9 @@ namespace Game.Testing
             if (!CanTick())
                 return;
 
+            // ✅ เพิ่ม hook ให้ subclass ใส่ logic ก่อน brain tick ได้
+            OnTick();
+
             enemyBrain.Tick(Time.deltaTime);
         }
 
@@ -126,6 +129,11 @@ namespace Game.Testing
         protected abstract IEnemyBrain CreateBrain();
 
         protected virtual void OnBrainInitialized() { }
+
+        /// <summary>
+        /// เรียกทุก frame ก่อน brain.Tick() — override ใน subclass เพื่อเพิ่ม steering หรือ logic อื่น
+        /// </summary>
+        protected virtual void OnTick() { }
 
         protected EnemyBrainContext BuildBrainContext()
         {
