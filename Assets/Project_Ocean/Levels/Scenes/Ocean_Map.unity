@@ -406488,6 +406488,10 @@ PrefabInstance:
       propertyPath: chasePlayerWhenHit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 635624327409578881, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: attackAngleThreshold
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -157.6

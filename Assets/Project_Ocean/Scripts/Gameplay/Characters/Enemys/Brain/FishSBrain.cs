@@ -4,82 +4,79 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Small fish AI refactored to FSM.
-    /// Registers 2 states: Flock (boids wander/lead) and Panic (flee).
-    /// Public API (FleeFrom, ReflectDirection, etc.) forwards to the active state.
+    /// Small fish AI with FishL-style FSM: Wander, Follow, Search, Prepare.
+    /// No attack — Prepare leads to scatter (Wander) instead.
+    /// Retains group/flock behavior via FishS_Agent steering.
     /// </summary>
-    public class FishSBrain : EnemyBrainBase, IBrainVision
+    public class FishSBrain : EnemyBrainBase, IBrainVision, IBrainHitReaction
     {
-        private readonly FishSBrainSettings fishSBrainSettings;
-        private FishS_Agent fishSAgent;
-        private FishSFlockState flockState;
-        private FishSPanicState panicState;
-        private readonly List<FishS_Agent> neighbors = new List<FishS_Agent>();
+        private readonly FishSBrainSettings settings;
 
-        public Vector2 CurrentDirection => flockState?.CurrentDirection ?? Vector2.zero;
+        private FishSVisionHelper vision;
+        private FishSFollowState followState;
 
         #region IBrainVision
-        public float ViewDistance => fishSBrainSettings.viewDistance;
-        public float ViewAngle => fishSBrainSettings.viewAngle;
-        public bool CanSeePlayer() => enemyBrainContext?.PlayerTransform != null;
+        public float ViewDistance => settings.viewDistance;
+        public float ViewAngle    => settings.viewAngle;
+        public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
+        #endregion
+
+        #region IBrainHitReaction
+        public void OnBulletHit()       => OnHit(enemyBrainContext?.PlayerTransform);
+        public void OnPlayerCollision() => OnHit(enemyBrainContext?.PlayerTransform);
         #endregion
 
         public FishSBrain(FishSBrainSettings settings)
         {
-            this.fishSBrainSettings = settings;
+            this.settings = settings;
         }
 
         public override void Initialize(EnemyBrainContext context)
         {
             base.Initialize(context);
-            fishSAgent = context.Host as FishS_Agent;
 
-            flockState = new FishSFlockState(fishSBrainSettings, fishSAgent, neighbors);
-            panicState = new FishSPanicState(fishSBrainSettings, fishSAgent);
-
-            enemyFSM.Register(flockState);
-            enemyFSM.Register(panicState);
-
-            SetAgentSpeed(fishSBrainSettings.speed);
-            enemyFSM.Start(EnemyStateTag.Flock);
-        }
-
-        // ── Public API forwarded from FishS_Agent ────────────────────────────────
-
-        public void SetPlayerTransform(Transform player) { /* Ctx.PlayerTransform is the live reference */ }
-
-        public void FleeFrom(Vector2 targetPos)
-        {
-            // Transition first so Enter() sets Ctx on the panicState before SetFleeSource uses it
-            enemyFSM.TransitionTo(EnemyStateTag.Panic);
-            panicState.SetFleeSource(targetPos);
-        }
-
-        public void ReflectDirection(Vector2 normal, bool randomizePanic)
-        {
-            // Delegate to whichever state is active (only meaningful during Panic)
-            if (enemyFSM.IsIn(EnemyStateTag.Panic))
-                panicState.SetFleeSource(enemyBrainContext.Transform.position - (Vector3)normal);
-        }
-
-        public void ApplyBounceDestination()
-        {
-            enemyBrainContext.Agent.SetDestination(
-                (Vector3)enemyBrainContext.Transform.position + (Vector3)CurrentDirection * fishSBrainSettings.navDestinationDistance
+            var pathfinder = new EnemyNavPathfinder(
+                context.Agent,
+                settings.wallLayer,
+                settings.fishClearanceRadius,
+                settings.maxWanderSampleTries,
+                settings.nearPlayerSearchRadius,
+                settings.nearPlayerSearchSamples,
+                settings.nearPlayerSearchStep
             );
+
+            vision      = new FishSVisionHelper(settings, context);
+            followState = new FishSFollowState(settings, vision);
+
+            enemyFSM.Register(new FishSWanderState(settings, pathfinder, vision));
+            enemyFSM.Register(followState);
+            enemyFSM.Register(new FishSSearchState(settings, pathfinder, vision));
+
+            HideAllAlerts();
+
+            if (context.PlayerTransform != null)
+                followState.LastKnownPlayerPosition = context.PlayerTransform.position;
+
+            enemyFSM.Start(EnemyStateTag.Wander);
         }
 
-        public bool IsDirectionBlocked()
+        public override void OnHit(Transform attacker)
         {
-            RaycastHit2D hit = Physics2D.Raycast(
-                enemyBrainContext.Transform.position, CurrentDirection, fishSBrainSettings.wallDetectDistance, fishSBrainSettings.wallLayer
-            );
-            return hit.collider != null;
-        }
+            if (!settings.chasePlayerWhenHit) return;
 
-        public void NudgeDirection(float degrees)
-        {
-            // Not needed with FSM wall avoidance built into states — kept for compatibility
+            Vector3 knownPos = attacker != null ? attacker.position
+                : enemyBrainContext.PlayerTransform != null ? enemyBrainContext.PlayerTransform.position
+                : enemyBrainContext.Transform.position;
+
+            followState.LastKnownPlayerPosition = knownPos;
+            followState.SetHitChaseTimer(settings.hitChaseDuration);
+
+            bool committed = false;
+            if (!committed)
+            {
+                ShowAttackWarning();
+                enemyFSM.TransitionTo(EnemyStateTag.Follow);
+            }
         }
     }
 }
