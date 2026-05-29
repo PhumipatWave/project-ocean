@@ -2,20 +2,20 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class ModularAttackState : EnemyStateBase
+    public class EnemyAttackState : EnemyStateBase
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Attack;
 
         private readonly EnemyBrainProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
-        private readonly ModularEnemyVision vision;
+        private readonly EnemyVision vision;
 
         private bool damageApplied;
         private float attackTimer;
 
         public bool IsAttacking { get; private set; }
 
-        public ModularAttackState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, ModularEnemyVision vision)
+        public EnemyAttackState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
@@ -76,7 +76,7 @@ namespace Game.Testing
 
         private void ReturnToFollow(bool applyCooldown)
         {
-            if (applyCooldown && enemyFSM.GetState(EnemyStateTag.Follow) is ModularFollowState follow)
+            if (applyCooldown && enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
                 follow.SetHitChaseTimer(profile.attackCooldown);
 
             enemyFSM.TransitionTo(EnemyStateTag.Follow);

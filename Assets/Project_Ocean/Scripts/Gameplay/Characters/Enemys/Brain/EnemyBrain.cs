@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class ModularEnemyBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
+    public class EnemyBrain : EnemyBrainBase, IBrainVision, IBrainAttack, IBrainHitReaction
     {
         private readonly EnemyBrainProfile profile;
 
-        private ModularEnemyVision vision;
-        private ModularFollowState followState;
-        private ModularAttackState attackState;
+        private EnemyVision vision;
+        private EnemyFollowState followState;
+        private EnemyAttackState attackState;
 
         public override bool IsAttacking => attackState?.IsAttacking ?? false;
         public float ViewDistance => profile.viewDistance;
@@ -19,7 +19,7 @@ namespace Game.Testing
         public void OnBulletHit() => OnHit(enemyBrainContext?.PlayerTransform);
         public void OnPlayerCollision() => OnHit(enemyBrainContext?.PlayerTransform);
 
-        public ModularEnemyBrain(EnemyBrainProfile profile)
+        public EnemyBrain(EnemyBrainProfile profile)
         {
             this.profile = profile;
         }
@@ -30,7 +30,7 @@ namespace Game.Testing
 
             if (profile == null)
             {
-                Debug.LogError("[ModularEnemyBrain] Missing EnemyBrainProfile.", context.Host);
+                Debug.LogError("[EnemyBrain] Missing EnemyBrainProfile.", context.Host);
                 return;
             }
 
@@ -44,13 +44,13 @@ namespace Game.Testing
                 profile.nearPlayerSearchStep
             );
 
-            vision = new ModularEnemyVision(profile, context);
-            followState = new ModularFollowState(profile, pathfinder, vision);
+            vision = new EnemyVision(profile, context);
+            followState = new EnemyFollowState(profile, pathfinder, vision);
             attackState = profile.canAttack
-                ? new ModularAttackState(profile, pathfinder, vision)
+                ? new EnemyAttackState(profile, pathfinder, vision)
                 : null;
 
-            enemyFSM.Register(new ModularWanderState(profile, pathfinder, vision));
+            enemyFSM.Register(new EnemyWanderState(profile, pathfinder, vision));
             enemyFSM.Register(followState);
 
             if (profile.searchAfterLost)
@@ -65,7 +65,7 @@ namespace Game.Testing
             }
 
             if (profile.canAttack && profile.prepareBeforeAttack)
-                enemyFSM.Register(new ModularPrepareState(profile, vision));
+                enemyFSM.Register(new EnemyPrepareState(profile, vision));
 
             if (attackState != null)
                 enemyFSM.Register(attackState);
