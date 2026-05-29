@@ -51,15 +51,22 @@ namespace Game.Testing
 
         protected virtual void PickNewWanderTarget()
         {
-            pathfinder.TryPickWanderPoint(
+            bool foundTarget = pathfinder.TryPickWanderPoint(
                 enemyBrainContext.Transform.position,
                 pathfinderWanderRadius,
                 out wanderTarget
             );
+
+            if (!foundTarget)
+                wanderTimer = Mathf.Min(wanderTimer, 0.25f);
         }
 
         protected virtual void ApplyMovement()
         {
+            if (pathfinder.SetSafeDestination(wanderTarget))
+                return;
+
+            PickNewWanderTarget();
             pathfinder.SetSafeDestination(wanderTarget);
         }
 
