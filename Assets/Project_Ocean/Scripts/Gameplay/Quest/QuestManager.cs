@@ -35,5 +35,13 @@ namespace Game.Testing
         {
             return activeQuestList.FindAll(q => q.Status == status);
         }
+
+        public Quest GetQuestById(int id)
+        {
+            // ค้นหาในรายชื่อคลังเควสทั้งหมดที่มี QuestID ตรงกับที่ระบุ
+            // (หมายเหตุ: ให้เปลี่ยนคำว่า activeQuestList เป็นชื่อตัวแปรคลัง List<Quest> จริงในสคริปต์ของคุณ)
+            return activeQuestList.Find(q => q.QuestID == id);
+        }
+
     }
 }
