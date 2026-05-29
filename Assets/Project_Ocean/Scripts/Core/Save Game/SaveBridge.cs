@@ -8,7 +8,7 @@ namespace Game.Testing
     {
         public static SaveBridge Instance { get; private set; }
 
-        // ✅ Flag สำหรับโหลดจาก save
+        // Flag สำหรับโหลดจาก save
         public static bool    IsLoadingSave  { get; private set; }
         public static Vector3 LoadedPosition { get; private set; }
 
@@ -72,6 +72,23 @@ namespace Game.Testing
                     }
                 }
             }
+
+            // Upgrade
+            var invUpgrade = FindFirstObjectByType<InventoryUpgrade>();
+            if (invUpgrade != null)
+                data.inventoryUpgradeLevel = invUpgrade.currentLevel;
+
+            var dmgUpgrade = FindFirstObjectByType<DamageUpgrade>();
+            if (dmgUpgrade != null)
+            {
+                data.damageUpgradeLevel = dmgUpgrade.level;
+                data.currentDamage      = dmgUpgrade.currentDamage;
+            }
+
+            // ✅ Rope Upgrade
+            var ropeUpgrade = FindFirstObjectByType<RopeUpgrade>();
+            if (ropeUpgrade != null)
+                data.ropeUpgradeLevel = ropeUpgrade.level;
 
             SaveSystem.Save(data);
             Debug.Log("[SaveBridge] Game saved!");
@@ -140,7 +157,24 @@ namespace Game.Testing
                 }
             }
 
-            // ✅ เซ็ต flag + ตำแหน่งก่อน LoadScene
+            // Upgrade
+            var invUpgrade = FindFirstObjectByType<InventoryUpgrade>();
+            if (invUpgrade != null)
+                invUpgrade.currentLevel = data.inventoryUpgradeLevel;
+
+            var dmgUpgrade = FindFirstObjectByType<DamageUpgrade>();
+            if (dmgUpgrade != null)
+            {
+                dmgUpgrade.level         = data.damageUpgradeLevel;
+                dmgUpgrade.currentDamage = data.currentDamage;
+            }
+
+            // ✅ Rope Upgrade
+            var ropeUpgrade = FindFirstObjectByType<RopeUpgrade>();
+            if (ropeUpgrade != null)
+                ropeUpgrade.level = data.ropeUpgradeLevel;
+
+            // เซ็ต flag + ตำแหน่งก่อน LoadScene
             IsLoadingSave  = true;
             LoadedPosition = new Vector3(data.posX, data.posY, data.posZ);
             SceneManager.LoadScene(data.currentScene);
