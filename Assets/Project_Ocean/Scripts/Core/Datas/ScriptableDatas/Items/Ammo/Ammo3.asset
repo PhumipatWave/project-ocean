@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: Ammo3
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  itemID: 
-  tile: {fileID: 0}
-  itemType: 4
-  itemPrefab: {fileID: 0}
-  stackable: 1
-  image: {fileID: -2657618325994291087, guid: fd42ed6c0b7862a4e89f6dc92fcc910c, type: 3}
-  buyPrice: 30
-  sellPrice: 20
+  ItemID: 2
+  ItemName: Tranquilizer Bullet
+  ItemType: 4
+  ItemVisual: {fileID: -1942517511344592991, guid: 42befcafe89915b4a84e0ee49cd50234, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStackable: 99
+  ItemPrice: 50

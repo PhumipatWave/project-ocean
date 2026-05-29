@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Game.Testing
@@ -7,29 +6,28 @@ namespace Game.Testing
     {
         #region FieldProperties
         [SerializeField] private FishSBrainSettings brainSettings;
-        [SerializeField] private Transform playerTransform;
 
+        [Header("Group Settings")]
         public FishS_Agent leader;
         public int groupID;
 
-        private FishSBrain fishSBrain;
-        private bool isBouncing;
+        [SerializeField] private float followDistance  = 1.5f;
+        [SerializeField] private float followStrength  = 0.6f;
+        [SerializeField] private float separationRadius   = 0.8f;
+        [SerializeField] private float separationStrength = 0.4f;
 
-        public Vector2 MoveDirection => fishSBrain != null ? fishSBrain.CurrentDirection : Vector2.zero;
+        private FishSBrain fishSBrain;
+
+        public bool IsLeader => leader == null;
         #endregion
 
         #region Initialization
-        protected override bool requiresPlayer => false;
-
-        protected override EnemyFacingController.FacingTurnMode defaultFacingTurnMode =>
-            EnemyFacingController.FacingTurnMode.TurnSpeed;
-
         private FishSBrainSettings BrainSettings
         {
             get
             {
                 if (brainSettings == null)
-                    Debug.LogWarning($"FishS_Agent on {gameObject.name} is missing brain settings!");
+                    brainSettings = ScriptableObject.CreateInstance<FishSBrainSettings>();
 
                 return brainSettings;
             }
@@ -40,94 +38,94 @@ namespace Game.Testing
             fishSBrain = new FishSBrain(BrainSettings);
             return fishSBrain;
         }
+        #endregion
 
-        protected override void OnBrainInitialized()
+        #region GroupBehavior
+        /// <summary>
+        /// ตั้ง leader ให้ follower — เรียกจาก Spawner หรือ GroupManager
+        /// </summary>
+        public void SetLeader(FishS_Agent newLeader, int newGroupID)
         {
-            if (base.playerTransform != null)
-                playerTransform = base.playerTransform;
-            else if (GameManager.CurPlayer != null)
-                playerTransform = GameManager.CurPlayer.transform;
-
-            fishSBrain?.SetPlayerTransform(playerTransform);
+            leader  = newLeader;
+            groupID = newGroupID;
         }
 
-        protected override bool CanTick()
+        private void ApplyFollowSteering()
         {
-            if (isEnemyDead)
+            if (leader == null || leader.isEnemyDead)
+                return;
+
+            Vector2 toLeader = (Vector2)leader.transform.position - (Vector2)transform.position;
+            float dist = toLeader.magnitude;
+
+            Vector2 steer = Vector2.zero;
+
+            if (dist > followDistance)
+                steer += toLeader.normalized * followStrength;
+
+            steer += GetSeparationForce();
+
+            // Note: group steering is visual only — brain FSM drives actual movement
+        }
+
+        private Vector2 GetSeparationForce()
+        {
+            Vector2 force = Vector2.zero;
+            Collider2D[] nearby = Physics2D.OverlapCircleAll(transform.position, separationRadius);
+            foreach (var col in nearby)
             {
-                OnEnemyDead();
-                return false;
+                if (col.gameObject == gameObject) continue;
+                if (!col.TryGetComponent<FishS_Agent>(out var other)) continue;
+                if (other.groupID != groupID) continue;
+
+                Vector2 away = (Vector2)transform.position - (Vector2)other.transform.position;
+                float dist = away.magnitude;
+                if (dist > 0.001f)
+                    force += away.normalized * (separationRadius - dist) * separationStrength;
             }
-
-            if (isBouncing)
-                return false;
-
-            return navAgent != null && navAgent.isOnNavMesh;
+            return force;
         }
         #endregion
-
-        #region UnityCallbacks
-        protected override void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (isEnemyDead || fishSBrain == null)
-                return;
-
-            if (((1 << collision.gameObject.layer) & BrainSettings.wallLayer) == 0)
-                return;
-
-            Vector2 normal = collision.contacts[0].normal;
-            fishSBrain.ReflectDirection(normal, randomizePanic: true);
-
-            StopAllCoroutines();
-            StartCoroutine(WallBounceRoutine());
-        }
-        #endregion
-
-        public void FleeFrom(Vector2 targetPos)
-        {
-            fishSBrain?.FleeFrom(targetPos);
-        }
 
         protected override void HandleBulletHit(GameObject bullet)
         {
-            if (isEnemyDead)
-                return;
+            if (isEnemyDead) return;
+            if (bullet == null || !bullet.CompareTag(playerBulletTag)) return;
 
-            if (bullet == null || !bullet.CompareTag(playerBulletTag))
-                return;
-
-            FleeFrom(bullet.transform.position);
+            (fishSBrain as IBrainHitReaction)?.OnBulletHit();
         }
 
         protected override void HandlePlayerCollision()
         {
-            if (playerTransform != null)
-                FleeFrom(playerTransform.position);
+            if (isEnemyDead) return;
+            (fishSBrain as IBrainHitReaction)?.OnPlayerCollision();
         }
 
-        private IEnumerator WallBounceRoutine()
+        #region UnityCallbacks
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
         {
-            isBouncing = true;
+            if (brainSettings == null)
+                return;
 
-            int attempts = 0;
-            bool freeFromWall = false;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, brainSettings.fishClearanceRadius);
 
-            while (attempts < 10 && !freeFromWall)
-            {
-                if (!fishSBrain.IsDirectionBlocked())
-                {
-                    freeFromWall = true;
-                    break;
-                }
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + transform.right * brainSettings.wallCheckDistance);
 
-                float angle = Random.Range(45f, 135f);
-                fishSBrain.NudgeDirection(angle);
-                attempts++;
-                yield return null;
-            }
+            Gizmos.color = Color.green;
+            Vector2 facingDir = Application.isPlaying && facingCtr != null
+                ? facingCtr.GetFacingDirection() : transform.right;
 
-            fishSBrain.ApplyBounceDestination();
-            isBouncing = false;
+            Vector3 leftDir  = Quaternion.Euler(0f, 0f,  brainSettings.viewAngle * 0.5f) * facingDir;
+            Vector3 rightDir = Quaternion.Euler(0f, 0f, -brainSettings.viewAngle * 0.5f) * facingDir;
+
+            Gizmos.DrawLine(transform.position, transform.position + leftDir  * brainSettings.detectDistance);
+            Gizmos.DrawLine(transform.position, transform.position + rightDir * brainSettings.detectDistance);
+            Gizmos.DrawWireSphere(transform.position, brainSettings.detectDistance);
         }
+#endif
+        #endregion
     }
 }

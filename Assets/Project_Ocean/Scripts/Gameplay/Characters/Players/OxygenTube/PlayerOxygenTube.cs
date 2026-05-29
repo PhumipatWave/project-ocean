@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,8 +7,6 @@ namespace Game.Testing
 {
     public class PlayerOxygenTube : MonoBehaviour
     {
-        private const float LengthWarningMargin = 20f;
-
         [Header("Reference Points")]
         [SerializeField] private LineRenderer line;
         [SerializeField] private GameObject startPointPrefab;
@@ -60,6 +59,8 @@ namespace Game.Testing
         private float currentLength;
         private float reduchMaxRopeLenght;
         private int wrapCooldown;
+
+        private Coroutine breakLimitCoroutine;
 
         public float CurrentLength => currentLength;
         public float ReduceMaxRopeLenght
@@ -142,9 +143,7 @@ namespace Game.Testing
             if (currentOxygenTubeLength == null) return;
 
             currentOxygenTubeLength.enabled = true;
-            currentOxygenTubeLength.color = currentLength >= maxRopeLength - LengthWarningMargin
-                ? Color.red
-                : Color.white;
+            currentOxygenTubeLength.color = currentLength >= maxRopeLength ? Color.red : Color.white;
             currentOxygenTubeLength.text = $"Length : {(int)currentLength} m.";
         }
 
@@ -198,13 +197,41 @@ namespace Game.Testing
             Rebuild();
         }
 
+        private IEnumerator BreakLimitRoutine()
+        {
+            yield return new WaitForSeconds(5f);
+
+            ResetRopeData();
+            GameManager.Instance.ReturnToLand();
+        }
+
         private void CheckRopeLimit()
         {
-            if (currentLength <= maxRopeLength) return;
+            if (currentLength <= maxRopeLength)
+            {
+                if (breakLimitCoroutine != null)
+                {
+                    StopCoroutine(breakLimitCoroutine);
+                    breakLimitCoroutine = null;
 
+                    Debug.Log($"Stopping break limit routine. {breakLimitCoroutine}");
+                }
+            }
+            else
+            {
+                if (breakLimitCoroutine == null)
+                {
+                    breakLimitCoroutine = StartCoroutine(BreakLimitRoutine());
+                    Debug.Log($"Starting break limit routine. {breakLimitCoroutine}");
+                }
+            }
+        }
+
+        public void ResetRopeData()
+        {
             Debug.Log("[PlayerOxygenTube] Rope limit exceeded — resetting.");
 
-            endPoint.position = startPoint.transform.position;
+            endPoint.position = startPoint == null ? endPoint.position = Vector2.zero : startPoint.transform.position;
             anchors.Clear();
             subRopes.Clear();
             wrapCooldown = 0;
@@ -213,8 +240,6 @@ namespace Game.Testing
             checkpoint.ClearAll();
             Rebuild();
             ropeVisual.Draw(subRopes);
-
-            GameManager.Instance.ReturnToLand();
         }
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
