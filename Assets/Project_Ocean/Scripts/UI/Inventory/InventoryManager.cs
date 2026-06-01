@@ -37,7 +37,7 @@ namespace Game.Testing
             int startSlot = 5;
             for (int i = 0; i < inventorySlots.Length; i++)
             {
-                if (i >= startSlot && i != 15 && i != 16)
+                if (i >= startSlot && i != 14 && i != 15)
                 {
                     inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
