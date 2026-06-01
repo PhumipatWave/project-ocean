@@ -29,8 +29,16 @@ namespace Game.Testing
             PickNewWanderTarget();
         }
 
-        public override void Tick(float deltaTime)
+public override void Tick(float deltaTime)
         {
+            // Check for player FIRST — before committing to any wander movement.
+            // This eliminates the delay where the fish walks into the player before fleeing.
+            if (ShouldTransitionAway())
+            {
+                OnPlayerDetected();
+                return;
+            }
+
             wanderTimer -= deltaTime;
 
             if (wanderTimer <= 0f || HasArrived())
@@ -41,9 +49,6 @@ namespace Game.Testing
 
             ApplyMovement();
             UpdateFacing();
-
-            if (ShouldTransitionAway())
-                OnPlayerDetected();
         }
 
         private void PickNewWanderTarget()
@@ -83,8 +88,20 @@ namespace Game.Testing
                 && vision.CheckLineOfSight();
         }
 
-        private void OnPlayerDetected()
+private void OnPlayerDetected()
         {
+            // Flee fish go directly to the dedicated EnemyFleeState
+            if (profile.followBehavior == EnemyFollowBehavior.Flee
+                && enemyFSM.HasState(EnemyStateTag.Flee))
+            {
+                if (profile.alertNearbyAllies)
+                    AlertNearbyAllies();
+
+                enemyFSM.TransitionTo(EnemyStateTag.Flee);
+                return;
+            }
+
+            // All other behaviors use the Follow state as before
             if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
                 follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
 
