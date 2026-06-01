@@ -93,25 +93,36 @@ namespace Game.Testing
                 pathfinder.SetSafeDestinationNear(LastKnownPlayerPosition);
         }
 
-        private void MoveAwayFromLastKnownPosition()
+private void MoveAwayFromLastKnownPosition()
         {
-            Vector3 awayDir = (enemyBrainContext.Transform.position - LastKnownPlayerPosition).normalized;
+            // Always use the CURRENT player position for flee direction if we can still see them,
+            // so the fish continuously re-evaluates away from where the player actually is.
+            Vector3 fromPosition = (enemyBrainContext.PlayerTransform != null)
+                ? enemyBrainContext.PlayerTransform.position
+                : LastKnownPlayerPosition;
+
+            Vector3 awayDir = (enemyBrainContext.Transform.position - fromPosition).normalized;
             if (awayDir == Vector3.zero)
                 awayDir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f).normalized;
 
-            if (Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.Agent.destination) >= 0.5f)
+            // Only pick a new flee destination when close to (or past) the current one.
+            // Use a generous threshold so we don't spam SetDestination every frame.
+            float distToCurrentDest = Vector2.Distance(
+                enemyBrainContext.Transform.position,
+                enemyBrainContext.Agent.destination
+            );
+
+            if (distToCurrentDest > 1.5f)
                 return;
 
-            for (float distance = 3f; distance >= 1f; distance -= 1f)
+            // Try increasing distances away from the player
+            for (float distance = 5f; distance >= 1f; distance -= 1f)
             {
                 Vector3 candidate = enemyBrainContext.Transform.position + awayDir * distance;
                 candidate.z = enemyBrainContext.Transform.position.z;
                 if (enemyBrainContext.Agent.SetDestination(candidate))
                     return;
             }
-
-            Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f).normalized;
-            enemyBrainContext.Agent.SetDestination(enemyBrainContext.Transform.position + randomDir * 2f);
         }
 
         private void TryTransitionToAttack(bool targetKnown)

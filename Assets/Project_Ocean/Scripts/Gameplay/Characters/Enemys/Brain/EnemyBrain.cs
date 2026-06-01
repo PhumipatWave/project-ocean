@@ -24,7 +24,7 @@ namespace Game.Testing
             this.profile = profile;
         }
 
-        public override void Initialize(EnemyBrainContext context)
+public override void Initialize(EnemyBrainContext context)
         {
             base.Initialize(context);
 
@@ -44,7 +44,7 @@ namespace Game.Testing
                 profile.nearPlayerSearchStep
             );
 
-            vision = new EnemyVision(profile, context);
+            vision      = new EnemyVision(profile, context);
             followState = new EnemyFollowState(profile, pathfinder, vision);
             attackState = profile.canAttack
                 ? new EnemyAttackState(profile, pathfinder, vision)
@@ -52,6 +52,10 @@ namespace Game.Testing
 
             enemyFSM.Register(new EnemyWanderState(profile, pathfinder, vision));
             enemyFSM.Register(followState);
+
+            // Register dedicated flee state when behavior is set to Flee
+            if (profile.followBehavior == EnemyFollowBehavior.Flee)
+                enemyFSM.Register(new EnemyFleeState(profile, pathfinder));
 
             if (profile.searchAfterLost)
             {
