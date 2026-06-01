@@ -42,6 +42,15 @@ namespace Game.Testing
                 attackWarningImage.SetActive(true);
         }
 
+public void ShowFleeWarning()
+        {
+            // Reuse the seen-player alert icon to show the fish has spotted the player
+            if (seenPlayerAlertImage != null)
+                seenPlayerAlertImage.SetActive(true);
+            wasSeeingPlayer = true;
+        }
+
+
         public void HideAttackWarning()
         {
             if (attackWarningImage != null)
