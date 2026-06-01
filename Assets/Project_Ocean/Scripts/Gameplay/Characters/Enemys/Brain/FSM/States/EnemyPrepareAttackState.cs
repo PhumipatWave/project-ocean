@@ -1,15 +1,15 @@
 namespace Game.Testing
 {
-    public class EnemyPrepareState : EnemyStateBase
+    public class EnemyPrepareAttackState : EnemyStateBase
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Prepare;
 
-        private readonly EnemyBrainProfile profile;
+        private readonly AggressiveEnemyProfile profile;
         private readonly EnemyVision vision;
 
         private float prepareTimer;
 
-        public EnemyPrepareState(EnemyBrainProfile profile, EnemyVision vision)
+        public EnemyPrepareAttackState(AggressiveEnemyProfile profile, EnemyVision vision)
         {
             this.profile = profile;
             this.vision = vision;

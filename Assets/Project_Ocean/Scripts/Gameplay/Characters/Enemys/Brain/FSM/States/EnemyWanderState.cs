@@ -6,14 +6,14 @@ namespace Game.Testing
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Wander;
 
-        private readonly EnemyBrainProfile profile;
+        private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
         private readonly EnemyVision vision;
 
         private float wanderTimer;
         private Vector3 wanderTarget;
 
-        public EnemyWanderState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyWanderState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
@@ -29,7 +29,7 @@ namespace Game.Testing
             PickNewWanderTarget();
         }
 
-public override void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             // Check for player FIRST — before committing to any wander movement.
             // This eliminates the delay where the fish walks into the player before fleeing.
@@ -90,32 +90,51 @@ public override void Tick(float deltaTime)
 
 private void OnPlayerDetected()
         {
-            // Flee fish go directly to the dedicated EnemyFleeState
-            if (profile.followBehavior == EnemyFollowBehavior.Flee
+            // Scared fish → immediately flee
+            if (profile is ScaredEnemyProfile scaredProfile
                 && enemyFSM.HasState(EnemyStateTag.Flee))
             {
-                if (profile.alertNearbyAllies)
-                    AlertNearbyAllies();
-
+                if (scaredProfile.alertNearbyAllies) AlertNearbyAllies(scaredProfile.groupAlertRadius);
                 enemyFSM.TransitionTo(EnemyStateTag.Flee);
                 return;
             }
 
-            // All other behaviors use the Follow state as before
-            if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
-                follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
+            // Friendly fish → bias next wander point away from player, stay in Wander
+            if (profile is FriendlyEnemyProfile)
+            {
+                if (enemyBrainContext.PlayerTransform != null)
+                {
+                    Vector3 selfPos   = enemyBrainContext.Transform.position;
+                    Vector3 playerPos = enemyBrainContext.PlayerTransform.position;
+                    Vector3 awayDir   = (selfPos - playerPos).normalized;
+                    if (awayDir == Vector3.zero)
+                        awayDir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f).normalized;
 
-            if (profile.alertNearbyAllies)
-                AlertNearbyAllies();
+                    Vector3 candidate = selfPos + awayDir * profile.wanderRadius;
+                    candidate.z = selfPos.z;
 
-            enemyFSM.TransitionTo(EnemyStateTag.Follow);
+                    if (!pathfinder.SetSafeDestination(candidate))
+                        pathfinder.TryPickWanderPoint(selfPos, profile.wanderRadius, out candidate);
+                }
+                return;
+            }
+
+            // Aggressive fish → Follow state
+            if (profile is AggressiveEnemyProfile aggressiveProfile)
+            {
+                if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
+                    follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
+
+                if (aggressiveProfile.alertNearbyAllies) AlertNearbyAllies(aggressiveProfile.groupAlertRadius);
+                enemyFSM.TransitionTo(EnemyStateTag.Follow);
+            }
         }
 
-        private void AlertNearbyAllies()
+private void AlertNearbyAllies(float radius)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(
                 enemyBrainContext.Transform.position,
-                profile.groupAlertRadius
+                radius
             );
 
             foreach (var hit in hits)

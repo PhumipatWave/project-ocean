@@ -6,7 +6,7 @@ namespace Game.Testing
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Follow;
 
-        private readonly EnemyBrainProfile profile;
+        private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
         private readonly EnemyVision vision;
 
@@ -20,7 +20,7 @@ namespace Game.Testing
 
         public void SetHitChaseTimer(float duration) { hitChaseTimer = duration; }
 
-        public EnemyFollowState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyFollowState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
@@ -69,7 +69,7 @@ namespace Game.Testing
                 return;
             }
 
-            if (profile.followBehavior == EnemyFollowBehavior.Flee)
+            if (profile is FriendlyEnemyProfile)
                 MoveAwayFromLastKnownPosition();
             else
                 MoveTowardLastKnownPosition();
@@ -93,7 +93,7 @@ namespace Game.Testing
                 pathfinder.SetSafeDestinationNear(LastKnownPlayerPosition);
         }
 
-private void MoveAwayFromLastKnownPosition()
+        private void MoveAwayFromLastKnownPosition()
         {
             // Always use the CURRENT player position for flee direction if we can still see them,
             // so the fish continuously re-evaluates away from where the player actually is.
@@ -125,42 +125,41 @@ private void MoveAwayFromLastKnownPosition()
             }
         }
 
-        private void TryTransitionToAttack(bool targetKnown)
+private void TryTransitionToAttack(bool targetKnown)
         {
-            if (!profile.canAttack || !targetKnown || profile.followBehavior == EnemyFollowBehavior.Flee)
-                return;
+            if (!(profile is AggressiveEnemyProfile ap)) return;
+            if (!ap.canAttack || !targetKnown) return;
 
             float distance = enemyBrainContext.PlayerTransform != null
                 ? Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position)
                 : float.MaxValue;
 
-            bool closeEnough = distance <= profile.detectDistance * 0.75f;
-            if (!closeEnough || attackTimer > 0f)
-                return;
+            bool closeEnough = distance <= ap.detectDistance * 0.75f;
+            if (!closeEnough || attackTimer > 0f) return;
 
-            if (profile.prepareBeforeAttack && enemyFSM.HasState(EnemyStateTag.Prepare))
+            if (ap.prepareBeforeAttack && enemyFSM.HasState(EnemyStateTag.Prepare))
             {
                 enemyFSM.TransitionTo(EnemyStateTag.Prepare);
                 return;
             }
         }
 
-        private void TryBiteDuringFollow()
+private void TryBiteDuringFollow()
         {
-            if (!profile.canAttack || profile.prepareBeforeAttack || profile.followBehavior == EnemyFollowBehavior.Flee)
-                return;
+            if (!(profile is AggressiveEnemyProfile ap)) return;
+            if (!ap.canAttack || ap.prepareBeforeAttack) return;
 
             float distance = Vector2.Distance(enemyBrainContext.Transform.position, LastKnownPlayerPosition);
-            if (distance > profile.attackRange || attackTimer > 0f)
-                return;
+            if (distance > ap.attackRange || attackTimer > 0f) return;
 
-            enemyBrainContext.Player?.TakeDamage(profile.attackDamage);
-            attackTimer = profile.attackCooldown;
+            enemyBrainContext.Player?.TakeDamage(ap.attackDamage);
+            attackTimer = ap.attackCooldown;
         }
 
-        private void TransitionOnLost()
+private void TransitionOnLost()
         {
-            if (hasSeenPlayer && profile.searchAfterLost)
+            var ap = profile as AggressiveEnemyProfile;
+            if (hasSeenPlayer && ap != null && ap.searchAfterLost)
                 TransitionToSearchOrWander(LastKnownPlayerPosition);
             else
                 enemyFSM.TransitionTo(EnemyStateTag.Wander);

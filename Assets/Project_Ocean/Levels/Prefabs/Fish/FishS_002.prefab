@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
-  fishAlertUI: {fileID: 0}
+  fishAlertUI: {fileID: 1701520036719208104}
   playerBulletTag: Bullet
   playerTag: Player
   visualFlipRoot: {fileID: 451313080173570013}
@@ -246,7 +246,7 @@ MonoBehaviour:
   attackAngleThreshold: 15
   facingTurnMode: 0
   turnSpeed: 5
-  brainProfile: {fileID: 11400000, guid: afa1de4371a729746b245587d312ca39, type: 2}
+  brainProfile: {fileID: 11400000, guid: 44e0ad4dad71695479632f1a5b47ef0e, type: 2}
 --- !u!114 &1701520036719208104
 MonoBehaviour:
   m_ObjectHideFlags: 0

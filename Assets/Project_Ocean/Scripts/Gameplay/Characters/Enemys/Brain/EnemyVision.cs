@@ -4,13 +4,13 @@ namespace Game.Testing
 {
     public class EnemyVision
     {
-        private readonly EnemyBrainProfile profile;
+        private readonly EnemyBaseProfile profile;
         private readonly EnemyBrainContext context;
 
         private bool wasInDetectRadius;
         private bool couldSeeLastTick;
 
-        public EnemyVision(EnemyBrainProfile profile, EnemyBrainContext context)
+        public EnemyVision(EnemyBaseProfile profile, EnemyBrainContext context)
         {
             this.profile = profile;
             this.context = context;

@@ -7,7 +7,7 @@ namespace Game.Testing
     /// Abstract base ScriptableObject shared by all enemy brain settings.
     /// Contains every field that is common to ALL enemy types.
     /// </summary>
-    public abstract class EnemyBrainSettingsBase : ScriptableObject
+    public abstract class EnemyBaseProfile : ScriptableObject
     {
         [Header("Movement")]
         [Tooltip("Normal movement speed used while wandering or following.")]

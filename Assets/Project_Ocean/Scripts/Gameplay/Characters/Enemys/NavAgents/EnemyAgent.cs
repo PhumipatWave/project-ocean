@@ -4,7 +4,7 @@ namespace Game.Testing
 {
     public class EnemyAgent : EnemyNavAgentBase
     {
-        [SerializeField] private EnemyBrainProfile brainProfile;
+        [SerializeField] private EnemyBaseProfile brainProfile;
 
         protected override IEnemyBrain CreateBrain()
         {
