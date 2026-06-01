@@ -16,42 +16,44 @@ namespace Game.Testing
         public override EnemyStateTag StateTag => EnemyStateTag.Flee;
 
         // ── Dependencies ─────────────────────────────────────────────────
-        private readonly EnemyBrainProfile  profile;
+        private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
 
         // ── Runtime ──────────────────────────────────────────────────────
         private Vector2 currentDirection;
-        private float   safeTimer; // counts down while player is out of range
+        private float   safeTimer;       // counts down while player is out of range
+        private float   minFleeTimer;    // must flee for at least this long before returning to Wander
+        private const float MinFleeDuration = 1.5f; // counts down while player is out of range
 
         // ── Constructor ──────────────────────────────────────────────────
-        public EnemyFleeState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder)
+        public EnemyFleeState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder)
         {
             this.profile    = profile;
             this.pathfinder = pathfinder;
         }
 
         // ── Enter ─────────────────────────────────────────────────────────
-        public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
+public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            ResumeAgent(profile.speed);
-            safeTimer = profile.followAfterLost;
+            ResumeAgent(profile.speed * 1.5f);  // flee boost
+            safeTimer    = profile.followAfterLost;
+            minFleeTimer = MinFleeDuration;
             enemyBrainContext.AlertUI?.ShowFleeWarning();
-            PickFleeDestination(); // immediate first flee point
+            PickFleeDestination();
         }
 
         // ── Tick ──────────────────────────────────────────────────────────
-        public override void Tick(float deltaTime)
+public override void Tick(float deltaTime)
         {
+            if (minFleeTimer > 0f) minFleeTimer -= deltaTime;
+
             if (enemyBrainContext.PlayerTransform == null)
             {
-                ReturnToWander();
+                if (minFleeTimer <= 0f) ReturnToWander();
                 return;
             }
 
-            // Distance-only detection — no facing cone.
-            // This means the player is ALWAYS visible to a fleeing fish,
-            // regardless of which direction the fish is facing.
             float dist = Vector2.Distance(
                 enemyBrainContext.Transform.position,
                 enemyBrainContext.PlayerTransform.position
@@ -61,21 +63,38 @@ namespace Game.Testing
 
             if (playerNearby)
             {
-                safeTimer = profile.followAfterLost; // reset countdown
+                safeTimer = profile.followAfterLost;
 
-                // Re-pick a flee point whenever we are close to the current destination
                 float distToDest = Vector2.Distance(
                     enemyBrainContext.Transform.position,
                     enemyBrainContext.Agent.destination
                 );
 
-                if (distToDest < 1.5f)
+                // Check if the player is cutting into the flee path:
+                // project player-to-fish direction onto current flee direction.
+                // If the dot is negative the player is moving into our path — re-route.
+                Vector3 selfPos      = enemyBrainContext.Transform.position;
+                Vector3 playerPos    = enemyBrainContext.PlayerTransform.position;
+                Vector3 toDest       = ((Vector3)enemyBrainContext.Agent.destination - selfPos).normalized;
+                Vector3 toPlayer     = (playerPos - selfPos).normalized;
+                float   dot          = Vector3.Dot(toDest, toPlayer);
+
+                // dot > 0.5 means player is roughly ahead on our escape route
+                bool playerBlockingPath = dot > 0.5f;
+
+                if (distToDest < 1.5f || playerBlockingPath)
+                {
                     PickFleeDestination();
+
+                    // Give a little extra flee time when the player cuts us off
+                    if (playerBlockingPath)
+                        safeTimer += 0.8f;
+                }
             }
             else
             {
                 safeTimer -= deltaTime;
-                if (safeTimer <= 0f)
+                if (safeTimer <= 0f && minFleeTimer <= 0f)
                 {
                     ReturnToWander();
                     return;
@@ -123,6 +142,18 @@ namespace Game.Testing
             // Fallback: let pathfinder find any valid nearby point
             if (pathfinder.TryPickWanderPoint(selfPos, maxDist * 0.5f, out Vector3 fallback))
                 enemyBrainContext.Agent.SetDestination(fallback);
+        }
+
+        /// <summary>
+        /// Called when the fish is hit mid-flee or triggered by a bullet.
+        /// Bumps speed higher than the normal flee boost for a panic burst.
+        /// </summary>
+        public void EnterPanic()
+        {
+            SetAgentSpeed(profile.speed * 2.2f);  // panic boost, higher than normal flee (1.5x)
+            minFleeTimer = Mathf.Max(minFleeTimer, MinFleeDuration);  // reset min flee time
+            safeTimer    = Mathf.Max(safeTimer, profile.followAfterLost);
+            PickFleeDestination();  // immediately re-route away
         }
 
         private void ReturnToWander()
