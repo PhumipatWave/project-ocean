@@ -9,39 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c79b4f6f5cd2441a379d14cc5ae1f1, type: 3}
-  m_Name: BrainProfileS
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyBrainProfile
+  m_Script: {fileID: 11500000, guid: 2ee5cd72c16c45e44b094c3020f552e1, type: 3}
+  m_Name: ScaredEnemyProfile
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ScaredEnemyProfile
   speed: 4
   viewDistance: 18
   viewAngle: 90
   visionObstacleMask:
     serializedVersion: 2
     m_Bits: 128
-  debugVision: 1
+  debugVision: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
   wallDetectDistance: 2
   wanderRadius: 35
   wanderInterval: 7.5
-  hitChaseDuration: 4
+  hitChaseDuration: 5
   chasePlayerWhenHit: 0
   followAfterLost: 6
-  followBehavior: 1
-  searchAfterLost: 0
-  prepareBeforeAttack: 0
-  canAttack: 0
   alertNearbyAllies: 1
   fishClearanceRadius: 0.5
   maxWanderSampleTries: 20
-  searchDuration: 6
-  searchRadius: 25
-  prepareTime: 2.25
-  boostSpeed: 35
-  attackRange: 1.5
-  attackCooldown: 3
-  attackDamage: 7.5
   groupAlertRadius: 3
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24

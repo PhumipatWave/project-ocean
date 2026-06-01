@@ -6,7 +6,7 @@ namespace Game.Testing
     {
         public override EnemyStateTag StateTag => EnemyStateTag.Attack;
 
-        private readonly EnemyBrainProfile profile;
+        private readonly AggressiveEnemyProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
         private readonly EnemyVision vision;
 
@@ -15,7 +15,7 @@ namespace Game.Testing
 
         public bool IsAttacking { get; private set; }
 
-        public EnemyAttackState(EnemyBrainProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyAttackState(AggressiveEnemyProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
