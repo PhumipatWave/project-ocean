@@ -9,14 +9,19 @@ namespace Game.Testing
         public static SaveBridge Instance { get; private set; }
 
         // Flag สำหรับโหลดจาก save
-        public static bool    IsLoadingSave  { get; private set; }
+        public static bool IsLoadingSave  { get; private set; }
         public static Vector3 LoadedPosition { get; private set; }
 
         public static void ClearLoadFlag() => IsLoadingSave = false;
 
         void Awake()
         {
-            if (Instance != null) { Destroy(this); return; }
+            if (Instance != null) 
+            { 
+                Destroy(this); 
+                return; 
+            }
+
             Instance = this;
         }
 
@@ -27,8 +32,8 @@ namespace Game.Testing
 
             var data = new SaveData
             {
-                gameState        = gm.GameState,
-                currentScene     = SceneManager.GetActiveScene().name,
+                gameState = gm.GameState,
+                currentScene = SceneManager.GetActiveScene().name,
                 miniHubAvailable = gm.MiniHubAvaliable,
             };
 
@@ -43,7 +48,7 @@ namespace Game.Testing
                 var tube = GameManager.CurPlayer.OxygenTube;
                 if (tube != null)
                 {
-                    data.maxRopeLength       = tube.MaxRopeLength;
+                    data.maxRopeLength = tube.MaxRopeLength;
                     data.reduceMaxRopeLength = tube.ReduceMaxRopeLenght;
                 }
 
@@ -66,8 +71,8 @@ namespace Game.Testing
                         data.inventoryItems.Add(new ItemSaveData
                         {
                             slotIndex = i,
-                            itemID    = item.item.itemID,
-                            count     = item.count,
+                            itemID = item.item.itemID,
+                            count = item.count,
                         });
                     }
                 }
@@ -82,7 +87,7 @@ namespace Game.Testing
             if (dmgUpgrade != null)
             {
                 data.damageUpgradeLevel = dmgUpgrade.level;
-                data.currentDamage      = dmgUpgrade.currentDamage;
+                data.currentDamage = dmgUpgrade.currentDamage;
             }
 
             // ✅ Rope Upgrade
@@ -103,9 +108,9 @@ namespace Game.Testing
             }
 
             var data = SaveSystem.Load();
-            var gm   = GameManager.Instance;
+            var gm = GameManager.Instance;
 
-            gm.GameState        = data.gameState;
+            gm.GameState = data.gameState;
             gm.MiniHubAvaliable = data.miniHubAvailable;
 
             if (GameManager.CurPlayer != null)
@@ -114,7 +119,7 @@ namespace Game.Testing
                 var tube = GameManager.CurPlayer.OxygenTube;
                 if (tube != null)
                 {
-                    tube.MaxRopeLength       = data.maxRopeLength;
+                    tube.MaxRopeLength = data.maxRopeLength;
                     tube.ReduceMaxRopeLenght = data.reduceMaxRopeLength;
                 }
 
