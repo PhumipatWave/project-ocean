@@ -1,5 +1,80 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &526632934823569896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1189540254670988588}
+  - component: {fileID: 6179414049491427951}
+  - component: {fileID: 808561058364803569}
+  m_Layer: 0
+  m_Name: InteractExclamation1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1189540254670988588
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526632934823569896}
+  m_LocalRotation: {x: -0, y: -0, z: -0.249409, w: 0.9683983}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 25.184803, y: 25.184803, z: 25.184803}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1906907154009936960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.885}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 5.62}
+  m_SizeDelta: {x: 0.32, y: 0.32}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6179414049491427951
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526632934823569896}
+  m_CullTransparentMesh: 1
+--- !u!114 &808561058364803569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526632934823569896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2807bdc13ab804a4db5b06b30f6c85a4, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &846189355789009714
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +184,8 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2029625344089777444}
+  - {fileID: 1189540254670988588}
+  - {fileID: 5646630694371870536}
   - {fileID: 1727401148484593938}
   m_Father: {fileID: 745126138116000233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -234,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 2342600035640313377}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalPosition: {x: -7.56, y: 0, z: 0}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -393,7 +470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 3.5}
+  m_AnchoredPosition: {x: -4.24, y: 3.5}
   m_SizeDelta: {x: 15, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2451360352138943922
@@ -510,9 +587,12 @@ GameObject:
   - component: {fileID: 8720175931245338848}
   - component: {fileID: 9112809200364948923}
   - component: {fileID: 5060759525976410366}
-  - component: {fileID: 635624327409578881}
-  - component: {fileID: 6346075893321601506}
-  - component: {fileID: 8238845052178538524}
+  - component: {fileID: 3802978148522981448}
+  - component: {fileID: 3224543569563154859}
+  - component: {fileID: 8338370958362172049}
+  - component: {fileID: 1983149326261336909}
+  - component: {fileID: 8810485351442315744}
+  - component: {fileID: 7134757233142562091}
   m_Layer: 0
   m_Name: FishM
   m_TagString: Enemy
@@ -598,8 +678,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -3.75, y: 0}
-  m_Size: {x: 14, y: 2.75}
+  m_Offset: {x: -7.2640505, y: 0.00000041890726}
+  m_Size: {x: 14.484863, y: 2.7500532}
   m_Direction: 1
 --- !u!195 &8720175931245338848
 NavMeshAgent:
@@ -647,15 +727,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
-  config: {fileID: 0}
-  maxHealthFallback: 100
+  maxHealth: 100
+  dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
   rb: {fileID: 0}
   fishSprite: {fileID: 3198828334094354248}
   anim: {fileID: 0}
-  dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
-  isHasAnim: 0
+  hasAnimator: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &635624327409578881
+  health: {fileID: 3802978148522981448}
+  loot: {fileID: 3224543569563154859}
+  enemyAnimation: {fileID: 8338370958362172049}
+  deathHandler: {fileID: 1983149326261336909}
+  navAgentHost: {fileID: 8810485351442315744}
+--- !u!114 &3802978148522981448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -664,11 +748,65 @@ MonoBehaviour:
   m_GameObject: {fileID: 9098824303329575402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b051a91f7575e246b78b8dff8643ccc, type: 3}
+  m_Script: {fileID: 11500000, guid: d89e6f3734701764cb23df7f4e30d500, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishM_Agent
-  config: {fileID: 0}
-  fishAlertUI: {fileID: 0}
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHealth
+  maxHealth: 100
+--- !u!114 &3224543569563154859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098824303329575402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
+  dropItem: {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
+--- !u!114 &8338370958362172049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098824303329575402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b3548c40a71b048a1f1d504a10295e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAnimation
+  hasAnimator: 1
+  anim: {fileID: 750136495173294735}
+--- !u!114 &1983149326261336909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098824303329575402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed664f5186ae3504383667c9dfc8017d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyDeathHandler
+  rb: {fileID: 393881358497423767}
+  fishSprite: {fileID: 3198828334094354248}
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &8810485351442315744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9098824303329575402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
+  fishAlertUI: {fileID: 7134757233142562091}
   playerBulletTag: Bullet
   playerTag: Player
   visualFlipRoot: {fileID: 6859541925114978355}
@@ -679,43 +817,98 @@ MonoBehaviour:
   flipCooldown: 0.5
   spriteAngleOffset: 0
   attackAngleThreshold: 15
-  facingTurnMode: 1
+  facingTurnMode: 0
   turnSpeed: 5
-  brainSettings: {fileID: 11400000, guid: e5f93e3f455d80b4faf9b8a0afd95e3a, type: 2}
---- !u!114 &6346075893321601506
+  brainProfile: {fileID: 11400000, guid: 23a62e95624578243979d715b8cfd7d0, type: 2}
+--- !u!114 &7134757233142562091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9098824303329575402}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d0c97eac3b6dfe4b86dbb3ace72cedb, type: 3}
+  m_Script: {fileID: 11500000, guid: 520b93f3992a37347aecd0ee6b1c72ed, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyWoundSystem
-  hitToOpen: 3
-  isWoundOpen: 0
-  burstMultiplier: 3
-  crossIcon: {fileID: 5202676717317691812}
---- !u!114 &8238845052178538524
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.FishAlertUI
+  seenPlayerAlertImage: {fileID: 526632934823569896}
+  attackWarningImage: {fileID: 9193850450313750017}
+--- !u!1 &9193850450313750017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5646630694371870536}
+  - component: {fileID: 5510168832547491579}
+  - component: {fileID: 4971391802004476241}
+  m_Layer: 0
+  m_Name: InteractExclamation2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5646630694371870536
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193850450313750017}
+  m_LocalRotation: {x: -0, y: -0, z: -0.249409, w: 0.9683983}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 25.184803, y: 25.184803, z: 25.184803}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1906907154009936960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.885}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 5.620003}
+  m_SizeDelta: {x: 0.32, y: 0.32}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5510168832547491579
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193850450313750017}
+  m_CullTransparentMesh: 1
+--- !u!114 &4971391802004476241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098824303329575402}
-  m_Enabled: 0
+  m_GameObject: {fileID: 9193850450313750017}
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fcf222aa7d28bd4c861cdfe73b30703, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHitbox
-  hitPart: 1
-  enemy: {fileID: 5060759525976410366}
-  woundSystem: {fileID: 6346075893321601506}
-  headDamage: 25
-  bodyDamage: 10
-  tailDamage: 5
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e4acf8e919294594c873c5c1603af808, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &9206617243502325059
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,11 +1065,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68b16896edefc1c4fb5963081fd398d5, type: 3}
---- !u!1 &5202676717317691812 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7178561231222710717, guid: 68b16896edefc1c4fb5963081fd398d5, type: 3}
-  m_PrefabInstance: {fileID: 3147103060245952537}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7774966339359770707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4632791410539081802, guid: 68b16896edefc1c4fb5963081fd398d5, type: 3}
