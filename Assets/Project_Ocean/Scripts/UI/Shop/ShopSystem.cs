@@ -8,27 +8,23 @@ namespace Game.Testing
     public class ShopSystem : MonoBehaviour
     {
         [Header("Play")]
-        public InventoryManager inventory;
-        public PlayerMoney playerMoney;
+        [SerializeField] private InventoryManager inventory;
+        [SerializeField] private PlayerMoney playerMoney;
 
         [Header("UI Objects (Drag & Drop Here)")]
-        public GameObject sellAllButton;      // ปุ่ม Sell All
-        public GameObject sellSelectButton;   // ปุ่ม Sell Select
-        public GameObject inventorySlot;      // พื้นหลังหน้าขายของ (Parent ของ Inventory Slots)
-        public GameObject shopbuySlot;        // พื้นหลังหน้าซื้อของ
+        [SerializeField] private GameObject sellAllButton;      // ปุ่ม Sell All
+        [SerializeField] private GameObject sellSelectButton;   // ปุ่ม Sell Select
+        [SerializeField] private GameObject inventorySlot;      // พื้นหลังหน้าขายของ (Parent ของ Inventory Slots)
+        [SerializeField] private GameObject shopbuySlot;        // พื้นหลังหน้าซื้อของ
 
         [Header("Display")]
-        public TMP_Text totalPriceText;       // แสดงราคารวมสำหรับขายทั้งหมดที่มีในกระเป๋า
-        public TMP_Text clickedItemPriceText; // แสดงราคาของชิ้นที่เราจิ้มเลือกอยู่ (ทั้งซื้อและขาย)
+        [SerializeField] private TMP_Text totalPriceText;       // แสดงราคารวมสำหรับขายทั้งหมดที่มีในกระเป๋า
+        [SerializeField] private TMP_Text clickedItemPriceText; // แสดงราคาของชิ้นที่เราจิ้มเลือกอยู่ (ทั้งซื้อและขาย)
         private bool isSellMode = true;
 
         [Header("Ammo UI Display")]
-        public TMP_Text[] ammoTexts;
+        [SerializeField] private TMP_Text[] ammoTexts;
         private int[] ammoCounts = new int[4];
-
-        [Header("Item UI Display (Sup Items)")]
-        public TMP_Text[] itemTexts;
-        private int[] itemCounts = new int[2];
 
         void Update()
         {
@@ -51,37 +47,7 @@ namespace Game.Testing
                 }
             }
 
-            RefreshSupportItemDisplay();
-
         } // UpdateUI ===
-
-        /// <summary>
-        /// WP_TextMH / WP_TextCP show live inventory counts (not shop-only counters).
-        /// </summary>
-        public void RefreshSupportItemDisplay()
-        {
-            if (itemTexts == null)
-                return;
-
-            if (itemTexts.Length > 0 && itemTexts[0] != null)
-                itemTexts[0].text = WeaponUIController.GetInventoryCount("CheckPoint").ToString();
-
-            if (itemTexts.Length > 1 && itemTexts[1] != null)
-                itemTexts[1].text = WeaponUIController.GetInventoryCount("MiniHub").ToString();
-
-            if (WeaponUIController.Instance != null)
-                WeaponUIController.Instance.Refresh();
-        }
-
-        public void OnSupportItemConsumed(string itemId)
-        {
-            if (itemId == "CheckPoint" && itemCounts[0] > 0)
-                itemCounts[0]--;
-            else if (itemId == "MiniHub" && itemCounts[1] > 0)
-                itemCounts[1]--;
-
-            RefreshSupportItemDisplay();
-        }
 
         // ระบบตรวจสอบไอเทมที่ถูกเลือกและแสดงราคาชิ้นนั้นๆ 
         void UpdateClickedItemPriceDisplay()
@@ -97,7 +63,7 @@ namespace Game.Testing
                     Draggableltem itemUI = selectedInventorySlot.GetComponentInChildren<Draggableltem>();
                     if (itemUI != null)
                     {
-                        int unitPrice = itemUI.item.sellPrice;
+                        int unitPrice = (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f); // Decrease price to 10% for selling
                         int totalValue = unitPrice * itemUI.count;
 
                         // แสดงทั้งราคาต่อชิ้น และราคารวมใน Stack ของมัน
@@ -123,7 +89,7 @@ namespace Game.Testing
                     if (itemInShop != null)
                     {
                         // แสดงราคาสำหรับซื้อ (Cost)
-                        clickedItemPriceText.text = $"Price: {itemInShop.item.buyPrice}";
+                        clickedItemPriceText.text = $"Price: {itemInShop.item.ItemPrice}";
                     }
                     else
                     {
@@ -189,7 +155,7 @@ namespace Game.Testing
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
                 if (itemUI != null)
                 {
-                    total += itemUI.item.sellPrice * itemUI.count;
+                    total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
                 }
             }
             return total;
@@ -207,7 +173,7 @@ namespace Game.Testing
             PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
             if (pm != null)
             {
-                int price = itemUI.item.sellPrice;
+                int price = itemUI.item.ItemPrice;
                 pm.AddMoney(price);
                 itemUI.count--;
                 itemUI.RefreshCount();
@@ -221,23 +187,28 @@ namespace Game.Testing
 
         public IEnumerator SellRoutine()
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
 
         public void SellAll()
         {
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm == null || InventoryManager.Instance == null) return;
+            PlayerMoney playerMoney = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+
+            if (playerMoney == null || InventoryManager.Instance == null) 
+                return;
 
             int total = 0;
             foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
             {
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null) continue;
-                total += itemUI.item.sellPrice * itemUI.count;
+
+                if (itemUI == null || itemUI.item.ItemType != ItemType.Normal)
+                    continue;
+
+                total += itemUI.item.ItemPrice * itemUI.count;
                 Destroy(itemUI.gameObject);
             }
-            pm.AddMoney(total);
+            playerMoney.AddMoney(total);
 
             StartCoroutine(SellRoutine());
 
@@ -264,35 +235,27 @@ namespace Game.Testing
                 {
                     PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
 
-                    if (pm.Money >= itemInShop.item.buyPrice)
+                    if (pm.Money >= itemInShop.item.ItemPrice)
                     {
-                        if (itemInShop.item.itemType == ItemType.Ammo)
+                        if (itemInShop.item.ItemType == ItemType.Ammo)
                         {
                             if (itemInShop.item.name.Contains("Ammo1")) ammoCounts[0]++;
                             else if (itemInShop.item.name.Contains("Ammo2")) ammoCounts[1]++;
                             else if (itemInShop.item.name.Contains("Ammo3")) ammoCounts[2]++;
                             else if (itemInShop.item.name.Contains("Ammo4")) ammoCounts[3]++;
 
-                            pm.Use(itemInShop.item.buyPrice);
+                            pm.Use(itemInShop.item.ItemPrice);
                             UpdateUI();
                             Debug.Log("Bought Ammo: " + itemInShop.item.name);
                         }
                         else
                         {
-                            if (InventoryManager.Instance.AddItem(itemInShop.item))
+                            if (itemInShop.item.ItemType == ItemType.Building)
                             {
-                                pm.Use(itemInShop.item.buyPrice);
-
-                                if (itemInShop.item.itemID == "CheckPoint")
+                                if (InventoryManager.Instance.AddItem(itemInShop.item))
                                 {
-                                    itemCounts[0]++;
+                                    pm.Use(itemInShop.item.ItemPrice);
                                 }
-                                else if (itemInShop.item.itemID == "MiniHub")
-                                {
-                                    itemCounts[1]++;
-                                }
-
-                                RefreshSupportItemDisplay();
                             }
                         }
                     }
