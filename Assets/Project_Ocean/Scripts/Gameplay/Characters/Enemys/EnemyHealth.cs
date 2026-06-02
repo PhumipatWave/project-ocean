@@ -5,6 +5,7 @@ namespace Game.Testing
 {
     public class EnemyHealth : MonoBehaviour
     {
+        #region FieldsProperties
         [SerializeField] private float maxHealth = 100f;
 
         public event Action OnDamaged;
@@ -16,6 +17,7 @@ namespace Game.Testing
 
         private bool isDead;
         public bool IsDead => isDead;
+        #endregion
 
         public void Configure(float healthValue)
         {

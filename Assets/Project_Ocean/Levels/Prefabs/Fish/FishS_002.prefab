@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1288637817402062583}
   - component: {fileID: 8532016973429987040}
   - component: {fileID: 1701520036719208104}
+  - component: {fileID: 4965704280933918100}
   m_Layer: 0
   m_Name: FishS_002
   m_TagString: Enemy
@@ -261,6 +262,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.FishAlertUI
   seenPlayerAlertImage: {fileID: 8449666230385288555}
   attackWarningImage: {fileID: 6600862752285773283}
+--- !u!114 &4965704280933918100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908830399425127301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d5a83bd96a26b4abfcb9de452bf714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Boid
+  neighborRadius: 3
+  separationDistance: 1.5
+  coeffSeparation: 1.2
+  coeffAlignment: 0.5
+  coeffCohesion: 0.3
+  steeringLookAhead: 1.5
+  velocity: {x: 0, y: 0}
 --- !u!1 &2368906169473694655
 GameObject:
   m_ObjectHideFlags: 0

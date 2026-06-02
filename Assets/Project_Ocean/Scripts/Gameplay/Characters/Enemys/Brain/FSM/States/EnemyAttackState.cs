@@ -4,6 +4,7 @@ namespace Game.Testing
 {
     public class EnemyAttackState : EnemyStateBase
     {
+        #region FieldsProperties
         public override EnemyStateTag StateTag => EnemyStateTag.Attack;
 
         private readonly AggressiveEnemyProfile profile;
@@ -14,14 +15,18 @@ namespace Game.Testing
         private float attackTimer;
 
         public bool IsAttacking { get; private set; }
+        #endregion
 
+        #region Constructors
         public EnemyAttackState(AggressiveEnemyProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
             this.vision = vision;
         }
+        #endregion
 
+        #region StateCallbacks
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
@@ -32,18 +37,23 @@ namespace Game.Testing
             enemyBrainContext.AlertUI?.ShowAttackWarning();
         }
 
-        public override void Tick(float deltaTime)
+public override void Tick(float deltaTime)
         {
             attackTimer -= deltaTime;
 
+            // Player left the scene entirely — abort.
             if (enemyBrainContext.PlayerTransform == null)
             {
                 ReturnToFollow(false);
                 return;
             }
 
-            Vector3 playerPosition = enemyBrainContext.PlayerTransform.position;
-            float distance = Vector2.Distance(enemyBrainContext.Transform.position, playerPosition);
+            // Chase the last known position even through LOS breaks.
+            // This keeps the dash committed — a fish that wound up won't give up
+            // just because the player ducked behind a rock for a frame.
+            Vector3 targetPosition = enemyBrainContext.PlayerTransform.position;
+
+            float distance = Vector2.Distance(enemyBrainContext.Transform.position, targetPosition);
 
             if (distance <= profile.attackRange)
             {
@@ -57,13 +67,14 @@ namespace Game.Testing
                 return;
             }
 
-            if (!pathfinder.SetSafeDestination(playerPosition))
-                pathfinder.SetSafeDestinationNear(playerPosition);
+            if (!pathfinder.SetSafeDestination(targetPosition))
+                pathfinder.SetSafeDestinationNear(targetPosition);
 
             if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
                 enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
 
-            if (!vision.CheckLineOfSight() || attackTimer <= 0f)
+            // Only give up if the attack has run too long without connecting.
+            if (attackTimer <= 0f)
                 ReturnToFollow(false);
         }
 
@@ -73,6 +84,7 @@ namespace Game.Testing
             SetAgentSpeed(profile.speed);
             enemyBrainContext.AlertUI?.HideAttackWarning();
         }
+        #endregion
 
         private void ReturnToFollow(bool applyCooldown)
         {

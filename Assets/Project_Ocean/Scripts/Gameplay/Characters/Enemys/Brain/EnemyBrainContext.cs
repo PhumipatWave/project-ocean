@@ -14,9 +14,10 @@ namespace Game.Testing
         public EnemyFacingController Facing;
         public FishAlertUI AlertUI;
         public MonoBehaviour Host;
+        public FlockManager Flock;
+        public FlockLeader Leader;
 
         public Player Player => Owner != null ? Owner.Player : null;
-
         public Transform PlayerTransform => Player != null ? Player.transform : null;
 
         public bool IsDead => Owner != null && Owner.IsDeath;
