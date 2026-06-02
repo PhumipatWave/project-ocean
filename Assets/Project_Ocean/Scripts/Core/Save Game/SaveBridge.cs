@@ -71,7 +71,7 @@ namespace Game.Testing
                         data.inventoryItems.Add(new ItemSaveData
                         {
                             slotIndex = i,
-                            itemID = item.item.itemID,
+                            itemID = item.item.ItemID.ToString(),
                             count = item.count,
                         });
                     }
@@ -146,10 +146,10 @@ namespace Game.Testing
                 {
                     if (saved.slotIndex >= slots.Length) continue;
 
-                    var item = InventoryManager.Instance.FindItem(ItemType.Normal, saved.itemID)
-                            ?? InventoryManager.Instance.FindItem(ItemType.Consumable, saved.itemID)
-                            ?? InventoryManager.Instance.FindItem(ItemType.Building, saved.itemID)
-                            ?? InventoryManager.Instance.FindItem(ItemType.Quest, saved.itemID);
+                    var item = InventoryManager.Instance.FindItem(ItemType.Normal, int.Parse(saved.itemID))
+                            ?? InventoryManager.Instance.FindItem(ItemType.Consumable, int.Parse(saved.itemID))
+                            ?? InventoryManager.Instance.FindItem(ItemType.Building, int.Parse(saved.itemID))
+                            ?? InventoryManager.Instance.FindItem(ItemType.Quest, int.Parse(saved.itemID));
 
                     if (item == null)
                     {
