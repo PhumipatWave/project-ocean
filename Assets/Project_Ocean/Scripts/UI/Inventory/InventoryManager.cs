@@ -13,7 +13,11 @@ namespace Game.Testing
 
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
-        
+
+        [Header("Item Database")]
+        // ลากไฟล์ไอเทม (.asset) ทั้งหมดในเกมมาใส่รวมกันไว้ในอาร์เรย์นี้ที่หน้าต่าง Inspector
+        [SerializeField] private Item[] allItems;
+
         int selectedSlot = -1;
 
         public static InventoryManager Instance { get; private set; }
@@ -248,5 +252,92 @@ namespace Game.Testing
 
             Debug.Log("UnLocked Slot Full!!!");
         } // UnlockNextSlot ===
+
+        // Quest ==================================================
+        public bool HasQuestItem(int itemId)
+        {
+            // วนลูปตรวจเช็กสล็อตทั้งหมดในกระเป๋าของคุณ
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i] == null) continue;
+
+                // ดึงสคริปต์ Draggableltem (ตัวพิมพ์แอลเล็ก) ที่อยู่ภายในช่องสล็อตออกมาเช็ก
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                // ตรวจเช็กว่าถ้ามีไอเทมอยู่ในช่อง และข้อมูล itemID ตรงกับที่เควสต้องการ
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                {
+                    return true; // เจอไอเทมส่งเควสในกระเป๋าแล้ว!
+                }
+            }
+            return false;
+        }
+
+        public void RemoveQuestItem(int itemId)
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i] == null) continue;
+
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                {
+                    // ลอจิกการหักของ: ถ้าในกองไอเทมมีจำนวนมากกว่า 1 ชิ้น
+                    if (itemInSlot.count > 1)
+                    {
+                        itemInSlot.count--; // ลดจำนวนลง 1
+                        itemInSlot.RefreshCount(); // เรียกใช้ฟังก์ชันอัปเดตตัวเลข UI บนสล็อตจริงของคุณ
+                    }
+                    else
+                    {
+                        // ถ้าเหลือเป็นชิ้นสุดท้าย ให้ทำลาย GameObject ของไอเทมนั้นทิ้งทันที
+                        Destroy(itemInSlot.gameObject);
+                    }
+                    return; // เมื่อหักของชิ้นแรกที่เจอเรียบร้อยแล้ว ให้จบลูปทันที
+                }
+            }
+        }
+
+        public void AddRewardItem(int itemId)
+        {
+            Debug.Log("QuestManager สั่งจ่ายไอเทมรางวัลรหัส: " + itemId);
+
+            // 1. วนลูปค้นหาไฟล์ข้อมูลไอเทมในคลัง (allItems) ที่มี itemID ตรงกับที่เควสส่งมา
+            Item rewardItem = null;
+            if (allItems != null)
+            {
+                foreach (Item item in allItems)
+                {
+                    if (item != null && item.ItemID == itemId)
+                    {
+                        rewardItem = item;
+                        break;
+                    }
+                }
+            }
+
+            // 2. ถ้าเจอไอเทมในคลัง ให้ทำการแอดเข้ากระเป๋าโดยใช้ฟังก์ชัน AddItem ตัวเดิมของคุณ
+            if (rewardItem != null)
+            {
+                // ฟังก์ชัน AddItem จะหาช่องว่างและเสก Prefab (SpawnNewItem) ให้เองตามลอจิกเดิมของคุณ
+                bool isAdded = AddItem(rewardItem);
+
+                if (isAdded)
+                {
+                    Debug.Log($"[Quest Reward] ผู้เล่นได้รับไอเทมรางวัล: {rewardItem.ItemName} เรียบร้อยแล้ว!");
+                }
+                else
+                {
+                    Debug.LogWarning("กระเป๋าเต็ม! ไม่สามารถรับไอเทมรางวัลจากเควสได้");
+                    // 💡 ทริคเสริม: ถ้าอยากทำไอเทมตกพื้น สามารถเขียนโค้ด Instantiate(rewardItem.itemPrefab) ตรงนี้ได้เลยครับ
+                }
+            }
+            else
+            {
+                Debug.LogError($"ไม่พบไอเทมที่มี ID: '{itemId}' ในคลัง All Items ของ InventoryManager! กรุณาตรวจสอบการลากไฟล์ลงช่องบอร์ด");
+            }
+        }
+
     } // InventoryManager ===
 }
