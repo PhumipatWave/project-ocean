@@ -11,11 +11,8 @@ namespace Game.Testing
 
         [SerializeField] private AudioClip openInventorySound;
 
-        public int maxStackedItems = 4;
         public InventorySlot[] inventorySlots;
         public GameObject InventoryItemPrefab;
-
-        [SerializeField] private TextMeshProUGUI miniHubCount;
 
         [Header("Item Database")]
         // ลากไฟล์ไอเทม (.asset) ทั้งหมดในเกมมาใส่รวมกันไว้ในอาร์เรย์นี้ที่หน้าต่าง Inspector
@@ -44,7 +41,7 @@ namespace Game.Testing
             int startSlot = 5;
             for (int i = 0; i < inventorySlots.Length; i++)
             {
-                if (i >= startSlot)
+                if (i >= startSlot && i != 14 && i != 15)
                 {
                     inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
@@ -54,9 +51,6 @@ namespace Game.Testing
 
         private void Update()
         {
-            //if (GameManager.Instance.GameState != GameState.Ocean)
-            //    return;
-
             if (Input.GetButtonDown("Inventory") && menuActivetad)
             {
                 OpenInventory();
@@ -75,20 +69,6 @@ namespace Game.Testing
                     ChangeSelectedSlot(number -1);
                 }
             }
-
-            /*if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                ChangeSelectedSlot(0);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                ChangeSelectedSlot(1);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                ChangeSelectedSlot(2);
-            }*/
-            
         }
 
         public void OpenInventory()
@@ -120,32 +100,67 @@ namespace Game.Testing
 
         public bool AddItem(Item item)
         {
-
-            for (int i = 0; i < inventorySlots.Length; i++)
+            if (item.ItemType == ItemType.Building)
             {
-                InventorySlot slot = inventorySlots[i];
-                if (!slot.isUnlocked) continue;
-                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
-                if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackedItems)
+                Draggableltem buildingItemSlot01 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
+                if (buildingItemSlot01 == null)
                 {
-                    itemInSlot.count++;
-                    itemInSlot.RefreshCount();
+                    SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
+                else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
+                {
+                    buildingItemSlot01.count++;
+                    buildingItemSlot01.RefreshCount();
+                    return true;
+                }
+                else if (buildingItemSlot01.item == item && buildingItemSlot01.count >= item.MaxStackable)
+                {
+                    Debug.Log("Full of this building item!");
+                    return false;
+                }
+
+                Draggableltem buildingItemSlot02 = inventorySlots[16].GetComponentInChildren<Draggableltem>();
+                if (buildingItemSlot02 == null)
+                {
+                    SpawnNewItem(item, inventorySlots[16]);
+                    return true;
+                }
+                else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
+                {
+                    buildingItemSlot02.count++;
+                    buildingItemSlot02.RefreshCount();
+                    return true;
+                }
+                else if (buildingItemSlot02.item == item && buildingItemSlot02.count >= item.MaxStackable)
+                {
+                    Debug.Log("Full of this building item!");
+                    return false;
+                }
+
+                Debug.Log("No space for building item!");
+                return false;
             }
 
-            
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 InventorySlot slot = inventorySlots[i];
-
-                
                 if (!slot.isUnlocked) continue;
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+
                 if (itemInSlot == null)
                 {
                     SpawnNewItem(item, slot);
                     return true;
+                }
+                else if (itemInSlot != null && itemInSlot.item == item)
+                {
+                    if (itemInSlot.count < item.MaxStackable)
+                    {
+                        itemInSlot.count++;
+                        itemInSlot.RefreshCount();
+                        return true;
+                    }
                 }
             }
             return false;
@@ -161,7 +176,6 @@ namespace Game.Testing
             }
             newSlots[newSlots.Length - 1] = newSlot;
             inventorySlots = newSlots;
-
         } // AddSlot ===
         
         void SpawnNewItem(Item item,InventorySlot slot)
@@ -170,23 +184,21 @@ namespace Game.Testing
             newItemGo = Instantiate(InventoryItemPrefab,slot.transform);
             Draggableltem inventoryItem = newItemGo.GetComponent<Draggableltem>();
             inventoryItem.InitialiseItem(item);
-            
         } // SpawnNewItem ===
 
-        public Item FindItem(ItemType checkType, string checkID)
+        public Item FindItem(ItemType checkType, int checkID)
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
                 if (itemInSlot != null &&
-                    itemInSlot.item.itemType == checkType &&
-                    itemInSlot.item.itemID == checkID)
+                    itemInSlot.item.ItemType == checkType &&
+                    itemInSlot.item.ItemID == checkID)
                 {
                     return itemInSlot.item;
                 }
             }
-
             return null;
         }
 
@@ -199,7 +211,6 @@ namespace Game.Testing
                 return itemInSlot.item;
             }
             return null;
-            
         } // GetSelectedItem ===
 
         public bool ConsumeItem(ItemType checkType, out Item foundItem)
@@ -210,7 +221,7 @@ namespace Game.Testing
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item.itemType == checkType)
+                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
                 {
                     foundItem = itemInSlot.item;
 
@@ -221,27 +232,11 @@ namespace Game.Testing
                     else
                         itemInSlot.RefreshCount();
 
-                    NotifySupportItemConsumed(foundItem);
+                    //NotifySupportItemConsumed(foundItem);
                     return true;
                 }
             }
-
             return false;
-        }
-
-        private void NotifySupportItemConsumed(Item consumedItem)
-        {
-            if (consumedItem == null)
-                return;
-
-            if (WeaponUIController.Instance != null)
-                WeaponUIController.Instance.Refresh();
-
-            ShopSystem shop = FindFirstObjectByType<ShopSystem>();
-            if (shop != null)
-                shop.OnSupportItemConsumed(consumedItem.itemID);
-            else if (miniHubCount != null && consumedItem.itemID == "MiniHub")
-                miniHubCount.text = WeaponUIController.GetInventoryCount("MiniHub").ToString();
         }
 
         public void UnlockNextSlot()
@@ -259,7 +254,7 @@ namespace Game.Testing
         } // UnlockNextSlot ===
 
         // Quest ==================================================
-        public bool HasQuestItem(string itemId)
+        public bool HasQuestItem(int itemId)
         {
             // วนลูปตรวจเช็กสล็อตทั้งหมดในกระเป๋าของคุณ
             for (int i = 0; i < inventorySlots.Length; i++)
@@ -270,7 +265,7 @@ namespace Game.Testing
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
                 // ตรวจเช็กว่าถ้ามีไอเทมอยู่ในช่อง และข้อมูล itemID ตรงกับที่เควสต้องการ
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.itemID == itemId)
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
                 {
                     return true; // เจอไอเทมส่งเควสในกระเป๋าแล้ว!
                 }
@@ -278,7 +273,7 @@ namespace Game.Testing
             return false;
         }
 
-        public void RemoveQuestItem(string itemId)
+        public void RemoveQuestItem(int itemId)
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
@@ -286,7 +281,7 @@ namespace Game.Testing
 
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.itemID == itemId)
+                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
                 {
                     // ลอจิกการหักของ: ถ้าในกองไอเทมมีจำนวนมากกว่า 1 ชิ้น
                     if (itemInSlot.count > 1)
@@ -304,7 +299,7 @@ namespace Game.Testing
             }
         }
 
-        public void AddRewardItem(string itemId)
+        public void AddRewardItem(int itemId)
         {
             Debug.Log("QuestManager สั่งจ่ายไอเทมรางวัลรหัส: " + itemId);
 
@@ -314,7 +309,7 @@ namespace Game.Testing
             {
                 foreach (Item item in allItems)
                 {
-                    if (item != null && item.itemID == itemId)
+                    if (item != null && item.ItemID == itemId)
                     {
                         rewardItem = item;
                         break;
@@ -330,7 +325,7 @@ namespace Game.Testing
 
                 if (isAdded)
                 {
-                    Debug.Log($"[Quest Reward] ผู้เล่นได้รับไอเทมรางวัล: {rewardItem.itemName} เรียบร้อยแล้ว!");
+                    Debug.Log($"[Quest Reward] ผู้เล่นได้รับไอเทมรางวัล: {rewardItem.ItemName} เรียบร้อยแล้ว!");
                 }
                 else
                 {
