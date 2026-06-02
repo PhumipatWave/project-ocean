@@ -197,14 +197,13 @@ namespace Game.Testing
 
         void ExecuteItem(Item item)
         {
-            switch (item.itemType)
+            switch (item.ItemType)
             {
                 case ItemType.Normal:
 
                     break;
 
-
-                case ItemType.Quest:
+                case ItemType.KeyItem:
 
                     break;
 
@@ -213,7 +212,7 @@ namespace Game.Testing
                     break;
 
                 case ItemType.Building:
-                    Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
+                    Instantiate(item.ItemPrefab, transform.position, Quaternion.identity);
                     break;
             }
         }
@@ -291,14 +290,6 @@ namespace Game.Testing
             if (isInteract)
             {
                 Debug.Log("Interact");
-            }
-        }
-
-        private void PreventMoveOutFromWater()
-        {
-            if (transform.position.y > 0)
-            {
-                transform.position = new Vector2(transform.position.x, 0);
             }
         }
 

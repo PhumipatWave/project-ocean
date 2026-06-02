@@ -1,36 +1,96 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlockManager : MonoBehaviour
+namespace Game.Testing
 {
-    [Header("Settings")]
-    public GameObject boidPrefab;
-    public int boidCount = 100;
-    public Vector3 boundaryArea = new Vector3(10, 10, 10);
-
-    // เก็บรายชื่อ Boid ทั้งหมดไว้ที่นี่เพื่อให้ตัวละครแต่ละตัวดึงไปใช้ได้เร็วขึ้น
-    public static List<Boid> allBoids = new List<Boid>();
-
-    void Start()
+    /// <FlockManager>
+    /// Scene-level singleton registry of every Boid.
+    /// </FlockManager>
+    public class FlockManager : MonoBehaviour
     {
-        for (int i = 0; i < boidCount; i++)
+        [SerializeField] private readonly List<Boid> members = new List<Boid>();
+
+        public static FlockManager Instance { get; private set; }
+        #region UnityCallbacks
+        private void Awake()
         {
-            // สุ่มตำแหน่งเริ่มต้นภายใน Boundary
-            Vector3 spawnPos = new Vector3(
-                Random.Range(-boundaryArea.x / 2, boundaryArea.x / 2),
-                Random.Range(-boundaryArea.y / 2, boundaryArea.y / 2),
-                Random.Range(-boundaryArea.z / 2, boundaryArea.z / 2)
-            );
-
-            GameObject b = Instantiate(boidPrefab, spawnPos, Quaternion.identity, transform);
-            allBoids.Add(b.GetComponent<Boid>());
+            if (Instance == null)
+                Instance = this;
         }
-    }
 
-    // วาดกล่อง Boundary ในหน้า Scene เพื่อให้เรามองเห็นขอบเขตได้ง่ายๆ
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(transform.position, boundaryArea);
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
+        }
+        #endregion
+
+        public void Register(Boid boid)
+        {
+            if (boid != null && !members.Contains(boid))
+                members.Add(boid);
+        }
+
+        public void Deregister(Boid boid)
+        {
+            if (boid == null) 
+                return;
+
+            members.Remove(boid);
+            boid.assignedLeader?.RemoveMember(boid);
+        }
+
+        public List<Boid> GetUnclaimedByFishId(string fishId, Vector3 origin, float radius)
+        {
+            var result = new List<Boid>();
+            foreach (var b in members)
+            {
+                if (b == null || b.fishId != fishId || b.assignedLeader != null || Vector2.Distance(origin, b.transform.position) > radius)                
+                    continue;
+
+                result.Add(b);
+            }
+            return result;
+        }
+
+        public List<Boid> GetNeighbors(Boid neighborFish)
+        {
+            var result = new List<Boid>(members.Count);
+            foreach (var member in members)
+            {
+                if (member == null || member == neighborFish) continue;
+                if (Vector2.Distance(neighborFish.transform.position, member.transform.position)
+                    < neighborFish.neighborRadius)
+                {
+                    result.Add(member);
+                }
+            }
+            return result;
+        }
+
+        /// <AlertAll>
+        /// Trigger OnBulletHit on every member's brain.
+        /// </AlertAll>
+        public void AlertAll()
+        {
+            foreach (var m in members)
+            {
+                if (m == null) continue;
+                var agent = m.GetComponent<EnemyNavAgentBase>();
+                if (agent == null) continue;
+                (agent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (members == null) return;
+            Gizmos.color = Color.cyan;
+            foreach (var m in members)
+            {
+                if (m == null) continue;
+                Gizmos.DrawWireSphere(m.transform.position, m.neighborRadius);
+            }
+        }
     }
 }
