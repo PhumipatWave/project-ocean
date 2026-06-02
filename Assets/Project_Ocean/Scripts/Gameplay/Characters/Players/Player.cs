@@ -96,44 +96,50 @@ namespace Game.Testing
         {
             if (scene.name == "Land_Map")
             {
-                transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+                if (SaveBridge.IsLoadingSave)
+                {
+                    transform.position = SaveBridge.LoadedPosition;
+                    SaveBridge.ClearLoadFlag();
+                }
+                else
+                {
+                    transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+                }
+
                 oxygenTube.MaxRopeLength += oxygenTube.ReduceMaxRopeLenght;
                 oxygenTube.ReduceMaxRopeLenght = 0f;
 
                 gunHandler.gameObject.SetActive(false);
-
                 isLand = true;
                 anim.SetBool("isLand", isLand);
             }
             else if (scene.name == "Ocean_Map")
             {
-                Transform spawnPoint;
+                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
 
-                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
-                transform.position = spawnPoint.position;
-
-                gunHandler.gameObject.SetActive(true);
-
-                isLand = false;
-                anim.SetBool("isLand", isLand);
-
-                /*if (GameManager.Instance.MiniHubAvaliable)
+                if (SaveBridge.IsLoadingSave)
                 {
-                    spawnPoint = GameManager.Instance.MiniHubLocation.transform;
-                    transform.position = spawnPoint.position;
-
-                    GameManager.Instance.MiniHubAvaliable = false;
+                    transform.position = SaveBridge.LoadedPosition;
+                    SaveBridge.ClearLoadFlag();
                 }
                 else
                 {
-                    spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
                     transform.position = spawnPoint.position;
-                }*/
+                }
+
+                gunHandler.gameObject.SetActive(true);
+                isLand = false;
+                anim.SetBool("isLand", isLand);
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
-                var point = Instantiate(oxygenTube.StartPointPrefab, spawnPoint.position, Quaternion.identity);
-                oxygenTube.StartPoint = point;
+                // ถ้าไม่มี StartPoint (เช่น เล่นใหม่) ให้สร้างอันใหม่
+                if (oxygenTube.StartPoint == null)
+                {
+                    var point = Instantiate(oxygenTube.StartPointPrefab, transform.position, Quaternion.identity);
+                    oxygenTube.StartPoint = point;
+                }
+
                 oxygenTube.Rebuild();
             }
         }
