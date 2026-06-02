@@ -43,13 +43,13 @@ public class DoorInteract : MonoBehaviour
         if (other.CompareTag(playerTag))
         {
             isPlayerInside = false;
-        }
+        } 
     }
 
     void Update()
     {
         // จังหวะคลิกขวา (Input.GetMouseButtonDown(1))
-        if (requireInteraction && isPlayerInside && Input.GetMouseButtonDown(1) && !isWarping)
+        if (requireInteraction && isPlayerInside && Input.GetKeyDown(KeyCode.E) && !isWarping)
         {
             StartCoroutine(WarpSequence());
         }

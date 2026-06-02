@@ -92,6 +92,7 @@ namespace Game.Testing
         public void ReturnToLand()
         {
             //StartCoroutine(FadeRoutine());
+            CurPlayer.OxygenTube.ResetRopeData();
 
             SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;

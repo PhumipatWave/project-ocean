@@ -14,6 +14,7 @@ namespace Game.Testing
         Prepare,
         Attack,
         Panic,
+        Flee,
         Flock,
     }
 }
