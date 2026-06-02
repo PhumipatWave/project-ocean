@@ -4,6 +4,7 @@ namespace Game.Testing
 {
     public class EnemyWanderState : EnemyStateBase
     {
+        #region FieldsProperties
         public override EnemyStateTag StateTag => EnemyStateTag.Wander;
 
         private readonly EnemyBaseProfile profile;
@@ -12,14 +13,18 @@ namespace Game.Testing
 
         private float wanderTimer;
         private Vector3 wanderTarget;
+        #endregion
 
+        #region Constructors
         public EnemyWanderState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
             this.vision = vision;
         }
+        #endregion
 
+        #region StateCallbacks
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
@@ -50,14 +55,11 @@ namespace Game.Testing
             ApplyMovement();
             UpdateFacing();
         }
+        #endregion
 
         private void PickNewWanderTarget()
         {
-            bool foundTarget = pathfinder.TryPickWanderPoint(
-                enemyBrainContext.Transform.position,
-                profile.wanderRadius,
-                out wanderTarget
-            );
+            bool foundTarget = pathfinder.TryPickWanderPoint(enemyBrainContext.Transform.position, profile.wanderRadius, out wanderTarget);
 
             if (!foundTarget)
                 wanderTimer = Mathf.Min(wanderTimer, 0.25f);
@@ -72,7 +74,7 @@ namespace Game.Testing
             pathfinder.SetSafeDestination(wanderTarget);
         }
 
-        private bool HasArrived() =>
+        private bool HasArrived() => 
             Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f;
 
         private void UpdateFacing()
@@ -88,18 +90,17 @@ namespace Game.Testing
                 && vision.CheckLineOfSight();
         }
 
-private void OnPlayerDetected()
+        private void OnPlayerDetected()
         {
-            // Scared fish → immediately flee
-            if (profile is ScaredEnemyProfile scaredProfile
-                && enemyFSM.HasState(EnemyStateTag.Flee))
+            // Scared fish => immediately flee
+            if (profile is ScaredEnemyProfile scaredProfile && enemyFSM.HasState(EnemyStateTag.Flee))
             {
                 if (scaredProfile.alertNearbyAllies) AlertNearbyAllies(scaredProfile.groupAlertRadius);
                 enemyFSM.TransitionTo(EnemyStateTag.Flee);
                 return;
             }
 
-            // Friendly fish → bias next wander point away from player, stay in Wander
+            // Friendly fish => bias next wander point away from player, stay in Wander
             if (profile is FriendlyEnemyProfile)
             {
                 if (enemyBrainContext.PlayerTransform != null)
@@ -119,7 +120,7 @@ private void OnPlayerDetected()
                 return;
             }
 
-            // Aggressive fish → Follow state
+            // Aggressive fish => Follow state
             if (profile is AggressiveEnemyProfile aggressiveProfile)
             {
                 if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
@@ -130,17 +131,26 @@ private void OnPlayerDetected()
             }
         }
 
-private void AlertNearbyAllies(float radius)
+        private void AlertNearbyAllies(float radius)
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(
-                enemyBrainContext.Transform.position,
-                radius
-            );
+            if (enemyBrainContext.Leader != null)
+            {
+                enemyBrainContext.Leader.AlertAll();
+                return;
+            }
+
+            if (enemyBrainContext.Flock != null)
+            {
+                enemyBrainContext.Flock.AlertAll();
+                return;
+            }
+
+            Collider2D[] hits = Physics2D.OverlapCircleAll(enemyBrainContext.Transform.position, radius);
 
             foreach (var hit in hits)
             {
-                if (hit.gameObject == enemyBrainContext.Host.gameObject) continue;
-                if (!hit.TryGetComponent<EnemyNavAgentBase>(out var otherAgent)) continue;
+                if (hit.gameObject == enemyBrainContext.Host.gameObject || !hit.TryGetComponent<EnemyNavAgentBase>(out var otherAgent)) 
+                    continue;
 
                 (otherAgent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
             }

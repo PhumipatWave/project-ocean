@@ -4,14 +4,18 @@ namespace Game.Testing
 {
     public class EnemyAnimation : MonoBehaviour
     {
+        #region FieldsProperties
         [SerializeField] private bool hasAnimator;
         [SerializeField] private Animator anim;
+        #endregion
 
+        #region UnityCallbacks
         private void Awake()
         {
             if (hasAnimator && anim == null)
                 anim = GetComponentInChildren<Animator>();
         }
+        #endregion
 
         public void Configure(bool enabled, Animator animator)
         {

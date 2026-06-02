@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Lightweight FSM runner. Brain classes register states in Initialize(),
-    /// then call Tick() every frame. TransitionTo() handles Enter/Exit cleanly.
-    /// </summary>
     public class EnemyFSM
     {
         private readonly Dictionary<EnemyStateTag, IEnemyState> states =
@@ -28,7 +24,6 @@ namespace Game.Testing
             states[state.StateTag] = state;
         }
 
-        /// <summary>Enters the first state without calling Exit on a previous one.</summary>
         public void Start(EnemyStateTag tag)
         {
             if (!states.TryGetValue(tag, out IEnemyState state))
@@ -62,7 +57,6 @@ namespace Game.Testing
 
         public bool IsIn(EnemyStateTag tag) => current?.StateTag == tag;
 
-        /// <summary>Returns a registered state by tag, or null if not found.</summary>
         public IEnemyState GetState(EnemyStateTag tag)
         {
             states.TryGetValue(tag, out IEnemyState state);

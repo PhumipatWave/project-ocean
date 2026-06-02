@@ -22,13 +22,6 @@ namespace Game.Testing
         [Tooltip("If enabled, detecting the player alerts nearby allied enemies.")]
         public bool alertNearbyAllies;
 
-        [Header("Pathfinding")]
-        [Tooltip("Clearance radius used when sampling NavMesh positions.")]
-        public float fishClearanceRadius = 0.5f;
-
-        [Tooltip("Maximum attempts to find a valid wander point.")]
-        public int maxWanderSampleTries = 20;
-
         [Header("Search")]
         [Tooltip("How long the enemy searches the last known position before giving up.")]
         public float searchDuration = 4f;
@@ -57,16 +50,7 @@ namespace Game.Testing
         [Tooltip("Radius within which nearby allies are alerted when this enemy detects the player.")]
         public float groupAlertRadius = 3f;
 
-        [Header("Near-Wall Sampling")]
-        [Tooltip("Radius used when searching for a position near the player around walls.")]
-        public float nearPlayerSearchRadius = 5f;
-
-        [Tooltip("Number of sample points cast around the player when searching near walls.")]
-        public int nearPlayerSearchSamples = 24;
-
-        [Tooltip("Step size between concentric sample rings near the player.")]
-        public float nearPlayerSearchStep = 0.5f;
-
+        
         public float detectDistance => viewDistance;
     }
 }

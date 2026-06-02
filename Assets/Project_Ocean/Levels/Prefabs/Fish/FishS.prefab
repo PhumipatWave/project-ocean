@@ -742,6 +742,7 @@ GameObject:
   - component: {fileID: 1765761602211551263}
   - component: {fileID: 3769312427449725687}
   - component: {fileID: 2311856355048466399}
+  - component: {fileID: 8933596969445124632}
   m_Layer: 0
   m_Name: FishS
   m_TagString: Enemy
@@ -983,3 +984,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.FishAlertUI
   seenPlayerAlertImage: {fileID: 2653616273152447755}
   attackWarningImage: {fileID: 6902215140216834604}
+--- !u!114 &8933596969445124632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199869032875626201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d5a83bd96a26b4abfcb9de452bf714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Boid
+  neighborRadius: 3
+  separationDistance: 1.5
+  coeffSeparation: 1.2
+  coeffAlignment: 0.5
+  coeffCohesion: 0.3
+  steeringLookAhead: 1.5
+  velocity: {x: 0, y: 0}

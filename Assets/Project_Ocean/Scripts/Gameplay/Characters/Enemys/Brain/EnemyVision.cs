@@ -39,8 +39,7 @@ namespace Game.Testing
             }
 
             LayerMask obstacleMask = profile.visionObstacleMask.value != 0
-                ? profile.visionObstacleMask
-                : profile.wallLayer;
+                ? profile.visionObstacleMask : profile.wallLayer;
 
             bool canSee = EnemyVisionHelper.HasLineOfSightRay(
                 context.Transform.position,

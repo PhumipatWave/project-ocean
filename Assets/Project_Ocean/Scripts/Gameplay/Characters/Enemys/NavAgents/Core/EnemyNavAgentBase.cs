@@ -29,6 +29,7 @@ namespace Game.Testing
         protected EnemyFacingController facingCtr { get; private set; }
 
         private IEnemyBrain enemyBrain;
+        private Boid boid;
         private bool deathHandled;
 
         public IEnemyBrain ActiveBrain => enemyBrain;
@@ -73,6 +74,13 @@ namespace Game.Testing
             enemyBrain.Initialize(BuildBrainContext());
             OnBrainInitialized();
 
+            // Wire up Boid flocking
+            boid = GetComponent<Boid>();
+            if (boid != null)
+            {
+                boid.fishId = GetFishId();
+                boid.Initialize(navAgent, GetComponent<FlockManager>());
+            }
             enemy?.RegisterNavAgent(this);
         }
 
@@ -110,6 +118,11 @@ namespace Game.Testing
         {
             enemy = owner;
         }
+
+        public void PauseBoidSteering()  => boid?.PauseBoidSteering();
+        public void ResumeBoidSteering() => boid?.ResumeBoidSteering();
+
+        protected virtual string GetFishId() => string.Empty;
 
         protected abstract IEnemyBrain CreateBrain();
 
@@ -180,7 +193,9 @@ namespace Game.Testing
                 Agent = navAgent,
                 Facing = facingCtr,
                 AlertUI = fishAlertUI,
-                Host = this
+                Host = this,
+                Flock = GetComponent<FlockManager>(),
+                Leader = GetComponent<FlockLeader>()
             };
         }
 

@@ -15,21 +15,23 @@ namespace Game.Testing
         public float ViewAngle => profile.viewAngle;
         public float AttackRange => (profile as AggressiveEnemyProfile)?.attackRange ?? 0f;
 
-        public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
-        public void OnBulletHit() => OnHit(enemyBrainContext?.PlayerTransform);
-        public void OnPlayerCollision()
-        {
-            // Friendly / Scared fish only flee from bullets, not body collision
-            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile) return;
-            OnHit(enemyBrainContext?.PlayerTransform);
-        }
-
         public EnemyBrain(EnemyBaseProfile profile)
         {
             this.profile = profile;
         }
 
-public override void Initialize(EnemyBrainContext context)
+        public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
+        public void OnBulletHit() => OnHit(enemyBrainContext?.PlayerTransform);
+
+        public void OnPlayerCollision()
+        {
+            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile) 
+                return;
+
+            OnHit(enemyBrainContext?.PlayerTransform);
+        }
+
+        public override void Initialize(EnemyBrainContext context)
         {
             base.Initialize(context);
 
@@ -39,54 +41,33 @@ public override void Initialize(EnemyBrainContext context)
                 return;
             }
 
-            var aggressiveProfile = profile as AggressiveEnemyProfile;
-
-            // Pathfinding fields exist on all three profile types
-            float clearanceRadius      = GetClearanceRadius();
-            int   maxWanderTries       = GetMaxWanderSampleTries();
-            float nearPlayerRadius     = GetNearPlayerSearchRadius();
-            int   nearPlayerSamples    = GetNearPlayerSearchSamples();
-            float nearPlayerStep       = GetNearPlayerSearchStep();
-
-            var pathfinder = new EnemyNavPathfinder(
-                context.Agent,
-                profile.wallLayer,
-                clearanceRadius,
-                maxWanderTries,
-                nearPlayerRadius,
-                nearPlayerSamples,
-                nearPlayerStep
+            var pathfinder = new EnemyNavPathfinder(context.Agent, profile.wallLayer, profile.fishClearanceRadius, profile.maxWanderSampleTries, profile.nearPlayerSearchRadius, profile.nearPlayerSearchSamples, profile.nearPlayerSearchStep
             );
 
-            vision      = new EnemyVision(profile, context);
+            vision = new EnemyVision(profile, context);
             followState = new EnemyFollowState(profile, pathfinder, vision);
-            attackState = (aggressiveProfile != null && aggressiveProfile.canAttack)
-                ? new EnemyAttackState(aggressiveProfile, pathfinder, vision)
-                : null;
 
             enemyFSM.Register(new EnemyWanderState(profile, pathfinder, vision));
             enemyFSM.Register(followState);
 
-            // Friendly and Scared get a dedicated flee state
-            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile)
-                enemyFSM.Register(new EnemyFleeState(profile, pathfinder));
-
-            if (aggressiveProfile != null && aggressiveProfile.searchAfterLost)
+            switch (profile)
             {
-                enemyFSM.Register(new EnemySearchState(
-                    profile.speed,
-                    aggressiveProfile.searchDuration,
-                    aggressiveProfile.searchRadius,
-                    pathfinder,
-                    vision.CheckLineOfSight,
-                    position => followState.LastKnownPlayerPosition = position));
+                case AggressiveEnemyProfile aggressive:
+                    SetupAggressiveStates(aggressive, pathfinder);
+                    break;
+
+                case FriendlyEnemyProfile friendly:
+                    SetupFriendlyStates(friendly, pathfinder);
+                    break;
+
+                case ScaredEnemyProfile scared:
+                    SetupScaredStates(scared, pathfinder);
+                    break;
+
+                default:
+                    Debug.LogWarning($"[EnemyBrain] Unknown profile type: {profile.GetType().Name}", context.Host);
+                    break;
             }
-
-            if (aggressiveProfile != null && aggressiveProfile.canAttack && aggressiveProfile.prepareBeforeAttack)
-                enemyFSM.Register(new EnemyPrepareAttackState(aggressiveProfile, vision));
-
-            if (attackState != null)
-                enemyFSM.Register(attackState);
 
             HideAllAlerts();
 
@@ -96,86 +77,98 @@ public override void Initialize(EnemyBrainContext context)
             enemyFSM.Start(EnemyStateTag.Wander);
         }
 
-// ── Pathfinding field helpers (shared across all three profile types) ────
-        private float GetClearanceRadius() => profile switch
+        private void SetupAggressiveStates(AggressiveEnemyProfile aggressive, EnemyNavPathfinder pathfinder)
         {
-            AggressiveEnemyProfile a => a.fishClearanceRadius,
-            FriendlyEnemyProfile   f => f.fishClearanceRadius,
-            ScaredEnemyProfile     s => s.fishClearanceRadius,
-            _                        => 0.5f
-        };
+            if (aggressive.searchAfterLost)
+            {
+                enemyFSM.Register(new EnemySearchState(
+                    profile.speed,
+                    aggressive.searchDuration,
+                    aggressive.searchRadius,
+                    pathfinder,
+                    vision.CheckLineOfSight,
+                    position => followState.LastKnownPlayerPosition = position
+                ));
+            }
 
-        private int GetMaxWanderSampleTries() => profile switch
+            if (aggressive.canAttack)
+            {
+                attackState = new EnemyAttackState(aggressive, pathfinder, vision);
+
+                if (aggressive.prepareBeforeAttack)
+                    enemyFSM.Register(new EnemyPrepareAttackState(aggressive, vision));
+
+                enemyFSM.Register(attackState);
+            }
+        }
+
+        private void SetupFriendlyStates(FriendlyEnemyProfile friendly, EnemyNavPathfinder pathfinder)
         {
-            AggressiveEnemyProfile a => a.maxWanderSampleTries,
-            FriendlyEnemyProfile   f => f.maxWanderSampleTries,
-            ScaredEnemyProfile     s => s.maxWanderSampleTries,
-            _                        => 20
-        };
+            enemyFSM.Register(new EnemyFleeState(friendly, pathfinder));
+        }
 
-        private float GetNearPlayerSearchRadius() => profile switch
+        private void SetupScaredStates(ScaredEnemyProfile scared, EnemyNavPathfinder pathfinder)
         {
-            AggressiveEnemyProfile a => a.nearPlayerSearchRadius,
-            FriendlyEnemyProfile   f => f.nearPlayerSearchRadius,
-            ScaredEnemyProfile     s => s.nearPlayerSearchRadius,
-            _                        => 5f
-        };
+            enemyFSM.Register(new EnemyFleeState(scared, pathfinder));
+        }
 
-        private int GetNearPlayerSearchSamples() => profile switch
-        {
-            AggressiveEnemyProfile a => a.nearPlayerSearchSamples,
-            FriendlyEnemyProfile   f => f.nearPlayerSearchSamples,
-            ScaredEnemyProfile     s => s.nearPlayerSearchSamples,
-            _                        => 24
-        };
-
-        private float GetNearPlayerSearchStep() => profile switch
-        {
-            AggressiveEnemyProfile a => a.nearPlayerSearchStep,
-            FriendlyEnemyProfile   f => f.nearPlayerSearchStep,
-            ScaredEnemyProfile     s => s.nearPlayerSearchStep,
-            _                        => 0.5f
-        };
-
-public override void OnHit(Transform attacker)
+        public override void OnHit(Transform attacker)
         {
             if (followState == null) return;
 
-            Vector3 knownPosition = attacker != null ? attacker.position
-                : enemyBrainContext.PlayerTransform != null ? enemyBrainContext.PlayerTransform.position
-                : enemyBrainContext.Transform.position;
+            Vector3 knownPosition = ResolveKnownPosition(attacker);
 
-            // Friendly and Scared fish panic-flee when hit by bullet
-            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile)
+            switch (profile)
             {
-                if (enemyFSM.HasState(EnemyStateTag.Flee))
-                {
-                    var fleeState = enemyFSM.GetState(EnemyStateTag.Flee) as EnemyFleeState;
+                case FriendlyEnemyProfile _:
+                case ScaredEnemyProfile _:
+                    TriggerFlee();
+                    break;
 
-                    if (enemyFSM.IsIn(EnemyStateTag.Flee))
-                        fleeState?.EnterPanic();
-                    else
-                    {
-                        enemyFSM.TransitionTo(EnemyStateTag.Flee);
-                        fleeState?.EnterPanic();
-                    }
-                }
-                return;
+                case AggressiveEnemyProfile aggressive when aggressive.chasePlayerWhenHit:
+                    TriggerChase(aggressive, knownPosition);
+                    break;
             }
+        }
 
-            // Aggressive fish chase when hit
-            var aggressiveProfile = profile as AggressiveEnemyProfile;
-            if (aggressiveProfile == null || !aggressiveProfile.chasePlayerWhenHit) return;
+        private Vector3 ResolveKnownPosition(Transform attacker)
+        {
+            if (attacker != null)
+                return attacker.position;
 
+            if (enemyBrainContext.PlayerTransform != null)
+                return enemyBrainContext.PlayerTransform.position;
+
+            return enemyBrainContext.Transform.position;
+        }
+
+        private void TriggerFlee()
+        {
+            if (!enemyFSM.HasState(EnemyStateTag.Flee)) return;
+
+            var fleeState = enemyFSM.GetState(EnemyStateTag.Flee) as EnemyFleeState;
+
+            if (enemyFSM.IsIn(EnemyStateTag.Flee))
+                fleeState?.EnterPanic();
+            else
+            {
+                enemyFSM.TransitionTo(EnemyStateTag.Flee);
+                fleeState?.EnterPanic();
+            }
+        }
+
+        private void TriggerChase(AggressiveEnemyProfile aggressive, Vector3 knownPosition)
+        {
             followState.LastKnownPlayerPosition = knownPosition;
             followState.SetHitChaseTimer(profile.hitChaseDuration);
 
-            bool committed = enemyFSM.IsIn(EnemyStateTag.Prepare) || enemyFSM.IsIn(EnemyStateTag.Attack);
-            if (!committed)
-            {
-                ShowAttackWarning();
-                enemyFSM.TransitionTo(EnemyStateTag.Follow);
-            }
+            // Don't interrupt an ongoing attack or prepare phase.
+            bool alreadyCommitted = enemyFSM.IsIn(EnemyStateTag.Prepare) || enemyFSM.IsIn(EnemyStateTag.Attack);
+            if (alreadyCommitted) 
+                return;
+
+            ShowAttackWarning();
+            enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
     }
 }
