@@ -6,15 +6,13 @@ namespace Game.Testing
 {
     public static class SaveSystem
     {
-        static readonly string PATH =
-            Application.persistentDataPath + "/gamesave.json";
+        static readonly string PATH = $"{Application.persistentDataPath}/gamesave.json";
 
         public static void Save(SaveData data)
         {
-            data.saveTime = System.DateTime.Now
-                                .ToString("yyyy-MM-dd HH:mm");
+            data.saveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             string json = JsonUtility.ToJson(data, prettyPrint: true);
-            string enc  = EncryptionHelper.Encrypt(json);
+            string enc = EncryptionHelper.Encrypt(json);
             File.WriteAllText(PATH, enc);
             Debug.Log($"[SaveSystem] Saved → {PATH}");
         }
@@ -26,7 +24,7 @@ namespace Game.Testing
                 Debug.LogWarning("[SaveSystem] No save file — new game");
                 return new SaveData();
             }
-            string enc  = File.ReadAllText(PATH);
+            string enc = File.ReadAllText(PATH);
             string json = EncryptionHelper.Decrypt(enc);
             return JsonUtility.FromJson<SaveData>(json);
         }
