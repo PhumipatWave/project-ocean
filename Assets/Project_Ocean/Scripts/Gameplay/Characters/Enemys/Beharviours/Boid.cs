@@ -1,106 +1,153 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Boid : MonoBehaviour
+namespace Game.Testing
 {
-    [Header("Settings")]
-    public float speed = 5f;
-    public float neighborRadius = 3f;
-    public float separationDistance = 1.5f;
-
-    [Header("Coefficients")]
-    public float coeffSeparation = 1f;
-    public float coeffAlignment = 0.05f;
-    public float coeffCohesion = 0.01f;
-
-    private Vector2 velocity;
-
-    void Start()
+    /// <summary>
+    /// Calculates boid flocking forces (separation, alignment, cohesion) and feeds
+    /// the result to the NavMeshAgent as a destination.  The NavAgent stays in full
+    /// control of actual movement — Boid only influences *where* it wants to go.
+    ///
+    /// Boid steering is automatically paused while the brain FSM is in any
+    /// non-Wander state (Follow / Flee / Attack), giving the brain full control.
+    /// </summary>
+    public class Boid : MonoBehaviour
     {
-        // สุ่มทิศทางเริ่มต้น
-        velocity = Random.insideUnitCircle.normalized * speed;
-    }
+        // ─────────────────────────────────────────────
+        //  Inspector
+        // ─────────────────────────────────────────────
+        [Header("Neighbourhood")]
+        public float neighborRadius    = 3f;
+        public float separationDistance = 1.5f;
 
-    void Update()
-    {
-        List<Boid> neighbors = GetNeighbors();
+        [Header("Steering weights")]
+        public float coeffSeparation = 1.2f;
+        public float coeffAlignment  = 0.5f;
+        public float coeffCohesion   = 0.3f;
 
-        Vector2 separation = CalculateSeparation(neighbors) * coeffSeparation;
-        Vector2 alignment = CalculateAlignment(neighbors) * coeffAlignment;
-        Vector2 cohesion = CalculateCohesion(neighbors) * coeffCohesion;
+        [Header("Destination projection")]
+        [Tooltip("How far ahead of the fish the computed steering target is placed.")]
+        public float steeringLookAhead = 1.5f;
 
-        // รวมแรงทั้งหมดเข้าด้วยกัน
-        Vector2 acceleration = separation + alignment + cohesion;
-        velocity = (velocity + acceleration).normalized * speed;
+        // ─────────────────────────────────────────────
+        //  Runtime (read by neighbours for alignment)
+        // ─────────────────────────────────────────────
+        // ─────────────────────────────────────────────
+        //  Flock identity
+        // ─────────────────────────────────────────────
+        /// <summary>Matches the fishId on EnemyBaseProfile. Written by EnemyNavAgentBase at Start.</summary>
+        [HideInInspector] public string fishId;
 
-        // เคลื่อนที่
-        transform.position += (Vector3)velocity * Time.deltaTime;
+        /// <summary>The leader that claimed this boid. Null means unclaimed.</summary>
+        [HideInInspector] public FlockLeader assignedLeader;
 
-        // หันหน้าไปตามทิศทางที่เคลื่อนที่ (สำหรับ 2D)
-        if (velocity != Vector2.zero)
+        
+[HideInInspector] public Vector2 velocity;
+
+        private NavMeshAgent navAgent;
+        private FlockManager myFlock;
+        private bool         boidPaused;
+
+        // ─────────────────────────────────────────────
+        //  Unity loop — auto-register with scene FlockManager
+        // ─────────────────────────────────────────────
+        private void Start()
         {
-            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            FlockManager.Instance?.Register(this);
+        }   // true while FSM brain is in control
+
+        // ─────────────────────────────────────────────
+        //  Wiring — called by EnemyNavAgentBase.Start()
+        // ─────────────────────────────────────────────
+        /// <summary>Connect the boid to its agent and flock registry.</summary>
+        /// <summary>Swap flock membership when a FlockLeader claims this boid.</summary>
+        public void AssignToLeader(FlockLeader leader)
+        {
+            assignedLeader = leader;
+            myFlock        = leader.GroupFlock;
         }
-    }
 
-    // 1. Separation: หลีกเลี่ยงการชนกับเพื่อนในฝูง
-    Vector2 CalculateSeparation(List<Boid> neighbors)
-    {
-        Vector2 move = Vector2.zero;
-        int count = 0;
+        
 
-        foreach (var neighbor in neighbors)
+        public void Initialize(NavMeshAgent agent, FlockManager flock)
         {
-            float dist = Vector2.Distance(transform.position, neighbor.transform.position);
-            if (dist < separationDistance)
+            navAgent = agent;
+            myFlock  = flock;
+        }
+
+        /// <summary>Pause boid steering (brain FSM takes over — Follow / Flee / Attack).</summary>
+        public void PauseBoidSteering()  => boidPaused = true;
+
+        /// <summary>Resume boid steering (FSM returned to Wander).</summary>
+        public void ResumeBoidSteering() => boidPaused = false;
+
+        public bool IsPaused => boidPaused;
+
+        // ─────────────────────────────────────────────
+        //  Unity loop
+        // ─────────────────────────────────────────────
+        private void Update()
+        {
+            // Keep velocity cache current so neighbours can read it even while paused.
+            if (navAgent != null)
+                velocity = navAgent.velocity;
+
+            if (boidPaused)            return;
+            if (navAgent == null)      return;
+            if (!navAgent.isOnNavMesh) return;
+            if (myFlock == null)       return;
+
+            List<Boid> neighbors = myFlock.GetNeighbors(this);
+
+            Vector2 steer =
+                CalculateSeparation(neighbors) * coeffSeparation +
+                CalculateAlignment(neighbors)  * coeffAlignment  +
+                CalculateCohesion(neighbors)   * coeffCohesion;
+
+            // Convert the steering vector into a NavAgent destination.
+            Vector3 steerTarget = transform.position + (Vector3)(steer.normalized * steeringLookAhead);
+            navAgent.SetDestination(steerTarget);
+        }
+
+        // ─────────────────────────────────────────────
+        //  Boid forces
+        // ─────────────────────────────────────────────
+        private Vector2 CalculateSeparation(List<Boid> neighbors)
+        {
+            Vector2 move  = Vector2.zero;
+            int     count = 0;
+
+            foreach (var n in neighbors)
             {
-                move += (Vector2)(transform.position - neighbor.transform.position).normalized / dist;
-                count++;
+                float dist = Vector2.Distance(transform.position, n.transform.position);
+                if (dist < separationDistance && dist > 0.001f)
+                {
+                    move += (Vector2)(transform.position - n.transform.position).normalized / dist;
+                    count++;
+                }
             }
+            return count > 0 ? move / count : Vector2.zero;
         }
-        return count > 0 ? move / count : Vector2.zero;
-    }
 
-    // 2. Alignment: ปรับทิศทางให้ขนานไปกับเพื่อนรอบข้าง
-    Vector2 CalculateAlignment(List<Boid> neighbors)
-    {
-        Vector2 avgVelocity = Vector2.zero;
-        if (neighbors.Count == 0) return Vector2.zero;
-
-        foreach (var neighbor in neighbors)
-            avgVelocity += neighbor.velocity;
-
-        avgVelocity /= neighbors.Count;
-        return avgVelocity - velocity;
-    }
-
-    // 3. Cohesion: พยายามว่ายเข้าหาจุดศูนย์กลางของกลุ่ม
-    Vector2 CalculateCohesion(List<Boid> neighbors)
-    {
-        Vector2 avgPosition = Vector2.zero;
-        if (neighbors.Count == 0) return Vector2.zero;
-
-        foreach (var neighbor in neighbors)
-            avgPosition += (Vector2)neighbor.transform.position;
-
-        avgPosition /= neighbors.Count;
-        return avgPosition - (Vector2)transform.position;
-    }
-
-    // ค้นหาเพื่อนในฝูงที่อยู่ในระยะ Neighbor Radius
-    List<Boid> GetNeighbors()
-    {
-        List<Boid> neighbors = new List<Boid>();
-        Boid[] allBoids = Object.FindObjectsOfType<Boid>();
-
-        foreach (var boid in allBoids)
+        private Vector2 CalculateAlignment(List<Boid> neighbors)
         {
-            if (boid != this && Vector2.Distance(transform.position, boid.transform.position) < neighborRadius)
-            {
-                neighbors.Add(boid);
-            }
+            if (neighbors.Count == 0) return Vector2.zero;
+
+            Vector2 avg = Vector2.zero;
+            foreach (var n in neighbors) avg += n.velocity;
+            avg /= neighbors.Count;
+            return avg - velocity;
         }
-        return neighbors;
+
+        private Vector2 CalculateCohesion(List<Boid> neighbors)
+        {
+            if (neighbors.Count == 0) return Vector2.zero;
+
+            Vector2 avg = Vector2.zero;
+            foreach (var n in neighbors) avg += (Vector2)n.transform.position;
+            avg /= neighbors.Count;
+            return avg - (Vector2)transform.position;
+        }
     }
 }
