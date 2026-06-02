@@ -70,14 +70,31 @@ namespace Game.Testing
                 Vector2 randomDir = Random.insideUnitCircle * radius;
                 Vector3 candidate = origin + new Vector3(randomDir.x, randomDir.y, 0f);
 
-                if (!CanFishFitAt(candidate) || !IsPathComplete(candidate))
+                if (!TryProjectToNavMesh(candidate, out Vector3 navPoint))
                     continue;
 
-                point = candidate;
+                if (!CanFishFitAt(navPoint) || !IsPathComplete(navPoint))
+                    continue;
+
+                point = navPoint;
                 return true;
             }
 
             point = origin;
+            return false;
+        }
+
+        private bool TryProjectToNavMesh(Vector3 candidate, out Vector3 navPoint)
+        {
+            float sampleDistance = Mathf.Max(nearSearchStep, fishClearanceRadius * 2f, 0.5f);
+
+            if (NavMesh.SamplePosition(candidate, out NavMeshHit hit, sampleDistance, NavMesh.AllAreas))
+            {
+                navPoint = hit.position;
+                return true;
+            }
+
+            navPoint = candidate;
             return false;
         }
 

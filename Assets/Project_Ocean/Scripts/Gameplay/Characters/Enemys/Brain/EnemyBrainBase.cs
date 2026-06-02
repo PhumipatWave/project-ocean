@@ -16,14 +16,6 @@ namespace Game.Testing
             enemyFSM.Initialize(context);
         }
 
-/// <summary>Sets the NavMeshAgent speed from the brain's settings. Call after base.Initialize().</summary>
-        protected void SetAgentSpeed(float speed)
-        {
-            if (enemyBrainContext?.Agent != null)
-                enemyBrainContext.Agent.speed = speed;
-        }
-
-
         public virtual void Tick(float deltaTime)
         {
             enemyFSM.Tick(deltaTime);
