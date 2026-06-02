@@ -5,12 +5,15 @@ namespace Game.Testing
 {
     public class EnemyDeathHandler : MonoBehaviour
     {
+        #region FieldsProperties
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private SpriteRenderer fishSprite;
         [SerializeField] private Color deathSpriteColor = Color.red;
 
         private EnemyNavAgentBase navAgent;
+        #endregion
 
+        #region UnityCallbacks
         private void Awake()
         {
             if (rb == null)
@@ -20,17 +23,17 @@ namespace Game.Testing
             {
                 Transform visual = transform.Find("Visual");
                 fishSprite = visual != null
-                    ? visual.GetComponent<SpriteRenderer>()
-                    : GetComponentInChildren<SpriteRenderer>();
+                    ? visual.GetComponent<SpriteRenderer>() : GetComponentInChildren<SpriteRenderer>();
             }
 
             navAgent = GetComponent<EnemyNavAgentBase>();
         }
+        #endregion
 
-        public void Configure(Rigidbody2D rigidbody2D, SpriteRenderer spriteRenderer, Color deathColor)
+        public void Configure(Rigidbody2D rb, SpriteRenderer spriteRenderer, Color deathColor)
         {
-            if (rigidbody2D != null)
-                rb = rigidbody2D;
+            if (rb != null)
+                this.rb = rb;
 
             if (spriteRenderer != null)
                 fishSprite = spriteRenderer;

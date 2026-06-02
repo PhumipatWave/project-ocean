@@ -4,6 +4,7 @@ namespace Game.Testing
 {
     public class EnemyFollowState : EnemyStateBase
     {
+        #region FieldsProperties
         public override EnemyStateTag StateTag => EnemyStateTag.Follow;
 
         private readonly EnemyBaseProfile profile;
@@ -17,16 +18,18 @@ namespace Game.Testing
         private bool hasSeenPlayer;
 
         public Vector3 LastKnownPlayerPosition { get; set; }
+        #endregion
 
-        public void SetHitChaseTimer(float duration) { hitChaseTimer = duration; }
-
+        #region Constructors
         public EnemyFollowState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
             this.vision = vision;
         }
+        #endregion
 
+        #region StateCallbacks
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
@@ -42,9 +45,14 @@ namespace Game.Testing
 
         public override void Tick(float deltaTime)
         {
-            if (hitChaseTimer > 0f) hitChaseTimer -= deltaTime;
-            if (followTimer > 0f) followTimer -= deltaTime;
-            if (attackTimer > 0f) attackTimer -= deltaTime;
+            if (hitChaseTimer > 0f) 
+                hitChaseTimer -= deltaTime;
+
+            if (followTimer > 0f) 
+                followTimer -= deltaTime;
+
+            if (attackTimer > 0f) 
+                attackTimer -= deltaTime;
 
             if (enemyBrainContext.PlayerTransform == null)
             {
@@ -86,6 +94,12 @@ namespace Game.Testing
         {
             enemyBrainContext.AlertUI?.HideAttackWarning();
         }
+        #endregion
+
+        public void SetHitChaseTimer(float duration)
+        {
+            hitChaseTimer = duration;
+        }
 
         private void MoveTowardLastKnownPosition()
         {
@@ -98,8 +112,7 @@ namespace Game.Testing
             // Always use the CURRENT player position for flee direction if we can still see them,
             // so the fish continuously re-evaluates away from where the player actually is.
             Vector3 fromPosition = (enemyBrainContext.PlayerTransform != null)
-                ? enemyBrainContext.PlayerTransform.position
-                : LastKnownPlayerPosition;
+                ? enemyBrainContext.PlayerTransform.position : LastKnownPlayerPosition;
 
             Vector3 awayDir = (enemyBrainContext.Transform.position - fromPosition).normalized;
             if (awayDir == Vector3.zero)
@@ -120,46 +133,47 @@ namespace Game.Testing
             {
                 Vector3 candidate = enemyBrainContext.Transform.position + awayDir * distance;
                 candidate.z = enemyBrainContext.Transform.position.z;
+
                 if (enemyBrainContext.Agent.SetDestination(candidate))
                     return;
             }
         }
 
-private void TryTransitionToAttack(bool targetKnown)
+        private void TryTransitionToAttack(bool targetKnown)
         {
-            if (!(profile is AggressiveEnemyProfile ap)) return;
-            if (!ap.canAttack || !targetKnown) return;
+            if (!(profile is AggressiveEnemyProfile enemy) || (!enemy.canAttack || !targetKnown)) 
+                return;
 
             float distance = enemyBrainContext.PlayerTransform != null
-                ? Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position)
-                : float.MaxValue;
+                ? Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position) : float.MaxValue;
 
-            bool closeEnough = distance <= ap.detectDistance * 0.75f;
-            if (!closeEnough || attackTimer > 0f) return;
+            bool closeEnough = distance <= enemy.detectDistance * 0.75f;
+            if (!closeEnough || attackTimer > 0f) 
+                return;
 
-            if (ap.prepareBeforeAttack && enemyFSM.HasState(EnemyStateTag.Prepare))
+            if (enemy.prepareBeforeAttack && enemyFSM.HasState(EnemyStateTag.Prepare))
             {
                 enemyFSM.TransitionTo(EnemyStateTag.Prepare);
                 return;
             }
         }
 
-private void TryBiteDuringFollow()
+        private void TryBiteDuringFollow()
         {
-            if (!(profile is AggressiveEnemyProfile ap)) return;
-            if (!ap.canAttack || ap.prepareBeforeAttack) return;
+            if (!(profile is AggressiveEnemyProfile enemy)) return;
+            if (!enemy.canAttack || enemy.prepareBeforeAttack) return;
 
             float distance = Vector2.Distance(enemyBrainContext.Transform.position, LastKnownPlayerPosition);
-            if (distance > ap.attackRange || attackTimer > 0f) return;
+            if (distance > enemy.attackRange || attackTimer > 0f) return;
 
-            enemyBrainContext.Player?.TakeDamage(ap.attackDamage);
-            attackTimer = ap.attackCooldown;
+            enemyBrainContext.Player?.TakeDamage(enemy.attackDamage);
+            attackTimer = enemy.attackCooldown;
         }
 
-private void TransitionOnLost()
+        private void TransitionOnLost()
         {
-            var ap = profile as AggressiveEnemyProfile;
-            if (hasSeenPlayer && ap != null && ap.searchAfterLost)
+            var enemy = profile as AggressiveEnemyProfile;
+            if (hasSeenPlayer && enemy != null && enemy.searchAfterLost)
                 TransitionToSearchOrWander(LastKnownPlayerPosition);
             else
                 enemyFSM.TransitionTo(EnemyStateTag.Wander);

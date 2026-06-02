@@ -89,8 +89,6 @@ namespace Game.Testing
             enemyFSM.TransitionTo(EnemyStateTag.Wander);
         }
 
-        // ── Shared Utilities ─────────────────────────────────────────────────────────
-
         /// <summary>
         /// Casts a ray in <paramref name="direction"/> and steers the agent sideways
         /// when a wall is detected within <paramref name="detectDistance"/>.

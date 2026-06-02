@@ -8,6 +8,7 @@ namespace Game.Testing
     /// </summary>
     public class EnemySearchState : EnemyStateBase
     {
+        #region FieldsProperties
         public override EnemyStateTag StateTag => EnemyStateTag.Search;
 
         private readonly float speed;
@@ -20,15 +21,12 @@ namespace Game.Testing
         private float searchTimer;
         private Vector3 wanderTarget;
 
-        public Vector3 SearchOrigin { get; set; }
+        private Vector3 searchOrigin;
+        public Vector3 SearchOrigin { get { return searchOrigin; } set { searchOrigin = value; } }
+        #endregion
 
-        public EnemySearchState(
-            float speed,
-            float searchDuration,
-            float searchRadius,
-            EnemyNavPathfinder pathfinder,
-            Func<bool> canSeePlayer,
-            Action<Vector3> onPlayerSpotted)
+        #region Constructors
+        public EnemySearchState(float speed, float searchDuration, float searchRadius, EnemyNavPathfinder pathfinder, Func<bool> canSeePlayer, Action<Vector3> onPlayerSpotted)
         {
             this.speed = speed;
             this.searchDuration = searchDuration;
@@ -37,7 +35,9 @@ namespace Game.Testing
             this.canSeePlayer = canSeePlayer;
             this.onPlayerSpotted = onPlayerSpotted;
         }
+        #endregion
 
+        #region StateCallbacks
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
@@ -74,10 +74,11 @@ namespace Game.Testing
             if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
                 enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
         }
+        #endregion
 
         private void PickSearchPoint()
         {
-            pathfinder.TryPickWanderPoint(SearchOrigin, searchRadius, out wanderTarget);
+            pathfinder.TryPickWanderPoint(searchOrigin, searchRadius, out wanderTarget);
         }
     }
 }

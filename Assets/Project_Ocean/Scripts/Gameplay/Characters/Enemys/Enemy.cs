@@ -2,11 +2,15 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Runtime enemy facade. Specialized components own health, loot, animation, death handling, and AI.
-    /// </summary>
     public class Enemy : MonoBehaviour
     {
+        [Header("Components")]
+        [SerializeField] private EnemyHealth health;
+        [SerializeField] private EnemyLoot loot;
+        [SerializeField] private EnemyAnimation enemyAnimation;
+        [SerializeField] private EnemyDeathHandler deathHandler;
+        [SerializeField] private EnemyNavAgentBase navAgentHost;
+
         [SerializeField, HideInInspector] private float maxHealth = 100f;
         [SerializeField, HideInInspector] private Item dropItem;
         [SerializeField, HideInInspector] private Rigidbody2D rb;
@@ -15,18 +19,12 @@ namespace Game.Testing
         [SerializeField, HideInInspector] private bool hasAnimator;
         [SerializeField, HideInInspector] private Color deathSpriteColor = Color.red;
 
-        [Header("Components")]
-        [SerializeField] private EnemyHealth health;
-        [SerializeField] private EnemyLoot loot;
-        [SerializeField] private EnemyAnimation enemyAnimation;
-        [SerializeField] private EnemyDeathHandler deathHandler;
-        [SerializeField] private EnemyNavAgentBase navAgentHost;
-
         private Player player;
-        private IEnemyBrain brain;
-
         public Player Player => player;
+
+        private IEnemyBrain brain;
         public IEnemyBrain Brain => brain;
+
         public float CurrentHealth => health != null ? health.CurrentHealth : 0f;
         public float MaxHealth => health != null ? health.MaxHealth : 1f;
         public bool IsAttacking => !IsDeath && brain != null && brain.IsAttacking;
