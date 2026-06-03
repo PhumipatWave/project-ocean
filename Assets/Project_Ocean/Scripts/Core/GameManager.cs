@@ -61,6 +61,9 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            // ✅ ถ้ากำลัง load จาก save ให้ข้ามไป Player.cs จัดการตำแหน่งเองอยู่แล้ว
+            if (SaveBridge.IsLoadingSave) return;
+
             Transform spawnPoint;
 
             if (scene.name == "Land_Map")
@@ -92,6 +95,7 @@ namespace Game.Testing
         public void ReturnToLand()
         {
             //StartCoroutine(FadeRoutine());
+            CurPlayer.OxygenTube.ResetRopeData();
 
             SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;

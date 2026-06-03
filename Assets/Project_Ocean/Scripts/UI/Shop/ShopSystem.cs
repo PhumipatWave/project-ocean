@@ -1,4 +1,3 @@
-using NUnit.Framework.Interfaces;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,43 +8,35 @@ namespace Game.Testing
     public class ShopSystem : MonoBehaviour
     {
         [Header("Play")]
-        public InventoryManager inventory;
-        public PlayerMoney playerMoney;
-
-        //[Header("NPC")]
-        //public GameObject fishshopMan;
-        
+        [SerializeField] private InventoryManager inventory;
+        [SerializeField] private PlayerMoney playerMoney;
 
         [Header("UI Objects (Drag & Drop Here)")]
-        public GameObject sellAllButton;      // ปุ่ม Sell All
-        public GameObject sellSelectButton;   // ปุ่ม Sell Select
-        public GameObject inventorySlot;  // ช่องสี่เหลี่ยมสีฟ้า (Parent ของ Inventory Slots)
-        public GameObject shopbuySlot;              // พื้นหลังหน้าซื้อของ
+        [SerializeField] private GameObject sellAllButton;      // ปุ่ม Sell All
+        [SerializeField] private GameObject sellSelectButton;   // ปุ่ม Sell Select
+        [SerializeField] private GameObject inventorySlot;      // พื้นหลังหน้าขายของ (Parent ของ Inventory Slots)
+        [SerializeField] private GameObject shopbuySlot;        // พื้นหลังหน้าซื้อของ
 
         [Header("Display")]
-        public TMP_Text totalPriceText;
+        [SerializeField] private TMP_Text totalPriceText;       // แสดงราคารวมสำหรับขายทั้งหมดที่มีในกระเป๋า
+        [SerializeField] private TMP_Text clickedItemPriceText; // แสดงราคาของชิ้นที่เราจิ้มเลือกอยู่ (ทั้งซื้อและขาย)
         private bool isSellMode = true;
 
         [Header("Ammo UI Display")]
-        public TMP_Text[] ammoTexts; // ลาก Text ตัวเลขกระสุน 4 อันมาใส่เรียงตามลำดับ (แดง, เหลือง, ฟ้า, เขียว)
-        private int[] ammoCounts = new int[4]; // ตัวแปรเก็บจำนวนกระสุนจริงในโปรแกรม
-
-        [Header("Item UI Display (Sup Items)")]
-        public TMP_Text[] itemTexts; // ลาก Text Element 0 และ 1 มาใส่
-        private int[] itemCounts = new int[2];
-
-
+        [SerializeField] private TMP_Text[] ammoTexts;
+        private int[] ammoCounts = new int[4];
 
         void Update()
         {
             UpdateUI();
+            UpdateClickedItemPriceDisplay(); // ตรวจสอบการคลิกเลือกไอเทมทุกเฟรม
         }
 
         void UpdateUI()
         {
             if (totalPriceText != null)
             {
-                totalPriceText.text = "Sell Total: " + CalculateTotal();
+                totalPriceText.text = "Total Value: " + CalculateTotal();
             }
 
             for (int i = 0; i < ammoTexts.Length; i++)
@@ -56,31 +47,92 @@ namespace Game.Testing
                 }
             }
 
-            for (int i = 0; i < itemTexts.Length; i++)
+        } // UpdateUI ===
+
+        // ระบบตรวจสอบไอเทมที่ถูกเลือกและแสดงราคาชิ้นนั้นๆ 
+        void UpdateClickedItemPriceDisplay()
+        {
+            if (clickedItemPriceText == null) return;
+
+            if (isSellMode)
             {
-                if (itemTexts[i] != null)
+                // โหมดขาย: หา Slot ที่ถูกเลือกใน Inventory
+                InventorySlot selectedInventorySlot = GetSelectedSlot();
+                if (selectedInventorySlot != null)
                 {
-                    itemTexts[i].text = itemCounts[i].ToString();
+                    Draggableltem itemUI = selectedInventorySlot.GetComponentInChildren<Draggableltem>();
+                    if (itemUI != null)
+                    {
+                        int unitPrice = (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f); // Decrease price to 10% for selling
+                        int totalValue = unitPrice * itemUI.count;
+
+                        // แสดงทั้งราคาต่อชิ้น และราคารวมใน Stack ของมัน
+                        clickedItemPriceText.text = $"Price: {unitPrice}";
+                    }
+                    else
+                    {
+                        clickedItemPriceText.text = "Price: 0"; //Sell
+                    }
+                }
+                else
+                {
+                    clickedItemPriceText.text = "Price: 0"; //Sell
                 }
             }
-        }
+            else
+            {
+                // โหมดซื้อ: หา Slot ที่ถูกเลือกใน Shop
+                ShopSlot selectedShopSlot = GetSelectedShopSlot();
+                if (selectedShopSlot != null)
+                {
+                    Draggableltem itemInShop = selectedShopSlot.GetComponentInChildren<Draggableltem>();
+                    if (itemInShop != null)
+                    {
+                        // แสดงราคาสำหรับซื้อ (Cost)
+                        clickedItemPriceText.text = $"Price: {itemInShop.item.ItemPrice}";
+                    }
+                    else
+                    {
+                        clickedItemPriceText.text = "Price: 0"; //Buy
+                    }
+                }
+                else
+                {
+                    clickedItemPriceText.text = "Price: 0"; //Buy
+                }
+            }
 
-        // --- เพิ่มฟังก์ชันสำหรับปุ่ม Buy ---
+        } // UpdateClickedItemPriceDisplay ===
+
+        // ฟังก์ชันช่วยหา ShopSlot ที่กำลังถูกเลือก 
+        private ShopSlot GetSelectedShopSlot()
+        {
+            if (shopbuySlot == null) return null;
+            ShopSlot[] allSlots = shopbuySlot.GetComponentsInChildren<ShopSlot>();
+            foreach (var slot in allSlots)
+            {
+                if (slot.image.color == slot.selectedColor) return slot;
+            }
+            return null;
+
+        } // GetSelectedShopSlot ===
+
+        // --- ฟังก์ชันสำหรับปุ่ม Buy (สลับไปหน้า Shop) ---
         public void SwitchToBuyMode()
         {
-            // ปิด UI ของระบบขาย
             if (sellAllButton != null) sellAllButton.SetActive(false);
             if (sellSelectButton != null) sellSelectButton.SetActive(false);
             if (inventorySlot != null) inventorySlot.SetActive(false);
 
-            // เปิด UI ของระบบซื้อ
             if (shopbuySlot != null) shopbuySlot.SetActive(true);
 
             isSellMode = false;
+            if (clickedItemPriceText != null) clickedItemPriceText.text = "Select an item to buy...";
             Debug.Log("Switched to Buy Mode");
-        }
 
-        // ฟังก์ชันกลับไปหน้าขาย (เผื่อคุณอยากทำปุ่ม Back)
+        } // SwitchToBuyMode ===
+
+        // ฟังก์ชันกลับไปหน้าขาย
         public void SwitchToSellMode()
         {
             if (sellAllButton != null) sellAllButton.SetActive(true);
@@ -89,12 +141,13 @@ namespace Game.Testing
             if (shopbuySlot != null) shopbuySlot.SetActive(false);
 
             isSellMode = true;
-        }
+            if (clickedItemPriceText != null) clickedItemPriceText.text = "Price :";
+
+        } // SwitchToSellMode ===
 
         public int CalculateTotal()
         {
             int total = 0;
-            // ใช้ InventoryManager.Instance ตามที่คุณเขียนไว้ใน SellAll เพื่อความชัวร์
             var slots = InventoryManager.Instance != null ? InventoryManager.Instance.inventorySlots : inventory.inventorySlots;
 
             foreach (InventorySlot slot in slots)
@@ -102,11 +155,12 @@ namespace Game.Testing
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
                 if (itemUI != null)
                 {
-                    total += itemUI.item.sellPrice * itemUI.count;
+                    total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
                 }
             }
             return total;
-        }
+
+        } // CalculateTotal ===
 
         public void Sell()
         {
@@ -119,7 +173,7 @@ namespace Game.Testing
             PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
             if (pm != null)
             {
-                int price = itemUI.item.sellPrice;
+                int price = itemUI.item.ItemPrice;
                 pm.AddMoney(price);
                 itemUI.count--;
                 itemUI.RefreshCount();
@@ -128,33 +182,37 @@ namespace Game.Testing
             }
 
             StartCoroutine(SellRoutine());
-      
-        }
+
+        } // Sell ===
 
         public IEnumerator SellRoutine()
         {
-            yield return new WaitForSeconds(2f);
-            //fishshopMan.SetActive(false);
-            //fishshopFemen.SetActive(false);
+            yield return new WaitForSeconds(1f);
         }
 
         public void SellAll()
         {
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm == null || InventoryManager.Instance == null) return;
+            PlayerMoney playerMoney = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+
+            if (playerMoney == null || InventoryManager.Instance == null) 
+                return;
 
             int total = 0;
             foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
             {
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null) continue;
-                total += itemUI.item.sellPrice * itemUI.count;
+
+                if (itemUI == null || itemUI.item.ItemType != ItemType.Normal)
+                    continue;
+
+                total += itemUI.item.ItemPrice * itemUI.count;
                 Destroy(itemUI.gameObject);
             }
-            pm.AddMoney(total);
+            playerMoney.AddMoney(total);
 
             StartCoroutine(SellRoutine());
-        }
+
+        } // SellAll ===
 
         private InventorySlot GetSelectedSlot()
         {
@@ -164,21 +222,11 @@ namespace Game.Testing
                 if (slot.image.color == slot.SelectedColor) return slot;
             }
             return null;
-        }
+        } // GetSelectedSlot ===
 
         public void BuySelectedItem()
         {
-            ShopSlot selectedSlot = null;
-            ShopSlot[] allSlots = shopbuySlot.GetComponentsInChildren<ShopSlot>();
-
-            foreach (var slot in allSlots)
-            {
-                if (slot.image.color == slot.selectedColor)
-                {
-                    selectedSlot = slot;
-                    break;
-                }
-            }
+            ShopSlot selectedSlot = GetSelectedShopSlot(); // ใช้ฟังก์ชันที่ยุบรวมใหม่ให้สั้นลง
 
             if (selectedSlot != null)
             {
@@ -187,51 +235,34 @@ namespace Game.Testing
                 {
                     PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
 
-                    if (pm.Money >= itemInShop.item.buyPrice)
+                    if (pm.Money >= itemInShop.item.ItemPrice)
                     {
-                        // --- ส่วนที่เพิ่มเข้ามาเพื่ออัปเดตกระสุน ---
-                        if (itemInShop.item.itemType == ItemType.Ammo) // ตรวจสอบว่าเป็นชนิด Ammo
+                        if (itemInShop.item.ItemType == ItemType.Ammo)
                         {
-                            // สมมติว่าเราเช็คจากชื่อหรือการตั้งค่าใน Item Data
-                            // ตัวอย่าง: ถ้าชื่อมีคำว่า Red ให้บวกช่องที่ 0
                             if (itemInShop.item.name.Contains("Ammo1")) ammoCounts[0]++;
                             else if (itemInShop.item.name.Contains("Ammo2")) ammoCounts[1]++;
                             else if (itemInShop.item.name.Contains("Ammo3")) ammoCounts[2]++;
                             else if (itemInShop.item.name.Contains("Ammo4")) ammoCounts[3]++;
 
-                            pm.Use(itemInShop.item.buyPrice);
-                            UpdateUI(); // สั่งให้ UI เปลี่ยนตัวเลขทันที
+                            pm.Use(itemInShop.item.ItemPrice);
+                            UpdateUI();
                             Debug.Log("Bought Ammo: " + itemInShop.item.name);
                         }
                         else
                         {
-                            // ถ้าไม่ใช่กระสุน (เช่น ไอเทมสีส้ม) ให้ส่งเข้ากระเป๋าปกติ
-                            if (InventoryManager.Instance.AddItem(itemInShop.item))
+                            if (itemInShop.item.ItemType == ItemType.Building)
                             {
-                                pm.Use(itemInShop.item.buyPrice);
-
-                                // เช็คชื่อเพื่อไปอัปเดต UI ขวาล่าง (แก้ชื่อ "ItemName1" เป็นชื่อไอเทมของคุณจริงๆ)
-                                if (itemInShop.item.itemID == "CheckPoint") // Element 0
+                                if (InventoryManager.Instance.AddItem(itemInShop.item))
                                 {
-                                    itemCounts[0]++;
-                                }
-                                else if (itemInShop.item.itemID == "MiniHub") // Element 1
-                                {
-                                    itemCounts[1]++;
+                                    pm.Use(itemInShop.item.ItemPrice);
                                 }
                             }
                         }
-
                     }
                 }
-
-            } // selectedSlot != null ===
+            }
 
             StartCoroutine(SellRoutine());
-
         } // BuySelectedItem ===
-
     } // ShopSystem ===
-
-
 }

@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: Ammo1
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  itemID: 
-  tile: {fileID: 0}
-  itemType: 4
-  itemPrefab: {fileID: 0}
-  stackable: 1
-  image: {fileID: 6879118450950661895, guid: d2dfdcd610f50774c9eb7e4000ae1f48, type: 3}
-  buyPrice: 10
-  sellPrice: 5
+  ItemID: 0
+  ItemName: Normal Ammo
+  ItemType: 4
+  ItemVisual: {fileID: -8884994177022482238, guid: 93b79e1a780be384cbacddc455c1d648, type: 3}
+  ItemPrefab: {fileID: 0}
+  MaxStackable: 99
+  ItemPrice: 10
