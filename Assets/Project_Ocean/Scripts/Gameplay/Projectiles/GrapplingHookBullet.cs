@@ -1,13 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using static Unity.Cinemachine.CinemachineSplineRoll;
 
 namespace Game.Testing
 {
     public class GrapplingHookBullet : Bullet
     {
-        [SerializeField] private Player player;
-
         private Transform targetObj;
         private Vector2 localPoint;
 
@@ -15,18 +12,6 @@ namespace Game.Testing
         public bool AttachedToObject { get { return attachedToObject; } }
 
         private bool isDashReachingTarget;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        }
-
-        protected override void Start()
-        {
-
-        }
 
         protected override void FixedUpdate()
         {
@@ -167,7 +152,7 @@ namespace Game.Testing
             Destroy(gameObject);
         }
 
-        public IEnumerator HookFishRoutine(GameObject target)
+        /*public IEnumerator HookFishRoutine(GameObject target)
         {
             attachedToObject = true;
             player.GunHandler.IsHooked = true;
@@ -198,6 +183,6 @@ namespace Game.Testing
 
             RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
             Destroy(gameObject);
-        }
+        }*/
     }
 }

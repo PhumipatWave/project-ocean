@@ -257,7 +257,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455829743248848503}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b335be1345f6fa44397a9d07a78822bc, type: 3}
   m_Name: 
@@ -992,7 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc85d89dcb9128449dc79b6ba22734d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerOxygenTube
-  line: {fileID: 0}
+  line: {fileID: 5126783939423844365}
   startPointPrefab: {fileID: 8193605775773355012, guid: 993dc56d799905c42a679af7f423230c, type: 3}
   startPoint: {fileID: 0}
   endPoint: {fileID: 4470129359587397084}
@@ -1009,7 +1009,14 @@ MonoBehaviour:
   friction: 0.9
   removeAngle: 120
   wrapCooldownFrames: 8
-  mergeDistance: 0.25
+  wrapSettings:
+    minUnwrapAngle: 88
+    minUnwrapDistanceFactor: 1.5
+    unwrapNormalDot: 0.35
+    crossHysteresis: 0.06
+    passedCornerFactor: 0.6
+    allowUnwrapWithoutSideCross: 1
+    minUnwrapAngleForNoSideCross: 100
   maxCheckpoints: 3
   checkPointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   miniHubPrefab: {fileID: 2016369825598416511, guid: a12d0b890f8fa3f49beeb32aba9d755f, type: 3}

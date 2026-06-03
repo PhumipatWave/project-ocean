@@ -20,6 +20,7 @@ TagManager:
   - HouseUI
   - UpgradeUI
   - InventoryUI
+  - InteractBuild
   layers:
   - Default
   - TransparentFX
@@ -71,6 +72,9 @@ TagManager:
     locked: 0
   - name: Prop
     uniqueID: 1453530473
+    locked: 0
+  - name: Particle
+    uniqueID: 1396949517
     locked: 0
   - name: Building
     uniqueID: 2932453927

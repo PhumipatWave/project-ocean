@@ -11,6 +11,8 @@ namespace Game.Testing
         [SerializeField] protected float moveSpeed = 15f;
         [SerializeField] protected float attackDamage = 25f;
 
+        protected bool isHit;
+
         protected Vector2 shootDir;
 
         protected virtual void Awake()
@@ -31,6 +33,8 @@ namespace Game.Testing
 
         protected virtual void FixedUpdate()
         {
+            if (isHit) return;
+
             BulletDirection();
             rb.linearVelocity = shootDir * moveSpeed;
         }
@@ -39,19 +43,28 @@ namespace Game.Testing
         {
             switch (collision.tag)
             {
+                case "Environment":
+                    isHit = true;
+                    rb.linearVelocity = Vector2.zero;
+                    gameObject.GetComponent<Collider2D>().enabled = false;
+                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    break;
+
                 case "Enemy":
 
                     Enemy enemy = collision.GetComponent<Enemy>();
                     enemy.TakeDamage(attackDamage);
+                    (enemy.Brain as IBrainHitReaction)?.OnBulletHit();
 
                     var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
-                    player.GunHandler.CanAttack = true;
                     player.GunHandler.ResetGunRotation(player.FaceDir);
-
-                    Destroy(gameObject);
-
+                    
+                    isHit = true;
+                    rb.linearVelocity = Vector2.zero;
+                    gameObject.GetComponent<Collider2D>().enabled = false;
+                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                     break;
             }
         }
@@ -64,11 +77,11 @@ namespace Game.Testing
 
         protected IEnumerator ShootCooldownRoutine()
         {
-            Destroy(gameObject, 3f);
             player.GunHandler.ResetGunRotation(player.FaceDir);
 
             yield return new WaitForSeconds(2.25f);
             player.GunHandler.CanAttack = true;
+            Destroy(gameObject);
         }
     }
 }
