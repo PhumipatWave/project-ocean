@@ -78,7 +78,7 @@ namespace Game.Testing
                 if (m == null) continue;
                 var agent = m.GetComponent<EnemyNavAgentBase>();
                 if (agent == null) continue;
-                (agent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
+                (agent.ActiveBrain as IBrainHitReaction)?.OnHit();
             }
         }
 

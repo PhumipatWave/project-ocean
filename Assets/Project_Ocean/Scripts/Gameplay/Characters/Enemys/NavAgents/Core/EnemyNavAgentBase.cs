@@ -34,7 +34,7 @@ namespace Game.Testing
 
         public IEnemyBrain ActiveBrain => enemyBrain;
 
-        protected bool isEnemyDead => enemy != null && enemy.IsDeath;
+        protected bool isEnemyDead => enemy != null && enemy.IsDead;
         protected Player player => enemy != null ? enemy.Player : null;
         protected Transform playerTransform => player != null ? player.transform : null;
 
