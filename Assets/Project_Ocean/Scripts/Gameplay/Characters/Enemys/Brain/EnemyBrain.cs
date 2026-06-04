@@ -21,7 +21,7 @@ namespace Game.Testing
         }
 
         public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
-        public void OnBulletHit() => OnHit(enemyBrainContext?.PlayerTransform);
+        public void OnHit() => OnHit(enemyBrainContext?.PlayerTransform);
 
         public void OnPlayerCollision()
         {
