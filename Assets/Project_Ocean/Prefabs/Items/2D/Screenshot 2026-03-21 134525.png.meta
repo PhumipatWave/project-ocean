@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6d73d2baf0daa694a8c52248bffa709f
+guid: 3514ede733ea7d940ad764b2170ea11f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3912320822816903335
-    second: Screenshot 2026-03-09 165834_0
+      213: 8819993255232553151
+    second: Screenshot 2026-03-21 134525_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Screenshot 2026-03-09 165834_0
+      name: Screenshot 2026-03-21 134525_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1070
-        height: 854
+        width: 1919
+        height: 1079
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a09d5b5f0b5b4630800000000000000
-      internalID: 3912320822816903335
+      spriteID: fb04a73a229e66a70800000000000000
+      internalID: 8819993255232553151
       vertices: []
       indices: 
       edges: []
@@ -135,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Screenshot 2026-03-09 165834_0: 3912320822816903335
+      Screenshot 2026-03-21 134525_0: 8819993255232553151
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
