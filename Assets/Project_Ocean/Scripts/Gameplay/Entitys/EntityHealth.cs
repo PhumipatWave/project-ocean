@@ -12,6 +12,9 @@ namespace Game.Testing
 
         [Header("Hit Flash")]
         [SerializeField] private Color hitColor = new Color(0f, 0.1f, 0.5f);
+        public Color HitColor => hitColor;
+
+
         [SerializeField] private float flashDuration = 0.15f;
 
         private SpriteRenderer spriteRenderer;
