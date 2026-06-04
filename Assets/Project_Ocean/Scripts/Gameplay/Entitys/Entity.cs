@@ -11,7 +11,7 @@ namespace Game.Testing
         [SerializeField] protected EntityDeathHandler entityDeathHandler;
         [SerializeField] protected Rigidbody2D rb;
 
-        [SerializeField] private EntityHealth entityHealth;
+        [SerializeField] protected EntityHealth entityHealth;
 
         protected IEntityHealth healthSource;
         #endregion

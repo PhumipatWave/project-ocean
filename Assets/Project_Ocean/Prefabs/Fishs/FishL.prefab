@@ -776,10 +776,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
-  entityHealth: {fileID: 5316214610149181874}
   entityAnimation: {fileID: 6637633734297046743}
   entityDeathHandler: {fileID: 5709477160903594486}
   rb: {fileID: 4214589482347048590}
+  entityHealth: {fileID: 5316214610149181874}
   loot: {fileID: 3280145725471776177}
   navAgentHost: {fileID: 2234005039591698591}
   maxHealth: 100
@@ -801,6 +801,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
   maxHealth: 100
+  hitColor: {r: 0.34117648, g: 0, b: 0.5, a: 1}
+  flashDuration: 0.15
 --- !u!114 &6637633734297046743
 MonoBehaviour:
   m_ObjectHideFlags: 0
