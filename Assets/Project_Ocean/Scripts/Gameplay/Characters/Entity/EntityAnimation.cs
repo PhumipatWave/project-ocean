@@ -2,11 +2,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Pure modular animation driver for any Entity.
-    /// Has zero knowledge of specific parameter names or states.
-    /// All callers (Enemy, Player, etc.) own their own parameter strings/hashes.
-    /// </summary>
     public class EntityAnimation : MonoBehaviour
     {
         [SerializeField] private Animator anim;
