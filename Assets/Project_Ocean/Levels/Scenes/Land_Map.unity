@@ -248,51 +248,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &6033249
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6033250}
-  - component: {fileID: 6033251}
-  m_Layer: 0
-  m_Name: InventoryPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &6033250
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6033249}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1827186588}
-  m_Father: {fileID: 1672761518}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6033251
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6033249}
-  m_CullTransparentMesh: 1
 --- !u!1 &10737576
 GameObject:
   m_ObjectHideFlags: 0
@@ -126209,7 +126164,7 @@ MonoBehaviour:
   playerMoney: {fileID: 7315970702637260282, guid: 968e593f9a495034f8f612b35e8f585d, type: 3}
   sellAllButton: {fileID: 1241298084}
   sellSelectButton: {fileID: 597413827}
-  inventorySlot: {fileID: 6033249}
+  inventorySlot: {fileID: 0}
   shopbuySlot: {fileID: 183133133}
   totalPriceText: {fileID: 1472664831}
   clickedItemPriceText: {fileID: 1843393955}
@@ -127212,15 +127167,15 @@ RectTransform:
   m_GameObject: {fileID: 467448114}
   m_LocalRotation: {x: -0, y: -0, z: 0.3420201, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.500007, y: 2.500007, z: 2.5000072}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1841357588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -36, y: 53.4}
-  m_SizeDelta: {x: 33.084, y: 28.948}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &467448116
 MonoBehaviour:
@@ -127242,7 +127197,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1977097965467367742, guid: 9810abb02c8358c43b3ec4e95a1557d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9810abb02c8358c43b3ec4e95a1557d2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -130019,7 +129974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 572618356}
   m_Layer: 5
-  m_Name: Upgrade UI
+  m_Name: UpgradePanel
   m_TagString: UpgradeUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130038,7 +129993,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 798971135}
-  m_Father: {fileID: 1773634796}
+  m_Father: {fileID: 1672761518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -155749,7 +155704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1578345926}
   m_Layer: 5
-  m_Name: ShopPanel UI
+  m_Name: ShopPanel
   m_TagString: ShopUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155769,7 +155724,7 @@ RectTransform:
   m_Children:
   - {fileID: 653430634}
   - {fileID: 183133134}
-  m_Father: {fileID: 1773634796}
+  m_Father: {fileID: 1672761518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -206313,9 +206268,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1773634796}
-  - {fileID: 6033250}
   - {fileID: 1840922628}
+  - {fileID: 1578345926}
+  - {fileID: 572618356}
+  - {fileID: 1827186588}
   - {fileID: 1228918848}
   - {fileID: 911797350}
   - {fileID: 1436342090}
@@ -2190588,52 +2190544,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &1773634795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1773634796}
-  - component: {fileID: 1773634797}
-  m_Layer: 0
-  m_Name: ShopPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1773634796
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773634795}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1578345926}
-  - {fileID: 572618356}
-  m_Father: {fileID: 1672761518}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1773634797
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1773634795}
-  m_CullTransparentMesh: 1
 --- !u!1 &1774748803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191564,7 +2191474,7 @@ GameObject:
   - component: {fileID: 1827186590}
   - component: {fileID: 1827186589}
   m_Layer: 5
-  m_Name: InventoryMenu
+  m_Name: InventoryPanel
   m_TagString: InventoryUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2191579,7 +2191489,7 @@ RectTransform:
   m_GameObject: {fileID: 1827186587}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 1.2500001, y: 1.2500001, z: 1.2500001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1343728290}
@@ -2191587,11 +2191497,11 @@ RectTransform:
   - {fileID: 940202359}
   - {fileID: 1264451169}
   - {fileID: 273645547}
-  m_Father: {fileID: 6033250}
+  m_Father: {fileID: 1672761518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000011444092, y: -0.0000076293945}
+  m_AnchoredPosition: {x: 0.000011444092, y: -0}
   m_SizeDelta: {x: 1066.6667, y: 302.08334}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1827186589

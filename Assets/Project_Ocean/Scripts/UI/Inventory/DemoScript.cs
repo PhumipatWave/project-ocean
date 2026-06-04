@@ -15,7 +15,7 @@ namespace Game.Testing
             }
             else
             {
-                Debug.Log("Picked up item");
+                Debug.Log("No space for item!");
             }
         }
 
