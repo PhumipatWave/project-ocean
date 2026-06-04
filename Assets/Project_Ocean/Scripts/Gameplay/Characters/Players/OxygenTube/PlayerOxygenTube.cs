@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class PlayerOxygenTube : MonoBehaviour
+        public class PlayerOxygenTube : MonoBehaviour, IEntityHealth
     {
         [Header("Reference Points")]
         [SerializeField] private LineRenderer line;
@@ -241,6 +241,34 @@ namespace Game.Testing
             Rebuild();
             ropeVisual.Draw(subRopes);
         }
+
+        // ── IEntityHealth implementation ────────────────────────────────────
+
+        public event System.Action OnDamaged;
+        public event System.Action OnDied;
+
+        float IEntityHealth.CurrentHealth => Mathf.Max(0f, maxRopeLength - reduchMaxRopeLenght);
+        float IEntityHealth.MaxHealth     => maxRopeLength;
+        bool  IEntityHealth.IsDead        => maxRopeLength <= 0f;
+
+        void IEntityHealth.Initialize() { /* rope initialized via Rebuild() */ }
+
+        void IEntityHealth.TakeDamage(float amount)
+        {
+            if (((IEntityHealth)this).IsDead) return;
+            reduchMaxRopeLenght += amount;
+            maxRopeLength        = Mathf.Max(0f, maxRopeLength - amount);
+            if (maxRopeLength <= 0f) OnDied?.Invoke();
+            else                    OnDamaged?.Invoke();
+        }
+
+        void IEntityHealth.Heal(float amount)
+        {
+            maxRopeLength       += amount;
+            reduchMaxRopeLenght  = Mathf.Max(0f, reduchMaxRopeLenght - amount);
+        }
+
+        // ── Existing rope methods ────────────────────────────────────────────
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
         public float GetMaxLength() => maxRopeLength;

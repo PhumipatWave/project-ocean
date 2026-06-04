@@ -7,12 +7,11 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Testing
 {
-    public class Player : MonoBehaviour
+    public class Player : Entity
     {
         [Header("Player Component")]
         public InputReader input;
 
-        [SerializeField] private Animator anim;
 
         [SerializeField] private AudioSource audio;
         public AudioSource Audio { get { return audio; } }
@@ -29,7 +28,6 @@ namespace Game.Testing
         private PlayerOxygenTube oxygenTube;
         public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
 
-        [SerializeField] private Rigidbody2D rb;
         public Rigidbody2D RB { get { return rb; } }
 
         [Header("Player Object")]
@@ -58,20 +56,22 @@ namespace Game.Testing
         private float originTime = 1f;
         private float focusTime = .6f;
 
-        [SerializeField] private bool isDeath;
-
-        private void Awake()
+        protected override void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+            base.Awake();
             audio = GetComponent<AudioSource>();
-
-            anim = GetComponentInChildren<Animator>();
-
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
             oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
-
             DontDestroyOnLoad(gameObject);
         }
+
+        protected override IEntityHealth ProvideHealthSource()
+        {
+            if (oxygenTube == null)
+                oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+            return oxygenTube as IEntityHealth;
+        }
+
 
         private void Start()
         {
@@ -111,7 +111,7 @@ namespace Game.Testing
 
                 gunHandler.gameObject.SetActive(false);
                 isLand = true;
-                anim.SetBool("isLand", isLand);
+                entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
             }
             else if (scene.name == "Ocean_Map")
             {
@@ -129,7 +129,7 @@ namespace Game.Testing
 
                 gunHandler.gameObject.SetActive(true);
                 isLand = false;
-                anim.SetBool("isLand", isLand);
+                entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
 
                 Debug.Log(oxygenTube.StartPointPrefab);
 
@@ -148,7 +148,6 @@ namespace Game.Testing
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
-
 
             // Test Input
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -182,8 +181,6 @@ namespace Game.Testing
                 /*if (Input.GetKeyDown(KeyCode.T))
                     oxygenTube.TeleportToCheckPoint();*/
             }
-
-            //PreventMoveOutFromWater();
         }
 
         void UseItem(ItemType type)
@@ -318,30 +315,35 @@ namespace Game.Testing
             FlipSprite();
         }
 
-        public void TakeDamage(float amount)
+        protected override void OnDamagedHandler()
         {
+            // Rope length is already reduced by IEntityHealth.TakeDamage on PlayerOxygenTube.
+            // Only handle the player-side reactions here.
+            audio?.PlayOneShot(playerHurtSound);
+            //entityAnimation?.PlayAnim(AnimHash.TakeDamage);
+        }
 
-            audio.PlayOneShot(playerHurtSound);
-            oxygenTube.ReduceMaxRopeLenght += amount;
-            oxygenTube.MaxRopeLength = oxygenTube.MaxRopeLength - amount;
+        protected override void OnDeathHandler()
+        {
+            entityDeathHandler?.HandleDeath();
         }
         #endregion
 
         #region PlayerAnimation
         private void MovementAnim()
         {
-            anim.SetFloat("velX", rb.linearVelocity.x);
-            anim.SetFloat("velY", rb.linearVelocity.y);
+            entityAnimation?.PlayAnim(AnimHash.VelX, rb.linearVelocity.x);
+            entityAnimation?.PlayAnim(AnimHash.VelY, rb.linearVelocity.y);
         }
 
         private void AimAnim()
         {
-            anim.SetBool("isAim", gunHandler.IsAimming);
+            entityAnimation?.PlayAnim(AnimHash.IsAim, gunHandler.IsAimming);
         }
 
         private void StabAnim()
         {
-            anim.SetTrigger("stab");
+            entityAnimation?.PlayAnim(AnimHash.Stab);
         }
         #endregion
 

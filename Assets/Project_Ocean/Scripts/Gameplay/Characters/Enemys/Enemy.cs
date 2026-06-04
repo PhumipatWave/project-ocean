@@ -2,18 +2,14 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : Entity
     {
-        [Header("Components")]
-        [SerializeField] private EnemyHealth health;
+        [Header("Enemy Components")]
         [SerializeField] private EnemyLoot loot;
-        [SerializeField] private EnemyAnimation enemyAnimation;
-        [SerializeField] private EnemyDeathHandler deathHandler;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
         [SerializeField, HideInInspector] private float maxHealth = 100f;
         [SerializeField, HideInInspector] private Item dropItem;
-        [SerializeField, HideInInspector] private Rigidbody2D rb;
         [SerializeField, HideInInspector] private SpriteRenderer fishSprite;
         [SerializeField, HideInInspector] private Animator anim;
         [SerializeField, HideInInspector] private bool hasAnimator;
@@ -25,136 +21,78 @@ namespace Game.Testing
         private IEnemyBrain brain;
         public IEnemyBrain Brain => brain;
 
-        public float CurrentHealth => health != null ? health.CurrentHealth : 0f;
-        public float MaxHealth => health != null ? health.MaxHealth : 1f;
-        public bool IsAttacking => !IsDeath && brain != null && brain.IsAttacking;
-        public bool IsDeath => health != null && health.IsDead;
+        public bool IsAttacking => !IsDead && brain != null && brain.IsAttacking;
 
-        private void Awake()
+        protected override void Awake()
         {
-            CacheComponents();
-            SubscribeHealth();
+            base.Awake();
+            CacheEnemyComponents();
+            ApplyLegacySerializedValues();
             InitializeNavHost();
             InitializeState();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            UnsubscribeHealth();
+            base.OnDestroy();
         }
 
         private void Update()
         {
-            enemyAnimation?.SetAttacking(IsAttacking);
+            entityAnimation?.PlayAnim(AnimHash.IsAttack, IsAttacking);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!collision.gameObject.CompareTag("Player"))
-                return;
-
-            if (IsDeath)
-            {
-                loot?.CollectByPlayer();
-                return;
-            }
-
+            if (!collision.gameObject.CompareTag("Player")) return;
+            if (IsDead) { loot?.CollectByPlayer(); return; }
             (brain as IBrainHitReaction)?.OnPlayerCollision();
+        }
+
+        protected override void OnDamagedHandler()
+        {
+            (brain as IBrainHitReaction)?.OnHit();
+            entityAnimation?.PlayAnim(AnimHash.TakeDamage);
+        }
+
+        protected override void OnDeathHandler()
+        {
+            entityDeathHandler?.HandleDeath(brain);
         }
 
         public void RegisterNavAgent(EnemyNavAgentBase agent)
         {
-            if (agent == null)
-                return;
-
+            if (agent == null) return;
             agent.Initialize(this);
             navAgentHost = agent;
             brain = agent.ActiveBrain;
         }
 
-        public void TakeDamage(float amount)
+        private void CacheEnemyComponents()
         {
-            health?.TakeDamage(amount);
-        }
-
-        private void CacheComponents()
-        {
-            if (health == null)
-                health = GetOrAddComponent<EnemyHealth>();
-
-            if (loot == null)
-                loot = GetOrAddComponent<EnemyLoot>();
-
-            if (enemyAnimation == null)
-                enemyAnimation = GetOrAddComponent<EnemyAnimation>();
-
-            if (deathHandler == null)
-                deathHandler = GetOrAddComponent<EnemyDeathHandler>();
-
-            if (navAgentHost == null)
-                navAgentHost = GetComponent<EnemyNavAgentBase>();
-
-            ApplyLegacySerializedValues();
-        }
-
-        private void SubscribeHealth()
-        {
-            if (health == null)
-                return;
-
-            health.OnDamaged += OnDamaged;
-            health.OnDied += OnDied;
-        }
-
-        private void UnsubscribeHealth()
-        {
-            if (health == null)
-                return;
-
-            health.OnDamaged -= OnDamaged;
-            health.OnDied -= OnDied;
+            if (loot == null) loot = GetOrAddComponent<EnemyLoot>();
+            if (navAgentHost == null) navAgentHost = GetComponent<EnemyNavAgentBase>();
         }
 
         private void InitializeNavHost()
         {
-            if (navAgentHost == null)
-                navAgentHost = GetComponent<EnemyNavAgentBase>();
-
+            if (navAgentHost == null) navAgentHost = GetComponent<EnemyNavAgentBase>();
             navAgentHost?.Initialize(this);
         }
 
         private void InitializeState()
         {
             player = GameManager.CurPlayer != null
-                ? GameManager.CurPlayer.GetComponent<Player>()
-                : null;
-
-            health?.Initialize();
-        }
-
-        private void OnDamaged()
-        {
-            enemyAnimation?.PlayTakeDamage();
-        }
-
-        private void OnDied()
-        {
-            deathHandler?.HandleDeath(brain);
-            enemyAnimation?.PlayDeath();
+                ? GameManager.CurPlayer.GetComponent<Player>() : null;
+            healthSource?.Initialize();
         }
 
         private void ApplyLegacySerializedValues()
         {
-            health?.Configure(maxHealth);
+            (healthSource as EntityHealth)?.Configure(maxHealth);
             loot?.Configure(dropItem);
-            enemyAnimation?.Configure(hasAnimator, anim);
-            deathHandler?.Configure(rb, fishSprite, deathSpriteColor);
-        }
-
-        private T GetOrAddComponent<T>() where T : Component
-        {
-            T component = GetComponent<T>();
-            return component != null ? component : gameObject.AddComponent<T>();
+            entityAnimation?.Configure(anim);
+            entityDeathHandler?.Configure(rb, fishSprite, deathSpriteColor);
         }
     }
 }

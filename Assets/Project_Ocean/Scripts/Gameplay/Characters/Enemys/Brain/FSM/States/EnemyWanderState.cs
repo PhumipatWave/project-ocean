@@ -152,7 +152,7 @@ namespace Game.Testing
                 if (hit.gameObject == enemyBrainContext.Host.gameObject || !hit.TryGetComponent<EnemyNavAgentBase>(out var otherAgent)) 
                     continue;
 
-                (otherAgent.ActiveBrain as IBrainHitReaction)?.OnBulletHit();
+                (otherAgent.ActiveBrain as IBrainHitReaction)?.OnHit();
             }
         }
     }

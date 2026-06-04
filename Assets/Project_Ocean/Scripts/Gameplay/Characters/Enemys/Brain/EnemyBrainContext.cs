@@ -20,6 +20,6 @@ namespace Game.Testing
         public Player Player => Owner != null ? Owner.Player : null;
         public Transform PlayerTransform => Player != null ? Player.transform : null;
 
-        public bool IsDead => Owner != null && Owner.IsDeath;
+        public bool IsDead => Owner != null && Owner.IsDead;
     }
 }

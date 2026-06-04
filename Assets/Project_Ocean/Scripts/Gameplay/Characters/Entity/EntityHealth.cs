@@ -3,9 +3,13 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class EnemyHealth : MonoBehaviour
+    /// <summary>
+    /// Generic health component usable by any Entity (Player, Enemy, etc).
+    /// Renamed from EnemyHealth — logic is identical + added Heal().
+    /// </summary>
+    public class EntityHealth : MonoBehaviour, IEntityHealth
     {
-        #region FieldsProperties
+        #region Fields & Properties
         [SerializeField] private float maxHealth = 100f;
 
         public event Action OnDamaged;
@@ -13,7 +17,7 @@ namespace Game.Testing
 
         private float currentHealth;
         public float CurrentHealth => currentHealth;
-        public float MaxHealth => maxHealth;
+        public float MaxHealth     => maxHealth;
 
         private bool isDead;
         public bool IsDead => isDead;
@@ -27,13 +31,12 @@ namespace Game.Testing
         public void Initialize()
         {
             currentHealth = maxHealth;
-            isDead = false;
+            isDead        = false;
         }
 
         public void TakeDamage(float amount)
         {
-            if (isDead)
-                return;
+            if (isDead) return;
 
             currentHealth = Mathf.Max(0f, currentHealth - amount);
 
@@ -45,6 +48,12 @@ namespace Game.Testing
             }
 
             OnDamaged?.Invoke();
+        }
+
+        public void Heal(float amount)
+        {
+            if (isDead) return;
+            currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
         }
     }
 }
