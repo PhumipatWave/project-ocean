@@ -17,6 +17,10 @@ namespace Game.Testing
         [SerializeField] private GameObject inventorySlot;      // พื้นหลังหน้าขายของ (Parent ของ Inventory Slots)
         [SerializeField] private GameObject shopbuySlot;        // พื้นหลังหน้าซื้อของ
 
+        [Header("Inventory In Shop Slots")]
+        [SerializeField] private InventorySlot[] shopInventorySlots;
+        [SerializeField] private GameObject inventoryItemPrefab;
+
         [Header("Display")]
         [SerializeField] private TMP_Text totalPriceText;       // แสดงราคารวมสำหรับขายทั้งหมดที่มีในกระเป๋า
         [SerializeField] private TMP_Text clickedItemPriceText; // แสดงราคาของชิ้นที่เราจิ้มเลือกอยู่ (ทั้งซื้อและขาย)
@@ -26,6 +30,10 @@ namespace Game.Testing
         [SerializeField] private TMP_Text[] ammoTexts;
         private int[] ammoCounts = new int[4];
 
+        private void OnEnable()
+        {
+            RefreshShopInventory();
+        }
         void Update()
         {
             UpdateUI();
@@ -49,6 +57,44 @@ namespace Game.Testing
 
         } // UpdateUI ===
 
+        public void RefreshShopInventory()
+        {
+            for (int i = 0; i < shopInventorySlots.Length; i++)
+            {
+                foreach (Transform child in shopInventorySlots[i].transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            if (InventoryManager.Instance == null) return;
+            InventorySlot[] realPlayerSlots = InventoryManager.Instance.InventorySlots;
+
+            for (int i = 0; i < shopInventorySlots.Length; i++)
+            {
+                if (i >= realPlayerSlots.Length) break;
+
+                if (realPlayerSlots[i].isUnlocked)
+                {
+                    shopInventorySlots[i].SetLocked(false);
+
+                    Draggableltem realItem = realPlayerSlots[i].GetComponentInChildren<Draggableltem>();
+                    if (realItem != null)
+                    {
+                        GameObject newItemGo = Instantiate(inventoryItemPrefab, shopInventorySlots[i].transform);
+                        Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
+                        shopItem.InitialiseItem(realItem.item);
+                        shopItem.count = realItem.count;
+                        shopItem.RefreshCount();
+                    }
+                }
+                else
+                {
+                    shopInventorySlots[i].SetLocked(true);
+                }
+            }
+        }
+
         // ระบบตรวจสอบไอเทมที่ถูกเลือกและแสดงราคาชิ้นนั้นๆ 
         void UpdateClickedItemPriceDisplay()
         {
@@ -56,7 +102,7 @@ namespace Game.Testing
 
             if (isSellMode)
             {
-                // โหมดขาย: หา Slot ที่ถูกเลือกใน Inventory
+                // เปลี่ยนไปหาช่องที่ถูกเลือกจากฝั่งสล็อตของร้านค้าแทนกระเป๋าจริง
                 InventorySlot selectedInventorySlot = GetSelectedSlot();
                 if (selectedInventorySlot != null)
                 {
@@ -64,19 +110,16 @@ namespace Game.Testing
                     if (itemUI != null)
                     {
                         int unitPrice = (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f); // Decrease price to 10% for selling
-                        int totalValue = unitPrice * itemUI.count;
-
-                        // แสดงทั้งราคาต่อชิ้น และราคารวมใน Stack ของมัน
                         clickedItemPriceText.text = $"Price: {unitPrice}";
                     }
                     else
                     {
-                        clickedItemPriceText.text = "Price: 0"; //Sell
+                        clickedItemPriceText.text = "Price: 0";
                     }
                 }
                 else
                 {
-                    clickedItemPriceText.text = "Price: 0"; //Sell
+                    clickedItemPriceText.text = "Price: 0";
                 }
             }
             else
@@ -88,17 +131,16 @@ namespace Game.Testing
                     Draggableltem itemInShop = selectedShopSlot.GetComponentInChildren<Draggableltem>();
                     if (itemInShop != null)
                     {
-                        // แสดงราคาสำหรับซื้อ (Cost)
                         clickedItemPriceText.text = $"Price: {itemInShop.item.ItemPrice}";
                     }
                     else
                     {
-                        clickedItemPriceText.text = "Price: 0"; //Buy
+                        clickedItemPriceText.text = "Price: 0";
                     }
                 }
                 else
                 {
-                    clickedItemPriceText.text = "Price: 0"; //Buy
+                    clickedItemPriceText.text = "Price: 0";
                 }
             }
 
@@ -143,6 +185,8 @@ namespace Game.Testing
             isSellMode = true;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price :";
 
+            RefreshShopInventory(); // รีเฟรชไอเทมทุกครั้งที่สลับกลับมาหน้าขาย
+
         } // SwitchToSellMode ===
 
         public int CalculateTotal()
@@ -170,15 +214,44 @@ namespace Game.Testing
             Draggableltem itemUI = selectedSlot.GetComponentInChildren<Draggableltem>();
             if (itemUI == null) return;
 
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm != null)
+            // ตรวจสอบว่าช่องที่เลือกในร้านค้า คือช่องลำดับที่เท่าไหร่
+            int slotIndex = -1;
+            for (int i = 0; i < shopInventorySlots.Length; i++)
             {
-                int price = itemUI.item.ItemPrice;
-                pm.AddMoney(price);
-                itemUI.count--;
-                itemUI.RefreshCount();
-                if (itemUI.count <= 0) Destroy(itemUI.gameObject);
-                UpdateUI();
+                if (shopInventorySlots[i] == selectedSlot)
+                {
+                    slotIndex = i;
+                    break;
+                }
+            }
+
+            if (slotIndex == -1) return;
+
+            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            if (pm != null && InventoryManager.Instance != null)
+            {
+                // ดึงสล็อตจริงของผู้เล่นตาม Index มาหักจำนวนออก
+                InventorySlot realSlot = InventoryManager.Instance.InventorySlots[slotIndex];
+                Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
+
+                if (realItem != null)
+                {
+                    int unitPrice = (int)(realItem.item.ItemPrice - realItem.item.ItemPrice * 0.1f);
+                    pm.AddMoney(unitPrice);
+
+                    realItem.count--;
+                    if (realItem.count <= 0)
+                    {
+                        Destroy(realItem.gameObject);
+                    }
+                    else
+                    {
+                        realItem.RefreshCount();
+                    }
+
+                    // สั่งให้สล็อตหน้าร้านค้ารีเฟรชตามข้อมูลล่าสุดทันที
+                    Invoke("RefreshShopInventory", 0.02f);
+                }
             }
 
             StartCoroutine(SellRoutine());
@@ -194,7 +267,7 @@ namespace Game.Testing
         {
             PlayerMoney playerMoney = GameManager.CurPlayer.GetComponent<PlayerMoney>();
 
-            if (playerMoney == null || InventoryManager.Instance == null) 
+            if (playerMoney == null || InventoryManager.Instance == null)
                 return;
 
             int total = 0;
@@ -205,28 +278,30 @@ namespace Game.Testing
                 if (itemUI == null || itemUI.item.ItemType != ItemType.Normal)
                     continue;
 
-                total += itemUI.item.ItemPrice * itemUI.count;
+                total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
                 Destroy(itemUI.gameObject);
             }
             playerMoney.AddMoney(total);
 
+            // รีเฟรชหน้าร้านค้าหลังขายเสร็จทั้งหมด
+            Invoke("RefreshShopInventory", 0.05f);
             StartCoroutine(SellRoutine());
 
         } // SellAll ===
 
         private InventorySlot GetSelectedSlot()
         {
-            if (InventoryManager.Instance == null) return null;
-            foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
+            if (shopInventorySlots == null) return null;
+            foreach (InventorySlot slot in shopInventorySlots)
             {
-                if (slot.image.color == slot.SelectedColor) return slot;
+                if (slot != null && slot.image.color == slot.SelectedColor) return slot;
             }
             return null;
         } // GetSelectedSlot ===
 
         public void BuySelectedItem()
         {
-            ShopSlot selectedSlot = GetSelectedShopSlot(); // ใช้ฟังก์ชันที่ยุบรวมใหม่ให้สั้นลง
+            ShopSlot selectedSlot = GetSelectedShopSlot();
 
             if (selectedSlot != null)
             {
@@ -250,11 +325,13 @@ namespace Game.Testing
                         }
                         else
                         {
-                            if (itemInShop.item.ItemType == ItemType.Building)
+                            if (itemInShop.item.ItemType == ItemType.Building || itemInShop.item.ItemType == ItemType.Normal)
                             {
                                 if (InventoryManager.Instance.AddItem(itemInShop.item))
                                 {
                                     pm.Use(itemInShop.item.ItemPrice);
+                                    // อัปเดตช่องแสดงไอเทมฝั่งขายเมื่อซื้อของสำเร็จ เผื่อเปิดดูคลังไอเทมล่าสุด
+                                    RefreshShopInventory();
                                 }
                             }
                         }
@@ -264,5 +341,6 @@ namespace Game.Testing
 
             StartCoroutine(SellRoutine());
         } // BuySelectedItem ===
+
     } // ShopSystem ===
 }
