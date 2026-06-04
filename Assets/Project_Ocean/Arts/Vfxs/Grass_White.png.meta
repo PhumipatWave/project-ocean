@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: fa12389ee47d55f4d8bc125a24b1a53b
+guid: deac3cdbc4324474586c6966d6edaf04
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2932005820555040413
-    second: item check point_0
+      213: -6283390260015083184
+    second: Grass_White_0
+  - first:
+      213: 4708407319158232973
+    second: Grass_White_1
+  - first:
+      213: 6469219991490094844
+    second: Grass_White_2
+  - first:
+      213: -1773302359092699854
+    second: Grass_White_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,6 +106,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -113,13 +135,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: item check point_0
+      name: Grass_White_0
       rect:
         serializedVersion: 2
-        x: 104
-        y: 29
-        width: 304
-        height: 453
+        x: 0
+        y: 15
+        width: 15
+        height: 17
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +150,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d969f8562c390b820800000000000000
-      internalID: 2932005820555040413
+      spriteID: 051d6ae69d9ecc8a0800000000000000
+      internalID: -6283390260015083184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass_White_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 0
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d879644b28f975140800000000000000
+      internalID: 4708407319158232973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass_White_2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 15
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf66f9e8e4947c950800000000000000
+      internalID: 6469219991490094844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Grass_White_3
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 0
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23ddae656e6f367e0800000000000000
+      internalID: -1773302359092699854
       vertices: []
       indices: 
       edges: []
@@ -148,7 +236,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      item check point_0: 2932005820555040413
+      Grass_White_0: -6283390260015083184
+      Grass_White_1: 4708407319158232973
+      Grass_White_2: 6469219991490094844
+      Grass_White_3: -1773302359092699854
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
