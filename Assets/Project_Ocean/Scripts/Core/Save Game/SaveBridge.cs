@@ -62,7 +62,7 @@ namespace Game.Testing
             data.inventoryItems = new List<ItemSaveData>();
             if (InventoryManager.Instance != null)
             {
-                var slots = InventoryManager.Instance.inventorySlots;
+                var slots = InventoryManager.Instance.InventorySlots;
                 for (int i = 0; i < slots.Length; i++)
                 {
                     var item = slots[i].GetComponentInChildren<Draggableltem>();
@@ -135,7 +135,7 @@ namespace Game.Testing
             // Inventory
             if (InventoryManager.Instance != null)
             {
-                var slots = InventoryManager.Instance.inventorySlots;
+                var slots = InventoryManager.Instance.InventorySlots;
                 foreach (var slot in slots)
                 {
                     var existing = slot.GetComponentInChildren<Draggableltem>();
