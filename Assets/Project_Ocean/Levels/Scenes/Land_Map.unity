@@ -124056,7 +124056,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 273645549}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2079108859}
+        m_TargetAssemblyTypeName: Game.Testing.InventoryManager, Game.Testing
+        m_MethodName: RemoveSelectedItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &273645549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139870,7 +139882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 645, y: 261}
+  m_AnchoredPosition: {x: -295, y: 317}
   m_SizeDelta: {x: 204.16667, y: 104.16667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1009556427
@@ -149262,7 +149274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1264451169
 RectTransform:
   m_ObjectHideFlags: 0
@@ -149325,7 +149337,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1264451171}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2079108859}
+        m_TargetAssemblyTypeName: Game.Testing.InventoryManager, Game.Testing
+        m_MethodName: CloseInventoryViaButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1264451171
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -102,10 +102,10 @@ namespace Game.Testing
         {
             if (item.ItemType == ItemType.Building)
             {
-                Draggableltem buildingItemSlot01 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot01 = inventorySlots[14].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot01 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[15]);
+                    SpawnNewItem(item, inventorySlots[14]);
                     return true;
                 }
                 else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
@@ -120,10 +120,10 @@ namespace Game.Testing
                     return false;
                 }
 
-                Draggableltem buildingItemSlot02 = inventorySlots[16].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot02 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot02 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[16]);
+                    SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
                 else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
@@ -337,6 +337,37 @@ namespace Game.Testing
             {
                 Debug.LogError($"ไม่พบไอเทมที่มี ID: '{itemId}' ในคลัง All Items ของ InventoryManager! กรุณาตรวจสอบการลากไฟล์ลงช่องบอร์ด");
             }
+        }
+        // สั่งลบไอเทมออกจากช่องที่กำลังเลือก (Selected Slot)
+        public void RemoveSelectedItem()
+        {
+            // ตรวจสอบก่อนว่าเลือกช่องที่ถูกต้องและไม่เอ้าท์ออฟบาวด์
+            if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length)
+            {
+                InventorySlot slot = inventorySlots[selectedSlot];
+                // ค้นหาไอเทมที่อยู่ในช่องนั้น
+                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null)
+                {
+                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.item.ItemName} ออกจากช่องที่ {selectedSlot}");
+
+                    // ลบวัตถุไอเทมออกจาก Scene ทันที
+                    Destroy(itemInSlot.gameObject);
+                }
+                else
+                {
+                    Debug.LogWarning("ช่องที่เลือกไม่มีไอเทมให้ลบ!");
+                }
+            }
+        }
+
+        // ฟังก์ชันสำหรับผูกกับปุ่มกากบาท (Close Button) บน UI
+        public void CloseInventoryViaButton()
+        {
+            // เรียกใช้ฟังก์ชัน OpenInventory เดิมของคุณ (ที่ตั้งชื่อสวนทางไว้ว่าเปิด แต่ข้างในสั่งปิด Active สลับกัน)
+            // หรือปรับให้ตรงตามลอจิกเดิม: สั่งให้ UI ปิดตัวลงและกลับมาเล่นเกมต่อ
+            OpenInventory();
         }
 
     } // InventoryManager ===
