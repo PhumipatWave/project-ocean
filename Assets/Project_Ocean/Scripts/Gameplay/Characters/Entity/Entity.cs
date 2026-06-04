@@ -3,17 +3,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Abstract base class for all living entities (Player, Enemy).
-    ///
-    /// Health is abstracted behind IEntityHealth so different entities
-    /// can use different health sources:
-    ///   - Enemy  → EntityHealth component (standard HP)
-    ///   - Player → PlayerOxygenTube (rope length = health)
-    ///
-    /// Subclasses override ProvideHealthSource() to return their source.
-    /// If not overridden, Entity auto-finds/creates an EntityHealth component.
-    /// </summary>
     public abstract class Entity : MonoBehaviour
     {
         #region Shared Component References
@@ -132,6 +121,7 @@ namespace Game.Testing
         private void HandleDamaged()
         {
             OnDamagedEvent?.Invoke();
+            OnDamagedVisual();
             OnDamagedHandler();
         }
 
@@ -141,5 +131,7 @@ namespace Game.Testing
             OnDeathHandler();
         }
         #endregion
+    
+        protected virtual void OnDamagedVisual() { }
     }
 }

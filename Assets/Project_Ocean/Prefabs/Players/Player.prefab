@@ -755,7 +755,9 @@ GameObject:
   - component: {fileID: 5126783939423844365}
   - component: {fileID: 839586600274386325}
   - component: {fileID: 2783980782925508106}
+  - component: {fileID: 3811799620726562632}
   - component: {fileID: 4982446044669505593}
+  - component: {fileID: 8597528314756023812}
   - component: {fileID: 7315970702637260282}
   - component: {fileID: -5444332486349790352}
   m_Layer: 7
@@ -968,10 +970,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba2d17d63adf424aa8e2f048b103318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  entityHealth: {fileID: 0}
   entityAnimation: {fileID: 4982446044669505593}
-  entityDeathHandler: {fileID: 0}
+  entityDeathHandler: {fileID: 8597528314756023812}
   rb: {fileID: 6074467683018909699}
+  entityHealth: {fileID: 3811799620726562632}
   input: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
   audio: {fileID: 0}
   playerHurtSound: {fileID: 8300000, guid: f00bb127129a08043982845c91d893f7, type: 3}
@@ -979,7 +981,10 @@ MonoBehaviour:
   playerRopeSound: {fileID: 8300000, guid: 8d89e320fe9e320438fd0fe719074c4c, type: 3}
   playerShootSound: {fileID: 8300000, guid: 34bf12988b672aa42803dfa25840372f, type: 3}
   playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
+  maxHealth: 100
   playerSprite: {fileID: 1845563972653589313}
+  playerHitColor: {r: 0, g: 0.1, b: 0.5, a: 1}
+  playerFlashDuration: 0.15
   moveSpeed: 8
   dashSpeed: 25
 --- !u!114 &2783980782925508106
@@ -1022,6 +1027,21 @@ MonoBehaviour:
   maxCheckpoints: 3
   checkPointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
   miniHubPrefab: {fileID: 2016369825598416511, guid: a12d0b890f8fa3f49beeb32aba9d755f, type: 3}
+--- !u!114 &3811799620726562632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116e68d1bc43b8143a2a28de8eb37b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerHealth
+  maxHealth: 100
+  hitColor: {r: 0, g: 0.1, b: 0.5, a: 1}
+  flashDuration: 0.15
 --- !u!114 &4982446044669505593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,6 +1055,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityAnimation
   anim: {fileID: 5104021302464229878}
+--- !u!114 &8597528314756023812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6badf30ca31d8d54b948e0a216672fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityDeathHandler
+  rb: {fileID: 6074467683018909699}
+  entitySprite: {fileID: 1086155692845509329}
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7315970702637260282
 MonoBehaviour:
   m_ObjectHideFlags: 0

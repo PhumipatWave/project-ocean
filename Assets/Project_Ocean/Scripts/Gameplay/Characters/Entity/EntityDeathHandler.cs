@@ -3,13 +3,6 @@ using UnityEngine.AI;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Generic death handler usable by any Entity (Player, Enemy, etc).
-    /// Renamed from EnemyDeathHandler.
-    ///
-    /// HandleDeath()             — shared path: stop rb, apply death color, show damage point.
-    /// HandleDeath(IEnemyBrain)  — enemy overload: brain cleanup + nav agent shutdown, then shared path.
-    /// </summary>
     public class EntityDeathHandler : MonoBehaviour
     {
         #region Fields & Properties
