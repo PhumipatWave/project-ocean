@@ -102,10 +102,10 @@ namespace Game.Testing
         {
             if (item.ItemType == ItemType.Building)
             {
-                Draggableltem buildingItemSlot01 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot01 = inventorySlots[14].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot01 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[15]);
+                    SpawnNewItem(item, inventorySlots[14]);
                     return true;
                 }
                 else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
@@ -120,10 +120,10 @@ namespace Game.Testing
                     return false;
                 }
 
-                Draggableltem buildingItemSlot02 = inventorySlots[16].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot02 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot02 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[16]);
+                    SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
                 else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
