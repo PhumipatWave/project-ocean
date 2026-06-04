@@ -19,9 +19,9 @@ namespace Game.Testing
             if (!isUnlocked) return;
 
             // วนลูปหาว่าช่องนี้เป็นสมาชิกลำดับที่เท่าไหร่ใน InventoryManager
-            for (int i = 0; i < InventoryManager.Instance.inventorySlots.Length; i++)
+            for (int i = 0; i < InventoryManager.Instance.InventorySlots.Length; i++)
             {
-                if (InventoryManager.Instance.inventorySlots[i] == this)
+                if (InventoryManager.Instance.InventorySlots[i] == this)
                 {
                     // เรียกผ่าน InventoryManager เพื่อให้มันจัดการสลับสี และอัปเดต selectedSlot ให้ถูกต้อง
                     InventoryManager.Instance.SendMessage("ChangeSelectedSlot", i, SendMessageOptions.DontRequireReceiver);

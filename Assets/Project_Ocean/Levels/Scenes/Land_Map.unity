@@ -150228,7 +150228,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
   - {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
   - {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
-  - {fileID: 11400000, guid: ccb0f12b7d2593248aae4d9c942bb463, type: 2}
 --- !u!1 &1307120075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195095,6 +2195094,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryManager
   InventoryMenu: {fileID: 1827186587}
   openInventorySound: {fileID: 8300000, guid: a8b502fe648f35144941714d70d6d152, type: 3}
+  items:
+  - {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
+  - {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
+  - {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
+  - {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+  - {fileID: 11400000, guid: 27ef8134af5c2564789b202d241034b6, type: 2}
+  - {fileID: 11400000, guid: cb1fa2c6fa351a44cb350f59a59832aa, type: 2}
   inventorySlots:
   - {fileID: 2132910124}
   - {fileID: 155847597}
