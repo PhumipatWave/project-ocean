@@ -12,7 +12,6 @@ namespace Game.Testing
         [Header("Player Component")]
         public InputReader input;
 
-
         [SerializeField] private AudioSource audio;
         public AudioSource Audio { get { return audio; } }
 
@@ -28,12 +27,28 @@ namespace Game.Testing
         private PlayerOxygenTube oxygenTube;
         public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
 
+        
+        public event System.Action OnDamaged;
+        public event System.Action OnDied;
+
+        [Header("Player Health")]
+        [SerializeField] private float maxHealth = 100f;
+        private float currentHealth;
+        private bool  isPlayerDead;
+
         public Rigidbody2D RB { get { return rb; } }
 
         [Header("Player Object")]
         [SerializeField] private GameObject playerSprite;
         public GameObject PlayerSprite { get { return playerSprite; } }
 
+
+        [Header("Hit Flash")]
+        [SerializeField] private Color playerHitColor   = new Color(0f, 0.1f, 0.5f);
+        [SerializeField] private float playerFlashDuration = 0.15f;
+        private SpriteRenderer playerSpriteRenderer;
+        private Color          playerOriginalColor;
+        private Coroutine      playerFlashCoroutine;
 
         [Header("Player Status")]
         private int faceDir = 1;
@@ -58,20 +73,27 @@ namespace Game.Testing
 
         protected override void Awake()
         {
-            base.Awake();
-            audio = GetComponent<AudioSource>();
-            gunHandler = GetComponentInChildren<PlayerGunHandler>();
+            // Resolve oxygenTube BEFORE base.Awake() so ProvideHealthSource
+            // can pass it to PlayerHealth via SetOxygenTube.
             oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+
+            base.Awake();
+
+            playerSpriteRenderer = playerSprite != null ? playerSprite.GetComponentInChildren<SpriteRenderer>() : null;
+            if (playerSpriteRenderer != null) playerOriginalColor = playerSpriteRenderer.color;
+
+            audio      = GetComponent<AudioSource>();
+            gunHandler = GetComponentInChildren<PlayerGunHandler>();
             DontDestroyOnLoad(gameObject);
         }
 
         protected override IEntityHealth ProvideHealthSource()
         {
-            if (oxygenTube == null)
-                oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
-            return oxygenTube as IEntityHealth;
+            var playerHealth = GetOrAddComponent<PlayerHealth>();
+            if (oxygenTube != null)
+                playerHealth.SetOxygenTube(oxygenTube);
+            return playerHealth;
         }
-
 
         private void Start()
         {
@@ -106,8 +128,9 @@ namespace Game.Testing
                     transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
                 }
 
-                oxygenTube.MaxRopeLength += oxygenTube.ReduceMaxRopeLenght;
+                // Reset rope max length back to full health on returning to land
                 oxygenTube.ReduceMaxRopeLenght = 0f;
+                (healthSource as PlayerHealth)?.ResetToOriginal();
 
                 gunHandler.gameObject.SetActive(false);
                 isLand = true;
@@ -183,7 +206,7 @@ namespace Game.Testing
             }
         }
 
-        void UseItem(ItemType type)
+        private void UseItem(ItemType type)
         {
             Item itemData;
 
@@ -198,7 +221,7 @@ namespace Game.Testing
             ExecuteItem(itemData);
         }
 
-        void ExecuteItem(Item item)
+        private void ExecuteItem(Item item)
         {
             switch (item.ItemType)
             {
@@ -317,11 +340,24 @@ namespace Game.Testing
 
         protected override void OnDamagedHandler()
         {
-            // Rope length is already reduced by IEntityHealth.TakeDamage on PlayerOxygenTube.
-            // Only handle the player-side reactions here.
             audio?.PlayOneShot(playerHurtSound);
-            //entityAnimation?.PlayAnim(AnimHash.TakeDamage);
         }
+
+        protected override void OnDamagedVisual()
+        {
+            if (playerSpriteRenderer == null) return;
+            if (playerFlashCoroutine != null) StopCoroutine(playerFlashCoroutine);
+            playerFlashCoroutine = StartCoroutine(PlayerHitFlashRoutine());
+        }
+
+        private IEnumerator PlayerHitFlashRoutine()
+        {
+            playerSpriteRenderer.color = playerHitColor;
+            yield return new WaitForSeconds(playerFlashDuration);
+            playerSpriteRenderer.color = playerOriginalColor;
+            playerFlashCoroutine = null;
+        }
+
 
         protected override void OnDeathHandler()
         {
