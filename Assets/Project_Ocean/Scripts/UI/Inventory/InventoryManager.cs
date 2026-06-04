@@ -141,28 +141,31 @@ namespace Game.Testing
                 Debug.Log("No space for building item!");
                 return false;
             }
-
-            for (int i = 0; i < inventorySlots.Length; i++)
+            else
             {
-                InventorySlot slot = inventorySlots[i];
-                if (!slot.isUnlocked) continue;
-                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+                for (int i = 0; i < inventorySlots.Length - 2; i++)
+                {
+                    InventorySlot slot = inventorySlots[i];
+                    if (!slot.isUnlocked) continue;
+                    Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot == null)
-                {
-                    SpawnNewItem(item, slot);
-                    return true;
-                }
-                else if (itemInSlot != null && itemInSlot.item == item)
-                {
-                    if (itemInSlot.count < item.MaxStackable)
+                    if (itemInSlot == null)
                     {
-                        itemInSlot.count++;
-                        itemInSlot.RefreshCount();
+                        SpawnNewItem(item, slot);
                         return true;
+                    }
+                    else if (itemInSlot != null && itemInSlot.item == item)
+                    {
+                        if (itemInSlot.count < item.MaxStackable)
+                        {
+                            itemInSlot.count++;
+                            itemInSlot.RefreshCount();
+                            return true;
+                        }
                     }
                 }
             }
+
             return false;
 
         } // AddItem
