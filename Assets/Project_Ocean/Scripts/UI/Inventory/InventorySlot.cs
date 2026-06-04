@@ -15,13 +15,19 @@ namespace Game.Testing
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            // สั่งให้ InventoryManager เปลี่ยนมาเลือกช่องนี้
-            // โดยการ Deselect ช่องอื่นทั้งหมดก่อน แล้วค่อย Select ช่องนี้
-            foreach (var slot in InventoryManager.Instance.inventorySlots)
+            // ตรวจสอบก่อนว่าช่องนี้ปลดล็อกแล้วถึงจะเลือกได้
+            if (!isUnlocked) return;
+
+            // วนลูปหาว่าช่องนี้เป็นสมาชิกลำดับที่เท่าไหร่ใน InventoryManager
+            for (int i = 0; i < InventoryManager.Instance.inventorySlots.Length; i++)
             {
-                slot.Deselect();
+                if (InventoryManager.Instance.inventorySlots[i] == this)
+                {
+                    // เรียกผ่าน InventoryManager เพื่อให้มันจัดการสลับสี และอัปเดต selectedSlot ให้ถูกต้อง
+                    InventoryManager.Instance.SendMessage("ChangeSelectedSlot", i, SendMessageOptions.DontRequireReceiver);
+                    break;
+                }
             }
-            Select();
         }
 
         public void Select()
