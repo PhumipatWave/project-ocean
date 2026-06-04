@@ -11,8 +11,11 @@ namespace Game.Testing
 
         [SerializeField] private AudioClip openInventorySound;
 
-        public InventorySlot[] inventorySlots;
-        public GameObject InventoryItemPrefab;
+        [SerializeField] private Item[] items;
+        [SerializeField] private InventorySlot[] inventorySlots;
+        public InventorySlot[] InventorySlots => inventorySlots;
+
+        [SerializeField] private GameObject InventoryItemPrefab;
 
         [Header("Item Database")]
         // ลากไฟล์ไอเทม (.asset) ทั้งหมดในเกมมาใส่รวมกันไว้ในอาร์เรย์นี้ที่หน้าต่าง Inspector
