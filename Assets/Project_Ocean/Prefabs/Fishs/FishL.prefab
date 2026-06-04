@@ -633,10 +633,10 @@ GameObject:
   - component: {fileID: 1437088641783751109}
   - component: {fileID: 683323476657014}
   - component: {fileID: 4774483354577623506}
-  - component: {fileID: 1315119472288882382}
+  - component: {fileID: 5316214610149181874}
+  - component: {fileID: 6637633734297046743}
+  - component: {fileID: 5709477160903594486}
   - component: {fileID: 3280145725471776177}
-  - component: {fileID: 434995709220117282}
-  - component: {fileID: 3110771221692778764}
   - component: {fileID: 2234005039591698591}
   - component: {fileID: 9207587733961278760}
   m_Layer: 0
@@ -776,19 +776,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  entityAnimation: {fileID: 6637633734297046743}
+  entityDeathHandler: {fileID: 5709477160903594486}
+  rb: {fileID: 4214589482347048590}
+  entityHealth: {fileID: 5316214610149181874}
+  loot: {fileID: 3280145725471776177}
+  navAgentHost: {fileID: 2234005039591698591}
   maxHealth: 100
   dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  rb: {fileID: 0}
   fishSprite: {fileID: 8611409687765085744}
   anim: {fileID: 0}
   hasAnimator: 1
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
-  health: {fileID: 1315119472288882382}
-  loot: {fileID: 3280145725471776177}
-  enemyAnimation: {fileID: 434995709220117282}
-  deathHandler: {fileID: 3110771221692778764}
-  navAgentHost: {fileID: 2234005039591698591}
---- !u!114 &1315119472288882382
+--- !u!114 &5316214610149181874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -797,10 +797,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 4626553553997363230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89e6f3734701764cb23df7f4e30d500, type: 3}
+  m_Script: {fileID: 11500000, guid: 2cb3d366c4513744388ea00fc61a7627, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHealth
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
   maxHealth: 100
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.15
+--- !u!114 &6637633734297046743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5775aa56e1c51144bfc907befdc1e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityAnimation
+  anim: {fileID: 618586056456793344}
+--- !u!114 &5709477160903594486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4626553553997363230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6badf30ca31d8d54b948e0a216672fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityDeathHandler
+  rb: {fileID: 4214589482347048590}
+  entitySprite: {fileID: 8611409687765085744}
+  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &3280145725471776177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,35 +844,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
   dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
---- !u!114 &434995709220117282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50b3548c40a71b048a1f1d504a10295e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAnimation
-  hasAnimator: 1
-  anim: {fileID: 618586056456793344}
---- !u!114 &3110771221692778764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed664f5186ae3504383667c9dfc8017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyDeathHandler
-  rb: {fileID: 4214589482347048590}
-  fishSprite: {fileID: 8611409687765085744}
-  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2234005039591698591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1341,7 +1342,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fe0c39a7b6e9f7a4e85c15186e95537f, type: 3}
