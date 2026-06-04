@@ -44,11 +44,10 @@ namespace Game.Testing
 
 
         [Header("Hit Flash")]
-        [SerializeField] private Color playerHitColor   = new Color(0f, 0.1f, 0.5f);
         [SerializeField] private float playerFlashDuration = 0.15f;
         private SpriteRenderer playerSpriteRenderer;
-        private Color          playerOriginalColor;
-        private Coroutine      playerFlashCoroutine;
+        private Color playerOriginalColor;
+        private Coroutine playerFlashCoroutine;
 
         [Header("Player Status")]
         private int faceDir = 1;
@@ -352,7 +351,7 @@ namespace Game.Testing
 
         private IEnumerator PlayerHitFlashRoutine()
         {
-            playerSpriteRenderer.color = playerHitColor;
+            playerSpriteRenderer.color = entityHealth.HitColor;
             yield return new WaitForSeconds(playerFlashDuration);
             playerSpriteRenderer.color = playerOriginalColor;
             playerFlashCoroutine = null;

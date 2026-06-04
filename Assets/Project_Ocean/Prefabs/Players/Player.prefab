@@ -983,7 +983,6 @@ MonoBehaviour:
   playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
   maxHealth: 100
   playerSprite: {fileID: 1845563972653589313}
-  playerHitColor: {r: 0, g: 0.1, b: 0.5, a: 1}
   playerFlashDuration: 0.15
   moveSpeed: 8
   dashSpeed: 25
@@ -1040,7 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerHealth
   maxHealth: 100
-  hitColor: {r: 0, g: 0.1, b: 0.5, a: 1}
+  hitColor: {r: 0.34223396, g: 0, b: 0.5019608, a: 1}
   flashDuration: 0.15
 --- !u!114 &4982446044669505593
 MonoBehaviour:

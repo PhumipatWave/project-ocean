@@ -7,7 +7,6 @@ namespace Game.Testing
         private PlayerOxygenTube oxygenTube;
         private float originalMaxRopeLength;
 
-
         public void SetOxygenTube(PlayerOxygenTube tube)
         {
             oxygenTube = tube;
@@ -35,7 +34,6 @@ namespace Game.Testing
             Configure(originalMaxRopeLength);
             base.Initialize();
         }
-
 
         public override void TakeDamage(float amount)
         {
