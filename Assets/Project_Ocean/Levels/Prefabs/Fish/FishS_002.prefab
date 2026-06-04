@@ -155,6 +155,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ab34948426cae44947b853fdbd84db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
+  health: {fileID: 8143283068432992297}
+  loot: {fileID: 7837937857904388827}
+  enemyAnimation: {fileID: 7512085081858924266}
+  deathHandler: {fileID: 1288637817402062583}
+  navAgentHost: {fileID: 8532016973429987040}
   maxHealth: 100
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
   rb: {fileID: 0}
@@ -162,11 +167,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   hasAnimator: 0
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
-  health: {fileID: 8143283068432992297}
-  loot: {fileID: 7837937857904388827}
-  enemyAnimation: {fileID: 7512085081858924266}
-  deathHandler: {fileID: 1288637817402062583}
-  navAgentHost: {fileID: 8532016973429987040}
 --- !u!114 &8143283068432992297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +280,8 @@ MonoBehaviour:
   coeffAlignment: 0.5
   coeffCohesion: 0.3
   steeringLookAhead: 1.5
+  fishId: 
+  assignedLeader: {fileID: 0}
   velocity: {x: 0, y: 0}
 --- !u!1 &2368906169473694655
 GameObject:
@@ -390,7 +392,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.885}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.7325, y: 50.315002}
+  m_AnchoredPosition: {x: 0.70000076, y: 0.97999954}
   m_SizeDelta: {x: 0.32, y: 0.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6275844557593243274
@@ -585,7 +587,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3066503393598026269, guid: d2c3665dd3581294eb68e4c8fc7f488f, type: 3}
@@ -691,7 +693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.885}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.782495, y: 50.239998}
+  m_AnchoredPosition: {x: 0.7, y: 0.98}
   m_SizeDelta: {x: 0.32, y: 0.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9076360345326831245
