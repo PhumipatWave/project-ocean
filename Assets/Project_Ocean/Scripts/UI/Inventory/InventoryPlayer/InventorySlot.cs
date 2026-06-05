@@ -18,7 +18,7 @@ namespace Game.Testing
             if (!isUnlocked) return;
 
             // ตรวจสอบว่าช่องนี้เป็นส่วนหนึ่งของหน้าต่าง ShopSystem หรือไม่
-            ShopSystem shop = GetComponentInParent<ShopSystem>();
+            ShopManager shop = GetComponentInParent<ShopManager>();
 
             if (shop != null)
             {
