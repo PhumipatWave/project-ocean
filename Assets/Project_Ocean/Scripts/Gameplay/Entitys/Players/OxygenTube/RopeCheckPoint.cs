@@ -56,6 +56,38 @@ namespace Game.Testing
             return cooldown;
         }
 
+/// <summary>
+        /// Overload: registers an already-spawned checkpoint at the given Transform.
+        /// Used by CheckPointItem which instantiates itself and calls this from Start().
+        /// </summary>
+        public int CreateCheckpoint(
+            Transform existingTransform,
+            List<SubRope> subRopes,
+            List<RopeAnchor> anchors,
+            Transform endPoint,
+            ref int cooldown)
+        {
+            if (checkpoints.Count >= maxCheckpoints)
+            {
+                Debug.Log($"[RopeCheckpoint] Limit reached ({maxCheckpoints}).");
+                return cooldown;
+            }
+
+            Vector2 pos = existingTransform.position;
+
+            checkpoints.Add(new CheckpointEntry
+            {
+                pos = pos,
+                obj = existingTransform.gameObject,
+                snapshot = TakeSnapshot(subRopes, anchors),
+                ropeIndex = subRopes.Count - 1
+            });
+
+            SplitRopeAtCheckpoint(pos, subRopes, anchors, ref cooldown);
+            Debug.Log($"[RopeCheckpoint] Created (from existing): {checkpoints.Count}/{maxCheckpoints}");
+            return cooldown;
+        }
+
         public int TeleportToLast(List<SubRope> subRopes, List<RopeAnchor> anchors, Transform endPoint)
         {
             if (checkpoints.Count == 0) return 0;

@@ -251,6 +251,9 @@ namespace Game.Testing
         public void SpawnCheckPoint(GameObject prefab) =>
             checkpoint.CreateCheckpoint(prefab, subRopes, anchors, endPoint, ref wrapCooldown);
 
+        public void SpawnCheckPoint(Transform existingCheckpoint) =>
+            checkpoint.CreateCheckpoint(existingCheckpoint, subRopes, anchors, endPoint, ref wrapCooldown);
+
         public void TeleportToCheckPoint() =>
             wrapCooldown = checkpoint.TeleportToLast(subRopes, anchors, endPoint);
     }
