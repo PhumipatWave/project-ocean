@@ -223,7 +223,7 @@ namespace Game.Testing
         {
             foundItem = null;
 
-            for (int i = 0; i < inventorySlots.Length; i++)
+            for (int i = 14; i <= 15; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
