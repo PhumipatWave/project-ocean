@@ -27,15 +27,6 @@ namespace Game.Testing
         private PlayerOxygenTube oxygenTube;
         public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
 
-        
-        public event System.Action OnDamaged;
-        public event System.Action OnDied;
-
-        [Header("Player Health")]
-        [SerializeField] private float maxHealth = 100f;
-        private float currentHealth;
-        private bool  isPlayerDead;
-
         public Rigidbody2D RB { get { return rb; } }
 
         [Header("Player Object")]
@@ -166,7 +157,7 @@ namespace Game.Testing
             }
         }
 
-        private void Update()
+private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
@@ -180,28 +171,20 @@ namespace Game.Testing
             {
                 gunHandler.currentAmmoType = AmmoType.GrapplingHook;
             }
-            /*else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-            }*/
-
-            /*if (Input.GetKeyDown(KeyCode.V) && gunHandler.CanStabAttack)
-            {
-                StabAnim();
-                StartCoroutine(gunHandler.Stab());
-            }*/
 
             if (GameManager.Instance.GameState == GameState.Ocean)
             {
+                // F key: consume Building item from inventory and place it in the world
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     UseItem(ItemType.Building);
                 }
 
-                /*if (Input.GetKeyDown(KeyCode.T))
-                    oxygenTube.TeleportToCheckPoint();*/
+                // T key: teleport to the last placed checkpoint (free action, no item consumed)
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    oxygenTube.TeleportToCheckPoint();
+                }
             }
         }
 
@@ -222,23 +205,22 @@ namespace Game.Testing
 
         private void ExecuteItem(Item item)
         {
-            switch (item.ItemType)
+            if (item.ItemPrefab == null)
             {
-                case ItemType.Normal:
+                Debug.LogWarning($"[Player] Item '{item.ItemName}' has no prefab assigned.");
+                return;
+            }
 
-                    break;
-
-                case ItemType.KeyItem:
-
-                    break;
-
-                case ItemType.Consumable:
-                    
-                    break;
-
-                case ItemType.Building:
-                    Instantiate(item.ItemPrefab, transform.position, Quaternion.identity);
-                    break;
+            var effect = item.ItemPrefab.GetComponent<IItemEffect>();
+            if (effect != null)
+            {
+                // IItemEffect handles all spawn/teleport logic itself
+                effect.ExecuteItem(this);
+            }
+            else
+            {
+                // Fallback: plain building item with no special behavior
+                Instantiate(item.ItemPrefab, transform.position, Quaternion.identity);
             }
         }
 
