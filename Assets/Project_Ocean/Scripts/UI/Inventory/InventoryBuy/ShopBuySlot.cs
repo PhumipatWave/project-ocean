@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class ShopSlot : MonoBehaviour, IPointerClickHandler
+    public class ShopBuySlot : MonoBehaviour, IPointerClickHandler
     {
         public Image image;
         public Color selectedColor = Color.yellow;
@@ -22,7 +22,7 @@ namespace Game.Testing
             Debug.Log("Clicked on Shop Slot: " + gameObject.name); // ถ้าคลิกแล้วคำนี้ไม่ขึ้น แสดงว่า Raycast Target ปิดอยู่
 
             // หา Slot ทั้งหมดที่อยู่ในกลุ่มเดียวกัน (Parent เดียวกัน)
-            ShopSlot[] allShopSlots = transform.parent.GetComponentsInChildren<ShopSlot>();
+            ShopBuySlot[] allShopSlots = transform.parent.GetComponentsInChildren<ShopBuySlot>();
 
             foreach (var slot in allShopSlots)
             {
