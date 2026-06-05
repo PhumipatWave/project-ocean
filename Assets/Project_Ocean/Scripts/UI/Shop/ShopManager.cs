@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class ShopSystem : MonoBehaviour
+    public class ShopManager : MonoBehaviour
     {
         [Header("Play")]
         [SerializeField] private InventoryManager inventory;
@@ -145,7 +145,7 @@ namespace Game.Testing
             }
             else
             {
-                ShopSlot selectedShopSlot = GetSelectedShopSlot();
+                ShopBuySlot selectedShopSlot = GetSelectedShopSlot();
                 if (selectedShopSlot != null)
                 {
                     Draggableltem itemInShop = selectedShopSlot.GetComponentInChildren<Draggableltem>();
@@ -165,10 +165,10 @@ namespace Game.Testing
             }
         }
 
-        private ShopSlot GetSelectedShopSlot()
+        private ShopBuySlot GetSelectedShopSlot()
         {
             if (shopbuySlot == null) return null;
-            ShopSlot[] allSlots = shopbuySlot.GetComponentsInChildren<ShopSlot>();
+            ShopBuySlot[] allSlots = shopbuySlot.GetComponentsInChildren<ShopBuySlot>();
             foreach (var slot in allSlots)
             {
                 if (slot.image.color == slot.selectedColor) return slot;
@@ -302,7 +302,7 @@ namespace Game.Testing
 
         public void BuySelectedItem()
         {
-            ShopSlot selectedSlot = GetSelectedShopSlot();
+            ShopBuySlot selectedSlot = GetSelectedShopSlot();
             if (selectedSlot != null)
             {
                 Draggableltem itemInShop = selectedSlot.GetComponentInChildren<Draggableltem>();
