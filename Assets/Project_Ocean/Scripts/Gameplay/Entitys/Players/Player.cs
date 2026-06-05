@@ -190,8 +190,19 @@ private void Update()
 
         private void UseItem(ItemType type)
         {
-            Item itemData;
+            // Check IItemEffect.CanExecute BEFORE consuming the item from inventory
+            var prefab = InventoryManager.Instance.PeekItem(type);
+            if (prefab != null)
+            {
+                var effect = prefab.ItemPrefab?.GetComponent<IItemEffect>();
+                if (effect != null && !effect.CanExecute(this))
+                {
+                    Debug.Log($"[Player] Item use blocked by CanExecute: {type}");
+                    return;
+                }
+            }
 
+            Item itemData;
             bool success = InventoryManager.Instance.ConsumeItem(type, out itemData);
 
             if (!success)

@@ -14,5 +14,8 @@ namespace Game.Testing
             oxygenTube = GameManager.CurPlayer.GetComponentInChildren<PlayerOxygenTube>();
             oxygenTube.SetNewStartPoint(this.transform.position);
         }
-    }
+    
+
+public bool CanExecute(Player player) => true;
+}
 }

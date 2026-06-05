@@ -248,8 +248,7 @@ namespace Game.Testing
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
         public float GetMaxLength() => maxRopeLength;
 
-        public void SpawnCheckPoint(GameObject prefab) =>
-            checkpoint.CreateCheckpoint(prefab, subRopes, anchors, endPoint, ref wrapCooldown);
+        public bool IsCheckpointAtMax() => checkpoint.CheckpointCount >= checkpoint.MaxCheckpoints;
 
         public void SpawnCheckPoint(Transform existingCheckpoint) =>
             checkpoint.CreateCheckpoint(existingCheckpoint, subRopes, anchors, endPoint, ref wrapCooldown);
