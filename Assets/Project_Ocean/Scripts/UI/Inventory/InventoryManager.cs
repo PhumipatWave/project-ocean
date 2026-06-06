@@ -5,6 +5,8 @@ namespace Game.Testing
 {
     public class InventoryManager : MonoBehaviour
     {
+        public static System.Action OnInventoryChanged;
+
         // I to Show UI
         public GameObject InventoryMenu;
         private bool menuActivetad;
