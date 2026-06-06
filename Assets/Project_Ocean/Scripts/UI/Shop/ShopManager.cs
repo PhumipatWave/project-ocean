@@ -7,6 +7,8 @@ namespace Game.Testing
 {
     public class ShopManager : MonoBehaviour
     {
+        public static ShopManager Instance { get; private set; }
+
         [Header("Play")]
         [SerializeField] private InventoryManager inventory;
         [SerializeField] private PlayerMoney playerMoney;
@@ -32,7 +34,10 @@ namespace Game.Testing
         [SerializeField] private TMP_Text[] ammoTexts;
         private int[] ammoCounts = new int[4];
 
-        // [แก้ปัญหาที่ 2] ฟังก์ชันสำหรับให้ปุ่มเปิดร้านค้า หรือ NPC ร้านค้าเรียกใช้งาน
+        private void Awake()
+        {
+            Instance = this;
+        }
         public void OpenShopWindow()
         {
             gameObject.SetActive(true);
