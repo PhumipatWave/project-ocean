@@ -12,41 +12,57 @@ namespace Game.Testing
 
         // Lock Slot
         public bool isUnlocked = true;
+        public bool isShopSlot = false;
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!isUnlocked) return;
+            Debug.Log("CLICK SLOT : " + gameObject.name);
+            Debug.Log("isShopSlot = " + isShopSlot);
 
-            // ตรวจสอบว่าช่องนี้เป็นส่วนหนึ่งของหน้าต่าง ShopSystem หรือไม่
-            ShopManager shop = GetComponentInParent<ShopManager>();
-
-            if (shop != null)
+            if (!isUnlocked)
             {
-                // [แก้ปัญหาที่ 3] หากเป็นสล็อตฝั่งร้านค้า ให้เคลียร์สีสล็อตอื่นๆ ในร้านค้าทั้งหมดก่อน
-                InventorySlot[] allShopSlots = shop.GetComponentsInChildren<InventorySlot>();
-                foreach (var slot in allShopSlots)
+                Debug.Log("SLOT LOCKED");
+                return;
+            }
+
+            // =========================
+            // SHOP SELL SLOT
+            // =========================
+            if (isShopSlot)
+            {
+                ShopManager shop = ShopManager.Instance;
+
+                if (shop != null)
                 {
-                    slot.Deselect();
+                    Debug.Log("SHOP MODE");
+
+                    shop.DeselectAllShopSlots();
+
+                    Select();
+
+                    shop.UpdateClickedItemPriceDisplay();
                 }
 
-                // สลับมาเลือกและเปลี่ยนสีตัวเองเป็นสีเหลือง (SelectedColor)
-                Select();
-
-                // สั่งให้หน้าร้านค้าอัปเดตป้ายราคาชิ้นที่เลือกทันที
-                shop.UpdateClickedItemPriceDisplay();
+                return;
             }
-            else
+
+            // =========================
+            // PLAYER INVENTORY SLOT
+            // =========================
+            Debug.Log("PLAYER MODE");
+
+            if (InventoryManager.Instance != null)
             {
-                // ลอจิกเดิมสำหรับช่องกระเป๋าหลักตอนเดินเล่นในเกมปกติ
-                if (InventoryManager.Instance != null)
+                for (int i = 0; i < InventoryManager.Instance.InventorySlots.Length; i++)
                 {
-                    for (int i = 0; i < InventoryManager.Instance.InventorySlots.Length; i++)
+                    if (InventoryManager.Instance.InventorySlots[i] == this)
                     {
-                        if (InventoryManager.Instance.InventorySlots[i] == this)
-                        {
-                            InventoryManager.Instance.SendMessage("ChangeSelectedSlot", i, SendMessageOptions.DontRequireReceiver);
-                            break;
-                        }
+                        InventoryManager.Instance.SendMessage(
+                            "ChangeSelectedSlot",
+                            i,
+                            SendMessageOptions.DontRequireReceiver);
+
+                        break;
                     }
                 }
             }
@@ -54,14 +70,25 @@ namespace Game.Testing
 
         public void Select()
         {
-            image.color = SelectedColor;
+            Debug.Log("SELECT() CALLED");
+
+
+            image.color = Color.yellow;
+
+            transform.localScale = new Vector3(1.2f, 1.2f, 1f);
+
             isSelected = true;
-        } // Select ===
+        }
 
         public void Deselect()
         {
-            image.color = notSelectedColor;
-            isSelected = false;
+            Debug.Log("DESELECT() CALLED : " + gameObject.name);
+
+            image.color = Color.white;
+
+            transform.localScale = Vector3.one;
+
+            isSelected = false; ;
         } // Deselect ===
 
         private void Awake()

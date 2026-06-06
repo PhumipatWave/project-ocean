@@ -38,6 +38,7 @@ namespace Game.Testing
         {
             Instance = this;
         }
+
         public void OpenShopWindow()
         {
             gameObject.SetActive(true);
@@ -54,7 +55,13 @@ namespace Game.Testing
 
         private void OnEnable()
         {
-            RefreshShopInventory();
+            if (InventoryManager.Instance != null)
+                InventoryManager.OnInventoryChanged += RefreshShopInventory;
+        }
+
+        private void OnDisable()
+        {
+            InventoryManager.OnInventoryChanged -= RefreshShopInventory;
         }
 
         void Update()
@@ -298,13 +305,26 @@ namespace Game.Testing
         private InventorySlot GetSelectedSlot()
         {
             if (shopInventorySlots == null) return null;
+
             foreach (InventorySlot slot in shopInventorySlots)
             {
-                if (slot != null && slot.image.color == slot.SelectedColor) return slot;
+                if (slot != null && slot.isSelected)
+                    return slot;
             }
+
             return null;
         }
 
+        public void DeselectAllShopSlots()
+        {
+            foreach (InventorySlot slot in shopInventorySlots)
+            {
+                if (slot != null)
+                {
+                    slot.Deselect();
+                }
+            }
+        }
         public void BuySelectedItem()
         {
             ShopBuySlot selectedSlot = GetSelectedShopSlot();
