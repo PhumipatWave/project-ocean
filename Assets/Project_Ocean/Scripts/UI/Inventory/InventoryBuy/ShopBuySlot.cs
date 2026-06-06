@@ -19,10 +19,10 @@ namespace Game.Testing
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("Clicked on Shop Slot: " + gameObject.name); // ถ้าคลิกแล้วคำนี้ไม่ขึ้น แสดงว่า Raycast Target ปิดอยู่
+            Debug.Log("Clicked on Shop Slot: " + gameObject.name);
 
-            // หา Slot ทั้งหมดที่อยู่ในกลุ่มเดียวกัน (Parent เดียวกัน)
-            ShopBuySlot[] allShopSlots = transform.parent.GetComponentsInChildren<ShopBuySlot>();
+            ShopBuySlot[] allShopSlots =
+                transform.parent.GetComponentsInChildren<ShopBuySlot>();
 
             foreach (var slot in allShopSlots)
             {
@@ -30,6 +30,11 @@ namespace Game.Testing
             }
 
             Select();
+
+            if (ShopManager.Instance != null)
+            {
+                ShopManager.Instance.UpdateClickedItemPriceDisplay();
+            }
         }
 
         public void Select()
