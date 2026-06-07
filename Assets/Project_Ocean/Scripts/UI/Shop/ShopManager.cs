@@ -19,10 +19,8 @@ namespace Game.Testing
         [SerializeField] private GameObject inventorySlot;      // แผงรวมสล็อต 16 ช่องของร้านค้า (ที่คุณเปลี่ยนชื่อใหม่)
         [SerializeField] private GameObject shopbuySlot;
 
-        [Header("NEW: Shop 16 Slots Display (ภาพ 1)")]
-        [Tooltip("ลากสล็อตทั้ง 16 ช่องในหน้า Shop มาใส่ที่นี่เรียงลำดับจาก 0-15")]
+        [Header("Shop Slots Sell Display")]
         [SerializeField] private InventorySlot[] shopInventorySlots;
-        [Tooltip("ลาก Prefab ตัว InventoryItemPrefab มาใส่")]
         [SerializeField] private GameObject inventoryItemPrefab;
 
         [Header("Display")]
