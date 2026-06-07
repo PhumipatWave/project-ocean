@@ -28,6 +28,12 @@ namespace Game.Testing
         [SerializeField] private TMP_Text clickedItemPriceText;
         private bool isSellMode = true;
 
+        [Header("Item Preview UI")]
+        [SerializeField] private Image previewIcon;
+        [SerializeField] private TMP_Text previewName;
+        [SerializeField] private TMP_Text previewPrice;
+        [SerializeField] private TMP_Text previewDescription;
+
         [Header("Ammo UI Display")]
         [SerializeField] private TMP_Text[] ammoTexts;
         private int[] ammoCounts = new int[4];
@@ -113,7 +119,7 @@ namespace Game.Testing
                     {
                         GameObject newItemGo = Instantiate(inventoryItemPrefab, shopInventorySlots[i].transform);
                         Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
-                        shopItem.InitialiseItem(realItem.item);
+                        shopItem.InitialiseItem(realItem.GetItem());
                         shopItem.count = realItem.count;
                         shopItem.RefreshCount();
                     }
@@ -138,9 +144,9 @@ namespace Game.Testing
                 if (selectedInventorySlot != null)
                 {
                     Draggableltem itemUI = selectedInventorySlot.GetComponentInChildren<Draggableltem>();
-                    if (itemUI != null && itemUI.item != null)
+                    if (itemUI != null && itemUI.GetItem() != null)
                     {
-                        int unitPrice = (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f);
+                        int unitPrice = (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f);
                         clickedItemPriceText.text = $"Price: {unitPrice}";
                     }
                     else
@@ -161,7 +167,7 @@ namespace Game.Testing
                     Draggableltem itemInShop = selectedShopSlot.GetComponentInChildren<Draggableltem>();
                     if (itemInShop != null)
                     {
-                        clickedItemPriceText.text = $"Price: {itemInShop.item.ItemPrice}";
+                        clickedItemPriceText.text = $"Price: {itemInShop.GetItem().ItemPrice}";
                     }
                     else
                     {
@@ -181,7 +187,8 @@ namespace Game.Testing
             ShopBuySlot[] allSlots = shopbuySlot.GetComponentsInChildren<ShopBuySlot>();
             foreach (var slot in allSlots)
             {
-                if (slot.image.color == slot.selectedColor) return slot;
+                if (slot.isSelected)
+                    return slot;
             }
             return null;
         }
@@ -216,9 +223,9 @@ namespace Game.Testing
             foreach (InventorySlot slot in slots)
             {
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI != null && itemUI.item.ItemType == ItemType.Normal)
+                if (itemUI != null && itemUI.GetItem().ItemType == ItemType.Normal)
                 {
-                    total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
+                    total += (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f) * itemUI.count;
                 }
             }
             return total;
@@ -254,7 +261,7 @@ namespace Game.Testing
 
                 if (realItem != null)
                 {
-                    int unitPrice = (int)(realItem.item.ItemPrice - realItem.item.ItemPrice * 0.1f);
+                    int unitPrice = (int)(realItem.GetItem().ItemPrice - realItem.GetItem().ItemPrice * 0.1f);
                     pm.AddMoney(unitPrice);
 
                     realItem.count--;
@@ -289,9 +296,9 @@ namespace Game.Testing
             foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
             {
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.item.ItemType != ItemType.Normal) continue;
+                if (itemUI == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
 
-                total += (int)(itemUI.item.ItemPrice - itemUI.item.ItemPrice * 0.1f) * itemUI.count;
+                total += (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f) * itemUI.count;
                 Destroy(itemUI.gameObject);
             }
             playerMoney.AddMoney(total);
@@ -313,16 +320,18 @@ namespace Game.Testing
             return null;
         }
 
-        public void DeselectAllShopSlots()
+        public void DeselectAllBuySlots()
         {
-            foreach (InventorySlot slot in shopInventorySlots)
+            if (ShopInventoryBuy.Instance == null)
+                return;
+
+            foreach (ShopBuySlot slot in ShopInventoryBuy.Instance.shopbuySlots)
             {
                 if (slot != null)
-                {
                     slot.Deselect();
-                }
             }
         }
+
         public void BuySelectedItem()
         {
             ShopBuySlot selectedSlot = GetSelectedShopSlot();
@@ -333,23 +342,23 @@ namespace Game.Testing
                 {
                     PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
 
-                    if (pm.Money >= itemInShop.item.ItemPrice)
+                    if (pm.Money >= itemInShop.GetItem().ItemPrice)
                     {
-                        if (itemInShop.item.ItemType == ItemType.Ammo)
+                        if (itemInShop.GetItem().ItemType == ItemType.Ammo)
                         {
-                            if (itemInShop.item.name.Contains("Ammo1")) ammoCounts[0]++;
-                            else if (itemInShop.item.name.Contains("Ammo2")) ammoCounts[1]++;
-                            else if (itemInShop.item.name.Contains("Ammo3")) ammoCounts[2]++;
-                            else if (itemInShop.item.name.Contains("Ammo4")) ammoCounts[3]++;
+                            if (itemInShop.GetItem().name.Contains("Ammo1")) ammoCounts[0]++;
+                            else if (itemInShop.GetItem().name.Contains("Ammo2")) ammoCounts[1]++;
+                            else if (itemInShop.GetItem().name.Contains("Ammo3")) ammoCounts[2]++;
+                            else if (itemInShop.GetItem().name.Contains("Ammo4")) ammoCounts[3]++;
 
-                            pm.Use(itemInShop.item.ItemPrice);
+                            pm.Use(itemInShop.GetItem().ItemPrice);
                             UpdateUI();
                         }
-                        else if (itemInShop.item.ItemType == ItemType.Building || itemInShop.item.ItemType == ItemType.Normal)
+                        else if (itemInShop.GetItem().ItemType == ItemType.Building || itemInShop.GetItem().ItemType == ItemType.Normal)
                         {
-                            if (InventoryManager.Instance.AddItem(itemInShop.item))
+                            if (InventoryManager.Instance.AddItem(itemInShop.GetItem()))
                             {
-                                pm.Use(itemInShop.item.ItemPrice);
+                                pm.Use(itemInShop.GetItem().ItemPrice);
                                 RefreshShopInventory(); // อัปเดตช่องแสดงไอเทมกระเป๋าฝั่งร้านค้าทันทีเมื่อซื้อสำเร็จ
                             }
                         }
@@ -357,6 +366,16 @@ namespace Game.Testing
                 }
             }
             StartCoroutine(SellRoutine());
+        }
+
+        public void ShowItemDetail(Item item)
+        {
+            if (item == null) return;
+
+            previewIcon.sprite = item.ItemVisual;
+            previewName.text = item.ItemName;
+            previewPrice.text = item.ItemPrice.ToString();
+            previewDescription.text = item.ItemDescription;
         }
     }
 }

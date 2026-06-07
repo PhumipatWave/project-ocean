@@ -12,7 +12,7 @@ namespace Game.Testing
         public TMP_Text countText;
         
         [HideInInspector] public Transform parentAfterDrag;
-        [HideInInspector] public Item item;
+        [SerializeField] private Item item;
         [HideInInspector] public int count = 1;
         
         public void InitialiseItem(Item newItem)
@@ -54,5 +54,11 @@ namespace Game.Testing
             image.raycastTarget = true;
             
         }// OnEndDrag ===
+        public Item GetItem()
+        {
+            return item;
+
+        } // Item ===
+
     }// Draggableltem ===
 }

@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
   ItemID: 4
   ItemName: Check Point
-  ItemType: 3
+  ItemDescription: This item is used as a checkpoint while underwater.
   ItemVisual: {fileID: 7886269778406565155, guid: 2bc4f89f0ee8e2d45bc2e120360ff5ab, type: 3}
   ItemPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
-  MaxStackable: 5
   ItemPrice: 250
+  MaxStackable: 5
+  ItemType: 3
+  CanBuy: 1
+  CanSell: 1
