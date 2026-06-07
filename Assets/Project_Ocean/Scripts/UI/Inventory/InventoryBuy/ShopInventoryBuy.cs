@@ -38,11 +38,14 @@ namespace Game.Testing
         void SpawnItemInShop(Item item, ShopBuySlot slot)
         {
             GameObject newItemGo = Instantiate(shopItemPrefab, slot.transform);
+
             Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
             shopItem.InitialiseItem(item);
 
-            // ปรับแต่ง: อาจจะปิดการลากในหน้า Shop เพื่อไม่ให้คนเล่นลากของออกจากร้านฟรีๆ
             shopItem.enabled = false;
+
+            // ⭐ สำคัญมาก: ผูก item เข้ากับ slot
+            slot.SetItem(shopItem);
         }
     }
 }

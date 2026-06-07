@@ -10,45 +10,49 @@ namespace Game.Testing
         public Color selectedColor = Color.yellow;
         public Color notSelectedColor = Color.white;
 
+        public Draggableltem currentItem;
+        public bool isSelected;
+
         private void Awake()
         {
-            // ถ้าลืมลากใส่ใน Inspector ให้มันหาเองที่ตัวมันเอง
             if (image == null) image = GetComponent<Image>();
             Deselect();
         }
 
+        public void SetItem(Draggableltem item)
+        {
+            currentItem = item;
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("Clicked on Shop Slot: " + gameObject.name);
-
-            ShopBuySlot[] allShopSlots =
-                transform.parent.GetComponentsInChildren<ShopBuySlot>();
-
-            foreach (var slot in allShopSlots)
+            if (currentItem == null || currentItem.GetItem() == null)
             {
-                slot.Deselect();
+                Debug.Log("Empty slot clicked");
+                return;
             }
 
+            ShopManager.Instance.DeselectAllBuySlots();
             Select();
 
-            if (ShopManager.Instance != null)
-            {
-                ShopManager.Instance.UpdateClickedItemPriceDisplay();
-            }
+            ShopManager.Instance.ShowItemDetail(currentItem.GetItem());
         }
 
         public void Select()
         {
             if (image != null)
-            {
                 image.color = selectedColor;
-                Debug.Log(gameObject.name + " is Selected");
-            }
+
+            isSelected = true;
         }
 
         public void Deselect()
         {
-            if (image != null) image.color = notSelectedColor;
+            if (image != null)
+                image.color = notSelectedColor;
+
+            isSelected = false;
         }
+
     }
 }

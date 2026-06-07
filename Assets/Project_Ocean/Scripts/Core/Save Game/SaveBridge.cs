@@ -66,12 +66,12 @@ namespace Game.Testing
                 for (int i = 0; i < slots.Length; i++)
                 {
                     var item = slots[i].GetComponentInChildren<Draggableltem>();
-                    if (item != null && item.item != null)
+                    if (item != null && item.GetItem() != null)
                     {
                         data.inventoryItems.Add(new ItemSaveData
                         {
                             slotIndex = i,
-                            itemID = item.item.ItemID.ToString(),
+                            itemID = item.GetItem().ItemID.ToString(),
                             count = item.count,
                         });
                     }
