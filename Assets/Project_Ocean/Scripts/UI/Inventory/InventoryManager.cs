@@ -113,13 +113,13 @@ namespace Game.Testing
                     SpawnNewItem(item, inventorySlots[14]);
                     return true;
                 }
-                else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
+                else if (buildingItemSlot01.GetItem() == item && buildingItemSlot01.count < item.MaxStackable)
                 {
                     buildingItemSlot01.count++;
                     buildingItemSlot01.RefreshCount();
                     return true;
                 }
-                else if (buildingItemSlot01.item == item && buildingItemSlot01.count >= item.MaxStackable)
+                else if (buildingItemSlot01.GetItem() == item && buildingItemSlot01.count >= item.MaxStackable)
                 {
                     Debug.Log("Full of this building item!");
                     return false;
@@ -131,13 +131,13 @@ namespace Game.Testing
                     SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
-                else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
+                else if (buildingItemSlot02.GetItem() == item && buildingItemSlot02.count < item.MaxStackable)
                 {
                     buildingItemSlot02.count++;
                     buildingItemSlot02.RefreshCount();
                     return true;
                 }
-                else if (buildingItemSlot02.item == item && buildingItemSlot02.count >= item.MaxStackable)
+                else if (buildingItemSlot02.GetItem() == item && buildingItemSlot02.count >= item.MaxStackable)
                 {
                     Debug.Log("Full of this building item!");
                     return false;
@@ -159,7 +159,7 @@ namespace Game.Testing
                         SpawnNewItem(item, slot);
                         return true;
                     }
-                    else if (itemInSlot != null && itemInSlot.item == item)
+                    else if (itemInSlot != null && itemInSlot.GetItem() == item)
                     {
                         if (itemInSlot.count < item.MaxStackable)
                         {
@@ -201,10 +201,10 @@ namespace Game.Testing
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
                 if (itemInSlot != null &&
-                    itemInSlot.item.ItemType == checkType &&
-                    itemInSlot.item.ItemID == checkID)
+                    itemInSlot.GetItem().ItemType == checkType &&
+                    itemInSlot.GetItem().ItemID == checkID)
                 {
-                    return itemInSlot.item;
+                    return itemInSlot.GetItem();
                 }
             }
             return null;
@@ -216,7 +216,7 @@ namespace Game.Testing
             Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
             if (itemInSlot != null)
             {
-                return itemInSlot.item;
+                return itemInSlot.GetItem();
             }
             return null;
         } // GetSelectedItem ===
@@ -229,9 +229,9 @@ namespace Game.Testing
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
+                if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
                 {
-                    foundItem = itemInSlot.item;
+                    foundItem = itemInSlot.GetItem();
 
                     itemInSlot.count--;
 
@@ -273,7 +273,7 @@ namespace Game.Testing
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
                 // ตรวจเช็กว่าถ้ามีไอเทมอยู่ในช่อง และข้อมูล itemID ตรงกับที่เควสต้องการ
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                if (itemInSlot != null && itemInSlot.GetItem() != null && itemInSlot.GetItem().ItemID == itemId)
                 {
                     return true; // เจอไอเทมส่งเควสในกระเป๋าแล้ว!
                 }
@@ -289,7 +289,7 @@ namespace Game.Testing
 
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                if (itemInSlot != null && itemInSlot.GetItem() != null && itemInSlot.GetItem().ItemID == itemId)
                 {
                     // ลอจิกการหักของ: ถ้าในกองไอเทมมีจำนวนมากกว่า 1 ชิ้น
                     if (itemInSlot.count > 1)
@@ -358,7 +358,7 @@ namespace Game.Testing
 
                 if (itemInSlot != null)
                 {
-                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.item.ItemName} ออกจากช่องที่ {selectedSlot}");
+                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.GetItem().ItemName} ออกจากช่องที่ {selectedSlot}");
 
                     // ลบวัตถุไอเทมออกจาก Scene ทันที
                     Destroy(itemInSlot.gameObject);
