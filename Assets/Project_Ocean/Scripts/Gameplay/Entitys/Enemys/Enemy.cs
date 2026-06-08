@@ -8,12 +8,12 @@ namespace Game.Testing
         [SerializeField] private EnemyLoot loot;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
-        [SerializeField, HideInInspector] private float maxHealth = 100f;
-        [SerializeField, HideInInspector] private Item dropItem;
-        [SerializeField, HideInInspector] private SpriteRenderer fishSprite;
-        [SerializeField, HideInInspector] private Animator anim;
-        [SerializeField, HideInInspector] private bool hasAnimator;
-        [SerializeField, HideInInspector] private Color deathSpriteColor = Color.red;
+        private float maxHealth = 100f;
+        private Item dropItem;
+        private SpriteRenderer fishSprite;
+        private Animator anim;
+        private bool hasAnimator;
+        private Color deathSpriteColor = Color.red;
 
         private Player player;
         public Player Player => player;
@@ -70,7 +70,7 @@ namespace Game.Testing
 
         private void CacheEnemyComponents()
         {
-            if (loot == null) loot = GetOrAddComponent<EnemyLoot>();
+            if (loot == null) loot = GetComponent<EnemyLoot>();
             if (navAgentHost == null) navAgentHost = GetComponent<EnemyNavAgentBase>();
         }
 

@@ -38,7 +38,11 @@ namespace Game.Testing
         public override void TakeDamage(float amount)
         {
             if (IsDead) return;
-            if (oxygenTube == null) { base.TakeDamage(amount); return; }
+            if (oxygenTube == null) 
+            { 
+                base.TakeDamage(amount); 
+                return; 
+            }
 
             oxygenTube.MaxRopeLength = Mathf.Max(0f, oxygenTube.MaxRopeLength - amount);
 
