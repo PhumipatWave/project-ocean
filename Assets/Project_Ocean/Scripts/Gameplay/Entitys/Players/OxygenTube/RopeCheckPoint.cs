@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>Saves and restores rope state at player-placed checkpoints.</summary>
     public class RopeCheckPoint
     {
         private readonly int maxCheckpoints;
@@ -56,7 +55,7 @@ namespace Game.Testing
             return cooldown;
         }
 
-/// <summary>
+        /// <summary>
         /// Overload: registers an already-spawned checkpoint at the given Transform.
         /// Used by CheckPointItem which instantiates itself and calls this from Start().
         /// </summary>

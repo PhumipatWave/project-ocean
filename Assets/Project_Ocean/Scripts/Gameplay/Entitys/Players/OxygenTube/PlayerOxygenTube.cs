@@ -242,9 +242,6 @@ namespace Game.Testing
             ropeVisual.Draw(subRopes);
         }
 
-        public event System.Action OnDamaged;
-        public event System.Action OnDied;
-
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
         public float GetMaxLength() => maxRopeLength;
 

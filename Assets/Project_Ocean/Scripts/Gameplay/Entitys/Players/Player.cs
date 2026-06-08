@@ -63,8 +63,6 @@ namespace Game.Testing
 
         protected override void Awake()
         {
-            // Resolve oxygenTube BEFORE base.Awake() so ProvideHealthSource
-            // can pass it to PlayerHealth via SetOxygenTube.
             oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
 
             base.Awake();
@@ -72,14 +70,14 @@ namespace Game.Testing
             playerSpriteRenderer = playerSprite != null ? playerSprite.GetComponentInChildren<SpriteRenderer>() : null;
             if (playerSpriteRenderer != null) playerOriginalColor = playerSpriteRenderer.color;
 
-            audio      = GetComponent<AudioSource>();
+            audio = GetComponent<AudioSource>();
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
             DontDestroyOnLoad(gameObject);
         }
 
         protected override IEntityHealth ProvideHealthSource()
         {
-            var playerHealth = GetOrAddComponent<PlayerHealth>();
+            var playerHealth = GetComponent<PlayerHealth>();
             if (oxygenTube != null)
                 playerHealth.SetOxygenTube(oxygenTube);
             return playerHealth;
@@ -157,7 +155,7 @@ namespace Game.Testing
             }
         }
 
-private void Update()
+        private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
