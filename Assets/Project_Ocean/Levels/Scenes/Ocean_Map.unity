@@ -220633,6 +220633,63 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &358699939803449298
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.27703
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -45.99366
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 330821442327759310, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048463696750882407, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+      propertyPath: m_Name
+      value: JellyFish
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
 --- !u!1001 &8637926083537455903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220742,3 +220799,4 @@ SceneRoots:
   - {fileID: 207151461}
   - {fileID: 1917117365}
   - {fileID: 28808929}
+  - {fileID: 358699939803449298}
