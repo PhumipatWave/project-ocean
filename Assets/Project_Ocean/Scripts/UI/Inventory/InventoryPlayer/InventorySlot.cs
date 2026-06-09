@@ -36,7 +36,7 @@ namespace Game.Testing
                 {
                     Debug.Log("SHOP MODE");
 
-                    shop.DeselectAllBuySlots();
+                    shop.DeselectAllShopSlots();
 
                     Select();
 

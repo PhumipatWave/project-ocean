@@ -6,7 +6,6 @@ namespace Game.Testing
     {
         public static ShopInventoryBuy Instance { get; private set; }
 
-        // เปลี่ยนจาก InventorySlot[] เป็น ShopSlot[] เพื่อให้ลาก Slot ใน Shop ใส่ได้
         public ShopBuySlot[] shopbuySlots;
 
         public GameObject shopItemPrefab;

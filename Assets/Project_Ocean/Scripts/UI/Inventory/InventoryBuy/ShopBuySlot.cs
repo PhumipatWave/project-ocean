@@ -32,7 +32,7 @@ namespace Game.Testing
                 return;
             }
 
-            ShopManager.Instance.DeselectAllBuySlots();
+            ShopManager.Instance.DeselectAllShopSlots();
             Select();
 
             ShopManager.Instance.ShowItemDetail(currentItem.GetItem());
