@@ -6,11 +6,22 @@ namespace Game.Testing
     {
         void Update()
         {
+            // ✅ เช็ค null ก่อน call เพื่อป้องกัน NullReferenceException
             if (Input.GetKeyDown(KeyCode.F5))
-                SaveBridge.Instance.SaveGame();
+            {
+                if (SaveBridge.Instance != null)
+                    SaveBridge.Instance.SaveGame();
+                else
+                    Debug.LogError("[SaveTester] SaveBridge.Instance is null");
+            }
 
-            if (Input.GetKeyDown(KeyCode.F9))
-                SaveBridge.Instance.LoadGame();
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                if (SaveBridge.Instance != null)
+                    SaveBridge.Instance.LoadGame();
+                else
+                    Debug.LogError("[SaveTester] SaveBridge.Instance is null");
+            }
         }
     }
 }
