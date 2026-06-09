@@ -59,6 +59,8 @@ namespace Game.Testing
 
         private void OnEnable()
         {
+            Debug.Log("ShopManager OnEnable");
+
             if (InventoryManager.Instance != null)
                 InventoryManager.OnInventoryChanged += RefreshShopInventory;
         }
@@ -92,6 +94,7 @@ namespace Game.Testing
         // ฟังก์ชันสั่งสำเนาไอเทมจริงจากผู้เล่นมาแปะไว้ที่ช่องจำลองของหน้า Shop
         public void RefreshShopInventory()
         {
+            
             // ล้างข้อมูลภาพเก่าในช่องจำลองของร้านค้าออกทั้งหมดก่อน
             for (int i = 0; i < shopInventorySlots.Length; i++)
             {
