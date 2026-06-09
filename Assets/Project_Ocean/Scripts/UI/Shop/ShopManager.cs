@@ -320,12 +320,9 @@ namespace Game.Testing
             return null;
         }
 
-        public void DeselectAllBuySlots()
+        public void DeselectAllShopSlots()
         {
-            if (ShopInventoryBuy.Instance == null)
-                return;
-
-            foreach (ShopBuySlot slot in ShopInventoryBuy.Instance.shopbuySlots)
+            foreach (InventorySlot slot in shopInventorySlots)
             {
                 if (slot != null)
                     slot.Deselect();
