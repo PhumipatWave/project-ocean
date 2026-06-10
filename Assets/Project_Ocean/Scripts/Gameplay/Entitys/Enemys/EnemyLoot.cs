@@ -6,11 +6,6 @@ namespace Game.Testing
     {
         [SerializeField] private Item dropItem;
 
-        public void Configure(Item item)
-        {
-            dropItem = item;
-        }
-
         public void CollectByPlayer()
         {
             if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null)
