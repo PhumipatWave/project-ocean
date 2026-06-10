@@ -5,6 +5,8 @@ namespace Game.Testing
 {
     public class InventoryManager : MonoBehaviour
     {
+        public static System.Action OnInventoryChanged;
+
         // I to Show UI
         public GameObject InventoryMenu;
         private bool menuActivetad;
@@ -45,7 +47,7 @@ namespace Game.Testing
             {
                 if (i >= startSlot && i != 14 && i != 15)
                 {
-                    inventorySlots[i].SetLocked(true);
+                    inventorySlots[i].SetLocked(true); // บรรทัดนี้จะสั่งปิดตาช่องที่ 6 เป็นต้นไปอัตโนมัติเมื่อเริ่มเกม
                 }
             } // Lock Slot +1
 
@@ -110,13 +112,13 @@ namespace Game.Testing
                     SpawnNewItem(item, inventorySlots[14]);
                     return true;
                 }
-                else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
+                else if (buildingItemSlot01.GetItem() == item && buildingItemSlot01.count < item.MaxStackable)
                 {
                     buildingItemSlot01.count++;
                     buildingItemSlot01.RefreshCount();
                     return true;
                 }
-                else if (buildingItemSlot01.item == item && buildingItemSlot01.count >= item.MaxStackable)
+                else if (buildingItemSlot01.GetItem() == item && buildingItemSlot01.count >= item.MaxStackable)
                 {
                     Debug.Log("Full of this building item!");
                     return false;
@@ -128,13 +130,13 @@ namespace Game.Testing
                     SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
-                else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
+                else if (buildingItemSlot02.GetItem() == item && buildingItemSlot02.count < item.MaxStackable)
                 {
                     buildingItemSlot02.count++;
                     buildingItemSlot02.RefreshCount();
                     return true;
                 }
-                else if (buildingItemSlot02.item == item && buildingItemSlot02.count >= item.MaxStackable)
+                else if (buildingItemSlot02.GetItem() == item && buildingItemSlot02.count >= item.MaxStackable)
                 {
                     Debug.Log("Full of this building item!");
                     return false;
@@ -156,7 +158,7 @@ namespace Game.Testing
                         SpawnNewItem(item, slot);
                         return true;
                     }
-                    else if (itemInSlot != null && itemInSlot.item == item)
+                    else if (itemInSlot != null && itemInSlot.GetItem() == item)
                     {
                         if (itemInSlot.count < item.MaxStackable)
                         {
@@ -198,10 +200,10 @@ namespace Game.Testing
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
                 if (itemInSlot != null &&
-                    itemInSlot.item.ItemType == checkType &&
-                    itemInSlot.item.ItemID == checkID)
+                    itemInSlot.GetItem().ItemType == checkType &&
+                    itemInSlot.GetItem().ItemID == checkID)
                 {
-                    return itemInSlot.item;
+                    return itemInSlot.GetItem();
                 }
             }
             return null;
@@ -229,7 +231,7 @@ namespace Game.Testing
             Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
             if (itemInSlot != null)
             {
-                return itemInSlot.item;
+                return itemInSlot.GetItem();
             }
             return null;
         } // GetSelectedItem ===
@@ -242,9 +244,9 @@ namespace Game.Testing
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
+                if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
                 {
-                    foundItem = itemInSlot.item;
+                    foundItem = itemInSlot.GetItem();
 
                     itemInSlot.count--;
 
@@ -253,6 +255,7 @@ namespace Game.Testing
                     else
                         itemInSlot.RefreshCount();
 
+                    //NotifySupportItemConsumed(foundItem);
                     return true;
                 }
             }
@@ -264,8 +267,8 @@ namespace Game.Testing
             for (int i = 14; i <= 15; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
-                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
-                    return itemInSlot.item;
+                if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
+                    return itemInSlot.GetItem();
             }
             return null;
         }
@@ -287,15 +290,18 @@ namespace Game.Testing
         // Quest ==================================================
         public bool HasQuestItem(int itemId)
         {
+            // วนลูปตรวจเช็กสล็อตทั้งหมดในกระเป๋าของคุณ
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i] == null) continue;
 
+                // ดึงสคริปต์ Draggableltem (ตัวพิมพ์แอลเล็ก) ที่อยู่ภายในช่องสล็อตออกมาเช็ก
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                // ตรวจเช็กว่าถ้ามีไอเทมอยู่ในช่อง และข้อมูล itemID ตรงกับที่เควสต้องการ
+                if (itemInSlot != null && itemInSlot.GetItem() != null && itemInSlot.GetItem().ItemID == itemId)
                 {
-                    return true;
+                    return true; // เจอไอเทมส่งเควสในกระเป๋าแล้ว!
                 }
             }
             return false;
@@ -309,18 +315,20 @@ namespace Game.Testing
 
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot != null && itemInSlot.item != null && itemInSlot.item.ItemID == itemId)
+                if (itemInSlot != null && itemInSlot.GetItem() != null && itemInSlot.GetItem().ItemID == itemId)
                 {
+                    // ลอจิกการหักของ: ถ้าในกองไอเทมมีจำนวนมากกว่า 1 ชิ้น
                     if (itemInSlot.count > 1)
                     {
-                        itemInSlot.count--;
-                        itemInSlot.RefreshCount();
+                        itemInSlot.count--; // ลดจำนวนลง 1
+                        itemInSlot.RefreshCount(); // เรียกใช้ฟังก์ชันอัปเดตตัวเลข UI บนสล็อตจริงของคุณ
                     }
                     else
                     {
+                        // ถ้าเหลือเป็นชิ้นสุดท้าย ให้ทำลาย GameObject ของไอเทมนั้นทิ้งทันที
                         Destroy(itemInSlot.gameObject);
                     }
-                    return;
+                    return; // เมื่อหักของชิ้นแรกที่เจอเรียบร้อยแล้ว ให้จบลูปทันที
                 }
             }
         }
@@ -329,6 +337,7 @@ namespace Game.Testing
         {
             Debug.Log("QuestManager สั่งจ่ายไอเทมรางวัลรหัส: " + itemId);
 
+            // 1. วนลูปค้นหาไฟล์ข้อมูลไอเทมในคลัง (allItems) ที่มี itemID ตรงกับที่เควสส่งมา
             Item rewardItem = null;
             if (allItems != null)
             {
@@ -342,8 +351,10 @@ namespace Game.Testing
                 }
             }
 
+            // 2. ถ้าเจอไอเทมในคลัง ให้ทำการแอดเข้ากระเป๋าโดยใช้ฟังก์ชัน AddItem ตัวเดิมของคุณ
             if (rewardItem != null)
             {
+                // ฟังก์ชัน AddItem จะหาช่องว่างและเสก Prefab (SpawnNewItem) ให้เองตามลอจิกเดิมของคุณ
                 bool isAdded = AddItem(rewardItem);
 
                 if (isAdded)
@@ -353,6 +364,7 @@ namespace Game.Testing
                 else
                 {
                     Debug.LogWarning("กระเป๋าเต็ม! ไม่สามารถรับไอเทมรางวัลจากเควสได้");
+                    // 💡 ทริคเสริม: ถ้าอยากทำไอเทมตกพื้น สามารถเขียนโค้ด Instantiate(rewardItem.itemPrefab) ตรงนี้ได้เลยครับ
                 }
             }
             else
@@ -360,17 +372,21 @@ namespace Game.Testing
                 Debug.LogError($"ไม่พบไอเทมที่มี ID: '{itemId}' ในคลัง All Items ของ InventoryManager! กรุณาตรวจสอบการลากไฟล์ลงช่องบอร์ด");
             }
         }
-
+        // สั่งลบไอเทมออกจากช่องที่กำลังเลือก (Selected Slot)
         public void RemoveSelectedItem()
         {
+            // ตรวจสอบก่อนว่าเลือกช่องที่ถูกต้องและไม่เอ้าท์ออฟบาวด์
             if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length)
             {
                 InventorySlot slot = inventorySlots[selectedSlot];
+                // ค้นหาไอเทมที่อยู่ในช่องนั้น
                 Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
 
                 if (itemInSlot != null)
                 {
-                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.item.ItemName} ออกจากช่องที่ {selectedSlot}");
+                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.GetItem().ItemName} ออกจากช่องที่ {selectedSlot}");
+
+                    // ลบวัตถุไอเทมออกจาก Scene ทันที
                     Destroy(itemInSlot.gameObject);
                 }
                 else
@@ -380,8 +396,11 @@ namespace Game.Testing
             }
         }
 
+        // ฟังก์ชันสำหรับผูกกับปุ่มกากบาท (Close Button) บน UI
         public void CloseInventoryViaButton()
         {
+            // เรียกใช้ฟังก์ชัน OpenInventory เดิมของคุณ (ที่ตั้งชื่อสวนทางไว้ว่าเปิด แต่ข้างในสั่งปิด Active สลับกัน)
+            // หรือปรับให้ตรงตามลอจิกเดิม: สั่งให้ UI ปิดตัวลงและกลับมาเล่นเกมต่อ
             OpenInventory();
         }
 
