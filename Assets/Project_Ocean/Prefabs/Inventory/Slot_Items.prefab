@@ -31,7 +31,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4151441310950168009, guid: 3a79f16b75c2ce745a0d1c9b484e9faa, type: 3}
+  m_Sprite: {fileID: 4467714551496509113, guid: 6c078c1074cbb4645aca789253f8c580, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

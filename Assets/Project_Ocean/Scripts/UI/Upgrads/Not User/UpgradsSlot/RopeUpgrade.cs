@@ -72,7 +72,7 @@ namespace Game.Testing
 
         float ropeMax()
         {
-            return GameManager.CurPlayer.GetComponent<PlayerOxygenTube>().GetMaxLength();
+            return GameManager.CurPlayer.GetComponent<PlayerOxygenTube>().MaxRopeLength;
         }
 
         private void RefreshLevelUI()
