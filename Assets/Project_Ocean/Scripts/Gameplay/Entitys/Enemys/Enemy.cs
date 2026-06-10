@@ -9,10 +9,8 @@ namespace Game.Testing
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
         private float maxHealth = 100f;
-        private Item dropItem;
-        private SpriteRenderer fishSprite;
+        private SpriteRenderer visual;
         private Animator anim;
-        private bool hasAnimator;
         private Color deathSpriteColor = Color.red;
 
         private Player player;
@@ -90,9 +88,8 @@ namespace Game.Testing
         private void ApplyLegacySerializedValues()
         {
             (healthSource as EntityHealth)?.Configure(maxHealth);
-            loot?.Configure(dropItem);
             entityAnimation?.Configure(anim);
-            entityDeathHandler?.Configure(rb, fishSprite, deathSpriteColor);
+            entityDeathHandler?.Configure(rb, visual, deathSpriteColor);
         }
     }
 }
