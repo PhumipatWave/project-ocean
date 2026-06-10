@@ -132232,7 +132232,6 @@ GameObject:
   - component: {fileID: 629745589}
   - component: {fileID: 629745588}
   - component: {fileID: 629745587}
-  - component: {fileID: 629745590}
   m_Layer: 5
   m_Name: SaveButton
   m_TagString: Untagged
@@ -132342,20 +132341,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629745585}
   m_CullTransparentMesh: 1
---- !u!114 &629745590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629745585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6147b7cf2830de24fa4d0e9ea4e47617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.HomeUI
-  saveButton: {fileID: 629745587}
-  loadButton: {fileID: 0}
 --- !u!1 &631356883
 GameObject:
   m_ObjectHideFlags: 0
@@ -138280,6 +138265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 911797350}
   - component: {fileID: 911797351}
+  - component: {fileID: 911797352}
   m_Layer: 5
   m_Name: HomePanel
   m_TagString: HouseUI
@@ -138323,6 +138309,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911797349}
   m_CullTransparentMesh: 1
+--- !u!114 &911797352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911797349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6147b7cf2830de24fa4d0e9ea4e47617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.HomeUI
+  saveButton: {fileID: 629745587}
+  loadButton: {fileID: 613883626}
 --- !u!1 &915583358
 GameObject:
   m_ObjectHideFlags: 0
