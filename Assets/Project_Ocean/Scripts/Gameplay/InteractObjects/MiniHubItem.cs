@@ -6,12 +6,12 @@ namespace Game.Testing
     {
         private PlayerOxygenTube oxygenTube;
 
-        void Start()
+        private void Start()
         {
             GameManager.Instance.MiniHubAvaliable = true;
             GameManager.Instance.MiniHubLocation = this.transform;
 
-            oxygenTube = GameManager.CurPlayer.GetComponent<PlayerOxygenTube>();
+            oxygenTube = GameManager.CurPlayer.GetComponentInChildren<PlayerOxygenTube>();
             oxygenTube.SetNewStartPoint(this.transform.position);
         }
     }

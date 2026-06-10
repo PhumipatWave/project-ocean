@@ -4,7 +4,7 @@ namespace Game.Testing
 {
     public interface IBrainHitReaction
     {
-        void OnBulletHit();
+        void OnHit();
         void OnPlayerCollision();
     }
 }
