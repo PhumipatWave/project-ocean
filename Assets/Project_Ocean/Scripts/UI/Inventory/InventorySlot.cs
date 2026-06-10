@@ -7,7 +7,7 @@ namespace Game.Testing
     public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         public Image image;
-        public Color SelectedColor , notSelectedColor;
+        public Color SelectedColor, notSelectedColor;
         public bool isSelected = false;
         
         // Lock Slot
@@ -50,8 +50,6 @@ namespace Game.Testing
             gameObject.SetActive(isUnlocked);
         } // Awake ===
 
-        
-        
         public void OnDrop(PointerEventData eventData)
         {
             if (transform.childCount == 0)
@@ -77,7 +75,5 @@ namespace Game.Testing
 
             image.color = isSelected ? Color.yellow : Color.white;
         }*/
-
-        
     }
 }

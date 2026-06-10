@@ -11,7 +11,6 @@ namespace Game.Testing
 
         [SerializeField] private AudioClip openInventorySound;
 
-        [SerializeField] private Item[] items;
         [SerializeField] private InventorySlot[] inventorySlots;
         public InventorySlot[] InventorySlots => inventorySlots;
 
@@ -223,7 +222,7 @@ namespace Game.Testing
         {
             foundItem = null;
 
-            for (int i = 0; i < inventorySlots.Length; i++)
+            for (int i = 14; i <= 15; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
@@ -243,6 +242,17 @@ namespace Game.Testing
                 }
             }
             return false;
+        }
+
+        public Item PeekItem(ItemType checkType)
+        {
+            for (int i = 14; i <= 15; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
+                    return itemInSlot.item;
+            }
+            return null;
         }
 
         public void UnlockNextSlot()
