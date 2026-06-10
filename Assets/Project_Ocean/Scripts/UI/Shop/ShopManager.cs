@@ -59,10 +59,7 @@ namespace Game.Testing
 
         private void OnEnable()
         {
-            Debug.Log("ShopManager OnEnable");
-
-            if (InventoryManager.Instance != null)
-                InventoryManager.OnInventoryChanged += RefreshShopInventory;
+            InventoryManager.OnInventoryChanged += RefreshShopInventory;
         }
 
         private void OnDisable()
@@ -125,6 +122,9 @@ namespace Game.Testing
                         shopItem.InitialiseItem(realItem.GetItem());
                         shopItem.count = realItem.count;
                         shopItem.RefreshCount();
+
+                        shopItem.enabled = false;
+
                     }
                 }
                 else

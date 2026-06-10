@@ -100,12 +100,22 @@ namespace Game.Testing
 
         public void OnDrop(PointerEventData eventData)
         {
+            if (!isUnlocked) return;
+
+            GameObject dropped = eventData.pointerDrag;
+
+            if (dropped == null) return;
+
+            Draggableltem draggableItem = dropped.GetComponent<Draggableltem>();
+
+            if (draggableItem == null) return;
+
             if (transform.childCount == 0)
             {
-                GameObject dropped = eventData.pointerDrag;
-                Draggableltem draggableltem = dropped.GetComponent<Draggableltem>();
-                draggableltem.parentAfterDrag = transform;
+                draggableItem.parentAfterDrag = transform;
             }
+
+
         } // OnDrop ===
 
         public void SetLocked(bool locked)

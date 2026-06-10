@@ -61,8 +61,7 @@ namespace Game.Testing
 
             image.raycastTarget = true;
 
-            InventoryManager.OnInventoryChanged?.Invoke();
-            Debug.Log("EVENT FIRED");
+            Invoke(nameof(RefreshInventoryEvent), 0.05f);
         }// OnEndDrag ===
             
         
@@ -71,6 +70,11 @@ namespace Game.Testing
             return item;
 
         } // Item ===
+
+        private void RefreshInventoryEvent()
+        {
+            InventoryManager.OnInventoryChanged?.Invoke();
+        }
 
     }// Draggableltem ===
 }
