@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>Saves and restores rope state at player-placed checkpoints.</summary>
     public class RopeCheckPoint
     {
         private readonly int maxCheckpoints;
@@ -17,7 +16,6 @@ namespace Game.Testing
         {
             public Vector2 pos;
             public GameObject obj;
-            public RopeSnapshot snapshot;
             public int ropeIndex;
         }
 
@@ -28,7 +26,7 @@ namespace Game.Testing
         }
 
         public int CreateCheckpoint(
-            GameObject checkPointPrefab,
+            Transform existingTransform,
             List<SubRope> subRopes,
             List<RopeAnchor> anchors,
             Transform endPoint,
@@ -40,14 +38,12 @@ namespace Game.Testing
                 return cooldown;
             }
 
-            Vector2 pos = endPoint.position;
-            GameObject obj = Object.Instantiate(checkPointPrefab, pos, Quaternion.identity);
+            Vector2 pos = existingTransform.position;
 
             checkpoints.Add(new CheckpointEntry
             {
                 pos = pos,
-                obj = obj,
-                snapshot = TakeSnapshot(subRopes, anchors),
+                obj = existingTransform.gameObject,
                 ropeIndex = subRopes.Count - 1
             });
 
@@ -73,20 +69,6 @@ namespace Game.Testing
             return 0;
         }
 
-        public void DeleteLast(List<SubRope> subRopes, List<RopeAnchor> anchors)
-        {
-            if (checkpoints.Count == 0) return;
-
-            CheckpointEntry last = checkpoints[^1];
-            if (last.obj != null) Object.Destroy(last.obj);
-            checkpoints.RemoveAt(checkpoints.Count - 1);
-
-            if (checkpoints.Count > 0)
-                RestoreSnapshot(checkpoints[^1].snapshot, subRopes, anchors);
-
-            Debug.Log($"[RopeCheckpoint] Deleted. Remaining: {checkpoints.Count}/{maxCheckpoints}");
-        }
-
         public void ClearAll()
         {
             foreach (var cp in checkpoints)
@@ -95,31 +77,6 @@ namespace Game.Testing
             }
 
             checkpoints.Clear();
-        }
-
-        public RopeSnapshot TakeSnapshot(List<SubRope> subRopes, List<RopeAnchor> anchors)
-        {
-            var snap = new RopeSnapshot
-            {
-                subRopes = new List<SubRope>(),
-                anchors = new List<RopeAnchor>(anchors)
-            };
-
-            foreach (var sr in subRopes)
-                snap.subRopes.Add(sr.Clone());
-
-            return snap;
-        }
-
-        public void RestoreSnapshot(RopeSnapshot snap, List<SubRope> subRopes, List<RopeAnchor> anchors)
-        {
-            subRopes.Clear();
-            anchors.Clear();
-
-            foreach (var sr in snap.subRopes)
-                subRopes.Add(sr.Clone());
-
-            anchors.AddRange(snap.anchors);
         }
 
         private static void CollapseActiveRopeAt(List<SubRope> subRopes, Vector2 pos)
@@ -160,11 +117,12 @@ namespace Game.Testing
             if (subRopes.Count == 0) return;
 
             SubRope last = subRopes[^1];
+            Vector2 originalEnd = last.pinEnd;
             last.pinEnd = cp;
 
             if (Vector2.Distance(last.pinStart, cp) < RopeMath.PinMatchDistance) return;
 
-            subRopes.Add(new SubRope(cp, last.pinEnd));
+            subRopes.Add(new SubRope(cp, originalEnd));
             anchors.RemoveAll(a => a.ropeIndex == subRopes.Count - 1);
             cooldown = wrapCooldownFrames;
         }

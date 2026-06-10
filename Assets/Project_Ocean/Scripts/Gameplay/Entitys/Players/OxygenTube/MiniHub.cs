@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Testing
@@ -37,51 +36,25 @@ namespace Game.Testing
 
         public void RegisterHub(Vector2 pos)
         {
-            // If already has hub → replace it
             if (hub != null)
             {
                 Debug.Log("[MiniHub] Already has.");
                 return;
             }
 
-            GameObject obj = null;
+            GameObject obj = hubPrefab != null
+                ? Object.Instantiate(hubPrefab, pos, Quaternion.identity)
+                : null;
 
-            if (hubPrefab != null)
-            {
-                obj = Object.Instantiate(hubPrefab, pos, Quaternion.identity);
-            }
-            else
-            {
-                Debug.Log("[MiniHub] No prefab assigned!");
-            }
+            if (hubPrefab == null) Debug.Log("[MiniHub] No prefab assigned!");
 
-            hub = new HubEntry
-            {
-                pos = pos,
-                obj = obj
-            };
-
+            hub = new HubEntry { pos = pos, obj = obj };
             Debug.Log($"[MiniHub] Created at {pos}");
-        }
-
-        public Vector2 GetHub()
-        {
-            if (hub == null)
-            {
-                Debug.LogWarning("[MiniHub] No hub exists.");
-                return Vector2.zero;
-            }
-
-            return hub.pos;
         }
 
         public void Clear()
         {
-            if (hub != null && hub.obj != null)
-            {
-                Object.Destroy(hub.obj);
-            }
-
+            if (hub?.obj != null) Object.Destroy(hub.obj);
             hub = null;
             Debug.Log("[MiniHub] Cleared.");
         }

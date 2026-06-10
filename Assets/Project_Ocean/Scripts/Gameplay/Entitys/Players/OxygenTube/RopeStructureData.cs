@@ -50,26 +50,16 @@ namespace Game.Testing
 
         public void SetEdgePath(IReadOnlyList<Vector2> path)
         {
-            if (path == null || path.Count < 2)
-            {
-                ClearEdgePath();
-                return;
-            }
+            if (path == null || path.Count < 2) { ClearEdgePath(); return; }
 
             edgePath ??= new List<Vector2>();
             edgePath.Clear();
-            foreach (var p in path)
-                edgePath.Add(p);
+            foreach (var p in path) edgePath.Add(p);
         }
 
         public void CopyEdgePathFrom(SubRope other)
         {
-            if (other == null || !other.HasEdgePath)
-            {
-                ClearEdgePath();
-                return;
-            }
-
+            if (other == null || !other.HasEdgePath) { ClearEdgePath(); return; }
             SetEdgePath(other.edgePath);
         }
 
@@ -81,10 +71,8 @@ namespace Game.Testing
             var copy = new SubRope(pinStart, pinEnd);
             copy.CopyEdgePathFrom(this);
             copy.segs.Clear();
-
             foreach (var s in segs)
                 copy.segs.Add(new RopeSegment(s.pos) { old = s.old });
-
             return copy;
         }
     }
@@ -102,38 +90,25 @@ namespace Game.Testing
     [System.Serializable]
     public class RopeWrapSettings
     {
-        [Tooltip("Minimum opening angle (degrees) at the wrap corner before unwrap is considered. " +
-                 "Lower = easier unwrap. Raise (95–110) if the rope detaches too early.")]
+        [Tooltip("Minimum opening angle (degrees) at the wrap corner before unwrap is considered.")]
         public float minUnwrapAngle = 88f;
 
-        [Tooltip("Player must be at least this many Segment Lengths away from the anchor to unwrap. " +
-                 "Raise (2–2.5) if unwrap happens while hugging the corner.")]
+        [Tooltip("Player must be at least this many Segment Lengths away from the anchor to unwrap.")]
         public float minUnwrapDistanceFactor = 1.5f;
 
-        [Tooltip("How far outward (along the surface normal at wrap) the player must be before " +
-                 "'cleared corner' counts. Range ~0.2–0.5. Higher = must step further away from the wall.")]
+        [Tooltip("How far outward (along the surface normal at wrap) the player must be before 'cleared corner' counts.")]
         public float unwrapNormalDot = 0.35f;
 
-        [Tooltip("How strong the side-cross signal must be (cross product magnitude). " +
-                 "Raise if unwrap triggers from tiny jitter; lower if unwrap never triggers.")]
+        [Tooltip("How strong the side-cross signal must be (cross product magnitude).")]
         public float crossHysteresis = 0.06f;
 
-        [Tooltip("UNWRAP ONLY: how far past the anchor (in Segment Lengths) along the incoming rope " +
-                 "direction the player must move before 'passed corner' counts.")]
+        [Tooltip("UNWRAP ONLY: how far past the anchor the player must move before 'passed corner' counts.")]
         public float passedCornerFactor = 0.75f;
 
-        [Tooltip("When the rope follows an obstacle edge (boundary path), cross-sign may not flip. " +
-                 "Enable to allow unwrap using wide angle + passed/cleared instead.")]
+        [Tooltip("Enable to allow unwrap using wide angle + passed/cleared instead of side cross.")]
         public bool allowUnwrapWithoutSideCross = true;
 
         [Tooltip("Corner opening angle (degrees) required for the boundary-path unwrap fallback.")]
         public float minUnwrapAngleForNoSideCross = 100f;
-    }
-
-    [System.Serializable]
-    public class RopeSnapshot
-    {
-        public List<SubRope> subRopes;
-        public List<RopeAnchor> anchors;
     }
 }

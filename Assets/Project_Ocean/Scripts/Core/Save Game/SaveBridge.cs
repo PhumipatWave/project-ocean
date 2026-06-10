@@ -49,7 +49,6 @@ namespace Game.Testing
                 if (tube != null)
                 {
                     data.maxRopeLength = tube.MaxRopeLength;
-                    data.reduceMaxRopeLength = tube.ReduceMaxRopeLenght;
                 }
 
                 // เงิน
@@ -120,7 +119,6 @@ namespace Game.Testing
                 if (tube != null)
                 {
                     tube.MaxRopeLength = data.maxRopeLength;
-                    tube.ReduceMaxRopeLenght = data.reduceMaxRopeLength;
                 }
 
                 // เงิน

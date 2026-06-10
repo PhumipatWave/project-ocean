@@ -23,7 +23,7 @@ namespace Game.Testing
 
         public event Action OnDamaged;
         protected void RaiseOnDamaged() => OnDamaged?.Invoke();
-        protected void RaiseOnDied()    => OnDied?.Invoke();
+        protected void RaiseOnDied() => OnDied?.Invoke();
 
         public event Action OnDied;
 
@@ -43,7 +43,7 @@ namespace Game.Testing
         public virtual void Initialize()
         {
             currentHealth = maxHealth;
-            isDead        = false;
+            isDead = false;
         }
 
         public virtual void TakeDamage(float amount)
