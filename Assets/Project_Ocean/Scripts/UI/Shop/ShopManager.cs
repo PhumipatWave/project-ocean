@@ -167,8 +167,8 @@ namespace Game.Testing
                 ShopBuySlot selectedShopSlot = GetSelectedShopSlot();
                 if (selectedShopSlot != null)
                 {
-                    Draggableltem itemInShop = selectedShopSlot.GetComponentInChildren<Draggableltem>();
-                    if (itemInShop != null)
+                    Draggableltem itemInShop = selectedShopSlot.currentItem;
+                    if (itemInShop != null && itemInShop.GetItem() != null)
                     {
                         clickedItemPriceText.text = $"Price: {itemInShop.GetItem().ItemPrice}";
                     }
@@ -337,8 +337,8 @@ namespace Game.Testing
             ShopBuySlot selectedSlot = GetSelectedShopSlot();
             if (selectedSlot != null)
             {
-                Draggableltem itemInShop = selectedSlot.GetComponentInChildren<Draggableltem>();
-                if (itemInShop != null)
+                Draggableltem itemInShop = selectedSlot.currentItem;
+                if (itemInShop != null && itemInShop.GetItem() != null)
                 {
                     PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
 
@@ -359,7 +359,7 @@ namespace Game.Testing
                             if (InventoryManager.Instance.AddItem(itemInShop.GetItem()))
                             {
                                 pm.Use(itemInShop.GetItem().ItemPrice);
-                                RefreshShopInventory(); // อัปเดตช่องแสดงไอเทมกระเป๋าฝั่งร้านค้าทันทีเมื่อซื้อสำเร็จ
+                                RefreshShopInventory();
                             }
                         }
                     }
