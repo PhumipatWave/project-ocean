@@ -14,7 +14,7 @@ namespace Game.Testing
     {
         [SerializeField] private Player playerPrefab;
         [SerializeField] private Transform playerSpawnPoint;
-        public Transform PlayerSpawnPoint { get { return playerSpawnPoint; } }
+        public Transform PlayerSpawnPoint => playerSpawnPoint;
 
         public static Player CurPlayer;
 
@@ -36,10 +36,10 @@ namespace Game.Testing
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(this);
-                return;
+            if (Instance != null) 
+            { 
+                Destroy(this.gameObject); 
+                return; 
             }
 
             Instance = this;
@@ -49,32 +49,54 @@ namespace Game.Testing
             CurPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         }
 
-        private void OnEnable()
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnDisable()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
+        private void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;
+        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // ✅ ถ้ากำลัง load จาก save ให้ข้ามไป Player.cs จัดการตำแหน่งเองอยู่แล้ว
-            if (SaveBridge.IsLoadingSave) return;
-
-            Transform spawnPoint;
-
-            if (scene.name == "Land_Map")
+            if (SaveBridge.IsLoadingSave)
             {
-                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
-                CurPlayer.transform.position = spawnPoint.position;
+                // ✅ Load จาก save — GameManager จัดการ position อย่างเดียว
+                // SaveBridge.LoadedPosition ถูก set ก่อน LoadScene() เสมอ
+                MovePlayerTo(SaveBridge.LoadedPosition);
+
+                // ✅ ไม่ clear IsLoadingSave ที่นี่
+                // SaveBridge coroutine จะ clear เองหลัง apply stats/inventory เสร็จ
+                return;
             }
-            else if (scene.name == "Ocean_Map")
+
+            // ปกติ — ใช้ PlayerSpawnPoint ของ scene
+            if (scene.name == "Land_Map" || scene.name == "Ocean_Map")
             {
-                spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
-                CurPlayer.transform.position = spawnPoint.position;
+                var spawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+                if (spawnObj != null)
+                    MovePlayerTo(spawnObj.transform.position);
+                else
+                    Debug.LogWarning($"[GameManager] ไม่พบ PlayerSpawnPoint ใน {scene.name}");
+            }
+        }
+
+        /// <summary>ย้าย Player ไปตำแหน่งที่กำหนด พร้อม reset velocity</summary>
+        private void MovePlayerTo(Vector3 position)
+        {
+            if (CurPlayer == null)
+            {
+                Debug.LogWarning("[GameManager] MovePlayerTo: CurPlayer is null");
+                return;
+            }
+
+            var rb = CurPlayer.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity  = Vector2.zero;
+                rb.angularVelocity = 0f;
+                rb.bodyType        = RigidbodyType2D.Kinematic;
+                CurPlayer.transform.position = position;
+                rb.bodyType        = RigidbodyType2D.Dynamic;
+            }
+            else
+            {
+                CurPlayer.transform.position = position;
             }
         }
 
@@ -86,17 +108,13 @@ namespace Game.Testing
 
         public void StartDive()
         {
-            //StartCoroutine(FadeRoutine());
-
             SceneManager.LoadScene("Ocean_Map");
             gameState = GameState.Ocean;
         }
 
         public void ReturnToLand()
         {
-            //StartCoroutine(FadeRoutine());
             CurPlayer.OxygenTube.ResetRopeData();
-
             SceneManager.LoadScene("Land_Map");
             gameState = GameState.Land;
         }
@@ -104,7 +122,6 @@ namespace Game.Testing
         private IEnumerator FadeRoutine()
         {
             blackScene.SetActive(true);
-
             yield return new WaitForSeconds(1.5f);
             blackScene.SetActive(false);
         }
