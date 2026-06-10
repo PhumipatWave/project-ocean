@@ -87,15 +87,15 @@ namespace Game.Testing
 
         private void ApplyInventory(SaveData data)
         {
-            if (InventoryManager.Instance == null)
+            var inv = InventoryManager.Instance;
+            if (inv == null)
             {
                 Debug.LogWarning("[SaveBridge] ApplyInventory: InventoryManager not found");
                 return;
             }
 
-            var slots = InventoryManager.Instance.InventorySlots;
-
-            foreach (var slot in slots)
+            // Clear all existing items first
+            foreach (var slot in inv.InventorySlots)
             {
                 var existing = slot.GetComponentInChildren<Draggableltem>();
                 if (existing != null) Destroy(existing.gameObject);
@@ -103,31 +103,37 @@ namespace Game.Testing
 
             foreach (var saved in data.inventoryItems)
             {
-                if (saved.slotIndex >= slots.Length)
-                {
-                    Debug.LogWarning($"[SaveBridge] slotIndex {saved.slotIndex} out of range");
-                    continue;
-                }
-
+                // Parse ID
                 if (!int.TryParse(saved.itemID, out int id))
                 {
                     Debug.LogWarning($"[SaveBridge] Invalid itemID: '{saved.itemID}'");
                     continue;
                 }
 
-                var item = InventoryManager.Instance.FindItem(ItemType.Normal,     id)
-                        ?? InventoryManager.Instance.FindItem(ItemType.Consumable, id)
-                        ?? InventoryManager.Instance.FindItem(ItemType.Building,   id)
-                        ?? InventoryManager.Instance.FindItem(ItemType.Quest,      id);
-
+                // Look up item from the allItems database — NOT from current inventory slots
+                var item = inv.FindItemInDatabase(id);
                 if (item == null)
                 {
-                    Debug.LogWarning($"[SaveBridge] Item not found for ID: {id}");
+                    Debug.LogWarning($"[SaveBridge] Item ID {id} not found in allItems database");
                     continue;
                 }
 
-                for (int n = 0; n < saved.count; n++)
-                    InventoryManager.Instance.AddItem(item);
+                if (saved.slotIndex >= inv.InventorySlots.Length)
+                {
+                    Debug.LogWarning($"[SaveBridge] slotIndex {saved.slotIndex} out of range");
+                    continue;
+                }
+
+                // Spawn directly into the saved slot (preserves slot position)
+                inv.SpawnItemAtSlot(item, saved.slotIndex);
+
+                // Restore the correct stack count
+                var spawned = inv.InventorySlots[saved.slotIndex].GetComponentInChildren<Draggableltem>();
+                if (spawned != null && saved.count > 1)
+                {
+                    spawned.count = saved.count;
+                    spawned.RefreshCount();
+                }
             }
         }
 
