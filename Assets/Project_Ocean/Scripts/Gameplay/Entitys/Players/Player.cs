@@ -117,7 +117,6 @@ namespace Game.Testing
                 }
 
                 // Reset rope max length back to full health on returning to land
-                oxygenTube.ReduceMaxRopeLenght = 0f;
                 (healthSource as PlayerHealth)?.ResetToOriginal();
 
                 gunHandler.gameObject.SetActive(false);
