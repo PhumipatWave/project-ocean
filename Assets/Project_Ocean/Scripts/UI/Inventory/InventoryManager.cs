@@ -13,7 +13,6 @@ namespace Game.Testing
 
         [SerializeField] private AudioClip openInventorySound;
 
-        [SerializeField] private Item[] items;
         [SerializeField] private InventorySlot[] inventorySlots;
         public InventorySlot[] InventorySlots => inventorySlots;
 
@@ -71,7 +70,7 @@ namespace Game.Testing
                 bool isNumber = int.TryParse(Input.inputString, out number);
                 if (isNumber && number > 0 && number < 2)
                 {
-                    ChangeSelectedSlot(number -1);
+                    ChangeSelectedSlot(number - 1);
                 }
             }
         }
@@ -186,10 +185,10 @@ namespace Game.Testing
             inventorySlots = newSlots;
         } // AddSlot ===
         
-        void SpawnNewItem(Item item,InventorySlot slot)
+        void SpawnNewItem(Item item, InventorySlot slot)
         {
             GameObject newItemGo;
-            newItemGo = Instantiate(InventoryItemPrefab,slot.transform);
+            newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
             Draggableltem inventoryItem = newItemGo.GetComponent<Draggableltem>();
             inventoryItem.InitialiseItem(item);
         } // SpawnNewItem ===
@@ -210,6 +209,22 @@ namespace Game.Testing
             return null;
         }
 
+        /// <summary>Search allItems database by ID — used by the save system on load.</summary>
+        public Item FindItemInDatabase(int id)
+        {
+            if (allItems == null) return null;
+            foreach (var item in allItems)
+                if (item != null && item.ItemID == id) return item;
+            return null;
+        }
+
+        /// <summary>Spawn an item directly into a specific slot index — used by the save system on load.</summary>
+        public void SpawnItemAtSlot(Item item, int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= inventorySlots.Length) return;
+            SpawnNewItem(item, inventorySlots[slotIndex]);
+        }
+
         public Item GetSelectedItem()
         {
             InventorySlot slot = inventorySlots[selectedSlot];
@@ -225,7 +240,7 @@ namespace Game.Testing
         {
             foundItem = null;
 
-            for (int i = 0; i < inventorySlots.Length; i++)
+            for (int i = 14; i <= 15; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
@@ -245,6 +260,17 @@ namespace Game.Testing
                 }
             }
             return false;
+        }
+
+        public Item PeekItem(ItemType checkType)
+        {
+            for (int i = 14; i <= 15; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+                if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
+                    return itemInSlot.GetItem();
+            }
+            return null;
         }
 
         public void UnlockNextSlot()
