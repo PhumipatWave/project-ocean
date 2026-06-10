@@ -148,7 +148,7 @@ namespace Game.Testing
         public int CalculateTotal()
         {
             int total = 0;
-            var slots = InventoryManager.Instance != null ? InventoryManager.Instance.inventorySlots : inventory.inventorySlots;
+            var slots = InventoryManager.Instance != null ? InventoryManager.Instance.InventorySlots : inventory.InventorySlots;
 
             foreach (InventorySlot slot in slots)
             {
@@ -198,7 +198,7 @@ namespace Game.Testing
                 return;
 
             int total = 0;
-            foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
+            foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
             {
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
 
@@ -217,7 +217,7 @@ namespace Game.Testing
         private InventorySlot GetSelectedSlot()
         {
             if (InventoryManager.Instance == null) return null;
-            foreach (InventorySlot slot in InventoryManager.Instance.inventorySlots)
+            foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
             {
                 if (slot.image.color == slot.SelectedColor) return slot;
             }

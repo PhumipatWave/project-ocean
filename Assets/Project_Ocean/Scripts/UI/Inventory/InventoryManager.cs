@@ -11,8 +11,10 @@ namespace Game.Testing
 
         [SerializeField] private AudioClip openInventorySound;
 
-        public InventorySlot[] inventorySlots;
-        public GameObject InventoryItemPrefab;
+        [SerializeField] private InventorySlot[] inventorySlots;
+        public InventorySlot[] InventorySlots => inventorySlots;
+
+        [SerializeField] private GameObject InventoryItemPrefab;
 
         [Header("Item Database")]
         // ลากไฟล์ไอเทม (.asset) ทั้งหมดในเกมมาใส่รวมกันไว้ในอาร์เรย์นี้ที่หน้าต่าง Inspector
@@ -102,10 +104,10 @@ namespace Game.Testing
         {
             if (item.ItemType == ItemType.Building)
             {
-                Draggableltem buildingItemSlot01 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot01 = inventorySlots[14].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot01 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[15]);
+                    SpawnNewItem(item, inventorySlots[14]);
                     return true;
                 }
                 else if (buildingItemSlot01.item == item && buildingItemSlot01.count < item.MaxStackable)
@@ -120,10 +122,10 @@ namespace Game.Testing
                     return false;
                 }
 
-                Draggableltem buildingItemSlot02 = inventorySlots[16].GetComponentInChildren<Draggableltem>();
+                Draggableltem buildingItemSlot02 = inventorySlots[15].GetComponentInChildren<Draggableltem>();
                 if (buildingItemSlot02 == null)
                 {
-                    SpawnNewItem(item, inventorySlots[16]);
+                    SpawnNewItem(item, inventorySlots[15]);
                     return true;
                 }
                 else if (buildingItemSlot02.item == item && buildingItemSlot02.count < item.MaxStackable)
@@ -141,28 +143,31 @@ namespace Game.Testing
                 Debug.Log("No space for building item!");
                 return false;
             }
-
-            for (int i = 0; i < inventorySlots.Length; i++)
+            else
             {
-                InventorySlot slot = inventorySlots[i];
-                if (!slot.isUnlocked) continue;
-                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+                for (int i = 0; i < inventorySlots.Length - 2; i++)
+                {
+                    InventorySlot slot = inventorySlots[i];
+                    if (!slot.isUnlocked) continue;
+                    Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
 
-                if (itemInSlot == null)
-                {
-                    SpawnNewItem(item, slot);
-                    return true;
-                }
-                else if (itemInSlot != null && itemInSlot.item == item)
-                {
-                    if (itemInSlot.count < item.MaxStackable)
+                    if (itemInSlot == null)
                     {
-                        itemInSlot.count++;
-                        itemInSlot.RefreshCount();
+                        SpawnNewItem(item, slot);
                         return true;
+                    }
+                    else if (itemInSlot != null && itemInSlot.item == item)
+                    {
+                        if (itemInSlot.count < item.MaxStackable)
+                        {
+                            itemInSlot.count++;
+                            itemInSlot.RefreshCount();
+                            return true;
+                        }
                     }
                 }
             }
+
             return false;
 
         } // AddItem
@@ -217,7 +222,7 @@ namespace Game.Testing
         {
             foundItem = null;
 
-            for (int i = 0; i < inventorySlots.Length; i++)
+            for (int i = 14; i <= 15; i++)
             {
                 Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
 
@@ -237,6 +242,17 @@ namespace Game.Testing
                 }
             }
             return false;
+        }
+
+        public Item PeekItem(ItemType checkType)
+        {
+            for (int i = 14; i <= 15; i++)
+            {
+                Draggableltem itemInSlot = inventorySlots[i].GetComponentInChildren<Draggableltem>();
+                if (itemInSlot != null && itemInSlot.item.ItemType == checkType)
+                    return itemInSlot.item;
+            }
+            return null;
         }
 
         public void UnlockNextSlot()
@@ -337,6 +353,37 @@ namespace Game.Testing
             {
                 Debug.LogError($"ไม่พบไอเทมที่มี ID: '{itemId}' ในคลัง All Items ของ InventoryManager! กรุณาตรวจสอบการลากไฟล์ลงช่องบอร์ด");
             }
+        }
+        // สั่งลบไอเทมออกจากช่องที่กำลังเลือก (Selected Slot)
+        public void RemoveSelectedItem()
+        {
+            // ตรวจสอบก่อนว่าเลือกช่องที่ถูกต้องและไม่เอ้าท์ออฟบาวด์
+            if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length)
+            {
+                InventorySlot slot = inventorySlots[selectedSlot];
+                // ค้นหาไอเทมที่อยู่ในช่องนั้น
+                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+
+                if (itemInSlot != null)
+                {
+                    Debug.Log($"[Inventory] ลบไอเทม {itemInSlot.item.ItemName} ออกจากช่องที่ {selectedSlot}");
+
+                    // ลบวัตถุไอเทมออกจาก Scene ทันที
+                    Destroy(itemInSlot.gameObject);
+                }
+                else
+                {
+                    Debug.LogWarning("ช่องที่เลือกไม่มีไอเทมให้ลบ!");
+                }
+            }
+        }
+
+        // ฟังก์ชันสำหรับผูกกับปุ่มกากบาท (Close Button) บน UI
+        public void CloseInventoryViaButton()
+        {
+            // เรียกใช้ฟังก์ชัน OpenInventory เดิมของคุณ (ที่ตั้งชื่อสวนทางไว้ว่าเปิด แต่ข้างในสั่งปิด Active สลับกัน)
+            // หรือปรับให้ตรงตามลอจิกเดิม: สั่งให้ UI ปิดตัวลงและกลับมาเล่นเกมต่อ
+            OpenInventory();
         }
 
     } // InventoryManager ===
