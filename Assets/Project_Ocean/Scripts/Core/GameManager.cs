@@ -36,7 +36,11 @@ namespace Game.Testing
 
         private void Awake()
         {
-            if (Instance != null) { Destroy(this); return; }
+            if (Instance != null) 
+            { 
+                Destroy(this.gameObject); 
+                return; 
+            }
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
