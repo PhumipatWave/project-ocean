@@ -33,6 +33,7 @@ namespace Game.Testing
         Consumable,
         Building,
         Ammo,
-        Quest
+    Quest,
+        Checkpointuest
     }
 }

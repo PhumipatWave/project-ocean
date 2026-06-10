@@ -7,9 +7,11 @@ namespace Game.Testing
 {
     public class SaveBridge : MonoBehaviour
     {
-        public static SaveBridge Instance      { get; private set; }
-        public static bool        IsLoadingSave { get; private set; }
-        public static Vector3     LoadedPosition { get; private set; }
+        public static SaveBridge Instance { get; private set; }
+
+        // Flag สำหรับโหลดจาก save
+        public static bool IsLoadingSave  { get; private set; }
+        public static Vector3 LoadedPosition { get; private set; }
 
         public static void ClearLoadFlag() => IsLoadingSave = false;
 
@@ -73,7 +75,6 @@ namespace Game.Testing
             if (tube != null)
             {
                 tube.MaxRopeLength       = data.maxRopeLength;
-                tube.ReduceMaxRopeLenght = data.reduceMaxRopeLength;
             }
 
             var playerMoney = player.GetComponent<PlayerMoney>();
@@ -92,7 +93,7 @@ namespace Game.Testing
                 return;
             }
 
-            var slots = InventoryManager.Instance.inventorySlots;
+            var slots = InventoryManager.Instance.InventorySlots;
 
             foreach (var slot in slots)
             {
@@ -242,7 +243,6 @@ namespace Game.Testing
             if (tube != null)
             {
                 data.maxRopeLength       = tube.MaxRopeLength;
-                data.reduceMaxRopeLength = tube.ReduceMaxRopeLenght;
             }
 
             var playerMoney = player.GetComponent<PlayerMoney>();
@@ -255,7 +255,7 @@ namespace Game.Testing
             data.inventoryItems = new List<ItemSaveData>();
             if (InventoryManager.Instance == null) return;
 
-            var slots = InventoryManager.Instance.inventorySlots;
+            var slots = InventoryManager.Instance.InventorySlots;
             for (int i = 0; i < slots.Length; i++)
             {
                 var item = slots[i].GetComponentInChildren<Draggableltem>();
