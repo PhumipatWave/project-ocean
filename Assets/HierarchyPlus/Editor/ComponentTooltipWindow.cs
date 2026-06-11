@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HierarchyPlus.Editor
 {
     /// <summary>
-    /// ComponentTooltipWindow — Phase 6
+    /// ComponentTooltipWindow
     ///
     /// A lightweight floating EditorWindow that shows component details
     /// (name, namespace, assembly) when the mouse hovers over a minimap icon.

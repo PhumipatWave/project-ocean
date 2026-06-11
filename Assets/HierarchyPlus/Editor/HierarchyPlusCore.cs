@@ -6,12 +6,12 @@ namespace HierarchyPlus.Editor
     /// <summary>
     /// HierarchyPlusCore — Entry point for the HierarchyPlus editor extension.
     ///
-    /// Phase 1 : InitializeOnLoad, subscribe hierarchyWindowItemOnGUI.
-    /// Phase 5 : hierarchyChanged → ComponentMinimap.InvalidateCache().
-    /// Phase 6 : Second hierarchyWindowItemOnGUI subscription that calls
-    ///           ComponentMinimap.FlushHoverState() after every repaint pass,
-    ///           using instanceID == 0 as a sentinel for "end of frame".
-    ///           This drives the ComponentTooltipWindow show/hide logic.
+    /// 1.InitializeOnLoad, subscribe hierarchyWindowItemOnGUI.
+    /// 2.hierarchyChanged → ComponentMinimap.InvalidateCache().
+    /// 3.Second hierarchyWindowItemOnGUI subscription drives
+    ///            ComponentMinimap.FlushHoverState() after each repaint pass.
+    /// 4.hierarchyChanged also calls HierarchyDataCache.InvalidateAll()
+    ///            so cached GetComponent results are evicted when the scene changes.
     /// </summary>
     [InitializeOnLoad]
     public static class HierarchyPlusCore
@@ -21,31 +21,27 @@ namespace HierarchyPlus.Editor
             // Main drawing callback — fires per visible item every repaint.
             EditorApplication.hierarchyWindowItemOnGUI += HierarchyPlusDrawer.OnHierarchyItemGUI;
 
-            // Phase 6: second subscription to flush hover state at end of repaint.
-            // Unity fires the callback for every visible row; we use the fact that
-            // instanceID == 0 can appear as an "empty" row after all real items,
-            // but the safer approach is a delayCall reset after each repaint.
+            // second subscription to flush hover state at end of repaint.
             EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyItemGUIPost;
 
-            // Phase 5: rebuild component list cache when hierarchy structure changes.
+            // rebuild caches when hierarchy structure changes.
             EditorApplication.hierarchyChanged += OnHierarchyChanged;
 
             // Strip stale SetIconForObject icons from a previous session.
             EditorApplication.delayCall += ClearBakedIcons;
 
-            // Clear texture caches on domain reload.
+            // Clear texture / blacklist caches on domain reload.
             CategoryIconMap.ClearCache();
             ComponentMinimap.ClearIconCache();
 
-            Debug.Log("[HierarchyPlus] Initialized (Phase 6 — Component Hover Tooltip).");
+            Debug.Log("[HierarchyPlus] Initialized (Phase 11 — Performance Optimization).");
         }
 
-        // ── Phase 6: hover flush ────────────────────────────────────────────
+        // ── hover flush ────────────────────────────────────────────
 
         /// <summary>
         /// Secondary per-item callback used solely to detect end-of-repaint.
-        /// Unity calls hierarchyWindowItemOnGUI for every visible row in order.
-        /// We schedule a delayCall on the FIRST invocation each frame so that
+        /// A delayCall is scheduled on the FIRST invocation each frame so that
         /// FlushHoverState runs once after all rows have been processed.
         /// </summary>
         private static bool _flushScheduled;
@@ -55,7 +51,6 @@ namespace HierarchyPlus.Editor
             if (_flushScheduled) return;
             _flushScheduled = true;
 
-            // delayCall fires after the current GUI pass finishes.
             EditorApplication.delayCall += () =>
             {
                 ComponentMinimap.FlushHoverState();
@@ -63,12 +58,26 @@ namespace HierarchyPlus.Editor
             };
         }
 
-        // ── Phase 5: hierarchy change ───────────────────────────────────────
+        // ── hierarchy change ─────────────────────────────────
 
-private static void OnHierarchyChanged()
+        /// <summary>
+        /// Invalidates all per-GameObject caches when the scene hierarchy changes.
+        ///
+        /// additions:
+        ///   HierarchyDataCache stores GetComponent results keyed by instance ID.
+        ///   When a component is added / removed / scene loaded, those results are
+        ///   stale and must be evicted. This call is cheap (Dictionary.Clear).
+        /// </summary>
+        private static void OnHierarchyChanged()
         {
+            // component list cache.
             ComponentMinimap.InvalidateCache();
+
+            // missing-script detection cache.
             MissingScriptDetector.InvalidateCache();
+
+            // tag component lookup cache (CategoryTag + StatusTag).
+            HierarchyDataCache.InvalidateAll();
         }
 
         // ── Icon cleanup ────────────────────────────────────────────────────
