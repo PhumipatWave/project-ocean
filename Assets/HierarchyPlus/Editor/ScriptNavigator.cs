@@ -4,8 +4,6 @@ using UnityEngine;
 namespace HierarchyPlus.Editor
 {
     /// <summary>
-    /// ScriptNavigator — Phase 8
-    ///
     /// Responsible for finding the MonoScript asset that backs a given
     /// Component and opening it in the configured external editor
     /// (Rider, Visual Studio, VS Code, etc.).
@@ -67,7 +65,7 @@ namespace HierarchyPlus.Editor
         /// Returns the <see cref="MonoScript"/> asset for <paramref name="component"/>,
         /// or <c>null</c> if none can be resolved.
         /// </summary>
-public static MonoScript TryResolveMonoScript(Component component)
+        public static MonoScript TryResolveMonoScript(Component component)
         {
             if (component == null) return null;
 
@@ -85,7 +83,7 @@ public static MonoScript TryResolveMonoScript(Component component)
         /// C# script asset that can be opened.
         /// This is used by the minimap to decide whether to handle Alt+Click.
         /// </summary>
-public static bool IsScriptBacked(Component component)
+        public static bool IsScriptBacked(Component component)
         {
             if (component == null) return false;
             return component is MonoBehaviour;

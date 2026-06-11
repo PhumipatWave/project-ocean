@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HierarchyPlus.Editor
 {
     /// <summary>
-    /// ComponentInspectorPopup — Phase 7
+    /// ComponentInspectorPopup
     ///
     /// A PopupWindowContent that renders the real Unity Inspector for a
     /// single component. Opens automatically when the mouse hovers a minimap icon.
