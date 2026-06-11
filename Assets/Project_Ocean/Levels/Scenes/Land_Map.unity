@@ -126011,7 +126011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b69911d4f79bfa47b495b9342e02828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ShopInventoryManager
-  shopSlots: []
+  shopbuySlots: []
   shopItemPrefab: {fileID: 223342270252164367, guid: 54432ef608248134bb0e909449e8f352, type: 3}
   itemsToSell:
   - {fileID: 11400000, guid: 27ef8134af5c2564789b202d241034b6, type: 2}
@@ -126034,8 +126034,14 @@ MonoBehaviour:
   sellSelectButton: {fileID: 597413827}
   inventorySlot: {fileID: 253060003}
   shopbuySlot: {fileID: 183133133}
+  shopInventorySlots: []
+  inventoryItemPrefab: {fileID: 0}
   totalPriceText: {fileID: 1472664831}
   clickedItemPriceText: {fileID: 1843393955}
+  previewIcon: {fileID: 0}
+  previewName: {fileID: 0}
+  previewPrice: {fileID: 0}
+  previewDescription: {fileID: 0}
   ammoTexts:
   - {fileID: 0}
   - {fileID: 0}
@@ -126980,10 +126986,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.RopeUpgrade
   level: 1
+  maxLevel: 5
   basePrice: 100
   lengthIncrease: 20
   priceText: {fileID: 1637335712}
   lengthText: {fileID: 0}
+  levelBoxes: []
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &453608947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127029,7 +127039,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryUpgrade
   priceText: {fileID: 1253864965}
   currentLevel: 1
+  maxLevel: 5
   basePrice: 20
+  levelBoxes: []
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   slotPrefab: {fileID: 210614601419526826, guid: 3b971edacb3fed845ba3c8164e940a38, type: 3}
   slotParent: {fileID: 2079108858}
 --- !u!4 &453608950
@@ -127062,8 +127076,10 @@ MonoBehaviour:
   upgradeUI: {fileID: 902402753}
   buyUI: {fileID: 183133133}
   upgrades:
-  - {data: {fileID: 11400000, guid: 031d87047d0aa154591709a9a59f645d, type: 2}, currentLevel: 0}
-  - {data: {fileID: 11400000, guid: eb978c9dd309c5744b69552827fc29e5, type: 2}, currentLevel: 0}
+  - data: {fileID: 11400000, guid: 031d87047d0aa154591709a9a59f645d, type: 2}
+    currentLevel: 0
+  - data: {fileID: 11400000, guid: eb978c9dd309c5744b69552827fc29e5, type: 2}
+    currentLevel: 0
 --- !u!1 &457173848
 GameObject:
   m_ObjectHideFlags: 0
@@ -131120,7 +131136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
   status: 2
-  notes: 
+  notes: Wait for assign sound in audio manager
 --- !u!1 &614096582
 GameObject:
   m_ObjectHideFlags: 0
@@ -151775,16 +151791,8 @@ MonoBehaviour:
   - {fileID: 732133583}
   - {fileID: 2106741343}
   - {fileID: 640514227}
-  activeColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  inactiveColor:
-    r: 0.09692062
-    g: 0.20754719
-    b: 0.14103761
-    a: 1
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 0.09692062, g: 0.20754719, b: 0.14103761, a: 1}
 --- !u!1 &1382604587
 GameObject:
   m_ObjectHideFlags: 0
@@ -206918,8 +206926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
-  status: 4
-  notes: 
+  status: 2
+  notes: Wait for manage some HUD in scene only
 --- !u!1 &1674065087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192762,16 +2192770,8 @@ MonoBehaviour:
   - {fileID: 1547604332}
   - {fileID: 198235247}
   - {fileID: 1251999682}
-  activeColor:
-    r: 0
-    g: 1
-    b: 0
-    a: 1
-  inactiveColor:
-    r: 0.09803922
-    g: 0.20784314
-    b: 0.14117648
-    a: 1
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  inactiveColor: {r: 0.09803922, g: 0.20784314, b: 0.14117648, a: 1}
 --- !u!1 &1827186587
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197728,7 +2197728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
   status: 2
-  notes: 
+  notes: Wait for manage some manager in scene only
 --- !u!1 &2127194233
 GameObject:
   m_ObjectHideFlags: 0
