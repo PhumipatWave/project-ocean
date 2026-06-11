@@ -14,6 +14,19 @@ namespace Game.Testing
         public bool isUnlocked = true;
         public bool isShopSlot = false;
 
+        /// <summary>
+        /// Assign this in the Inspector only on slots that live inside the Shop panel.
+        /// Leave empty on regular player inventory slots.
+        /// </summary>
+        [SerializeField] private ShopManager shopManager;
+
+        private void Awake()
+        {
+            image = GetComponent<Image>();
+            Deselect();
+            gameObject.SetActive(isUnlocked);
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log("CLICK SLOT : " + gameObject.name);
@@ -30,19 +43,17 @@ namespace Game.Testing
             // =========================
             if (isShopSlot)
             {
-                ShopManager shop = ShopManager.Instance;
-
-                if (shop != null)
+                if (shopManager != null)
                 {
                     Debug.Log("SHOP MODE");
-
-                    shop.DeselectAllShopSlots();
-
+                    shopManager.DeselectAllShopSlots();
                     Select();
-
-                    shop.UpdateClickedItemPriceDisplay();
+                    shopManager.UpdateClickedItemPriceDisplay();
                 }
-
+                else
+                {
+                    Debug.LogWarning($"[InventorySlot] isShopSlot=true but no ShopManager found for '{gameObject.name}'");
+                }
                 return;
             }
 
@@ -61,7 +72,6 @@ namespace Game.Testing
                             "ChangeSelectedSlot",
                             i,
                             SendMessageOptions.DontRequireReceiver);
-
                         break;
                     }
                 }
@@ -71,57 +81,37 @@ namespace Game.Testing
         public void Select()
         {
             Debug.Log("SELECT() CALLED");
-
-
             image.color = Color.yellow;
-
             transform.localScale = new Vector3(1.2f, 1.2f, 1f);
-
             isSelected = true;
         }
 
         public void Deselect()
         {
             Debug.Log("DESELECT() CALLED : " + gameObject.name);
-
             image.color = Color.white;
-
             transform.localScale = Vector3.one;
-
-            isSelected = false; ;
-        } // Deselect ===
-
-        private void Awake()
-        {
-            image = GetComponent<Image>();
-            Deselect();
-            gameObject.SetActive(isUnlocked);
-        } // Awake ===
+            isSelected = false;
+        }
 
         public void OnDrop(PointerEventData eventData)
         {
             if (!isUnlocked) return;
 
             GameObject dropped = eventData.pointerDrag;
-
             if (dropped == null) return;
 
             Draggableltem draggableItem = dropped.GetComponent<Draggableltem>();
-
             if (draggableItem == null) return;
 
             if (transform.childCount == 0)
-            {
                 draggableItem.parentAfterDrag = transform;
-            }
-
-
-        } // OnDrop ===
+        }
 
         public void SetLocked(bool locked)
         {
             isUnlocked = !locked;
             gameObject.SetActive(!locked);
-        } // SetLocked ===
+        }
     }
 }

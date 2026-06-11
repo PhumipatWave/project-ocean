@@ -7,17 +7,13 @@ namespace Game.Testing
     public class ShopBuySlot : MonoBehaviour, IPointerClickHandler
     {
         public Image image;
-        public Color selectedColor = Color.yellow;
+        public Color selectedColor    = Color.yellow;
         public Color notSelectedColor = Color.white;
 
         public Draggableltem currentItem;
         public bool isSelected;
 
-        private void Awake()
-        {
-            if (image == null) image = GetComponent<Image>();
-            Deselect();
-        }
+        [SerializeField] private ShopManager shopManager;
 
         public void SetItem(Draggableltem item)
         {
@@ -32,27 +28,23 @@ namespace Game.Testing
                 return;
             }
 
-            ShopManager.Instance.DeselectAllShopSlots();
-            Select();
+            if (shopManager == null) return;
 
-            ShopManager.Instance.ShowItemDetail(currentItem.GetItem());
+            shopManager.DeselectAllBuySlots();
+            Select();
+            shopManager.ShowItemDetail(currentItem.GetItem());
         }
 
         public void Select()
         {
-            if (image != null)
-                image.color = selectedColor;
-
+            if (image != null) image.color = selectedColor;
             isSelected = true;
         }
 
         public void Deselect()
         {
-            if (image != null)
-                image.color = notSelectedColor;
-
+            if (image != null) image.color = notSelectedColor;
             isSelected = false;
         }
-
     }
 }

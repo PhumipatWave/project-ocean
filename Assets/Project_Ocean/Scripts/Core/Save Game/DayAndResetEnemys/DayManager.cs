@@ -12,6 +12,12 @@ namespace Game.Testing
         [Header("Events")]
         public UnityEvent<int> onNewDay;
 
+        /// <summary>
+        /// Fired by AdvanceDay() — EnemySpawnManager subscribes via OnEnable/OnDisable.
+        /// DayManager never holds a direct reference to EnemySpawnManager.
+        /// </summary>
+        public static event System.Action OnEnemyReset;
+
         void Awake()
         {
             if (Instance != null) { Destroy(gameObject); return; }
@@ -19,13 +25,13 @@ namespace Game.Testing
             DontDestroyOnLoad(gameObject);
         }
 
-        /// <summary>เรียกจาก SaveBridge หลัง load เสร็จ</summary>
+        /// <summary>Called by SaveBridge after a save is loaded.</summary>
         public void SetDay(int day)
         {
             CurrentDay = Mathf.Max(1, day);
         }
 
-        /// <summary>เรียกจากเตียง — ขึ้นวันใหม่</summary>
+        /// <summary>Called by the bed interactable — advances to the next day.</summary>
         public void AdvanceDay()
         {
             CurrentDay++;
@@ -33,12 +39,9 @@ namespace Game.Testing
 
             onNewDay?.Invoke(CurrentDay);
 
-            // ✅ เปลี่ยนจาก ?. เงียบๆ → log เตือนถ้าหา EnemySpawnManager ไม่เจอ
-            // เพราะ EnemySpawnManager ไม่ได้ DontDestroyOnLoad จะหายหลัง load scene
-            if (EnemySpawnManager.Instance != null)
-                EnemySpawnManager.Instance.ResetAllEnemies();
-            else
-                Debug.LogWarning("[DayManager] EnemySpawnManager not found — enemies not reset");
+            // Notify any scene-local subscriber (e.g. EnemySpawnManager in Land scene).
+            // If no one is subscribed (e.g. during Ocean scene), this is a silent no-op.
+            OnEnemyReset?.Invoke();
 
             // Auto-save
             if (SaveBridge.Instance != null)

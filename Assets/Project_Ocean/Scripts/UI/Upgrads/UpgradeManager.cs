@@ -3,46 +3,36 @@ using UnityEngine;
 
 namespace Game.Testing
 {
+    /// <summary>
+    /// Land-scene-local upgrade manager.
+    /// No static Instance — callers in the same scene wire this via Inspector.
+    /// </summary>
     public class UpgradeManager : MonoBehaviour
     {
-        public static UpgradeManager Instance;
         [SerializeField] private GameObject upgradeUI;
         [SerializeField] private GameObject buyUI;
 
         [SerializeField]
         private List<UpgradeState> upgrades = new();
 
-        private void Awake()
-        {
-            Instance = this;
-        }
+        // No Awake — nothing to initialise as a singleton.
 
         public int GetLevel(UpgradeData data)
         {
             UpgradeState state = upgrades.Find(x => x.data == data);
-
             return state != null ? state.currentLevel : 0;
         }
 
         public void BuyUpgrade(UpgradeData data)
         {
-            UpgradeState state =
-                upgrades.Find(x => x.data == data);
+            UpgradeState state = upgrades.Find(x => x.data == data);
+            if (state == null) return;
+            if (state.currentLevel >= data.maxLevel) return;
 
-            if (state == null)
-                return;
+            int price = data.basePrice * (state.currentLevel + 1);
 
-            if (state.currentLevel >= data.maxLevel)
-                return;
-
-            int price =
-                data.basePrice * (state.currentLevel + 1);
-
-            PlayerMoney money =
-                GameManager.CurPlayer.GetComponent<PlayerMoney>();
-
-            if (!money.Use(price))
-                return;
+            PlayerMoney money = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            if (!money.Use(price)) return;
 
             switch (data.type)
             {
@@ -62,13 +52,9 @@ namespace Game.Testing
 
         public void SetLevel(UpgradeData data, int level)
         {
-            UpgradeState state =
-                upgrades.Find(x => x.data == data);
-
+            UpgradeState state = upgrades.Find(x => x.data == data);
             if (state != null)
-            {
                 state.currentLevel = level;
-            }
         }
 
         public void OpenBuyUI()
@@ -82,6 +68,5 @@ namespace Game.Testing
             buyUI.SetActive(false);
             upgradeUI.SetActive(true);
         }
-
     }
 }
