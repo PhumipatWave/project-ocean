@@ -111,7 +111,7 @@ namespace HierarchyPlus.Editor
         /// Called from HierarchyPlusDrawer.OnHierarchyItemGUI.
         /// Draws minimap icons and tracks which one the mouse is over.
         /// </summary>
-        public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
+public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
         {
             var components = GetCachedComponents(go);
             if (components == null || components.Length == 0) return 0f;
@@ -130,21 +130,12 @@ namespace HierarchyPlus.Editor
                 float y        = selectionRect.y + (selectionRect.height - IconSize) * 0.5f;
                 var   iconRect = new Rect(x, y, IconSize, IconSize);
 
-                // ── Missing script slot ─────────────────────────────────────
-                if (comp == null)
-                {
-                    DrawMissingScriptIcon(iconRect);
-                    continue;
-                }
+                if (comp == null) { DrawMissingScriptIcon(iconRect); continue; }
 
-                // ── Icon ────────────────────────────────────────────────────
                 var icon = GetCachedIcon(comp);
-                if (icon != null)
-                    GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit, true);
-                else
-                    DrawFallbackIcon(iconRect);
+                if (icon != null) GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit, true);
+                else              DrawFallbackIcon(iconRect);
 
-                // ── Hover detection → inspector popup ───────────────────────
                 if (ev != null && iconRect.Contains(mousePos))
                 {
                     _hoveredComponent = comp;
@@ -152,7 +143,6 @@ namespace HierarchyPlus.Editor
                     EditorApplication.RepaintHierarchyWindow();
                 }
 
-                // ── Alt+Click → open script in IDE (Phase 8) ────────────────
                 HandleAltClick(iconRect, comp, ev);
             }
 
@@ -217,7 +207,7 @@ namespace HierarchyPlus.Editor
 
         // ── Component list ──────────────────────────────────────────────────
 
-        private static Component[] GetCachedComponents(GameObject go)
+private static Component[] GetCachedComponents(GameObject go)
         {
             int id = go.GetInstanceID();
             if (ComponentCache.TryGetValue(id, out var cached)) return cached;
@@ -226,8 +216,13 @@ namespace HierarchyPlus.Editor
             var filtered = new List<Component>(all.Length);
             foreach (var c in all)
             {
-                if (c == null) { filtered.Add(null); continue; }
-                if (!IsBlacklisted(c)) filtered.Add(c);
+                // Keep null slots so the missing-script warning icon still draws.
+                if (c == null)                    { filtered.Add(null); continue; }
+                // Skip blacklisted types (Transform, UI plumbing, etc.).
+                if (IsBlacklisted(c))               continue;
+                // Skip Behaviour components disabled in the Inspector.
+                if (c is Behaviour b && !b.enabled) continue;
+                filtered.Add(c);
             }
 
             var result = filtered.ToArray();
@@ -263,21 +258,28 @@ namespace HierarchyPlus.Editor
 
         // ── Alt+Click → open script ─────────────────────────────────────────
 
-        private static void HandleAltClick(Rect iconRect, Component comp, Event ev)
+private static void HandleAltClick(Rect iconRect, Component comp, Event ev)
         {
             if (ev == null || ev.type != EventType.MouseDown) return;
             if (!ev.alt) return;
             if (!iconRect.Contains(ev.mousePosition)) return;
+            if (!ScriptNavigator.IsScriptBacked(comp)) return;
 
-            TryOpenScript(comp);
+            // Phase 8 — delegate script opening to ScriptNavigator.
+            ScriptNavigator.TryOpenScript(comp);
             ev.Use();
         }
 
-        private static void TryOpenScript(Component comp)
-        {
-            if (!(comp is MonoBehaviour mb)) return;
-            var monoScript = MonoScript.FromMonoBehaviour(mb);
-            if (monoScript != null) AssetDatabase.OpenAsset(monoScript);
-        }
-    }
+
+    
+
+// ── Usage checkbox ───────────────────────────────────────────────
+
+        /// <summary>
+        /// Draws a small checkbox above the hovered component icon.
+        /// Clicking it toggles the component's in-use state.
+        /// The checkbox floats just above the icon so it doesn't obscure it.
+        /// </summary>
+
+}
 }

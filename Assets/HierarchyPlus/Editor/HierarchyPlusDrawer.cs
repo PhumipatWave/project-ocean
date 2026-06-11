@@ -85,7 +85,7 @@ namespace HierarchyPlus.Editor
         /// Right-side elements are drawn right-to-left using a shared cursor
         /// so they never overlap each other.
         /// </summary>
-        public static void OnHierarchyItemGUI(int instanceID, Rect selectionRect)
+public static void OnHierarchyItemGUI(int instanceID, Rect selectionRect)
         {
             var go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
             if (go == null) return;
@@ -95,17 +95,20 @@ namespace HierarchyPlus.Editor
 
             // ── Right-side stacking cursor ───────────────────────────────────
             // Each Draw* call returns the pixel width it consumed from the right.
-            // The cursor grows left so the next element starts to the left of the previous.
+            // The cursor grows left so the next element starts left of the previous.
 
             float rightCursor = 0f;
 
             // Phase 3 — status badge (rightmost element).
             rightCursor += DrawStatus(go, selectionRect, rightCursor);
 
-            // Gap between badge and minimap (only add if badge was drawn).
+            // Gap between badge and the next element (only if badge was drawn).
             if (rightCursor > 0f) rightCursor += SectionGap;
 
-            // Phase 5 — minimap icons (to the left of the badge).
+            // Phase 9 — missing script warning icon.
+            rightCursor += MissingScriptDetector.Draw(go, selectionRect, rightCursor);
+
+            // Phase 5 — minimap icons (to the left of the warning / badge).
             ComponentMinimap.Draw(go, selectionRect, rightCursor);
         }
 
