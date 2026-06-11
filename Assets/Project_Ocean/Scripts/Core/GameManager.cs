@@ -36,10 +36,10 @@ namespace Game.Testing
 
         private void Awake()
         {
-            if (Instance != null) 
-            { 
-                Destroy(this.gameObject); 
-                return; 
+            if (Instance != null)
+            {
+                Destroy(this.gameObject);
+                return;
             }
 
             Instance = this;
@@ -56,27 +56,27 @@ namespace Game.Testing
         {
             if (SaveBridge.IsLoadingSave)
             {
-                // ✅ Load จาก save — GameManager จัดการ position อย่างเดียว
-                // SaveBridge.LoadedPosition ถูก set ก่อน LoadScene() เสมอ
+                // Load from save — GameManager only handles position.
+                // SaveBridge.LoadedPosition is always set before LoadScene().
                 MovePlayerTo(SaveBridge.LoadedPosition);
 
-                // ✅ ไม่ clear IsLoadingSave ที่นี่
-                // SaveBridge coroutine จะ clear เองหลัง apply stats/inventory เสร็จ
+                // Do NOT clear IsLoadingSave here.
+                // SaveBridge coroutine clears it after applying stats/inventory.
                 return;
             }
 
-            // ปกติ — ใช้ PlayerSpawnPoint ของ scene
-            if (scene.name == "Land_Map" || scene.name == "Ocean_Map")
+            // Normal scene transition — find the spawn point in the newly loaded scene.
+            if (scene.name == SceneNames.Land || scene.name == SceneNames.Ocean)
             {
                 var spawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
                 if (spawnObj != null)
                     MovePlayerTo(spawnObj.transform.position);
                 else
-                    Debug.LogWarning($"[GameManager] ไม่พบ PlayerSpawnPoint ใน {scene.name}");
+                    Debug.LogWarning($"[GameManager] No PlayerSpawnPoint tag found in {scene.name}");
             }
         }
 
-        /// <summary>ย้าย Player ไปตำแหน่งที่กำหนด พร้อม reset velocity</summary>
+        /// <summary>Teleports the player to a position and resets their velocity.</summary>
         private void MovePlayerTo(Vector3 position)
         {
             if (CurPlayer == null)
@@ -102,20 +102,20 @@ namespace Game.Testing
 
         public void ToMainMenu()
         {
-            SceneManager.LoadScene("MainMenuScene");
-            gameState = GameState.Ocean;
+            SceneManager.LoadScene(SceneNames.MainMenu);
+            gameState = GameState.Land;
         }
 
         public void StartDive()
         {
-            SceneManager.LoadScene("Ocean_Map");
+            SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }
 
         public void ReturnToLand()
         {
             CurPlayer.OxygenTube.ResetRopeData();
-            SceneManager.LoadScene("Land_Map");
+            SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
         }
 

@@ -152,7 +152,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -910008771
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Positions:
@@ -345,7 +345,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -910008771
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 700d8edb995620f46ad24a3cd1ce757a, type: 3}
@@ -591,7 +591,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -910008771
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6879118450950661895, guid: d2dfdcd610f50774c9eb7e4000ae1f48, type: 3}
@@ -760,6 +760,8 @@ GameObject:
   - component: {fileID: 8597528314756023812}
   - component: {fileID: 7315970702637260282}
   - component: {fileID: -5444332486349790352}
+  - component: {fileID: 8273112727178190213}
+  - component: {fileID: 2838524825290089987}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -894,7 +896,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -910008771
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Positions:
@@ -981,7 +983,6 @@ MonoBehaviour:
   playerRopeSound: {fileID: 8300000, guid: 8d89e320fe9e320438fd0fe719074c4c, type: 3}
   playerShootSound: {fileID: 8300000, guid: 34bf12988b672aa42803dfa25840372f, type: 3}
   playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
-  maxHealth: 100
   playerSprite: {fileID: 1845563972653589313}
   playerFlashDuration: 0.15
   moveSpeed: 8
@@ -1025,7 +1026,6 @@ MonoBehaviour:
     minUnwrapAngleForNoSideCross: 100
   maxCheckpoints: 3
   checkPointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
-  miniHubPrefab: {fileID: 2016369825598416511, guid: a12d0b890f8fa3f49beeb32aba9d755f, type: 3}
 --- !u!114 &3811799620726562632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,3 +1179,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8273112727178190213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HierarchyPlus.Runtime::HierarchyPlus.HierarchyCategoryTag
+  category: 2
+--- !u!114 &2838524825290089987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HierarchyPlus.Runtime::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: 
