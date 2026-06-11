@@ -265,12 +265,12 @@ namespace Game.Testing
             for (int i = 0; i < slots.Length; i++)
             {
                 var item = slots[i].GetComponentInChildren<Draggableltem>();
-                if (item?.item == null) continue;
+                if (item?.GetItem() == null) continue;
 
                 data.inventoryItems.Add(new ItemSaveData
                 {
                     slotIndex = i,
-                    itemID    = item.item.ItemID.ToString(),
+                    itemID    = item.GetItem().ItemID.ToString(),
                     count     = item.count,
                 });
             }
@@ -287,7 +287,7 @@ namespace Game.Testing
             if (dmgUpgrade  != null)
             {
                 data.damageUpgradeLevel = dmgUpgrade.level;
-                data.currentDamage      = dmgUpgrade.currentDamage;
+                data.currentDamage = dmgUpgrade.currentDamage;
             }
 
             if (ropeUpgrade != null) data.ropeUpgradeLevel = ropeUpgrade.level;

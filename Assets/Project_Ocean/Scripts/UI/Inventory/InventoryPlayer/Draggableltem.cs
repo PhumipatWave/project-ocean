@@ -12,7 +12,7 @@ namespace Game.Testing
         public TMP_Text countText;
         
         [HideInInspector] public Transform parentAfterDrag;
-        [HideInInspector] public Item item;
+        [SerializeField] private Item item;
         [HideInInspector] public int count = 1;
         
         public void InitialiseItem(Item newItem)
@@ -33,11 +33,14 @@ namespace Game.Testing
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("Begin Drag");
+
             parentAfterDrag = transform.parent;
-            transform.SetParent(transform.root);
+
+            transform.SetParent(transform.root, true);
+
             transform.SetAsLastSibling();
             image.raycastTarget = false;
-            
+
         }// OnBeginDrag ===
 
         public void OnDrag(PointerEventData eventData)
@@ -50,9 +53,28 @@ namespace Game.Testing
         public void OnEndDrag(PointerEventData eventData)
         {
             Debug.Log("End Drag");
+
             transform.SetParent(parentAfterDrag);
+
+            transform.localScale = Vector3.one;
+            transform.localPosition = Vector3.zero;
+
             image.raycastTarget = true;
-            
+
+            Invoke(nameof(RefreshInventoryEvent), 0.05f);
         }// OnEndDrag ===
+            
+        
+        public Item GetItem()
+        {
+            return item;
+
+        } // Item ===
+
+        private void RefreshInventoryEvent()
+        {
+            InventoryManager.OnInventoryChanged?.Invoke();
+        }
+
     }// Draggableltem ===
 }
