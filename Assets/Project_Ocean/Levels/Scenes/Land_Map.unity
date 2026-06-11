@@ -126182,10 +126182,10 @@ MonoBehaviour:
   previewPrice: {fileID: 600158873}
   previewDescription: {fileID: 1795726332}
   ammoTexts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 675195071}
+  - {fileID: 223521332}
+  - {fileID: 1432874824}
+  - {fileID: 2005386134}
 --- !u!1 &391822217
 GameObject:
   m_ObjectHideFlags: 0
@@ -127070,6 +127070,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448852182}
   m_CullTransparentMesh: 1
+--- !u!1 &452029120 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+  m_PrefabInstance: {fileID: 2048644642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &452029123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452029120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 2
+--- !u!114 &452029124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452029120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 3
+  assignedDeveloper: 
+  notes: 
 --- !u!1 &453608945
 GameObject:
   m_ObjectHideFlags: 0
@@ -128474,6 +128507,8 @@ GameObject:
   - component: {fileID: 521152455}
   - component: {fileID: 521152454}
   - component: {fileID: 521152453}
+  - component: {fileID: 521152457}
+  - component: {fileID: 521152458}
   m_Layer: 5
   m_Name: LandUI
   m_TagString: Untagged
@@ -128564,6 +128599,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &521152457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521152452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 4
+--- !u!114 &521152458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521152452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: 
 --- !u!1 &521953202
 GameObject:
   m_ObjectHideFlags: 0
@@ -130209,7 +130272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -23.999756}
+  m_AnchoredPosition: {x: -1, y: -23.999939}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &581750659
@@ -131217,6 +131280,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 610723877}
+  - component: {fileID: 610723878}
+  - component: {fileID: 610723879}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -131241,6 +131306,34 @@ Transform:
   - {fileID: 1935765210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &610723878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610723876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 7
+--- !u!114 &610723879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610723876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: Wait for assign sound in audio manager
 --- !u!1 &614096582
 GameObject:
   m_ObjectHideFlags: 0
@@ -133867,7 +133960,7 @@ GameObject:
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: PlayerSpawnPoint
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -137631,6 +137724,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 920143614}
+  - component: {fileID: 920143615}
+  - component: {fileID: 920143616}
   m_Layer: 0
   m_Name: Environments
   m_TagString: Untagged
@@ -137665,6 +137760,34 @@ Transform:
   - {fileID: 1547080746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920143615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920143613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 6
+--- !u!114 &920143616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920143613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: 
 --- !u!1 &922848627
 GameObject:
   m_ObjectHideFlags: 0
@@ -156375,7 +156498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -23.999756}
+  m_AnchoredPosition: {x: -1, y: -23.999939}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1582925970
@@ -206959,6 +207082,8 @@ GameObject:
   - component: {fileID: 1672761515}
   - component: {fileID: 1672761514}
   - component: {fileID: 1672761513}
+  - component: {fileID: 1672761519}
+  - component: {fileID: 1672761520}
   m_Layer: 5
   m_Name: GameHUD
   m_TagString: GameHUD
@@ -207095,6 +207220,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1672761519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672761512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 4
+--- !u!114 &1672761520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672761512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: Wait for manage some HUD in scene only
 --- !u!1 &1674065087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193333,7 +2193486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27}
+  m_AnchoredPosition: {x: 0, y: -27.000183}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1840922629
@@ -2196804,6 +2196957,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
       objectReference: {fileID: 0}
@@ -2196850,7 +2197007,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 452029123}
+    - targetCorrespondingSourceObject: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 452029124}
   m_SourcePrefab: {fileID: 100100000, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
 --- !u!1 &2062313049
 GameObject:
@@ -2197838,6 +2198001,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2125888984}
   - component: {fileID: 2125888983}
+  - component: {fileID: 2125888985}
+  - component: {fileID: 2125888986}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2197890,6 +2198055,34 @@ Transform:
   - {fileID: 1780993715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2125888985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125888982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 5
+--- !u!114 &2125888986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125888982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62de244571a3de94ea8de972ea2d8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.DevelopmentStatusTag
+  status: 2
+  assignedDeveloper: 
+  notes: Wait for manage some manager in scene only
 --- !u!1 &2127194233
 GameObject:
   m_ObjectHideFlags: 0
