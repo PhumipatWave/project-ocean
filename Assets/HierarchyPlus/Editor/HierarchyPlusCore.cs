@@ -65,9 +65,10 @@ namespace HierarchyPlus.Editor
 
         // ── Phase 5: hierarchy change ───────────────────────────────────────
 
-        private static void OnHierarchyChanged()
+private static void OnHierarchyChanged()
         {
             ComponentMinimap.InvalidateCache();
+            MissingScriptDetector.InvalidateCache();
         }
 
         // ── Icon cleanup ────────────────────────────────────────────────────
