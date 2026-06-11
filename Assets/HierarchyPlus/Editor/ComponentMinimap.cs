@@ -153,7 +153,7 @@ namespace HierarchyPlus.Editor
         /// Call from HierarchyPlusDrawer.OnHierarchyItemGUI.
         /// Draws icons and returns the total pixel width consumed.
         /// </summary>
-        public static float Draw(GameObject go, Rect selectionRect)
+public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
         {
             var components = GetCachedComponents(go);
             if (components == null || components.Length == 0) return 0f;
@@ -161,38 +161,35 @@ namespace HierarchyPlus.Editor
             int count = components.Length;
 
             float totalWidth = count * IconSize + (count - 1) * IconSpacing;
-            float startX     = selectionRect.xMax - RightPadding - totalWidth;
+
+            // Start left of rightOffset so we never overlap the status badge.
+            float startX = selectionRect.xMax - rightOffset - totalWidth;
 
             for (int i = 0; i < count; i++)
             {
                 var comp = components[i];
 
-                float x        = startX + i * (IconSize + IconSpacing);
-                float y        = selectionRect.y + (selectionRect.height - IconSize) * 0.5f;
-                var iconRect   = new Rect(x, y, IconSize, IconSize);
+                float x      = startX + i * (IconSize + IconSpacing);
+                float y      = selectionRect.y + (selectionRect.height - IconSize) * 0.5f;
+                var iconRect = new Rect(x, y, IconSize, IconSize);
 
-                // Null slot = missing script (Phase 9 will add dedicated warning).
                 if (comp == null)
                 {
                     DrawMissingScriptIcon(iconRect);
                     continue;
                 }
 
-                // Draw icon texture.
                 var icon = GetCachedIcon(comp);
                 if (icon != null)
                     GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit, true);
                 else
                     DrawFallbackIcon(iconRect);
 
-                // Tooltip (Phase 6 expands this).
                 GUI.Label(iconRect, new GUIContent(string.Empty, BuildTooltip(comp)));
-
-                // Click handling (Phase 7 / 8).
                 HandleIconClick(iconRect, comp);
             }
 
-            return totalWidth + RightPadding;
+            return totalWidth;
         }
 
         /// <summary>
