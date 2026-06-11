@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HierarchyPlus.Editor
 {
     /// <summary>
-    /// ComponentMinimap — Phase 5 / 7
+    /// ComponentMinimap
     ///
     /// Draws a row of small component icons on the RIGHT side of each
     /// Hierarchy item.
@@ -19,6 +19,19 @@ namespace HierarchyPlus.Editor
     ///   - Skip noisy built-in UI / event / tilemap infrastructure by full type name.
     ///   - Everything else (Colliders, Rigidbody, Animator, AudioSource,
     ///     NavMeshAgent, custom MonoBehaviours, etc.) is shown.
+    ///
+    /// Phase 11 — Performance Optimization:
+    ///   Problem: the initial population of ComponentCache called
+    ///     new List&lt;Component&gt;(capacity) + .ToArray()
+    ///   on every cache miss, allocating two heap objects per unseen GameObject.
+    ///   While cache hits are allocation-free, the first pass over a scene could
+    ///   produce hundreds of short-lived allocations.
+    ///
+    ///   Fix: a single static _scratch List&lt;Component&gt; is reused for every fill.
+    ///   It is cleared before use and its internal array grows to the high-water
+    ///   mark but is never re-allocated after that. .ToArray() is still called
+    ///   once to produce the immutable cached value, but the intermediate list
+    ///   allocation is eliminated.
     ///
     /// SOLID notes:
     ///   Single Responsibility : filtering + drawing + hover detection + caching.
@@ -93,9 +106,16 @@ namespace HierarchyPlus.Editor
 
         // ── Caches ──────────────────────────────────────────────────────────
 
-        private static readonly Dictionary<System.Type, bool>       BlacklistCache = new Dictionary<System.Type, bool>();
-        private static readonly Dictionary<int, Component[]>         ComponentCache = new Dictionary<int, Component[]>();
-        private static readonly Dictionary<System.Type, Texture2D>  IconCache      = new Dictionary<System.Type, Texture2D>();
+        private static readonly Dictionary<System.Type, bool>      BlacklistCache = new Dictionary<System.Type, bool>();
+        private static readonly Dictionary<int, Component[]>        ComponentCache = new Dictionary<int, Component[]>(256);
+        private static readonly Dictionary<System.Type, Texture2D> IconCache      = new Dictionary<System.Type, Texture2D>();
+
+        /// <summary>
+        /// Phase 11: shared scratch buffer for building filtered component arrays.
+        /// Reused across all cache-fill calls to eliminate per-miss List allocation.
+        /// Never exposed outside this class.
+        /// </summary>
+        private static readonly List<Component> _scratch = new List<Component>(16);
 
         // ── Hover state ─────────────────────────────────────────────────────
 
@@ -111,7 +131,7 @@ namespace HierarchyPlus.Editor
         /// Called from HierarchyPlusDrawer.OnHierarchyItemGUI.
         /// Draws minimap icons and tracks which one the mouse is over.
         /// </summary>
-public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
+        public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
         {
             var components = GetCachedComponents(go);
             if (components == null || components.Length == 0) return 0f;
@@ -158,7 +178,6 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
         {
             if (_hoveredComponent != null)
             {
-                // Show popup anchored just below the hovered icon rect.
                 var activatorRect = new Rect(
                     _hoveredIconRect.x,
                     _hoveredIconRect.yMax,
@@ -169,7 +188,6 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
             }
             else
             {
-                // Mouse is not over any icon — close popup if open.
                 ComponentInspectorPopup.HideIfNotPinned();
             }
 
@@ -178,7 +196,10 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
             _hoveredIconRect  = default;
         }
 
-        /// <summary>Invalidates component-list cache. Wire to hierarchyChanged.</summary>
+        /// <summary>
+        /// Invalidates the component-list cache.
+        /// Wire to EditorApplication.hierarchyChanged.
+        /// </summary>
         public static void InvalidateCache()
         {
             ComponentCache.Clear();
@@ -207,25 +228,35 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
 
         // ── Component list ──────────────────────────────────────────────────
 
-private static Component[] GetCachedComponents(GameObject go)
+        /// <summary>
+        /// Returns the cached filtered component array for <paramref name="go"/>.
+        ///
+        /// Phase 11 optimization:
+        ///   On cache miss the static _scratch list is reused instead of
+        ///   allocating a new List&lt;Component&gt; each time. _scratch is cleared
+        ///   before use, populated, then converted to an array for storage.
+        ///   This keeps the hot path (cache hit) allocation-free and reduces
+        ///   the cold path (cache miss) to a single .ToArray() allocation.
+        /// </summary>
+        private static Component[] GetCachedComponents(GameObject go)
         {
             int id = go.GetInstanceID();
             if (ComponentCache.TryGetValue(id, out var cached)) return cached;
 
-            var all      = go.GetComponents<Component>();
-            var filtered = new List<Component>(all.Length);
+            // Reuse static scratch buffer — no heap allocation for the list itself.
+            _scratch.Clear();
+
+            var all = go.GetComponents<Component>();
             foreach (var c in all)
             {
                 // Keep null slots so the missing-script warning icon still draws.
-                if (c == null)                    { filtered.Add(null); continue; }
-                // Skip blacklisted types (Transform, UI plumbing, etc.).
-                if (IsBlacklisted(c))               continue;
-                // Skip Behaviour components disabled in the Inspector.
+                if (c == null)               { _scratch.Add(null); continue; }
+                if (IsBlacklisted(c))          continue;
                 if (c is Behaviour b && !b.enabled) continue;
-                filtered.Add(c);
+                _scratch.Add(c);
             }
 
-            var result = filtered.ToArray();
+            var result = _scratch.ToArray();   // one allocation per new GameObject
             ComponentCache[id] = result;
             return result;
         }
@@ -258,28 +289,15 @@ private static Component[] GetCachedComponents(GameObject go)
 
         // ── Alt+Click → open script ─────────────────────────────────────────
 
-private static void HandleAltClick(Rect iconRect, Component comp, Event ev)
+        private static void HandleAltClick(Rect iconRect, Component comp, Event ev)
         {
             if (ev == null || ev.type != EventType.MouseDown) return;
             if (!ev.alt) return;
             if (!iconRect.Contains(ev.mousePosition)) return;
             if (!ScriptNavigator.IsScriptBacked(comp)) return;
 
-            // Phase 8 — delegate script opening to ScriptNavigator.
             ScriptNavigator.TryOpenScript(comp);
             ev.Use();
         }
-
-
-    
-
-// ── Usage checkbox ───────────────────────────────────────────────
-
-        /// <summary>
-        /// Draws a small checkbox above the hovered component icon.
-        /// Clicking it toggles the component's in-use state.
-        /// The checkbox floats just above the icon so it doesn't obscure it.
-        /// </summary>
-
-}
+    }
 }
