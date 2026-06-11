@@ -6,47 +6,65 @@ namespace HierarchyPlus.Editor
     /// <summary>
     /// HierarchyPlusCore — Entry point for the HierarchyPlus editor extension.
     ///
-    /// Uses [InitializeOnLoad] so Unity automatically calls the static constructor
-    /// when the Editor loads or recompiles scripts. We subscribe to
-    /// EditorApplication.hierarchyWindowItemOnGUI which fires once per visible
-    /// Hierarchy item every repaint, giving us a rect + instance ID to work with.
-    ///
-    /// Phase 5 additions:
-    ///   - Subscribe hierarchyChanged → ComponentMinimap.InvalidateCache()
-    ///     so component lists are rebuilt after scene edits, not every repaint.
-    ///   - Clear ComponentMinimap icon cache on domain reload.
+    /// Phase 1 : InitializeOnLoad, subscribe hierarchyWindowItemOnGUI.
+    /// Phase 5 : hierarchyChanged → ComponentMinimap.InvalidateCache().
+    /// Phase 6 : Second hierarchyWindowItemOnGUI subscription that calls
+    ///           ComponentMinimap.FlushHoverState() after every repaint pass,
+    ///           using instanceID == 0 as a sentinel for "end of frame".
+    ///           This drives the ComponentTooltipWindow show/hide logic.
     /// </summary>
     [InitializeOnLoad]
     public static class HierarchyPlusCore
     {
-        // ── Static constructor ──────────────────────────────────────────────
         static HierarchyPlusCore()
         {
-            // Main drawing callback — fires per-item on every repaint.
+            // Main drawing callback — fires per visible item every repaint.
             EditorApplication.hierarchyWindowItemOnGUI += HierarchyPlusDrawer.OnHierarchyItemGUI;
 
-            // Phase 5: invalidate the component list cache whenever the hierarchy
-            // structure changes (objects added / removed / renamed).
+            // Phase 6: second subscription to flush hover state at end of repaint.
+            // Unity fires the callback for every visible row; we use the fact that
+            // instanceID == 0 can appear as an "empty" row after all real items,
+            // but the safer approach is a delayCall reset after each repaint.
+            EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyItemGUIPost;
+
+            // Phase 5: rebuild component list cache when hierarchy structure changes.
             EditorApplication.hierarchyChanged += OnHierarchyChanged;
 
-            // Clear any icons that were permanently baked by SetIconForObject
-            // in a previous session — reset all scene GameObjects to null icon.
+            // Strip stale SetIconForObject icons from a previous session.
             EditorApplication.delayCall += ClearBakedIcons;
 
-            // Clear icon caches on domain reload so stale textures are never used.
+            // Clear texture caches on domain reload.
             CategoryIconMap.ClearCache();
-            ComponentMinimap.ClearIconCache(); // Phase 5
+            ComponentMinimap.ClearIconCache();
 
-            Debug.Log("[HierarchyPlus] Initialized (Phase 5 — Component Minimap).");
+            Debug.Log("[HierarchyPlus] Initialized (Phase 6 — Component Hover Tooltip).");
         }
 
-        // ── Hierarchy change handler ────────────────────────────────────────
+        // ── Phase 6: hover flush ────────────────────────────────────────────
 
         /// <summary>
-        /// Fired by Unity when the hierarchy changes (object added, removed,
-        /// renamed, reparented, etc.).  Wiping the component cache here means
-        /// GetComponents is only called once per change, not every repaint.
+        /// Secondary per-item callback used solely to detect end-of-repaint.
+        /// Unity calls hierarchyWindowItemOnGUI for every visible row in order.
+        /// We schedule a delayCall on the FIRST invocation each frame so that
+        /// FlushHoverState runs once after all rows have been processed.
         /// </summary>
+        private static bool _flushScheduled;
+
+        private static void OnHierarchyItemGUIPost(int instanceID, Rect selectionRect)
+        {
+            if (_flushScheduled) return;
+            _flushScheduled = true;
+
+            // delayCall fires after the current GUI pass finishes.
+            EditorApplication.delayCall += () =>
+            {
+                ComponentMinimap.FlushHoverState();
+                _flushScheduled = false;
+            };
+        }
+
+        // ── Phase 5: hierarchy change ───────────────────────────────────────
+
         private static void OnHierarchyChanged()
         {
             ComponentMinimap.InvalidateCache();
@@ -56,12 +74,9 @@ namespace HierarchyPlus.Editor
 
         private static void ClearBakedIcons()
         {
-            // Find every GameObject in all loaded scenes and strip any
-            // icon that was set via SetIconForObject previously.
             var allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
             foreach (var go in allObjects)
             {
-                // Only touch scene objects, not assets.
                 if (!UnityEditor.SceneManagement.EditorSceneManager.IsPreviewScene(go.scene) &&
                     go.scene.IsValid())
                 {
