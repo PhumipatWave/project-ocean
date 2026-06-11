@@ -5,34 +5,23 @@ using UnityEngine;
 namespace HierarchyPlus.Editor
 {
     /// <summary>
-    /// ComponentMinimap — Phase 5
+    /// ComponentMinimap — Phase 5 / 7
     ///
     /// Draws a row of small component icons on the RIGHT side of each
-    /// Hierarchy item, similar to vHierarchy's component minimap.
+    /// Hierarchy item.
+    ///
+    /// Interaction model:
+    ///   Hover icon       → opens ComponentInspectorPopup (real Unity Inspector).
+    ///   Alt + Click icon → opens the script in the external IDE (Phase 8).
     ///
     /// Filtering strategy: BLACKLIST
-    ///   - Always skip Transform / RectTransform (structural noise).
-    ///   - Skip known "invisible infrastructure" components by type name:
-    ///       Canvas plumbing  : CanvasRenderer, CanvasScaler, GraphicRaycaster
-    ///       Tilemap plumbing : TilemapRenderer, TilemapCollider2D (visual-only variant)
-    ///       Layout helpers   : LayoutElement, ContentSizeFitter, AspectRatioFitter,
-    ///                          HorizontalLayoutGroup, VerticalLayoutGroup, GridLayoutGroup
-    ///       UI visuals       : Image, RawImage, Text, TextMeshProUGUI, TMP_Text
-    ///       UI decoration    : Shadow, Outline, PositionAsUV1
-    ///       Event infrastr.  : EventSystem, EventTrigger, StandaloneInputModule,
-    ///                          BaseInputModule, PhysicsRaycaster, Physics2DRaycaster
-    ///       Misc noise       : CanvasGroup (show only when standalone, not on every UI obj)
-    ///   - Everything NOT on the blacklist is shown — including all Colliders,
-    ///     Rigidbody/Rigidbody2D, Animator, AudioSource, NavMeshAgent, ParticleSystem,
-    ///     Light, Camera, and every custom MonoBehaviour.
-    ///
-    /// Rationale:
-    ///   Type-name string matching is used for optional modules (UnityEngine.UI,
-    ///   TMPro, UnityEngine.Tilemaps) so the minimap compiles without hard
-    ///   assembly references to those packages.
+    ///   - Always skip Transform / RectTransform.
+    ///   - Skip noisy built-in UI / event / tilemap infrastructure by full type name.
+    ///   - Everything else (Colliders, Rigidbody, Animator, AudioSource,
+    ///     NavMeshAgent, custom MonoBehaviours, etc.) is shown.
     ///
     /// SOLID notes:
-    ///   Single Responsibility : filtering + drawing + caching only.
+    ///   Single Responsibility : filtering + drawing + hover detection + caching.
     ///   Open / Closed         : extend BlacklistedTypeNames to suppress more types.
     /// </summary>
     public static class ComponentMinimap
@@ -45,38 +34,24 @@ namespace HierarchyPlus.Editor
         /// <summary>Gap (px) between consecutive icons.</summary>
         public const float IconSpacing = 2f;
 
-        /// <summary>Right-side margin before the row's right edge.</summary>
-        private const float RightPadding = 4f;
+        // ── Hard-type blacklist ─────────────────────────────────────────────
 
-        // ── Hard-type blacklist (no string lookup needed) ───────────────────
-
-        /// <summary>
-        /// Always-skipped types resolved at compile time.
-        /// Add types here only when the assembly is guaranteed to be present
-        /// (UnityEngine.CoreModule, UnityEngine.PhysicsModule, etc.).
-        /// </summary>
         private static readonly HashSet<System.Type> BlacklistedTypes = new HashSet<System.Type>
         {
-            // ── Transform (structural, always present, never informative) ──
             typeof(Transform),
             typeof(RectTransform),
         };
 
-        // ── String-name blacklist (for optional packages) ───────────────────
+        // ── String-name blacklist (optional packages) ───────────────────────
 
-        /// <summary>
-        /// Full type names (namespace + class) of components to hide.
-        /// Using strings avoids compile errors when optional packages
-        /// (UnityEngine.UI, TMPro, Tilemap) are not installed.
-        /// </summary>
         private static readonly HashSet<string> BlacklistedTypeNames = new HashSet<string>
         {
-            // ── Canvas infrastructure ──────────────────────────────────────
-            "UnityEngine.CanvasRenderer",       // auto-added to every UI element
-            "UnityEngine.UI.CanvasScaler",      // root canvas helper
-            "UnityEngine.UI.GraphicRaycaster",  // root canvas helper
+            // Canvas infrastructure
+            "UnityEngine.CanvasRenderer",
+            "UnityEngine.UI.CanvasScaler",
+            "UnityEngine.UI.GraphicRaycaster",
 
-            // ── UI layout helpers (pure structure, not gameplay-relevant) ──
+            // UI layout helpers
             "UnityEngine.UI.LayoutElement",
             "UnityEngine.UI.ContentSizeFitter",
             "UnityEngine.UI.AspectRatioFitter",
@@ -84,9 +59,7 @@ namespace HierarchyPlus.Editor
             "UnityEngine.UI.VerticalLayoutGroup",
             "UnityEngine.UI.GridLayoutGroup",
 
-            // ── UI visuals (text / image primitives) ──────────────────────
-            // Keep these hidden — they are leaf-level rendering details;
-            // the meaningful context is the MonoBehaviour controlling them.
+            // UI visuals (leaf-level rendering detail)
             "UnityEngine.UI.Image",
             "UnityEngine.UI.RawImage",
             "UnityEngine.UI.Text",
@@ -94,12 +67,12 @@ namespace HierarchyPlus.Editor
             "TMPro.TMP_Text",
             "TMPro.TextMeshPro",
 
-            // ── UI decoration ─────────────────────────────────────────────
+            // UI decoration
             "UnityEngine.UI.Shadow",
             "UnityEngine.UI.Outline",
             "UnityEngine.UI.PositionAsUV1",
 
-            // ── Event system infrastructure ───────────────────────────────
+            // Event system infrastructure
             "UnityEngine.EventSystems.EventSystem",
             "UnityEngine.EventSystems.EventTrigger",
             "UnityEngine.EventSystems.StandaloneInputModule",
@@ -107,159 +80,154 @@ namespace HierarchyPlus.Editor
             "UnityEngine.EventSystems.PhysicsRaycaster",
             "UnityEngine.EventSystems.Physics2DRaycaster",
 
-            // ── Tilemap plumbing ──────────────────────────────────────────
-            "UnityEngine.Tilemaps.TilemapRenderer",  // visual companion to Tilemap
-            // Note: Tilemap itself IS informative and is NOT blacklisted.
+            // Tilemap plumbing (Tilemap data component itself is NOT blacklisted)
+            "UnityEngine.Tilemaps.TilemapRenderer",
 
-            // ── Mask / clipping helpers ───────────────────────────────────
+            // Mask / clipping
             "UnityEngine.UI.Mask",
             "UnityEngine.UI.RectMask2D",
 
-            // ── Canvas group (almost always auto-added noise) ─────────────
-            // Remove this line if you want CanvasGroup to remain visible.
+            // Canvas group
             "UnityEngine.CanvasGroup",
         };
 
-        // ── Blacklist lookup cache ──────────────────────────────────────────
+        // ── Caches ──────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Cache of IsBlacklisted results per type so the HashSet lookups
-        /// only happen once per type across the entire session.
-        /// </summary>
-        private static readonly Dictionary<System.Type, bool> BlacklistCache =
-            new Dictionary<System.Type, bool>();
+        private static readonly Dictionary<System.Type, bool>       BlacklistCache = new Dictionary<System.Type, bool>();
+        private static readonly Dictionary<int, Component[]>         ComponentCache = new Dictionary<int, Component[]>();
+        private static readonly Dictionary<System.Type, Texture2D>  IconCache      = new Dictionary<System.Type, Texture2D>();
 
-        // ── Component-list cache ────────────────────────────────────────────
+        // ── Hover state ─────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Maps instanceID → filtered component array.
-        /// Rebuilt lazily; wiped when hierarchyChanged fires.
-        /// </summary>
-        private static readonly Dictionary<int, Component[]> ComponentCache =
-            new Dictionary<int, Component[]>();
+        /// <summary>Component under the mouse this repaint pass, or null.</summary>
+        private static Component _hoveredComponent;
 
-        // ── Icon texture cache ──────────────────────────────────────────────
-
-        /// <summary>
-        /// Maps System.Type → mini thumbnail texture.
-        /// AssetPreview.GetMiniThumbnail is cheap but still worth caching.
-        /// </summary>
-        private static readonly Dictionary<System.Type, Texture2D> IconCache =
-            new Dictionary<System.Type, Texture2D>();
+        /// <summary>Icon rect (GUI space) of the hovered component.</summary>
+        private static Rect _hoveredIconRect;
 
         // ── Public API ──────────────────────────────────────────────────────
 
         /// <summary>
-        /// Call from HierarchyPlusDrawer.OnHierarchyItemGUI.
-        /// Draws icons and returns the total pixel width consumed.
+        /// Called from HierarchyPlusDrawer.OnHierarchyItemGUI.
+        /// Draws minimap icons and tracks which one the mouse is over.
         /// </summary>
-public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
+        public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 0f)
         {
             var components = GetCachedComponents(go);
             if (components == null || components.Length == 0) return 0f;
 
-            int count = components.Length;
-
+            int   count      = components.Length;
             float totalWidth = count * IconSize + (count - 1) * IconSpacing;
+            float startX     = selectionRect.xMax - rightOffset - totalWidth;
 
-            // Start left of rightOffset so we never overlap the status badge.
-            float startX = selectionRect.xMax - rightOffset - totalWidth;
+            var ev       = Event.current;
+            var mousePos = ev?.mousePosition ?? Vector2.zero;
 
             for (int i = 0; i < count; i++)
             {
-                var comp = components[i];
+                var   comp     = components[i];
+                float x        = startX + i * (IconSize + IconSpacing);
+                float y        = selectionRect.y + (selectionRect.height - IconSize) * 0.5f;
+                var   iconRect = new Rect(x, y, IconSize, IconSize);
 
-                float x      = startX + i * (IconSize + IconSpacing);
-                float y      = selectionRect.y + (selectionRect.height - IconSize) * 0.5f;
-                var iconRect = new Rect(x, y, IconSize, IconSize);
-
+                // ── Missing script slot ─────────────────────────────────────
                 if (comp == null)
                 {
                     DrawMissingScriptIcon(iconRect);
                     continue;
                 }
 
+                // ── Icon ────────────────────────────────────────────────────
                 var icon = GetCachedIcon(comp);
                 if (icon != null)
                     GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit, true);
                 else
                     DrawFallbackIcon(iconRect);
 
-                GUI.Label(iconRect, new GUIContent(string.Empty, BuildTooltip(comp)));
-                HandleIconClick(iconRect, comp);
+                // ── Hover detection → inspector popup ───────────────────────
+                if (ev != null && iconRect.Contains(mousePos))
+                {
+                    _hoveredComponent = comp;
+                    _hoveredIconRect  = iconRect;
+                    EditorApplication.RepaintHierarchyWindow();
+                }
+
+                // ── Alt+Click → open script in IDE (Phase 8) ────────────────
+                HandleAltClick(iconRect, comp, ev);
             }
 
             return totalWidth;
         }
 
         /// <summary>
-        /// Invalidates the component-list cache for all GameObjects.
-        /// Wired to EditorApplication.hierarchyChanged in HierarchyPlusCore.
+        /// Called once per repaint after ALL rows have been drawn.
+        /// Opens the inspector popup for whichever icon is currently hovered,
+        /// or closes it when the mouse leaves all icons.
         /// </summary>
+        public static void FlushHoverState()
+        {
+            if (_hoveredComponent != null)
+            {
+                // Show popup anchored just below the hovered icon rect.
+                var activatorRect = new Rect(
+                    _hoveredIconRect.x,
+                    _hoveredIconRect.yMax,
+                    _hoveredIconRect.width,
+                    0f);
+
+                ComponentInspectorPopup.ShowForComponent(_hoveredComponent, activatorRect);
+            }
+            else
+            {
+                // Mouse is not over any icon — close popup if open.
+                ComponentInspectorPopup.HideIfNotPinned();
+            }
+
+            // Reset for next repaint.
+            _hoveredComponent = null;
+            _hoveredIconRect  = default;
+        }
+
+        /// <summary>Invalidates component-list cache. Wire to hierarchyChanged.</summary>
         public static void InvalidateCache()
         {
             ComponentCache.Clear();
         }
 
-        /// <summary>
-        /// Clears icon texture + blacklist caches.
-        /// Called on domain reload in HierarchyPlusCore.
-        /// </summary>
+        /// <summary>Clears icon + blacklist caches. Call on domain reload.</summary>
         public static void ClearIconCache()
         {
             IconCache.Clear();
             BlacklistCache.Clear();
         }
 
-        // ── Blacklist logic ─────────────────────────────────────────────────
+        // ── Blacklist ───────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Returns true if the component's type should be hidden from the minimap.
-        /// Result is cached per-type so HashSet lookups only run once per type.
-        /// </summary>
         private static bool IsBlacklisted(Component c)
         {
             var type = c.GetType();
+            if (BlacklistCache.TryGetValue(type, out var cached)) return cached;
 
-            if (BlacklistCache.TryGetValue(type, out var cached))
-                return cached;
+            bool result = BlacklistedTypes.Contains(type) ||
+                          BlacklistedTypeNames.Contains(type.FullName);
 
-            // 1. Hard-type check (compile-time types).
-            if (BlacklistedTypes.Contains(type))
-            {
-                BlacklistCache[type] = true;
-                return true;
-            }
-
-            // 2. Full type-name check (optional packages, avoids compile deps).
-            if (BlacklistedTypeNames.Contains(type.FullName))
-            {
-                BlacklistCache[type] = true;
-                return true;
-            }
-
-            BlacklistCache[type] = false;
-            return false;
+            BlacklistCache[type] = result;
+            return result;
         }
 
-        // ── Component list building ─────────────────────────────────────────
+        // ── Component list ──────────────────────────────────────────────────
 
         private static Component[] GetCachedComponents(GameObject go)
         {
             int id = go.GetInstanceID();
-            if (ComponentCache.TryGetValue(id, out var cached))
-                return cached;
+            if (ComponentCache.TryGetValue(id, out var cached)) return cached;
 
             var all      = go.GetComponents<Component>();
             var filtered = new List<Component>(all.Length);
-
             foreach (var c in all)
             {
-                // Keep null slots for Phase 9 missing-script detection.
                 if (c == null) { filtered.Add(null); continue; }
-
-                if (!IsBlacklisted(c))
-                    filtered.Add(c);
+                if (!IsBlacklisted(c)) filtered.Add(c);
             }
 
             var result = filtered.ToArray();
@@ -273,7 +241,6 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
         {
             var type = comp.GetType();
             if (IconCache.TryGetValue(type, out var cached)) return cached;
-
             var tex = AssetPreview.GetMiniThumbnail(comp);
             IconCache[type] = tex;
             return tex;
@@ -294,33 +261,16 @@ public static float Draw(GameObject go, Rect selectionRect, float rightOffset = 
                 GUI.DrawTexture(r, (Texture2D)warnIcon.image, ScaleMode.ScaleToFit, true);
         }
 
-        // ── Tooltip ─────────────────────────────────────────────────────────
+        // ── Alt+Click → open script ─────────────────────────────────────────
 
-        private static string BuildTooltip(Component comp)
+        private static void HandleAltClick(Rect iconRect, Component comp, Event ev)
         {
-            var type         = comp.GetType();
-            var assemblyName = type.Assembly.GetName().Name;
-            var ns           = string.IsNullOrEmpty(type.Namespace) ? "(global)" : type.Namespace;
-            return $"{type.Name}\n{ns}\n{assemblyName}";
-        }
-
-        // ── Click handling ──────────────────────────────────────────────────
-
-        private static void HandleIconClick(Rect iconRect, Component comp)
-        {
-            var ev = Event.current;
             if (ev == null || ev.type != EventType.MouseDown) return;
+            if (!ev.alt) return;
             if (!iconRect.Contains(ev.mousePosition)) return;
 
-            if (ev.alt)
-            {
-                TryOpenScript(comp); // Phase 8
-                ev.Use();
-            }
-            else
-            {
-                ev.Use(); // Phase 7 popup placeholder
-            }
+            TryOpenScript(comp);
+            ev.Use();
         }
 
         private static void TryOpenScript(Component comp)
