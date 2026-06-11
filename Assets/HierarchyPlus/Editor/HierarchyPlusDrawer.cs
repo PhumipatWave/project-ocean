@@ -9,7 +9,14 @@ namespace HierarchyPlus.Editor
     ///
     /// Phase 2 : category background tint + emoji/icon in the icon slot.
     /// Phase 3 : colored status badge on the right edge.
-    /// Phase 5 : component minimap icons drawn right-of-center, left of the badge.
+    /// Phase 5 : component minimap icons to the left of the status badge.
+    ///
+    /// Right-side layout uses a stacking cursor so nothing overlaps:
+    ///
+    ///   xMax → [RightPadding] [StatusBadge] [SectionGap] [MinimapIcons...]
+    ///
+    ///   1. DrawStatus()         draws rightmost, returns width consumed.
+    ///   2. ComponentMinimap.Draw() receives that offset and starts left of it.
     ///
     /// Architecture note (SOLID):
     ///   Single Responsibility : only draws; does not own data or state.
@@ -22,11 +29,14 @@ namespace HierarchyPlus.Editor
         /// <summary>Right-side margin (px) before the far edge of the row rect.</summary>
         private const float RightPadding = 4f;
 
-        /// <summary>Width reserved for the status badge.</summary>
+        /// <summary>Width of the status badge.</summary>
         private const float BadgeWidth = 36f;
 
-        /// <summary>Gap between the status badge and the minimap icons.</summary>
-        private const float BadgeMinimapGap = 4f;
+        /// <summary>Height of the status badge.</summary>
+        private const float BadgeHeight = 13f;
+
+        /// <summary>Gap (px) between the status badge and the minimap block.</summary>
+        private const float SectionGap = 4f;
 
         // ── Cached GUIStyles ─────────────────────────────────────────────────
 
@@ -72,33 +82,43 @@ namespace HierarchyPlus.Editor
 
         /// <summary>
         /// Called by Unity for EVERY visible Hierarchy row on each repaint.
-        /// instanceID resolves to the row's GameObject (or null for headers).
+        /// Right-side elements are drawn right-to-left using a shared cursor
+        /// so they never overlap each other.
         /// </summary>
         public static void OnHierarchyItemGUI(int instanceID, Rect selectionRect)
         {
             var go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
             if (go == null) return;
 
-            DrawCategory(go, selectionRect);          // Phase 2 — background + icon
-            DrawStatus(go, selectionRect);            // Phase 3 — right-edge badge
-            ComponentMinimap.Draw(go, selectionRect); // Phase 5 — component icons
+            // Phase 2 — background tint + category icon (left side, no cursor needed).
+            DrawCategory(go, selectionRect);
+
+            // ── Right-side stacking cursor ───────────────────────────────────
+            // Each Draw* call returns the pixel width it consumed from the right.
+            // The cursor grows left so the next element starts to the left of the previous.
+
+            float rightCursor = 0f;
+
+            // Phase 3 — status badge (rightmost element).
+            rightCursor += DrawStatus(go, selectionRect, rightCursor);
+
+            // Gap between badge and minimap (only add if badge was drawn).
+            if (rightCursor > 0f) rightCursor += SectionGap;
+
+            // Phase 5 — minimap icons (to the left of the badge).
+            ComponentMinimap.Draw(go, selectionRect, rightCursor);
         }
 
         // ── Phase 2: Category drawing ────────────────────────────────────────
 
-        /// <summary>
-        /// Draws the category background tint and icon/emoji for a row.
-        /// Silently skips objects with no HierarchyCategoryTag or category == None.
-        /// </summary>
         private static void DrawCategory(GameObject go, Rect selectionRect)
         {
-            // NOTE: Phase 11 will replace GetComponent with a cache.
             var tag = go.GetComponent<HierarchyCategoryTag>();
             if (tag == null || tag.category == HierarchyCategory.None) return;
 
             var category = tag.category;
 
-            // ── 1. Full-row background color tint ────────────────────────────
+            // Full-row background tint.
             var bgColor = CategoryColorMap.GetColor(category);
             if (bgColor.a > 0f)
             {
@@ -110,17 +130,14 @@ namespace HierarchyPlus.Editor
                 GUI.color = prevColor;
             }
 
-            // ── 2. Replace Unity's GameObject icon slot ──────────────────────
-            // Layout: [indent] [arrow ~14px] [icon 16px] [2px gap] [name...]
-            // selectionRect.x = start of name text.
+            // Replace Unity's GameObject icon slot with a category icon/emoji.
             const float unityIconSize = 16f;
             const float iconGap       = 2f;
 
-            float iconX = selectionRect.x - unityIconSize - iconGap;
-            float iconY = selectionRect.y + (selectionRect.height - unityIconSize) * 0.5f;
+            float iconX    = selectionRect.x - unityIconSize - iconGap;
+            float iconY    = selectionRect.y + (selectionRect.height - unityIconSize) * 0.5f;
             var   iconRect = new Rect(iconX, iconY, unityIconSize, unityIconSize);
 
-            // Try real Texture2D icon first (Phase 4).
             var iconTex = CategoryIconMap.GetIcon(category);
             if (iconTex != null)
             {
@@ -129,12 +146,10 @@ namespace HierarchyPlus.Editor
                 GUI.color     = fillColor;
                 GUI.DrawTexture(iconRect, EditorGUIUtility.whiteTexture, ScaleMode.StretchToFill);
                 GUI.color     = prev;
-
                 GUI.DrawTexture(iconRect, iconTex, ScaleMode.ScaleToFit, true);
             }
             else
             {
-                // Fallback: solid color fill + emoji label.
                 var fillColor = CategoryColorMap.GetSolidColor(category);
                 var prev      = GUI.color;
                 GUI.color     = fillColor;
@@ -150,29 +165,25 @@ namespace HierarchyPlus.Editor
         // ── Phase 3: Status badge drawing ────────────────────────────────────
 
         /// <summary>
-        /// Draws a colored status badge on the RIGHT side of the row.
-        /// Shows a tooltip with status, developer, and notes on hover.
-        ///
-        /// Phase 5 update: the badge now always sits at the extreme right so the
-        /// minimap icons can expand freely to its left without overlap.
+        /// Draws the status badge anchored at (xMax - rightOffset) and returns
+        /// the total pixel width consumed so the caller can advance the cursor.
+        /// Returns 0 if no badge was drawn.
         /// </summary>
-        private static void DrawStatus(GameObject go, Rect selectionRect)
+        private static float DrawStatus(GameObject go, Rect selectionRect, float rightOffset)
         {
-            // NOTE: Phase 11 will replace GetComponent with a cache.
             var tag = go.GetComponent<DevelopmentStatusTag>();
-            if (tag == null || tag.status == DevelopmentStatus.None) return;
+            if (tag == null || tag.status == DevelopmentStatus.None) return 0f;
 
             var status = tag.status;
             var color  = StatusColorMap.GetColor(status);
-            if (color.a <= 0f) return;
+            if (color.a <= 0f) return 0f;
 
-            // Badge rect — right-aligned, fixed width.
-            const float badgeHeight = 13f;
+            // Badge sits at the right edge, shifted left by rightOffset.
             var badgeRect = new Rect(
-                selectionRect.xMax - BadgeWidth - RightPadding,
-                selectionRect.y + (selectionRect.height - badgeHeight) * 0.5f,
+                selectionRect.xMax - BadgeWidth - RightPadding - rightOffset,
+                selectionRect.y + (selectionRect.height - BadgeHeight) * 0.5f,
                 BadgeWidth,
-                badgeHeight);
+                BadgeHeight);
 
             // Colored background.
             var prev  = GUI.color;
@@ -180,24 +191,22 @@ namespace HierarchyPlus.Editor
             GUI.DrawTexture(badgeRect, EditorGUIUtility.whiteTexture, ScaleMode.StretchToFill);
             GUI.color = prev;
 
-            // Short label (e.g. "WIP", "BUG", "DONE").
-            var label = StatusColorMap.GetLabel(status);
-            GUI.Label(badgeRect, label, BadgeStyle);
+            // Short label.
+            GUI.Label(badgeRect, StatusColorMap.GetLabel(status), BadgeStyle);
 
-            // Tooltip on hover.
-            var tooltip = StatusColorMap.BuildTooltip(tag);
-            GUI.Label(badgeRect, new GUIContent(string.Empty, tooltip));
+            // Tooltip.
+            GUI.Label(badgeRect, new GUIContent(string.Empty, StatusColorMap.BuildTooltip(tag)));
+
+            // Return the width this element consumed from the right edge.
+            return BadgeWidth + RightPadding;
         }
 
         // ── Shared utility ───────────────────────────────────────────────────
 
         /// <summary>
         /// Returns a rect aligned to the right side of a row rect.
-        /// Used by Phase 3+ to stack badges/icons from the right edge inward.
+        /// Utility for future phases that need to stack more right-side elements.
         /// </summary>
-        /// <param name="rowRect">The full selectionRect from the callback.</param>
-        /// <param name="width">Desired width of the overlay rect.</param>
-        /// <param name="offset">Additional right-to-left offset for stacking.</param>
         public static Rect GetRightAlignedRect(Rect rowRect, float width, float offset = 0f)
         {
             return new Rect(
