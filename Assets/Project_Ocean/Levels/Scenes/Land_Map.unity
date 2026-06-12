@@ -2193638,7 +2193638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27.000183}
+  m_AnchoredPosition: {x: 0, y: -27.000244}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1840922629
@@ -2197548,6 +2197548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2079108858}
   - component: {fileID: 2079108859}
+  - component: {fileID: 2079108860}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -2197601,6 +2197602,9 @@ MonoBehaviour:
   - {fileID: 942473090}
   - {fileID: 1391273738}
   - {fileID: 292300967}
+  firstUnlockedSlotCount: 5
+  firstBuildingSlotIndex: 14
+  lastBuildingSlotIndex: 15
   InventoryItemPrefab: {fileID: 223342270252164367, guid: 54432ef608248134bb0e909449e8f352, type: 3}
   allItems:
   - {fileID: 11400000, guid: 36f84aafc5354ec4cab4a495a8218c51, type: 2}
@@ -2197613,6 +2197617,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
   - {fileID: 11400000, guid: 37ed92498dae6c041a13f0281836d76c, type: 2}
   - {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+--- !u!114 &2079108860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079108857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c67a909551cf85429acc7bcfb6d0d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryUIController
 --- !u!4 &2080352051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2761187701102457928, guid: f6c94850914477f4693a29bb734d8cfd, type: 3}

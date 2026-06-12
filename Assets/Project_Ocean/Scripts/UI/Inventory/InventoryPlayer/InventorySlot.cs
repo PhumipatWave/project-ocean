@@ -68,10 +68,7 @@ namespace Game.Testing
                 {
                     if (InventoryManager.Instance.InventorySlots[i] == this)
                     {
-                        InventoryManager.Instance.SendMessage(
-                            "ChangeSelectedSlot",
-                            i,
-                            SendMessageOptions.DontRequireReceiver);
+                        InventoryManager.Instance.SelectSlot(i);
                         break;
                     }
                 }

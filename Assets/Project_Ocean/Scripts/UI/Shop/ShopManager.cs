@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Land-scene-local shop manager.
-    /// No static Instance — callers in the same scene wire this via Inspector.
-    /// </summary>
     public class ShopManager : MonoBehaviour
     {
         [Header("UI Objects (Drag & Drop Here)")]
@@ -34,9 +30,8 @@ namespace Game.Testing
 
         [Header("Ammo UI Display")]
         [SerializeField] private TMP_Text[] ammoTexts;
-        private int[] ammoCounts = new int[4];
-
-        // No Awake — nothing to initialise as a singleton.
+        private readonly int[] ammoCounts = new int[4];
+        private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
         private void OnEnable()
         {
@@ -48,42 +43,24 @@ namespace Game.Testing
             InventoryManager.OnInventoryChanged -= RefreshShopInventory;
         }
 
+        private void Update()
+        {
+            UpdateUI();
+        }
+
         public void OpenShopWindow()
         {
             gameObject.SetActive(true);
 
-            // Close the player's main inventory so it doesn't overlap the shop
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
 
             SwitchToSellMode();
         }
 
-        private void Update()
-        {
-            UpdateUI();
-        }
-
-        private void UpdateUI()
-        {
-            if (totalPriceText != null)
-                totalPriceText.text = "Total Value: " + CalculateTotal();
-
-            for (int i = 0; i < ammoTexts.Length; i++)
-            {
-                if (ammoTexts[i] != null)
-                    ammoTexts[i].text = ammoCounts[i].ToString();
-            }
-        }
-
         public void RefreshShopInventory()
         {
-            // Clear old mirror items
-            for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                foreach (Transform child in shopInventorySlots[i].transform)
-                    Destroy(child.gameObject);
-            }
+            ClearShopInventoryMirror();
 
             if (InventoryManager.Instance == null) return;
             InventorySlot[] realPlayerSlots = InventoryManager.Instance.InventorySlots;
@@ -92,26 +69,7 @@ namespace Game.Testing
             {
                 if (i >= realPlayerSlots.Length) break;
 
-                if (realPlayerSlots[i].isUnlocked)
-                {
-                    shopInventorySlots[i].SetLocked(false);
-                    shopInventorySlots[i].Deselect();
-
-                    Draggableltem realItem = realPlayerSlots[i].GetComponentInChildren<Draggableltem>();
-                    if (realItem != null)
-                    {
-                        GameObject newItemGo = Instantiate(inventoryItemPrefab, shopInventorySlots[i].transform);
-                        Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
-                        shopItem.InitialiseItem(realItem.GetItem());
-                        shopItem.count = realItem.count;
-                        shopItem.RefreshCount();
-                        shopItem.enabled = false;
-                    }
-                }
-                else
-                {
-                    shopInventorySlots[i].SetLocked(true);
-                }
+                MirrorInventorySlot(realPlayerSlots[i], shopInventorySlots[i]);
             }
 
             UpdateClickedItemPriceDisplay();
@@ -121,47 +79,13 @@ namespace Game.Testing
         {
             if (clickedItemPriceText == null) return;
 
-            if (isSellMode)
-            {
-                InventorySlot selectedSlot = GetSelectedSlot();
-                if (selectedSlot != null)
-                {
-                    Draggableltem itemUI = selectedSlot.GetComponentInChildren<Draggableltem>();
-                    if (itemUI != null && itemUI.GetItem() != null)
-                    {
-                        int unitPrice = (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f);
-                        clickedItemPriceText.text = $"Price: {unitPrice}";
-                    }
-                    else
-                        clickedItemPriceText.text = "Price: 0";
-                }
-                else
-                    clickedItemPriceText.text = "Price: 0";
-            }
-            else
-            {
-                ShopBuySlot selectedShopSlot = GetSelectedShopSlot();
-                if (selectedShopSlot != null)
-                {
-                    Draggableltem itemInShop = selectedShopSlot.currentItem;
-                    if (itemInShop != null && itemInShop.GetItem() != null)
-                        clickedItemPriceText.text = $"Price: {itemInShop.GetItem().ItemPrice}";
-                    else
-                        clickedItemPriceText.text = "Price: 0";
-                }
-                else
-                    clickedItemPriceText.text = "Price: 0";
-            }
-        }
+            Item selectedItem = isSellMode ? GetSelectedSellItem() : GetSelectedBuyItem();
+            int price = 0;
 
-        private ShopBuySlot GetSelectedShopSlot()
-        {
-            if (shopbuySlot == null) return null;
-            foreach (var slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
-            {
-                if (slot.isSelected) return slot;
-            }
-            return null;
+            if (selectedItem != null)
+                price = isSellMode ? transactionService.GetSellPrice(selectedItem) : selectedItem.ItemPrice;
+
+            clickedItemPriceText.text = $"Price: {price}";
         }
 
         public void SwitchToBuyMode()
@@ -189,15 +113,7 @@ namespace Game.Testing
         public int CalculateTotal()
         {
             if (InventoryManager.Instance == null) return 0;
-
-            int total = 0;
-            foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
-            {
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI != null && itemUI.GetItem().ItemType == ItemType.Normal)
-                    total += (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f) * itemUI.count;
-            }
-            return total;
+            return transactionService.CalculateSellTotal(InventoryManager.Instance.InventorySlots);
         }
 
         public void Sell()
@@ -205,36 +121,15 @@ namespace Game.Testing
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot == null) return;
 
-            Draggableltem itemUI = selectedSlot.GetComponentInChildren<Draggableltem>();
-            if (itemUI == null) return;
-
-            int slotIndex = -1;
-            for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                if (shopInventorySlots[i] == selectedSlot) { slotIndex = i; break; }
-            }
+            int slotIndex = GetShopSlotIndex(selectedSlot);
             if (slotIndex == -1) return;
 
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm != null && InventoryManager.Instance != null)
-            {
-                InventorySlot realSlot = InventoryManager.Instance.InventorySlots[slotIndex];
-                Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
+            PlayerMoney playerMoney = GetPlayerMoney();
+            if (playerMoney == null || InventoryManager.Instance == null) return;
 
-                if (realItem != null)
-                {
-                    int unitPrice = (int)(realItem.GetItem().ItemPrice - realItem.GetItem().ItemPrice * 0.1f);
-                    pm.AddMoney(unitPrice);
+            if (transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex))
+                Invoke(nameof(RefreshShopInventory), 0.02f);
 
-                    realItem.count--;
-                    if (realItem.count <= 0)
-                        Destroy(realItem.gameObject);
-                    else
-                        realItem.RefreshCount();
-
-                    Invoke(nameof(RefreshShopInventory), 0.02f);
-                }
-            }
             StartCoroutine(SellRoutine());
         }
 
@@ -245,34 +140,13 @@ namespace Game.Testing
 
         public void SellAll()
         {
-            if (GameManager.CurPlayer == null || InventoryManager.Instance == null) return;
+            PlayerMoney playerMoney = GetPlayerMoney();
+            if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm == null) return;
+            if (transactionService.SellAll(InventoryManager.Instance, playerMoney))
+                Invoke(nameof(RefreshShopInventory), 0.05f);
 
-            int total = 0;
-            foreach (InventorySlot slot in InventoryManager.Instance.InventorySlots)
-            {
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
-
-                total += (int)(itemUI.GetItem().ItemPrice - itemUI.GetItem().ItemPrice * 0.1f) * itemUI.count;
-                Destroy(itemUI.gameObject);
-            }
-            pm.AddMoney(total);
-
-            Invoke(nameof(RefreshShopInventory), 0.05f);
             StartCoroutine(SellRoutine());
-        }
-
-        private InventorySlot GetSelectedSlot()
-        {
-            if (shopInventorySlots == null) return null;
-            foreach (InventorySlot slot in shopInventorySlots)
-            {
-                if (slot != null && slot.isSelected) return slot;
-            }
-            return null;
         }
 
         public void DeselectAllShopSlots()
@@ -281,46 +155,28 @@ namespace Game.Testing
             {
                 if (slot != null) slot.Deselect();
             }
-                }
+        }
 
         public void DeselectAllBuySlots()
         {
             if (shopbuySlot == null) return;
-            foreach (var slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
                 slot.Deselect();
         }
 
         public void BuySelectedItem()
         {
-            ShopBuySlot selectedSlot = GetSelectedShopSlot();
-            if (selectedSlot == null) return;
+            Item selectedItem = GetSelectedBuyItem();
+            if (selectedItem == null) return;
 
-            Draggableltem itemInShop = selectedSlot.currentItem;
-            if (itemInShop == null || itemInShop.GetItem() == null) return;
+            PlayerMoney playerMoney = GetPlayerMoney();
+            if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (pm == null) return;
-
-            if (pm.Money < itemInShop.GetItem().ItemPrice) return;
-
-            if (itemInShop.GetItem().ItemType == ItemType.Ammo)
+            if (transactionService.BuyItem(InventoryManager.Instance, playerMoney, selectedItem, ammoCounts))
             {
-                if (itemInShop.GetItem().name.Contains("Ammo1")) ammoCounts[0]++;
-                else if (itemInShop.GetItem().name.Contains("Ammo2")) ammoCounts[1]++;
-                else if (itemInShop.GetItem().name.Contains("Ammo3")) ammoCounts[2]++;
-                else if (itemInShop.GetItem().name.Contains("Ammo4")) ammoCounts[3]++;
-
-                pm.Use(itemInShop.GetItem().ItemPrice);
                 UpdateUI();
-            }
-            else if (itemInShop.GetItem().ItemType == ItemType.Building ||
-                     itemInShop.GetItem().ItemType == ItemType.Normal)
-            {
-                if (InventoryManager.Instance.AddItem(itemInShop.GetItem()))
-                {
-                    pm.Use(itemInShop.GetItem().ItemPrice);
-                    RefreshShopInventory();
-                }
+                RefreshShopInventory();
             }
 
             StartCoroutine(SellRoutine());
@@ -330,10 +186,117 @@ namespace Game.Testing
         {
             if (item == null) return;
 
-            previewIcon.sprite    = item.ItemVisual;
-            previewName.text      = item.ItemName;
-            previewPrice.text     = item.ItemPrice.ToString();
-            previewDescription.text = item.ItemDescription;
+            if (previewIcon != null) previewIcon.sprite = item.ItemVisual;
+            if (previewName != null) previewName.text = item.ItemName;
+            if (previewPrice != null) previewPrice.text = item.ItemPrice.ToString();
+            if (previewDescription != null) previewDescription.text = item.ItemDescription;
+        }
+
+        private void UpdateUI()
+        {
+            if (totalPriceText != null)
+                totalPriceText.text = "Total Value: " + CalculateTotal();
+
+            for (int i = 0; i < ammoTexts.Length; i++)
+            {
+                if (ammoTexts[i] != null)
+                    ammoTexts[i].text = ammoCounts[i].ToString();
+            }
+        }
+
+        private void ClearShopInventoryMirror()
+        {
+            if (shopInventorySlots == null) return;
+
+            for (int i = 0; i < shopInventorySlots.Length; i++)
+            {
+                if (shopInventorySlots[i] == null) continue;
+
+                foreach (Transform child in shopInventorySlots[i].transform)
+                    Destroy(child.gameObject);
+            }
+        }
+
+        private void MirrorInventorySlot(InventorySlot realSlot, InventorySlot shopSlot)
+        {
+            if (realSlot == null || shopSlot == null) return;
+
+            if (!realSlot.isUnlocked)
+            {
+                shopSlot.SetLocked(true);
+                return;
+            }
+
+            shopSlot.SetLocked(false);
+            shopSlot.Deselect();
+
+            Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
+            if (realItem == null) return;
+
+            GameObject newItemGo = Instantiate(inventoryItemPrefab, shopSlot.transform);
+            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
+            shopItem.InitialiseItem(realItem.GetItem());
+            shopItem.count = realItem.count;
+            shopItem.RefreshCount();
+            shopItem.enabled = false;
+        }
+
+        private Item GetSelectedSellItem()
+        {
+            InventorySlot selectedSlot = GetSelectedSlot();
+            if (selectedSlot == null) return null;
+
+            Draggableltem itemUI = selectedSlot.GetComponentInChildren<Draggableltem>();
+            return itemUI != null ? itemUI.GetItem() : null;
+        }
+
+        private Item GetSelectedBuyItem()
+        {
+            ShopBuySlot selectedShopSlot = GetSelectedShopSlot();
+            if (selectedShopSlot == null || selectedShopSlot.currentItem == null) return null;
+
+            return selectedShopSlot.currentItem.GetItem();
+        }
+
+        private ShopBuySlot GetSelectedShopSlot()
+        {
+            if (shopbuySlot == null) return null;
+
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            {
+                if (slot.isSelected) return slot;
+            }
+
+            return null;
+        }
+
+        private InventorySlot GetSelectedSlot()
+        {
+            if (shopInventorySlots == null) return null;
+
+            foreach (InventorySlot slot in shopInventorySlots)
+            {
+                if (slot != null && slot.isSelected) return slot;
+            }
+
+            return null;
+        }
+
+        private int GetShopSlotIndex(InventorySlot selectedSlot)
+        {
+            for (int i = 0; i < shopInventorySlots.Length; i++)
+            {
+                if (shopInventorySlots[i] == selectedSlot)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private PlayerMoney GetPlayerMoney()
+        {
+            if (GameManager.CurPlayer == null) return null;
+            return GameManager.CurPlayer.GetComponent<PlayerMoney>();
         }
     }
 }
