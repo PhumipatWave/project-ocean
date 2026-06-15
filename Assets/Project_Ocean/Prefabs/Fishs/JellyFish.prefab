@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3422325590031571291, guid: b3ed37c1fee263f449d89ea7a1efd9d4, type: 3}
@@ -168,12 +168,7 @@ MonoBehaviour:
   entityHealth: {fileID: 0}
   loot: {fileID: 0}
   navAgentHost: {fileID: 7675567716448256886}
-  maxHealth: 100
-  dropItem: {fileID: 0}
-  fishSprite: {fileID: 0}
-  anim: {fileID: 0}
-  hasAnimator: 0
-  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
+  enemyId: jellyfish
 --- !u!114 &7675567716448256886
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -100,8 +100,7 @@ namespace Game.Testing
             if (item == null) return false;
 
             bool itemAdded = item.ItemType == ItemType.Building
-                ? TryAddToBuildingSlots(item)
-                : TryAddToPlayerSlots(item);
+                ? TryAddToBuildingSlots(item) : TryAddToPlayerSlots(item);
 
             if (itemAdded)
                 NotifyInventoryChanged();
@@ -201,6 +200,19 @@ namespace Game.Testing
 
             Debug.Log("UnLocked Slot Full!!!");
         }
+
+        /// <summary>
+        /// Idempotent restore used by save loading: locks slots back to the
+        /// new-game state, then unlocks <paramref name="extraSlots"/> additional slots.
+        /// Safe to call mid-session (won't over-unlock on repeated loads).
+        /// </summary>
+        public void SetUnlockedExtraSlots(int extraSlots)
+        {
+            LockStartingSlots();
+            for (int i = 0; i < extraSlots; i++)
+                UnlockNextSlot();
+        }
+
 
         public bool HasQuestItem(int itemId)
         {

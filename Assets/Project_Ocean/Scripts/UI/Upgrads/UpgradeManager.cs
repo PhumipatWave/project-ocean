@@ -1,72 +1,85 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Testing
 {
     /// <summary>
-    /// Land-scene-local upgrade manager.
-    /// No static Instance — callers in the same scene wire this via Inspector.
+    /// Land-scene upgrade panel UI. All upgrade state lives in UpgradeService —
+    /// this class only handles panel navigation and forwards UI calls.
+    /// Public API (GetLevel / BuyUpgrade / SetLevel) is unchanged so UpgradeSlot
+    /// and existing button bindings keep working.
     /// </summary>
     public class UpgradeManager : MonoBehaviour
     {
         [SerializeField] private GameObject upgradeUI;
         [SerializeField] private GameObject buyUI;
 
-        [SerializeField]
-        private List<UpgradeState> upgrades = new();
+        /// <summary>
+        /// Cross-reference to ShopManager — drag in Inspector.
+        /// Used to navigate back to the Shop view.
+        /// </summary>
+        [Header("Navigation")]
+        [SerializeField] private ShopManager shopManager;
 
-        // No Awake — nothing to initialise as a singleton.
-
-        public int GetLevel(UpgradeData data)
+        private void Awake()
         {
-            UpgradeState state = upgrades.Find(x => x.data == data);
-            return state != null ? state.currentLevel : 0;
+            // Hide on scene start — panel is inactive by default.
+            gameObject.SetActive(false);
         }
 
-        public void BuyUpgrade(UpgradeData data)
+        // ──────────────────────────────────────────
+        // Panel navigation
+        // ──────────────────────────────────────────
+
+        /// <summary>Called by ShopManager.OpenUpgradeView() — shows this panel.</summary>
+        public void OpenFromShop()
         {
-            UpgradeState state = upgrades.Find(x => x.data == data);
-            if (state == null) return;
-            if (state.currentLevel >= data.maxLevel) return;
-
-            int price = data.basePrice * (state.currentLevel + 1);
-
-            PlayerMoney money = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (!money.Use(price)) return;
-
-            switch (data.type)
-            {
-                case UpgradeType.Inventory:
-                    InventoryManager.Instance.UnlockNextSlot();
-                    break;
-
-                case UpgradeType.Rope:
-                    GameManager.CurPlayer
-                        .GetComponent<PlayerOxygenTube>()
-                        .IncreaseMaxLength(data.value);
-                    break;
-            }
-
-            state.currentLevel++;
+            gameObject.SetActive(true);
+            // Start on the upgrade list view, not the buy confirm view
+            if (upgradeUI != null) upgradeUI.SetActive(true);
+            if (buyUI != null)     buyUI.SetActive(false);
         }
 
-        public void SetLevel(UpgradeData data, int level)
+        /// <summary>Called by the Back button — hides upgrade panel, reopens shop.</summary>
+        public void BackToShop()
         {
-            UpgradeState state = upgrades.Find(x => x.data == data);
-            if (state != null)
-                state.currentLevel = level;
+            gameObject.SetActive(false);
+
+            if (shopManager != null)
+                shopManager.OpenShopWindow();
+            else
+                Debug.LogWarning("[UpgradeManager] shopManager ref not assigned in Inspector");
         }
 
         public void OpenBuyUI()
         {
-            upgradeUI.SetActive(false);
-            buyUI.SetActive(true);
+            if (upgradeUI != null) upgradeUI.SetActive(false);
+            if (buyUI != null)     buyUI.SetActive(true);
         }
 
         public void BackToUpgradeUI()
         {
-            buyUI.SetActive(false);
-            upgradeUI.SetActive(true);
+            if (buyUI != null)     buyUI.SetActive(false);
+            if (upgradeUI != null) upgradeUI.SetActive(true);
+        }
+
+        // ──────────────────────────────────────────
+        // Upgrade API — delegates to UpgradeService (single source of truth)
+        // ──────────────────────────────────────────
+
+        public int GetLevel(UpgradeData data)
+        {
+            return data != null ? UpgradeService.Instance.GetLevel(data.type) : 0;
+        }
+
+        public void BuyUpgrade(UpgradeData data)
+        {
+            UpgradeService.Instance.TryBuyUpgrade(data);
+        }
+
+        public void SetLevel(UpgradeData data, int level)
+        {
+            if (data != null)
+                UpgradeService.Instance.SetLevel(data.type, level);
         }
     }
 }

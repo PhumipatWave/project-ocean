@@ -106,10 +106,10 @@ namespace Game.Testing
         {
             if (scene.name == "Land_Map")
             {
-                if (SaveBridge.IsLoadingSave)
+                if (SceneLoadContext.IsLoading)
                 {
-                    transform.position = SaveBridge.LoadedPosition;
-                    SaveBridge.ClearLoadFlag();
+                    transform.position = SceneLoadContext.Position;
+                    SceneLoadContext.Clear();
                 }
                 else
                 {
@@ -127,10 +127,10 @@ namespace Game.Testing
             {
                 Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
 
-                if (SaveBridge.IsLoadingSave)
+                if (SceneLoadContext.IsLoading)
                 {
-                    transform.position = SaveBridge.LoadedPosition;
-                    SaveBridge.ClearLoadFlag();
+                    transform.position = SceneLoadContext.Position;
+                    SceneLoadContext.Clear();
                 }
                 else
                 {
