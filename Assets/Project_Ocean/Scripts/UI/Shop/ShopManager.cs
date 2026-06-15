@@ -33,6 +33,14 @@ namespace Game.Testing
         private readonly int[] ammoCounts = new int[4];
         private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
+        /// <summary>
+        /// Cross-reference to UpgradeManager — drag in Inspector.
+        /// Used to switch from the Shop view to the Upgrade view.
+        /// Replaces UIManager.ShowUpgrade().
+        /// </summary>
+        [Header("Navigation")]
+        [SerializeField] private UpgradeManager upgradeManager;
+
         private void OnEnable()
         {
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
@@ -48,15 +56,30 @@ namespace Game.Testing
             UpdateUI();
         }
 
+        // ──────────────────────────────────────────
+        // Panel navigation (replaces UIManager)
+        // ──────────────────────────────────────────
+
         public void OpenShopWindow()
         {
-            gameObject.SetActive(true);
-
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
 
             SwitchToSellMode();
         }
+
+        /// <summary>Switch from Shop panel to Upgrade panel. Replaces UIManager.ShowUpgrade().</summary>
+        public void OpenUpgradeView()
+        {
+            if (upgradeManager != null)
+                upgradeManager.OpenFromShop();
+            else
+                Debug.LogWarning("[ShopManager] upgradeManager ref not assigned in Inspector");
+        }
+
+        // ──────────────────────────────────────────
+        // Inventory display
+        // ──────────────────────────────────────────
 
         public void RefreshShopInventory()
         {
@@ -68,7 +91,6 @@ namespace Game.Testing
             for (int i = 0; i < shopInventorySlots.Length; i++)
             {
                 if (i >= realPlayerSlots.Length) break;
-
                 MirrorInventorySlot(realPlayerSlots[i], shopInventorySlots[i]);
             }
 
@@ -88,12 +110,16 @@ namespace Game.Testing
             clickedItemPriceText.text = $"Price: {price}";
         }
 
+        // ──────────────────────────────────────────
+        // Sell / Buy mode toggle
+        // ──────────────────────────────────────────
+
         public void SwitchToBuyMode()
         {
-            if (sellAllButton != null) sellAllButton.SetActive(false);
+            if (sellAllButton != null)    sellAllButton.SetActive(false);
             if (sellSelectButton != null) sellSelectButton.SetActive(false);
-            if (inventorySlot != null) inventorySlot.SetActive(false);
-            if (shopbuySlot != null) shopbuySlot.SetActive(true);
+            if (inventorySlot != null)    inventorySlot.SetActive(false);
+            if (shopbuySlot != null)      shopbuySlot.SetActive(true);
 
             isSellMode = false;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price: 0";
@@ -101,14 +127,18 @@ namespace Game.Testing
 
         public void SwitchToSellMode()
         {
-            if (sellAllButton != null) sellAllButton.SetActive(true);
+            if (sellAllButton != null)    sellAllButton.SetActive(true);
             if (sellSelectButton != null) sellSelectButton.SetActive(true);
-            if (inventorySlot != null) inventorySlot.SetActive(true);
-            if (shopbuySlot != null) shopbuySlot.SetActive(false);
+            if (inventorySlot != null)    inventorySlot.SetActive(true);
+            if (shopbuySlot != null)      shopbuySlot.SetActive(false);
 
             isSellMode = true;
             RefreshShopInventory();
         }
+
+        // ──────────────────────────────────────────
+        // Transactions
+        // ──────────────────────────────────────────
 
         public int CalculateTotal()
         {
@@ -149,22 +179,6 @@ namespace Game.Testing
             StartCoroutine(SellRoutine());
         }
 
-        public void DeselectAllShopSlots()
-        {
-            foreach (InventorySlot slot in shopInventorySlots)
-            {
-                if (slot != null) slot.Deselect();
-            }
-        }
-
-        public void DeselectAllBuySlots()
-        {
-            if (shopbuySlot == null) return;
-
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
-                slot.Deselect();
-        }
-
         public void BuySelectedItem()
         {
             Item selectedItem = GetSelectedBuyItem();
@@ -182,15 +196,35 @@ namespace Game.Testing
             StartCoroutine(SellRoutine());
         }
 
+        // ──────────────────────────────────────────
+        // Slot helpers
+        // ──────────────────────────────────────────
+
+        public void DeselectAllShopSlots()
+        {
+            foreach (InventorySlot slot in shopInventorySlots)
+                if (slot != null) slot.Deselect();
+        }
+
+        public void DeselectAllBuySlots()
+        {
+            if (shopbuySlot == null) return;
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+                slot.Deselect();
+        }
+
         public void ShowItemDetail(Item item)
         {
             if (item == null) return;
-
-            if (previewIcon != null) previewIcon.sprite = item.ItemVisual;
-            if (previewName != null) previewName.text = item.ItemName;
-            if (previewPrice != null) previewPrice.text = item.ItemPrice.ToString();
-            if (previewDescription != null) previewDescription.text = item.ItemDescription;
+            if (previewIcon != null)        previewIcon.sprite        = item.ItemVisual;
+            if (previewName != null)        previewName.text          = item.ItemName;
+            if (previewPrice != null)       previewPrice.text         = item.ItemPrice.ToString();
+            if (previewDescription != null) previewDescription.text   = item.ItemDescription;
         }
+
+        // ──────────────────────────────────────────
+        // Private helpers
+        // ──────────────────────────────────────────
 
         private void UpdateUI()
         {
@@ -198,21 +232,17 @@ namespace Game.Testing
                 totalPriceText.text = "Total Value: " + CalculateTotal();
 
             for (int i = 0; i < ammoTexts.Length; i++)
-            {
                 if (ammoTexts[i] != null)
                     ammoTexts[i].text = ammoCounts[i].ToString();
-            }
         }
 
         private void ClearShopInventoryMirror()
         {
             if (shopInventorySlots == null) return;
-
-            for (int i = 0; i < shopInventorySlots.Length; i++)
+            foreach (InventorySlot slot in shopInventorySlots)
             {
-                if (shopInventorySlots[i] == null) continue;
-
-                foreach (Transform child in shopInventorySlots[i].transform)
+                if (slot == null) continue;
+                foreach (Transform child in slot.transform)
                     Destroy(child.gameObject);
             }
         }
@@ -221,11 +251,7 @@ namespace Game.Testing
         {
             if (realSlot == null || shopSlot == null) return;
 
-            if (!realSlot.isUnlocked)
-            {
-                shopSlot.SetLocked(true);
-                return;
-            }
+            if (!realSlot.isUnlocked) { shopSlot.SetLocked(true); return; }
 
             shopSlot.SetLocked(false);
             shopSlot.Deselect();
@@ -233,63 +259,49 @@ namespace Game.Testing
             Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
             if (realItem == null) return;
 
-            GameObject newItemGo = Instantiate(inventoryItemPrefab, shopSlot.transform);
+            GameObject newItemGo   = Instantiate(inventoryItemPrefab, shopSlot.transform);
             Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
             shopItem.InitialiseItem(realItem.GetItem());
-            shopItem.count = realItem.count;
+            shopItem.count   = realItem.count;
             shopItem.RefreshCount();
             shopItem.enabled = false;
         }
 
         private Item GetSelectedSellItem()
         {
-            InventorySlot selectedSlot = GetSelectedSlot();
-            if (selectedSlot == null) return null;
-
-            Draggableltem itemUI = selectedSlot.GetComponentInChildren<Draggableltem>();
-            return itemUI != null ? itemUI.GetItem() : null;
+            InventorySlot slot = GetSelectedSlot();
+            if (slot == null) return null;
+            Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+            return item?.GetItem();
         }
 
         private Item GetSelectedBuyItem()
         {
-            ShopBuySlot selectedShopSlot = GetSelectedShopSlot();
-            if (selectedShopSlot == null || selectedShopSlot.currentItem == null) return null;
-
-            return selectedShopSlot.currentItem.GetItem();
+            ShopBuySlot slot = GetSelectedShopSlot();
+            if (slot == null || slot.currentItem == null) return null;
+            return slot.currentItem.GetItem();
         }
 
         private ShopBuySlot GetSelectedShopSlot()
         {
             if (shopbuySlot == null) return null;
-
             foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
-            {
                 if (slot.isSelected) return slot;
-            }
-
             return null;
         }
 
         private InventorySlot GetSelectedSlot()
         {
             if (shopInventorySlots == null) return null;
-
             foreach (InventorySlot slot in shopInventorySlots)
-            {
                 if (slot != null && slot.isSelected) return slot;
-            }
-
             return null;
         }
 
         private int GetShopSlotIndex(InventorySlot selectedSlot)
         {
             for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                if (shopInventorySlots[i] == selectedSlot)
-                    return i;
-            }
-
+                if (shopInventorySlots[i] == selectedSlot) return i;
             return -1;
         }
 

@@ -18,6 +18,13 @@ namespace Game.Testing
         /// </summary>
         public static event System.Action OnEnemyReset;
 
+        /// <summary>
+        /// Fired LAST in AdvanceDay(), after onNewDay and OnEnemyReset, so subscribers
+        /// (e.g. SaveBridge auto-save) see the fully updated world state.
+        /// DayManager never holds a direct reference to the save system.
+        /// </summary>
+        public static event System.Action OnDayAdvanced;
+
         void Awake()
         {
             if (Instance != null) { Destroy(gameObject); return; }
@@ -43,11 +50,9 @@ namespace Game.Testing
             // If no one is subscribed (e.g. during Ocean scene), this is a silent no-op.
             OnEnemyReset?.Invoke();
 
-            // Auto-save
-            if (SaveBridge.Instance != null)
-                SaveBridge.Instance.SaveGame();
-            else
-                Debug.LogWarning("[DayManager] SaveBridge not found — auto-save skipped");
+            // Auto-save (and anything else that reacts to a completed day change)
+            // happens via subscription — fired last so the world is fully updated.
+            OnDayAdvanced?.Invoke();
         }
     }
 }

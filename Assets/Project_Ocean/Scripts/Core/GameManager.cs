@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,8 +22,6 @@ namespace Game.Testing
 
         private GameState gameState;
         public GameState GameState { get { return gameState; } set { gameState = value; } }
-
-        [SerializeField] private GameObject blackScene;
 
         [SerializeField] private bool miniHubAvaliable;
         public bool MiniHubAvaliable { get { return miniHubAvaliable; } set { miniHubAvaliable = value; } }
@@ -54,14 +51,17 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (SaveBridge.IsLoadingSave)
+            // Reads only SceneLoadContext — no reference to SaveBridge, so the
+            // GameManager <-> SaveBridge circular dependency is broken.
+            if (SceneLoadContext.IsLoading)
             {
                 // Load from save — GameManager only handles position.
-                // SaveBridge.LoadedPosition is always set before LoadScene().
-                MovePlayerTo(SaveBridge.LoadedPosition);
+                // SceneLoadContext.Position is always set before LoadScene().
+                MovePlayerTo(SceneLoadContext.Position);
 
-                // Do NOT clear IsLoadingSave here.
-                // SaveBridge coroutine clears it after applying stats/inventory.
+                // Do NOT clear the flag here.
+                // SaveBridge's coroutine calls SceneLoadContext.Clear() after
+                // applying stats/inventory/etc.
                 return;
             }
 
@@ -117,13 +117,6 @@ namespace Game.Testing
             CurPlayer.OxygenTube.ResetRopeData();
             SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
-        }
-
-        private IEnumerator FadeRoutine()
-        {
-            blackScene.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
-            blackScene.SetActive(false);
         }
     }
 }
