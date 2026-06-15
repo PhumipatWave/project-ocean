@@ -126138,11 +126138,11 @@ Transform:
   m_GameObject: {fileID: 389151325}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 460.53702, y: 181.00252, z: 0}
+  m_LocalPosition: {x: 143.38733, y: 123.99862, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2125888984}
+  m_Father: {fileID: 1273348080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &389151327
 MonoBehaviour:
@@ -126232,6 +126232,7 @@ MonoBehaviour:
   - {fileID: 223521332}
   - {fileID: 1432874824}
   - {fileID: 2005386134}
+  upgradeManager: {fileID: 453608951}
 --- !u!1 &391822217
 GameObject:
   m_ObjectHideFlags: 0
@@ -127164,9 +127165,6 @@ GameObject:
   - component: {fileID: 453608950}
   - component: {fileID: 453608951}
   - component: {fileID: 453608947}
-  - component: {fileID: 453608949}
-  - component: {fileID: 453608948}
-  - component: {fileID: 453608946}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -127174,27 +127172,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &453608946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453608945}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 238757cbe8b1f544da00c5205f6cc019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.RopeUpgrade
-  level: 1
-  maxLevel: 5
-  basePrice: 100
-  lengthIncrease: 20
-  priceText: {fileID: 1637335712}
-  lengthText: {fileID: 0}
-  levelBoxes: []
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &453608947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127208,45 +127185,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.MoneyUI
   moneyText: {fileID: 777468676}
---- !u!114 &453608948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453608945}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c70be1a355c70a04a922c89cb2016c30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.DamageUpgrade
-  currentDamage: 10
-  damageIncrease: 5
-  level: 1
-  basePrice: 50
-  priceText: {fileID: 0}
-  damageText: {fileID: 0}
---- !u!114 &453608949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453608945}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e15027db57108e54b9ce9624d61b98f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.InventoryUpgrade
-  priceText: {fileID: 1253864965}
-  currentLevel: 1
-  maxLevel: 5
-  basePrice: 20
-  levelBoxes: []
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  slotPrefab: {fileID: 210614601419526826, guid: 3b971edacb3fed845ba3c8164e940a38, type: 3}
-  slotParent: {fileID: 2079108858}
 --- !u!4 &453608950
 Transform:
   m_ObjectHideFlags: 0
@@ -127256,11 +127194,11 @@ Transform:
   m_GameObject: {fileID: 453608945}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 460.53702, y: 181.00252, z: 0}
+  m_LocalPosition: {x: 143.38733, y: 123.99862, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2125888984}
+  m_Father: {fileID: 1273348080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &453608951
 MonoBehaviour:
@@ -127276,11 +127214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::UpgradeManager
   upgradeUI: {fileID: 902402753}
   buyUI: {fileID: 183133133}
-  upgrades:
-  - data: {fileID: 11400000, guid: 031d87047d0aa154591709a9a59f645d, type: 2}
-    currentLevel: 0
-  - data: {fileID: 11400000, guid: eb978c9dd309c5744b69552827fc29e5, type: 2}
-    currentLevel: 0
+  shopManager: {fileID: 389151329}
 --- !u!1 &457173848
 GameObject:
   m_ObjectHideFlags: 0
@@ -134422,52 +134356,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &727766511
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 727766512}
-  - component: {fileID: 727766513}
-  m_Layer: 0
-  m_Name: UIManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &727766512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727766511}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2125888984}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &727766513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727766511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fbc0ca8ec2f0e540aa2ea8e5e4806c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.UIManager
-  ShopPanel: {fileID: 1578345925}
-  upgradePanel: {fileID: 572618355}
 --- !u!1 &732133581
 GameObject:
   m_ObjectHideFlags: 0
@@ -150069,6 +149957,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272912268}
   m_CullTransparentMesh: 1
+--- !u!1 &1273348079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1273348080}
+  m_Layer: 0
+  m_Name: GameManager_Land
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1273348080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273348079}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 317.1497, y: 57.0039, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 453608950}
+  - {fileID: 389151326}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1277156059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198214,7 +2198135,6 @@ MonoBehaviour:
   - {fileID: 1578345925}
   - {fileID: 572618355}
   - {fileID: 1228918847}
-  blackScene: {fileID: 18714932}
   miniHubAvaliable: 0
   miniHubLocation: {fileID: 0}
 --- !u!4 &2125888984
@@ -2198231,9 +2198151,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2079108858}
-  - {fileID: 453608950}
-  - {fileID: 389151326}
-  - {fileID: 727766512}
   - {fileID: 1873464162}
   - {fileID: 13498599}
   - {fileID: 1780993715}
@@ -2199314,3 +2199231,4 @@ SceneRoots:
   - {fileID: 100423179}
   - {fileID: 610723877}
   - {fileID: 374461394}
+  - {fileID: 1273348080}
