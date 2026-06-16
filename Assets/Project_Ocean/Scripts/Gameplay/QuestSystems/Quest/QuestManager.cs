@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class QuestManager : MonoBehaviour
+    public class QuestManager : MonoBehaviour, ISaveParticipant
     {
         public static QuestManager Instance { get; private set; }
 
@@ -15,11 +15,25 @@ namespace Game.Testing
 
         private void Awake()
         {
-            if (Instance == null) Instance = this;
-            else Destroy(gameObject);
+            // Duplicate guard: Destroy() is deferred, so we MUST return here,
+            // otherwise the doomed copy would still run InitializeQuests().
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
+            // Persist across Land/Ocean scene changes so quest progress
+            // is not wiped and re-initialized on every transition.
+            DontDestroyOnLoad(gameObject);
 
             InitializeQuests();
         }
+
+        private void OnEnable()  => EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
+        private void OnDisable() => EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
 
         // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
         private void InitializeQuests()
@@ -27,6 +41,27 @@ namespace Game.Testing
             foreach (var data in allQuestTemplates)
             {
                 activeQuestList.Add(new Quest(data));
+            }
+        }
+
+        /// <summary>
+        /// Routes a kill to every active InProgress KillCount quest whose target
+        /// matches the dead enemy's id. AddProgress handles the threshold + status flip
+        /// (Finish for AutoComplete, ReadyToTurnIn for ReadyToHandIn).
+        /// </summary>
+        private void HandleEnemyKilled(string enemyId)
+        {
+            if (string.IsNullOrEmpty(enemyId)) return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Type != QuestType.KillCount) continue;
+                if (q.Status != QuestStatus.InProgress) continue;
+                if (q.TargetEnemyId != enemyId) continue;
+
+                bool justCompleted = q.AddProgress(1);
+                if (justCompleted)
+                    Debug.Log($"[QuestManager] Quest '{q.QuestName}' objective complete ({q.Progress}) -> {q.Status}");
             }
         }
 
@@ -38,10 +73,54 @@ namespace Game.Testing
 
         public Quest GetQuestById(int id)
         {
-            // ค้นหาในรายชื่อคลังเควสทั้งหมดที่มี QuestID ตรงกับที่ระบุ
-            // (หมายเหตุ: ให้เปลี่ยนคำว่า activeQuestList เป็นชื่อตัวแปรคลัง List<Quest> จริงในสคริปต์ของคุณ)
             return activeQuestList.Find(q => q.QuestID == id);
         }
 
+        // ── Save support ──
+
+        /// <summary>Collects the mutable runtime state (id, status, kill progress) of each quest.</summary>
+        public List<QuestSaveData> GetSaveState()
+        {
+            var list = new List<QuestSaveData>();
+            foreach (var q in activeQuestList)
+                list.Add(new QuestSaveData
+                {
+                    questId      = q.QuestID,
+                    status       = (int)q.Status,
+                    currentCount = q.CurrentCount,
+                });
+            return list;
+        }
+
+        /// <summary>
+        /// Restores quest status + kill progress from saved data. Quests are matched by id
+        /// and re-hydrated from templates (in Awake), so only mutable state is applied.
+        /// Unknown ids are ignored; quests missing from the save keep their template default.
+        /// </summary>
+        public void LoadSaveState(List<QuestSaveData> saved)
+        {
+            if (saved == null) return;
+            foreach (var s in saved)
+            {
+                var quest = GetQuestById(s.questId);
+                if (quest != null)
+                {
+                    quest.Status       = (QuestStatus)s.status;
+                    quest.CurrentCount = s.currentCount;
+                }
+            }
+        }
+
+        // ── ISaveParticipant ──
+
+        public void Collect(SaveData data)
+        {
+            data.quests = GetSaveState();
+        }
+
+        public void Apply(SaveData data)
+        {
+            LoadSaveState(data.quests);
+        }
     }
 }

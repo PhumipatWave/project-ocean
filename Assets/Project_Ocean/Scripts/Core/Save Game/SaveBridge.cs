@@ -9,13 +9,23 @@ namespace Game.Testing
     {
         public static SaveBridge Instance { get; private set; }
 
-        // Flag สำหรับโหลดจาก save
-        public static bool IsLoadingSave  { get; private set; }
-        public static Vector3 LoadedPosition { get; private set; }
-
-        public static void ClearLoadFlag() => IsLoadingSave = false;
-
         private SaveData _pendingData;
+
+        // Systems that own their own slice of the save file, driven in a fixed order.
+        // Rebuilt on access because some instances (QuestManager) may not exist at Awake.
+        private List<ISaveParticipant> _participants;
+        private List<ISaveParticipant> Participants
+        {
+            get
+            {
+                _participants ??= new List<ISaveParticipant>();
+                _participants.Clear();
+                // Order is intentional and stable.
+                _participants.Add(UpgradeService.Instance);
+                if (QuestManager.Instance != null) _participants.Add(QuestManager.Instance);
+                return _participants;
+            }
+        }
 
         void Awake()
         {
@@ -24,8 +34,17 @@ namespace Game.Testing
             DontDestroyOnLoad(gameObject);
         }
 
-        private void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;
-        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            DayManager.OnDayAdvanced += SaveGame; // auto-save on day change
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            DayManager.OnDayAdvanced -= SaveGame;
+        }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -34,7 +53,7 @@ namespace Game.Testing
             var data = _pendingData;
             _pendingData = null;
 
-            // ✅ รอ 1 frame ให้ scene objects พร้อมก่อน
+            // Wait 1 frame so scene objects are ready before applying data.
             StartCoroutine(ApplyAfterFrame(data));
         }
 
@@ -44,18 +63,23 @@ namespace Game.Testing
 
             try
             {
-                // ❌ ไม่มี ApplyPosition ที่นี่ — GameManager.OnSceneLoaded จัดการแล้ว
+                // Position is applied by GameManager.OnSceneLoaded (via SceneLoadContext),
+                // not here.
                 ApplyPlayerStats(data);
                 ApplyInventory(data);
-                ApplyUpgrades(data);
                 ApplyDay(data);
 
-                IsLoadingSave = false;
+                // Upgrade + quest slices are applied by their owning systems,
+                // in the fixed order defined by Participants.
+                foreach (var p in Participants)
+                    p.Apply(data);
+
+                SceneLoadContext.Clear();
                 Debug.Log("[SaveBridge] Post-load data applied!");
             }
             catch (System.Exception e)
             {
-                IsLoadingSave = false;
+                SceneLoadContext.Clear();
                 Debug.LogError($"[SaveBridge] Failed to apply save data: {e.Message}");
             }
         }
@@ -73,9 +97,7 @@ namespace Game.Testing
 
             var tube = player.OxygenTube;
             if (tube != null)
-            {
-                tube.MaxRopeLength       = data.maxRopeLength;
-            }
+                tube.MaxRopeLength = data.maxRopeLength;
 
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
@@ -103,7 +125,6 @@ namespace Game.Testing
 
             foreach (var saved in data.inventoryItems)
             {
-                // Parse ID
                 if (!int.TryParse(saved.itemID, out int id))
                 {
                     Debug.LogWarning($"[SaveBridge] Invalid itemID: '{saved.itemID}'");
@@ -124,34 +145,11 @@ namespace Game.Testing
                     continue;
                 }
 
-                // Spawn directly into the saved slot (preserves slot position)
-                inv.SpawnItemAtSlot(item, saved.slotIndex);
-
-                // Restore the correct stack count
-                var spawned = inv.InventorySlots[saved.slotIndex].GetComponentInChildren<Draggableltem>();
-                if (spawned != null && saved.count > 1)
-                {
-                    spawned.count = saved.count;
-                    spawned.RefreshCount();
-                }
+                // Spawn with the saved stack count in one step — the item is born
+                // with the correct count and a single RefreshCount(), so the count
+                // label shows immediately regardless of load order.
+                inv.SpawnItemAtSlot(item, saved.slotIndex, Mathf.Max(1, saved.count));
             }
-        }
-
-        private void ApplyUpgrades(SaveData data)
-        {
-            var invUpgrade  = FindFirstObjectByType<InventoryUpgrade>();
-            var dmgUpgrade  = FindFirstObjectByType<DamageUpgrade>();
-            var ropeUpgrade = FindFirstObjectByType<RopeUpgrade>();
-
-            if (invUpgrade  != null) invUpgrade.currentLevel = data.inventoryUpgradeLevel;
-
-            if (dmgUpgrade  != null)
-            {
-                dmgUpgrade.level         = data.damageUpgradeLevel;
-                dmgUpgrade.currentDamage = data.currentDamage;
-            }
-
-            if (ropeUpgrade != null) ropeUpgrade.level = data.ropeUpgradeLevel;
         }
 
         private void ApplyDay(SaveData data)
@@ -179,8 +177,12 @@ namespace Game.Testing
             CollectPosition(data);
             CollectPlayerStats(data);
             CollectInventory(data);
-            CollectUpgrades(data);
             CollectDay(data);
+
+            // Upgrade + quest slices are collected by their owning systems,
+            // in the fixed order defined by Participants.
+            foreach (var p in Participants)
+                p.Collect(data);
 
             try
             {
@@ -219,9 +221,11 @@ namespace Game.Testing
             gm.GameState        = data.gameState;
             gm.MiniHubAvaliable = data.miniHubAvailable;
 
-            _pendingData   = data;
-            LoadedPosition = new Vector3(data.posX, data.posY, data.posZ); // ✅ set ก่อน LoadScene
-            IsLoadingSave  = true;
+            _pendingData = data;
+
+            // Hand off the load position + flag through the shared context.
+            // Position MUST be set before LoadScene() — BeginLoad does both atomically.
+            SceneLoadContext.BeginLoad(new Vector3(data.posX, data.posY, data.posZ));
 
             SceneManager.LoadScene(data.currentScene);
             Debug.Log("[SaveBridge] Loading scene...");
@@ -247,9 +251,7 @@ namespace Game.Testing
 
             var tube = player.OxygenTube;
             if (tube != null)
-            {
-                data.maxRopeLength       = tube.MaxRopeLength;
-            }
+                data.maxRopeLength = tube.MaxRopeLength;
 
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
@@ -274,23 +276,6 @@ namespace Game.Testing
                     count     = item.count,
                 });
             }
-        }
-
-        private void CollectUpgrades(SaveData data)
-        {
-            var invUpgrade  = FindFirstObjectByType<InventoryUpgrade>();
-            var dmgUpgrade  = FindFirstObjectByType<DamageUpgrade>();
-            var ropeUpgrade = FindFirstObjectByType<RopeUpgrade>();
-
-            if (invUpgrade  != null) data.inventoryUpgradeLevel = invUpgrade.currentLevel;
-
-            if (dmgUpgrade  != null)
-            {
-                data.damageUpgradeLevel = dmgUpgrade.level;
-                data.currentDamage = dmgUpgrade.currentDamage;
-            }
-
-            if (ropeUpgrade != null) data.ropeUpgradeLevel = ropeUpgrade.level;
         }
 
         private void CollectDay(SaveData data)
