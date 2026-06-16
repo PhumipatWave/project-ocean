@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,13 +17,8 @@ namespace Game.Testing
 
         public static Player CurPlayer;
 
-        [SerializeField] private GameObject[] gameUI;
-        public GameObject[] GameUI { get { return gameUI; } set { gameUI = value; } }
-
         private GameState gameState;
         public GameState GameState { get { return gameState; } set { gameState = value; } }
-
-        [SerializeField] private GameObject blackScene;
 
         [SerializeField] private bool miniHubAvaliable;
         public bool MiniHubAvaliable { get { return miniHubAvaliable; } set { miniHubAvaliable = value; } }
@@ -36,10 +30,10 @@ namespace Game.Testing
 
         private void Awake()
         {
-            if (Instance != null) 
-            { 
-                Destroy(this.gameObject); 
-                return; 
+            if (Instance != null)
+            {
+                Destroy(this.gameObject);
+                return;
             }
 
             Instance = this;
@@ -54,29 +48,32 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (SaveBridge.IsLoadingSave)
+            // Reads only SceneLoadContext — no reference to SaveBridge, so the
+            // GameManager <-> SaveBridge circular dependency is broken.
+            if (SceneLoadContext.IsLoading)
             {
-                // ✅ Load จาก save — GameManager จัดการ position อย่างเดียว
-                // SaveBridge.LoadedPosition ถูก set ก่อน LoadScene() เสมอ
-                MovePlayerTo(SaveBridge.LoadedPosition);
+                // Load from save — GameManager only handles position.
+                // SceneLoadContext.Position is always set before LoadScene().
+                MovePlayerTo(SceneLoadContext.Position);
 
-                // ✅ ไม่ clear IsLoadingSave ที่นี่
-                // SaveBridge coroutine จะ clear เองหลัง apply stats/inventory เสร็จ
+                // Do NOT clear the flag here.
+                // SaveBridge's coroutine calls SceneLoadContext.Clear() after
+                // applying stats/inventory/etc.
                 return;
             }
 
-            // ปกติ — ใช้ PlayerSpawnPoint ของ scene
-            if (scene.name == "Land_Map" || scene.name == "Ocean_Map")
+            // Normal scene transition — find the spawn point in the newly loaded scene.
+            if (scene.name == SceneNames.Land || scene.name == SceneNames.Ocean)
             {
                 var spawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
                 if (spawnObj != null)
                     MovePlayerTo(spawnObj.transform.position);
                 else
-                    Debug.LogWarning($"[GameManager] ไม่พบ PlayerSpawnPoint ใน {scene.name}");
+                    Debug.LogWarning($"[GameManager] No PlayerSpawnPoint tag found in {scene.name}");
             }
         }
 
-        /// <summary>ย้าย Player ไปตำแหน่งที่กำหนด พร้อม reset velocity</summary>
+        /// <summary>Teleports the player to a position and resets their velocity.</summary>
         private void MovePlayerTo(Vector3 position)
         {
             if (CurPlayer == null)
@@ -102,28 +99,21 @@ namespace Game.Testing
 
         public void ToMainMenu()
         {
-            SceneManager.LoadScene("MainMenuScene");
-            gameState = GameState.Ocean;
+            SceneManager.LoadScene(SceneNames.MainMenu);
+            gameState = GameState.Land;
         }
 
         public void StartDive()
         {
-            SceneManager.LoadScene("Ocean_Map");
+            SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }
 
         public void ReturnToLand()
         {
             CurPlayer.OxygenTube.ResetRopeData();
-            SceneManager.LoadScene("Land_Map");
+            SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
-        }
-
-        private IEnumerator FadeRoutine()
-        {
-            blackScene.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
-            blackScene.SetActive(false);
         }
     }
 }
