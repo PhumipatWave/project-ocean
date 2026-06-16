@@ -15,13 +15,14 @@ namespace Game.Testing
         [SerializeField] private Item item;
         [HideInInspector] public int count = 1;
         
-        public void InitialiseItem(Item newItem)
+        public void InitialiseItem(Item newItem, int newCount = 1)
         {
             item = newItem;
             image.sprite = newItem.ItemVisual;
+            count = Mathf.Max(1, newCount);
             RefreshCount();
-            
-        }// InitialiseItem === 
+
+        }// InitialiseItem ===// InitialiseItem === 
 
         public void RefreshCount()
         {

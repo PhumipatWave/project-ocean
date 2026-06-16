@@ -14,7 +14,16 @@ namespace Game.Testing
         public bool isUnlocked = true;
         public bool isShopSlot = false;
 
-        public void OnPointerClick(PointerEventData eventData)
+        
+
+        private void Awake()
+        {
+            image = GetComponent<Image>();
+            Deselect();
+            gameObject.SetActive(isUnlocked);
+        }
+
+public void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log("CLICK SLOT : " + gameObject.name);
             Debug.Log("isShopSlot = " + isShopSlot);
@@ -25,30 +34,23 @@ namespace Game.Testing
                 return;
             }
 
-            // =========================
-            // SHOP SELL SLOT
-            // =========================
             if (isShopSlot)
             {
-                ShopManager shop = ShopManager.Instance;
-
+                var shop = ShopManager.Instance;
                 if (shop != null)
                 {
                     Debug.Log("SHOP MODE");
-
                     shop.DeselectAllShopSlots();
-
                     Select();
-
                     shop.UpdateClickedItemPriceDisplay();
                 }
-
+                else
+                {
+                    Debug.LogWarning($"[InventorySlot] isShopSlot=true but ShopManager is not in the current scene ('{gameObject.name}')");
+                }
                 return;
             }
 
-            // =========================
-            // PLAYER INVENTORY SLOT
-            // =========================
             Debug.Log("PLAYER MODE");
 
             if (InventoryManager.Instance != null)
@@ -57,11 +59,7 @@ namespace Game.Testing
                 {
                     if (InventoryManager.Instance.InventorySlots[i] == this)
                     {
-                        InventoryManager.Instance.SendMessage(
-                            "ChangeSelectedSlot",
-                            i,
-                            SendMessageOptions.DontRequireReceiver);
-
+                        InventoryManager.Instance.SelectSlot(i);
                         break;
                     }
                 }
@@ -71,57 +69,37 @@ namespace Game.Testing
         public void Select()
         {
             Debug.Log("SELECT() CALLED");
-
-
             image.color = Color.yellow;
-
             transform.localScale = new Vector3(1.2f, 1.2f, 1f);
-
             isSelected = true;
         }
 
         public void Deselect()
         {
             Debug.Log("DESELECT() CALLED : " + gameObject.name);
-
             image.color = Color.white;
-
             transform.localScale = Vector3.one;
-
-            isSelected = false; ;
-        } // Deselect ===
-
-        private void Awake()
-        {
-            image = GetComponent<Image>();
-            Deselect();
-            gameObject.SetActive(isUnlocked);
-        } // Awake ===
+            isSelected = false;
+        }
 
         public void OnDrop(PointerEventData eventData)
         {
             if (!isUnlocked) return;
 
             GameObject dropped = eventData.pointerDrag;
-
             if (dropped == null) return;
 
             Draggableltem draggableItem = dropped.GetComponent<Draggableltem>();
-
             if (draggableItem == null) return;
 
             if (transform.childCount == 0)
-            {
                 draggableItem.parentAfterDrag = transform;
-            }
-
-
-        } // OnDrop ===
+        }
 
         public void SetLocked(bool locked)
         {
             isUnlocked = !locked;
             gameObject.SetActive(!locked);
-        } // SetLocked ===
+        }
     }
 }

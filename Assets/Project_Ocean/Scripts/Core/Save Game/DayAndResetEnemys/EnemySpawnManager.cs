@@ -2,28 +2,33 @@ using UnityEngine;
 
 namespace Game.Testing
 {
+    /// <summary>
+    /// Scene-local manager — place this GameObject in the Land scene hierarchy only.
+    /// No DontDestroyOnLoad. No singleton.
+    /// Subscribes to DayManager.OnEnemyReset so it resets enemies each new day
+    /// without DayManager needing to know this class exists.
+    /// </summary>
     public class EnemySpawnManager : MonoBehaviour
     {
-        public static EnemySpawnManager Instance { get; private set; }
-
         [SerializeField] private GameObject[] enemyPrefabs;
 
-        void Awake()
+        private void OnEnable()
         {
-            if (Instance != null) { Destroy(gameObject); return; }
-            Instance = this;
-            // ✅ เพิ่ม DontDestroyOnLoad เพื่อให้ Instance ไม่หายหลัง LoadScene
-            // ตอนที่ DayManager (ซึ่ง DontDestroyOnLoad) เรียก ResetAllEnemies()
-            DontDestroyOnLoad(gameObject);
+            DayManager.OnEnemyReset += ResetAllEnemies;
+        }
+
+        private void OnDisable()
+        {
+            DayManager.OnEnemyReset -= ResetAllEnemies;
         }
 
         public void ResetAllEnemies()
         {
-            // ลบ enemy ที่มีอยู่ทั้งหมด
+            // Destroy all existing enemies in the scene
             foreach (var e in GameObject.FindGameObjectsWithTag("Enemy"))
                 Destroy(e);
 
-            // Spawn ใหม่จาก spawn points
+            // Re-spawn from tagged spawn points
             var spawnPoints = GameObject.FindGameObjectsWithTag("EnemySpawnPoint");
 
             if (enemyPrefabs == null || enemyPrefabs.Length == 0)

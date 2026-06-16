@@ -33,8 +33,6 @@ namespace HierarchyPlus.Editor
             // Clear texture / blacklist caches on domain reload.
             CategoryIconMap.ClearCache();
             ComponentMinimap.ClearIconCache();
-
-            Debug.Log("[HierarchyPlus] Initialized (Phase 11 — Performance Optimization).");
         }
 
         // ── hover flush ────────────────────────────────────────────
