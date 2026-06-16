@@ -143,11 +143,11 @@ namespace Game.Testing
             return itemDatabase.FindById(id);
         }
 
-        public void SpawnItemAtSlot(Item item, int slotIndex)
+        public void SpawnItemAtSlot(Item item, int slotIndex, int count = 1)
         {
             if (!IsValidSlotIndex(slotIndex) || item == null) return;
 
-            SpawnNewItem(item, inventorySlots[slotIndex]);
+            SpawnNewItem(item, inventorySlots[slotIndex], count);
             NotifyInventoryChanged();
         }
 
@@ -335,11 +335,11 @@ namespace Game.Testing
             return true;
         }
 
-        private void SpawnNewItem(Item item, InventorySlot slot)
+        private void SpawnNewItem(Item item, InventorySlot slot, int count = 1)
         {
             GameObject newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
             Draggableltem inventoryItem = newItemGo.GetComponent<Draggableltem>();
-            inventoryItem.InitialiseItem(item);
+            inventoryItem.InitialiseItem(item, count);
         }
 
         private void RemoveOneItem(Draggableltem itemInSlot)
