@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Project_Ocean/Levels/Scenes/Bootstrap.unity
+    path: Assets/Project_Ocean/Levels/Scenes/Menus/Bootstrap.unity
     guid: 8dbcde0677c0a3a4cbc467dca51bf93a
   - enabled: 1
-    path: Assets/Project_Ocean/Levels/Scenes/MainMenuScene.unity
+    path: Assets/Project_Ocean/Levels/Scenes/Menus/MainMenuScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
     path: Assets/Project_Ocean/Levels/Scenes/Land_Map.unity
     guid: 583f18a6d93a86f4b8e6a4e926031d4b
   - enabled: 1
-    path: Assets/Project_Ocean/Levels/Scenes/Ocean_Map.unity
+    path: Assets/Project_Ocean/Levels/Scenes/Oceans/Ocean_Map.unity
     guid: fead940efb8e62e4a9b4d18736bd19c5
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
