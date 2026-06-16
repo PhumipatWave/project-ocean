@@ -2,11 +2,32 @@ using UnityEngine;
 
 namespace Game.Testing
 {
+    /// <summary>
+    /// Decoupled channel between "an enemy died" and systems that care about kills
+    /// (e.g. QuestManager). Enemy fires OnEnemyKilled; subscribers react.
+    /// Mirrors the DayManager.OnDayAdvanced pattern — no enemy↔quest references.
+    /// </summary>
+    public static class EnemyEvents
+    {
+        /// <summary>Raised once when an enemy dies. Payload = the enemy's id (Enemy.EnemyId).</summary>
+        public static event System.Action<string> OnEnemyKilled;
+
+        public static void RaiseEnemyKilled(string enemyId)
+        {
+            OnEnemyKilled?.Invoke(enemyId);
+        }
+    }
+
     public class Enemy : Entity
     {
         [Header("Enemy Components")]
         [SerializeField] private EnemyLoot loot;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
+
+        [Header("Quest Tracking")]
+        [Tooltip("Id matched against QuestData.targetEnemyId for kill quests (e.g. \"fishL\", \"jellyfish\").")]
+        [SerializeField] private string enemyId;
+        public string EnemyId => enemyId;
 
         private float maxHealth = 100f;
         private SpriteRenderer visual;
@@ -55,6 +76,11 @@ namespace Game.Testing
 
         protected override void OnDeathHandler()
         {
+            // Fire the kill event before death handling/destroy so quest tracking
+            // sees it. This runs exactly once (EntityHealth.OnDied is isDead-guarded).
+            if (!string.IsNullOrEmpty(enemyId))
+                EnemyEvents.RaiseEnemyKilled(enemyId);
+
             entityDeathHandler?.HandleDeath(brain);
         }
 
