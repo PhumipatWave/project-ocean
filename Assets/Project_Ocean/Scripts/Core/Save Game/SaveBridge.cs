@@ -145,16 +145,10 @@ namespace Game.Testing
                     continue;
                 }
 
-                // Spawn directly into the saved slot (preserves slot position)
-                inv.SpawnItemAtSlot(item, saved.slotIndex);
-
-                // Restore the correct stack count
-                var spawned = inv.InventorySlots[saved.slotIndex].GetComponentInChildren<Draggableltem>();
-                if (spawned != null && saved.count > 1)
-                {
-                    spawned.count = saved.count;
-                    spawned.RefreshCount();
-                }
+                // Spawn with the saved stack count in one step — the item is born
+                // with the correct count and a single RefreshCount(), so the count
+                // label shows immediately regardless of load order.
+                inv.SpawnItemAtSlot(item, saved.slotIndex, Mathf.Max(1, saved.count));
             }
         }
 

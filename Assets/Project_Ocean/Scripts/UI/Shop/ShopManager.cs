@@ -7,6 +7,8 @@ namespace Game.Testing
 {
     public class ShopManager : MonoBehaviour
     {
+        public static ShopManager Instance { get; private set; }
+
         [Header("UI Objects (Drag & Drop Here)")]
         [SerializeField] private GameObject sellAllButton;
         [SerializeField] private GameObject sellSelectButton;
@@ -41,7 +43,10 @@ namespace Game.Testing
         [Header("Navigation")]
         [SerializeField] private UpgradeManager upgradeManager;
 
-        private void OnEnable()
+                private void Awake()     { Instance = this; }
+        private void OnDestroy() { if (Instance == this) Instance = null; }
+
+private void OnEnable()
         {
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
         }

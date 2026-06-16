@@ -109,7 +109,7 @@ namespace Game.Testing
                 if (SceneLoadContext.IsLoading)
                 {
                     transform.position = SceneLoadContext.Position;
-                    SceneLoadContext.Clear();
+                    // Flag is cleared by SaveBridge after all data is applied.
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace Game.Testing
                 if (SceneLoadContext.IsLoading)
                 {
                     transform.position = SceneLoadContext.Position;
-                    SceneLoadContext.Clear();
+                    // Flag is cleared by SaveBridge after all data is applied.
                 }
                 else
                 {
