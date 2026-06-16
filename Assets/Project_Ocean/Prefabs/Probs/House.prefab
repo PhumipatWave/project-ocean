@@ -183,7 +183,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1362513369
-  m_SortingLayer: 6
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -641630070012664720, guid: 91cada7ae2ed8174086dfab9bab5cca4, type: 3}
@@ -471,6 +471,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
   interactIcon: {fileID: 9104331734611138744}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9104331734611138744
 GameObject:
   m_ObjectHideFlags: 0

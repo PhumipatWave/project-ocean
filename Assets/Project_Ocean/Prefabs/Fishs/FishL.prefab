@@ -782,12 +782,7 @@ MonoBehaviour:
   entityHealth: {fileID: 5316214610149181874}
   loot: {fileID: 3280145725471776177}
   navAgentHost: {fileID: 2234005039591698591}
-  maxHealth: 100
-  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  fishSprite: {fileID: 8611409687765085744}
-  anim: {fileID: 0}
-  hasAnimator: 1
-  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
+  enemyId: fishL
 --- !u!114 &5316214610149181874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,7 +1337,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fe0c39a7b6e9f7a4e85c15186e95537f, type: 3}
