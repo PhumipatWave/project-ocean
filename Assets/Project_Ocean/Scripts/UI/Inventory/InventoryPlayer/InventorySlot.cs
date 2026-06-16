@@ -14,11 +14,7 @@ namespace Game.Testing
         public bool isUnlocked = true;
         public bool isShopSlot = false;
 
-        /// <summary>
-        /// Assign this in the Inspector only on slots that live inside the Shop panel.
-        /// Leave empty on regular player inventory slots.
-        /// </summary>
-        [SerializeField] private ShopManager shopManager;
+        
 
         private void Awake()
         {
@@ -27,7 +23,7 @@ namespace Game.Testing
             gameObject.SetActive(isUnlocked);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+public void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log("CLICK SLOT : " + gameObject.name);
             Debug.Log("isShopSlot = " + isShopSlot);
@@ -38,28 +34,23 @@ namespace Game.Testing
                 return;
             }
 
-            // =========================
-            // SHOP SELL SLOT
-            // =========================
             if (isShopSlot)
             {
-                if (shopManager != null)
+                var shop = ShopManager.Instance;
+                if (shop != null)
                 {
                     Debug.Log("SHOP MODE");
-                    shopManager.DeselectAllShopSlots();
+                    shop.DeselectAllShopSlots();
                     Select();
-                    shopManager.UpdateClickedItemPriceDisplay();
+                    shop.UpdateClickedItemPriceDisplay();
                 }
                 else
                 {
-                    Debug.LogWarning($"[InventorySlot] isShopSlot=true but no ShopManager found for '{gameObject.name}'");
+                    Debug.LogWarning($"[InventorySlot] isShopSlot=true but ShopManager is not in the current scene ('{gameObject.name}')");
                 }
                 return;
             }
 
-            // =========================
-            // PLAYER INVENTORY SLOT
-            // =========================
             Debug.Log("PLAYER MODE");
 
             if (InventoryManager.Instance != null)

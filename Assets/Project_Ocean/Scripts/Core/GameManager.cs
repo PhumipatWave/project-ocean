@@ -17,9 +17,6 @@ namespace Game.Testing
 
         public static Player CurPlayer;
 
-        [SerializeField] private GameObject[] gameUI;
-        public GameObject[] GameUI { get { return gameUI; } set { gameUI = value; } }
-
         private GameState gameState;
         public GameState GameState { get { return gameState; } set { gameState = value; } }
 
