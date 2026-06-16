@@ -13,8 +13,10 @@ namespace Game.Testing
 
         public Image[] levelBoxes;
 
-        public Color activeColor = Color.green;
+        public Color activeColor   = Color.green;
         public Color inactiveColor = Color.gray;
+
+        [SerializeField] private UpgradeManager upgradeManager;
 
         private void Start()
         {
@@ -23,35 +25,25 @@ namespace Game.Testing
 
         public void Upgrade()
         {
-            UpgradeManager.Instance.BuyUpgrade(data);
-
+            if (upgradeManager == null) return;
+            upgradeManager.BuyUpgrade(data);
             RefreshUI();
         }
 
         public void RefreshUI()
         {
+            if (data == null) return;
+
             nameText.text = data.upgradeName;
 
-            int level =
-                UpgradeManager.Instance.GetLevel(data);
+            int level = upgradeManager != null ? upgradeManager.GetLevel(data) : 0;
 
-            if (level >= data.maxLevel)
-            {
-                priceText.text = "MAX";
-            }
-            else
-            {
-                priceText.text =
-                    "$" + (data.basePrice * (level + 1));
-            }
+            priceText.text = level >= data.maxLevel
+                ? "MAX"
+                : "$" + (data.basePrice * (level + 1));
 
             for (int i = 0; i < levelBoxes.Length; i++)
-            {
-                levelBoxes[i].color =
-                    i < level
-                    ? activeColor
-                    : inactiveColor;
-            }
+                levelBoxes[i].color = i < level ? activeColor : inactiveColor;
         }
     }
 }
