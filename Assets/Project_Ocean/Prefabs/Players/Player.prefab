@@ -1003,7 +1003,7 @@ MonoBehaviour:
   playerTransform: {fileID: 4470129359587397084}
   startPointPrefab: {fileID: 8193605775773355012, guid: 993dc56d799905c42a679af7f423230c, type: 3}
   lengthText: {fileID: 5000493329770613073}
-  segmentLength: 0.3
+  segmentLength: 0.8
   solverIterations: 20
   maxRopeLength: 150
   gravity: {x: 0, y: -1.5}
@@ -1012,9 +1012,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   segRadius: 0.12
-  scanSegments: 5
   wrapCooldownFrames: 8
-  unwrapThreshold: 0.12
+  maxSimulatedSegs: 60
 --- !u!114 &3811799620726562632
 MonoBehaviour:
   m_ObjectHideFlags: 0

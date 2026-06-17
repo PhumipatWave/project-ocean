@@ -7,6 +7,7 @@ namespace Game.Testing
 {
     public class OxygenRope : MonoBehaviour
     {
+        #region Inspector
         [Header("References")]
         [SerializeField] private LineRenderer line;
         [SerializeField] private Transform playerTransform;
@@ -27,11 +28,21 @@ namespace Game.Testing
         [Header("Wrap")]
         [SerializeField] private int wrapCooldownFrames = 8;
 
+        [Header("Performance")]
+        [Tooltip("Max segments near the player that run full Verlet simulation each frame. " +
+                 "Segments beyond this window are frozen in place — they already settled under gravity. " +
+                 "60 = ~18 m active window at default segmentLength. Raise if rope looks stiff near the player.")]
+        [SerializeField] private int maxSimulatedSegs = 60;
+        #endregion
+
+        #region Public API
         public float CurrentLength { get; private set; }
         public float MaxRopeLength { get => maxRopeLength; set => maxRopeLength = value; }
         public GameObject StartPointObj { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
+        #endregion
 
+        #region Private Data
         private struct Seg
         {
             public Vector2 pos, old;
@@ -51,14 +62,20 @@ namespace Game.Testing
         // Verlet segments from pins[^1] to player
         private readonly List<Seg> segs = new();
 
-        private readonly List<Vector2> drawBuf      = new();
-        private readonly List<Vector2> cornerBuf    = new();
+        private readonly List<Vector2> drawBuf = new();
+        private readonly List<Vector2> cornerBuf = new();
         private readonly List<Vector2> compositeBuf = new(); // reuse buffer for CompositeCollider2D
 
         private int wrapCooldown;
         private int unwrapCooldown;
         private Coroutine limitRoutine;
 
+        // First segment index that receives full Verlet simulation this frame.
+        // Segments before this index are frozen (already settled under gravity).
+        private int SimStart => Mathf.Max(1, segs.Count - maxSimulatedSegs);
+        #endregion
+
+        #region Unity Lifecycle
         private void Awake()
         {
             line ??= GetComponent<LineRenderer>();
@@ -66,13 +83,19 @@ namespace Game.Testing
 
         private void FixedUpdate()
         {
-            if (!InOcean()) return;
-            if (StartPointObj == null || playerTransform == null || segs.Count < 2) return;
+            if (!InOcean()) 
+                return;
 
-            if (wrapCooldown   > 0) wrapCooldown--;
-            if (unwrapCooldown > 0) unwrapCooldown--;
+            if (StartPointObj == null || playerTransform == null || segs.Count < 2) 
+                return;
 
-            GrowSegs();   // extend segments so there is something to simulate
+            if (wrapCooldown > 0) 
+                wrapCooldown--;
+
+            if (unwrapCooldown > 0) 
+                unwrapCooldown--;
+
+            GrowSegs(); // extend segments so there is something to simulate
             ShrinkSegs(); // prune bunched-up segments when player moves back
 
             Integrate();
@@ -80,8 +103,11 @@ namespace Game.Testing
             Solve();
             PushOutColliders();
 
-            if (wrapCooldown   == 0) TryWrap();
-            if (unwrapCooldown == 0) TryUnwrap();
+            if (wrapCooldown == 0) 
+                TryWrap();
+
+            if (unwrapCooldown == 0) 
+                TryUnwrap();
 
             CurrentLength = MeasureLength();
             UpdateLengthUI();
@@ -90,10 +116,14 @@ namespace Game.Testing
 
         private void LateUpdate()
         {
-            if (!InOcean()) return;
+            if (!InOcean()) 
+                return;
+
             DrawRope();
         }
+        #endregion
 
+        #region Setup
         /// Call this to place/move the fixed start of the rope.
         public void SetStartPoint(Vector3 worldPos)
         {
@@ -116,27 +146,38 @@ namespace Game.Testing
         /// Full reset — call when returning to land.
         public void ResetRope()
         {
-            if (limitRoutine != null) { StopCoroutine(limitRoutine); limitRoutine = null; }
+            if (limitRoutine != null) 
+            { 
+                StopCoroutine(limitRoutine); 
+                limitRoutine = null; 
+            }
+
             pins.Clear();
             segs.Clear();
-            wrapCooldown   = 0;
+            wrapCooldown = 0;
             unwrapCooldown = 0;
-            CurrentLength  = 0f;
-            if (line != null) line.positionCount = 0;
-            if (lengthText != null) lengthText.enabled = false;
+            CurrentLength = 0f;
+
+            if (line != null) 
+                line.positionCount = 0;
+
+            if (lengthText != null) 
+                lengthText.enabled = false;
         }
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
+        #endregion
 
-        // ── Segment growth / shrink ───────────────────────────────────────
-
+        #region Segment Growth & Shrink
         // Add one segment per frame when the gap between the second-to-last seg and the
         // player is too wide. This ensures the rope has free segments to simulate
         // even before the first corner wrap.
         private void GrowSegs()
         {
-            if (segs.Count < 2) return;
-            Vector2 prevPos   = segs[^2].pos;
+            if (segs.Count < 2) 
+                return;
+
+            Vector2 prevPos = segs[^2].pos;
             Vector2 playerPos = playerTransform.position;
 
             if (Vector2.Distance(prevPos, playerPos) > segmentLength * 1.5f)
@@ -152,19 +193,23 @@ namespace Game.Testing
         // returns toward the anchor — this count-based check catches it instead.
         private void ShrinkSegs()
         {
-            if (segs.Count <= 2) return;
+            if (segs.Count <= 2) 
+                return;
+
             float straight = Vector2.Distance(pins[^1].pos, (Vector2)playerTransform.position);
             int   needed   = Mathf.Max(2, Mathf.CeilToInt(straight / segmentLength) + 1);
+
             if (segs.Count > needed + 1)
                 segs.RemoveAt(segs.Count - 2);
         }
+        #endregion
 
-        // ── Simulation ────────────────────────────────────────────────────
-
+        #region Simulation
         private void Integrate()
         {
-            float dt = Time.fixedDeltaTime;
-            for (int i = 1; i < segs.Count - 1; i++)
+            float dt    = Time.fixedDeltaTime;
+            int   start = SimStart; // skip frozen segments far from the player
+            for (int i = start; i < segs.Count - 1; i++)
             {
                 var s = segs[i];
                 Vector2 vel = (s.pos - s.old) * damping;
@@ -177,14 +222,19 @@ namespace Game.Testing
         private void PinEnds()
         {
             var first = segs[0]; first.Pin(pins[^1].pos); segs[0] = first;
-            var last  = segs[^1]; last.Pin(playerTransform.position); segs[^1] = last;
+            var last = segs[^1]; last.Pin(playerTransform.position); segs[^1] = last;
         }
 
         private void Solve()
         {
+            int start = SimStart;
             for (int iter = 0; iter < solverIterations; iter++)
             {
-                for (int i = 0; i < segs.Count - 1; i++)
+                // Include the boundary pair so the simulation window stays connected
+                // to the frozen section. segs[start-1] is the frozen anchor; only
+                // segs[start] moves in that pair.
+                int pairStart = Mathf.Max(0, start - 1);
+                for (int i = pairStart; i < segs.Count - 1; i++)
                     SolvePair(i, i + 1);
                 PinEnds();
             }
@@ -195,7 +245,10 @@ namespace Game.Testing
             var sa = segs[a]; var sb = segs[b];
             Vector2 d = sa.pos - sb.pos;
             float dist = d.magnitude;
-            if (dist < 0.0001f) return;
+
+            if (dist < 0.0001f) 
+                return;
+
             Vector2 fix = d * (0.5f * (dist - segmentLength) / dist);
             sa.pos -= fix; sb.pos += fix;
             segs[a] = sa; segs[b] = sb;
@@ -203,11 +256,14 @@ namespace Game.Testing
 
         private void PushOutColliders()
         {
-            for (int i = 1; i < segs.Count - 1; i++)
+            int start = SimStart; // no need to push frozen segments — they already settled
+            for (int i = start; i < segs.Count - 1; i++)
             {
                 var s = segs[i];
                 var col = Physics2D.OverlapCircle(s.pos, segRadius, collisionMask);
-                if (col == null) continue;
+
+                if (col == null) 
+                    continue;
 
                 Vector2 closest = col.ClosestPoint(s.pos);
                 Vector2 dir = s.pos - closest;
@@ -221,14 +277,17 @@ namespace Game.Testing
                 Vector2 vel = s.pos - s.old;
                 s.pos = closest + dir * segRadius;
                 float vn = Vector2.Dot(vel, dir);
-                if (vn < 0f) vel -= dir * vn;
+
+                if (vn < 0f) 
+                    vel -= dir * vn;
+
                 s.old = s.pos - vel * 0.85f;
                 segs[i] = s;
             }
         }
+        #endregion
 
-        // ── Wrap ──────────────────────────────────────────────────────────
-
+        #region Wrap & Unwrap
         private void TryWrap()
         {
             // Cast directly from the last anchor to the player.
@@ -239,46 +298,54 @@ namespace Game.Testing
             Vector2 to   = playerTransform.position;
             Vector2 dir  = (to - from);
             float   dist = dir.magnitude;
-            if (dist < 0.001f) return;
+
+            if (dist < 0.001f) 
+                return;
+
             dir /= dist;
 
             // Offset start so the linecast doesn't immediately detect the wall
             // that the current anchor is sitting on.
-            float   offset = segmentLength * 1.5f;
-            if (offset >= dist) return; // anchor and player are too close to need a wrap
+            float offset = segmentLength * 1.5f;
+
+            if (offset >= dist)
+                return; // anchor and player are too close to need a wrap
 
             RaycastHit2D hit = Physics2D.Linecast(from + dir * offset, to, collisionMask);
-            if (hit.collider == null) return;
+            if (hit.collider == null) 
+                return;
 
             Vector2 segDir = to - from;
             Vector2 corner = FindBestCorner(hit.collider, hit.point, segDir);
 
-            if (!IsValidAnchor(corner)) return;
+            if (!IsValidAnchor(corner)) 
+                return;
 
-            Vector2 inDir    = (corner - from).normalized;
+            Vector2 inDir = (corner - from).normalized;
             Vector2 toPlayer = (to - corner).normalized;
-            float cross      = inDir.x * toPlayer.y - inDir.y * toPlayer.x;
-            float side       = Mathf.Abs(cross) < 0.001f ? 1f : Mathf.Sign(cross);
+            float cross = inDir.x * toPlayer.y - inDir.y * toPlayer.x;
+            float side = Mathf.Abs(cross) < 0.001f ? 1f : Mathf.Sign(cross);
 
             pins.Add(new WrapPin { pos = corner, side = side });
             RebuildSegs();
-            wrapCooldown   = wrapCooldownFrames;
+            wrapCooldown = wrapCooldownFrames;
             unwrapCooldown = wrapCooldownFrames; // block unwrap from firing this same wrap event
         }
 
         private void TryUnwrap()
         {
-            if (pins.Count <= 1) return;
+            if (pins.Count <= 1) 
+                return;
 
-            WrapPin last      = pins[^1];
-            Vector2 prevPos   = pins[^2].pos;
+            WrapPin last = pins[^1];
+            Vector2 prevPos = pins[^2].pos;
             Vector2 playerPos = playerTransform.position;
 
             // Direction of the incoming rope segment (prevPin → corner)
-            Vector2 inDir    = (last.pos - prevPos).normalized;
+            Vector2 inDir = (last.pos - prevPos).normalized;
             // Direction from the corner toward the player
             Vector2 toPlayer = (playerPos - last.pos).normalized;
-            float   cross    = inDir.x * toPlayer.y - inDir.y * toPlayer.x;
+            float cross = inDir.x * toPlayer.y - inDir.y * toPlayer.x;
 
             // Condition A — player swung laterally past the corner to the other side.
             bool sideCrossed = Mathf.Abs(cross) > 0.1f && Mathf.Sign(cross) != last.side;
@@ -291,20 +358,27 @@ namespace Game.Testing
             float anchorAlong = Vector2.Dot(last.pos  - prevPos, inDir); // equals distance(prevPin → corner)
             bool  passedBack  = playerAlong < anchorAlong - segmentLength;
 
-            if (!sideCrossed && !passedBack) return;
+            if (!sideCrossed && !passedBack)
+                return;
 
             pins.RemoveAt(pins.Count - 1);
             RebuildSegs();
             unwrapCooldown = wrapCooldownFrames;
-            wrapCooldown   = wrapCooldownFrames;
+            wrapCooldown = wrapCooldownFrames;
         }
 
         private bool IsValidAnchor(Vector2 pos)
         {
-            if (Vector2.Distance(pos, pins[^1].pos) < segmentLength * 2f) return false;
-            if (Vector2.Distance(pos, playerTransform.position) < segmentLength * 2f) return false;
+            if (Vector2.Distance(pos, pins[^1].pos) < segmentLength * 2f) 
+                return false;
+
+            if (Vector2.Distance(pos, playerTransform.position) < segmentLength * 2f) 
+                return false;
+
             foreach (var p in pins)
-                if (Vector2.Distance(p.pos, pos) < segmentLength * 3f) return false;
+                if (Vector2.Distance(p.pos, pos) < segmentLength * 3f) 
+                    return false;
+
             return true;
         }
 
@@ -313,10 +387,11 @@ namespace Game.Testing
         private Vector2 FindBestCorner(Collider2D col, Vector2 hitPoint, Vector2 ropeDir)
         {
             GetColliderCorners(col, cornerBuf);
-            if (cornerBuf.Count == 0) return hitPoint;
+            if (cornerBuf.Count == 0) 
+                return hitPoint;
 
-            Vector2 best = cornerBuf[0];
-            float bestScore = float.MaxValue;
+            Vector2 best      = cornerBuf[0];
+            float   bestScore = float.MaxValue;
 
             foreach (var c in cornerBuf)
             {
@@ -325,7 +400,12 @@ namespace Game.Testing
                 float cross = ropeDir.x * toC.y - ropeDir.y * toC.x;
                 // Penalise corners that are perfectly collinear with rope (those are edge midpoints)
                 float score = dist + (Mathf.Abs(cross) < 0.1f ? 0.5f : 0f);
-                if (score < bestScore) { bestScore = score; best = c; }
+
+                if (score < bestScore) 
+                { 
+                    bestScore = score; 
+                    best = c; 
+                }
             }
 
             return best;
@@ -385,7 +465,9 @@ namespace Game.Testing
                 }
             }
         }
+        #endregion
 
+        #region Draw
         private void DrawRope()
         {
             drawBuf.Clear();
@@ -402,12 +484,14 @@ namespace Game.Testing
             for (int i = 0; i < drawBuf.Count; i++)
                 line.SetPosition(i, drawBuf[i]);
         }
+        #endregion
 
+        #region Utility
         private void RebuildSegs()
         {
             Vector2 from = pins[^1].pos;
-            Vector2 to   = playerTransform != null ? (Vector2)playerTransform.position : from;
-            int count    = Mathf.Max(2, Mathf.CeilToInt(Vector2.Distance(from, to) / segmentLength) + 1);
+            Vector2 to = playerTransform != null ? (Vector2)playerTransform.position : from;
+            int count = Mathf.Max(2, Mathf.CeilToInt(Vector2.Distance(from, to) / segmentLength) + 1);
 
             segs.Clear();
             for (int i = 0; i < count; i++)
@@ -417,19 +501,33 @@ namespace Game.Testing
         private float MeasureLength()
         {
             float len = 0f;
+
+            // Taut pin-to-pin sections (O(wraps), always small)
             for (int i = 0; i < pins.Count - 1; i++)
                 len += Vector2.Distance(pins[i].pos, pins[i + 1].pos);
-            for (int i = 0; i < segs.Count - 1; i++)
+
+            int start = SimStart;
+
+            // Frozen section: segs[0..start-1] are a straight line set by RebuildSegs.
+            // Compute their contribution as a single distance instead of looping all of them.
+            if (start > 1)
+                len += Vector2.Distance(segs[0].pos, segs[start - 1].pos);
+
+            // Simulated section: sum actual positions (only maxSimulatedSegs iterations)
+            for (int i = start - 1; i < segs.Count - 1; i++)
                 len += Vector2.Distance(segs[i].pos, segs[i + 1].pos);
+
             return len;
         }
 
         private void UpdateLengthUI()
         {
-            if (lengthText == null) return;
+            if (lengthText == null) 
+                return;
+
             lengthText.enabled = true;
             lengthText.color = CurrentLength >= maxRopeLength ? Color.red : Color.white;
-            lengthText.text = $"Length : {(int)CurrentLength} m.";
+            lengthText.text  = $"Length : {(int)CurrentLength} m.";
         }
 
         private bool InOcean() =>
@@ -439,7 +537,11 @@ namespace Game.Testing
         {
             if (CurrentLength <= maxRopeLength)
             {
-                if (limitRoutine != null) { StopCoroutine(limitRoutine); limitRoutine = null; }
+                if (limitRoutine != null) 
+                {
+                    StopCoroutine(limitRoutine); 
+                    limitRoutine = null;
+                }
             }
             else if (limitRoutine == null)
                 limitRoutine = StartCoroutine(LimitBreached());
@@ -451,5 +553,6 @@ namespace Game.Testing
             ResetRope();
             GameManager.Instance.ReturnToLand();
         }
+        #endregion
     }
 }
