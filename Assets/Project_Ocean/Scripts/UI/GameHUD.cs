@@ -81,7 +81,7 @@ namespace Game.Testing
             else
             {
                 maxLengthPanel.SetActive(true);
-                dangerLengthText.text = $"{Mathf.Abs(player.GetComponent<PlayerOxygenTube>().MaxRopeLength).ToString("F2")} m.";
+                dangerLengthText.text = $"{Mathf.Abs(player.GetComponentInChildren<OxygenRope>().MaxRopeLength).ToString("F2")} m.";
             }
         }
 

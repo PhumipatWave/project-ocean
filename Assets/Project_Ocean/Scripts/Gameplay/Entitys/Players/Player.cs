@@ -24,8 +24,8 @@ namespace Game.Testing
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
-        private PlayerOxygenTube oxygenTube;
-        public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
+        private OxygenRope oxygenTube;
+        public OxygenRope OxygenTube { get { return oxygenTube; } }
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -63,7 +63,7 @@ namespace Game.Testing
 
         protected override void Awake()
         {
-            oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+            oxygenTube = GetComponentInChildren<OxygenRope>();
 
             base.Awake();
 
@@ -79,7 +79,7 @@ namespace Game.Testing
         {
             var playerHealth = GetComponent<PlayerHealth>();
             if (oxygenTube != null)
-                playerHealth.SetOxygenTube(oxygenTube);
+                playerHealth.SetOxygenRope(oxygenTube);
             return playerHealth;
         }
 
@@ -141,16 +141,7 @@ namespace Game.Testing
                 isLand = false;
                 entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
 
-                Debug.Log(oxygenTube.StartPointPrefab);
-
-                // ถ้าไม่มี StartPoint (เช่น เล่นใหม่) ให้สร้างอันใหม่
-                if (oxygenTube.StartPoint == null)
-                {
-                    var point = Instantiate(oxygenTube.StartPointPrefab, transform.position, Quaternion.identity);
-                    oxygenTube.StartPoint = point;
-                }
-
-                oxygenTube.Rebuild();
+                oxygenTube.SetStartPoint(transform.position);
             }
         }
 
@@ -178,10 +169,7 @@ namespace Game.Testing
                 }
 
                 // T key: teleport to the last placed checkpoint (free action, no item consumed)
-                if (Input.GetKeyDown(KeyCode.T))
-                {
-                    oxygenTube.TeleportToCheckPoint();
-                }
+                // Checkpoint teleport not yet implemented in new rope system
             }
         }
 

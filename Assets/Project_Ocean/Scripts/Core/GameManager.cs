@@ -111,7 +111,7 @@ namespace Game.Testing
 
         public void ReturnToLand()
         {
-            CurPlayer.OxygenTube.ResetRopeData();
+            CurPlayer.OxygenTube.ResetRope();
             SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
         }
