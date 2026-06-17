@@ -12,9 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36825818407514447b7c2211ac73dd8d, type: 3}
   m_Name: AdditiveSceneConfig
   m_EditorClassIdentifier: Assembly-CSharp::AdditiveSceneConfig
-  rules:
-  - mainScenePath: Assets/Project_Ocean/Levels/Scenes/Lands/Land_Map.unity
-    additiveScenes:
-    - scenePath: Assets/Project_Ocean/Levels/Scenes/Lands/AS_LandUI.unity
-      enabled: 1
+  rules: []
   autoLoadEnabled: 1
