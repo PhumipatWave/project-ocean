@@ -178,7 +178,7 @@ namespace Game.Testing
 
                 // T key: teleport to the last placed checkpoint (free action, no item consumed)
                 if (Input.GetKeyDown(KeyCode.T) && LastCheckpoint != null)
-                    LastCheckpoint.TeleportPlayerHere(this);
+                    LastCheckpoint.PullPlayerHere(this);
             }
         }
 
