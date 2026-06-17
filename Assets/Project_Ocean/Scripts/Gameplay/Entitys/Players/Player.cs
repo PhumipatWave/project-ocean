@@ -1,6 +1,7 @@
 using Game.Core;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,13 @@ namespace Game.Testing
 
         private OxygenRope oxygenTube;
         public OxygenRope OxygenTube { get { return oxygenTube; } }
+
+        private readonly List<CheckPointItem> checkpoints = new();
+        public int CheckpointCount => checkpoints.Count;
+        public bool CanPlaceCheckpoint => checkpoints.Count < 3;
+        public CheckPointItem LastCheckpoint => checkpoints.Count > 0 ? checkpoints[^1] : null;
+        public void RegisterCheckpoint(CheckPointItem cp) => checkpoints.Add(cp);
+        public void UnregisterCheckpoint(CheckPointItem cp) => checkpoints.Remove(cp);
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -169,7 +177,8 @@ namespace Game.Testing
                 }
 
                 // T key: teleport to the last placed checkpoint (free action, no item consumed)
-                // Checkpoint teleport not yet implemented in new rope system
+                if (Input.GetKeyDown(KeyCode.T) && LastCheckpoint != null)
+                    LastCheckpoint.TeleportPlayerHere(this);
             }
         }
 

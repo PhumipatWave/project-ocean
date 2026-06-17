@@ -36,10 +36,11 @@ namespace Game.Testing
         #endregion
 
         #region Public API
-        public float CurrentLength { get; private set; }
-        public float MaxRopeLength { get => maxRopeLength; set => maxRopeLength = value; }
-        public GameObject StartPointObj { get; private set; }
+        public float CurrentLength  { get; private set; }
+        public float MaxRopeLength  { get => maxRopeLength; set => maxRopeLength = value; }
+        public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
+        public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
         #endregion
 
         #region Private Data
@@ -53,7 +54,8 @@ namespace Game.Testing
         private struct WrapPin
         {
             public Vector2 pos;
-            public float side; // cross-product side when this anchor was created
+            public float side;         // cross-product side when this anchor was created
+            public bool isCheckpoint;  // true = manually placed, never auto-unwrapped
         }
 
         // pins[0] = fixed rope start, pins[1+] = wrap corners
@@ -154,9 +156,9 @@ namespace Game.Testing
 
             pins.Clear();
             segs.Clear();
-            wrapCooldown = 0;
+            wrapCooldown   = 0;
             unwrapCooldown = 0;
-            CurrentLength = 0f;
+            CurrentLength  = 0f;
 
             if (line != null) 
                 line.positionCount = 0;
@@ -166,6 +168,34 @@ namespace Game.Testing
         }
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
+
+        /// Add a manual pin at worldPos (checkpoint placed by the player).
+        /// Rope runs: start → [...wraps...] → checkpoint → player.
+        public void AttachToCheckpoint(Vector2 worldPos)
+        {
+            pins.Add(new WrapPin { pos = worldPos, side = 0f, isCheckpoint = true });
+            RebuildSegs();
+            wrapCooldown   = wrapCooldownFrames;
+            unwrapCooldown = wrapCooldownFrames;
+        }
+
+        /// Remove the checkpoint pin at worldPos and all pins added after it.
+        /// Supports multiple checkpoints — finds the matching one by position.
+        public void DetachFromCheckpoint(Vector2 worldPos)
+        {
+            float toleranceSqr = 0.25f; // 0.5m tolerance
+            for (int i = pins.Count - 1; i >= 1; i--)
+            {
+                if (!pins[i].isCheckpoint) continue;
+                if ((pins[i].pos - worldPos).sqrMagnitude > toleranceSqr) continue;
+
+                pins.RemoveRange(i, pins.Count - i);
+                RebuildSegs();
+                wrapCooldown   = wrapCooldownFrames;
+                unwrapCooldown = wrapCooldownFrames;
+                return;
+            }
+        }
         #endregion
 
         #region Segment Growth & Shrink
@@ -334,7 +364,10 @@ namespace Game.Testing
 
         private void TryUnwrap()
         {
-            if (pins.Count <= 1) 
+            if (pins.Count <= 1)
+                return;
+            // Never auto-unwrap a checkpoint pin — only DetachFromCheckpoint() can remove it
+            if (pins[^1].isCheckpoint)
                 return;
 
             WrapPin last = pins[^1];
