@@ -1,0 +1,101 @@
+using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace Game.Testing
+{
+    public class GameHUD : MonoBehaviour
+    {
+        [Header("Rope Length")]
+        [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
+        [SerializeField] private GameObject player;
+
+        [SerializeField] private TextMeshProUGUI dangerLengthText;
+        [SerializeField] private GameObject maxLengthPanel;
+
+        [SerializeField] private GameObject menuButton;
+        [SerializeField] private GameObject landButton;
+
+        [Header("Black Fade")]
+        [SerializeField] private Image fadeImage;
+        [SerializeField] private float fadeDuration = 1f;
+
+        public static GameHUD instance {  get; private set; }
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Destroy(gameObject);
+            }
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Transform spawnPoint;
+
+            if (scene.name == "MainMenuScene")
+            {
+                menuButton.SetActive(false);
+                landButton.SetActive(false);
+            }
+            else if(scene.name == "Land_Map")
+            {
+                menuButton.SetActive(true);
+                landButton.SetActive(false);
+            }
+            else if (scene.name == "Ocean_Map")
+            {
+                menuButton.SetActive(false);
+                landButton.SetActive(true);
+            }
+        }
+
+        private void Start()
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+
+            maxLengthPanel.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (GameManager.Instance.GameState != GameState.Ocean)
+            {
+                maxLengthPanel.SetActive(false);
+            }
+            else
+            {
+                maxLengthPanel.SetActive(true);
+                dangerLengthText.text = $"{Mathf.Abs(player.GetComponent<PlayerOxygenTube>().MaxRopeLength).ToString("F2")} m.";
+            }
+        }
+
+        public void FadeIn()
+        {
+            StartCoroutine(FadeRoutine());
+        }
+
+        private IEnumerator FadeRoutine()
+        {
+            fadeImage.enabled = true;
+
+            yield return new WaitForSeconds(3f);
+            fadeImage.enabled = false;
+        }
+    }
+}
