@@ -1,51 +1,43 @@
 using UnityEngine;
 
-public class Bird : MonoBehaviour
+namespace Game.Testing
 {
-    [Header("Patrol Settings")]
-    [SerializeField] private Transform pointA;
-    [SerializeField] private Transform pointB;
-    [SerializeField] private float speed = 2f;
-
-    private Transform targetDestination;
-    private SpriteRenderer spriteRenderer;
-
-    void Awake()
+    public class Bird : MonoBehaviour
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        [Header("Patrol Settings")]
+        [SerializeField] private Transform pointA;
+        [SerializeField] private Transform pointB;
+        [SerializeField] private float speed = 2f;
 
-        // เริ่มต้นให้เดินไปหาจุด A
-        targetDestination = pointA;
-    }
+        private Transform targetDestination;
+        private SpriteRenderer spriteRenderer;
 
-    void Update()
-    {
-        Move();
-        FlipCharacter();
-    }
-
-    void Move()
-    {
-        // เคลื่อนที่เข้าหาจุดหมายด้วยความเร็วคงที่
-        transform.position = Vector3.MoveTowards(transform.position, targetDestination.position, speed * Time.deltaTime);
-
-        // ถ้าเดินถึงจุดหมาย (ระยะห่างน้อยกว่า 0.1) ให้สลับไปอีกจุดหนึ่ง
-        if (Vector2.Distance(transform.position, targetDestination.position) < 0.1f)
+        void Awake()
         {
-            targetDestination = (targetDestination == pointA) ? pointB : pointA;
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            targetDestination = pointA;
         }
-    }
 
-    void FlipCharacter()
-    {
-        // เช็คตำแหน่งจุดหมายเทียบกับตัวละครเพื่อหันหน้าให้ถูกทาง
-        if (targetDestination.position.x > transform.position.x)
+        void Update()
         {
-            spriteRenderer.flipX = false; // หันขวา
+            Move();
+            FlipCharacter();
         }
-        else if (targetDestination.position.x < transform.position.x)
+
+        void Move()
         {
-            spriteRenderer.flipX = true; // หันซ้าย
+            transform.position = Vector3.MoveTowards(transform.position, targetDestination.position, speed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, targetDestination.position) < 0.1f)
+                targetDestination = targetDestination == pointA ? pointB : pointA;
+        }
+
+        void FlipCharacter()
+        {
+            if (targetDestination.position.x > transform.position.x)
+                spriteRenderer.flipX = false;
+            else if (targetDestination.position.x < transform.position.x)
+                spriteRenderer.flipX = true;
         }
     }
 }

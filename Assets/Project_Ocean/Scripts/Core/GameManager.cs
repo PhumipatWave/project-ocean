@@ -105,13 +105,14 @@ namespace Game.Testing
 
         public void StartDive()
         {
+            DayManager.Instance?.MarkDivedToday();
             SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }
 
         public void ReturnToLand()
         {
-            CurPlayer.OxygenTube.ResetRopeData();
+            CurPlayer.OxygenTube.ResetRope();
             SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
         }

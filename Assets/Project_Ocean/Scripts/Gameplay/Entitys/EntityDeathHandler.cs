@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace Game.Testing
 {
-    public class EntityDeathHandler : MonoBehaviour
+    public class EntityDeathHandler : MonoBehaviour, IPoolable
     {
         #region Fields & Properties
         [SerializeField] private Rigidbody2D rb;
@@ -11,6 +11,7 @@ namespace Game.Testing
         [SerializeField] private Color deathSpriteColor = Color.red;
 
         private EnemyNavAgentBase navAgent;
+        private Color originalSpriteColor;
         #endregion
 
         #region Unity Callbacks
@@ -27,7 +28,9 @@ namespace Game.Testing
                     : GetComponentInChildren<SpriteRenderer>();
             }
 
-            // Optional — only present on enemies
+            if (entitySprite != null)
+                originalSpriteColor = entitySprite.color;
+
             navAgent = GetComponent<EnemyNavAgentBase>();
         }
         #endregion
@@ -99,5 +102,28 @@ namespace Game.Testing
             if (damagePoint != null)
                 damagePoint.ShowDeath();
         }
+
+        // ── IPoolable ──
+
+        public void OnGetFromPool()
+        {
+            // Restore tag, sprite color, and navagent for reuse
+            gameObject.tag = "Enemy";
+
+            if (entitySprite != null)
+                entitySprite.color = originalSpriteColor;
+
+            if (navAgent != null)
+                navAgent.enabled = true;
+
+            var agent = GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.enabled   = true;
+                agent.isStopped = false;
+            }
+        }
+
+        public void OnReturnToPool() { }
     }
 }

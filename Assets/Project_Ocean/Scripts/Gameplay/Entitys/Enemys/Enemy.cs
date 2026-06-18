@@ -74,12 +74,18 @@ namespace Game.Testing
             entityAnimation?.PlayAnim(AnimHash.TakeDamage);
         }
 
+        [ContextMenu("Debug/Kill Enemy")]
+        private void DebugKill() => TakeDamage(MaxHealth);
+
         protected override void OnDeathHandler()
         {
-            // Fire the kill event before death handling/destroy so quest tracking
-            // sees it. This runs exactly once (EntityHealth.OnDied is isDead-guarded).
+            // Fire the kill event — runs exactly once (EntityHealth.OnDied is isDead-guarded).
             if (!string.IsNullOrEmpty(enemyId))
                 EnemyEvents.RaiseEnemyKilled(enemyId);
+
+            // Register kill immediately so it's tracked even if the enemy is
+            // collected (pooled) before the next Update cycle runs CanTick.
+            navAgentHost?.NotifyKill();
 
             entityDeathHandler?.HandleDeath(brain);
         }
