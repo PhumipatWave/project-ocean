@@ -18,6 +18,7 @@ namespace Game.Testing
 
         [SerializeField] private GameObject menuButton;
         [SerializeField] private GameObject landButton;
+        [SerializeField] private GameObject weaponUIPanel;
 
         [Header("Black Fade")]
         [SerializeField] private Image fadeImage;
@@ -46,19 +47,21 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Transform spawnPoint;
+            bool isOcean = scene.name == "Ocean_Map";
+
+            weaponUIPanel?.SetActive(isOcean);
 
             if (scene.name == "MainMenuScene")
             {
                 menuButton.SetActive(false);
                 landButton.SetActive(false);
             }
-            else if(scene.name == "Land_Map")
+            else if (scene.name == "Land_Map")
             {
                 menuButton.SetActive(true);
                 landButton.SetActive(false);
             }
-            else if (scene.name == "Ocean_Map")
+            else if (isOcean)
             {
                 menuButton.SetActive(false);
                 landButton.SetActive(true);

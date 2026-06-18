@@ -58,7 +58,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (Input.GetButtonDown("Inventory"))
+            if (Input.GetButtonDown("Inventory") && !PlayerUIState.IsLocked)
                 uiController.ToggleInventory();
 
             if (Input.inputString != null)

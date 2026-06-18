@@ -16,11 +16,19 @@ namespace Game.Testing
         public UnityEvent onInteract;
 
         private bool playerInside = false;
+        private bool uiOpened = false;
 
         private void Update()
         {
             if (playerInside && Input.GetKeyDown(KeyCode.E))
+            {
                 onInteract?.Invoke();
+                if (!uiOpened)
+                {
+                    PlayerUIState.Open();
+                    uiOpened = true;
+                }
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -38,6 +46,11 @@ namespace Game.Testing
             {
                 playerInside = false;
                 if (interactIcon != null) interactIcon.SetActive(false);
+                if (uiOpened)
+                {
+                    PlayerUIState.Close();
+                    uiOpened = false;
+                }
             }
         }
 

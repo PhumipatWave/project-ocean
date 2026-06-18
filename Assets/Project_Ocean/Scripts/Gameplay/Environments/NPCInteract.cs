@@ -60,14 +60,15 @@ namespace Game.Testing
             }
 
             dialogueBox.SetActive(true);
-            Time.timeScale = 0f;
+            PlayerUIState.Open();
         }
 
         void CloseDialogue()
         {
-            if (dialogueBox != null) dialogueBox.SetActive(false);
+            if (dialogueBox == null || !dialogueBox.activeSelf) return;
+            dialogueBox.SetActive(false);
             if (portraitDisplay != null) portraitDisplay.SetActive(false);
-            Time.timeScale = 1f;
+            PlayerUIState.Close();
         }
     }
 }

@@ -52,6 +52,7 @@ namespace Game.Testing
             currentDialogueIndex = 0;
 
             if (dialoguePanel != null) dialoguePanel.SetActive(true);
+            PlayerUIState.Open();
 
             // ดึงข้อมูลชื่อและรูปภาพจากข้อมูลเควสมาพ่นใส่หน้าจออัตโนมัติ
             if (npcNameText != null) npcNameText.text = npcQuest.NpcName;
@@ -103,8 +104,10 @@ namespace Game.Testing
 
         private void EndDialogue()
         {
+            if (!isConversing) return;
             isConversing = false;
             if (dialoguePanel != null) dialoguePanel.SetActive(false);
+            PlayerUIState.Close();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

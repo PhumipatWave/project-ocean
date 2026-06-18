@@ -41,6 +41,11 @@ namespace Game.Testing
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
+
+        /// <summary>Raised when the rope first exceeds its max length. float = countdown duration in seconds.</summary>
+        public static event System.Action<float> OnRopeBreachStart;
+        /// <summary>Raised when the rope returns within limit before the countdown expires.</summary>
+        public static event System.Action OnRopeBreachEnd;
         #endregion
 
         #region Private Data
@@ -148,10 +153,11 @@ namespace Game.Testing
         /// Full reset — call when returning to land.
         public void ResetRope()
         {
-            if (limitRoutine != null) 
-            { 
-                StopCoroutine(limitRoutine); 
-                limitRoutine = null; 
+            if (limitRoutine != null)
+            {
+                StopCoroutine(limitRoutine);
+                limitRoutine = null;
+                OnRopeBreachEnd?.Invoke();
             }
 
             pins.Clear();
@@ -570,14 +576,18 @@ namespace Game.Testing
         {
             if (CurrentLength <= maxRopeLength)
             {
-                if (limitRoutine != null) 
+                if (limitRoutine != null)
                 {
-                    StopCoroutine(limitRoutine); 
+                    StopCoroutine(limitRoutine);
                     limitRoutine = null;
+                    OnRopeBreachEnd?.Invoke();
                 }
             }
             else if (limitRoutine == null)
+            {
                 limitRoutine = StartCoroutine(LimitBreached());
+                OnRopeBreachStart?.Invoke(5f);
+            }
         }
 
         private IEnumerator LimitBreached()

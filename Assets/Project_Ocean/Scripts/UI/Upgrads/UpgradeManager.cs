@@ -50,6 +50,12 @@ namespace Game.Testing
                 Debug.LogWarning("[UpgradeManager] shopManager ref not assigned in Inspector");
         }
 
+        /// <summary>Called when upgrade is fully dismissed. Pair with LandUI.CloseUI() on the close button.</summary>
+        public void CloseAll()
+        {
+            gameObject.SetActive(false);
+        }
+
         public void OpenBuyUI()
         {
             if (upgradeUI != null) upgradeUI.SetActive(false);

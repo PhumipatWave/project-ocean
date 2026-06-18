@@ -10,7 +10,7 @@ namespace Game.Core
     {
         public event Action<bool> OnAimed;
         public event Action<bool> OnAttacked;
-        public event Action<bool> OnDashed;
+        public event Action<bool> OnSprinted;
         public event Action<bool> OnInteracted;
         public event Action<bool> OnAmmoSelected;
         public event Action<Vector2> OnMoved;
@@ -76,11 +76,11 @@ namespace Game.Core
         {
             if (context.performed)
             {
-                OnDashed?.Invoke(true);
+                OnSprinted?.Invoke(true);
             }
             else if (context.canceled)
             {
-                OnDashed?.Invoke(false);
+                OnSprinted?.Invoke(false);
             }
         }
 
