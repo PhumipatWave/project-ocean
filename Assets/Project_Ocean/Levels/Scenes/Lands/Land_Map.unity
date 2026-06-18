@@ -175621,6 +175621,7 @@ GameObject:
   - component: {fileID: 521152455}
   - component: {fileID: 521152454}
   - component: {fileID: 521152453}
+  - component: {fileID: 521152459}
   - component: {fileID: 521152457}
   - component: {fileID: 521152458}
   m_Layer: 5
@@ -175705,11 +175706,13 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1148919554}
   - {fileID: 1228918848}
   - {fileID: 911797350}
   - {fileID: 1578345926}
   - {fileID: 572618356}
   - {fileID: 1530314196}
+  - {fileID: 741729206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -175745,6 +175748,19 @@ MonoBehaviour:
   status: 2
   assignedDeveloper: 
   notes: 
+--- !u!114 &521152459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521152452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f5fb52e00c2644cae660fef0c34515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.LandUI
+  startDiveButton: {fileID: 701391431}
 --- !u!1 &521953202
 GameObject:
   m_ObjectHideFlags: 0
@@ -196607,7 +196623,7 @@ RectTransform:
   - {fileID: 426026100}
   - {fileID: 987687704}
   - {fileID: 107520444}
-  m_Father: {fileID: 1672761518}
+  m_Father: {fileID: 521152456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -212890,7 +212906,7 @@ RectTransform:
   - {fileID: 1064033272}
   - {fileID: 1277156061}
   - {fileID: 1310576927}
-  m_Father: {fileID: 1672761518}
+  m_Father: {fileID: 521152456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -233223,8 +233239,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -8093602546034548606, guid: 615b6adc79e7c9c40afc4d5c892ab910, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -295806,8 +295822,6 @@ RectTransform:
   - {fileID: 1827186588}
   - {fileID: 1436342090}
   - {fileID: 2107770976}
-  - {fileID: 1148919554}
-  - {fileID: 741729206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
