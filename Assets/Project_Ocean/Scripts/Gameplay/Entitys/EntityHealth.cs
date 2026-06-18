@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class EntityHealth : MonoBehaviour, IEntityHealth
+    public class EntityHealth : MonoBehaviour, IEntityHealth, IPoolable
     {
         #region Fields & Properties
         [SerializeField] private float maxHealth = 100f;
@@ -90,5 +90,9 @@ namespace Game.Testing
             if (spriteRenderer != null)
                 originalColor = spriteRenderer.color;
         }
-}
+
+        // ── IPoolable ──
+        public void OnGetFromPool()  => Initialize();
+        public void OnReturnToPool() { }
+    }
 }

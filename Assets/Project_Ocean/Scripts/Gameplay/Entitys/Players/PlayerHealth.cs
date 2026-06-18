@@ -4,10 +4,10 @@ namespace Game.Testing
 {
     public class PlayerHealth : EntityHealth
     {
-        private PlayerOxygenTube oxygenTube;
+        private OxygenRope oxygenTube;
         private float originalMaxRopeLength;
 
-        public void SetOxygenTube(PlayerOxygenTube tube)
+        public void SetOxygenRope(OxygenRope tube)
         {
             oxygenTube = tube;
         }
@@ -49,7 +49,7 @@ namespace Game.Testing
             // Rope hit 0 — pull back to land instead of dying
             if (oxygenTube.MaxRopeLength <= 0f)
             {
-                oxygenTube.ResetRopeData();
+                oxygenTube.ResetRope();
                 GameManager.Instance.ReturnToLand();
                 return;
             }

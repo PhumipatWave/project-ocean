@@ -66,7 +66,7 @@ namespace Game.Testing
 
                 case UpgradeType.Rope:
                     var tube = GameManager.CurPlayer != null
-                        ? GameManager.CurPlayer.GetComponent<PlayerOxygenTube>()
+                        ? GameManager.CurPlayer.GetComponentInChildren<OxygenRope>()
                         : null;
                     if (tube != null)
                         tube.IncreaseMaxLength(data.value);

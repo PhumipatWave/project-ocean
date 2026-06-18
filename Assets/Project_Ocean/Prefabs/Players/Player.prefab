@@ -754,7 +754,7 @@ GameObject:
   - component: {fileID: 6074467683018909699}
   - component: {fileID: 5126783939423844365}
   - component: {fileID: 839586600274386325}
-  - component: {fileID: 2783980782925508106}
+  - component: {fileID: 4000928468899383921}
   - component: {fileID: 3811799620726562632}
   - component: {fileID: 4982446044669505593}
   - component: {fileID: 8597528314756023812}
@@ -821,7 +821,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.5, y: 1.75}
   m_Direction: 0
 --- !u!50 &6074467683018909699
 Rigidbody2D:
@@ -987,7 +987,7 @@ MonoBehaviour:
   playerFlashDuration: 0.15
   moveSpeed: 8
   dashSpeed: 25
---- !u!114 &2783980782925508106
+--- !u!114 &4000928468899383921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -996,36 +996,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8747670493676788167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abc85d89dcb9128449dc79b6ba22734d, type: 3}
+  m_Script: {fileID: 11500000, guid: 49ab42ae6fd69a94583c71e78df88ea7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerOxygenTube
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.OxygenRope
   line: {fileID: 5126783939423844365}
+  playerTransform: {fileID: 4470129359587397084}
   startPointPrefab: {fileID: 8193605775773355012, guid: 993dc56d799905c42a679af7f423230c, type: 3}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 4470129359587397084}
-  currentOxygenTubeLength: {fileID: 5000493329770613073}
-  segmentLength: 0.25
-  constraintIterations: 50
+  lengthText: {fileID: 5000493329770613073}
+  segmentLength: 0.8
+  solverIterations: 20
   maxRopeLength: 150
-  gravity: {x: 0, y: -2}
+  gravity: {x: 0, y: -1.5}
   damping: 0.98
   collisionMask:
     serializedVersion: 2
     m_Bits: 512
-  collisionRadius: 0.15
-  friction: 0.9
-  removeAngle: 120
+  segRadius: 0.12
   wrapCooldownFrames: 8
-  wrapSettings:
-    minUnwrapAngle: 88
-    minUnwrapDistanceFactor: 1.5
-    unwrapNormalDot: 0.35
-    crossHysteresis: 0.06
-    passedCornerFactor: 0.6
-    allowUnwrapWithoutSideCross: 1
-    minUnwrapAngleForNoSideCross: 100
-  maxCheckpoints: 3
-  checkPointPrefab: {fileID: 2016369825598416511, guid: e44f5824a8b1e5341b82554cee6c83e8, type: 3}
+  maxSimulatedSegs: 60
 --- !u!114 &3811799620726562632
 MonoBehaviour:
   m_ObjectHideFlags: 0
