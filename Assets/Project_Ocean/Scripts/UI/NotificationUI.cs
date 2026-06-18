@@ -12,7 +12,7 @@ namespace Game.Testing
 
         private IEnumerator FadeRoutine()
         {
-            yield return new WaitForSeconds(2.75f);
+            yield return new WaitForSeconds(1.25f);
             gameObject.SetActive(false);
         }
     }

@@ -25,9 +25,7 @@ namespace Game.Testing
 
             Instance = this;
 
-            // Persist across Land/Ocean scene changes so quest progress
-            // is not wiped and re-initialized on every transition.
-            DontDestroyOnLoad(gameObject);
+            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
 
             InitializeQuests();
         }

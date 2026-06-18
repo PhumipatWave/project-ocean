@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Testing
@@ -8,8 +9,11 @@ namespace Game.Testing
         [Header("Alert UI")]
         [SerializeField] private GameObject seenPlayerAlertImage;
         [SerializeField] private GameObject attackWarningImage;
+        [SerializeField] private float alertDisplayTime = 1.25f;
 
-        private bool wasSeeingPlayer = false;
+        private bool wasSeeingPlayer;
+        private Coroutine alertHideCoroutine;
+        private Coroutine attackHideCoroutine;
         #endregion
 
         private void Start()
@@ -21,40 +25,55 @@ namespace Game.Testing
         {
             if (canSeePlayer && !wasSeeingPlayer)
             {
-                if (seenPlayerAlertImage != null)
-                    seenPlayerAlertImage.SetActive(true);
-
                 wasSeeingPlayer = true;
+                ShowAlert();
             }
 
             if (!canSeePlayer && wasSeeingPlayer)
             {
+                wasSeeingPlayer = false;
                 if (seenPlayerAlertImage != null)
                     seenPlayerAlertImage.SetActive(false);
 
-                wasSeeingPlayer = false;
+                if (alertHideCoroutine != null)
+                {
+                    StopCoroutine(alertHideCoroutine);
+                    alertHideCoroutine = null;
+                }
             }
         }
 
         public void ShowAttackWarning()
         {
-            if (attackWarningImage != null)
-                attackWarningImage.SetActive(true);
+            if (attackWarningImage == null) return;
+
+            attackWarningImage.SetActive(true);
+
+            if (attackHideCoroutine != null)
+                StopCoroutine(attackHideCoroutine);
+
+            attackHideCoroutine = StartCoroutine(HideAttackAfterDelay());
         }
 
         public void ShowFleeWarning()
         {
-            if (seenPlayerAlertImage != null)
-                seenPlayerAlertImage.SetActive(true);
-
-            wasSeeingPlayer = true;
+            if (!wasSeeingPlayer)
+            {
+                wasSeeingPlayer = true;
+                ShowAlert();
+            }
         }
-
 
         public void HideAttackWarning()
         {
             if (attackWarningImage != null)
                 attackWarningImage.SetActive(false);
+
+            if (attackHideCoroutine != null)
+            {
+                StopCoroutine(attackHideCoroutine);
+                attackHideCoroutine = null;
+            }
         }
 
         public void HideAll()
@@ -65,7 +84,46 @@ namespace Game.Testing
             if (attackWarningImage != null)
                 attackWarningImage.SetActive(false);
 
+            if (alertHideCoroutine != null)
+            {
+                StopCoroutine(alertHideCoroutine);
+                alertHideCoroutine = null;
+            }
+
+            if (attackHideCoroutine != null)
+            {
+                StopCoroutine(attackHideCoroutine);
+                attackHideCoroutine = null;
+            }
+
             wasSeeingPlayer = false;
+        }
+
+        private void ShowAlert()
+        {
+            if (seenPlayerAlertImage != null)
+                seenPlayerAlertImage.SetActive(true);
+
+            if (alertHideCoroutine != null)
+                StopCoroutine(alertHideCoroutine);
+
+            alertHideCoroutine = StartCoroutine(HideAlertAfterDelay());
+        }
+
+        private IEnumerator HideAlertAfterDelay()
+        {
+            yield return new WaitForSeconds(alertDisplayTime);
+            if (seenPlayerAlertImage != null)
+                seenPlayerAlertImage.SetActive(false);
+            alertHideCoroutine = null;
+        }
+
+        private IEnumerator HideAttackAfterDelay()
+        {
+            yield return new WaitForSeconds(alertDisplayTime);
+            if (attackWarningImage != null)
+                attackWarningImage.SetActive(false);
+            attackHideCoroutine = null;
         }
     }
 }

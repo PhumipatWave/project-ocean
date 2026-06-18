@@ -41,6 +41,12 @@ namespace Game.Testing
             LayerMask obstacleMask = profile.visionObstacleMask.value != 0
                 ? profile.visionObstacleMask : profile.wallLayer;
 
+            if (obstacleMask.value == 0)
+            {
+                Debug.LogWarning($"[EnemyVision] '{context.Host.name}' has no Vision Obstacle Mask or Wall Layer set — fish will see through walls. Assign these in the profile asset.", context.Host);
+                return false;
+            }
+
             bool canSee = EnemyVisionHelper.HasLineOfSightRay(
                 context.Transform.position,
                 context.PlayerTransform.position,

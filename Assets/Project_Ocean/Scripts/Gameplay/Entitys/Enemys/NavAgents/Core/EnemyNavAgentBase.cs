@@ -3,10 +3,13 @@ using UnityEngine.AI;
 
 namespace Game.Testing
 {
-    public abstract class EnemyNavAgentBase : MonoBehaviour
+    public abstract class EnemyNavAgentBase : MonoBehaviour, IPoolable
     {
         [Header("Alert UI")]
         [SerializeField] protected FishAlertUI fishAlertUI;
+
+        [Header("Pool Settings")]
+        [SerializeField] private float autoReturnDelay = 15f;
 
         [Header("Hit Receiver")]
         [SerializeField] protected string playerBulletTag = "Bullet";
@@ -31,8 +34,33 @@ namespace Game.Testing
         private IEnemyBrain enemyBrain;
         private Boid boid;
         private bool deathHandled;
+        private string spawnId;
+        private string flockIdOverride;
 
         public IEnemyBrain ActiveBrain => enemyBrain;
+
+        /// Stable ID assigned by EnemySpawnManager — used to track kills across sessions.
+        public void SetSpawnId(string id) => spawnId = id;
+
+        /// Called synchronously from Enemy.OnDeathHandler so the kill is recorded
+        /// before any pooling/collection can clear the spawnId.
+        public void NotifyKill()
+        {
+            if (string.IsNullOrEmpty(spawnId)) return;
+            if (EnemyKillTracker.Instance == null)
+            {
+                Debug.LogError($"[EnemyNavAgentBase] EnemyKillTracker.Instance is null — kill for '{spawnId}' was NOT registered. Add EnemyKillTracker to the persistent Bootstrap GameObject.");
+                return;
+            }
+            EnemyKillTracker.Instance.RegisterKill(spawnId);
+            Debug.Log($"[EnemyNavAgentBase] Kill registered: '{spawnId}'");
+        }
+
+        /// Zone-scoped flock ID assigned by EnemySpawnManager — overrides the profile fishId for boid grouping.
+        public void SetFlockId(string id) => flockIdOverride = id;
+
+        /// The fish type ID from the brain profile (e.g. "fishM").
+        public string FishId => GetFishId();
 
         protected bool isEnemyDead => enemy != null && enemy.IsDead;
         protected Player player => enemy != null ? enemy.Player : null;
@@ -74,11 +102,11 @@ namespace Game.Testing
             enemyBrain.Initialize(BuildBrainContext());
             OnBrainInitialized();
 
-            // Wire up Boid flocking
+            // Wire up Boid flocking — use zone-scoped flockId if assigned by SpawnManager
             boid = GetComponent<Boid>();
             if (boid != null)
             {
-                boid.fishId = GetFishId();
+                boid.fishId = string.IsNullOrEmpty(flockIdOverride) ? GetFishId() : flockIdOverride;
                 boid.Initialize(navAgent, GetComponent<FlockManager>());
             }
             enemy?.RegisterNavAgent(this);
@@ -155,6 +183,13 @@ namespace Game.Testing
             enemyBrain?.OnDeath();
             OnEnemyUnavailable();
             StopAgentMovement();
+            StartCoroutine(AutoReturnRoutine());
+        }
+
+        private System.Collections.IEnumerator AutoReturnRoutine()
+        {
+            yield return new UnityEngine.WaitForSeconds(autoReturnDelay);
+            ObjectPoolManager.Instance?.Return(gameObject);
         }
 
         protected void StopAgentMovement()
@@ -217,6 +252,24 @@ namespace Game.Testing
             }
 
             return !requiresNavMesh || (navAgent != null && navAgent.isOnNavMesh);
+        }
+
+        // ── IPoolable ──
+
+        public void OnGetFromPool()
+        {
+            deathHandled = false;
+            StopAllCoroutines();
+            fishAlertUI?.HideAll();
+        }
+
+        public void OnReturnToPool()
+        {
+            spawnId         = null;
+            flockIdOverride = null;
+            deathHandled    = false;
+            StopAllCoroutines();
+            fishAlertUI?.HideAll();
         }
 
         private Transform FindPlayerTransform()

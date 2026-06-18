@@ -1,6 +1,7 @@
 using Game.Core;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,8 +25,15 @@ namespace Game.Testing
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
 
-        private PlayerOxygenTube oxygenTube;
-        public PlayerOxygenTube OxygenTube { get { return oxygenTube; } }
+        private OxygenRope oxygenTube;
+        public OxygenRope OxygenTube { get { return oxygenTube; } }
+
+        private readonly List<CheckPointItem> checkpoints = new();
+        public int CheckpointCount => checkpoints.Count;
+        public bool CanPlaceCheckpoint => checkpoints.Count < 3;
+        public CheckPointItem LastCheckpoint => checkpoints.Count > 0 ? checkpoints[^1] : null;
+        public void RegisterCheckpoint(CheckPointItem cp) => checkpoints.Add(cp);
+        public void UnregisterCheckpoint(CheckPointItem cp) => checkpoints.Remove(cp);
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -63,7 +71,7 @@ namespace Game.Testing
 
         protected override void Awake()
         {
-            oxygenTube = GetComponentInChildren<PlayerOxygenTube>();
+            oxygenTube = GetComponentInChildren<OxygenRope>();
 
             base.Awake();
 
@@ -79,7 +87,7 @@ namespace Game.Testing
         {
             var playerHealth = GetComponent<PlayerHealth>();
             if (oxygenTube != null)
-                playerHealth.SetOxygenTube(oxygenTube);
+                playerHealth.SetOxygenRope(oxygenTube);
             return playerHealth;
         }
 
@@ -141,16 +149,7 @@ namespace Game.Testing
                 isLand = false;
                 entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
 
-                Debug.Log(oxygenTube.StartPointPrefab);
-
-                // ถ้าไม่มี StartPoint (เช่น เล่นใหม่) ให้สร้างอันใหม่
-                if (oxygenTube.StartPoint == null)
-                {
-                    var point = Instantiate(oxygenTube.StartPointPrefab, transform.position, Quaternion.identity);
-                    oxygenTube.StartPoint = point;
-                }
-
-                oxygenTube.Rebuild();
+                oxygenTube.SetStartPoint(transform.position);
             }
         }
 
@@ -178,10 +177,8 @@ namespace Game.Testing
                 }
 
                 // T key: teleport to the last placed checkpoint (free action, no item consumed)
-                if (Input.GetKeyDown(KeyCode.T))
-                {
-                    oxygenTube.TeleportToCheckPoint();
-                }
+                if (Input.GetKeyDown(KeyCode.T) && LastCheckpoint != null)
+                    LastCheckpoint.PullPlayerHere(this);
             }
         }
 

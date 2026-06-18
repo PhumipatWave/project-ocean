@@ -31,6 +31,10 @@ namespace Game.Testing
 
         // ── v2: quest progress ──
         public List<QuestSaveData> quests = new();
+
+        // ── v3: enemy kill persistence ──
+        public List<string> killedEnemySpawnIds = new();
+        public bool hasDivedToday = false;
     }
 
     [Serializable]

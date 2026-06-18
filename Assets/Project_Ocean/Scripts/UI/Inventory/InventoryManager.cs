@@ -40,7 +40,7 @@ namespace Game.Testing
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
 
             uiController = GetComponent<InventoryUIController>();
             if (uiController == null)
