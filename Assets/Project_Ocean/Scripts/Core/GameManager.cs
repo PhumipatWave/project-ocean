@@ -105,6 +105,7 @@ namespace Game.Testing
 
         public void StartDive()
         {
+            DayManager.Instance?.MarkDivedToday();
             SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }

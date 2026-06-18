@@ -46,8 +46,13 @@ namespace Game.Testing
         {
             if (DayManager.Instance == null)
             {
-                // ✅ แก้ log tag จาก [BedInteractable] → ชื่อ class จริง
                 Debug.LogError("[InteractableNextDay] DayManager not found");
+                return;
+            }
+
+            if (!DayManager.Instance.HasDivedToday)
+            {
+                Debug.Log("[InteractableNextDay] Cannot sleep — player has not dived today.");
                 return;
             }
 

@@ -22,7 +22,8 @@ namespace Game.Testing
                 _participants.Clear();
                 // Order is intentional and stable.
                 _participants.Add(UpgradeService.Instance);
-                if (QuestManager.Instance != null) _participants.Add(QuestManager.Instance);
+                if (QuestManager.Instance != null)     _participants.Add(QuestManager.Instance);
+                if (EnemyKillTracker.Instance != null) _participants.Add(EnemyKillTracker.Instance);
                 return _participants;
             }
         }
@@ -31,7 +32,7 @@ namespace Game.Testing
         {
             if (Instance != null) { Destroy(this); return; }
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
         }
 
         private void OnEnable()
@@ -48,13 +49,17 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (_pendingData == null) return;
+            if (_pendingData != null)
+            {
+                var data = _pendingData;
+                _pendingData = null;
+                StartCoroutine(ApplyAfterFrame(data));
+                return;
+            }
 
-            var data = _pendingData;
-            _pendingData = null;
-
-            // Wait 1 frame so scene objects are ready before applying data.
-            StartCoroutine(ApplyAfterFrame(data));
+            // Auto-save whenever the player returns to land from the ocean.
+            if (scene.name == SceneNames.Land && GameManager.Instance != null)
+                SaveGame();
         }
 
         private IEnumerator ApplyAfterFrame(SaveData data)
@@ -154,10 +159,9 @@ namespace Game.Testing
 
         private void ApplyDay(SaveData data)
         {
-            if (DayManager.Instance != null)
-                DayManager.Instance.SetDay(data.currentDay);
-            else
-                Debug.LogWarning("[SaveBridge] ApplyDay: DayManager not found");
+            if (DayManager.Instance == null) { Debug.LogWarning("[SaveBridge] ApplyDay: DayManager not found"); return; }
+            DayManager.Instance.SetDay(data.currentDay);
+            DayManager.Instance.SetDivedToday(data.hasDivedToday);
         }
 
         // -------------------- Public API -------------------- //
@@ -280,9 +284,9 @@ namespace Game.Testing
 
         private void CollectDay(SaveData data)
         {
-            data.currentDay = DayManager.Instance != null
-                ? DayManager.Instance.CurrentDay
-                : 1;
+            if (DayManager.Instance == null) return;
+            data.currentDay    = DayManager.Instance.CurrentDay;
+            data.hasDivedToday = DayManager.Instance.HasDivedToday;
         }
     }
 }

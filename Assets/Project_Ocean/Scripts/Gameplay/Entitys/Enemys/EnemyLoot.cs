@@ -14,7 +14,11 @@ namespace Game.Testing
             if (dropItem != null)
                 InventoryManager.Instance.AddItem(dropItem);
 
-            Destroy(gameObject);
+            // Return to pool; falls back to Destroy if not a pooled object
+            if (ObjectPoolManager.Instance != null)
+                ObjectPoolManager.Instance.Return(gameObject);
+            else
+                Destroy(gameObject);
         }
     }
 }
