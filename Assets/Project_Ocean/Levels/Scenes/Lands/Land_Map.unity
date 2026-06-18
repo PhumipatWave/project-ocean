@@ -46010,7 +46010,6 @@ GameObject:
   - component: {fileID: 39091957}
   - component: {fileID: 39091956}
   - component: {fileID: 39091955}
-  - component: {fileID: 39091958}
   m_Layer: 5
   m_Name: NextDayButton
   m_TagString: Untagged
@@ -46120,18 +46119,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39091953}
   m_CullTransparentMesh: 1
---- !u!114 &39091958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39091953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3349707cb2b38e47a3ad5700d8fab13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.NextDayButton
 --- !u!1 &40622425
 GameObject:
   m_ObjectHideFlags: 0
@@ -168906,7 +168893,6 @@ MonoBehaviour:
   dialogueText: Hmm... are you staring because you fell in love with me? haha just
     kidding~
   npcPortrait: {fileID: -8331839177789629585, guid: cd8c0acba6598174082be30717d2a09d, type: 3}
-  playerTag: Player
   dialogueBox: {fileID: 0}
   contentDisplay: {fileID: 0}
   portraitDisplay: {fileID: 0}
@@ -171754,7 +171740,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 747886767}
   requireInteraction: 0
-  playerTag: Player
   audioSource: {fileID: 0}
   doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 100423180}
@@ -175761,6 +175746,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.LandUI
   startDiveButton: {fileID: 701391431}
+  nextDayButton: {fileID: 39091955}
+  saveButton: {fileID: 629745587}
+  loadButton: {fileID: 891709363}
 --- !u!1 &521953202
 GameObject:
   m_ObjectHideFlags: 0
@@ -192804,7 +192792,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 2005062175}
   requireInteraction: 1
-  playerTag: Player
   audioSource: {fileID: 617958792}
   doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 100423180}
@@ -201200,7 +201187,6 @@ GameObject:
   m_Component:
   - component: {fileID: 911797350}
   - component: {fileID: 911797351}
-  - component: {fileID: 911797352}
   m_Layer: 5
   m_Name: HomePanel
   m_TagString: HouseUI
@@ -201244,20 +201230,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911797349}
   m_CullTransparentMesh: 1
---- !u!114 &911797352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911797349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6147b7cf2830de24fa4d0e9ea4e47617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.HomeUI
-  saveButton: {fileID: 629745587}
-  loadButton: {fileID: 891709363}
 --- !u!1 &915583358
 GameObject:
   m_ObjectHideFlags: 0
@@ -213374,7 +213346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 1164321513}
   requireInteraction: 1
-  playerTag: Player
   audioSource: {fileID: 617958792}
   doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 100423180}
@@ -214239,7 +214210,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::NPCInteract
   dialogueText: Hello Young man welcome to the village.
   npcPortrait: {fileID: -2349032854219997288, guid: ee75c477261750549a9782b113360a1e, type: 3}
-  playerTag: Player
   dialogueBox: {fileID: 0}
   contentDisplay: {fileID: 0}
   portraitDisplay: {fileID: 0}
@@ -214566,7 +214536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7363e9a00bb557468fae68717d44599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::ChestInteract
-  playerTag: Player
   moneyAmount: 100
   firstDialogue: Yippee! 200 coins! Bye bye my last saving~
   firstPortrait: {fileID: 5146575971132831547, guid: 7a491a199e183c844b1107a515ff4ec9, type: 3}
@@ -215979,7 +215948,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 1059331912}
   requireInteraction: 0
-  playerTag: Player
   audioSource: {fileID: 0}
   doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 100423180}
@@ -232292,7 +232260,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 636494875}
   requireInteraction: 0
-  playerTag: Player
   audioSource: {fileID: 0}
   doorOpenSound: {fileID: 0}
   blackScreenGroup: {fileID: 100423180}
@@ -240821,7 +240788,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::DoorInteract
   warpDestination: {fileID: 1968271399}
   requireInteraction: 1
-  playerTag: Player
   audioSource: {fileID: 617958792}
   doorOpenSound: {fileID: 8300000, guid: 6312aa53998afe34b8c7d203b2528bb6, type: 3}
   blackScreenGroup: {fileID: 100423180}
@@ -240920,7 +240886,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::NPCInteract
   dialogueText: Hello sweetie, you can always sell your fish here anytime.
   npcPortrait: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
-  playerTag: Player
   dialogueBox: {fileID: 0}
   contentDisplay: {fileID: 0}
   portraitDisplay: {fileID: 0}

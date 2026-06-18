@@ -18,7 +18,7 @@ MonoBehaviour:
   viewAngle: 90
   visionObstacleMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 512
   debugVision: 1
   wallLayer:
     serializedVersion: 2
@@ -29,12 +29,15 @@ MonoBehaviour:
   hitChaseDuration: 6
   chasePlayerWhenHit: 1
   followAfterLost: 6
+  fishClearanceRadius: 0.8
+  maxWanderSampleTries: 20
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
   searchAfterLost: 0
   prepareBeforeAttack: 0
   canAttack: 1
   alertNearbyAllies: 0
-  fishClearanceRadius: 0.8
-  maxWanderSampleTries: 20
   searchDuration: 6
   searchRadius: 25
   prepareTime: 2.25
@@ -43,6 +46,3 @@ MonoBehaviour:
   attackCooldown: 3
   attackDamage: 7.5
   groupAlertRadius: 3
-  nearPlayerSearchRadius: 5
-  nearPlayerSearchSamples: 24
-  nearPlayerSearchStep: 0.5
