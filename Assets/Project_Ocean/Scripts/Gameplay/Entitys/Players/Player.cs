@@ -28,11 +28,27 @@ namespace Game.Testing
         public OxygenRope OxygenTube { get { return oxygenTube; } }
 
         private readonly List<CheckPointItem> checkpoints = new();
+        private int _checkpointSourceSlot = -1;
         public int CheckpointCount => checkpoints.Count;
         public bool CanPlaceCheckpoint => checkpoints.Count < 3;
         public CheckPointItem LastCheckpoint => checkpoints.Count > 0 ? checkpoints[^1] : null;
-        public void RegisterCheckpoint(CheckPointItem cp) => checkpoints.Add(cp);
-        public void UnregisterCheckpoint(CheckPointItem cp) => checkpoints.Remove(cp);
+
+        public void RegisterCheckpoint(CheckPointItem cp)
+        {
+            if (checkpoints.Count == 0)
+                _checkpointSourceSlot = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
+            checkpoints.Add(cp);
+        }
+
+        public void UnregisterCheckpoint(CheckPointItem cp)
+        {
+            checkpoints.Remove(cp);
+            if (checkpoints.Count == 0 && _checkpointSourceSlot >= 0)
+            {
+                InventoryManager.Instance?.ClearBuildingSlot(_checkpointSourceSlot);
+                _checkpointSourceSlot = -1;
+            }
+        }
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -191,7 +207,6 @@ namespace Game.Testing
 
         private void UseItem(ItemType type)
         {
-            // Check IItemEffect.CanExecute BEFORE consuming the item from inventory
             var prefab = InventoryManager.Instance.PeekItem(type);
             if (prefab != null)
             {
@@ -199,6 +214,13 @@ namespace Game.Testing
                 if (effect != null && !effect.CanExecute(this))
                 {
                     Debug.Log($"[Player] Item use blocked by CanExecute: {type}");
+                    return;
+                }
+
+                // KeepInInventory: execute without consuming — item cleared later by UnregisterCheckpoint
+                if (effect != null && effect.KeepInInventory)
+                {
+                    effect.ExecuteItem(this);
                     return;
                 }
             }

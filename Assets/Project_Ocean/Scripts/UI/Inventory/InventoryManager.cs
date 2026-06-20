@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Game.Core;
+using TMPro;
 using UnityEngine;
 
 namespace Game.Testing
@@ -5,6 +8,7 @@ namespace Game.Testing
     public class InventoryManager : MonoBehaviour
     {
         public static System.Action OnInventoryChanged;
+        public static System.Action OnInventoryClosed;
 
         // Kept public so existing scene and button references do not break.
         public GameObject InventoryMenu;
@@ -15,8 +19,7 @@ namespace Game.Testing
         [Header("Inventory Slots")]
         [SerializeField] private InventorySlot[] inventorySlots;
         [SerializeField] private int firstUnlockedSlotCount = 5;
-        [SerializeField] private int firstBuildingSlotIndex = 14;
-        [SerializeField] private int lastBuildingSlotIndex = 15;
+        [SerializeField] private List<InventorySlot> buildingSlots;
         public InventorySlot[] InventorySlots => inventorySlots;
 
         [Header("Item View")]
@@ -25,11 +28,21 @@ namespace Game.Testing
         [Header("Item Database")]
         [SerializeField] private Item[] allItems;
 
+        [Header("Input")]
+        [SerializeField] private InputReader inputReader;
+
+        [Header("Building Slot Hint UI")]
+        [SerializeField] private List<GameObject> buildingSlotUsePanels;     // F key — shown on active slot
+        [SerializeField] private List<GameObject> buildingSlotKeyPanels;     // special action key — shown on active slot if item has ActionHint
+        [SerializeField] private List<TextMeshProUGUI> buildingSlotKeyTexts; // text label for special key panel
+
         private int selectedSlot = -1;
+        private int activeBuildingSlotIndex = 0;
         private InventoryUIController uiController;
         private InventoryItemDatabase itemDatabase;
 
         public static InventoryManager Instance { get; private set; }
+        public int ActiveBuildingSlotIndex => activeBuildingSlotIndex;
 
         private void Awake()
         {
@@ -50,38 +63,66 @@ namespace Game.Testing
             itemDatabase = new InventoryItemDatabase(allItems);
         }
 
+        private void OnEnable()
+        {
+            if (inputReader != null)
+                inputReader.OnInventoryToggled += HandleInventoryToggle;
+        }
+
+        private void OnDisable()
+        {
+            if (inputReader != null)
+                inputReader.OnInventoryToggled -= HandleInventoryToggle;
+        }
+
+        private void HandleInventoryToggle(bool pressed)
+        {
+            if (!pressed || PlayerUIState.IsLocked) return;
+            if (uiController.IsOpen) HideAndDeselect();
+            else uiController.ShowInventory();
+        }
+
         private void Start()
         {
             SelectSlot(0);
             LockStartingSlots();
+            SelectBuildingSlot(0);
         }
 
         private void Update()
         {
-            if (Input.GetButtonDown("Inventory") && !PlayerUIState.IsLocked)
-                uiController.ToggleInventory();
-
             if (Input.inputString != null)
             {
                 bool isNumber = int.TryParse(Input.inputString, out int number);
-                if (isNumber && number > 0 && number < 2)
+                if (isNumber && number >= 1 && number <= 9)
                     SelectSlot(number - 1);
             }
+
+            if (Input.GetKeyDown(KeyCode.Tab) && buildingSlots != null && buildingSlots.Count > 1)
+                CycleBuildingSlot();
         }
 
         public void OpenInventory()
         {
-            uiController.OpenInventory();
+            uiController.ShowInventory();
         }
 
         public void CloseInventory()
         {
-            uiController.CloseInventory();
+            HideAndDeselect();
         }
 
         public void CloseInventoryViaButton()
         {
-            uiController.OpenInventory();
+            HideAndDeselect();
+        }
+
+        private void HideAndDeselect()
+        {
+            uiController.HideInventory();
+            if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length && inventorySlots[selectedSlot] != null)
+                inventorySlots[selectedSlot].Deselect();
+            OnInventoryClosed?.Invoke();
         }
 
         public void SelectSlot(int newValue)
@@ -103,20 +144,16 @@ namespace Game.Testing
                 ? TryAddToBuildingSlots(item) : TryAddToPlayerSlots(item);
 
             if (itemAdded)
-                NotifyInventoryChanged();
+                NotifyChanged();
 
             return itemAdded;
         }
 
         public void AddSlot(InventorySlot newSlot)
         {
-            InventorySlot[] newSlots = new InventorySlot[inventorySlots.Length + 1];
-            for (int i = 0; i < inventorySlots.Length; i++)
-                newSlots[i] = inventorySlots[i];
-
-            newSlots[newSlots.Length - 1] = newSlot;
-            inventorySlots = newSlots;
-            NotifyInventoryChanged();
+            System.Array.Resize(ref inventorySlots, inventorySlots.Length + 1);
+            inventorySlots[inventorySlots.Length - 1] = newSlot;
+            NotifyChanged();
         }
 
         public Item FindItem(ItemType checkType, int checkID)
@@ -148,7 +185,7 @@ namespace Game.Testing
             if (!IsValidSlotIndex(slotIndex) || item == null) return;
 
             SpawnNewItem(item, inventorySlots[slotIndex], count);
-            NotifyInventoryChanged();
+            NotifyChanged();
         }
 
         public Item GetSelectedItem()
@@ -160,29 +197,30 @@ namespace Game.Testing
         public bool ConsumeItem(ItemType checkType, out Item foundItem)
         {
             foundItem = null;
+            if (buildingSlots == null || buildingSlots.Count == 0) return false;
 
-            for (int i = firstBuildingSlotIndex; i <= lastBuildingSlotIndex; i++)
-            {
-                Draggableltem itemInSlot = GetItemInSlot(i);
-                if (itemInSlot == null || itemInSlot.GetItem().ItemType != checkType) continue;
+            InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
+            if (slot == null) return false;
 
-                foundItem = itemInSlot.GetItem();
-                RemoveOneItem(itemInSlot);
-                NotifyInventoryChanged();
-                return true;
-            }
+            Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+            if (itemInSlot == null || itemInSlot.GetItem().ItemType != checkType) return false;
 
-            return false;
+            foundItem = itemInSlot.GetItem();
+            RemoveOneItem(itemInSlot);
+            NotifyChanged();
+            return true;
         }
 
         public Item PeekItem(ItemType checkType)
         {
-            for (int i = firstBuildingSlotIndex; i <= lastBuildingSlotIndex; i++)
-            {
-                Draggableltem itemInSlot = GetItemInSlot(i);
-                if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
-                    return itemInSlot.GetItem();
-            }
+            if (buildingSlots == null || buildingSlots.Count == 0) return null;
+
+            InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
+            if (slot == null) return null;
+
+            Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+            if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
+                return itemInSlot.GetItem();
 
             return null;
         }
@@ -194,7 +232,7 @@ namespace Game.Testing
                 if (inventorySlots[i] == null || inventorySlots[i].isUnlocked) continue;
 
                 inventorySlots[i].SetLocked(false);
-                NotifyInventoryChanged();
+                NotifyChanged();
                 return;
             }
 
@@ -222,7 +260,7 @@ namespace Game.Testing
         public void RemoveQuestItem(int itemId)
         {
             if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId))
-                NotifyInventoryChanged();
+                NotifyChanged();
         }
 
         public void AddRewardItem(int itemId)
@@ -256,18 +294,13 @@ namespace Game.Testing
 
             Debug.Log($"[Inventory] Remove item {itemInSlot.GetItem().ItemName} from slot {selectedSlot}");
             Destroy(itemInSlot.gameObject);
-            NotifyInventoryChanged();
+            NotifyChanged();
         }
 
         public Draggableltem GetItemInSlot(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex)) return null;
             return inventorySlots[slotIndex].GetComponentInChildren<Draggableltem>();
-        }
-
-        public void NotifyChanged()
-        {
-            NotifyInventoryChanged();
         }
 
         private void LockStartingSlots()
@@ -283,9 +316,10 @@ namespace Game.Testing
 
         private bool TryAddToBuildingSlots(Item item)
         {
-            for (int i = firstBuildingSlotIndex; i <= lastBuildingSlotIndex; i++)
+            if (buildingSlots == null) return false;
+            foreach (InventorySlot slot in buildingSlots)
             {
-                if (TryAddToSlot(item, inventorySlots[i], false))
+                if (TryAddToSlot(item, slot, false))
                     return true;
             }
 
@@ -351,9 +385,67 @@ namespace Game.Testing
                 itemInSlot.RefreshCount();
         }
 
+        private void SelectBuildingSlot(int index)
+        {
+            if (buildingSlots == null || buildingSlots.Count == 0) return;
+            if (buildingSlots[activeBuildingSlotIndex] != null)
+                buildingSlots[activeBuildingSlotIndex].Deselect();
+            activeBuildingSlotIndex = index;
+            if (buildingSlots[activeBuildingSlotIndex] != null)
+                buildingSlots[activeBuildingSlotIndex].Select();
+            RefreshHintUI();
+        }
+
+        private void CycleBuildingSlot()
+        {
+            SelectBuildingSlot((activeBuildingSlotIndex + 1) % buildingSlots.Count);
+        }
+
+        public void ClearBuildingSlot(int index)
+        {
+            if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
+            var draggable = buildingSlots[index]?.GetComponentInChildren<Draggableltem>();
+            if (draggable != null) Destroy(draggable.gameObject);
+            NotifyChanged();
+            RefreshHintUI();
+        }
+
+        private void RefreshHintUI()
+        {
+            if (buildingSlots == null) return;
+
+            for (int i = 0; i < buildingSlots.Count; i++)
+            {
+                bool isActive = i == activeBuildingSlotIndex;
+
+                // F key panel — visible only on the active slot
+                if (buildingSlotUsePanels != null && i < buildingSlotUsePanels.Count && buildingSlotUsePanels[i] != null)
+                    buildingSlotUsePanels[i].SetActive(isActive);
+
+                // Special action key panel — visible only on active slot AND only if item has ActionHint
+                if (buildingSlotKeyPanels != null && i < buildingSlotKeyPanels.Count && buildingSlotKeyPanels[i] != null)
+                {
+                    if (!isActive)
+                    {
+                        buildingSlotKeyPanels[i].SetActive(false);
+                    }
+                    else
+                    {
+                        var draggable = buildingSlots[i]?.GetComponentInChildren<Draggableltem>();
+                        var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
+                        string hint = effect?.ActionHint ?? string.Empty;
+                        bool show = !string.IsNullOrEmpty(hint);
+                        buildingSlotKeyPanels[i].SetActive(show);
+                        if (show && buildingSlotKeyTexts != null && i < buildingSlotKeyTexts.Count && buildingSlotKeyTexts[i] != null)
+                            buildingSlotKeyTexts[i].text = hint;
+                    }
+                }
+            }
+        }
+
         private bool IsBuildingSlot(int slotIndex)
         {
-            return slotIndex >= firstBuildingSlotIndex && slotIndex <= lastBuildingSlotIndex;
+            return buildingSlots != null && buildingSlots.Contains(inventorySlots[slotIndex]);
         }
 
         private bool IsValidSlotIndex(int slotIndex)
@@ -361,7 +453,7 @@ namespace Game.Testing
             return inventorySlots != null && slotIndex >= 0 && slotIndex < inventorySlots.Length && inventorySlots[slotIndex] != null;
         }
 
-        private void NotifyInventoryChanged()
+        public void NotifyChanged()
         {
             OnInventoryChanged?.Invoke();
         }

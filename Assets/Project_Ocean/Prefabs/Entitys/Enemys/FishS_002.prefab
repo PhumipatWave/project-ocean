@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3024418121135935058}
   - component: {fileID: 4069683744096269516}
   - component: {fileID: 7622361835348158564}
+  - component: {fileID: 4364744734543273073}
   - component: {fileID: 8020733226240098284}
   - component: {fileID: 8331875682351085958}
   - component: {fileID: 3612027949895020180}
@@ -109,6 +110,42 @@ CapsuleCollider2D:
   m_Offset: {x: -0.25, y: 0}
   m_Size: {x: 1, y: 0.8}
   m_Direction: 1
+--- !u!58 &4364744734543273073
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908830399425127301}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 2
 --- !u!195 &8020733226240098284
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -218,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
   dropItem: {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
+  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
 --- !u!114 &8532016973429987040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
   fishAlertUI: {fileID: 1701520036719208104}
+  autoReturnDelay: 15
   playerBulletTag: Bullet
   playerTag: Player
   visualFlipRoot: {fileID: 451313080173570013}
@@ -258,6 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.FishAlertUI
   seenPlayerAlertImage: {fileID: 8449666230385288555}
   attackWarningImage: {fileID: 6600862752285773283}
+  alertDisplayTime: 1.25
 --- !u!114 &4965704280933918100
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ namespace Game.Core
         public event Action<bool> OnSprinted;
         public event Action<bool> OnInteracted;
         public event Action<bool> OnAmmoSelected;
+        public event Action<bool> OnInventoryToggled;
         public event Action<Vector2> OnMoved;
 
         public Vector2 MousePos { get; private set; }
@@ -112,6 +113,14 @@ namespace Game.Core
             {
                 OnAmmoSelected?.Invoke(false);
             }
+        }
+
+        public void OnInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnInventoryToggled?.Invoke(true);
+            else if (context.canceled)
+                OnInventoryToggled?.Invoke(false);
         }
 
         public void OnSubmit(InputAction.CallbackContext context)

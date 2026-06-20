@@ -20,7 +20,6 @@ namespace Game.Testing
 
         private void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
             player.input.OnAmmoSelected += HandleAmmoWheel;
             ammoIndex = 0;
 

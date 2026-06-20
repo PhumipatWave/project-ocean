@@ -16,18 +16,13 @@ namespace Game.Testing
         public UnityEvent onInteract;
 
         private bool playerInside = false;
-        private bool uiOpened = false;
 
         private void Update()
         {
             if (playerInside && Input.GetKeyDown(KeyCode.E))
             {
+                if (!PlayerUIState.IsLocked) PlayerUIState.Open();
                 onInteract?.Invoke();
-                if (!uiOpened)
-                {
-                    PlayerUIState.Open();
-                    uiOpened = true;
-                }
             }
         }
 
@@ -46,13 +41,11 @@ namespace Game.Testing
             {
                 playerInside = false;
                 if (interactIcon != null) interactIcon.SetActive(false);
-                if (uiOpened)
-                {
-                    PlayerUIState.Close();
-                    uiOpened = false;
-                }
+                PlayerUIState.Close();
             }
         }
+
+        public void ReleasePlayerLock() => PlayerUIState.Close();
 
         public void HideIcon()
         {

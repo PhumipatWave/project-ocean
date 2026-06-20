@@ -40,7 +40,7 @@ namespace Game.Testing
         KeyItem,
         Building,
         Ammo,
-    Quest,
-        Checkpointuest
+        Quest,
+        CheckpointItem,
     }
 }

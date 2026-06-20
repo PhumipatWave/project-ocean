@@ -18,7 +18,7 @@ namespace Game.Testing
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            player = GameManager.CurPlayer;
         }
 
         protected virtual void Start()

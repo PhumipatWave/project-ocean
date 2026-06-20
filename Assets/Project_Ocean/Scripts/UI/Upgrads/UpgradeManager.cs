@@ -60,6 +60,7 @@ namespace Game.Testing
         {
             if (upgradeUI != null) upgradeUI.SetActive(false);
             if (buyUI != null)     buyUI.SetActive(true);
+            if (shopManager != null) shopManager.SelectFirstBuySlot();
         }
 
         public void BackToUpgradeUI()

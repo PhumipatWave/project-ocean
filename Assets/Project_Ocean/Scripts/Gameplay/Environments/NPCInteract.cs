@@ -7,68 +7,169 @@ namespace Game.Testing
     public class NPCInteract : MonoBehaviour
     {
         [Header("NPC Settings")]
+        [SerializeField] private bool hasQuest;
+
+        [Header("Normal Dialogue")]
         [TextArea(3, 10)]
-        [SerializeField] private string dialogueText = "...";
+        [SerializeField] private string npcDialogue = "...";
         [SerializeField] private Sprite npcPortrait;
 
-        [Header("UI Reference")]
-        [SerializeField] private GameObject dialogueBox;
-        [SerializeField] private TextMeshProUGUI contentDisplay;
-        [SerializeField] private GameObject portraitDisplay;
+        [Header("Quest Settings")]
+        [SerializeField] private int targetQuestId;
+        [SerializeField] private QuestDetailPanel questDetailPanel;
 
-        private bool isPlayerInRange;
-        private Image portraitImage;
+        [Header("Dialogue UI")]
+        [SerializeField] private GameObject dialoguePanel;
+        [SerializeField] private TextMeshProUGUI npcNameText;
+        [SerializeField] private TextMeshProUGUI dialogueText;
+        [SerializeField] private Image npcAvatarImage;
 
-        void Awake()
+        private Quest npcQuest;
+        private int currentDialogueIndex;
+        private bool isConversing;
+        private bool isUIOpen;
+        private InteractUI interactUI;
+
+        private void Start()
         {
-            if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
+            interactUI = GetComponent<InteractUI>();
+
+            if (hasQuest && QuestManager.Instance != null)
+                npcQuest = QuestManager.Instance.GetQuestById(targetQuestId);
+
+            if (dialoguePanel != null)
+                dialoguePanel.SetActive(false);
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        public void Interact()
         {
-            if (other.CompareTag("Player")) isPlayerInRange = true;
+            if (hasQuest) 
+                QuestInteract();
+            else 
+                ToggleDialogue();
         }
 
-        void OnTriggerExit2D(Collider2D other)
+        private void ToggleDialogue()
         {
-            if (other.CompareTag("Player"))
+            if (dialoguePanel != null && !dialoguePanel.activeSelf) 
+                OpenDialogue();
+            else 
+                CloseDialogue();
+        }
+
+        private void OpenDialogue()
+        {
+            if (dialoguePanel == null) 
+                return;
+
+            if (dialogueText != null)
+                dialogueText.text = npcDialogue;
+
+            if (npcAvatarImage != null)
             {
-                isPlayerInRange = false;
+                npcAvatarImage.gameObject.SetActive(npcPortrait != null);
+                if (npcPortrait != null) 
+                    npcAvatarImage.sprite = npcPortrait;
+            }
+            dialoguePanel.SetActive(true);
+            isUIOpen = true;
+        }
+
+        private void QuestInteract()
+        {
+            if (!isConversing)
+                StartDialogue();
+            else
+                AdvanceDialogue();
+        }
+
+        private void StartDialogue()
+        {
+            if (npcQuest == null) 
+                return;
+
+            isConversing = true;
+            currentDialogueIndex = 0;
+
+            if (dialoguePanel != null)
+                dialoguePanel.SetActive(true);
+
+            isUIOpen = true;
+
+            if (npcNameText != null)
+                npcNameText.text = npcQuest.NpcName;
+
+            if (npcAvatarImage != null && npcQuest.NpcAvatar != null) 
+                npcAvatarImage.sprite = npcQuest.NpcAvatar;
+
+            ShowDialogueText();
+        }
+
+        private void ShowDialogueText()
+        {
+            if (dialogueText == null) 
+                return;
+
+            switch (npcQuest.Status)
+            {
+                case QuestStatus.New:       
+                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex]; 
+                    break;
+                case QuestStatus.InProgress:
+                    dialogueText.text = npcQuest.QuestionInProgress;       
+                    break;
+                case QuestStatus.Finish:  
+                    dialogueText.text = npcQuest.AnswerFinish;                  
+                    break;
+                case QuestStatus.Reject:   
+                    dialogueText.text = "?";
+                    break;
+            }
+        }
+
+        private void AdvanceDialogue()
+        {
+            if (npcQuest.Status == QuestStatus.New)
+            {
+                currentDialogueIndex++;
+                if (currentDialogueIndex < npcQuest.QuestDialogue.Length)
+                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex];
+                else
+                {
+                    CloseDialogue();
+
+                    if (questDetailPanel != null) 
+                        questDetailPanel.ShowPanel(npcQuest, null);
+                }
+            }
+            else
+            {
                 CloseDialogue();
             }
         }
 
-        void Update()
+        private void CloseDialogue()
         {
-            if (isPlayerInRange && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+            isConversing = false;
+            if (dialoguePanel != null) 
+                dialoguePanel.SetActive(false);
+
+            if (isUIOpen)
             {
-                if (dialogueBox != null && !dialogueBox.activeSelf) OpenDialogue();
-                else CloseDialogue();
+                interactUI?.ReleasePlayerLock();
+                isUIOpen = false;
             }
         }
 
-        void OpenDialogue()
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            if (dialogueBox == null) return;
+            if (!collision.CompareTag("Player")) 
+                return;
 
-            if (contentDisplay != null) contentDisplay.text = dialogueText;
+            CloseDialogue();
 
-            if (portraitDisplay != null)
-            {
-                portraitDisplay.SetActive(npcPortrait != null);
-                if (portraitImage != null && npcPortrait != null) portraitImage.sprite = npcPortrait;
-            }
-
-            dialogueBox.SetActive(true);
-            PlayerUIState.Open();
-        }
-
-        void CloseDialogue()
-        {
-            if (dialogueBox == null || !dialogueBox.activeSelf) return;
-            dialogueBox.SetActive(false);
-            if (portraitDisplay != null) portraitDisplay.SetActive(false);
-            PlayerUIState.Close();
+            if (hasQuest && questDetailPanel != null)
+                questDetailPanel.HidePanel();
         }
     }
 }

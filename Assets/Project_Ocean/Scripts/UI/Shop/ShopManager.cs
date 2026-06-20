@@ -49,11 +49,22 @@ namespace Game.Testing
         private void OnEnable()
         {
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
+            InventoryManager.OnInventoryClosed += DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked += HandleShopSlotClicked;
         }
 
         private void OnDisable()
         {
             InventoryManager.OnInventoryChanged -= RefreshShopInventory;
+            InventoryManager.OnInventoryClosed -= DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked -= HandleShopSlotClicked;
+        }
+
+        private void HandleShopSlotClicked(InventorySlot clickedSlot)
+        {
+            DeselectAllShopSlots();
+            clickedSlot.Select();
+            UpdateClickedItemPriceDisplay();
         }
 
         private void Update()
@@ -134,6 +145,7 @@ namespace Game.Testing
 
             isSellMode = false;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price: 0";
+            SelectFirstBuySlot();
         }
 
         public void SwitchToSellMode()
@@ -220,8 +232,22 @@ namespace Game.Testing
         public void DeselectAllBuySlots()
         {
             if (shopbuySlot == null) return;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
                 slot.Deselect();
+        }
+
+        public void SelectFirstBuySlot()
+        {
+            if (shopbuySlot == null) return;
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
+            {
+                if (slot.currentItem == null || slot.currentItem.GetItem() == null) continue;
+                DeselectAllBuySlots();
+                slot.Select();
+                ShowItemDetail(slot.currentItem.GetItem());
+                UpdateClickedItemPriceDisplay();
+                return;
+            }
         }
 
         public void ShowItemDetail(Item item)
@@ -296,7 +322,7 @@ namespace Game.Testing
         private ShopBuySlot GetSelectedShopSlot()
         {
             if (shopbuySlot == null) return null;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
                 if (slot.isSelected) return slot;
             return null;
         }

@@ -11,7 +11,6 @@ namespace Game.Testing
     {
         [Header("Rope Length")]
         [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
-        [SerializeField] private GameObject player;
 
         [SerializeField] private TextMeshProUGUI dangerLengthText;
         [SerializeField] private GameObject maxLengthPanel;
@@ -70,8 +69,6 @@ namespace Game.Testing
 
         private void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-
             maxLengthPanel.SetActive(false);
         }
 
@@ -84,7 +81,7 @@ namespace Game.Testing
             else
             {
                 maxLengthPanel.SetActive(true);
-                dangerLengthText.text = $"{Mathf.Abs(player.GetComponentInChildren<OxygenRope>().MaxRopeLength).ToString("F2")} m.";
+                dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.GetComponentInChildren<OxygenRope>().MaxRopeLength).ToString("F2")} m.";
             }
         }
 
