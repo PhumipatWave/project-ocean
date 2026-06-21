@@ -19,6 +19,8 @@ namespace Game.Testing
         #region IItemEffect — runs on the prefab before instantiation
 
         public bool CanExecute(Player player) => player.CanPlaceCheckpoint;
+        public bool KeepInInventory => true;
+        public string ActionHint => "T";
 
         public void ExecuteItem(Player player)
         {

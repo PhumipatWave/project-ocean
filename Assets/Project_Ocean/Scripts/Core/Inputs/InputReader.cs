@@ -10,9 +10,10 @@ namespace Game.Core
     {
         public event Action<bool> OnAimed;
         public event Action<bool> OnAttacked;
-        public event Action<bool> OnDashed;
+        public event Action<bool> OnSprinted;
         public event Action<bool> OnInteracted;
         public event Action<bool> OnAmmoSelected;
+        public event Action<bool> OnInventoryToggled;
         public event Action<Vector2> OnMoved;
 
         public Vector2 MousePos { get; private set; }
@@ -76,11 +77,11 @@ namespace Game.Core
         {
             if (context.performed)
             {
-                OnDashed?.Invoke(true);
+                OnSprinted?.Invoke(true);
             }
             else if (context.canceled)
             {
-                OnDashed?.Invoke(false);
+                OnSprinted?.Invoke(false);
             }
         }
 
@@ -112,6 +113,14 @@ namespace Game.Core
             {
                 OnAmmoSelected?.Invoke(false);
             }
+        }
+
+        public void OnInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnInventoryToggled?.Invoke(true);
+            else if (context.canceled)
+                OnInventoryToggled?.Invoke(false);
         }
 
         public void OnSubmit(InputAction.CallbackContext context)

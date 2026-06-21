@@ -277,8 +277,7 @@ namespace Game.Testing
             if (playerTransform != null)
                 return playerTransform;
 
-            GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
-            return playerObject != null ? playerObject.transform : null;
+            return GameManager.CurPlayer != null ? GameManager.CurPlayer.transform : null;
         }
     }
 }

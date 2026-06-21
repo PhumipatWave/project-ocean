@@ -11,21 +11,14 @@ namespace Game.Testing
 
         private SaveData _pendingData;
 
-        // Systems that own their own slice of the save file, driven in a fixed order.
-        // Rebuilt on access because some instances (QuestManager) may not exist at Awake.
-        private List<ISaveParticipant> _participants;
-        private List<ISaveParticipant> Participants
+        // Order is intentional and stable. Built fresh each call because scene-level
+        // managers (QuestManager, EnemyKillTracker) may not exist at save time.
+        private List<ISaveParticipant> BuildParticipants()
         {
-            get
-            {
-                _participants ??= new List<ISaveParticipant>();
-                _participants.Clear();
-                // Order is intentional and stable.
-                _participants.Add(UpgradeService.Instance);
-                if (QuestManager.Instance != null)     _participants.Add(QuestManager.Instance);
-                if (EnemyKillTracker.Instance != null) _participants.Add(EnemyKillTracker.Instance);
-                return _participants;
-            }
+            var list = new List<ISaveParticipant> { UpgradeService.Instance };
+            if (QuestManager.Instance != null)     list.Add(QuestManager.Instance);
+            if (EnemyKillTracker.Instance != null) list.Add(EnemyKillTracker.Instance);
+            return list;
         }
 
         void Awake()
@@ -76,7 +69,7 @@ namespace Game.Testing
 
                 // Upgrade + quest slices are applied by their owning systems,
                 // in the fixed order defined by Participants.
-                foreach (var p in Participants)
+                foreach (var p in BuildParticipants())
                     p.Apply(data);
 
                 SceneLoadContext.Clear();
@@ -185,7 +178,7 @@ namespace Game.Testing
 
             // Upgrade + quest slices are collected by their owning systems,
             // in the fixed order defined by Participants.
-            foreach (var p in Participants)
+            foreach (var p in BuildParticipants())
                 p.Collect(data);
 
             try

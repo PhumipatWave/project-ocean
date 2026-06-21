@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,15 +7,14 @@ namespace Game.Testing
 {
     public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
+        public static event Action<InventorySlot> OnShopSlotClicked;
+
         public Image image;
         public Color SelectedColor, notSelectedColor;
         public bool isSelected = false;
 
-        // Lock Slot
         public bool isUnlocked = true;
         public bool isShopSlot = false;
-
-        
 
         private void Awake()
         {
@@ -23,35 +23,15 @@ namespace Game.Testing
             gameObject.SetActive(isUnlocked);
         }
 
-public void OnPointerClick(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("CLICK SLOT : " + gameObject.name);
-            Debug.Log("isShopSlot = " + isShopSlot);
-
-            if (!isUnlocked)
-            {
-                Debug.Log("SLOT LOCKED");
-                return;
-            }
+            if (!isUnlocked) return;
 
             if (isShopSlot)
             {
-                var shop = ShopManager.Instance;
-                if (shop != null)
-                {
-                    Debug.Log("SHOP MODE");
-                    shop.DeselectAllShopSlots();
-                    Select();
-                    shop.UpdateClickedItemPriceDisplay();
-                }
-                else
-                {
-                    Debug.LogWarning($"[InventorySlot] isShopSlot=true but ShopManager is not in the current scene ('{gameObject.name}')");
-                }
+                OnShopSlotClicked?.Invoke(this);
                 return;
             }
-
-            Debug.Log("PLAYER MODE");
 
             if (InventoryManager.Instance != null)
             {
@@ -68,7 +48,6 @@ public void OnPointerClick(PointerEventData eventData)
 
         public void Select()
         {
-            Debug.Log("SELECT() CALLED");
             image.color = Color.yellow;
             transform.localScale = new Vector3(1.2f, 1.2f, 1f);
             isSelected = true;
@@ -76,7 +55,6 @@ public void OnPointerClick(PointerEventData eventData)
 
         public void Deselect()
         {
-            Debug.Log("DESELECT() CALLED : " + gameObject.name);
             image.color = Color.white;
             transform.localScale = Vector3.one;
             isSelected = false;
