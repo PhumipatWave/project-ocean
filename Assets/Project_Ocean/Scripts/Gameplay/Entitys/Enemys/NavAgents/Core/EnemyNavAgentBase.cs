@@ -261,6 +261,7 @@ namespace Game.Testing
             deathHandled = false;
             StopAllCoroutines();
             fishAlertUI?.HideAll();
+            enemyBrain?.Initialize(BuildBrainContext());
         }
 
         public void OnReturnToPool()
