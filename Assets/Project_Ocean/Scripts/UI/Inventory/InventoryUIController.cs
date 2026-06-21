@@ -7,6 +7,7 @@ namespace Game.Testing
         private GameObject inventoryMenu;
         private AudioClip openInventorySound;
         private bool isInventoryOpen;
+        public bool IsOpen => isInventoryOpen;
 
         public void Initialize(GameObject menu, AudioClip openSound)
         {
@@ -18,32 +19,30 @@ namespace Game.Testing
         public void ToggleInventory()
         {
             if (isInventoryOpen)
-                OpenInventory();
+                HideInventory();
             else
-                CloseInventory();
+                ShowInventory();
         }
 
-        public void OpenInventory()
+        public void ShowInventory()
         {
-            Debug.Log("I to Inventory");
-
             if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null && openInventorySound != null)
                 GameManager.CurPlayer.Audio.PlayOneShot(openInventorySound);
 
-            Time.timeScale = 1;
-            if (inventoryMenu != null)
-                inventoryMenu.SetActive(false);
-
-            isInventoryOpen = false;
-        }
-
-        public void CloseInventory()
-        {
             Time.timeScale = 0;
             if (inventoryMenu != null)
                 inventoryMenu.SetActive(true);
 
             isInventoryOpen = true;
+        }
+
+        public void HideInventory()
+        {
+            Time.timeScale = 1;
+            if (inventoryMenu != null)
+                inventoryMenu.SetActive(false);
+
+            isInventoryOpen = false;
         }
     }
 }

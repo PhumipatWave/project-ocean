@@ -23,9 +23,10 @@ namespace Game.Testing
             if (entitySprite == null)
             {
                 Transform visual = transform.Find("Visual");
-                entitySprite = visual != null
-                    ? visual.GetComponent<SpriteRenderer>()
-                    : GetComponentInChildren<SpriteRenderer>();
+                if (visual != null)
+                    entitySprite = visual.GetComponentInChildren<SpriteRenderer>();
+                if (entitySprite == null)
+                    entitySprite = GetComponentInChildren<SpriteRenderer>();
             }
 
             if (entitySprite != null)
@@ -85,6 +86,10 @@ namespace Game.Testing
         {
             if (navAgent != null)
                 navAgent.enabled = false;
+
+            Boid boid = GetComponent<Boid>();
+            if (boid != null)
+                boid.enabled = false;
         }
 
         private void ApplyDeathVisual()

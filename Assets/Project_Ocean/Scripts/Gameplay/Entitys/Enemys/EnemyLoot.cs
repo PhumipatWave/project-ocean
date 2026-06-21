@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Testing
@@ -6,15 +7,56 @@ namespace Game.Testing
     {
         [SerializeField] private Item dropItem;
 
-        public void CollectByPlayer()
+        [Header("Input")]
+        [SerializeField] private InputReader inputReader;
+
+        private Enemy enemy;
+        private bool playerInRange;
+
+        private void Awake()
         {
-            if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null)
+            enemy = GetComponent<Enemy>();
+        }
+
+        private void OnEnable()
+        {
+            if (inputReader != null)
+                inputReader.OnInteracted += HandleInteract;
+        }
+
+        private void OnDisable()
+        {
+            if (inputReader != null)
+                inputReader.OnInteracted -= HandleInteract;
+            playerInRange = false;
+        }
+
+        private void HandleInteract(bool pressed)
+        {
+            if (!pressed || !playerInRange || enemy == null || !enemy.IsDead) return;
+            Collect();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+                playerInRange = true;
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+                playerInRange = false;
+        }
+
+        private void Collect()
+        {
+            if (dropItem != null)
+                InventoryManager.Instance?.AddItem(dropItem);
+
+            if (GameManager.CurPlayer?.Audio != null)
                 GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
 
-            if (dropItem != null)
-                InventoryManager.Instance.AddItem(dropItem);
-
-            // Return to pool; falls back to Destroy if not a pooled object
             if (ObjectPoolManager.Instance != null)
                 ObjectPoolManager.Instance.Return(gameObject);
             else

@@ -63,8 +63,7 @@ namespace Game.Testing
 
         private void Start()
         {
-            //ammoWheel = GameObject.FindGameObjectWithTag("GameHUD").GetComponent<AmmoWheel>();
-            player = GameObject.FindWithTag("Player").GetComponent<Player>();
+            player = GetComponentInParent<Player>();
 
             line = GetComponent<LineRenderer>();
             line.positionCount = ropeData.ropeSegment;

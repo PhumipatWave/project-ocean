@@ -4,28 +4,6 @@ namespace Game.Testing
 {
     public static class EnemyVisionHelper
     {
-        public static bool HasLineOfSight(Vector2 origin, Vector2 target, Vector2 facingDirection, float maxDistance, float viewAngle, LayerMask obstacleMask)
-        {
-            Vector2 toTarget = target - origin;
-            float dist = toTarget.magnitude;
-
-            if (dist > maxDistance)
-                return false;
-
-            if (dist < 0.01f)
-                return true;
-
-            if (facingDirection.sqrMagnitude > 0.01f)
-            {
-                float angle = Vector2.Angle(facingDirection, toTarget);
-                if (angle > viewAngle * 0.5f)
-                    return false;
-            }
-
-            RaycastHit2D hit = Physics2D.Linecast(origin, target, obstacleMask);
-            return hit.collider == null;
-        }
-
         public static bool HasLineOfSightRay(Vector2 origin, Vector2 target, Vector2 facingDirection, float maxDistance, float viewAngle, LayerMask obstacleMask, Transform ignoreTarget = null)
         {
             Vector2 toTarget = target - origin;

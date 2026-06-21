@@ -8,7 +8,6 @@ namespace Game.Testing
     {
         [Header("Warp Logic")]
         [SerializeField] private Transform warpDestination;
-        [SerializeField] private bool requireInteraction = true;
 
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
@@ -21,8 +20,6 @@ namespace Game.Testing
         [Header("Camera Control")]
         [SerializeField] private bool snapCamera = true;
 
-        private bool isPlayerInside;
-        private GameObject playerObject;
         private CinemachineCamera vcam;
         private static bool isWarping;
 
@@ -32,32 +29,17 @@ namespace Game.Testing
                 vcam = Object.FindFirstObjectByType<CinemachineCamera>();
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        public void Interact()
         {
-            if (other.CompareTag("Player"))
-            {
-                isPlayerInside = true;
-                playerObject = other.gameObject;
-
-                if (!requireInteraction && !isWarping)
-                    StartCoroutine(WarpSequence());
-            }
-        }
-
-        void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.CompareTag("Player"))
-                isPlayerInside = false;
-        }
-
-        void Update()
-        {
-            if (requireInteraction && isPlayerInside && Input.GetKeyDown(KeyCode.E) && !isWarping)
+            if (!isWarping)
                 StartCoroutine(WarpSequence());
         }
 
         IEnumerator WarpSequence()
         {
+            var player = GameObject.FindWithTag("Player");
+            if (player == null) yield break;
+
             isWarping = true;
 
             if (audioSource != null && doorOpenSound != null)
@@ -78,11 +60,11 @@ namespace Game.Testing
             }
             if (blackScreenGroup != null) blackScreenGroup.alpha = 1;
 
-            Vector3 oldPosition = playerObject.transform.position;
-            playerObject.transform.position = warpDestination.position;
+            Vector3 oldPosition = player.transform.position;
+            player.transform.position = warpDestination.position;
 
             if (snapCamera && vcam != null)
-                vcam.OnTargetObjectWarped(playerObject.transform, warpDestination.position - oldPosition);
+                vcam.OnTargetObjectWarped(player.transform, warpDestination.position - oldPosition);
 
             yield return new WaitForSeconds(0.1f);
 
