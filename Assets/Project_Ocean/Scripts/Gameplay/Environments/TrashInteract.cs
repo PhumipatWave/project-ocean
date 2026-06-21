@@ -41,6 +41,11 @@ namespace Game.Testing
             if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
         }
 
+        void OnEnable() => DayManager.OnDayAdvanced += ResetForNewDay;
+        void OnDisable() => DayManager.OnDayAdvanced -= ResetForNewDay;
+
+        void ResetForNewDay() => wasSearched = false;
+
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
@@ -58,6 +63,12 @@ namespace Game.Testing
 
         public void SearchTrash()
         {
+            if (wasSearched)
+            { 
+                PlayerUIState.Close(); 
+                return;
+            }
+
             wasSearched = true;
 
             if (audioSource != null)
@@ -91,14 +102,18 @@ namespace Game.Testing
 
             yield return new WaitForSeconds(autoCloseTime);
 
-            if (dialogueBox != null) dialogueBox.SetActive(false);
+            if (dialogueBox != null)
+                dialogueBox.SetActive(false);
+
+            PlayerUIState.Close();
         }
 
         void ShowUI(string message)
         {
             if (dialogueBox == null) return;
 
-            if (contentDisplay != null) contentDisplay.text = message;
+            if (contentDisplay != null) 
+                contentDisplay.text = message;
 
             if (portraitDisplay != null)
             {
@@ -111,16 +126,26 @@ namespace Game.Testing
 
         void StopEverything()
         {
-            if (shakeCoroutine != null) { StopCoroutine(shakeCoroutine); shakeCoroutine = null; }
+            if (shakeCoroutine != null) 
+            { 
+                StopCoroutine(shakeCoroutine);
+                shakeCoroutine = null; 
+            }
+
             transform.localPosition = originalPosition;
-            if (audioSource != null) audioSource.Stop();
+
+            if (audioSource != null)
+                audioSource.Stop();
         }
 
         void SpawnObject(GameObject prefab)
         {
-            if (prefab == null) return;
+            if (prefab == null)
+                return;
+
             GameObject item = Instantiate(prefab, transform.position, Quaternion.identity);
             Rigidbody2D rb = item.GetComponent<Rigidbody2D>();
+
             if (rb != null)
             {
                 rb.AddForce(new Vector2(Random.Range(-0.5f, 0.5f), 1f).normalized * throwForce, ForceMode2D.Impulse);
@@ -142,6 +167,7 @@ namespace Game.Testing
         {
             yield return new WaitForSeconds(t);
             StopEverything();
+            PlayerUIState.Close();
         }
     }
 }
