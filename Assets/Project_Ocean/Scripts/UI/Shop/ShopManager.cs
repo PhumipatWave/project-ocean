@@ -30,8 +30,7 @@ namespace Game.Testing
         [SerializeField] private TMP_Text previewPrice;
         [SerializeField] private TMP_Text previewDescription;
 
-        [Header("Ammo UI Display")]
-        [SerializeField] private TMP_Text[] ammoTexts;
+        private TMP_Text[] ammoTexts;
         private readonly int[] ammoCounts = new int[4];
         private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
@@ -43,8 +42,23 @@ namespace Game.Testing
         [Header("Navigation")]
         [SerializeField] private UpgradeManager upgradeManager;
 
-                private void Awake()     { Instance = this; }
+        private void Awake()
+        {
+            Instance = this;
+            ammoTexts = new TMP_Text[]
+            {
+                FindTMP("AMM_WP1"), FindTMP("AMM_WP2"),
+                FindTMP("AMM_WP3"), FindTMP("AMM_WP4"),
+            };
+        }
+
         private void OnDestroy() { if (Instance == this) Instance = null; }
+
+        private static TMP_Text FindTMP(string goName)
+        {
+            var go = GameObject.Find(goName);
+            return go != null ? go.GetComponent<TMP_Text>() : null;
+        }
 
         private void OnEnable()
         {

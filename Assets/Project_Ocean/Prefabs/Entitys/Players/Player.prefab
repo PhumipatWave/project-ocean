@@ -249,9 +249,6 @@ MonoBehaviour:
   currentHookObj: {fileID: 0}
   canAttack: 1
   currentAmmoType: 0
-  stabHitbox: {fileID: 0}
-  stabActiveTime: 0.15
-  stabCooldown: 0.5
 --- !u!114 &3920244353337492007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1369,10 +1366,10 @@ MonoBehaviour:
   playerShootSound: {fileID: 8300000, guid: 34bf12988b672aa42803dfa25840372f, type: 3}
   playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
   playerSprite: {fileID: 1845563972653589313}
-  playerFlashDuration: 0.15
+  playerFlashDuration: 0.25
   moveSpeed: 8
   dashSpeed: 25
-  sprintSpeed: 12
+  sprintSpeed: 15
 --- !u!114 &4000928468899383921
 MonoBehaviour:
   m_ObjectHideFlags: 0

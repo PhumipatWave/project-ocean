@@ -52,15 +52,6 @@ namespace Game.Testing
 
         public AmmoType currentAmmoType;
 
-        [Header("Gun Stab")]
-        [SerializeField] private GameObject stabHitbox;
-
-        [SerializeField] private float stabActiveTime = 0.15f;
-        [SerializeField] private float stabCooldown = 0.5f;
-
-        private bool canStabAttack = true;
-        public bool CanStabAttack { get { return canStabAttack; } set { canStabAttack = value; } }
-
         private void Start()
         {
             player = GetComponentInParent<Player>();
@@ -172,21 +163,6 @@ namespace Game.Testing
         {
             RopeSystemUtil.DrawNormalRope(line, FirePoint, target);
             RopeSystemUtil.BreakNormalRopeLimit(FirePoint, target, ref isPullBack, ref currentRopeLength, ropeData.maxRopeLength, pullBackForce);
-        }
-
-        public IEnumerator Stab()
-        {
-            CanStabAttack = false;
-
-            stabHitbox.SetActive(true);
-
-            yield return new WaitForSeconds(stabActiveTime);
-
-            stabHitbox.SetActive(false);
-
-            yield return new WaitForSeconds(stabCooldown);
-
-            CanStabAttack = true;
         }
     }
 }
