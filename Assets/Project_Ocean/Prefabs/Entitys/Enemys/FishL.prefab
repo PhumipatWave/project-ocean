@@ -370,14 +370,12 @@ GameObject:
   - component: {fileID: 3109035116890205398}
   - component: {fileID: 4214589482347048590}
   - component: {fileID: 392775262761255314}
-  - component: {fileID: 546427448858171548}
   - component: {fileID: 1437088641783751109}
   - component: {fileID: 683323476657014}
   - component: {fileID: 4774483354577623506}
   - component: {fileID: 5316214610149181874}
   - component: {fileID: 6637633734297046743}
   - component: {fileID: 5709477160903594486}
-  - component: {fileID: 3280145725471776177}
   - component: {fileID: 2234005039591698591}
   - component: {fileID: 9207587733961278760}
   m_Layer: 0
@@ -400,6 +398,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 245359403335686875}
   - {fileID: 3634935542475205251}
   - {fileID: 5811248619569492794}
   m_Father: {fileID: 0}
@@ -468,42 +467,6 @@ CapsuleCollider2D:
   m_Offset: {x: -2.5, y: 0}
   m_Size: {x: 8, y: 2}
   m_Direction: 1
---- !u!58 &546427448858171548
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -3, y: 0}
-  m_Radius: 7.25
 --- !u!195 &1437088641783751109
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -554,7 +517,7 @@ MonoBehaviour:
   entityDeathHandler: {fileID: 5709477160903594486}
   rb: {fileID: 4214589482347048590}
   entityHealth: {fileID: 5316214610149181874}
-  loot: {fileID: 3280145725471776177}
+  loot: {fileID: 0}
   navAgentHost: {fileID: 2234005039591698591}
   enemyId: fishL
 --- !u!114 &5316214610149181874
@@ -600,20 +563,6 @@ MonoBehaviour:
   rb: {fileID: 4214589482347048590}
   entitySprite: {fileID: 8611409687765085744}
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &3280145725471776177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4626553553997363230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
 --- !u!114 &2234005039591698591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,6 +642,89 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.75}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &6700065010269592110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245359403335686875}
+  - component: {fileID: 5265232254008674864}
+  - component: {fileID: 1066255838826741705}
+  m_Layer: 0
+  m_Name: LootCpmponent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &245359403335686875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700065010269592110}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3109035116890205398}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5265232254008674864
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700065010269592110}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -2.5, y: 0}
+  m_Radius: 7.25
+--- !u!114 &1066255838826741705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700065010269592110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
+  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
+  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
 --- !u!1 &7191372487389923256
 GameObject:
   m_ObjectHideFlags: 0

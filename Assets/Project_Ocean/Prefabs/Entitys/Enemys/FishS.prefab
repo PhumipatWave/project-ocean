@@ -1,5 +1,88 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2074828438376963528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2401071304432074338}
+  - component: {fileID: 7616808386829927078}
+  - component: {fileID: 5741118174037984207}
+  m_Layer: 0
+  m_Name: LootCpmponent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2401071304432074338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074828438376963528}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4373255698068515926}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7616808386829927078
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074828438376963528}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 2
+--- !u!114 &5741118174037984207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074828438376963528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
+  dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
+  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
 --- !u!1 &2653616273152447755
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,14 +816,12 @@ GameObject:
   - component: {fileID: 4373255698068515926}
   - component: {fileID: 1217555987416005051}
   - component: {fileID: 1811057275969045065}
-  - component: {fileID: 2833862384320110746}
   - component: {fileID: 2849432993923143802}
   - component: {fileID: 8349145242798058967}
   - component: {fileID: 3207163715615100706}
   - component: {fileID: 3813288538308619212}
   - component: {fileID: 8718789635762861312}
   - component: {fileID: 3435734271064201839}
-  - component: {fileID: 7056472566234645421}
   - component: {fileID: 3769312427449725687}
   - component: {fileID: 2311856355048466399}
   - component: {fileID: 8933596969445124632}
@@ -765,6 +846,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2653153789481178184}
+  - {fileID: 2401071304432074338}
   - {fileID: 5689489070595076599}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -832,42 +914,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.2, y: 0}
   m_Size: {x: 1, y: 0.75}
   m_Direction: 1
---- !u!58 &2833862384320110746
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199869032875626201}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 2
 --- !u!195 &2849432993923143802
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -918,7 +964,7 @@ MonoBehaviour:
   entityDeathHandler: {fileID: 3435734271064201839}
   rb: {fileID: 1217555987416005051}
   entityHealth: {fileID: 3813288538308619212}
-  loot: {fileID: 7056472566234645421}
+  loot: {fileID: 0}
   navAgentHost: {fileID: 3769312427449725687}
   enemyId: fishS
 --- !u!114 &3813288538308619212
@@ -964,20 +1010,6 @@ MonoBehaviour:
   rb: {fileID: 1217555987416005051}
   entitySprite: {fileID: 9006960900880424039}
   deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &7056472566234645421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9199869032875626201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
-  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
 --- !u!114 &3769312427449725687
 MonoBehaviour:
   m_ObjectHideFlags: 0

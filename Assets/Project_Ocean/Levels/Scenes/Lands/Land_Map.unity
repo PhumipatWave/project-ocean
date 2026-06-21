@@ -171258,6 +171258,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3766453778541521782, guid: d172477b834d6254dae787f5aa6ab2a4, type: 3}
   m_PrefabInstance: {fileID: 303933035}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &309432587 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 2019458734}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &310262807
 GameObject:
   m_ObjectHideFlags: 0
@@ -172791,6 +172796,11 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!82 &385467720 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1344813259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &386094100
 GameObject:
   m_ObjectHideFlags: 0
@@ -173227,9 +173237,13 @@ PrefabInstance:
       value: TrashCan (11)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 592034775}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -173237,11 +173251,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 108.9
@@ -192029,6 +192043,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!82 &592034775 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 406260793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &597413827
 GameObject:
   m_ObjectHideFlags: 0
@@ -195015,6 +195034,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cdf3a1fc598b664e89eca66dc13f9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventorySlot
+--- !u!82 &689551483 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1165311626}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &689554419
 GameObject:
   m_ObjectHideFlags: 0
@@ -196112,6 +196136,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!82 &731632530 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1663282537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &732133581
 GameObject:
   m_ObjectHideFlags: 0
@@ -196489,6 +196518,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!82 &745090972 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1078568737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &745311857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196665,9 +196699,13 @@ PrefabInstance:
       value: TrashCan (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 934644724}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -196675,11 +196713,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22
@@ -200518,9 +200556,13 @@ PrefabInstance:
       value: TrashCan (8)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1683402735}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -200528,11 +200570,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 95.5
@@ -200829,9 +200871,13 @@ PrefabInstance:
       value: TrashCan (10)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 2107104817}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -200839,11 +200885,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 105.8
@@ -200889,6 +200935,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+--- !u!82 &934644724 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 748966092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &937395722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -204521,9 +204572,13 @@ PrefabInstance:
       value: TrashCan (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 745090972}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -204531,11 +204586,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.71
@@ -209727,6 +209782,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!82 &1089696665 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1418373263}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1090179080
 GameObject:
   m_ObjectHideFlags: 0
@@ -212160,9 +212220,13 @@ PrefabInstance:
       value: TrashCan (6)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 689551483}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -212170,11 +212234,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 52
@@ -228941,9 +229005,13 @@ PrefabInstance:
       value: TrashCan (9)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 385467720}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -228951,11 +229019,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 91.2
@@ -231207,9 +231275,13 @@ PrefabInstance:
       value: TrashCan (5)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1089696665}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -231217,11 +231289,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 52
@@ -294257,9 +294329,13 @@ PrefabInstance:
       value: TrashCan (7)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 731632530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -294267,11 +294343,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -47
@@ -294994,6 +295070,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678748337}
   m_CullTransparentMesh: 1
+--- !u!82 &1683402735 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 917670768}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1685728573
 GameObject:
   m_ObjectHideFlags: 0
@@ -296054,6 +296135,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3766453778541521782, guid: d172477b834d6254dae787f5aa6ab2a4, type: 3}
   m_PrefabInstance: {fileID: 1734171831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1734346127 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 1983991909}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1736454424
 GameObject:
@@ -2217268,9 +2217354,13 @@ PrefabInstance:
       value: TrashCan (4)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1734346127}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -2217278,11 +2217368,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -33.8
@@ -2217914,9 +2218004,13 @@ PrefabInstance:
       value: TrashCan (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 309432587}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: npcPortrait
       value: 
@@ -2217924,11 +2218018,11 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.99
@@ -2219620,6 +2219714,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106741341}
   m_CullTransparentMesh: 1
+--- !u!82 &2107104817 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+  m_PrefabInstance: {fileID: 929862088}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2107770972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2221139,19 +2221238,15 @@ PrefabInstance:
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
-      propertyPath: npcPortrait
-      value: 
-      objectReference: {fileID: 3319299164644070594, guid: 4495b0057f683e24dbdc41dcf6baba02, type: 3}
+      objectReference: {fileID: 1530314195}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: contentDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134801005}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: portraitDisplay
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 704739545}
     - target: {fileID: 4217248940075602094, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
