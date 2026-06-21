@@ -79,7 +79,7 @@ namespace Game.Testing
             int iid = instance.GetInstanceID();
             if (!instanceToPrefabId.TryGetValue(iid, out int pid))
             {
-                // Not a pooled object — fall back to Destroy
+                instance.SetActive(false);
                 Destroy(instance);
                 return;
             }
