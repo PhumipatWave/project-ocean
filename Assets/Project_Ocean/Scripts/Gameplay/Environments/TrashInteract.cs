@@ -29,7 +29,6 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI contentDisplay;
         [SerializeField] private GameObject portraitDisplay;
 
-        private bool isPlayerInRange;
         private bool wasSearched;
         private Vector3 originalPosition;
         private PlayerMoney targetPlayerMoney;
@@ -45,29 +44,19 @@ namespace Game.Testing
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
-            {
-                isPlayerInRange = true;
                 targetPlayerMoney = other.GetComponent<PlayerMoney>();
-            }
         }
 
         void OnTriggerExit2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
-                isPlayerInRange = false;
                 targetPlayerMoney = null;
                 if (dialogueBox != null) dialogueBox.SetActive(false);
             }
         }
 
-        void Update()
-        {
-            if (isPlayerInRange && !wasSearched && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
-                SearchTrash();
-        }
-
-        void SearchTrash()
+        public void SearchTrash()
         {
             wasSearched = true;
 

@@ -64,7 +64,7 @@ namespace Game.Testing
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collision.gameObject.CompareTag("Player")) return;
-            if (IsDead) { loot?.CollectByPlayer(); return; }
+            if (IsDead) return;
             (brain as IBrainHitReaction)?.OnPlayerCollision();
         }
 

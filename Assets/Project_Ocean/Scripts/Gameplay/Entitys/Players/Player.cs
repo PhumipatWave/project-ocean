@@ -17,7 +17,6 @@ namespace Game.Testing
         public AudioSource Audio { get { return audio; } }
 
         [SerializeField] private AudioClip playerHurtSound;
-        [SerializeField] private AudioClip playerDashSound;
         [SerializeField] private AudioClip playerRopeSound;
         [SerializeField] private AudioClip playerShootSound;
         public AudioClip playerCollectItemSound;
@@ -29,11 +28,27 @@ namespace Game.Testing
         public OxygenRope OxygenTube { get { return oxygenTube; } }
 
         private readonly List<CheckPointItem> checkpoints = new();
+        private int _checkpointSourceSlot = -1;
         public int CheckpointCount => checkpoints.Count;
         public bool CanPlaceCheckpoint => checkpoints.Count < 3;
         public CheckPointItem LastCheckpoint => checkpoints.Count > 0 ? checkpoints[^1] : null;
-        public void RegisterCheckpoint(CheckPointItem cp) => checkpoints.Add(cp);
-        public void UnregisterCheckpoint(CheckPointItem cp) => checkpoints.Remove(cp);
+
+        public void RegisterCheckpoint(CheckPointItem cp)
+        {
+            if (checkpoints.Count == 0)
+                _checkpointSourceSlot = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
+            checkpoints.Add(cp);
+        }
+
+        public void UnregisterCheckpoint(CheckPointItem cp)
+        {
+            checkpoints.Remove(cp);
+            if (checkpoints.Count == 0 && _checkpointSourceSlot >= 0)
+            {
+                InventoryManager.Instance?.ClearBuildingSlot(_checkpointSourceSlot);
+                _checkpointSourceSlot = -1;
+            }
+        }
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -58,8 +73,10 @@ namespace Game.Testing
         [SerializeField] private float dashSpeed = 25f;
         public float DashSpeed { get { return dashSpeed; } }
 
-        private bool canDash = true;
-        private bool isDash;
+        [SerializeField] private float sprintSpeed = 12f;
+        public float SprintSpeed { get { return sprintSpeed; } }
+
+        private bool isSprinting;
 
         private bool isLand;
 
@@ -96,8 +113,11 @@ namespace Game.Testing
             input.OnAimed += Aim;
             input.OnMoved += Move;
             input.OnAttacked += Attack;
-            input.OnDashed += Dash;
+            input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
+
+            // Hide rope UI on first load (game starts on land).
+            oxygenTube?.ResetRope();
         }
 
         private void OnEnable()
@@ -112,6 +132,8 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            PlayerUIState.Reset();
+
             if (scene.name == "Land_Map")
             {
                 if (SceneLoadContext.IsLoading)
@@ -126,6 +148,7 @@ namespace Game.Testing
 
                 // Reset rope max length back to full health on returning to land
                 (healthSource as PlayerHealth)?.ResetToOriginal();
+                oxygenTube?.ResetRope();
 
                 gunHandler.gameObject.SetActive(false);
                 isLand = true;
@@ -184,7 +207,6 @@ namespace Game.Testing
 
         private void UseItem(ItemType type)
         {
-            // Check IItemEffect.CanExecute BEFORE consuming the item from inventory
             var prefab = InventoryManager.Instance.PeekItem(type);
             if (prefab != null)
             {
@@ -192,6 +214,13 @@ namespace Game.Testing
                 if (effect != null && !effect.CanExecute(this))
                 {
                     Debug.Log($"[Player] Item use blocked by CanExecute: {type}");
+                    return;
+                }
+
+                // KeepInInventory: execute without consuming — item cleared later by UnregisterCheckpoint
+                if (effect != null && effect.KeepInInventory)
+                {
+                    effect.ExecuteItem(this);
                     return;
                 }
             }
@@ -260,41 +289,9 @@ namespace Game.Testing
             }
         }
 
-        private void Dash(bool isDash)
+        private void Sprint(bool state)
         {
-            if (isLand)
-                return;
-
-            if (isDash && canDash)
-            {
-                StartCoroutine(DashRoutine());
-                audio.PlayOneShot(playerDashSound);
-            }
-        }
-
-        private IEnumerator DashRoutine()
-        {
-            isDash = true;
-            canDash = false;
-
-            Vector2 dir;
-            if (input.MovePos.normalized != Vector2.zero)
-            {
-                dir = input.MovePos.normalized;
-            }
-            else
-            {
-                dir = Vector2.right * faceDir;
-            }
-
-            rb.linearVelocity = dir * dashSpeed;
-            yield return new WaitForSeconds(.5f);
-
-            isDash = false;
-            rb.linearVelocity = input.MovePos.normalized * moveSpeed;
-
-            yield return new WaitForSeconds(2.25f);
-            canDash = true;
+            isSprinting = state;
         }
 
         private void Interact(bool isInteract)
@@ -307,13 +304,14 @@ namespace Game.Testing
 
         private void Move(Vector2 dir)
         {
-            if (gunHandler.IsAimming || isDash)
+            if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
                 rb.linearVelocity = Vector2.zero;
                 return;
             }
 
-            rb.linearVelocity = dir * moveSpeed;
+            float speed = isSprinting ? sprintSpeed : moveSpeed;
+            rb.linearVelocity = dir * speed;
 
             if (rb.linearVelocity != Vector2.zero && GameManager.Instance.GameState == GameState.Ocean)
             {

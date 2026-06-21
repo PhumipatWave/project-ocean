@@ -46,14 +46,25 @@ namespace Game.Testing
                 private void Awake()     { Instance = this; }
         private void OnDestroy() { if (Instance == this) Instance = null; }
 
-private void OnEnable()
+        private void OnEnable()
         {
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
+            InventoryManager.OnInventoryClosed += DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked += HandleShopSlotClicked;
         }
 
         private void OnDisable()
         {
             InventoryManager.OnInventoryChanged -= RefreshShopInventory;
+            InventoryManager.OnInventoryClosed -= DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked -= HandleShopSlotClicked;
+        }
+
+        private void HandleShopSlotClicked(InventorySlot clickedSlot)
+        {
+            DeselectAllShopSlots();
+            clickedSlot.Select();
+            UpdateClickedItemPriceDisplay();
         }
 
         private void Update()
@@ -71,6 +82,12 @@ private void OnEnable()
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
 
             SwitchToSellMode();
+        }
+
+        /// <summary>Called when the shop window is closed. Pair with LandUI.CloseUI() on the close button.</summary>
+        public void CloseShopWindow()
+        {
+            gameObject.SetActive(false);
         }
 
         /// <summary>Switch from Shop panel to Upgrade panel. Replaces UIManager.ShowUpgrade().</summary>
@@ -128,6 +145,7 @@ private void OnEnable()
 
             isSellMode = false;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price: 0";
+            SelectFirstBuySlot();
         }
 
         public void SwitchToSellMode()
@@ -214,8 +232,22 @@ private void OnEnable()
         public void DeselectAllBuySlots()
         {
             if (shopbuySlot == null) return;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
                 slot.Deselect();
+        }
+
+        public void SelectFirstBuySlot()
+        {
+            if (shopbuySlot == null) return;
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
+            {
+                if (slot.currentItem == null || slot.currentItem.GetItem() == null) continue;
+                DeselectAllBuySlots();
+                slot.Select();
+                ShowItemDetail(slot.currentItem.GetItem());
+                UpdateClickedItemPriceDisplay();
+                return;
+            }
         }
 
         public void ShowItemDetail(Item item)
@@ -290,7 +322,7 @@ private void OnEnable()
         private ShopBuySlot GetSelectedShopSlot()
         {
             if (shopbuySlot == null) return null;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
                 if (slot.isSelected) return slot;
             return null;
         }

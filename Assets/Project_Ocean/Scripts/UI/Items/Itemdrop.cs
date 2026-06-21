@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Testing
@@ -7,22 +8,51 @@ namespace Game.Testing
         [Header("Drop Item")]
         [SerializeField] private Item dropItem;
 
-        [SerializeField] private AudioSource audio;
+        [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip dropSound;
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "Player")
-            {
-                Debug.Log("Keep Items to Inventory!!");
+        [Header("Input")]
+        [SerializeField] private InputReader inputReader;
 
-                audio.PlayOneShot(dropSound);
-                InventoryManager.Instance.AddItem(dropItem);
-                Debug.Log("Keep Destroy!!");
-                Destroy(gameObject);
-            } // collision.gameObject.tag == "Player"
-            
-        } // OnCollisionEnter2D ===
-        
+        private bool playerInRange;
+
+        private void OnEnable()
+        {
+            if (inputReader != null)
+                inputReader.OnInteracted += HandleInteract;
+        }
+
+        private void OnDisable()
+        {
+            if (inputReader != null)
+                inputReader.OnInteracted -= HandleInteract;
+        }
+
+        private void HandleInteract(bool pressed)
+        {
+            if (!pressed || !playerInRange) return;
+            Collect();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+                playerInRange = true;
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+                playerInRange = false;
+        }
+
+        private void Collect()
+        {
+            if (InventoryManager.Instance == null || dropItem == null) return;
+            if (audioSource != null && dropSound != null)
+                audioSource.PlayOneShot(dropSound);
+            InventoryManager.Instance.AddItem(dropItem);
+            Destroy(gameObject);
+        }
     }
 }

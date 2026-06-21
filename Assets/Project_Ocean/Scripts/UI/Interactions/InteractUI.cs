@@ -20,7 +20,10 @@ namespace Game.Testing
         private void Update()
         {
             if (playerInside && Input.GetKeyDown(KeyCode.E))
+            {
+                if (!PlayerUIState.IsLocked) PlayerUIState.Open();
                 onInteract?.Invoke();
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -38,8 +41,11 @@ namespace Game.Testing
             {
                 playerInside = false;
                 if (interactIcon != null) interactIcon.SetActive(false);
+                PlayerUIState.Close();
             }
         }
+
+        public void ReleasePlayerLock() => PlayerUIState.Close();
 
         public void HideIcon()
         {
