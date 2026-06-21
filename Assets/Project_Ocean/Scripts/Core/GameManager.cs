@@ -40,7 +40,10 @@ namespace Game.Testing
             DontDestroyOnLoad(gameObject);
 
             gameState = GameState.Land;
-            CurPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+            var spawnPos = playerSpawnPoint != null
+                ? playerSpawnPoint.position
+                : (GameObject.FindWithTag("PlayerSpawnPoint")?.transform.position ?? Vector3.zero);
+            CurPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
         }
 
         private void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;

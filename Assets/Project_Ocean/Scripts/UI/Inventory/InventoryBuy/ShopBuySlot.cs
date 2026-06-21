@@ -13,8 +13,6 @@ namespace Game.Testing
         public Draggableltem currentItem;
         public bool isSelected;
 
-        [SerializeField] private ShopManager shopManager;
-
         public void SetItem(Draggableltem item)
         {
             currentItem = item;
@@ -28,11 +26,12 @@ namespace Game.Testing
                 return;
             }
 
-            if (shopManager == null) return;
+            var shop = ShopManager.Instance;
+            if (shop == null) return;
 
-            shopManager.DeselectAllBuySlots();
+            shop.DeselectAllBuySlots();
             Select();
-            shopManager.ShowItemDetail(currentItem.GetItem());
+            shop.ShowItemDetail(currentItem.GetItem());
         }
 
         public void Select()

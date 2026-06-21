@@ -168,6 +168,10 @@ MonoBehaviour:
   entityHealth: {fileID: 0}
   loot: {fileID: 0}
   navAgentHost: {fileID: 7675567716448256886}
+  autoReturnDelay: 15
+  sleepDistance: 75
+  despawnDistance: 120
+  despawnCheckInterval: 1
   enemyId: jellyfish
 --- !u!114 &7675567716448256886
 MonoBehaviour:

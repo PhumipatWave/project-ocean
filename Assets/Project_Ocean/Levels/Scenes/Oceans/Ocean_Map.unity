@@ -3477,6 +3477,8 @@ MonoBehaviour:
   spawnRadius: 25
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &181180642
 GameObject:
   m_ObjectHideFlags: 0
@@ -6545,6 +6547,8 @@ MonoBehaviour:
   spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!4 &372127396
 Transform:
   m_ObjectHideFlags: 0
@@ -10311,6 +10315,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 568104610}
     - targetCorrespondingSourceObject: {fileID: 3513386858907363864, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 568104608}
@@ -10350,6 +10357,24 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!1 &568104609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+  m_PrefabInstance: {fileID: 568104605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &568104610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568104609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 2
 --- !u!1 &573508794
 GameObject:
   m_ObjectHideFlags: 0
@@ -10846,6 +10871,8 @@ MonoBehaviour:
   spawnRadius: 20
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!4 &587087290
 Transform:
   m_ObjectHideFlags: 0
@@ -14407,6 +14434,8 @@ MonoBehaviour:
   spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!4 &826621639
 Transform:
   m_ObjectHideFlags: 0
@@ -165850,6 +165879,8 @@ MonoBehaviour:
   spawnRadius: 25
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &1409608292
 GameObject:
   m_ObjectHideFlags: 0
@@ -166184,6 +166215,8 @@ MonoBehaviour:
   spawnRadius: 25
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &1451590405
 GameObject:
   m_ObjectHideFlags: 0
@@ -167317,6 +167350,8 @@ MonoBehaviour:
   spawnRadius: 10
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!4 &1514727806
 Transform:
   m_ObjectHideFlags: 0
@@ -174519,6 +174554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1884458743}
+  - component: {fileID: 1884458744}
   m_Layer: 0
   m_Name: Environments
   m_TagString: Untagged
@@ -174550,6 +174586,19 @@ Transform:
   - {fileID: 1896586447}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1884458744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884458742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 6
 --- !u!1 &1896586446
 GameObject:
   m_ObjectHideFlags: 0
@@ -252643,6 +252692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917117365}
+  - component: {fileID: 1917117366}
   m_Layer: 0
   m_Name: AuidoManager
   m_TagString: Untagged
@@ -252668,6 +252718,19 @@ Transform:
   - {fileID: 966169129}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1917117366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917117364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33718883b8081f41b6ecaa4a48a3530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HierarchyPlus.HierarchyCategoryTag
+  category: 7
 --- !u!1 &1919519106
 GameObject:
   m_ObjectHideFlags: 0
@@ -253198,6 +253261,8 @@ MonoBehaviour:
   spawnRadius: 10
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &1935082888
 GameObject:
   m_ObjectHideFlags: 0
@@ -254842,6 +254907,8 @@ MonoBehaviour:
   spawnRadius: 12
   navSampleDistance: 5
   maxSpawnAttempts: 10
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!4 &1985923851
 Transform:
   m_ObjectHideFlags: 0

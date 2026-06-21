@@ -161,6 +161,10 @@ MonoBehaviour:
   entityHealth: {fileID: 5836762674353345798}
   loot: {fileID: 0}
   navAgentHost: {fileID: 8532016973429987040}
+  autoReturnDelay: 15
+  sleepDistance: 75
+  despawnDistance: 120
+  despawnCheckInterval: 10
   enemyId: fishS
 --- !u!114 &5836762674353345798
 MonoBehaviour:
@@ -218,7 +222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
   fishAlertUI: {fileID: 1701520036719208104}
-  autoReturnDelay: 15
   playerBulletTag: Bullet
   playerTag: Player
   visualFlipRoot: {fileID: 451313080173570013}
@@ -501,6 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
   dropItem: {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+  enemy: {fileID: 0}
+  playerInRange: 0
 --- !u!1 &7023430741115364542
 GameObject:
   m_ObjectHideFlags: 0

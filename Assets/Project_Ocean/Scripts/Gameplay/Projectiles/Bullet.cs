@@ -79,7 +79,7 @@ namespace Game.Testing
         {
             player.GunHandler.ResetGunRotation(player.FaceDir);
 
-            yield return new WaitForSeconds(2.25f);
+            yield return new WaitForSeconds(.75f);
             player.GunHandler.CanAttack = true;
             Destroy(gameObject);
         }
