@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -40,14 +41,46 @@ namespace Game.Testing
         [Tooltip("Max random attempts per slot before giving up on that slot.")]
         [SerializeField] private int maxSpawnAttempts = 10;
 
+        [Header("Proximity Activation")]
+        [Tooltip("Spawn enemies when the player enters this radius from the zone centre.")]
+        [SerializeField] private float activateRadius = 30f;
+        [Tooltip("How often (seconds) to check player distance.")]
+        [SerializeField] private float proximityCheckInterval = 0.4f;
+
         private readonly List<GameObject> spawnedEnemies = new();
+        private bool isActive;
 
         private void OnEnable()  => DayManager.OnEnemyReset += OnDayReset;
         private void OnDisable() => DayManager.OnEnemyReset -= OnDayReset;
         private void Start()
         {
             PrewarmPool();
-            SpawnEnemies();
+            StartCoroutine(ProximityCheckRoutine());
+        }
+
+        private IEnumerator ProximityCheckRoutine()
+        {
+            var wait = new WaitForSeconds(proximityCheckInterval);
+            while (true)
+            {
+                CheckProximity();
+                yield return wait;
+            }
+        }
+
+        private void CheckProximity()
+        {
+            if (isActive) return;
+
+            var player = GameManager.CurPlayer;
+            if (player == null) return;
+
+            float sqrDist = ((Vector2)(player.transform.position - transform.position)).sqrMagnitude;
+            if (sqrDist <= activateRadius * activateRadius)
+            {
+                isActive = true;
+                SpawnEnemies();
+            }
         }
 
         // ── Internal ──
@@ -65,9 +98,9 @@ namespace Game.Testing
         {
             foreach (var go in spawnedEnemies)
                 if (go != null) ObjectPoolManager.Instance?.Return(go);
-
             spawnedEnemies.Clear();
-            SpawnEnemies();
+            isActive = false;
+            // ProximityCheckRoutine will re-spawn when the player is near again.
         }
 
         private void SpawnEnemies()

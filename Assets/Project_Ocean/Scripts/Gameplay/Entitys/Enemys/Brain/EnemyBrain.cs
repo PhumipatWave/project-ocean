@@ -114,6 +114,7 @@ namespace Game.Testing
 
         public override void OnHit(Transform attacker)
         {
+            if (enemyBrainContext?.IsDead == true) return;
             if (followState == null) return;
 
             Vector3 knownPosition = ResolveKnownPosition(attacker);

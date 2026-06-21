@@ -116,7 +116,11 @@ namespace Game.Testing
             input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
 
-            // Hide rope UI on first load (game starts on land).
+            // Game always starts on land; sceneLoaded for Land_Map fires before the player
+            // exists, so we set the initial land state here instead of relying on that event.
+            isLand = true;
+            gunHandler?.gameObject.SetActive(false);
+            entityAnimation?.PlayAnim(AnimHash.IsLand, true);
             oxygenTube?.ResetRope();
         }
 

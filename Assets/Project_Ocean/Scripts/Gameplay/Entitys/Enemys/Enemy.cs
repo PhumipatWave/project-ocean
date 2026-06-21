@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game.Testing
@@ -24,6 +25,19 @@ namespace Game.Testing
         [SerializeField] private EnemyLoot loot;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
+        [Header("Pool Settings")]
+        [SerializeField] private float autoReturnDelay = 15f;
+
+        [Header("Proximity")]
+        [Tooltip("NavAgent and brain pause when player is farther than this. 0 = never sleep.")]
+        [SerializeField] private float sleepDistance = 40f;
+        [Tooltip("Return to pool when player is farther than this. 0 = never self-despawn.")]
+        [SerializeField] private float despawnDistance = 60f;
+        [SerializeField] private float despawnCheckInterval = 1f;
+
+        public float SleepDistanceSqr  { get; private set; }
+        private float despawnDistanceSqr;
+
         [Header("Quest Tracking")]
         [Tooltip("Id matched against QuestData.targetEnemyId for kill quests (e.g. \"fishL\", \"jellyfish\").")]
         [SerializeField] private string enemyId;
@@ -49,6 +63,14 @@ namespace Game.Testing
             ApplyLegacySerializedValues();
             InitializeNavHost();
             InitializeState();
+            SleepDistanceSqr   = sleepDistance   > 0f ? sleepDistance   * sleepDistance   : float.MaxValue;
+            despawnDistanceSqr = despawnDistance > 0f ? despawnDistance * despawnDistance : float.MaxValue;
+        }
+
+        private void OnEnable()
+        {
+            if (despawnDistance > 0f)
+                StartCoroutine(DespawnCheckRoutine());
         }
 
         protected override void OnDestroy()
@@ -88,6 +110,33 @@ namespace Game.Testing
             navAgentHost?.NotifyKill();
 
             entityDeathHandler?.HandleDeath(brain);
+            StartCoroutine(AutoReturnRoutine());
+        }
+
+        private IEnumerator AutoReturnRoutine()
+        {
+            yield return new WaitForSeconds(autoReturnDelay);
+            ObjectPoolManager.Instance?.Return(gameObject);
+        }
+
+        private IEnumerator DespawnCheckRoutine()
+        {
+            var wait = new WaitForSeconds(despawnCheckInterval);
+            while (true)
+            {
+                yield return wait;
+                if (IsDead) yield break;
+
+                var player = GameManager.CurPlayer;
+                if (player == null) continue;
+
+                float sqrDist = ((Vector2)(player.transform.position - transform.position)).sqrMagnitude;
+                if (sqrDist > despawnDistanceSqr)
+                {
+                    ObjectPoolManager.Instance?.Return(gameObject);
+                    yield break;
+                }
+            }
         }
 
         public void RegisterNavAgent(EnemyNavAgentBase agent)

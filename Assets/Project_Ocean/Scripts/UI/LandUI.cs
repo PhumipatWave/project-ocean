@@ -27,7 +27,11 @@ namespace Game.Testing
         private void Start()
         {
             if (startDiveButton != null)
-                startDiveButton.onClick.AddListener(() => GameManager.Instance?.StartDive());
+                startDiveButton.onClick.AddListener(() =>
+                {
+                    InventoryManager.Instance?.CloseInventory();
+                    GameManager.Instance?.StartDive();
+                });
 
             if (nextDayButton != null)
                 nextDayButton.onClick.AddListener(() => DayManager.Instance?.AdvanceDay());
@@ -37,6 +41,23 @@ namespace Game.Testing
 
             if (loadButton != null)
                 loadButton.onClick.AddListener(() => SaveBridge.Instance?.LoadGame());
+
+            WireShopButtons();
+        }
+
+        private void WireShopButtons()
+        {
+            WireButton("ShopPanel/ShopSell/AllButton/bin",
+                () => InventoryManager.Instance?.RemoveSelectedItem());
+
+            WireButton("ShopPanel/ShopSell/CloseButton",
+                () => InventoryManager.Instance?.CloseInventory());
+        }
+
+        private void WireButton(string path, UnityEngine.Events.UnityAction action)
+        {
+            var btn = transform.Find(path)?.GetComponent<Button>();
+            if (btn != null) btn.onClick.AddListener(action);
         }
     }
 }

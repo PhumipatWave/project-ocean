@@ -8,9 +8,6 @@ namespace Game.Testing
         [Header("Alert UI")]
         [SerializeField] protected FishAlertUI fishAlertUI;
 
-        [Header("Pool Settings")]
-        [SerializeField] private float autoReturnDelay = 15f;
-
         [Header("Hit Receiver")]
         [SerializeField] protected string playerBulletTag = "Bullet";
         [SerializeField] protected string playerTag = "Player";
@@ -34,6 +31,7 @@ namespace Game.Testing
         private IEnemyBrain enemyBrain;
         private Boid boid;
         private bool deathHandled;
+        private bool isDormant;
         private string spawnId;
         private string flockIdOverride;
 
@@ -183,13 +181,6 @@ namespace Game.Testing
             enemyBrain?.OnDeath();
             OnEnemyUnavailable();
             StopAgentMovement();
-            StartCoroutine(AutoReturnRoutine());
-        }
-
-        private System.Collections.IEnumerator AutoReturnRoutine()
-        {
-            yield return new UnityEngine.WaitForSeconds(autoReturnDelay);
-            ObjectPoolManager.Instance?.Return(gameObject);
         }
 
         protected void StopAgentMovement()
@@ -236,22 +227,48 @@ namespace Game.Testing
 
         private bool CanTick()
         {
-            if (enemyBrain == null)
-                return false;
+            if (enemyBrain == null) return false;
 
-            if (isEnemyDead)
+            if (isEnemyDead) { OnEnemyDead(); return false; }
+
+            if (requiresPlayer && playerTransform == null) { OnEnemyUnavailable(); return false; }
+
+            if (requiresNavMesh && (navAgent == null || !navAgent.isOnNavMesh)) return false;
+
+            // Dormancy — pause AI when player is far away (threshold set on Enemy).
+            if (playerTransform != null)
             {
-                OnEnemyDead();
-                return false;
+                float sqrDist = ((Vector2)(playerTransform.position - transform.position)).sqrMagnitude;
+                float sleepSqr = enemy != null ? enemy.SleepDistanceSqr : float.MaxValue;
+                if (sqrDist > sleepSqr)
+                {
+                    if (!isDormant) EnterDormancy();
+                    return false;
+                }
+                if (isDormant) ExitDormancy();
             }
 
-            if (requiresPlayer && playerTransform == null)
-            {
-                OnEnemyUnavailable();
-                return false;
-            }
+            return true;
+        }
 
-            return !requiresNavMesh || (navAgent != null && navAgent.isOnNavMesh);
+        private void EnterDormancy()
+        {
+            isDormant = true;
+            if (navAgent != null && navAgent.isOnNavMesh)
+            {
+                navAgent.isStopped = true;
+                navAgent.ResetPath();
+            }
+        }
+
+        private void ExitDormancy()
+        {
+            isDormant = false;
+            if (navAgent != null && navAgent.isOnNavMesh)
+            {
+                navAgent.isStopped = false;
+                navAgent.ResetPath(); // clear stale path; FSM will pick a fresh destination
+            }
         }
 
         // ── IPoolable ──
@@ -259,6 +276,7 @@ namespace Game.Testing
         public void OnGetFromPool()
         {
             deathHandled = false;
+            isDormant = false;
             StopAllCoroutines();
             fishAlertUI?.HideAll();
             enemyBrain?.Initialize(BuildBrainContext());
