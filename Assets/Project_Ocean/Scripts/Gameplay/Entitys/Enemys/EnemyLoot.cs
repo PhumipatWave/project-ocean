@@ -10,16 +10,18 @@ namespace Game.Testing
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
 
-        private Enemy enemy;
-        private bool playerInRange;
+        [SerializeField] private Enemy enemy;
+        [SerializeField] private bool playerInRange;
+        private bool isCollected;
 
         private void Awake()
         {
-            enemy = GetComponent<Enemy>();
+            enemy = GetComponentInParent<Enemy>();
         }
 
         private void OnEnable()
         {
+            isCollected = false;
             if (inputReader != null)
                 inputReader.OnInteracted += HandleInteract;
         }
@@ -28,12 +30,13 @@ namespace Game.Testing
         {
             if (inputReader != null)
                 inputReader.OnInteracted -= HandleInteract;
-            playerInRange = false;
         }
 
         private void HandleInteract(bool pressed)
         {
-            if (!pressed || !playerInRange || enemy == null || !enemy.IsDead) return;
+            if (isCollected || !playerInRange || enemy == null || !enemy.IsDead)
+                return;
+
             Collect();
         }
 
@@ -51,16 +54,19 @@ namespace Game.Testing
 
         private void Collect()
         {
+            isCollected = true;
+
             if (dropItem != null)
                 InventoryManager.Instance?.AddItem(dropItem);
 
             if (GameManager.CurPlayer?.Audio != null)
                 GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
 
+            var root = enemy != null ? enemy.gameObject : gameObject;
             if (ObjectPoolManager.Instance != null)
-                ObjectPoolManager.Instance.Return(gameObject);
+                ObjectPoolManager.Instance.Return(root);
             else
-                Destroy(gameObject);
+                Destroy(root);
         }
     }
 }
