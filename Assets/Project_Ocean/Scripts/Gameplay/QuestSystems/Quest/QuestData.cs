@@ -18,6 +18,8 @@ namespace Game.Testing
         public QuestType type;
         public QuestStatus status;
 
+
+
         [Header("KillCount quest settings")]
         public string targetEnemyId;   // ไอดีของศัตรูที่ต้องฆ่า (ตรงกับ EnemyIdentity.EnemyId)
         public int targetCount = 1;    // จำนวนที่ต้องฆ่า
@@ -32,6 +34,7 @@ namespace Game.Testing
         public string answerReject;
         public string rewardItemId;
         public int rewardExp;
+        public int rewardMoney;
         public string questionInProgress;
         public string answerFinish;
         public string answerNotFinish;

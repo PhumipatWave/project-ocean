@@ -207146,15 +207146,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::NPCInteract
-  hasQuest: 0
+  hasQuest: 1
   npcDialogue: ...
   npcPortrait: {fileID: -2349032854219997288, guid: ee75c477261750549a9782b113360a1e, type: 3}
-  targetQuestId: 0
+  targetQuestId: 202
   questDetailPanel: {fileID: 1277156060}
-  dialoguePanel: {fileID: 1530314195}
-  npcNameText: {fileID: 0}
-  dialogueText: {fileID: 2134801005}
-  npcAvatarImage: {fileID: 704739547}
+  dialoguePanel: {fileID: 1310576926}
+  npcNameText: {fileID: 1099301752}
+  dialogueText: {fileID: 627416655}
+  npcAvatarImage: {fileID: 1057272140}
 --- !u!61 &1239045170
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -232520,15 +232520,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::NPCInteract
-  hasQuest: 0
+  hasQuest: 1
   npcDialogue: ...
   npcPortrait: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
-  targetQuestId: 0
+  targetQuestId: 203
   questDetailPanel: {fileID: 1277156060}
-  dialoguePanel: {fileID: 1530314195}
-  npcNameText: {fileID: 0}
-  dialogueText: {fileID: 2134801005}
-  npcAvatarImage: {fileID: 704739547}
+  dialoguePanel: {fileID: 1310576926}
+  npcNameText: {fileID: 1099301752}
+  dialogueText: {fileID: 627416655}
+  npcAvatarImage: {fileID: 1057272140}
 --- !u!61 &1452219526
 BoxCollider2D:
   m_ObjectHideFlags: 0

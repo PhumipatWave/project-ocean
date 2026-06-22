@@ -79,6 +79,16 @@ namespace Game.Testing
                 Debug.Log($"Progress : {q.CurrentCount}/{q.TargetCount}");
 
                 OnQuestUpdated?.Invoke();
+
+                bool justFinished = q.AddProgress(1);
+                if (justFinished && q.CompletionMode == QuestCompletionMode.AutoComplete)
+                {
+                    if (q.RewardMoney > 0)
+                    {
+                        OnMoneyRewarded?.Invoke(q.RewardMoney);
+                        Debug.Log($"[QuestManager] (AutoComplete) จ่ายเงินรางวัล: +{q.RewardMoney} บาท");
+                    }
+                }
             }
         }
 
@@ -228,33 +238,34 @@ namespace Game.Testing
                 q.Status == QuestStatus.ReadyToTurnIn
             );
         }
-    
+
         /// <summary>
         /// Called by the NPC when the player clicks Turn In.
         /// Quest must be ReadyToTurnIn — any other state returns false with a warning.
         /// </summary>
+        
+        public static event Action<int> OnMoneyRewarded;
         public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
-            if (quest == null)
-            {
-                Debug.LogWarning($"[QuestManager] TurnInQuest: quest id {questID} not found.");
-                return false;
-            }
-
-            if (quest.Status != QuestStatus.ReadyToTurnIn)
-            {
-                Debug.LogWarning($"[QuestManager] TurnInQuest: '{quest.QuestName}' is {quest.Status}, expected ReadyToTurnIn.");
-                return false;
-            }
+            if (quest == null) return false;
+            if (quest.Status != QuestStatus.ReadyToTurnIn) return false;
 
             quest.Status = QuestStatus.Finish;
-            Debug.Log($"[QuestManager] Quest '{quest.QuestName}' turned in.");
+
+            // 2. [เพิ่มโค้ดสั่งจ่ายเงินตรงนี้]
+            if (quest.RewardMoney > 0)
+            {
+                OnMoneyRewarded?.Invoke(quest.RewardMoney);
+                Debug.Log($"[QuestManager] Completing quests: +{quest.RewardMoney} $");
+            }
 
             OnQuestUpdated?.Invoke();
             return true;
-        } // TurnInQuest ===
+        }
 
-}
+
+
+    }
 }
