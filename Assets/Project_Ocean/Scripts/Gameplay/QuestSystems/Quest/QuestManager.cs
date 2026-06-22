@@ -228,5 +228,33 @@ namespace Game.Testing
                 q.Status == QuestStatus.ReadyToTurnIn
             );
         }
-    }
+    
+        /// <summary>
+        /// Called by the NPC when the player clicks Turn In.
+        /// Quest must be ReadyToTurnIn — any other state returns false with a warning.
+        /// </summary>
+        public bool TurnInQuest(int questID)
+        {
+            Quest quest = GetQuestById(questID);
+
+            if (quest == null)
+            {
+                Debug.LogWarning($"[QuestManager] TurnInQuest: quest id {questID} not found.");
+                return false;
+            }
+
+            if (quest.Status != QuestStatus.ReadyToTurnIn)
+            {
+                Debug.LogWarning($"[QuestManager] TurnInQuest: '{quest.QuestName}' is {quest.Status}, expected ReadyToTurnIn.");
+                return false;
+            }
+
+            quest.Status = QuestStatus.Finish;
+            Debug.Log($"[QuestManager] Quest '{quest.QuestName}' turned in.");
+
+            OnQuestUpdated?.Invoke();
+            return true;
+        } // TurnInQuest ===
+
+}
 }
