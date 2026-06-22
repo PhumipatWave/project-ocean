@@ -10,27 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: 001_First Dive
+  m_Name: 203_Test_Kill 2
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  npcName: Peachzy
+  npcName: "Peachzy\u0E45"
   npcAvatar: {fileID: -2338812187634505688, guid: c35ff9eab80b6854dbfbf9b60fa51fb8, type: 3}
-  questId: 1
-  type: 0
+  questId: 203
+  type: 1
   status: 0
-  questName: First Dive
-  questDetail: 'Talk to the local fishermen on the island. '
-  questItemId: 1150
+  targetEnemyId: fishM
+  targetCount: 5
+  completionMode: 1
+  questName: Kill fishM 2
+  questDetail: 'Kill fish M : 3 '
+  questItemId: 1200
   questDialogue:
-  - You go to shop
-  - Can you buy !
-  - Buy Now !!
+  - Hello
+  - Can I ask you
+  - I Need you
   answerNext:
-  - Ok Nah
-  - 123
-  answerAccept: 
-  answerReject: 
-  rewardItemId: 1150
+  - Hi
+  - WTF!!
+  answerAccept: Yessss
+  answerReject: Nooo
+  rewardItemId: 0
   rewardExp: 0
-  questionInProgress: 
-  answerFinish: 
-  answerNotFinish: 
+  questionInProgress: Are you Gay?
+  answerFinish: Yess I'm Gay!!
+  answerNotFinish: Nahh

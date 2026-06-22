@@ -5,8 +5,13 @@ namespace Game.Testing
 {
     public enum QuestType
     {
-        Delivery, // Delivery คือเควสประเภท เอาของที่ต้องการมาส่งให้ NPC
-        KillCount // KillCount คือฆ่ามอนสเตอร์ตามที่ NPC ต้องการ
+        Delivery,  // Delivery คือเควสประเภท เอาของที่ต้องการมาส่งให้ NPC
+        KillCount, // KillCount คือฆ่ามอนสเตอร์ตามที่ NPC ต้องการ
+
+        CollectTrash,
+        ExploreArea,
+        RepairObject
+
     }
 
     public enum QuestStatus
@@ -151,6 +156,17 @@ namespace Game.Testing
                 ? QuestStatus.Finish
                 : QuestStatus.ReadyToTurnIn;
             return true;
+        }
+
+        public string TrackerText
+        {
+            get
+            {
+                if (status == QuestStatus.ReadyToTurnIn)
+                    return "READY TO TURN IN";
+
+                return Progress;
+            }
         }
     }
 }

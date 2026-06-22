@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Game.Testing
@@ -6,6 +7,7 @@ namespace Game.Testing
     public class QuestManager : MonoBehaviour, ISaveParticipant
     {
         public static QuestManager Instance { get; private set; }
+        public static event Action OnQuestUpdated;
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
@@ -49,17 +51,34 @@ namespace Game.Testing
         /// </summary>
         private void HandleEnemyKilled(string enemyId)
         {
-            if (string.IsNullOrEmpty(enemyId)) return;
+            Debug.Log($"Quest Received Kill : {enemyId}");
+
+            if (string.IsNullOrEmpty(enemyId))
+                return;
 
             foreach (var q in activeQuestList)
             {
-                if (q.Type != QuestType.KillCount) continue;
-                if (q.Status != QuestStatus.InProgress) continue;
-                if (q.TargetEnemyId != enemyId) continue;
+                Debug.Log($"Quest Target : {q.TargetEnemyId}");
+
+                if (q.Type != QuestType.KillCount)
+                    continue;
+
+                if (q.Status != QuestStatus.InProgress)
+                    continue;
+
+                if (q.TargetEnemyId != enemyId)
+                {
+                    Debug.Log("Target Not Match");
+                    continue;
+                }
+
+                Debug.Log("Target Match");
 
                 bool justCompleted = q.AddProgress(1);
-                if (justCompleted)
-                    Debug.Log($"[QuestManager] Quest '{q.QuestName}' objective complete ({q.Progress}) -> {q.Status}");
+
+                Debug.Log($"Progress : {q.CurrentCount}/{q.TargetCount}");
+
+                OnQuestUpdated?.Invoke();
             }
         }
 
@@ -88,6 +107,14 @@ namespace Game.Testing
                     currentCount = q.CurrentCount,
                 });
             return list;
+        }
+
+        public List<Quest> GetCompletedQuests()
+        {
+            return activeQuestList.FindAll(
+                q =>
+                q.Status == QuestStatus.Finish
+            );
         }
 
         /// <summary>
@@ -119,6 +146,87 @@ namespace Game.Testing
         public void Apply(SaveData data)
         {
             LoadSaveState(data.quests);
+        }
+
+        public bool AcceptQuest(int questID)
+        {
+            if (HasActiveQuest())
+            {
+                Debug.Log("Already have an active quest.");
+                return false;
+            }
+
+            Quest quest = GetQuestById(questID);
+
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.New)
+                return false;
+
+            quest.Status = QuestStatus.InProgress;
+
+            OnQuestUpdated?.Invoke();
+
+            return true;
+        } // AcceptQuest ===
+
+        public bool RejectQuest(int questID)
+        {
+            Quest quest = GetQuestById(questID);
+
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.New)
+                return false;
+
+            quest.Status = QuestStatus.Reject;
+
+            OnQuestUpdated?.Invoke();
+
+            return true;
+        } // RejectQuest ===
+
+        public bool CancelQuest(int questID)
+        {
+            Quest quest = GetQuestById(questID);
+
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.InProgress &&
+                quest.Status != QuestStatus.ReadyToTurnIn)
+                return false;
+
+            // รีเซ็ตสถานะ
+            quest.Status = QuestStatus.New;
+
+            // รีเซ็ต Progress
+            quest.CurrentCount = 0;
+
+            OnQuestUpdated?.Invoke();
+
+            Debug.Log($"Quest {quest.QuestName} cancelled.");
+
+            return true;
+        }
+
+        public bool HasActiveQuest()
+        {
+            return activeQuestList.Exists(
+                q => q.Status == QuestStatus.InProgress ||
+                     q.Status == QuestStatus.ReadyToTurnIn
+            );
+        }
+
+        public Quest GetCurrentActiveQuest()
+        {
+            return activeQuestList.Find(
+                q =>
+                q.Status == QuestStatus.InProgress ||
+                q.Status == QuestStatus.ReadyToTurnIn
+            );
         }
     }
 }
