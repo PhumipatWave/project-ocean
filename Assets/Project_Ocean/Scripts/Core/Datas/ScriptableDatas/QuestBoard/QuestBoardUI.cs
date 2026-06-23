@@ -31,15 +31,28 @@ namespace Game.Testing
         private void OnEnable()
         {
             currentPageIndex = 0;
-            if (questDetailPanel != null) questDetailPanel.HidePanel();
-            FetchAndRefreshBoard();
+
+            if (questDetailPanel != null)
+                questDetailPanel.HidePanel();
+
+            if (QuestManager.Instance != null)
+            {
+                QuestManager.OnQuestUpdated += FetchAndRefreshBoard;
+                FetchAndRefreshBoard();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (QuestManager.Instance != null)
+                QuestManager.OnQuestUpdated -= FetchAndRefreshBoard;
         }
 
         public void FetchAndRefreshBoard()
         {
             if (QuestManager.Instance == null)
             {
-                Debug.LogError("ไม่พบ QuestManager ใน Scene กรุณาติดตั้งก่อนใช้งานบอร์ด UI");
+                Debug.LogWarning("QuestManager ยังไม่พร้อม"); 
                 return;
             }
 

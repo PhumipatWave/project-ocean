@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: ItemFishS_002
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  ItemID: 7
-  ItemName: FishS_02
-  ItemType: 0
+  ItemID: 1101
+  ItemName: FishS_1101
+  ItemDescription: 
   ItemVisual: {fileID: -3066503393598026269, guid: d2c3665dd3581294eb68e4c8fc7f488f, type: 3}
   ItemPrefab: {fileID: 0}
-  MaxStackable: 3
   ItemPrice: 50
+  MaxStackable: 3
+  ItemType: 0
+  CanBuy: 1
+  CanSell: 1

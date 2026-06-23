@@ -5,8 +5,13 @@ namespace Game.Testing
 {
     public enum QuestType
     {
-        Delivery, // Delivery คือเควสประเภท เอาของที่ต้องการมาส่งให้ NPC
-        KillCount // KillCount คือฆ่ามอนสเตอร์ตามที่ NPC ต้องการ
+        Delivery,  // Delivery คือเควสประเภท เอาของที่ต้องการมาส่งให้ NPC
+        KillCount, // KillCount คือฆ่ามอนสเตอร์ตามที่ NPC ต้องการ
+
+        CollectTrash,
+        ExploreArea,
+        RepairObject
+
     }
 
     public enum QuestStatus
@@ -89,6 +94,9 @@ namespace Game.Testing
         private int rewardExp; // rewardExp คือ Exp รางวัลจากเควสนี้ (ยังไม่ใช้)
         public int RewardExp { get { return rewardExp; } }
 
+        [SerializeField] private int rewardMoney;
+        public int RewardMoney { get { return rewardMoney; } }
+
         [SerializeField]
         private string questionInProgress; // questionInProgress คือคำถามจาก NPC เวลาที่เรารับเควสไปแล้วกลับมาคุย
         public string QuestionInProgress { get { return questionInProgress; } }
@@ -122,6 +130,7 @@ namespace Game.Testing
             answerReject = questData.answerReject;
             rewardItemId = questData.rewardItemId;
             rewardExp = questData.rewardExp;
+            rewardMoney = questData.rewardMoney;
             questionInProgress = questData.questionInProgress;
             answerFinish = questData.answerFinish;
             answerNotFinish = questData.answerNotFinish;
@@ -132,6 +141,8 @@ namespace Game.Testing
             targetCount = questData.targetCount;
             completionMode = questData.completionMode;
             currentCount = 0;
+
+
         }
 
         /// <summary>
@@ -152,5 +163,18 @@ namespace Game.Testing
                 : QuestStatus.ReadyToTurnIn;
             return true;
         }
+
+        public string TrackerText
+        {
+            get
+            {
+                if (status == QuestStatus.ReadyToTurnIn)
+                    return "READY TO TURN IN";
+
+                return Progress;
+            }
+        }
+
+
     }
 }
