@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7616808386829927078}
   - component: {fileID: 5741118174037984207}
   m_Layer: 0
-  m_Name: LootCpmponent
+  m_Name: LootComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 2
+  m_Radius: 3
 --- !u!114 &5741118174037984207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,9 +81,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
+  dropItem: {fileID: 11400000, guid: 7f5f416aed10ca741b2116d46d119b9a, type: 2}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  enemy: {fileID: 0}
+  enemy: {fileID: 3207163715615100706}
   playerInRange: 0
 --- !u!1 &2653616273152447755
 GameObject:
@@ -188,7 +188,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.2, y: -0.69, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4373255698068515926}
@@ -239,7 +239,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1397094096353909024, guid: 2b90de044dd9070459241d356c9b1338, type: 3}
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4692714576351228148}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba765a599b43231489bea939b9bd27d9, type: 3}
   m_Name: 
@@ -575,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8214061880083925011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 3769312427449725687}
   - component: {fileID: 2311856355048466399}
   - component: {fileID: 8933596969445124632}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FishS gill
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -913,9 +913,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.15994678, y: -0.17607096}
-  m_Size: {x: 0.87060726, y: 0.76163787}
-  m_Direction: 1
+  m_Offset: {x: -0.05, y: 0.1}
+  m_Size: {x: 1.25, y: 1.75}
+  m_Direction: 0
 --- !u!195 &2849432993923143802
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -966,9 +966,8 @@ MonoBehaviour:
   entityDeathHandler: {fileID: 3435734271064201839}
   rb: {fileID: 1217555987416005051}
   entityHealth: {fileID: 3813288538308619212}
-  loot: {fileID: 0}
+  loot: {fileID: 5741118174037984207}
   navAgentHost: {fileID: 3769312427449725687}
-  autoReturnDelay: 15
   sleepDistance: 75
   despawnDistance: 120
   despawnCheckInterval: 10

@@ -25,9 +25,6 @@ namespace Game.Testing
         [SerializeField] private EnemyLoot loot;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
-        [Header("Pool Settings")]
-        [SerializeField] private float autoReturnDelay = 15f;
-
         [Header("Proximity")]
         [Tooltip("NavAgent and brain pause when player is farther than this. 0 = never sleep.")]
         [SerializeField] private float sleepDistance = 40f;
@@ -118,7 +115,8 @@ namespace Game.Testing
 
         private IEnumerator AutoReturnRoutine()
         {
-            yield return new WaitForSeconds(autoReturnDelay);
+            float delay = navAgentHost != null ? navAgentHost.AutoReturnDelay : 60f;
+            yield return new WaitForSeconds(delay);
             ObjectPoolManager.Instance?.Return(gameObject);
         }
 

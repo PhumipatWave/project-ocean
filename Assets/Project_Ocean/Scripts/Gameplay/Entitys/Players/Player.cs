@@ -365,11 +365,6 @@ namespace Game.Testing
         {
             entityAnimation?.PlayAnim(AnimHash.IsAim, gunHandler.IsAimming);
         }
-
-        private void StabAnim()
-        {
-            entityAnimation?.PlayAnim(AnimHash.Stab);
-        }
         #endregion
 
         #region PlayerUtils

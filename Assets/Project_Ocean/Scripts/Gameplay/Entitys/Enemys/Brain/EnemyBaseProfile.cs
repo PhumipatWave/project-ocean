@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.Testing
 {
@@ -23,10 +22,6 @@ namespace Game.Testing
 
         [Tooltip("Vision cone full angle in degrees, centered on the current move direction.")]
         public float viewAngle = 90f;
-
-        [Tooltip("Layers that block vision. If empty, wallLayer is used instead.")]
-        [FormerlySerializedAs("obstacleLayer")]
-        public LayerMask visionObstacleMask;
 
         [Tooltip("Print detection messages when the player enters radius, is seen, or is blocked.")]
         public bool debugVision;
@@ -73,5 +68,23 @@ namespace Game.Testing
 
         [Tooltip("Step size between concentric sample rings near the player.")]
         public float nearPlayerSearchStep = 0.5f;
-}
+
+        [Header("Contact Damage")]
+        [Tooltip("Damage dealt to the player on body contact. 0 = no contact damage.")]
+        public float contactDamage = 0f;
+
+        [Tooltip("Minimum seconds between contact damage hits.")]
+        public float contactDamageCooldown = 1f;
+
+        [Header("Corpse")]
+        [Tooltip("Seconds after death before auto-returning to pool.")]
+        public float autoReturnDelay = 60f;
+
+        [Header("Agent")]
+        [Tooltip("Tick facing from NavMesh agent velocity each frame (for NavMesh-driven enemies without FSM-managed facing).")]
+        public bool tickFacingFromVelocity = false;
+
+        public virtual bool RequiresNavMesh => true;
+        public virtual IEnemyBrain CreateBrain() => new EnemyBrain(this);
+    }
 }

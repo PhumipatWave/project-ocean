@@ -6,6 +6,8 @@ namespace Game.Testing
     {
         private readonly EnemyBaseProfile profile;
 
+        private float lastContactDamageTime = float.MinValue;
+
         private EnemyVision vision;
         private EnemyFollowState followState;
         private EnemyAttackState attackState;
@@ -21,19 +23,25 @@ namespace Game.Testing
         }
 
         public bool CanSeePlayer() => vision?.CheckLineOfSight() ?? false;
-        public void OnHit() => OnHit(enemyBrainContext?.PlayerTransform);
+        public virtual void OnHit() => OnHit(enemyBrainContext?.PlayerTransform);
 
-        public void OnPlayerCollision()
+        public virtual void OnPlayerCollision()
         {
-            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile) 
-                return;
+            if (profile.contactDamage > 0f &&
+                Time.time - lastContactDamageTime >= profile.contactDamageCooldown)
+            {
+                lastContactDamageTime = Time.time;
+                enemyBrainContext?.Player?.TakeDamage(profile.contactDamage);
+            }
 
+            if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile) return;
             OnHit(enemyBrainContext?.PlayerTransform);
         }
 
         public override void Initialize(EnemyBrainContext context)
         {
             base.Initialize(context);
+            lastContactDamageTime = float.MinValue;
 
             if (profile == null)
             {
@@ -65,7 +73,7 @@ namespace Game.Testing
                     break;
 
                 default:
-                    Debug.LogWarning($"[EnemyBrain] Unknown profile type: {profile.GetType().Name}", context.Host);
+                    // Wander + Follow only — no extra states for this profile type.
                     break;
             }
 

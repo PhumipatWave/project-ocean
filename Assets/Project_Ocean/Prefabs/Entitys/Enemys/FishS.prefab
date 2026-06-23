@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7616808386829927078}
   - component: {fileID: 5741118174037984207}
   m_Layer: 0
-  m_Name: LootCpmponent
+  m_Name: LootComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 2
+  m_Radius: 2.5
 --- !u!114 &5741118174037984207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  enemy: {fileID: 0}
+  enemy: {fileID: 3207163715615100706}
   playerInRange: 0
 --- !u!1 &2653616273152447755
 GameObject:
@@ -188,7 +188,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.2, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4373255698068515926}
@@ -239,7 +239,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3658569535416648312, guid: c7f761763e2b4204a9f4fdb7159d264e, type: 3}
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4692714576351228148}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba765a599b43231489bea939b9bd27d9, type: 3}
   m_Name: 
@@ -575,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8214061880083925011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -914,7 +914,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.2, y: 0}
-  m_Size: {x: 1, y: 0.75}
+  m_Size: {x: 1.25, y: 0.75}
   m_Direction: 1
 --- !u!195 &2849432993923143802
 NavMeshAgent:
@@ -968,7 +968,6 @@ MonoBehaviour:
   entityHealth: {fileID: 3813288538308619212}
   loot: {fileID: 0}
   navAgentHost: {fileID: 3769312427449725687}
-  autoReturnDelay: 15
   sleepDistance: 75
   despawnDistance: 120
   despawnCheckInterval: 10

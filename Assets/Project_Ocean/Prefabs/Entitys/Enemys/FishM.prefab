@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9177790244491258353}
   - component: {fileID: 4378132369638926937}
   m_Layer: 0
-  m_Name: LootCpmponent
+  m_Name: LootComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -448,7 +448,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1586706376951250328, guid: 391e3b4cf6308bd4fa183d8adae1c575, type: 3}
@@ -817,7 +817,6 @@ MonoBehaviour:
   entityHealth: {fileID: 6158050102475070925}
   loot: {fileID: 0}
   navAgentHost: {fileID: 8810485351442315744}
-  autoReturnDelay: 15
   sleepDistance: 75
   despawnDistance: 120
   despawnCheckInterval: 10

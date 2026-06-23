@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee171285cbbcaa4db94e30dfba479fe, type: 3}
-  m_Name: JellyfishProfile
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.JellyfishProfile
-  fishId: 
-  speed: 2
+  m_Script: {fileID: 11500000, guid: 955c3e045ebac1a43bee6254f3d4e593, type: 3}
+  m_Name: JellyFishProfile
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.LinearPatrolProfile
+  fishId: jellyFish
+  speed: 2.25
   viewDistance: 6
   viewAngle: 90
   visionObstacleMask:
@@ -27,13 +27,22 @@ MonoBehaviour:
   wanderRadius: 3
   wanderInterval: 2
   hitChaseDuration: 5
-  chasePlayerWhenHit: 1
+  chasePlayerWhenHit: 0
   followAfterLost: 6
   fishClearanceRadius: 0.5
   maxWanderSampleTries: 20
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
-  bobSpeed: 0.3
-  bobAmplitude: 8
-  contactDamage: 5
+  contactDamage: 25
+  contactDamageCooldown: 1.5
+  autoReturnDelay: 60
+  tickFacingFromVelocity: 0
+  axis: 1
+  movementMode: 0
+  moveSpeed: 2.25
+  moveLength: 10
+  pauseDuration: 0.4
+  wallDetectDistance: 0.3
+  groundCheckOffset: 0.4
+  groundCheckDistance: 0.6

@@ -35,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908830399425127301}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.85, y: -47.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -161,7 +161,6 @@ MonoBehaviour:
   entityHealth: {fileID: 5836762674353345798}
   loot: {fileID: 0}
   navAgentHost: {fileID: 8532016973429987040}
-  autoReturnDelay: 15
   sleepDistance: 75
   despawnDistance: 120
   despawnCheckInterval: 10
@@ -433,7 +432,7 @@ GameObject:
   - component: {fileID: 7746936060694900650}
   - component: {fileID: 7845895271306796388}
   m_Layer: 0
-  m_Name: LootCpmponent
+  m_Name: LootComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +488,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 2
+  m_Radius: 3
 --- !u!114 &7845895271306796388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +608,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.25, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3024418121135935058}
@@ -660,7 +659,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1424452513
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3066503393598026269, guid: d2c3665dd3581294eb68e4c8fc7f488f, type: 3}
@@ -935,7 +934,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8502601961204617486}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba765a599b43231489bea939b9bd27d9, type: 3}
   m_Name: 
@@ -958,7 +957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8554506125846879518
 RectTransform:
   m_ObjectHideFlags: 0

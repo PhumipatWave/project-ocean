@@ -60,6 +60,9 @@ namespace Game.Testing
         /// The fish type ID from the brain profile (e.g. "fishM").
         public string FishId => GetFishId();
 
+        /// Seconds after death before auto-returning to pool. Read by Enemy.
+        public virtual float AutoReturnDelay => 60f;
+
         protected bool isEnemyDead => enemy != null && enemy.IsDead;
         protected Player player => enemy != null ? enemy.Player : null;
         protected Transform playerTransform => player != null ? player.transform : null;
@@ -206,8 +209,15 @@ namespace Game.Testing
             if (navAgent == null)
                 return;
 
+            if (!requiresNavMesh)
+            {
+                navAgent.enabled = false;
+                navAgent = null;
+                return;
+            }
+
             navAgent.updateRotation = false;
-            navAgent.updateUpAxis = false;
+            navAgent.updateUpAxis   = false;
         }
 
         private EnemyBrainContext BuildBrainContext()

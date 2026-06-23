@@ -41,6 +41,13 @@ namespace Game.Testing
         [Tooltip("Max random attempts per slot before giving up on that slot.")]
         [SerializeField] private int maxSpawnAttempts = 10;
 
+        [Header("Spawn Clearance")]
+        [Tooltip("Overlap radius used to reject positions inside walls. Set to roughly half the enemy collider width.")]
+        [SerializeField] private float spawnClearanceRadius = 0.3f;
+
+        [Tooltip("Layers counted as obstacles for the clearance check. Usually the same as wallLayer on the enemy profiles.")]
+        [SerializeField] private LayerMask obstacleLayer;
+
         [Header("Proximity Activation")]
         [Tooltip("Spawn enemies when the player enters this radius from the zone centre.")]
         [SerializeField] private float activateRadius = 30f;
@@ -132,7 +139,7 @@ namespace Game.Testing
 
                 if (!TryGetNavMeshPosition(out Vector3 spawnPos))
                 {
-                    Debug.LogWarning($"[EnemySpawnManager] '{name}' slot {i}: no valid NavMesh position found after {maxSpawnAttempts} attempts — skipped.");
+                    Debug.LogWarning($"[EnemySpawnManager] '{name}' slot {i}: no valid spawn position found after {maxSpawnAttempts} attempts — skipped.");
                     continue;
                 }
 
@@ -161,14 +168,18 @@ namespace Game.Testing
         {
             for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
             {
-                Vector2 offset      = UnityEngine.Random.insideUnitCircle * spawnRadius;
-                Vector3 candidate   = transform.position + new Vector3(offset.x, offset.y, 0f);
+                Vector2 offset    = UnityEngine.Random.insideUnitCircle * spawnRadius;
+                Vector3 candidate = transform.position + new Vector3(offset.x, offset.y, 0f);
 
-                if (NavMesh.SamplePosition(candidate, out NavMeshHit hit, navSampleDistance, NavMesh.AllAreas))
-                {
-                    result = hit.position;
-                    return true;
-                }
+                if (!NavMesh.SamplePosition(candidate, out NavMeshHit navHit, navSampleDistance, NavMesh.AllAreas))
+                    continue;
+                candidate = navHit.position;
+
+                if (obstacleLayer.value != 0 && Physics2D.OverlapCircle(candidate, spawnClearanceRadius, obstacleLayer) != null)
+                    continue;
+
+                result = candidate;
+                return true;
             }
 
             result = transform.position;
