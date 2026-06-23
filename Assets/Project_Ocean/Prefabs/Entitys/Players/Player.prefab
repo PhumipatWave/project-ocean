@@ -1203,7 +1203,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.15}
   m_Size: {x: 0.5, y: 1.75}
   m_Direction: 0
 --- !u!50 &6074467683018909699
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   playerFlashDuration: 0.25
   moveSpeed: 8
   dashSpeed: 25
-  sprintSpeed: 15
+  sprintSpeed: 10
 --- !u!114 &4000928468899383921
 MonoBehaviour:
   m_ObjectHideFlags: 0
