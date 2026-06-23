@@ -12,18 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
   m_Name: 101_QB_Test 1
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  npcName: QuestBoard 2
+  npcAvatar: {fileID: 21300000, guid: d1eba59f85e792443b24b75557ea685d, type: 3}
   questId: 101
-  type: 0
+  type: 1
   status: 0
-  questName: You can say that we are nothin; but you know the truth
-  questDetail: 1
-  questItemId: 1150
+  targetEnemyId: fishS
+  targetCount: 3
+  completionMode: 0
+  questName: Test Quest Board 2
+  questDetail: 'Kill Fish S : 3'
+  questItemId: 1100
   questDialogue: []
   answerNext: []
-  answerAccept: 
-  answerReject: 
+  answerAccept: Yessss
+  answerReject: Nooo
   rewardItemId: 
   rewardExp: 0
+  rewardMoney: 50
   questionInProgress: 
   answerFinish: 
   answerNotFinish: 

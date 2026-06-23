@@ -101,6 +101,9 @@ namespace Game.Testing
 
         protected override void OnDeathHandler()
         {
+            Debug.Log($"Enemy Killed : {enemyId}");
+            EnemyEvents.RaiseEnemyKilled(enemyId);
+
             // Fire the kill event — runs exactly once (EntityHealth.OnDied is isDead-guarded).
             if (!string.IsNullOrEmpty(enemyId))
                 EnemyEvents.RaiseEnemyKilled(enemyId);

@@ -12,20 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
   m_Name: 100_QB_Test
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  npcName: QuestBoard 1
+  npcAvatar: {fileID: 21300000, guid: d1eba59f85e792443b24b75557ea685d, type: 3}
   questId: 100
-  type: 0
+  type: 1
   status: 0
-  questName: "It\u2019s fine, it\u2019s cool"
-  questDetail: They generally mean that they accept a situation, agree with a plan, 
-    or are giving something their approval.  It is a highly versatile phrase that
-    relies heavily on context and tone.
-  questItemId: 1150
+  targetEnemyId: fishL
+  targetCount: 1
+  completionMode: 0
+  questName: Test Quest Board 1
+  questDetail: 'Kill Fish L : 1'
+  questItemId: 1300
   questDialogue: []
   answerNext: []
-  answerAccept: 
-  answerReject: 
+  answerAccept: Yessss
+  answerReject: Nooo
   rewardItemId: 
   rewardExp: 0
+  rewardMoney: 200
   questionInProgress: 
   answerFinish: 
   answerNotFinish: 
