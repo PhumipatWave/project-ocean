@@ -10,19 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: 104_QB_Test 3
+  m_Name: 001_First Dive
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  questId: 104
+  npcName: Peachzy
+  npcAvatar: {fileID: -2338812187634505688, guid: c35ff9eab80b6854dbfbf9b60fa51fb8, type: 3}
+  questId: 0
   type: 0
   status: 0
-  questName: 4
-  questDetail: 4
+  targetEnemyId: 
+  targetCount: 1
+  completionMode: 0
+  questName: First Dive
+  questDetail: 'Talk to the local fishermen on the island. '
   questItemId: 1150
-  questDialogue: []
-  answerNext: []
+  questDialogue:
+  - You go to shop
+  - Can you buy !
+  - Buy Now !!
+  answerNext:
+  - Ok Nah
+  - 123
   answerAccept: 
   answerReject: 
-  rewardItemId: 
+  rewardItemId: 1150
   rewardExp: 0
   questionInProgress: 
   answerFinish: 

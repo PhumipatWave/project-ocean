@@ -55,24 +55,33 @@ namespace Game.Testing
 
         private void HandleAcceptQuest()
         {
-            if (currentQuest == null) return;
+            if (currentQuest == null)
+                return;
 
-            // เปลี่ยนสถานะเป็นรับไปทำแล้วตาม Enum เดิมของคุณ
-            currentQuest.Status = QuestStatus.InProgress;
-            Debug.Log($"AcceptQuest: {currentQuest.QuestName}");
+            bool success =
+                QuestManager.Instance.AcceptQuest(
+                    currentQuest.QuestID
+                );
 
-            NotifyAndClose();
+            if (success)
+            {
+                Debug.Log("Accept Quest");
+                NotifyAndClose();
+            }
+            else
+            {
+                Debug.Log("You already have an active quest.");
+            }
         }
 
         private void HandleRejectQuest()
         {
-            if (currentQuest == null) return;
+            if (currentQuest == null)
+                return;
 
-            // เปลี่ยนสถานะเป็นปฏิเสธเควสตาม Enum เดิมของคุณ
-            currentQuest.Status = QuestStatus.Reject;
-            Debug.Log($"RejectQuest: {currentQuest.QuestName}");
+            Debug.Log($"Close Quest Panel : {currentQuest.QuestName}");
 
-            NotifyAndClose();
+            HidePanel();
         }
 
         private void NotifyAndClose()

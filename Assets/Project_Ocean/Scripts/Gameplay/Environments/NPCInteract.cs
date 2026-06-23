@@ -43,23 +43,23 @@ namespace Game.Testing
 
         public void Interact()
         {
-            if (hasQuest) 
+            if (hasQuest)
                 QuestInteract();
-            else 
+            else
                 ToggleDialogue();
         }
 
         private void ToggleDialogue()
         {
-            if (dialoguePanel != null && !dialoguePanel.activeSelf) 
+            if (dialoguePanel != null && !dialoguePanel.activeSelf)
                 OpenDialogue();
-            else 
+            else
                 CloseDialogue();
         }
 
         private void OpenDialogue()
         {
-            if (dialoguePanel == null) 
+            if (dialoguePanel == null)
                 return;
 
             if (dialogueText != null)
@@ -68,7 +68,7 @@ namespace Game.Testing
             if (npcAvatarImage != null)
             {
                 npcAvatarImage.gameObject.SetActive(npcPortrait != null);
-                if (npcPortrait != null) 
+                if (npcPortrait != null)
                     npcAvatarImage.sprite = npcPortrait;
             }
             dialoguePanel.SetActive(true);
@@ -85,7 +85,7 @@ namespace Game.Testing
 
         private void StartDialogue()
         {
-            if (npcQuest == null) 
+            if (npcQuest == null)
                 return;
 
             isConversing = true;
@@ -99,7 +99,7 @@ namespace Game.Testing
             if (npcNameText != null)
                 npcNameText.text = npcQuest.NpcName;
 
-            if (npcAvatarImage != null && npcQuest.NpcAvatar != null) 
+            if (npcAvatarImage != null && npcQuest.NpcAvatar != null)
                 npcAvatarImage.sprite = npcQuest.NpcAvatar;
 
             ShowDialogueText();
@@ -107,21 +107,25 @@ namespace Game.Testing
 
         private void ShowDialogueText()
         {
-            if (dialogueText == null) 
+            if (dialogueText == null)
                 return;
 
             switch (npcQuest.Status)
             {
-                case QuestStatus.New:       
-                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex]; 
+                case QuestStatus.New:
+                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex];
                     break;
                 case QuestStatus.InProgress:
-                    dialogueText.text = npcQuest.QuestionInProgress;       
+                    dialogueText.text = npcQuest.QuestionInProgress;
                     break;
-                case QuestStatus.Finish:  
-                    dialogueText.text = npcQuest.AnswerFinish;                  
+                // FIX 1: ReadyToTurnIn was missing — caused blank dialogue on Turn In attempt
+                case QuestStatus.ReadyToTurnIn:
+                    dialogueText.text = npcQuest.AnswerFinish;
                     break;
-                case QuestStatus.Reject:   
+                case QuestStatus.Finish:
+                    dialogueText.text = npcQuest.AnswerFinish;
+                    break;
+                case QuestStatus.Reject:
                     dialogueText.text = "?";
                     break;
             }
@@ -137,10 +141,17 @@ namespace Game.Testing
                 else
                 {
                     CloseDialogue();
-
-                    if (questDetailPanel != null) 
+                    if (questDetailPanel != null)
                         questDetailPanel.ShowPanel(npcQuest, null);
                 }
+            }
+            // FIX 2: ReadyToTurnIn fell into the else-CloseDialogue branch — quest never completed
+            else if (npcQuest.Status == QuestStatus.ReadyToTurnIn)
+            {
+                CloseDialogue();
+                bool success = QuestManager.Instance.TurnInQuest(npcQuest.QuestID);
+                if (!success)
+                    Debug.LogWarning($"[NPCInteract] TurnInQuest failed for id {npcQuest.QuestID}");
             }
             else
             {
@@ -151,7 +162,7 @@ namespace Game.Testing
         private void CloseDialogue()
         {
             isConversing = false;
-            if (dialoguePanel != null) 
+            if (dialoguePanel != null)
                 dialoguePanel.SetActive(false);
 
             if (isUIOpen)
@@ -163,7 +174,7 @@ namespace Game.Testing
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (!collision.CompareTag("Player")) 
+            if (!collision.CompareTag("Player"))
                 return;
 
             CloseDialogue();

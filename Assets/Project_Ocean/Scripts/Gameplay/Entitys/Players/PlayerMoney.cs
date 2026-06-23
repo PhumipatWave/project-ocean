@@ -7,6 +7,16 @@ namespace Game.Testing
         [SerializeField] private int money = 100;
         public int Money { get { return money; } }
 
+        private void OnEnable()
+        {
+            QuestManager.OnMoneyRewarded += AddMoney;
+        }
+
+        private void OnDisable()
+        {
+            QuestManager.OnMoneyRewarded -= AddMoney;
+        }
+
         public void AddMoney(int amount)
         {
             money += amount;
