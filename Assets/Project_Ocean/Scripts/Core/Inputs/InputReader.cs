@@ -73,7 +73,7 @@ namespace Game.Core
             }
         }
 
-        public void OnDash(InputAction.CallbackContext context)
+        public void OnSprint(InputAction.CallbackContext context)
         {
             if (context.performed)
             {

@@ -296,6 +296,7 @@ namespace Game.Testing
         private void Sprint(bool state)
         {
             isSprinting = state;
+            Move(input.MovePos);
         }
 
         private void Interact(bool isInteract)
