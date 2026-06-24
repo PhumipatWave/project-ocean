@@ -48,7 +48,7 @@ namespace Game.Testing
         {
             bool isOcean = scene.name == "Ocean_Map";
 
-            weaponUIPanel?.SetActive(isOcean);
+            //weaponUIPanel?.SetActive(isOcean);
 
             if (scene.name == "MainMenuScene")
             {

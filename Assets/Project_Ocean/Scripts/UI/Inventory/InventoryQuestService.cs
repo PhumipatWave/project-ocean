@@ -10,18 +10,25 @@ namespace Game.Testing
             return itemInSlot != null;
         }
 
-        public static bool RemoveQuestItem(InventorySlot[] slots, int itemId)
+        public static bool RemoveQuestItem(InventorySlot[] slots, int itemId, int count = 1)
         {
-            Draggableltem itemInSlot = FindItemById(slots, itemId);
-            if (itemInSlot == null) return false;
+            int remaining = count;
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot == null || remaining <= 0) continue;
+                Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+                if (item == null || item.GetItem() == null || item.GetItem().ItemID != itemId) continue;
 
-            itemInSlot.count--;
-            if (itemInSlot.count <= 0)
-                Object.Destroy(itemInSlot.gameObject);
-            else
-                itemInSlot.RefreshCount();
+                int take = Mathf.Min(item.count, remaining);
+                item.count -= take;
+                remaining -= take;
 
-            return true;
+                if (item.count <= 0)
+                    Object.Destroy(item.gameObject);
+                else
+                    item.RefreshCount();
+            }
+            return remaining == 0;
         }
 
         private static Draggableltem FindItemById(InventorySlot[] slots, int itemId)

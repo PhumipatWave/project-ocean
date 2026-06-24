@@ -257,9 +257,9 @@ namespace Game.Testing
             return InventoryQuestService.HasQuestItem(inventorySlots, itemId);
         }
 
-        public void RemoveQuestItem(int itemId)
+        public void RemoveQuestItem(int itemId, int count = 1)
         {
-            if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId))
+            if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId, count))
                 NotifyChanged();
         }
 

@@ -80,9 +80,9 @@ namespace Game.Testing
 
                 OnQuestUpdated?.Invoke();
 
-                bool justFinished = q.AddProgress(1);
-                if (justFinished && q.CompletionMode == QuestCompletionMode.AutoComplete)
+                if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
+                    RemoveQuestItems(q);
                     if (q.RewardMoney > 0)
                     {
                         OnMoneyRewarded?.Invoke(q.RewardMoney);
@@ -245,6 +245,14 @@ namespace Game.Testing
         /// </summary>
         
         public static event Action<int> OnMoneyRewarded;
+        private void RemoveQuestItems(Quest q)
+        {
+            if (string.IsNullOrEmpty(q.QuestItemId)) return;
+            if (!int.TryParse(q.QuestItemId, out int itemId)) return;
+            if (InventoryManager.Instance == null) return;
+            InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
+        }
+
         public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
@@ -253,8 +261,8 @@ namespace Game.Testing
             if (quest.Status != QuestStatus.ReadyToTurnIn) return false;
 
             quest.Status = QuestStatus.Finish;
+            RemoveQuestItems(quest);
 
-            // 2. [เพิ่มโค้ดสั่งจ่ายเงินตรงนี้]
             if (quest.RewardMoney > 0)
             {
                 OnMoneyRewarded?.Invoke(quest.RewardMoney);

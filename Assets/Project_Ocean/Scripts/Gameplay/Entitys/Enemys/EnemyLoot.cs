@@ -6,6 +6,7 @@ namespace Game.Testing
     public class EnemyLoot : MonoBehaviour
     {
         [SerializeField] private Item dropItem;
+        [SerializeField] private GameObject collectButton;
 
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
@@ -22,8 +23,15 @@ namespace Game.Testing
         private void OnEnable()
         {
             isCollected = false;
+            if (collectButton != null) collectButton.SetActive(false);
             if (inputReader != null)
                 inputReader.OnInteracted += HandleInteract;
+        }
+
+        private void Update()
+        {
+            if (collectButton == null) return;
+            collectButton.SetActive(playerInRange && enemy != null && enemy.IsDead && !isCollected);
         }
 
         private void OnDisable()
@@ -52,7 +60,7 @@ namespace Game.Testing
                 playerInRange = false;
         }
 
-        private void Collect()
+        public void Collect()
         {
             isCollected = true;
 
