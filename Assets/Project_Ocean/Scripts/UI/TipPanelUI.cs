@@ -11,16 +11,9 @@ namespace Game.Testing
         [SerializeField] private Button closeButton;
 
         private int currentIndex;
-        private const string SeenKey = "TipPanelSeen";
 
         private void Awake()
         {
-            if (PlayerPrefs.GetInt(SeenKey, 0) == 1)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-
             arrowRight.onClick.AddListener(() => Navigate(1));
             arrowLeft.onClick.AddListener(() => Navigate(-1));
             closeButton.onClick.AddListener(Close);
@@ -41,13 +34,8 @@ namespace Game.Testing
 
         private void Close()
         {
-            PlayerPrefs.SetInt(SeenKey, 1);
             PlayerPrefs.Save();
             gameObject.SetActive(false);
         }
-
-        // ponytail: call this in editor if you want to reset and see the panel again
-        [ContextMenu("Reset Tip Seen")]
-        private void ResetSeen() => PlayerPrefs.DeleteKey(SeenKey);
     }
 }
