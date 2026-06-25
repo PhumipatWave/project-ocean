@@ -19,6 +19,8 @@ namespace Game.Testing
         {
             rb = GetComponent<Rigidbody2D>();
             player = GameManager.CurPlayer;
+
+            Destroy(gameObject, 3f);
         }
 
         protected virtual void Start()
@@ -79,9 +81,8 @@ namespace Game.Testing
         {
             player.GunHandler.ResetGunRotation(player.FaceDir);
 
-            yield return new WaitForSeconds(.75f);
+            yield return new WaitForSeconds(.4f);
             player.GunHandler.CanAttack = true;
-            Destroy(gameObject);
         }
     }
 }

@@ -449,9 +449,7 @@ GameObject:
   - component: {fileID: 834981589929089408}
   - component: {fileID: 7134681129370144073}
   - component: {fileID: 6575226331856079273}
-  - component: {fileID: 1606929196739282593}
   - component: {fileID: 362821843466047657}
-  - component: {fileID: 6832938167064988828}
   - component: {fileID: 2563058837024615125}
   - component: {fileID: 1144991764846714871}
   m_Layer: 10
@@ -475,7 +473,6 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8770038921235121111}
-  - {fileID: 3518833434185769093}
   - {fileID: 7459398069712884630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -590,30 +587,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Enemy
   entityAnimation: {fileID: 362821843466047657}
-  entityDeathHandler: {fileID: 6832938167064988828}
+  entityDeathHandler: {fileID: 0}
   rb: {fileID: -6950267273205799621}
-  entityHealth: {fileID: 1606929196739282593}
-  loot: {fileID: 2177789661806159458}
+  entityHealth: {fileID: 0}
+  loot: {fileID: 0}
   navAgentHost: {fileID: 2563058837024615125}
   sleepDistance: 75
   despawnDistance: 120
   despawnCheckInterval: 10
   enemyId: fishL
---- !u!114 &1606929196739282593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4048463696750882407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb3d366c4513744388ea00fc61a7627, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
-  maxHealth: 100
-  hitColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.15
 --- !u!114 &362821843466047657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,21 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityAnimation
   anim: {fileID: 8401774527429809258}
---- !u!114 &6832938167064988828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4048463696750882407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6badf30ca31d8d54b948e0a216672fa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityDeathHandler
-  rb: {fileID: -6950267273205799621}
-  entitySprite: {fileID: 6469149484555478690}
-  deathSpriteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2563058837024615125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,88 +937,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &7220605960322948137
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3518833434185769093}
-  - component: {fileID: 2732198998977091395}
-  - component: {fileID: 2177789661806159458}
-  m_Layer: 0
-  m_Name: LootComponent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3518833434185769093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220605960322948137}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 330821442327759310}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2732198998977091395
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220605960322948137}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -2.5, y: 0}
-  m_Radius: 4
---- !u!114 &2177789661806159458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220605960322948137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 0}
-  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  enemy: {fileID: 6575226331856079273}
-  playerInRange: 0

@@ -65,7 +65,14 @@ namespace Game.Testing
             isCollected = true;
 
             if (dropItem != null)
-                InventoryManager.Instance?.AddItem(dropItem);
+            {
+                bool added = InventoryManager.Instance?.AddItem(dropItem) ?? false;
+                if (!added)
+                {
+                    isCollected = false;
+                    return;
+                }
+            }
 
             if (GameManager.CurPlayer?.Audio != null)
                 GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
