@@ -750,6 +750,7 @@ MonoBehaviour:
   despawnDistance: 120
   despawnCheckInterval: 1
   enemyId: crab
+  maxHealth: 50
 --- !u!114 &-4517493524960043706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb3d366c4513744388ea00fc61a7627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
-  maxHealth: 50
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.15
 --- !u!114 &8082379584677336035

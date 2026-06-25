@@ -45,8 +45,8 @@ namespace Game.Testing
                 return;
             }
 
-            titleText.text = "OBJECTIVE";
-            questNameText.text = activeQuest.QuestName;
+            titleText.text = activeQuest.QuestName;
+            questNameText.text = activeQuest.QuestDetail;
             progressText.text = activeQuest.TrackerText;
 
             cancelButton.SetActive(true);

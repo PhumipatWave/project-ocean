@@ -661,6 +661,7 @@ MonoBehaviour:
   despawnDistance: 120
   despawnCheckInterval: 10
   enemyId: fishL
+  maxHealth: 250
 --- !u!114 &5316214610149181874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,7 +674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb3d366c4513744388ea00fc61a7627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
-  maxHealth: 250
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.15
 --- !u!114 &6637633734297046743

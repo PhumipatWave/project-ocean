@@ -40,7 +40,7 @@ namespace Game.Testing
         [SerializeField] private string enemyId;
         public string EnemyId => enemyId;
 
-        private float maxHealth = 100f;
+        [SerializeField] private float maxHealth = 100f;
         private SpriteRenderer visual;
         private Animator anim;
         private Color deathSpriteColor = Color.red;

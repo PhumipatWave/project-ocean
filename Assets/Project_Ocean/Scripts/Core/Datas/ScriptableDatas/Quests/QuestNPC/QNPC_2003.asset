@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: 202_Test_Kill 1
+  m_Name: QNPC_2003
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  npcName: Hunter
-  npcAvatar: {fileID: -7298705279310605608, guid: 056be3d3f52d60740bd79b226515f670, type: 3}
-  questId: 202
+  npcName: Shop
+  npcAvatar: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
+  questId: 2003
   type: 1
   status: 0
   targetEnemyId: fishM
-  targetCount: 4
+  targetCount: 6
   completionMode: 1
-  questName: Kill fishM 1
-  questDetail: 'Kill fish M : 4'
+  questName: '[Shop]'
+  questDetail: 'Kill fish size M : 6'
   questItemId: 1200
   questDialogue:
   - Hello
@@ -34,7 +34,7 @@ MonoBehaviour:
   answerReject: Nooo
   rewardItemId: 0
   rewardExp: 0
-  rewardMoney: 50
+  rewardMoney: 750
   questionInProgress: Are you Gay?
   answerFinish: Yess I'm Gay!!
   answerNotFinish: Nahh

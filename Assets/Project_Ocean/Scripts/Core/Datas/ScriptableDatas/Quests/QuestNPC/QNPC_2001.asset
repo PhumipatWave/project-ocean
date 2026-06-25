@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: 203_Test_Kill 2
+  m_Name: QNPC_2001
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  npcName: Shop
-  npcAvatar: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
-  questId: 203
+  npcName: Peachzy
+  npcAvatar: {fileID: -2338812187634505688, guid: c35ff9eab80b6854dbfbf9b60fa51fb8, type: 3}
+  questId: 2001
   type: 1
   status: 0
   targetEnemyId: fishM
-  targetCount: 5
+  targetCount: 3
   completionMode: 1
-  questName: Kill fishM 2
-  questDetail: 'Kill fish M : 5'
+  questName: '[Upgrade Store Peachzy]'
+  questDetail: 'Kill fish M : 3 '
   questItemId: 1200
   questDialogue:
   - Hello
@@ -34,7 +34,7 @@ MonoBehaviour:
   answerReject: Nooo
   rewardItemId: 0
   rewardExp: 0
-  rewardMoney: 50
+  rewardMoney: 450
   questionInProgress: Are you Gay?
   answerFinish: Yess I'm Gay!!
   answerNotFinish: Nahh
