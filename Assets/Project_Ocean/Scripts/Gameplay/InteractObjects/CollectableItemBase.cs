@@ -13,7 +13,10 @@ namespace Game.Testing
 
         protected bool playerInRange;
 
-        protected virtual bool CanCollect => true;
+        /// External components (e.g. ShelleController) can set this to false to block collection.
+        public bool IsCollectable { get; set; } = true;
+
+        protected virtual bool CanCollect => IsCollectable;
 
         protected virtual void OnEnable()
         {
@@ -48,7 +51,7 @@ namespace Game.Testing
 
         private void HandleInteract(bool pressed)
         {
-            if (!playerInRange) return;
+            if (!playerInRange || !CanCollect) return;
             TryCollect();
         }
 

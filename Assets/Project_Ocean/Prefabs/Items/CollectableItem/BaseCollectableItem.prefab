@@ -115,7 +115,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 4
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -559,8 +559,6 @@ GameObject:
   - component: {fileID: 3874944839245472733}
   - component: {fileID: 8074718141636094288}
   - component: {fileID: 4383867035644049627}
-  - component: {fileID: 1429672016617032092}
-  - component: {fileID: 6874283672371784387}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -651,30 +649,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1429672016617032092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9180522853630816529}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf204d25b2b95194d971228a6fba813d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyHealth
-  enemy: {fileID: 0}
-  healthValueImage: {fileID: 0}
---- !u!114 &6874283672371784387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9180522853630816529}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba765a599b43231489bea939b9bd27d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.DamagePoint
-  damagePointText: {fileID: 0}
