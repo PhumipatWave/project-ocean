@@ -216,6 +216,16 @@ namespace Game.Testing
             StartCoroutine(SellRoutine());
         }
 
+        public void TryBuySelectedItem()
+        {
+            Item item = GetSelectedBuyItem();
+            if (item == null) return;
+            ConfirmationDialog.Instance?.Show(
+                $"Buy {item.ItemName} for {item.ItemPrice}?",
+                BuySelectedItem
+            );
+        }
+
         public void BuySelectedItem()
         {
             Item selectedItem = GetSelectedBuyItem();

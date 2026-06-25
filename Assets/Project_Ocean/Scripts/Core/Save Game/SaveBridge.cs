@@ -9,6 +9,9 @@ namespace Game.Testing
     {
         public static SaveBridge Instance { get; private set; }
 
+        /// Fired after a successful save so UI can show a "Game Saved" toast.
+        public static event System.Action OnSaved;
+
         private SaveData _pendingData;
 
         // Order is intentional and stable. Built fresh each call because scene-level
@@ -185,6 +188,7 @@ namespace Game.Testing
             {
                 SaveSystem.Save(data);
                 Debug.Log("[SaveBridge] Game saved!");
+                OnSaved?.Invoke();
             }
             catch (System.Exception e)
             {

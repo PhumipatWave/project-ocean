@@ -234645,7 +234645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -24}
+  m_AnchoredPosition: {x: -1, y: -23.999878}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &585692287
@@ -281946,7 +281946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -24}
+  m_AnchoredPosition: {x: -1, y: -23.999878}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1582925970
@@ -282033,8 +282033,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 389151329}
-        m_TargetAssemblyTypeName: Game.Testing.ShopSystem, Game.Testing
-        m_MethodName: BuySelectedItem
+        m_TargetAssemblyTypeName: Game.Testing.ShopManager, Game.Testing
+        m_MethodName: TryBuySelectedItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

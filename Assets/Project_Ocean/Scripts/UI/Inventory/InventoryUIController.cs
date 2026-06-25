@@ -29,6 +29,7 @@ namespace Game.Testing
             if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null && openInventorySound != null)
                 GameManager.CurPlayer.Audio.PlayOneShot(openInventorySound);
 
+            PlayerUIState.Open();
             Time.timeScale = 0;
             if (inventoryMenu != null)
                 inventoryMenu.SetActive(true);
@@ -38,6 +39,7 @@ namespace Game.Testing
 
         public void HideInventory()
         {
+            PlayerUIState.Close();
             Time.timeScale = 1;
             if (inventoryMenu != null)
                 inventoryMenu.SetActive(false);

@@ -77,9 +77,11 @@ namespace Game.Testing
 
         private void HandleInventoryToggle(bool pressed)
         {
-            if (!pressed || PlayerUIState.IsLocked) return;
-            if (uiController.IsOpen) HideAndDeselect();
-            else uiController.ShowInventory();
+            if (!pressed) return;
+            // Always allow closing, even though the inventory itself holds the UI lock.
+            if (uiController.IsOpen) { HideAndDeselect(); return; }
+            if (PlayerUIState.IsLocked) return;
+            uiController.ShowInventory();
         }
 
         private void Start()
@@ -434,6 +436,11 @@ namespace Game.Testing
                         var draggable = buildingSlots[i]?.GetComponentInChildren<Draggableltem>();
                         var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
                         string hint = effect?.ActionHint ?? string.Empty;
+
+                        // Show "T" in the active slot while any checkpoint is placed in the world
+                        if (string.IsNullOrEmpty(hint) && GameManager.CurPlayer?.CheckpointCount > 0)
+                            hint = "T";
+
                         bool show = !string.IsNullOrEmpty(hint);
                         buildingSlotKeyPanels[i].SetActive(show);
                         if (show && buildingSlotKeyTexts != null && i < buildingSlotKeyTexts.Count && buildingSlotKeyTexts[i] != null)
@@ -457,5 +464,7 @@ namespace Game.Testing
         {
             OnInventoryChanged?.Invoke();
         }
+
+        public void RefreshBuildingHints() => RefreshHintUI();
     }
 }

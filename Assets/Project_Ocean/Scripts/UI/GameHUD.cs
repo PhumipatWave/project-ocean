@@ -9,6 +9,9 @@ namespace Game.Testing
 {
     public class GameHUD : MonoBehaviour
     {
+        [Header("Day Count")]
+        [SerializeField] private TextMeshProUGUI dayCountText;
+
         [Header("Rope Length")]
         [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
 
@@ -37,11 +40,13 @@ namespace Game.Testing
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            DayManager.OnDayAdvanced += RefreshDayText;
         }
 
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            DayManager.OnDayAdvanced -= RefreshDayText;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -59,6 +64,7 @@ namespace Game.Testing
             {
                 menuButton.SetActive(true);
                 landButton.SetActive(false);
+                RefreshDayText();
             }
             else if (isOcean)
             {
@@ -70,6 +76,40 @@ namespace Game.Testing
         private void Start()
         {
             maxLengthPanel.SetActive(false);
+            RefreshDayText();
+            WireConfirmButtons();
+        }
+
+        private void WireConfirmButtons()
+        {
+            var menuBtn = menuButton?.GetComponent<UnityEngine.UI.Button>();
+            if (menuBtn != null)
+            {
+                menuBtn.onClick.RemoveAllListeners();
+                menuBtn.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Return to main menu?",
+                        () => GameManager.Instance?.ToMainMenu()
+                    ));
+            }
+
+            var landBtn = landButton?.GetComponent<UnityEngine.UI.Button>();
+            if (landBtn != null)
+            {
+                landBtn.onClick.RemoveAllListeners();
+                landBtn.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Return to land?",
+                        () => GameManager.Instance?.ReturnToLand()
+                    ));
+            }
+        }
+
+        private void RefreshDayText()
+        {
+            if (dayCountText == null) return;
+            int day = DayManager.Instance != null ? DayManager.Instance.CurrentDay : 1;
+            dayCountText.text = $"Day {day}";
         }
 
         private void Update()
