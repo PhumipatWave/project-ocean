@@ -265,7 +265,7 @@ namespace Game.Testing
         #region PlayerInputAction
         private void Aim(bool isAim)
         {
-            if (!gunHandler.CanAttack || isLand) return;
+            if (isAim && (!gunHandler.CanAttack || isLand)) return;
 
             gunHandler.IsAimming = isAim;
 

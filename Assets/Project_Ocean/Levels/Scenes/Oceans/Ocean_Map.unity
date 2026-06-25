@@ -3470,19 +3470,13 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
     weight: 0.5
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 3
   spawnRadius: 25
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -6550,22 +6544,15 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
     weight: 1
-    snapToGround: 0
   - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 35a7ff8907614f8479792dff438fa3ff, type: 3}
     weight: 0.75
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 5
   spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -10976,19 +10963,13 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9098824303329575402, guid: 295941172876259468532877166f3b2f, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
     weight: 0.75
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 5
   spawnRadius: 20
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -14637,25 +14618,17 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 9098824303329575402, guid: 295941172876259468532877166f3b2f, type: 3}
     weight: 0.25
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 0.75
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 5
   spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -22400,16 +22373,11 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 1
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 4
   spawnRadius: 20
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -171117,22 +171085,15 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 1
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 3
   spawnRadius: 25
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -171468,31 +171429,21 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 35a7ff8907614f8479792dff438fa3ff, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 9a2e3c077a815044a85ed9b8c80c6e9a, type: 3}
     weight: 0.75
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 15
   spawnRadius: 35
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -172563,19 +172514,13 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 0.75
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 3
   spawnRadius: 12
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -277914,19 +277859,13 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
     weight: 0.5
-    snapToGround: 0
   - prefab: {fileID: 9098824303329575402, guid: 295941172876259468532877166f3b2f, type: 3}
     weight: 0.5
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 3
   spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -279570,16 +279509,11 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
     weight: 1
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 3
   spawnRadius: 12
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
@@ -280467,19 +280401,13 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 4048463696750882407, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
     weight: 0.75
-    snapToGround: 0
   - prefab: {fileID: 4048463696750882407, guid: 35a7ff8907614f8479792dff438fa3ff, type: 3}
     weight: 1
-    snapToGround: 0
   prewarmPerPrefab: 10
   enemyCount: 5
   spawnRadius: 20
   navSampleDistance: 5
   maxSpawnAttempts: 10
-  groundSnapLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  groundSnapDistance: 20
   spawnClearanceRadius: 0.5
   obstacleLayer:
     serializedVersion: 2
