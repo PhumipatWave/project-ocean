@@ -594,7 +594,7 @@ namespace Game.Testing
 
         private IEnumerator LimitBreached()
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(breakLimitTimer);
             ResetRope();
             GameManager.Instance.ReturnToLand();
         }

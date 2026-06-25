@@ -98,7 +98,15 @@ namespace Game.Testing
 
             var tube = player.OxygenTube;
             if (tube != null)
-                tube.MaxRopeLength = data.maxRopeLength;
+            {
+                // SetOriginalMaxLength syncs both the rope and PlayerHealth's snapshot
+                // so that ResetToOriginal() after the next dive restores the saved upgraded max.
+                var ph = player.GetComponent<PlayerHealth>();
+                if (ph != null)
+                    ph.SetOriginalMaxLength(data.maxRopeLength);
+                else
+                    tube.MaxRopeLength = data.maxRopeLength;
+            }
 
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
