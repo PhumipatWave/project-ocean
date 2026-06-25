@@ -45,13 +45,13 @@ namespace Game.Testing
 
         public override void Tick(float deltaTime)
         {
-            if (hitChaseTimer > 0f) 
+            if (hitChaseTimer > 0f)
                 hitChaseTimer -= deltaTime;
 
-            if (followTimer > 0f) 
+            if (followTimer > 0f)
                 followTimer -= deltaTime;
 
-            if (attackTimer > 0f) 
+            if (attackTimer > 0f)
                 attackTimer -= deltaTime;
 
             if (enemyBrainContext.PlayerTransform == null)
@@ -87,7 +87,6 @@ namespace Game.Testing
             RotateTowardsDirection(currentDirection);
 
             TryTransitionToAttack(canSee || alerted);
-            TryBiteDuringFollow();
         }
 
         public override void Exit()
@@ -99,6 +98,11 @@ namespace Game.Testing
         public void SetHitChaseTimer(float duration)
         {
             hitChaseTimer = duration;
+        }
+
+        public void SetAttackCooldown(float duration)
+        {
+            attackTimer = duration;
         }
 
         private void MoveTowardLastKnownPosition()
@@ -128,7 +132,6 @@ namespace Game.Testing
             if (distToCurrentDest > 1.5f)
                 return;
 
-            // Try increasing distances away from the player
             for (float distance = 5f; distance >= 1f; distance -= 1f)
             {
                 Vector3 candidate = enemyBrainContext.Transform.position + awayDir * distance;
@@ -141,33 +144,21 @@ namespace Game.Testing
 
         private void TryTransitionToAttack(bool targetKnown)
         {
-            if (!(profile is AggressiveEnemyProfile enemy) || (!enemy.canAttack || !targetKnown)) 
+            if (!(profile is AggressiveEnemyProfile enemy) || !enemy.canAttack || !targetKnown)
                 return;
 
             float distance = enemyBrainContext.PlayerTransform != null
-                ? Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position) : float.MaxValue;
+                ? Vector2.Distance(enemyBrainContext.Transform.position, enemyBrainContext.PlayerTransform.position)
+                : float.MaxValue;
 
             bool closeEnough = distance <= enemy.detectDistance * 0.75f;
-            if (!closeEnough || attackTimer > 0f) 
+            if (!closeEnough || attackTimer > 0f)
                 return;
 
             if (enemy.prepareBeforeAttack && enemyFSM.HasState(EnemyStateTag.Prepare))
-            {
                 enemyFSM.TransitionTo(EnemyStateTag.Prepare);
-                return;
-            }
-        }
-
-        private void TryBiteDuringFollow()
-        {
-            if (!(profile is AggressiveEnemyProfile enemy)) return;
-            if (!enemy.canAttack || enemy.prepareBeforeAttack) return;
-
-            float distance = Vector2.Distance(enemyBrainContext.Transform.position, LastKnownPlayerPosition);
-            if (distance > enemy.attackRange || attackTimer > 0f) return;
-
-            enemyBrainContext.Player?.TakeDamage(enemy.attackDamage);
-            attackTimer = enemy.attackCooldown;
+            else if (enemyFSM.HasState(EnemyStateTag.Attack))
+                enemyFSM.TransitionTo(EnemyStateTag.Attack);
         }
 
         private void TransitionOnLost()

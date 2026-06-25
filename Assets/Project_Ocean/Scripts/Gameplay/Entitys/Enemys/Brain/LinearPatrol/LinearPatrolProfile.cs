@@ -38,6 +38,10 @@ namespace Game.Testing
         [Tooltip("Layer(s) that count as solid ground for edge detection. Usually 'Default' (ocean floor tilemap). If empty, falls back to wallLayer.")]
         public LayerMask groundLayer;
 
+        [Header("Attack")]
+        [Tooltip("Damage dealt to the player when the attack hitbox connects. Requires an EnemyAttackHitbox child object on the prefab.")]
+        public float attackDamage = 10f;
+
         public override bool RequiresNavMesh => false;
         public override IEnemyBrain CreateBrain() => new LinearPatrolBrain(this);
     }

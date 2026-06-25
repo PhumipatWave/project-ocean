@@ -10339,6 +10339,70 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &563432200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563432201}
+  - component: {fileID: 563432202}
+  m_Layer: 0
+  m_Name: EnemySpawner (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563432201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563432200}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 86, y: -34.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1896586447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563432202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563432200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54b26200102b9f34ba1398ce66fb82d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawnManager
+  enemyEntries:
+  - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
+    weight: 0.5
+  - prefab: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
+    weight: 0.5
+  - prefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
+    weight: 0.75
+  - prefab: {fileID: 4048463696750882407, guid: 9a2e3c077a815044a85ed9b8c80c6e9a, type: 3}
+    weight: 0.75
+  prewarmPerPrefab: 10
+  enemyCount: 15
+  spawnRadius: 10
+  navSampleDistance: 5
+  maxSpawnAttempts: 10
+  spawnClearanceRadius: 0.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1001 &568104605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10965,9 +11029,11 @@ MonoBehaviour:
     weight: 0.75
   - prefab: {fileID: 4048463696750882407, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
     weight: 0.75
+  - prefab: {fileID: 9199869032875626201, guid: 9668195430aaaca4e9d22322048fd440, type: 3}
+    weight: 1
   prewarmPerPrefab: 10
   enemyCount: 5
-  spawnRadius: 20
+  spawnRadius: 12
   navSampleDistance: 5
   maxSpawnAttempts: 10
   spawnClearanceRadius: 0.5
@@ -10985,7 +11051,7 @@ Transform:
   m_GameObject: {fileID: 587087288}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.800003, y: -32.5, z: 0}
+  m_LocalPosition: {x: -33.3, y: -37.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15619,6 +15685,66 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &864896893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 864896894}
+  - component: {fileID: 864896895}
+  m_Layer: 0
+  m_Name: EnemySpawner (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &864896894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864896893}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 27.7, y: -58.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1896586447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &864896895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864896893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54b26200102b9f34ba1398ce66fb82d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawnManager
+  enemyEntries:
+  - prefab: {fileID: 4048463696750882407, guid: 35a7ff8907614f8479792dff438fa3ff, type: 3}
+    weight: 1
+  - prefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
+    weight: 0.75
+  prewarmPerPrefab: 10
+  enemyCount: 15
+  spawnRadius: 15
+  navSampleDistance: 5
+  maxSpawnAttempts: 10
+  spawnClearanceRadius: 0.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &872638441
 GameObject:
   m_ObjectHideFlags: 0
@@ -22352,7 +22478,7 @@ Transform:
   m_GameObject: {fileID: 1171566175}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 55.3, y: 11.9, z: 0}
+  m_LocalPosition: {x: 42.8, y: 21.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22375,7 +22501,7 @@ MonoBehaviour:
     weight: 1
   prewarmPerPrefab: 10
   enemyCount: 4
-  spawnRadius: 20
+  spawnRadius: 7.5
   navSampleDistance: 5
   maxSpawnAttempts: 10
   spawnClearanceRadius: 0.5
@@ -171064,7 +171190,7 @@ Transform:
   m_GameObject: {fileID: 1405763244}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -11.2, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -171091,7 +171217,7 @@ MonoBehaviour:
     weight: 1
   prewarmPerPrefab: 10
   enemyCount: 3
-  spawnRadius: 25
+  spawnRadius: 16.4
   navSampleDistance: 5
   maxSpawnAttempts: 10
   spawnClearanceRadius: 0.5
@@ -171408,7 +171534,7 @@ Transform:
   m_GameObject: {fileID: 1442415424}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 51.299995, y: -39.4, z: 0}
+  m_LocalPosition: {x: 72, y: -59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -171427,12 +171553,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawnManager
   enemyEntries:
-  - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
-    weight: 0.5
-  - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
-    weight: 0.5
-  - prefab: {fileID: 4048463696750882407, guid: 35a7ff8907614f8479792dff438fa3ff, type: 3}
-    weight: 0.75
   - prefab: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
     weight: 0.5
   - prefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
@@ -171441,7 +171561,7 @@ MonoBehaviour:
     weight: 0.75
   prewarmPerPrefab: 10
   enemyCount: 15
-  spawnRadius: 35
+  spawnRadius: 15
   navSampleDistance: 5
   maxSpawnAttempts: 10
   spawnClearanceRadius: 0.5
@@ -171541,6 +171661,68 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1453220721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1453220722}
+  - component: {fileID: 1453220723}
+  m_Layer: 0
+  m_Name: EnemySpawner (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1453220722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453220721}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 26.9, y: -34.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1896586447}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1453220723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453220721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54b26200102b9f34ba1398ce66fb82d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawnManager
+  enemyEntries:
+  - prefab: {fileID: 9199869032875626201, guid: 7661b95b48da8b248afb1765f5d9420c, type: 3}
+    weight: 0.5
+  - prefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
+    weight: 0.75
+  - prefab: {fileID: 4048463696750882407, guid: 9a2e3c077a815044a85ed9b8c80c6e9a, type: 3}
+    weight: 0.75
+  prewarmPerPrefab: 10
+  enemyCount: 15
+  spawnRadius: 10
+  navSampleDistance: 5
+  maxSpawnAttempts: 10
+  spawnClearanceRadius: 0.5
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  activateRadius: 45
+  proximityCheckInterval: 0.5
 --- !u!1 &1454197499
 GameObject:
   m_ObjectHideFlags: 0
@@ -179902,6 +180084,9 @@ Transform:
   - {fileID: 372127396}
   - {fileID: 1932976987}
   - {fileID: 1442415425}
+  - {fileID: 864896894}
+  - {fileID: 563432201}
+  - {fileID: 1453220722}
   - {fileID: 180087412}
   - {fileID: 1405763245}
   - {fileID: 1171566176}
@@ -279508,6 +279693,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawnManager
   enemyEntries:
   - prefab: {fileID: 4048463696750882407, guid: 6d3e9c02bf319d7418ad7d3732c29958, type: 3}
+    weight: 0.5
+  - prefab: {fileID: 9199869032875626201, guid: 9668195430aaaca4e9d22322048fd440, type: 3}
     weight: 1
   prewarmPerPrefab: 10
   enemyCount: 3

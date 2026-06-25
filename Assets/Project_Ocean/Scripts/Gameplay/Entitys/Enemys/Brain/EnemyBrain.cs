@@ -27,12 +27,12 @@ namespace Game.Testing
 
         public virtual void OnPlayerCollision()
         {
-            if (profile.contactDamage > 0f &&
-                Time.time - lastContactDamageTime >= profile.contactDamageCooldown)
-            {
-                lastContactDamageTime = Time.time;
-                enemyBrainContext?.Player?.TakeDamage(profile.contactDamage);
-            }
+            // contact damage disabled — using animation-driven hitbox instead
+            // if (profile.contactDamage > 0f && Time.time - lastContactDamageTime >= profile.contactDamageCooldown)
+            // {
+            //     lastContactDamageTime = Time.time;
+            //     enemyBrainContext?.Player?.TakeDamage(profile.contactDamage);
+            // }
 
             if (profile is FriendlyEnemyProfile || profile is ScaredEnemyProfile) return;
             OnHit(enemyBrainContext?.PlayerTransform);
@@ -101,10 +101,13 @@ namespace Game.Testing
 
             if (aggressive.canAttack)
             {
-                attackState = new EnemyAttackState(aggressive, pathfinder, vision);
+                var hitbox = enemyBrainContext.Owner.GetComponentInChildren<EnemyAttackHitbox>(true);
+                hitbox?.Initialize(enemyBrainContext.Owner, aggressive.attackDamage);
+
+                attackState = new EnemyAttackState(aggressive, pathfinder);
 
                 if (aggressive.prepareBeforeAttack)
-                    enemyFSM.Register(new EnemyPrepareAttackState(aggressive, vision));
+                    enemyFSM.Register(new EnemyPrepareAttackState(aggressive));
 
                 enemyFSM.Register(attackState);
             }

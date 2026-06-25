@@ -32,6 +32,9 @@ namespace Game.Testing
             state = State.Moving;
             pauseTimer = 0f;
             lastContactDamageTime = float.MinValue;
+
+            var hitbox = context.Owner.GetComponentInChildren<EnemyAttackHitbox>(true);
+            hitbox?.Initialize(context.Owner, profile.attackDamage);
         }
 
         public void Tick(float deltaTime)
@@ -61,10 +64,11 @@ namespace Game.Testing
 
         public void OnPlayerCollision()
         {
-            if (profile.contactDamage <= 0f) return;
-            if (Time.time - lastContactDamageTime < profile.contactDamageCooldown) return;
-            lastContactDamageTime = Time.time;
-            ctx?.Player?.TakeDamage(profile.contactDamage);
+            // contact damage disabled — using animation-driven hitbox instead
+            // if (profile.contactDamage <= 0f) return;
+            // if (Time.time - lastContactDamageTime < profile.contactDamageCooldown) return;
+            // lastContactDamageTime = Time.time;
+            // ctx?.Player?.TakeDamage(profile.contactDamage);
         }
 
         private void HandleMove(float deltaTime)
