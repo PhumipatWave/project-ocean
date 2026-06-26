@@ -213552,7 +213552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &183133134
 RectTransform:
   m_ObjectHideFlags: 0
@@ -213570,7 +213570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 40.5, y: 0}
+  m_AnchoredPosition: {x: -252, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &183133135
@@ -214511,8 +214511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 133, y: 257}
-  m_SizeDelta: {x: 104.16667, y: 102.083336}
+  m_AnchoredPosition: {x: 504, y: 329}
+  m_SizeDelta: {x: 125, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &220430204
 MonoBehaviour:
@@ -217564,7 +217564,6 @@ MonoBehaviour:
   previewName: {fileID: 551129316}
   previewPrice: {fileID: 600158873}
   previewDescription: {fileID: 1795726332}
-  upgradeManager: {fileID: 453608951}
 --- !u!1 &391822217
 GameObject:
   m_ObjectHideFlags: 0
@@ -218672,8 +218671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb990309fe7c72479f9479a3c4b679b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::UpgradeManager
-  upgradeUI: {fileID: 902402753}
-  buyUI: {fileID: 183133133}
   shopManager: {fileID: 389151329}
 --- !u!1 &457173848
 GameObject:
@@ -234459,7 +234456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 572618356}
   m_Layer: 5
-  m_Name: UpgradePanel
+  m_Name: UpgradeShopPanel
   m_TagString: UpgradeUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239516,8 +239513,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.8359985, y: 25.695}
+  m_SizeDelta: {x: 69.744, y: 51.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &798971136
 MonoBehaviour:
@@ -241531,7 +241528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 547, y: 0}
+  m_AnchoredPosition: {x: 986, y: 0}
   m_SizeDelta: {x: 1277.6001, y: 743.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &902402755
@@ -243365,7 +243362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1009556426
 RectTransform:
   m_ObjectHideFlags: 0
@@ -253856,7 +253853,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -335, y: 87}
+  m_AnchoredPosition: {x: -650, y: -0.000015259}
   m_SizeDelta: {x: 468.75, y: 468.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272912270
@@ -281619,7 +281616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1578345926}
   m_Layer: 5
-  m_Name: ShopPanel
+  m_Name: FishShopPanel
   m_TagString: ShopUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2253302,7 +2253299,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 389151329}
         m_TargetAssemblyTypeName: Game.Testing.ShopManager, Game.Testing
-        m_MethodName: OpenShopWindow
+        m_MethodName: OpenFishShopWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

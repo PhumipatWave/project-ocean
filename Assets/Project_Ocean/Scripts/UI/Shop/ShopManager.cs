@@ -34,14 +34,6 @@ namespace Game.Testing
         private readonly int[] ammoCounts = new int[4];
         private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
-        /// <summary>
-        /// Cross-reference to UpgradeManager — drag in Inspector.
-        /// Used to switch from the Shop view to the Upgrade view.
-        /// Replaces UIManager.ShowUpgrade().
-        /// </summary>
-        [Header("Navigation")]
-        [SerializeField] private UpgradeManager upgradeManager;
-
         private void Awake()
         {
             Instance = this;
@@ -90,7 +82,7 @@ namespace Game.Testing
         // Panel navigation (replaces UIManager)
         // ──────────────────────────────────────────
 
-        public void OpenShopWindow()
+        public void OpenFishShopWindow()
         {
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
@@ -98,19 +90,12 @@ namespace Game.Testing
             SwitchToSellMode();
         }
 
-        /// <summary>Called when the shop window is closed. Pair with LandUI.CloseUI() on the close button.</summary>
-        public void CloseShopWindow()
+        public void OpenShopWindow()
         {
-            gameObject.SetActive(false);
-        }
+            if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
+                InventoryManager.Instance.InventoryMenu.SetActive(false);
 
-        /// <summary>Switch from Shop panel to Upgrade panel. Replaces UIManager.ShowUpgrade().</summary>
-        public void OpenUpgradeView()
-        {
-            if (upgradeManager != null)
-                upgradeManager.OpenFromShop();
-            else
-                Debug.LogWarning("[ShopManager] upgradeManager ref not assigned in Inspector");
+            SwitchToBuyMode();
         }
 
         // ──────────────────────────────────────────
