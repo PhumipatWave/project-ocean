@@ -14,6 +14,8 @@ namespace Game.Testing
         [SerializeField] private GameObject startPointPrefab;
         [SerializeField] private TextMeshProUGUI lengthText;
 
+        [SerializeField] private float breakLimitTimer = 10f;
+
         [Header("Rope")]
         [SerializeField] private float segmentLength = 0.3f;
         [SerializeField] private int solverIterations = 20;
@@ -586,13 +588,13 @@ namespace Game.Testing
             else if (limitRoutine == null)
             {
                 limitRoutine = StartCoroutine(LimitBreached());
-                OnRopeBreachStart?.Invoke(5f);
+                OnRopeBreachStart?.Invoke(breakLimitTimer);
             }
         }
 
         private IEnumerator LimitBreached()
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(breakLimitTimer);
             ResetRope();
             GameManager.Instance.ReturnToLand();
         }

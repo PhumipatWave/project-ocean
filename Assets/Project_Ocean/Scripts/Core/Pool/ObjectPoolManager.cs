@@ -4,9 +4,6 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Testing
 {
-    /// Generic object pool. Place on the same persistent GameObject as GameManager.
-    /// Supports any prefab — enemies, items, VFX, etc.
-    /// Pooled objects are parented here (DontDestroyOnLoad) so they survive scene changes.
     public class ObjectPoolManager : MonoBehaviour
     {
         public static ObjectPoolManager Instance { get; private set; }
@@ -26,8 +23,6 @@ namespace Game.Testing
             Instance = this;
             // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
         }
-
-        // ── Public API ──────────────────────────────────────────────────────
 
         /// Pre-creates <count> instances of <prefab> and stores them in the pool.
         public void Prewarm(GameObject prefab, int count)
@@ -79,8 +74,8 @@ namespace Game.Testing
             int iid = instance.GetInstanceID();
             if (!instanceToPrefabId.TryGetValue(iid, out int pid))
             {
+                // Not a pooled instance — deactivate only, never destroy scene-placed objects
                 instance.SetActive(false);
-                Destroy(instance);
                 return;
             }
 
@@ -91,8 +86,6 @@ namespace Game.Testing
             instance.transform.SetParent(transform); // keep in DontDestroyOnLoad
             pools[pid].Enqueue(instance);
         }
-
-        // ── Helpers ─────────────────────────────────────────────────────────
 
         private void EnsurePool(int pid, GameObject prefab)
         {

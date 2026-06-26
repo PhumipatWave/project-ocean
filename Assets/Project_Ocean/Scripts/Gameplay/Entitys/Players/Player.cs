@@ -28,26 +28,52 @@ namespace Game.Testing
         public OxygenRope OxygenTube { get { return oxygenTube; } }
 
         private readonly List<CheckPointItem> checkpoints = new();
-        private int _checkpointSourceSlot = -1;
+        private Coroutine _activePullCoroutine;
         public int CheckpointCount => checkpoints.Count;
         public bool CanPlaceCheckpoint => checkpoints.Count < 3;
         public CheckPointItem LastCheckpoint => checkpoints.Count > 0 ? checkpoints[^1] : null;
 
         public void RegisterCheckpoint(CheckPointItem cp)
         {
-            if (checkpoints.Count == 0)
-                _checkpointSourceSlot = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
             checkpoints.Add(cp);
+            InventoryManager.Instance?.RefreshBuildingHints();
         }
 
         public void UnregisterCheckpoint(CheckPointItem cp)
         {
             checkpoints.Remove(cp);
-            if (checkpoints.Count == 0 && _checkpointSourceSlot >= 0)
+            if (cp.SourceSlotIndex >= 0)
+                InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+            InventoryManager.Instance?.RefreshBuildingHints();
+        }
+
+        public void ClearAllCheckpoints()
+        {
+            if (_activePullCoroutine != null)
             {
-                InventoryManager.Instance?.ClearBuildingSlot(_checkpointSourceSlot);
-                _checkpointSourceSlot = -1;
+                StopCoroutine(_activePullCoroutine);
+                _activePullCoroutine = null;
             }
+            foreach (var cp in checkpoints)
+            {
+                if (cp == null) continue;
+                oxygenTube?.DetachFromCheckpoint(cp.transform.position);
+                if (cp.SourceSlotIndex >= 0)
+                    InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+                Destroy(cp.gameObject);
+            }
+            checkpoints.Clear();
+            InventoryManager.Instance?.RefreshBuildingHints();
+        }
+
+        /// Returns true if the player can place a new checkpoint from the given building slot index.
+        /// Each slot may have at most one active checkpoint at a time; total is capped at 3.
+        public bool CanPlaceCheckpointFromSlot(int slotIndex)
+        {
+            if (checkpoints.Count >= 3) return false;
+            foreach (var cp in checkpoints)
+                if (cp != null && cp.SourceSlotIndex == slotIndex) return false;
+            return true;
         }
 
         public Rigidbody2D RB { get { return rb; } }
@@ -157,6 +183,24 @@ namespace Game.Testing
                 gunHandler.gameObject.SetActive(false);
                 isLand = true;
                 entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
+
+                // Bug 4: reset aim/gun state so canAttack is never stuck on land
+                gunHandler.IsAimming = false;
+                gunHandler.CanAttack = true;
+                Time.timeScale = originTime;
+                rb.linearVelocity = Vector2.zero;
+
+                // Cancel any in-flight checkpoint pull and clear all checkpoint state
+                if (_activePullCoroutine != null)
+                {
+                    StopCoroutine(_activePullCoroutine);
+                    _activePullCoroutine = null;
+                }
+                foreach (var cp in checkpoints)
+                    if (cp != null && cp.SourceSlotIndex >= 0)
+                        InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+                checkpoints.Clear();
+                InventoryManager.Instance?.RefreshBuildingHints();
             }
             else if (scene.name == "Ocean_Map")
             {
@@ -190,10 +234,10 @@ namespace Game.Testing
             {
                 gunHandler.currentAmmoType = AmmoType.Normal;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            /*else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 gunHandler.currentAmmoType = AmmoType.GrapplingHook;
-            }
+            }*/
 
             if (GameManager.Instance.GameState == GameState.Ocean)
             {
@@ -265,12 +309,16 @@ namespace Game.Testing
         #region PlayerInputAction
         private void Aim(bool isAim)
         {
-            if (!gunHandler.CanAttack || isLand) return;
+            // Bug 2: block aim entirely when any UI (e.g. inventory) is open
+            // Bug 4: block aim when canAttack is false or on land
+            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked)) return;
 
             gunHandler.IsAimming = isAim;
 
             if (isAim)
             {
+                // Bug 1: zero velocity so holding a move key doesn't keep the player moving while aiming
+                rb.linearVelocity = Vector2.zero;
                 Time.timeScale = focusTime;
             }
             else
@@ -365,14 +413,16 @@ namespace Game.Testing
         {
             entityAnimation?.PlayAnim(AnimHash.IsAim, gunHandler.IsAimming);
         }
-
-        private void StabAnim()
-        {
-            entityAnimation?.PlayAnim(AnimHash.Stab);
-        }
         #endregion
 
         #region PlayerUtils
+        // Bug 3: lets CheckPointItem start a pull coroutine that can be cancelled on scene transition
+        public void StartPull(IEnumerator routine)
+        {
+            if (_activePullCoroutine != null) StopCoroutine(_activePullCoroutine);
+            _activePullCoroutine = StartCoroutine(routine);
+        }
+
         private void FlipSprite()
         {
             if (rb.linearVelocityX > .1f)

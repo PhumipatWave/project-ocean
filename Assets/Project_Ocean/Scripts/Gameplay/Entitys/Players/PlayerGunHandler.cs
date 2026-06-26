@@ -27,8 +27,15 @@ namespace Game.Testing
         public bool IsPullBack { get { return isPullBack; } }
 
         [Header("Gun References")]
-        [SerializeField] private Transform gunSprite; 
+        [SerializeField] private Transform gunSprite;
         public Transform GunSprite {  get { return gunSprite; } }
+
+        [SerializeField] private LineRenderer aimLine;
+        [SerializeField] private float aimLineLength = 10f;
+        [SerializeField] private LayerMask wallLayer;
+
+        [SerializeField] private GameObject muzzleFlash;
+        private ParticleSystem muzzleFlashParticle;
 
         [SerializeField] private Transform[] bulletTypePrefab;
         [SerializeField] private GameObject firePoint;
@@ -45,7 +52,15 @@ namespace Game.Testing
         public Vector2 AimDir { get { return aimDir; }  }
 
         private bool isAimming;
-        public bool IsAimming {  get { return isAimming; } set { isAimming = value; } }
+        public bool IsAimming
+        {
+            get { return isAimming; }
+            set
+            {
+                isAimming = value;
+                if (!value) SetAimLineActive(false);
+            }
+        }
 
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
@@ -58,6 +73,18 @@ namespace Game.Testing
 
             line = GetComponent<LineRenderer>();
             line.positionCount = ropeData.ropeSegment;
+
+            if (muzzleFlash != null)
+            {
+                muzzleFlashParticle = muzzleFlash.GetComponent<ParticleSystem>();
+                muzzleFlash.SetActive(false);
+            }
+
+            if (aimLine != null)
+            {
+                aimLine.positionCount = 2;
+                aimLine.enabled = false;
+            }
         }
 
         private float HandlerGunRotation(ref int faceDir, float angle)
@@ -114,6 +141,7 @@ namespace Game.Testing
                 if (!canAttack)
                 {
                     isAimming = false;
+                    SetAimLineActive(false);
                     return;
                 }
 
@@ -128,12 +156,29 @@ namespace Game.Testing
 
                 gunSprite.eulerAngles = new Vector3(0, 0, clamAngle);
 
-                Debug.DrawRay(transform.position, aimDir * 10f, Color.red);
+                UpdateAimLine();
             }
             else if (!player.IsAttacked)
             {
                 ResetGunRotation(player.FaceDir);
+                SetAimLineActive(false);
             }
+        }
+
+        private void UpdateAimLine()
+        {
+            if (aimLine == null || firePoint == null) return;
+            aimLine.enabled = true;
+            Vector3 start = firePoint.transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(start, aimDir, aimLineLength, wallLayer);
+            Vector3 end = hit.collider != null ? (Vector3)hit.point : start + (Vector3)aimDir * aimLineLength;
+            aimLine.SetPosition(0, start);
+            aimLine.SetPosition(1, end);
+        }
+
+        private void SetAimLineActive(bool active)
+        {
+            if (aimLine != null) aimLine.enabled = active;
         }
 
         public void Shooting()
@@ -151,12 +196,27 @@ namespace Game.Testing
             else
             {
                 player.Audio.PlayOneShot(shootSound);
+                ShowMuzzleFlash();
 
                 currentBulletObj = Instantiate(bulletTypePrefab[(int)currentAmmoType], firePoint.transform.position, Quaternion.identity);
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
 
             CameraShakeManager.Instance.SmallShake();
+        }
+
+        private void ShowMuzzleFlash()
+        {
+            if (muzzleFlashParticle == null) return;
+            muzzleFlash.SetActive(true);
+            muzzleFlashParticle.Play();
+            StartCoroutine(DisableMuzzleFlashRoutine(muzzleFlashParticle.main.duration));
+        }
+
+        private IEnumerator DisableMuzzleFlashRoutine(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            muzzleFlash.SetActive(false);
         }
 
         public void AttachRope(GameObject target)

@@ -38,12 +38,9 @@ namespace Game.Testing
                 return false;
             }
 
-            LayerMask obstacleMask = profile.visionObstacleMask.value != 0
-                ? profile.visionObstacleMask : profile.wallLayer;
-
-            if (obstacleMask.value == 0)
+            if (profile.wallLayer.value == 0)
             {
-                Debug.LogWarning($"[EnemyVision] '{context.Host.name}' has no Vision Obstacle Mask or Wall Layer set — fish will see through walls. Assign these in the profile asset.", context.Host);
+                Debug.LogWarning($"[EnemyVision] '{context.Host.name}' has no Wall Layer set — fish will see through walls. Assign wallLayer in the profile asset.", context.Host);
                 return false;
             }
 
@@ -53,7 +50,7 @@ namespace Game.Testing
                 context.Facing.GetFacingDirection(),
                 profile.viewDistance,
                 profile.viewAngle,
-                obstacleMask,
+                profile.wallLayer,
                 context.PlayerTransform
             );
 

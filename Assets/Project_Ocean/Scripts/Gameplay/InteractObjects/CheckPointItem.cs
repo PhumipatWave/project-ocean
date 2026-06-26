@@ -11,16 +11,38 @@ namespace Game.Testing
     {
         #region Inspector
 
-        [SerializeField] private float pullSpeed    = 15f;
-        [SerializeField] private float arrivalDist  = 0.3f;
+        [SerializeField] private float pullSpeed     = 15f;
+        [SerializeField] private float arrivalDist   = 0.3f;
+        [SerializeField] private float timeoutMult   = 3f;   // maxTime = distance/speed * this
+        [SerializeField] private LineRenderer pullLine;       // assign in Inspector (optional)
+
+        #endregion
+
+        #region Unity Lifecycle
+
+        private void Awake()
+        {
+            if (pullLine == null)
+                pullLine = GetComponent<LineRenderer>();
+
+            if (pullLine != null)
+            {
+                pullLine.positionCount = 2;
+                pullLine.enabled = false;
+            }
+        }
 
         #endregion
 
         #region IItemEffect — runs on the prefab before instantiation
 
-        public bool CanExecute(Player player) => player.CanPlaceCheckpoint;
-        public bool KeepInInventory => true;
-        public string ActionHint => "T";
+        public bool CanExecute(Player player)
+        {
+            int slot = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
+            return player.CanPlaceCheckpointFromSlot(slot);
+        }
+        public bool KeepInInventory => true;      // slot visual stays until checkpoint is used (T key)
+        public string ActionHint => string.Empty; // T hint driven by RefreshHintUI when checkpoints are active
 
         public void ExecuteItem(Player player)
         {
@@ -31,11 +53,15 @@ namespace Game.Testing
 
         #region Placed Instance
 
+        /// The building slot index that placed this checkpoint — used to clear the slot visual on use.
+        public int SourceSlotIndex { get; private set; } = -1;
+
         private void Start()
         {
             Player player = GameManager.CurPlayer;
             if (player == null) return;
 
+            SourceSlotIndex = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
             player.RegisterCheckpoint(this);
             player.OxygenTube.AttachToCheckpoint(transform.position);
         }
@@ -43,33 +69,61 @@ namespace Game.Testing
         /// Physically pull the player toward this checkpoint, then remove the pin.
         public void PullPlayerHere(Player player)
         {
-            Vector2 target = transform.position;
-            player.StartCoroutine(PullRoutine(player, target, pullSpeed, arrivalDist, this, gameObject));
+            player.StartPull(PullRoutine(player));
         }
 
-        private static IEnumerator PullRoutine(Player player, Vector2 target, float speed, float arrivalDist, CheckPointItem checkpoint, GameObject checkpointObj)
+        private IEnumerator PullRoutine(Player player)
         {
             var rb = player.GetComponent<Rigidbody2D>();
             if (rb == null) yield break;
 
-            // Apply velocity toward checkpoint each physics step until we arrive
-            while (Vector2.Distance(player.transform.position, target) > arrivalDist)
+            Vector2 target  = transform.position;
+            float   dist0   = Vector2.Distance(player.transform.position, target);
+            float   maxTime = Mathf.Max(2f, dist0 / pullSpeed * timeoutMult);
+            float   elapsed = 0f;
+
+            if (pullLine != null) pullLine.enabled = true;
+
+            try
             {
-                Vector2 dir = (target - (Vector2)player.transform.position).normalized;
-                rb.linearVelocity = dir * speed;
-                yield return new WaitForFixedUpdate();
+                while (this != null &&
+                       Vector2.Distance(player.transform.position, target) > arrivalDist &&
+                       elapsed < maxTime)
+                {
+                    if (pullLine != null)
+                    {
+                        pullLine.SetPosition(0, transform.position);
+                        pullLine.SetPosition(1, player.transform.position);
+                    }
+
+                    rb.linearVelocity = (target - (Vector2)player.transform.position).normalized * pullSpeed;
+                    elapsed += Time.fixedDeltaTime;
+                    yield return new WaitForFixedUpdate();
+                }
+            }
+            finally
+            {
+                // Runs on success, timeout, and StopCoroutine (scene transition)
+                if (pullLine != null) pullLine.enabled = false;
+                rb.linearVelocity = Vector2.zero;
             }
 
-            // Snap to exact position and stop
-            rb.linearVelocity = Vector2.zero;
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            player.transform.position = target;
-            rb.bodyType = RigidbodyType2D.Dynamic;
+            // Bail out if the checkpoint was destroyed externally (e.g. scene unloading)
+            if (this == null) yield break;
 
-            // Detach and destroy only after the player has fully arrived
+            bool arrived = Vector2.Distance(player.transform.position, target) <= arrivalDist;
+            if (arrived)
+            {
+                // Snap to exact target position
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                player.transform.position = target;
+                rb.bodyType = RigidbodyType2D.Dynamic;
+            }
+
+            // Clean up regardless of whether we fully arrived or timed out
             player.OxygenTube.DetachFromCheckpoint(target);
-            player.UnregisterCheckpoint(checkpoint);
-            Destroy(checkpointObj);
+            player.UnregisterCheckpoint(this);
+            Destroy(gameObject);
         }
 
         #endregion
