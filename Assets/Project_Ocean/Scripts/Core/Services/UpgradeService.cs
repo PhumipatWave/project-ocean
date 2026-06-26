@@ -69,7 +69,13 @@ namespace Game.Testing
                         ? GameManager.CurPlayer.GetComponentInChildren<OxygenRope>()
                         : null;
                     if (tube != null)
+                    {
                         tube.IncreaseMaxLength(data.value);
+                        // Keep PlayerHealth's snapshot in sync so ResetToOriginal()
+                        // restores to the upgraded max, not the base Inspector value.
+                        GameManager.CurPlayer.GetComponent<PlayerHealth>()
+                            ?.IncreaseOriginalMaxLength(data.value);
+                    }
                     break;
             }
         }

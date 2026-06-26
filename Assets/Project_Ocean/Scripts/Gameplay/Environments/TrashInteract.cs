@@ -26,6 +26,7 @@ namespace Game.Testing
 
         [Header("UI Reference")]
         [SerializeField] private GameObject dialogueBox;
+        [SerializeField] private TextMeshProUGUI nameText;
         [SerializeField] private TextMeshProUGUI contentDisplay;
         [SerializeField] private GameObject portraitDisplay;
 
@@ -91,7 +92,7 @@ namespace Game.Testing
 
         IEnumerator MoneySequence()
         {
-            int randomAmount = Random.Range(50, 200);
+            int randomAmount = Random.Range(20, 250);
             targetPlayerMoney?.AddMoney(randomAmount);
             SpawnObject(moneyPrefab);
 
@@ -111,6 +112,9 @@ namespace Game.Testing
         void ShowUI(string message)
         {
             if (dialogueBox == null) return;
+
+            if (nameText != null)
+                nameText.text = "Billy";
 
             if (contentDisplay != null) 
                 contentDisplay.text = message;

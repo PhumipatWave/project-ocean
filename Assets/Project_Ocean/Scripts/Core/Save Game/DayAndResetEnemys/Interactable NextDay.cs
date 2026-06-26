@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Testing
 {
@@ -9,16 +10,31 @@ namespace Game.Testing
 
         [Header("UI")]
         [SerializeField] private GameObject promptUI;
+        /// Assign the Button inside promptUI. Its interactable state reflects HasDivedToday.
+        /// Wire its onClick to TrySleep() in the Inspector.
+        [SerializeField] private Button sleepButton;
 
         private bool _playerInRange;
 
-        void Awake()
+        private void Awake()
         {
             if (promptUI != null)
                 promptUI.SetActive(false);
         }
 
-        void Update()
+        private void OnEnable()
+        {
+            DayManager.OnDivedToday  += RefreshSleepButton;
+            DayManager.OnDayAdvanced += RefreshSleepButton;
+        }
+
+        private void OnDisable()
+        {
+            DayManager.OnDivedToday  -= RefreshSleepButton;
+            DayManager.OnDayAdvanced -= RefreshSleepButton;
+        }
+
+        private void Update()
         {
             if (_playerInRange && Input.GetKeyDown(interactKey))
                 TrySleep();
@@ -26,23 +42,27 @@ namespace Game.Testing
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
-            {
-                _playerInRange = true;
-                promptUI?.SetActive(true);
-            }
+            if (!other.CompareTag("Player")) return;
+            _playerInRange = true;
+            promptUI?.SetActive(true);
+            RefreshSleepButton();
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
-            {
-                _playerInRange = false;
-                promptUI?.SetActive(false);
-            }
+            if (!other.CompareTag("Player")) return;
+            _playerInRange = false;
+            promptUI?.SetActive(false);
         }
 
-        private void TrySleep()
+        private void RefreshSleepButton()
+        {
+            if (sleepButton == null) return;
+            sleepButton.interactable = DayManager.Instance != null && DayManager.Instance.HasDivedToday;
+        }
+
+        /// Called by E key and by the sleep button's onClick.
+        public void TrySleep()
         {
             if (DayManager.Instance == null)
             {

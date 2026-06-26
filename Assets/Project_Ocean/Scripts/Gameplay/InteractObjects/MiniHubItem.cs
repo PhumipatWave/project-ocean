@@ -8,11 +8,14 @@ namespace Game.Testing
 
         private void Start()
         {
+            var player = GameManager.CurPlayer;
+            player?.ClearAllCheckpoints();
+
             GameManager.Instance.MiniHubAvaliable = true;
             GameManager.Instance.MiniHubLocation = this.transform;
 
-            oxygenTube = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
-            oxygenTube.SetStartPoint(this.transform.position);
+            oxygenTube = player?.GetComponentInChildren<OxygenRope>();
+            oxygenTube?.SetStartPoint(this.transform.position);
         }
     }
 }

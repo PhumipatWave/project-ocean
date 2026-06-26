@@ -8,7 +8,7 @@ namespace Game.Testing
     public class EntityHealth : MonoBehaviour, IEntityHealth, IPoolable
     {
         #region Fields & Properties
-        [SerializeField] private float maxHealth = 100f;
+        private float maxHealth = 100f;
 
         [Header("Hit Flash")]
         [SerializeField] private Color hitColor = new Color(0f, 0.1f, 0.5f);

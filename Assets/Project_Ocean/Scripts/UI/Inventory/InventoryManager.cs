@@ -77,9 +77,11 @@ namespace Game.Testing
 
         private void HandleInventoryToggle(bool pressed)
         {
-            if (!pressed || PlayerUIState.IsLocked) return;
-            if (uiController.IsOpen) HideAndDeselect();
-            else uiController.ShowInventory();
+            if (!pressed) return;
+            // Always allow closing, even though the inventory itself holds the UI lock.
+            if (uiController.IsOpen) { HideAndDeselect(); return; }
+            if (PlayerUIState.IsLocked) return;
+            uiController.ShowInventory();
         }
 
         private void Start()
@@ -122,6 +124,7 @@ namespace Game.Testing
             uiController.HideInventory();
             if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length && inventorySlots[selectedSlot] != null)
                 inventorySlots[selectedSlot].Deselect();
+            selectedSlot = -1;
             OnInventoryClosed?.Invoke();
         }
 
@@ -257,9 +260,9 @@ namespace Game.Testing
             return InventoryQuestService.HasQuestItem(inventorySlots, itemId);
         }
 
-        public void RemoveQuestItem(int itemId)
+        public void RemoveQuestItem(int itemId, int count = 1)
         {
-            if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId))
+            if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId, count))
                 NotifyChanged();
         }
 
@@ -292,9 +295,19 @@ namespace Game.Testing
                 return;
             }
 
-            Debug.Log($"[Inventory] Remove item {itemInSlot.GetItem().ItemName} from slot {selectedSlot}");
-            Destroy(itemInSlot.gameObject);
-            NotifyChanged();
+            string itemName = itemInSlot.GetItem().ItemName;
+            int slotToRemove = selectedSlot;
+            ConfirmationDialog.Instance?.Show(
+                $"Discard {itemName}?",
+                () =>
+                {
+                    Draggableltem toRemove = GetItemInSlot(slotToRemove);
+                    if (toRemove == null) return;
+                    Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
+                    Destroy(toRemove.gameObject);
+                    NotifyChanged();
+                }
+            );
         }
 
         public Draggableltem GetItemInSlot(int slotIndex)
@@ -405,7 +418,7 @@ namespace Game.Testing
         {
             if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
             var draggable = buildingSlots[index]?.GetComponentInChildren<Draggableltem>();
-            if (draggable != null) Destroy(draggable.gameObject);
+            if (draggable != null) RemoveOneItem(draggable);
             NotifyChanged();
             RefreshHintUI();
         }
@@ -434,6 +447,11 @@ namespace Game.Testing
                         var draggable = buildingSlots[i]?.GetComponentInChildren<Draggableltem>();
                         var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
                         string hint = effect?.ActionHint ?? string.Empty;
+
+                        // Show "T" in the active slot while any checkpoint is placed in the world
+                        if (string.IsNullOrEmpty(hint) && GameManager.CurPlayer?.CheckpointCount > 0)
+                            hint = "T";
+
                         bool show = !string.IsNullOrEmpty(hint);
                         buildingSlotKeyPanels[i].SetActive(show);
                         if (show && buildingSlotKeyTexts != null && i < buildingSlotKeyTexts.Count && buildingSlotKeyTexts[i] != null)
@@ -457,5 +475,7 @@ namespace Game.Testing
         {
             OnInventoryChanged?.Invoke();
         }
+
+        public void RefreshBuildingHints() => RefreshHintUI();
     }
 }

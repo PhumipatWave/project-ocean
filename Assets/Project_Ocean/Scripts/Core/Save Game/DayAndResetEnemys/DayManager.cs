@@ -29,6 +29,9 @@ namespace Game.Testing
         /// </summary>
         public static event System.Action OnDayAdvanced;
 
+        /// <summary>Fired when the player dives for the first time today — gates the sleep interaction.</summary>
+        public static event System.Action OnDivedToday;
+
         void Awake()
         {
             if (Instance != null) { Destroy(gameObject); return; }
@@ -43,7 +46,12 @@ namespace Game.Testing
         public void SetDivedToday(bool value) => HasDivedToday = value;
 
         /// Called by GameManager when the player starts a dive.
-        public void MarkDivedToday() => HasDivedToday = true;
+        public void MarkDivedToday()
+        {
+            if (HasDivedToday) return;
+            HasDivedToday = true;
+            OnDivedToday?.Invoke();
+        }
 
         /// Called by the bed interactable — advances to the next day.
         public void AdvanceDay()
