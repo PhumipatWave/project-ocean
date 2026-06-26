@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 8532016973429987040}
   - component: {fileID: 1701520036719208104}
   - component: {fileID: 4965704280933918100}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FishS_002
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -771,11 +771,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
-  collectButton: {fileID: 2111090914024227016}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+  collectButton: {fileID: 2111090914024227016}
+  dropItem: {fileID: 11400000, guid: d17a5e942e4a0194ab1ba475b944a87b, type: 2}
   enemy: {fileID: 3612027949895020180}
-  playerInRange: 0
 --- !u!1 &7023430741115364542
 GameObject:
   m_ObjectHideFlags: 0
