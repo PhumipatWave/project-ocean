@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4467100493488792654}
   - component: {fileID: 387868793068391656}
-  - component: {fileID: 4577766320789340656}
+  - component: {fileID: 1183289296014203807}
   m_Layer: 0
   m_Name: BaseCollectableItem
   m_TagString: Untagged
@@ -94,7 +94,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!82 &4577766320789340656
+--- !u!82 &1183289296014203807
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -115,7 +115,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 4
+  MinDistance: 6
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -275,8 +275,9 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
   collectButton: {fileID: 3923893718590636534}
   dropItem: {fileID: 11400000, guid: 2eb7bcd110c6544498f1ea47972da1b6, type: 2}
-  audioSource: {fileID: 4577766320789340656}
+  audioSource: {fileID: 0}
   dropSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
+  poolReturnDelay: 0
 --- !u!1 &3923893718590636534
 GameObject:
   m_ObjectHideFlags: 0

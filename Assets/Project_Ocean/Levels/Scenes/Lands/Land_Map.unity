@@ -46870,6 +46870,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1291153902969136961, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3925034807345300189, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3925034807345300189, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 3925034807345300189, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6075824870622252544, guid: fa61c675b4fa9fc44bf6c7bcd14f8856, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -214865,7 +214901,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3465286685962602723, guid: fb555561586c20041ba7d52756d99813, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 22c725acbcfda1b4da9fe10ca3ef4609, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -217725,6 +217761,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -238773,6 +238813,10 @@ PrefabInstance:
       value: TrashCan (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 934644724}
@@ -241620,6 +241664,10 @@ PrefabInstance:
       value: TrashCan (8)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1683402735}
@@ -241919,6 +241967,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -244743,6 +244795,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -251986,6 +252042,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -268253,6 +268313,10 @@ PrefabInstance:
       value: TrashCan (9)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 385467720}
@@ -270207,6 +270271,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -279449,7 +279517,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4130640169021434097, guid: a433d0fb4e0dc074692230b57dca76a3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a433d0fb4e0dc074692230b57dca76a3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -331852,6 +331920,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
@@ -2253639,6 +2253711,10 @@ PrefabInstance:
       value: TrashCan (4)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1734346127}
@@ -2254007,6 +2254083,10 @@ PrefabInstance:
       value: TrashCan (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 309432587}
@@ -2254268,7 +2254348,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -855298285791758126, guid: 57de28af9b9ccd846b69937e36f58f56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 57de28af9b9ccd846b69937e36f58f56, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2255981,6 +2256061,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrashCan
       objectReference: {fileID: 0}
+    - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 951372530}
     - target: {fileID: 3487833443549373734, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: dialogueBox
       value: 

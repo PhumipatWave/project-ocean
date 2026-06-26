@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
   m_Name: QNPC_2001
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  npcName: Femboy
+  npcName: Peachzy
   npcAvatar: {fileID: -2338812187634505688, guid: c35ff9eab80b6854dbfbf9b60fa51fb8, type: 3}
   questId: 2001
   type: 1
@@ -26,12 +26,12 @@ MonoBehaviour:
   questDialogue:
   - Hello
   - Can I ask you
-  - I Need you
+  - I Need you to
   answerNext:
   - Hi
   - ...
-  answerAccept: Yessss
-  answerReject: Nooo
+  answerAccept: Yes
+  answerReject: No
   rewardItemId: 0
   rewardExp: 0
   rewardMoney: 450

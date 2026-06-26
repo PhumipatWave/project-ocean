@@ -234,10 +234,10 @@ namespace Game.Testing
             {
                 gunHandler.currentAmmoType = AmmoType.Normal;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            /*else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 gunHandler.currentAmmoType = AmmoType.GrapplingHook;
-            }
+            }*/
 
             if (GameManager.Instance.GameState == GameState.Ocean)
             {
