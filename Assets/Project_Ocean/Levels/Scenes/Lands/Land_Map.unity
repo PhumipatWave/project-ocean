@@ -268219,7 +268219,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 389151329}
         m_TargetAssemblyTypeName: Game.Testing.ShopManager, Game.Testing
-        m_MethodName: OpenShopWindow
+        m_MethodName: OpenFishShopWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -281678,7 +281678,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 886, y: -199}
+  m_AnchoredPosition: {x: 869.33, y: -85.001}
   m_SizeDelta: {x: 204.16667, y: 104.16667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1582925972
@@ -2250652,7 +2250652,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1831400096
 RectTransform:
   m_ObjectHideFlags: 0

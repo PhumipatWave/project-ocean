@@ -47,6 +47,25 @@ namespace Game.Testing
             InventoryManager.Instance?.RefreshBuildingHints();
         }
 
+        public void ClearAllCheckpoints()
+        {
+            if (_activePullCoroutine != null)
+            {
+                StopCoroutine(_activePullCoroutine);
+                _activePullCoroutine = null;
+            }
+            foreach (var cp in checkpoints)
+            {
+                if (cp == null) continue;
+                oxygenTube?.DetachFromCheckpoint(cp.transform.position);
+                if (cp.SourceSlotIndex >= 0)
+                    InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+                Destroy(cp.gameObject);
+            }
+            checkpoints.Clear();
+            InventoryManager.Instance?.RefreshBuildingHints();
+        }
+
         /// Returns true if the player can place a new checkpoint from the given building slot index.
         /// Each slot may have at most one active checkpoint at a time; total is capped at 3.
         public bool CanPlaceCheckpointFromSlot(int slotIndex)

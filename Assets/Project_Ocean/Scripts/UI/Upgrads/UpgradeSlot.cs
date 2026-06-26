@@ -26,8 +26,15 @@ namespace Game.Testing
         public void Upgrade()
         {
             if (upgradeManager == null) return;
-            upgradeManager.BuyUpgrade(data);
-            RefreshUI();
+
+            int level = upgradeManager.GetLevel(data);
+            if (level >= data.maxLevel) return;
+
+            int price = data.basePrice * (level + 1);
+            ConfirmationDialog.Instance?.Show(
+                $"Upgrade {data.upgradeName} for ${price}?",
+                () => { upgradeManager.BuyUpgrade(data); RefreshUI(); }
+            );
         }
 
         public void RefreshUI()

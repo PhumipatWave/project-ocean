@@ -124,6 +124,7 @@ namespace Game.Testing
             uiController.HideInventory();
             if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length && inventorySlots[selectedSlot] != null)
                 inventorySlots[selectedSlot].Deselect();
+            selectedSlot = -1;
             OnInventoryClosed?.Invoke();
         }
 
@@ -294,9 +295,19 @@ namespace Game.Testing
                 return;
             }
 
-            Debug.Log($"[Inventory] Remove item {itemInSlot.GetItem().ItemName} from slot {selectedSlot}");
-            Destroy(itemInSlot.gameObject);
-            NotifyChanged();
+            string itemName = itemInSlot.GetItem().ItemName;
+            int slotToRemove = selectedSlot;
+            ConfirmationDialog.Instance?.Show(
+                $"Discard {itemName}?",
+                () =>
+                {
+                    Draggableltem toRemove = GetItemInSlot(slotToRemove);
+                    if (toRemove == null) return;
+                    Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
+                    Destroy(toRemove.gameObject);
+                    NotifyChanged();
+                }
+            );
         }
 
         public Draggableltem GetItemInSlot(int slotIndex)

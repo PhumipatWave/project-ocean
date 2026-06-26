@@ -74,8 +74,8 @@ namespace Game.Testing
             int iid = instance.GetInstanceID();
             if (!instanceToPrefabId.TryGetValue(iid, out int pid))
             {
+                // Not a pooled instance — deactivate only, never destroy scene-placed objects
                 instance.SetActive(false);
-                Destroy(instance);
                 return;
             }
 
