@@ -946,11 +946,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
-  collectButton: {fileID: 8552031426848657681}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+  collectButton: {fileID: 8552031426848657681}
+  dropItem: {fileID: 11400000, guid: 0c8462a22cd23c647b036b2794ef5e18, type: 2}
   enemy: {fileID: 4774483354577623506}
-  playerInRange: 0
 --- !u!1 &7191372487389923256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,7 +1378,7 @@ SpriteRenderer:
   m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: fe0c39a7b6e9f7a4e85c15186e95537f, type: 3}
+  m_Sprite: {fileID: -5933327472554854397, guid: 75148b64d893bcf4ab63b6db3b4446f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0

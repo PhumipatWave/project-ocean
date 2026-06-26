@@ -11,6 +11,7 @@ namespace Game.Testing
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI questNameText;
         [SerializeField] private GameObject statusIcon; // ไอคอนดาว หรือ เครื่องหมายตกใจ
+        [SerializeField] private Image npcAvatarImage;
 
         private Button slotButton;
         private Quest currentQuest;
@@ -35,6 +36,12 @@ namespace Game.Testing
             if (questNameText != null)
             {
                 questNameText.text = quest.QuestName; // ใช้ Property เดิมของคุณ
+            }
+
+            if (npcAvatarImage != null)
+            {
+                npcAvatarImage.sprite  = quest.NpcAvatar;
+                npcAvatarImage.enabled = quest.NpcAvatar != null;
             }
 
             if (statusIcon != null)

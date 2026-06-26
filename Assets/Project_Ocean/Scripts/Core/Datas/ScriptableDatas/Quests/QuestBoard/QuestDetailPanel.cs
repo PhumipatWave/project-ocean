@@ -11,6 +11,9 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI descriptionText;
 
+        [Header("Images")]
+        [SerializeField] private Image itemImage;
+
         [Header("Interactive Buttons")]
         [SerializeField] private Button acceptButton;
         [SerializeField] private TextMeshProUGUI acceptButtonText;
@@ -42,6 +45,13 @@ namespace Game.Testing
             if (descriptionText != null) descriptionText.text = quest.QuestDetail;
             if (acceptButtonText != null) acceptButtonText.text = quest.AnswerAccept;
             if (rejectButtonText != null) rejectButtonText.text = quest.AnswerReject;
+
+            if (itemImage != null)
+            {
+                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
+                itemImage.sprite  = sprite;
+                itemImage.enabled = sprite != null;
+            }
 
             gameObject.SetActive(true);
         }
@@ -88,6 +98,13 @@ namespace Game.Testing
         {
             onQuestStatusChangedCallback?.Invoke();
             HidePanel();
+        }
+
+        private static Sprite GetQuestItemSprite(string questItemId)
+        {
+            if (string.IsNullOrEmpty(questItemId)) return null;
+            if (!int.TryParse(questItemId, out int id)) return null;
+            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
         }
     }
 }

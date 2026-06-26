@@ -11,6 +11,8 @@ namespace Game.Testing
         [SerializeField] protected float moveSpeed = 15f;
         [SerializeField] protected float attackDamage = 25f;
 
+        [SerializeField] protected GameObject vfxObject;
+
         protected bool isHit;
 
         protected Vector2 shootDir;
@@ -48,12 +50,11 @@ namespace Game.Testing
                 case "Environment":
                     isHit = true;
                     rb.linearVelocity = Vector2.zero;
-                    gameObject.GetComponent<Collider2D>().enabled = false;
-                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    GetComponent<Collider2D>().enabled = false;
+                    HideVisuals();
                     break;
 
                 case "Enemy":
-
                     Enemy enemy = collision.GetComponent<Enemy>();
                     enemy.TakeDamage(attackDamage);
                     (enemy.Brain as IBrainHitReaction)?.OnHit();
@@ -62,13 +63,19 @@ namespace Game.Testing
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
-                    
+
                     isHit = true;
                     rb.linearVelocity = Vector2.zero;
-                    gameObject.GetComponent<Collider2D>().enabled = false;
-                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    GetComponent<Collider2D>().enabled = false;
+                    HideVisuals();
                     break;
             }
+        }
+
+        protected virtual void HideVisuals()
+        {
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            if (vfxObject != null) vfxObject.SetActive(false);
         }
 
         protected void BulletDirection()

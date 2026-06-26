@@ -407,7 +407,7 @@ namespace Game.Testing
         {
             if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
             var draggable = buildingSlots[index]?.GetComponentInChildren<Draggableltem>();
-            if (draggable != null) Destroy(draggable.gameObject);
+            if (draggable != null) RemoveOneItem(draggable);
             NotifyChanged();
             RefreshHintUI();
         }

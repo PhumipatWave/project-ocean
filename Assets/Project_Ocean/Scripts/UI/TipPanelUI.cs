@@ -11,6 +11,7 @@ namespace Game.Testing
         [SerializeField] private Button closeButton;
 
         private int currentIndex;
+        private const string SeenKey = "HasSeenTips";
 
         private void Awake()
         {
@@ -18,6 +19,9 @@ namespace Game.Testing
             arrowLeft.onClick.AddListener(() => Navigate(-1));
             closeButton.onClick.AddListener(Close);
             ShowTip(0);
+
+            if (PlayerPrefs.GetInt(SeenKey, 0) == 1)
+                gameObject.SetActive(false);
         }
 
         private void Navigate(int dir)
@@ -34,6 +38,7 @@ namespace Game.Testing
 
         private void Close()
         {
+            PlayerPrefs.SetInt(SeenKey, 1);
             PlayerPrefs.Save();
             gameObject.SetActive(false);
         }

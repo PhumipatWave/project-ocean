@@ -75,7 +75,7 @@ namespace Game.Testing
         private void StopAllNavigation()
         {
             NavMeshAgent agent = GetComponent<NavMeshAgent>();
-            if (agent == null) return;
+            if (agent == null || !agent.isOnNavMesh) return;
 
             agent.isStopped = true;
             agent.ResetPath();

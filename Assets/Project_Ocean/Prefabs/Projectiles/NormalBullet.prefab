@@ -174,6 +174,7 @@ MonoBehaviour:
   player: {fileID: 0}
   moveSpeed: 15
   attackDamage: 25
+  vfxObject: {fileID: 2573582962384276427}
 --- !u!1001 &5991230549200492713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -271,6 +272,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10c489df6c3b9454b8ad2064db568c56, type: 3}
+--- !u!1 &2573582962384276427 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8111568284290765666, guid: 10c489df6c3b9454b8ad2064db568c56, type: 3}
+  m_PrefabInstance: {fileID: 5991230549200492713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8145741117778821177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2463007280494303376, guid: 10c489df6c3b9454b8ad2064db568c56, type: 3}
