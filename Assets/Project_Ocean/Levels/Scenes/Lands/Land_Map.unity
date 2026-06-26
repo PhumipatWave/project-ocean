@@ -252934,7 +252934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::NPCInteract
-  hasQuest: 0
+  hasQuest: 1
   npcDialogue: Ah hello, you must be the newcomer to our village. Welcome young man.
   npcPortrait: {fileID: -2349032854219997288, guid: ee75c477261750549a9782b113360a1e, type: 3}
   targetQuestId: 2002
@@ -278522,7 +278522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::NPCInteract
-  hasQuest: 0
+  hasQuest: 1
   npcDialogue: Welcome, dear! Feel free to look around or sell me any fish you caught.
   npcPortrait: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
   targetQuestId: 2003
