@@ -24,25 +24,67 @@ namespace Game.Testing
         [SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
 
+        private void OnEnable()
+        {
+            DayManager.OnDivedToday  += RefreshNextDayButton;
+            DayManager.OnDayAdvanced += RefreshNextDayButton;
+        }
+
+        private void OnDisable()
+        {
+            DayManager.OnDivedToday  -= RefreshNextDayButton;
+            DayManager.OnDayAdvanced -= RefreshNextDayButton;
+        }
+
         private void Start()
         {
             if (startDiveButton != null)
                 startDiveButton.onClick.AddListener(() =>
                 {
-                    InventoryManager.Instance?.CloseInventory();
-                    GameManager.Instance?.StartDive();
+                    // Release the lock that InteractUI.Open() placed when E was pressed
+                    PlayerUIState.Close();
+                    ConfirmationDialog.Instance?.Show(
+                        "Are you sure you want to dive?",
+                        () => { InventoryManager.Instance?.CloseInventory(); GameManager.Instance?.StartDive(); }
+                    );
                 });
 
             if (nextDayButton != null)
-                nextDayButton.onClick.AddListener(() => DayManager.Instance?.AdvanceDay());
+            {
+                nextDayButton.onClick.AddListener(TryAdvanceDay);
+                RefreshNextDayButton();
+            }
 
             if (saveButton != null)
-                saveButton.onClick.AddListener(() => SaveBridge.Instance?.SaveGame());
+                saveButton.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Save game?",
+                        () => SaveBridge.Instance?.SaveGame()
+                    ));
 
             if (loadButton != null)
-                loadButton.onClick.AddListener(() => SaveBridge.Instance?.LoadGame());
+                loadButton.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Load game? Unsaved progress will be lost.",
+                        () => SaveBridge.Instance?.LoadGame()
+                    ));
 
             WireShopButtons();
+        }
+
+        private void TryAdvanceDay()
+        {
+            if (DayManager.Instance == null || !DayManager.Instance.HasDivedToday) return;
+            ConfirmationDialog.Instance?.Show(
+                "Are you sure you want to end the day?",
+                () => DayManager.Instance?.AdvanceDay()
+            );
+        }
+
+        private void RefreshNextDayButton()
+        {
+            if (nextDayButton == null) return;
+            nextDayButton.interactable = DayManager.Instance != null && DayManager.Instance.HasDivedToday;
         }
 
         private void WireShopButtons()

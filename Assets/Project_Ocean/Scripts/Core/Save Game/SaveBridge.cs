@@ -9,6 +9,9 @@ namespace Game.Testing
     {
         public static SaveBridge Instance { get; private set; }
 
+        /// Fired after a successful save so UI can show a "Game Saved" toast.
+        public static event System.Action OnSaved;
+
         private SaveData _pendingData;
 
         // Order is intentional and stable. Built fresh each call because scene-level
@@ -95,7 +98,15 @@ namespace Game.Testing
 
             var tube = player.OxygenTube;
             if (tube != null)
-                tube.MaxRopeLength = data.maxRopeLength;
+            {
+                // SetOriginalMaxLength syncs both the rope and PlayerHealth's snapshot
+                // so that ResetToOriginal() after the next dive restores the saved upgraded max.
+                var ph = player.GetComponent<PlayerHealth>();
+                if (ph != null)
+                    ph.SetOriginalMaxLength(data.maxRopeLength);
+                else
+                    tube.MaxRopeLength = data.maxRopeLength;
+            }
 
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
@@ -185,6 +196,7 @@ namespace Game.Testing
             {
                 SaveSystem.Save(data);
                 Debug.Log("[SaveBridge] Game saved!");
+                OnSaved?.Invoke();
             }
             catch (System.Exception e)
             {

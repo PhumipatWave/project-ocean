@@ -35,6 +35,22 @@ namespace Game.Testing
             base.Initialize();
         }
 
+        /// Call when a rope upgrade is purchased so ResetToOriginal uses the new max.
+        public void IncreaseOriginalMaxLength(float amount)
+        {
+            originalMaxRopeLength += amount;
+        }
+
+        /// Call when loading a save to sync the snapshot to the saved upgraded value.
+        public void SetOriginalMaxLength(float length)
+        {
+            originalMaxRopeLength = length;
+            if (oxygenTube != null)
+                oxygenTube.MaxRopeLength = length;
+            Configure(length);
+            base.Initialize();
+        }
+
         public override void TakeDamage(float amount)
         {
             if (IsDead) return;

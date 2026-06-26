@@ -22,12 +22,15 @@ namespace Game.Testing
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             var player = GameManager.CurPlayer;
+            if (player == null) return;
 
-            playerCam = FindFirstObjectByType<CinemachineCamera>();
+            if (playerCam == null)
+                playerCam = FindFirstObjectByType<CinemachineCamera>();
+
+            if (playerCam == null) return;
 
             playerCam.Follow = player.transform;
             playerCam.LookAt = player.transform;
-
             playerCam.Priority = 10;
         }
     }

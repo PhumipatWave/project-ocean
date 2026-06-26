@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
+  m_Name: QNPC_2003
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  npcName: Shop
+  npcAvatar: {fileID: 7121379172890449784, guid: 7df1f3cde1d941148a171a571c9b2d8b, type: 3}
+  questId: 2003
+  type: 1
+  status: 0
+  targetEnemyId: fishM
+  targetCount: 6
+  completionMode: 1
+  questName: '[Shop]'
+  questDetail: 'Kill fish size M : 6'
+  questItemId: 32001
+  questDialogue:
+  - Hello
+  - Can I ask you
+  - I Need you to
+  answerNext:
+  - Hi
+  - ...
+  answerAccept: Yes
+  answerReject: No
+  rewardItemId: 0
+  rewardExp: 0
+  rewardMoney: 750
+  questionInProgress: 'Is there anything I can help with? '
+  answerFinish: Oh, thank you very much.
+  answerNotFinish: Let's try again.

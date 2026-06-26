@@ -6,20 +6,18 @@ namespace Game.Testing
         public override EnemyStateTag StateTag => EnemyStateTag.Prepare;
 
         private readonly AggressiveEnemyProfile profile;
-        private readonly EnemyVision vision;
 
         private float prepareTimer;
         #endregion
-        
+
         #region Constructors
-        public EnemyPrepareAttackState(AggressiveEnemyProfile profile, EnemyVision vision)
+        public EnemyPrepareAttackState(AggressiveEnemyProfile profile)
         {
             this.profile = profile;
-            this.vision = vision;
         }
         #endregion
 
-        #region StateCallbaacks
+        #region StateCallbacks
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
@@ -28,7 +26,7 @@ namespace Game.Testing
             enemyBrainContext.AlertUI?.ShowAttackWarning();
         }
 
-public override void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             StopAgent();
             prepareTimer -= deltaTime;

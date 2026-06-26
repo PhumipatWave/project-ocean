@@ -14,7 +14,7 @@ namespace Game.Testing
         public static readonly int IsDeath    = Animator.StringToHash("isDeath");
 
         // ── Enemy ────────────────────────────────────────────────────────────
-        public static readonly int IsAttack   = Animator.StringToHash("isAttack_01");
+        public static readonly int IsAttack   = Animator.StringToHash("isAttack");
 
         // ── Player ───────────────────────────────────────────────────────────
         public static readonly int VelX       = Animator.StringToHash("velX");

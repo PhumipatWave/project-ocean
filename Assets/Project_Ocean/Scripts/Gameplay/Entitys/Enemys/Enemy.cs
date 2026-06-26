@@ -25,9 +25,6 @@ namespace Game.Testing
         [SerializeField] private EnemyLoot loot;
         [SerializeField] private EnemyNavAgentBase navAgentHost;
 
-        [Header("Pool Settings")]
-        [SerializeField] private float autoReturnDelay = 15f;
-
         [Header("Proximity")]
         [Tooltip("NavAgent and brain pause when player is farther than this. 0 = never sleep.")]
         [SerializeField] private float sleepDistance = 40f;
@@ -43,7 +40,7 @@ namespace Game.Testing
         [SerializeField] private string enemyId;
         public string EnemyId => enemyId;
 
-        private float maxHealth = 100f;
+        [SerializeField] private float maxHealth = 100f;
         private SpriteRenderer visual;
         private Animator anim;
         private Color deathSpriteColor = Color.red;
@@ -102,9 +99,7 @@ namespace Game.Testing
         protected override void OnDeathHandler()
         {
             Debug.Log($"Enemy Killed : {enemyId}");
-            EnemyEvents.RaiseEnemyKilled(enemyId);
 
-            // Fire the kill event — runs exactly once (EntityHealth.OnDied is isDead-guarded).
             if (!string.IsNullOrEmpty(enemyId))
                 EnemyEvents.RaiseEnemyKilled(enemyId);
 
@@ -118,7 +113,8 @@ namespace Game.Testing
 
         private IEnumerator AutoReturnRoutine()
         {
-            yield return new WaitForSeconds(autoReturnDelay);
+            float delay = navAgentHost != null ? navAgentHost.AutoReturnDelay : 60f;
+            yield return new WaitForSeconds(delay);
             ObjectPoolManager.Instance?.Return(gameObject);
         }
 

@@ -9,20 +9,17 @@ namespace Game.Testing
 
         private readonly AggressiveEnemyProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
-        private readonly EnemyVision vision;
 
-        private bool damageApplied;
         private float attackTimer;
 
         public bool IsAttacking { get; private set; }
         #endregion
 
         #region Constructors
-        public EnemyAttackState(AggressiveEnemyProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyAttackState(AggressiveEnemyProfile profile, EnemyNavPathfinder pathfinder)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
-            this.vision = vision;
         }
         #endregion
 
@@ -31,13 +28,12 @@ namespace Game.Testing
         {
             base.Enter(ctx, fsm);
             SetAgentSpeed(profile.boostSpeed);
-            damageApplied = false;
             attackTimer = profile.attackCooldown;
             IsAttacking = true;
             enemyBrainContext.AlertUI?.ShowAttackWarning();
         }
 
-public override void Tick(float deltaTime)
+        public override void Tick(float deltaTime)
         {
             attackTimer -= deltaTime;
 
@@ -52,17 +48,10 @@ public override void Tick(float deltaTime)
             // This keeps the dash committed — a fish that wound up won't give up
             // just because the player ducked behind a rock for a frame.
             Vector3 targetPosition = enemyBrainContext.PlayerTransform.position;
-
             float distance = Vector2.Distance(enemyBrainContext.Transform.position, targetPosition);
 
             if (distance <= profile.attackRange)
             {
-                if (!damageApplied)
-                {
-                    enemyBrainContext.Player?.TakeDamage(profile.attackDamage);
-                    damageApplied = true;
-                }
-
                 ReturnToFollow(true);
                 return;
             }
@@ -89,7 +78,10 @@ public override void Tick(float deltaTime)
         private void ReturnToFollow(bool applyCooldown)
         {
             if (applyCooldown && enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
+            {
                 follow.SetHitChaseTimer(profile.attackCooldown);
+                follow.SetAttackCooldown(profile.attackCooldown);
+            }
 
             enemyFSM.TransitionTo(EnemyStateTag.Follow);
         }
