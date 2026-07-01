@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using Game.Core;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Game.Testing
 {
@@ -30,7 +31,7 @@ namespace Game.Testing
         private static readonly List<string> globalOpenedChests = new();
         private string uniqueID;
         private bool wasOpened;
-        private bool isPlayerInRange;
+        private bool _subscribed;
         private PlayerMoney targetPlayerMoney;
         private Image portraitImage;
         private Image extraImage;
@@ -48,8 +49,8 @@ namespace Game.Testing
         {
             if (other.CompareTag("Player"))
             {
-                isPlayerInRange = true;
                 targetPlayerMoney = other.GetComponent<PlayerMoney>();
+                Subscribe();
             }
         }
 
@@ -57,19 +58,36 @@ namespace Game.Testing
         {
             if (other.CompareTag("Player"))
             {
-                isPlayerInRange = false;
                 targetPlayerMoney = null;
+                Unsubscribe();
                 CloseUI();
             }
         }
 
-        void Update()
+        private void OnDisable() => Unsubscribe();
+
+        private void HandleInteract(bool pressed)
         {
-            if (isPlayerInRange && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
-            {
-                if (!dialogueBox.activeSelf) OpenUI();
-                else CloseUI();
-            }
+            if (!pressed) return;
+            if (!dialogueBox.activeSelf) OpenUI();
+            else CloseUI();
+        }
+
+        private void Subscribe()
+        {
+            if (_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader == null) return;
+            reader.OnInteracted += HandleInteract;
+            _subscribed = true;
+        }
+
+        private void Unsubscribe()
+        {
+            if (!_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader != null) reader.OnInteracted -= HandleInteract;
+            _subscribed = false;
         }
 
         void OpenUI()

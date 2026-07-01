@@ -100,6 +100,8 @@ namespace Game.Testing
         {
             Debug.Log($"Enemy Killed : {enemyId}");
 
+            entityAnimation?.PlayAnim(AnimHash.IsDeath, true);
+
             if (!string.IsNullOrEmpty(enemyId))
                 EnemyEvents.RaiseEnemyKilled(enemyId);
 

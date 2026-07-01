@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,8 +6,7 @@ namespace Game.Testing
 {
     public class InteractableNextDay : MonoBehaviour
     {
-        [Header("Interaction")]
-        [SerializeField] private KeyCode interactKey = KeyCode.E;
+        private bool _subscribed;
 
         [Header("UI")]
         [SerializeField] private GameObject promptUI;
@@ -32,18 +32,37 @@ namespace Game.Testing
         {
             DayManager.OnDivedToday  -= RefreshSleepButton;
             DayManager.OnDayAdvanced -= RefreshSleepButton;
+            Unsubscribe();
         }
 
-        private void Update()
+        private void HandleInteract(bool pressed)
         {
-            if (_playerInRange && Input.GetKeyDown(interactKey))
-                TrySleep();
+            if (!pressed) return;
+            TrySleep();
+        }
+
+        private void Subscribe()
+        {
+            if (_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader == null) return;
+            reader.OnInteracted += HandleInteract;
+            _subscribed = true;
+        }
+
+        private void Unsubscribe()
+        {
+            if (!_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader != null) reader.OnInteracted -= HandleInteract;
+            _subscribed = false;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
             _playerInRange = true;
+            Subscribe();
             promptUI?.SetActive(true);
             RefreshSleepButton();
         }
@@ -52,6 +71,7 @@ namespace Game.Testing
         {
             if (!other.CompareTag("Player")) return;
             _playerInRange = false;
+            Unsubscribe();
             promptUI?.SetActive(false);
         }
 
