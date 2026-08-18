@@ -306,7 +306,8 @@ namespace Game.Testing
             if (playerTransform != null)
                 return playerTransform;
 
-            return GameManager.CurPlayer != null ? GameManager.CurPlayer.transform : null;
+            var nearest = PlayerRegistry.GetNearest(transform.position);
+            return nearest != null ? nearest.transform : null;
         }
     }
 }

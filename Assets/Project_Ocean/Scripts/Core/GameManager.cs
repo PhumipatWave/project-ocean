@@ -15,7 +15,11 @@ namespace Game.Testing
         [SerializeField] private Transform playerSpawnPoint;
         public Transform PlayerSpawnPoint => playerSpawnPoint;
 
-        public static Player CurPlayer;
+        /// <summary>
+        /// The local player. Backed by PlayerRegistry — use PlayerRegistry.Local directly
+        /// in new code. This property exists for backwards compatibility with existing callers.
+        /// </summary>
+        public static Player CurPlayer => PlayerRegistry.Local;
 
         private GameState gameState;
         public GameState GameState { get { return gameState; } set { gameState = value; } }
@@ -43,7 +47,7 @@ namespace Game.Testing
             var spawnPos = playerSpawnPoint != null
                 ? playerSpawnPoint.position
                 : (GameObject.FindWithTag("PlayerSpawnPoint")?.transform.position ?? Vector3.zero);
-            CurPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+            PlayerRegistry.Register(Instantiate(playerPrefab, spawnPos, Quaternion.identity));
         }
 
         private void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;

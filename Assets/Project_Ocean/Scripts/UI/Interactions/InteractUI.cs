@@ -1,3 +1,4 @@
+using Game.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,22 +16,39 @@ namespace Game.Testing
         [Tooltip("Fired when the player presses E while inside this zone.")]
         public UnityEvent onInteract;
 
-        private bool playerInside = false;
+        private bool _subscribed;
 
-        private void Update()
+        private void HandleInteract(bool pressed)
         {
-            if (playerInside && Input.GetKeyDown(KeyCode.E))
-            {
-                if (!PlayerUIState.IsLocked) PlayerUIState.Open();
-                onInteract?.Invoke();
-            }
+            if (!pressed) return;
+            if (!PlayerUIState.IsLocked) PlayerUIState.Open();
+            onInteract?.Invoke();
         }
+
+        private void Subscribe()
+        {
+            if (_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader == null) return;
+            reader.OnInteracted += HandleInteract;
+            _subscribed = true;
+        }
+
+        private void Unsubscribe()
+        {
+            if (!_subscribed) return;
+            var reader = GameManager.CurPlayer?.input;
+            if (reader != null) reader.OnInteracted -= HandleInteract;
+            _subscribed = false;
+        }
+
+        private void OnDisable() => Unsubscribe();
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                playerInside = true;
+                Subscribe();
                 if (interactIcon != null) interactIcon.SetActive(true);
             }
         }
@@ -39,7 +57,7 @@ namespace Game.Testing
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                playerInside = false;
+                Unsubscribe();
                 if (interactIcon != null) interactIcon.SetActive(false);
                 PlayerUIState.Close();
             }
