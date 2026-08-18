@@ -144,6 +144,7 @@ namespace Game.Testing
                     quest.CurrentCount = s.currentCount;
                 }
             }
+            OnQuestUpdated?.Invoke();
         }
 
         // ── ISaveParticipant ──

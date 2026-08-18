@@ -144,7 +144,13 @@ namespace Game.Testing
                 var item = inv.FindItemInDatabase(id);
                 if (item == null)
                 {
-                    Debug.LogWarning($"[SaveBridge] Item ID {id} not found in allItems database");
+                    // LogError (not LogWarning): this means the item was silently dropped
+                    // from the loaded inventory — a data-loss bug, not a minor issue.
+                    // Usually caused by the item's ScriptableObject missing from
+                    // InventoryManager's "Item Database -> All Items" list in the Inspector.
+                    Debug.LogError($"[SaveBridge] Item ID {id} not found in allItems database — " +
+                                    $"item was DROPPED from inventory on load! Add its ScriptableObject to " +
+                                    $"InventoryManager's Item Database list.");
                     continue;
                 }
 
