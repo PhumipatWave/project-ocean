@@ -14,14 +14,6 @@ namespace Game.Testing
 
         private bool canAttack = true;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.V) && canAttack)
-            {
-                StartCoroutine(Stab());
-            }
-        }
-
         private IEnumerator Stab()
         {
             canAttack = false;

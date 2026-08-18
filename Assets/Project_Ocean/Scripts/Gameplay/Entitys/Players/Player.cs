@@ -141,6 +141,8 @@ namespace Game.Testing
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
+            input.OnUseItem += HandleUseItem;
+            input.OnTeleport += HandleTeleport;
 
             // Game always starts on land; sceneLoaded for Land_Map fires before the player
             // exists, so we set the initial land state here instead of relying on that event.
@@ -239,18 +241,6 @@ namespace Game.Testing
                 gunHandler.currentAmmoType = AmmoType.GrapplingHook;
             }*/
 
-            if (GameManager.Instance.GameState == GameState.Ocean)
-            {
-                // F key: consume Building item from inventory and place it in the world
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    UseItem(ItemType.Building);
-                }
-
-                // T key: teleport to the last placed checkpoint (free action, no item consumed)
-                if (Input.GetKeyDown(KeyCode.T) && LastCheckpoint != null)
-                    LastCheckpoint.PullPlayerHere(this);
-            }
         }
 
         private void UseItem(ItemType type)
@@ -353,6 +343,18 @@ namespace Game.Testing
             {
                 Debug.Log("Interact");
             }
+        }
+
+        private void HandleUseItem()
+        {
+            if (GameManager.Instance.GameState == GameState.Ocean)
+                UseItem(ItemType.Building);
+        }
+
+        private void HandleTeleport()
+        {
+            if (GameManager.Instance.GameState == GameState.Ocean && LastCheckpoint != null)
+                LastCheckpoint.PullPlayerHere(this);
         }
 
         private void Move(Vector2 dir)

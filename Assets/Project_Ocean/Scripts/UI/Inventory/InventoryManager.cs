@@ -66,13 +66,19 @@ namespace Game.Testing
         private void OnEnable()
         {
             if (inputReader != null)
+            {
                 inputReader.OnInventoryToggled += HandleInventoryToggle;
+                inputReader.OnAmmoSelected += HandleCycleBuildingSlot;
+            }
         }
 
         private void OnDisable()
         {
             if (inputReader != null)
+            {
                 inputReader.OnInventoryToggled -= HandleInventoryToggle;
+                inputReader.OnAmmoSelected -= HandleCycleBuildingSlot;
+            }
         }
 
         private void HandleInventoryToggle(bool pressed)
@@ -99,8 +105,12 @@ namespace Game.Testing
                 if (isNumber && number >= 1 && number <= 9)
                     SelectSlot(number - 1);
             }
+        }
 
-            if (Input.GetKeyDown(KeyCode.Tab) && buildingSlots != null && buildingSlots.Count > 1)
+        private void HandleCycleBuildingSlot(bool pressed)
+        {
+            if (!pressed) return;
+            if (buildingSlots != null && buildingSlots.Count > 1)
                 CycleBuildingSlot();
         }
 

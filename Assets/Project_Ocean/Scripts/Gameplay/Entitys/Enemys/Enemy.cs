@@ -3,11 +3,6 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>
-    /// Decoupled channel between "an enemy died" and systems that care about kills
-    /// (e.g. QuestManager). Enemy fires OnEnemyKilled; subscribers react.
-    /// Mirrors the DayManager.OnDayAdvanced pattern — no enemy↔quest references.
-    /// </summary>
     public static class EnemyEvents
     {
         /// <summary>Raised once when an enemy dies. Payload = the enemy's id (Enemy.EnemyId).</summary>
@@ -100,6 +95,8 @@ namespace Game.Testing
         {
             Debug.Log($"Enemy Killed : {enemyId}");
 
+            entityAnimation?.PlayAnim(AnimHash.IsDeath, true);
+
             if (!string.IsNullOrEmpty(enemyId))
                 EnemyEvents.RaiseEnemyKilled(enemyId);
 
@@ -126,10 +123,10 @@ namespace Game.Testing
                 yield return wait;
                 if (IsDead) yield break;
 
-                var player = GameManager.CurPlayer;
-                if (player == null) continue;
+                var nearest = PlayerRegistry.GetNearest(transform.position);
+                if (nearest == null) continue;
 
-                float sqrDist = ((Vector2)(player.transform.position - transform.position)).sqrMagnitude;
+                float sqrDist = ((Vector2)(nearest.transform.position - transform.position)).sqrMagnitude;
                 if (sqrDist > despawnDistanceSqr)
                 {
                     ObjectPoolManager.Instance?.Return(gameObject);
@@ -160,8 +157,7 @@ namespace Game.Testing
 
         private void InitializeState()
         {
-            player = GameManager.CurPlayer != null
-                ? GameManager.CurPlayer.GetComponent<Player>() : null;
+            player = PlayerRegistry.Local;
             healthSource?.Initialize();
         }
 
