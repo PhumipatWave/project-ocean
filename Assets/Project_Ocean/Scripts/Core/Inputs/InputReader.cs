@@ -16,6 +16,9 @@ namespace Game.Core
         public event Action<bool> OnInventoryToggled;
         public event Action<Vector2> OnMoved;
 
+        public event Action OnUseItem;
+        public event Action OnTeleport;
+
         public Vector2 MousePos { get; private set; }
         public Vector2 MovePos { get; private set; }
 
@@ -37,65 +40,12 @@ namespace Game.Core
             DisablePlayerInput();
         }
 
-        public void EnablePlayerInput() => inputAction.Player.Enable();
+        public void EnablePlayerInput()  => inputAction?.Player.Enable();
+        public void DisablePlayerInput() => inputAction?.Player.Disable();
+        public void EnableUIInput()      => inputAction?.UI.Enable();
+        public void DisableUIInput()     => inputAction?.UI.Disable();
 
-        public void DisablePlayerInput() => inputAction.Player.Disable();
-
-        public void EnableUIInput() => inputAction.UI.Enable();
-
-        public void DisableUIInput() => inputAction.UI.Disable();
-
-        public void OnAim(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnAimed?.Invoke(true);
-            }
-            else if (context.canceled)
-            {
-                OnAimed?.Invoke(false);
-            }
-        }
-        public void OnMousePos(InputAction.CallbackContext context)
-        {
-            MousePos = context.ReadValue<Vector2>();
-        }
-
-        public void OnAttack(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnAttacked?.Invoke(true);
-            }
-            else if (context.canceled)
-            {
-                OnAttacked?.Invoke(false);
-            }
-        }
-
-        public void OnSprint(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnSprinted?.Invoke(true);
-            }
-            else if (context.canceled)
-            {
-                OnSprinted?.Invoke(false);
-            }
-        }
-
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                OnInteracted?.Invoke(true);
-            }
-            else if (context.canceled)
-            {
-                OnInteracted?.Invoke(false);
-            }
-        }
+        // ── IPlayerActions ────────────────────────────────────────────────
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -103,54 +53,64 @@ namespace Game.Core
             OnMoved?.Invoke(MovePos);
         }
 
-        public void OnAmmoWheel(InputAction.CallbackContext context)
+        public void OnMousePos(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                OnAmmoSelected?.Invoke(true);
-            }
-            else if (context.canceled)
-            {
-                OnAmmoSelected?.Invoke(false);
-            }
+            MousePos = context.ReadValue<Vector2>();
+        }
+
+        public void OnAim(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnAimed?.Invoke(true);
+            else if (context.canceled) OnAimed?.Invoke(false);
+        }
+
+        public void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnAttacked?.Invoke(true);
+            else if (context.canceled) OnAttacked?.Invoke(false);
+        }
+
+        public void OnSprint(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnSprinted?.Invoke(true);
+            else if (context.canceled) OnSprinted?.Invoke(false);
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.started) OnInteracted?.Invoke(true);
+            else if (context.canceled) OnInteracted?.Invoke(false);
+        }
+
+        public void OnItemConsume(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnUseItem?.Invoke();
+        }
+
+        void IPlayerActions.OnTeleport(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnTeleport?.Invoke();
+        }
+
+        public void OnSwitchItem(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnAmmoSelected?.Invoke(true);
+            else if (context.canceled) OnAmmoSelected?.Invoke(false);
         }
 
         public void OnInventory(InputAction.CallbackContext context)
         {
-            if (context.performed)
-                OnInventoryToggled?.Invoke(true);
-            else if (context.canceled)
-                OnInventoryToggled?.Invoke(false);
+            if (context.performed) OnInventoryToggled?.Invoke(true);
+            else if (context.canceled) OnInventoryToggled?.Invoke(false);
         }
 
-        public void OnSubmit(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
+        // ── IUIActions ─────────────────────────────────────────────────────
 
-        public void OnCancel(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnClick(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnRightClick(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnMiddleClick(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnScrollWheel(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public void OnSubmit(InputAction.CallbackContext context) { }
+        public void OnCancel(InputAction.CallbackContext context) { }
+        public void OnClick(InputAction.CallbackContext context) { }
+        public void OnRightClick(InputAction.CallbackContext context) { }
+        public void OnMiddleClick(InputAction.CallbackContext context) { }
+        public void OnScrollWheel(InputAction.CallbackContext context) { }
     }
 }
