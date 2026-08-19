@@ -103,6 +103,7 @@ namespace Game.Testing
         public float SprintSpeed { get { return sprintSpeed; } }
 
         private bool isSprinting;
+        private bool wasMoving;
 
         private bool isLand;
 
@@ -134,10 +135,9 @@ namespace Game.Testing
             return playerHealth;
         }
 
-        private void Start()
+private void Start()
         {
             input.OnAimed += Aim;
-            input.OnMoved += Move;
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
@@ -226,7 +226,7 @@ namespace Game.Testing
             }
         }
 
-        private void Update()
+private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
@@ -241,6 +241,17 @@ namespace Game.Testing
                 gunHandler.currentAmmoType = AmmoType.GrapplingHook;
             }*/
 
+        }
+
+        // Movement is re-applied every physics step (not only when the input value changes).
+        // Reason: Rigidbody2D collision resolution can zero the velocity component that's
+        // pushed into a wall. If we only set velocity from the OnMoved event (which fires
+        // once per input change), that zeroed axis never gets restored while the same keys
+        // stay held — the player looks stuck moving on a single axis even after clearing the
+        // wall. Re-asserting the full input direction every FixedUpdate fixes that.
+        private void FixedUpdate()
+        {
+            ApplyMovement(input.MovePos);
         }
 
         private void UseItem(ItemType type)
@@ -331,11 +342,36 @@ namespace Game.Testing
             }
         }
 
-        private void Sprint(bool state)
+private void Sprint(bool state)
         {
             isSprinting = state;
-            Move(input.MovePos);
         }
+
+private void ApplyMovement(Vector2 dir)
+        {
+            if (gunHandler.IsAimming || PlayerUIState.IsLocked)
+            {
+                rb.linearVelocity = Vector2.zero;
+                wasMoving = false;
+                return;
+            }
+
+            float speed = isSprinting ? sprintSpeed : moveSpeed;
+            rb.linearVelocity = dir * speed;
+
+            bool isMoving = rb.linearVelocity != Vector2.zero;
+
+            // Edge-triggered: play once when movement starts, not every physics tick.
+            if (isMoving && !wasMoving && GameManager.Instance.GameState == GameState.Ocean)
+            {
+                audio.PlayOneShot(playerRopeSound);
+            }
+            wasMoving = isMoving;
+
+            MovementAnim();
+            FlipSprite();
+        }
+
 
         private void Interact(bool isInteract)
         {
@@ -357,25 +393,7 @@ namespace Game.Testing
                 LastCheckpoint.PullPlayerHere(this);
         }
 
-        private void Move(Vector2 dir)
-        {
-            if (gunHandler.IsAimming || PlayerUIState.IsLocked)
-            {
-                rb.linearVelocity = Vector2.zero;
-                return;
-            }
 
-            float speed = isSprinting ? sprintSpeed : moveSpeed;
-            rb.linearVelocity = dir * speed;
-
-            if (rb.linearVelocity != Vector2.zero && GameManager.Instance.GameState == GameState.Ocean)
-            {
-                audio.PlayOneShot(playerRopeSound);
-            }
-
-            MovementAnim();
-            FlipSprite();
-        }
 
         protected override void OnDamagedHandler()
         {
