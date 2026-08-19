@@ -45815,6 +45815,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &39091953
 GameObject:
   m_ObjectHideFlags: 0
@@ -234472,6 +234484,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!82 &592034775 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6562200529777005836, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
@@ -236097,6 +236121,18 @@ MonoBehaviour:
       - m_Target: {fileID: 357408899}
         m_TargetAssemblyTypeName: Game.Testing.DoorInteract, Game.Testing
         m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -242237,6 +242273,18 @@ MonoBehaviour:
       - m_Target: {fileID: 3762142}
         m_TargetAssemblyTypeName: Game.Testing.DoorInteract, Game.Testing
         m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -249189,6 +249237,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1093261089 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6812226334030404104, guid: b34a858e610ac0f47b225996335d4be4, type: 3}
@@ -249475,6 +249535,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &1114121077
 GameObject:
   m_ObjectHideFlags: 0
@@ -249532,7 +249604,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dive
+  m_text: E
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f9ed1969c969cd458ad0043950bff27, type: 2}
   m_sharedMaterial: {fileID: -1680696068738569446, guid: 6f9ed1969c969cd458ad0043950bff27, type: 2}
@@ -267255,6 +267327,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 389151329}
         m_TargetAssemblyTypeName: Game.Testing.ShopManager, Game.Testing
         m_MethodName: OpenFishShopWindow
@@ -267749,6 +267833,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1770621482}
         m_TargetAssemblyTypeName: Game.Testing.DoorInteract, Game.Testing
         m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -269636,6 +269732,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1278676074}
         m_TargetAssemblyTypeName: Game.Testing.DoorInteract, Game.Testing
         m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -279919,7 +280027,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 204.16667, y: 104.16667}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1547436839
 MonoBehaviour:
@@ -279969,6 +280077,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1631093,6 +1631213,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+        m_TargetAssemblyTypeName: Game.Core.InputReader, Game.Core
+        m_MethodName: TriggerInteract
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 453608951}
         m_TargetAssemblyTypeName: Game.Testing.UpgradeManager, Game.Testing

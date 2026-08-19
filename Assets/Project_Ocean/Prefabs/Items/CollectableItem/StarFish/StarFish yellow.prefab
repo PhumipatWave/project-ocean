@@ -215,11 +215,24 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: dropItem
+      value: 
+      objectReference: {fileID: 11400000, guid: bbd27f94d6a7cc64eba700a85fc321ee, type: 2}
+    - target: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 6152330167559071913}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+--- !u!82 &6152330167559071913 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1183289296014203807, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+  m_PrefabInstance: {fileID: 4974952464839471926}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8715803194081073016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4467100493488792654, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
