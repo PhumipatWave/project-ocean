@@ -35,7 +35,8 @@ namespace Game.Testing
         /// <summary>
         /// Attempts to buy the next level of an upgrade:
         /// checks max level and money, applies the gameplay effect, increments the level.
-        /// Returns true if the purchase succeeded.
+        /// Returns true if the purchase succeeded. Shows a "Not enough money" toast
+        /// when the purchase fails specifically due to insufficient funds.
         /// </summary>
         public bool TryBuyUpgrade(UpgradeData data)
         {
@@ -47,7 +48,14 @@ namespace Game.Testing
             if (GameManager.CurPlayer == null) return false;
 
             var money = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-            if (money == null || !money.Use(GetPrice(data))) return false;
+            if (money == null) return false;
+
+            int price = GetPrice(data);
+            if (!money.Use(price))
+            {
+                NotificationManager.Notify("Not enough money");
+                return false;
+            }
 
             ApplyEffect(data);
             levels[data.type] = level + 1;
