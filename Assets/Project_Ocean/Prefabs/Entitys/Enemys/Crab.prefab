@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 8330038065182162407}
   - component: {fileID: 5310176383299281680}
   - component: {fileID: 2300011296958913289}
+  - component: {fileID: 6487137956494746292}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -484,6 +485,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.DamagePoint
   damagePointText: {fileID: 608959775215066883}
+--- !u!114 &6487137956494746292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262579841823029345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec797e031aea27a44a4e3bd465c8dbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.UILock
 --- !u!1 &3679897281648285499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,11 +1136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  dropItem: {fileID: 11400000, guid: 08a0841c95e4b3d4cbe743dd174ff947, type: 2}
-  collectButton: {fileID: 5441981291965966798}
   inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
+  collectButton: {fileID: 5441981291965966798}
+  dropItem: {fileID: 11400000, guid: 08a0841c95e4b3d4cbe743dd174ff947, type: 2}
   enemy: {fileID: 4896509283524058569}
-  playerInRange: 0
 --- !u!1 &6494972434543546504
 GameObject:
   m_ObjectHideFlags: 0
