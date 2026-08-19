@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,8 +10,10 @@ namespace Game.Testing
     /// Works for any event in the game (quest, inventory, save, etc.) as long as
     /// the caller does: NotificationManager.Notify("message here");
     ///
-    /// If a new notification arrives while one is showing, it is queued and
-    /// shown after the current one finishes (so messages never get lost/cut off).
+    /// If a new notification arrives while one is already showing/fading, the
+    /// trigger is ignored (dropped) — the next one is only accepted once the
+    /// current toast has fully disappeared. This prevents spam-clicking a
+    /// single action from queuing up a long chain of toasts.
     ///
     /// Put this on a UI GameObject with a CanvasGroup + TextMeshProUGUI, ideally
     /// on a persistent HUD canvas.
@@ -25,8 +26,10 @@ namespace Game.Testing
         [SerializeField] private float showDuration = 2f;
         [SerializeField] private float fadeDuration  = 0.4f;
 
-        private readonly Queue<string> _pending = new Queue<string>();
         private Coroutine _activeRoutine;
+
+        /// <summary>True while a notification is visible or mid-fade. New triggers are ignored until this clears.</summary>
+        private bool IsShowing => _activeRoutine != null;
 
         private void Awake()
         {
@@ -38,42 +41,39 @@ namespace Game.Testing
 
         private void HandleNotify(string message)
         {
-            _pending.Enqueue(message);
+            // Ignore spam triggers while a notification is already showing/fading —
+            // the next one is only accepted after the current one fully disappears.
+            if (IsShowing) return;
 
-            if (_activeRoutine == null)
-                _activeRoutine = StartCoroutine(ToastRoutine());
+            _activeRoutine = StartCoroutine(ToastRoutine(message));
         }
 
-        private IEnumerator ToastRoutine()
+        private IEnumerator ToastRoutine(string message)
         {
-            while (_pending.Count > 0)
+            if (messageText != null) messageText.text = message;
+
+            // Fade in
+            float t = 0f;
+            while (t < fadeDuration)
             {
-                string message = _pending.Dequeue();
-                if (messageText != null) messageText.text = message;
-
-                // Fade in
-                float t = 0f;
-                while (t < fadeDuration)
-                {
-                    t += Time.unscaledDeltaTime;
-                    canvasGroup.alpha = Mathf.Clamp01(t / fadeDuration);
-                    yield return null;
-                }
-                canvasGroup.alpha = 1f;
-
-                // Hold
-                yield return new WaitForSecondsRealtime(showDuration);
-
-                // Fade out
-                t = 0f;
-                while (t < fadeDuration)
-                {
-                    t += Time.unscaledDeltaTime;
-                    canvasGroup.alpha = Mathf.Clamp01(1f - t / fadeDuration);
-                    yield return null;
-                }
-                canvasGroup.alpha = 0f;
+                t += Time.unscaledDeltaTime;
+                canvasGroup.alpha = Mathf.Clamp01(t / fadeDuration);
+                yield return null;
             }
+            canvasGroup.alpha = 1f;
+
+            // Hold
+            yield return new WaitForSecondsRealtime(showDuration);
+
+            // Fade out
+            t = 0f;
+            while (t < fadeDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                canvasGroup.alpha = Mathf.Clamp01(1f - t / fadeDuration);
+                yield return null;
+            }
+            canvasGroup.alpha = 0f;
 
             _activeRoutine = null;
         }
