@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 2051070213254045613}
   - component: {fileID: 342576903587815687}
   - component: {fileID: 6271738569634846239}
+  - component: {fileID: 2689453771343974448}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -503,6 +504,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.DamagePoint
   damagePointText: {fileID: 5597685490482780117}
+--- !u!114 &2689453771343974448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110100787774346114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec797e031aea27a44a4e3bd465c8dbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.UILock
 --- !u!1 &2328797006095006204
 GameObject:
   m_ObjectHideFlags: 0
