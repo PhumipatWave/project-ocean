@@ -1901,6 +1901,7 @@ GameObject:
   - component: {fileID: 273645550}
   - component: {fileID: 273645549}
   - component: {fileID: 273645548}
+  - component: {fileID: 273645551}
   m_Layer: 5
   m_Name: bin
   m_TagString: Untagged
@@ -2021,6 +2022,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273645546}
   m_CullTransparentMesh: 1
+--- !u!114 &273645551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273645546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfddf4dbadb4daa4196f1522267c828b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.TrashBin
+  trashImage: {fileID: 273645549}
+  normalSprite: {fileID: 7830999388577991945, guid: 6c078c1074cbb4645aca789253f8c580, type: 3}
+  hoverSprite: {fileID: 7830999388577991945, guid: 6c078c1074cbb4645aca789253f8c580, type: 3}
+  hoverScale: 1.5
 --- !u!1 &283579062
 GameObject:
   m_ObjectHideFlags: 0
