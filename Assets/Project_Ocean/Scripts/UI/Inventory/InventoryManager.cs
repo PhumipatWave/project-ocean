@@ -149,7 +149,7 @@ namespace Game.Testing
             selectedSlot = newValue;
         }
 
-        public bool AddItem(Item item)
+public bool AddItem(Item item)
         {
             if (item == null) return false;
 
@@ -158,6 +158,8 @@ namespace Game.Testing
 
             if (itemAdded)
                 NotifyChanged();
+            else
+                NotificationManager.Notify("Inventory is full");
 
             return itemAdded;
         }
