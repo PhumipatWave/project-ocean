@@ -49,7 +49,7 @@ namespace Game.Testing
         /// matches the dead enemy's id. AddProgress handles the threshold + status flip
         /// (Finish for AutoComplete, ReadyToTurnIn for ReadyToHandIn).
         /// </summary>
-        private void HandleEnemyKilled(string enemyId)
+private void HandleEnemyKilled(string enemyId)
         {
             Debug.Log($"Quest Received Kill : {enemyId}");
 
@@ -83,6 +83,9 @@ namespace Game.Testing
                 if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
+
+                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
+
                     if (q.RewardMoney > 0)
                     {
                         OnMoneyRewarded?.Invoke(q.RewardMoney);
@@ -158,11 +161,12 @@ namespace Game.Testing
             LoadSaveState(data.quests);
         }
 
-        public bool AcceptQuest(int questID)
+public bool AcceptQuest(int questID)
         {
             if (HasActiveQuest())
             {
                 Debug.Log("Already have an active quest.");
+                NotificationManager.Notify("You already have a quest in process");
                 return false;
             }
 
@@ -253,7 +257,7 @@ namespace Game.Testing
             InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }
 
-        public bool TurnInQuest(int questID)
+public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
@@ -262,6 +266,8 @@ namespace Game.Testing
 
             quest.Status = QuestStatus.Finish;
             RemoveQuestItems(quest);
+
+            NotificationManager.Notify($"Quest complete: {quest.QuestName}");
 
             if (quest.RewardMoney > 0)
             {
