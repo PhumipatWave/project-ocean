@@ -17,11 +17,7 @@ namespace Game.Core
 
         public InputSystem_Actions Actions => inputActions;
 
-        private string SavePath =>
-           Path.Combine(
-        Application.persistentDataPath,
-        "keybinds.json"
-           );
+        private string SavePath => Path.Combine(Application.persistentDataPath,"keybinds.json");
 
         private void Awake()
         {
@@ -160,6 +156,139 @@ namespace Game.Core
                 .Start();
         }
 
+        // Move Player W A S D แยก -------------------------------------
+
+        public InputAction GetMoveBinding(MoveDirection direction)
+        {
+            InputAction moveAction = GetAction(KeyAction.Move);
+
+            if (moveAction == null)
+                return null;
+
+            return moveAction;
+        }
+
+        public int GetMoveBindingIndex(MoveDirection direction)
+        {
+            InputAction moveAction = GetAction(KeyAction.Move);
+
+            if (moveAction == null)
+                return -1;
+
+            string partName = direction switch
+            {
+                MoveDirection.Up => "up",
+                MoveDirection.Down => "down",
+                MoveDirection.Left => "left",
+                MoveDirection.Right => "right",
+                _ => ""
+            };
+
+            for (int i = 0; i < moveAction.bindings.Count; i++)
+            {
+                var binding = moveAction.bindings[i];
+
+                if (binding.isPartOfComposite &&
+                    binding.name == partName)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public string GetMoveBindingDisplayString(MoveDirection direction)
+        {
+            InputAction moveAction = GetAction(KeyAction.Move);
+
+            if (moveAction == null)
+                return "---";
+
+            int index = GetMoveBindingIndex(direction);
+
+            if (index < 0)
+                return "---";
+
+            return moveAction.GetBindingDisplayString(
+                index,
+                InputBinding.DisplayStringOptions.DontIncludeInteractions
+            );
+        }
+
+        public void RebindMove(MoveDirection direction,Action<string, bool> onComplete)
+        {
+            InputAction moveAction = GetAction(KeyAction.Move);
+
+            if (moveAction == null)
+            {
+                Debug.LogWarning("[KeyBind] Move action not found.");
+                onComplete?.Invoke("", false);
+                return;
+            }
+
+            int bindingIndex = GetMoveBindingIndex(direction);
+
+            if (bindingIndex < 0)
+            {
+                Debug.LogWarning(
+                    $"[KeyBind] Move binding not found: {direction}"
+                );
+
+                onComplete?.Invoke("", false);
+                return;
+            }
+
+            moveAction.Disable();
+
+            moveAction.PerformInteractiveRebinding(bindingIndex)
+                .WithCancelingThrough("<Keyboard>/escape")
+                .OnComplete(operation =>
+                {
+                    string bindingPath =
+                        moveAction.bindings[bindingIndex].effectivePath;
+
+                    operation.Dispose();
+
+                    if (IsBindingUsed(bindingPath, KeyAction.Move))
+                    {
+                        moveAction.Enable();
+
+                        Debug.LogWarning(
+                            $"[KeyBind] {bindingPath} is already used."
+                        );
+
+                        onComplete?.Invoke(bindingPath, false);
+                        return;
+                    }
+
+                    moveAction.Enable();
+
+                    SaveBindings();
+
+                    OnBindingsChanged?.Invoke();
+
+                    Debug.Log(
+                        $"[KeyBind] Move {direction} → {bindingPath}"
+                    );
+
+                    onComplete?.Invoke(bindingPath, true);
+                })
+                .OnCancel(operation =>
+                {
+                    operation.Dispose();
+
+                    moveAction.Enable();
+
+                    onComplete?.Invoke("", false);
+
+                    Debug.Log(
+                        $"[KeyBind] Move {direction} rebind cancelled."
+                    );
+                })
+                .Start();
+        }
+
         // Save Key Bind -----------------------------------------------
         public void SaveBindings()
         {
@@ -282,6 +411,64 @@ namespace Game.Core
 
             Debug.Log(
                 "[KeyBind] All bindings reset to default."
+            );
+        }
+
+        // ------
+
+        [ContextMenu("Test Rebind Move Up")]
+        private void TestRebindMoveUp()
+        {
+            RebindMove(
+                MoveDirection.Up,
+                (bindingPath, success) =>
+                {
+                    Debug.Log(
+                        $"[TEST] Move Up → {bindingPath}, Success: {success}"
+                    );
+                }
+            );
+        }
+
+        [ContextMenu("Test Rebind Move Down")]
+        private void TestRebindMoveDown()
+        {
+            RebindMove(
+                MoveDirection.Down,
+                (bindingPath, success) =>
+                {
+                    Debug.Log(
+                        $"[TEST] Move Down → {bindingPath}, Success: {success}"
+                    );
+                }
+            );
+        }
+
+        [ContextMenu("Test Rebind Move Left")]
+        private void TestRebindMoveLeft()
+        {
+            RebindMove(
+                MoveDirection.Left,
+                (bindingPath, success) =>
+                {
+                    Debug.Log(
+                        $"[TEST] Move Left → {bindingPath}, Success: {success}"
+                    );
+                }
+            );
+        }
+
+        [ContextMenu("Test Rebind Move Right")]
+        private void TestRebindMoveRight()
+        {
+            RebindMove(
+                MoveDirection.Right,
+                (bindingPath, success) =>
+                {
+                    Debug.Log(
+                        $"[TEST] Move Right → {bindingPath}, Success: {success}"
+                    );
+                }
             );
         }
     }
