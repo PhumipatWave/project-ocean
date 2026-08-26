@@ -10,18 +10,22 @@ namespace Game.Core
         [SerializeField] private KeyAction action;
         [SerializeField] private TMP_Text keyText;
         [SerializeField] private Button rebindButton;
+        
 
         private void Start()
         {
             UpdateKeyText();
 
             rebindButton.onClick.AddListener(StartRebind);
+           
+            KeyBindManager.OnBindingsChanged += UpdateKeyText;
         }
 
         private void OnDestroy()
         {
             if (rebindButton != null)
-                rebindButton.onClick.RemoveListener(StartRebind);
+                rebindButton.onClick.RemoveListener(StartRebind);     
+            KeyBindManager.OnBindingsChanged -= UpdateKeyText;
         }
 
         private void StartRebind()
@@ -36,9 +40,22 @@ namespace Game.Core
             );
         }
 
-        private void OnRebindComplete(string bindingPath)
+        private void OnRebindComplete(
+            string bindingPath,
+            bool success)
         {
-            UpdateKeyText();
+            if (success)
+            {
+                UpdateKeyText();
+            }
+            else
+            {
+                UpdateKeyText();
+
+                Debug.LogWarning(
+                    "This key is already assigned."
+                );
+            }
 
             rebindButton.interactable = true;
         }
@@ -61,7 +78,10 @@ namespace Game.Core
             }
 
             keyText.text =
-                inputAction.GetBindingDisplayString();
+               inputAction.GetBindingDisplayString(
+                   0,
+                   InputBinding.DisplayStringOptions.DontIncludeInteractions
+               );
         }
     }
 }
