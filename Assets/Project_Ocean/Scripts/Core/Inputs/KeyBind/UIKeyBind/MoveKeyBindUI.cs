@@ -57,9 +57,7 @@ public class MoveKeyBindUI : MonoBehaviour
         );
     }
 
-    private void OnRebindComplete(
-    string bindingPath,
-    bool success)
+    private void OnRebindComplete(string bindingPath,bool success)
     {
         UpdateUI();
 
