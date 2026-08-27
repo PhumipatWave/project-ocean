@@ -1,7 +1,7 @@
-using Game.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
 
 public class MoveKeyBindUI : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class MoveKeyBindUI : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private TMP_Text keyText;
+    [SerializeField] private KeyBindErrorUI errorUI;
     [SerializeField] private Button rebindButton;
 
     private KeyBindManager keyBindManager;
@@ -45,6 +46,11 @@ public class MoveKeyBindUI : MonoBehaviour
         if (keyBindManager == null)
             return;
 
+        keyText.text = "Press Key...";
+
+        if (rebindButton != null)
+            rebindButton.interactable = false;
+
         keyBindManager.RebindMove(
             direction,
             OnRebindComplete
@@ -52,10 +58,19 @@ public class MoveKeyBindUI : MonoBehaviour
     }
 
     private void OnRebindComplete(
-        string bindingPath,
-        bool success)
+    string bindingPath,
+    bool success)
     {
         UpdateUI();
+
+        if (!success && !string.IsNullOrEmpty(bindingPath))
+        {
+            if (errorUI != null)
+                errorUI.Show("Key already assigned!");
+        }
+
+        if (rebindButton != null)
+            rebindButton.interactable = true;
     }
 
     private void UpdateUI()

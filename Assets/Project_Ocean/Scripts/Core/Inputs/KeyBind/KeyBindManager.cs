@@ -46,22 +46,26 @@ namespace Game.Core
             Instance = null;
         }
 
-        public bool IsBindingUsed(
-            string bindingPath,
-            KeyAction excludeAction)
+        public bool IsBindingUsed(string bindingPath,KeyAction excludeAction,int excludeBindingIndex = -1)
         {
             foreach (KeyAction action in Enum.GetValues(typeof(KeyAction)))
             {
-                if (action == excludeAction)
-                    continue;
-
                 InputAction inputAction = GetAction(action);
 
                 if (inputAction == null)
                     continue;
 
-                foreach (var binding in inputAction.bindings)
+                for (int i = 0; i < inputAction.bindings.Count; i++)
                 {
+                    
+                    if (action == excludeAction &&
+                        i == excludeBindingIndex)
+                    {
+                        continue;
+                    }
+
+                    var binding = inputAction.bindings[i];
+
                     if (binding.effectivePath == bindingPath)
                         return true;
                 }
@@ -72,6 +76,9 @@ namespace Game.Core
 
         public InputAction GetAction(KeyAction action)
         {
+            if (inputActions == null)
+                return null;
+
             return action switch
             {
                 KeyAction.Move =>
@@ -102,9 +109,7 @@ namespace Game.Core
             };
         }
 
-        public void StartRebind(
-            KeyAction action,
-            Action<string, bool> onComplete)
+        public void StartRebind(KeyAction action,Action<string, bool> onComplete)
         {
             InputAction inputAction = GetAction(action);
 
@@ -117,40 +122,56 @@ namespace Game.Core
                 return;
             }
 
+            
+            string oldBindingPath =
+                inputAction.bindings[0].effectivePath;
+
             inputAction.Disable();
 
-            inputAction.PerformInteractiveRebinding()
-                .WithControlsExcluding("<Mouse>/position")
-                .OnComplete(operation =>
+            inputAction.PerformInteractiveRebinding().WithControlsExcluding("<Mouse>/position").OnComplete(operation =>
                 {
-                    string bindingPath =
+                    string newBindingPath =
                         inputAction.bindings[0].effectivePath;
 
                     operation.Dispose();
 
-                    if (IsBindingUsed(bindingPath, action))
+                    if (IsBindingUsed(
+                        newBindingPath,
+                        action,
+                        0))
                     {
+                        inputAction.ApplyBindingOverride(
+                            0,
+                            oldBindingPath
+                        );
+
                         inputAction.Enable();
 
                         Debug.LogWarning(
-                            $"[KeyBind] {bindingPath} is already used."
+                            $"[KeyBind] {newBindingPath} is already used."
                         );
 
-                        onComplete?.Invoke(bindingPath, false);
+                        onComplete?.Invoke(
+                            newBindingPath,
+                            false
+                        );
 
                         return;
                     }
 
                     inputAction.Enable();
 
-                    onComplete?.Invoke(bindingPath, true);
+                    onComplete?.Invoke(
+                        newBindingPath,
+                        true
+                    );
 
                     SaveBindings();
 
                     OnBindingsChanged?.Invoke();
 
                     Debug.Log(
-                        $"[KeyBind] {action} → {bindingPath}"
+                        $"[KeyBind] {action} → {newBindingPath}"
                     );
                 })
                 .Start();
@@ -218,16 +239,21 @@ namespace Game.Core
 
         public void RebindMove(MoveDirection direction,Action<string, bool> onComplete)
         {
-            InputAction moveAction = GetAction(KeyAction.Move);
+            InputAction moveAction =
+                GetAction(KeyAction.Move);
 
             if (moveAction == null)
             {
-                Debug.LogWarning("[KeyBind] Move action not found.");
+                Debug.LogWarning(
+                    "[KeyBind] Move action not found."
+                );
+
                 onComplete?.Invoke("", false);
                 return;
             }
 
-            int bindingIndex = GetMoveBindingIndex(direction);
+            int bindingIndex =
+                GetMoveBindingIndex(direction);
 
             if (bindingIndex < 0)
             {
@@ -239,26 +265,45 @@ namespace Game.Core
                 return;
             }
 
+            // เก็บปุ่มเดิมของ W/A/S/D
+            string oldBindingPath =
+                moveAction.bindings[bindingIndex].effectivePath;
+
             moveAction.Disable();
 
-            moveAction.PerformInteractiveRebinding(bindingIndex)
+            moveAction
+                .PerformInteractiveRebinding(bindingIndex)
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnComplete(operation =>
                 {
-                    string bindingPath =
+                    string newBindingPath =
                         moveAction.bindings[bindingIndex].effectivePath;
 
                     operation.Dispose();
 
-                    if (IsBindingUsed(bindingPath, KeyAction.Move))
+                    // ตรวจปุ่มซ้ำ
+                    if (IsBindingUsed(
+                        newBindingPath,
+                        KeyAction.Move,
+                        bindingIndex))
                     {
+                        // คืนปุ่มเดิม
+                        moveAction.ApplyBindingOverride(
+                            bindingIndex,
+                            oldBindingPath
+                        );
+
                         moveAction.Enable();
 
                         Debug.LogWarning(
-                            $"[KeyBind] {bindingPath} is already used."
+                            $"[KeyBind] {newBindingPath} is already used."
                         );
 
-                        onComplete?.Invoke(bindingPath, false);
+                        onComplete?.Invoke(
+                            newBindingPath,
+                            false
+                        );
+
                         return;
                     }
 
@@ -269,10 +314,13 @@ namespace Game.Core
                     OnBindingsChanged?.Invoke();
 
                     Debug.Log(
-                        $"[KeyBind] Move {direction} → {bindingPath}"
+                        $"[KeyBind] Move {direction} → {newBindingPath}"
                     );
 
-                    onComplete?.Invoke(bindingPath, true);
+                    onComplete?.Invoke(
+                        newBindingPath,
+                        true
+                    );
                 })
                 .OnCancel(operation =>
                 {
@@ -414,62 +462,6 @@ namespace Game.Core
             );
         }
 
-        // ------
-
-        [ContextMenu("Test Rebind Move Up")]
-        private void TestRebindMoveUp()
-        {
-            RebindMove(
-                MoveDirection.Up,
-                (bindingPath, success) =>
-                {
-                    Debug.Log(
-                        $"[TEST] Move Up → {bindingPath}, Success: {success}"
-                    );
-                }
-            );
-        }
-
-        [ContextMenu("Test Rebind Move Down")]
-        private void TestRebindMoveDown()
-        {
-            RebindMove(
-                MoveDirection.Down,
-                (bindingPath, success) =>
-                {
-                    Debug.Log(
-                        $"[TEST] Move Down → {bindingPath}, Success: {success}"
-                    );
-                }
-            );
-        }
-
-        [ContextMenu("Test Rebind Move Left")]
-        private void TestRebindMoveLeft()
-        {
-            RebindMove(
-                MoveDirection.Left,
-                (bindingPath, success) =>
-                {
-                    Debug.Log(
-                        $"[TEST] Move Left → {bindingPath}, Success: {success}"
-                    );
-                }
-            );
-        }
-
-        [ContextMenu("Test Rebind Move Right")]
-        private void TestRebindMoveRight()
-        {
-            RebindMove(
-                MoveDirection.Right,
-                (bindingPath, success) =>
-                {
-                    Debug.Log(
-                        $"[TEST] Move Right → {bindingPath}, Success: {success}"
-                    );
-                }
-            );
-        }
+        
     }
 }
