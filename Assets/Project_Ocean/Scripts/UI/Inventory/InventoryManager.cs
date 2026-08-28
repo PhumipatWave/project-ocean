@@ -192,7 +192,27 @@ namespace Game.Testing
             if (itemDatabase == null)
                 itemDatabase = new InventoryItemDatabase(allItems);
 
-            return itemDatabase.FindById(id);
+            Item found = itemDatabase.FindById(id);
+            if (found != null) return found;
+
+            // Fallback: InventoryManager.allItems and GameObjectSpawnManager.allItems
+            // are two separate Inspector lists that must be kept in sync manually.
+            // If an item is missing from THIS list (but exists in the spawn manager's),
+            // it would otherwise be silently dropped on load. Use the spawn manager's
+            // database as a safety net and warn loudly so the desync gets fixed at the source.
+            if (GameObjectSpawnManager.Instance != null)
+            {
+                Item fallback = GameObjectSpawnManager.Instance.GetItem(id);
+                if (fallback != null)
+                {
+                    Debug.LogError($"[InventoryManager] Item ID {id} ('{fallback.ItemName}') is missing from " +
+                                    $"InventoryManager.allItems but exists in GameObjectSpawnManager — add it to " +
+                                    $"the InventoryManager 'Item Database' list in the Inspector to fix this properly.");
+                    return fallback;
+                }
+            }
+
+            return null;
         }
 
         public void SpawnItemAtSlot(Item item, int slotIndex, int count = 1)
