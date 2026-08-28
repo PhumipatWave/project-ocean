@@ -12,6 +12,14 @@ namespace Game.Testing
         /// Fired after a successful save so UI can show a "Game Saved" toast.
         public static event System.Action OnSaved;
 
+        /// <summary>
+        /// The slot most recently used for save/load. The save/load menu should
+        /// set this (or call the (int slot) overloads directly) before the
+        /// player picks a slot; auto-saves (day change, returning to land)
+        /// always write to whichever slot is currently active.
+        /// </summary>
+        public int CurrentSlot { get; private set; } = 0;
+
         private SaveData _pendingData;
 
         // Order is intentional and stable. Built fresh each call because scene-level
@@ -34,7 +42,7 @@ namespace Game.Testing
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            DayManager.OnDayAdvanced += SaveGame; // auto-save on day change
+            DayManager.OnDayAdvanced += SaveGame; // auto-save on day change (uses CurrentSlot)
         }
 
         private void OnDisable()
@@ -54,8 +62,21 @@ namespace Game.Testing
             }
 
             // Auto-save whenever the player returns to land from the ocean.
+            // Delayed one frame so GameManager.OnSceneLoaded (which repositions
+            // the player to the land PlayerSpawnPoint) has already run before we
+            // capture the position — otherwise this can save the stale ocean pos.
             if (scene.name == SceneNames.Land && GameManager.Instance != null)
-                SaveGame();
+                StartCoroutine(AutoSaveAfterFrame());
+        }
+
+        private IEnumerator AutoSaveAfterFrame()
+        {
+            // GameManager's OnSceneLoaded runs synchronously in the same
+            // SceneManager.sceneLoaded broadcast (regardless of subscriber
+            // order), so by the time this coroutine resumes next frame the
+            // player has already been moved to the land PlayerSpawnPoint.
+            yield return null;
+            SaveGame();
         }
 
         private IEnumerator ApplyAfterFrame(SaveData data)
@@ -144,7 +165,13 @@ namespace Game.Testing
                 var item = inv.FindItemInDatabase(id);
                 if (item == null)
                 {
-                    Debug.LogWarning($"[SaveBridge] Item ID {id} not found in allItems database");
+                    // LogError (not LogWarning): this means the item was silently dropped
+                    // from the loaded inventory — a data-loss bug, not a minor issue.
+                    // Usually caused by the item's ScriptableObject missing from
+                    // InventoryManager's "Item Database -> All Items" list in the Inspector.
+                    Debug.LogError($"[SaveBridge] Item ID {id} not found in allItems database — " +
+                                    $"item was DROPPED from inventory on load! Add its ScriptableObject to " +
+                                    $"InventoryManager's Item Database list.");
                     continue;
                 }
 
@@ -170,8 +197,14 @@ namespace Game.Testing
 
         // -------------------- Public API -------------------- //
 
-        public void SaveGame()
+        /// <summary>Saves to whichever slot was last used (see CurrentSlot).</summary>
+        public void SaveGame() => SaveGame(CurrentSlot);
+
+        /// <summary>Saves to a specific slot and remembers it as the active slot.</summary>
+        public void SaveGame(int slot)
         {
+            CurrentSlot = slot;
+
             var gm = GameManager.Instance;
             if (gm == null) { Debug.LogError("[SaveBridge] GameManager not found"); return; }
 
@@ -194,33 +227,39 @@ namespace Game.Testing
 
             try
             {
-                SaveSystem.Save(data);
-                Debug.Log("[SaveBridge] Game saved!");
+                SaveSystem.Save(data, slot);
+                Debug.Log($"[SaveBridge] Game saved to slot {slot}!");
                 OnSaved?.Invoke();
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"[SaveBridge] SaveGame failed: {e.Message}");
+                Debug.LogError($"[SaveBridge] SaveGame failed (slot {slot}): {e.Message}");
             }
         }
 
-        public void LoadGame()
+        /// <summary>Loads whichever slot was last used (see CurrentSlot).</summary>
+        public void LoadGame() => LoadGame(CurrentSlot);
+
+        /// <summary>Loads a specific slot and remembers it as the active slot.</summary>
+        public void LoadGame(int slot)
         {
-            if (!SaveSystem.HasSave())
+            CurrentSlot = slot;
+
+            if (!SaveSystem.HasSave(slot))
             {
-                if (SaveSystem.RestoreBackup())
-                    Debug.Log("[SaveBridge] Restored from backup, retrying load...");
+                if (SaveSystem.RestoreBackup(slot))
+                    Debug.Log($"[SaveBridge] Restored slot {slot} from backup, retrying load...");
                 else
                 {
-                    Debug.LogWarning("[SaveBridge] No save file found");
+                    Debug.LogWarning($"[SaveBridge] No save file found for slot {slot}");
                     return;
                 }
             }
 
-            var data = SaveSystem.Load();
+            var data = SaveSystem.Load(slot);
             if (data == null)
             {
-                Debug.LogError("[SaveBridge] Failed to load save data");
+                Debug.LogError($"[SaveBridge] Failed to load save data (slot {slot})");
                 return;
             }
 
@@ -237,8 +276,12 @@ namespace Game.Testing
             SceneLoadContext.BeginLoad(new Vector3(data.posX, data.posY, data.posZ));
 
             SceneManager.LoadScene(data.currentScene);
-            Debug.Log("[SaveBridge] Loading scene...");
+            Debug.Log($"[SaveBridge] Loading scene for slot {slot}...");
         }
+
+        /// <summary>For a save/load menu: metadata for every occupied slot.</summary>
+        public List<SaveSlotMeta> GetAllSlotMeta(int maxSlots = 10) =>
+            SaveSystem.GetAllSlotMeta(maxSlots);
 
         // -------------------- Collect helpers -------------------- //
 
