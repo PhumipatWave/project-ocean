@@ -63,6 +63,7 @@ namespace Game.Testing
             public Vector2 pos;
             public float side;         // cross-product side when this anchor was created
             public bool isCheckpoint;  // true = manually placed, never auto-unwrapped
+            public bool isHub;         // true = MiniHub tie-in point; length counted from here onward, never auto-unwrapped
         }
 
         // pins[0] = fixed rope start, pins[1+] = wrap corners
@@ -77,6 +78,10 @@ namespace Game.Testing
 
         private int wrapCooldown;
         private int unwrapCooldown;
+        // Length is measured starting from pins[hubLengthStartIndex] onward, so the section
+        // between the original start and the most recent hub tie-in doesn't count against
+        // the player's rope limit. Defaults to 0 (measure from the true start, as normal).
+        private int hubLengthStartIndex;
         private Coroutine limitRoutine;
 
         // First segment index that receives full Verlet simulation this frame.
@@ -144,16 +149,24 @@ namespace Game.Testing
             BuildRope();
         }
 
+/// Re-anchor the rope's fixed start (pins[0]) to a new position WITHOUT clearing
+        /// existing wrap/checkpoint pins and without touching the player's position.
+        /// Use this for structures (e.g. MiniHub) that should re-tie the rope's origin
+        /// while preserving the rope's current shape and any active checkpoints.
+
+
+
         /// Clears all wrap pins and rebuilds segments from start to player.
-        public void BuildRope()
+public void BuildRope()
         {
             pins.Clear();
             pins.Add(new WrapPin { pos = StartPointObj.transform.position, side = 0f });
+            hubLengthStartIndex = 0;
             RebuildSegs();
         }
 
         /// Full reset — call when returning to land.
-        public void ResetRope()
+public void ResetRope()
         {
             if (limitRoutine != null)
             {
@@ -166,6 +179,7 @@ namespace Game.Testing
             segs.Clear();
             wrapCooldown   = 0;
             unwrapCooldown = 0;
+            hubLengthStartIndex = 0;
             CurrentLength  = 0f;
 
             if (line != null) 
@@ -186,6 +200,21 @@ namespace Game.Testing
             wrapCooldown   = wrapCooldownFrames;
             unwrapCooldown = wrapCooldownFrames;
         }
+
+/// Tie the rope in at worldPos without moving or clearing the original start point —
+        /// the old start stays exactly where it is and the rope keeps its current shape
+        /// (wraps + checkpoints preserved). From this point on, rope-length measurement
+        /// (used for the oxygen/max-length limit) counts only from this tie-in to the
+        /// player — the section behind it no longer counts against the limit.
+        public void AttachToHub(Vector2 worldPos)
+        {
+            pins.Add(new WrapPin { pos = worldPos, side = 0f, isHub = true });
+            hubLengthStartIndex = pins.Count - 1;
+            RebuildSegs();
+            wrapCooldown   = wrapCooldownFrames;
+            unwrapCooldown = wrapCooldownFrames;
+        }
+
 
         /// Remove the checkpoint pin at worldPos and all pins added after it.
         /// Supports multiple checkpoints — finds the matching one by position.
@@ -370,12 +399,13 @@ namespace Game.Testing
             unwrapCooldown = wrapCooldownFrames; // block unwrap from firing this same wrap event
         }
 
-        private void TryUnwrap()
+private void TryUnwrap()
         {
             if (pins.Count <= 1)
                 return;
-            // Never auto-unwrap a checkpoint pin — only DetachFromCheckpoint() can remove it
-            if (pins[^1].isCheckpoint)
+            // Never auto-unwrap a checkpoint or hub tie-in pin — only DetachFromCheckpoint()
+            // removes a checkpoint, and hub tie-ins are never removed automatically.
+            if (pins[^1].isCheckpoint || pins[^1].isHub)
                 return;
 
             WrapPin last = pins[^1];
@@ -403,6 +433,8 @@ namespace Game.Testing
                 return;
 
             pins.RemoveAt(pins.Count - 1);
+            if (hubLengthStartIndex >= pins.Count)
+                hubLengthStartIndex = Mathf.Max(0, pins.Count - 1);
             RebuildSegs();
             unwrapCooldown = wrapCooldownFrames;
             wrapCooldown = wrapCooldownFrames;
@@ -539,12 +571,14 @@ namespace Game.Testing
                 segs.Add(new Seg(Vector2.Lerp(from, to, (float)i / (count - 1))));
         }
 
-        private float MeasureLength()
+private float MeasureLength()
         {
             float len = 0f;
 
-            // Taut pin-to-pin sections (O(wraps), always small)
-            for (int i = 0; i < pins.Count - 1; i++)
+            // Taut pin-to-pin sections, starting from hubLengthStartIndex (normally 0 — the
+            // true rope start; advances to the latest hub tie-in once one has been used).
+            int pinStart = Mathf.Clamp(hubLengthStartIndex, 0, Mathf.Max(0, pins.Count - 1));
+            for (int i = pinStart; i < pins.Count - 1; i++)
                 len += Vector2.Distance(pins[i].pos, pins[i + 1].pos);
 
             int start = SimStart;
