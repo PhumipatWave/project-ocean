@@ -11,6 +11,7 @@ namespace Game.Testing
     {
         public static ConfirmationDialog Instance { get; private set; }
 
+        [SerializeField] private GameObject BGPanel;
         [SerializeField] private GameObject panel;
         [SerializeField] private TextMeshProUGUI messageText;
         [SerializeField] private Button confirmButton;
@@ -28,6 +29,7 @@ namespace Game.Testing
                 return;
             }
             Instance = this;
+            if (panel != null) BGPanel.SetActive(false);
             if (panel != null) panel.SetActive(false);
         }
 
@@ -38,6 +40,7 @@ namespace Game.Testing
             _onCancel  = onCancel;
 
             if (messageText != null) messageText.text = message;
+            if (panel != null) BGPanel.SetActive(true);
             if (panel != null) panel.SetActive(true);
 
             if (!_isShowing)
@@ -63,6 +66,7 @@ namespace Game.Testing
 
         private void Hide()
         {
+            if (BGPanel != null) BGPanel.SetActive(false);
             if (panel != null) panel.SetActive(false);
 
             if (_isShowing)
