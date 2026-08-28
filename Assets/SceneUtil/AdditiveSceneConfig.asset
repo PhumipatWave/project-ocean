@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AdditiveSceneConfig
   m_EditorClassIdentifier: Assembly-CSharp::AdditiveSceneConfig
   rules:
-  - mainScenePath: Assets/Project_Ocean/Levels/Scenes/Lands/Land_Map.unity
+  - mainScenePath: Assets/Project_Ocean/Levels/Scenes/Menus/MainMenuScene.unity
     additiveScenes:
     - scenePath: Assets/Project_Ocean/Levels/Scenes/Lands/AS_LandUI.unity
       enabled: 1

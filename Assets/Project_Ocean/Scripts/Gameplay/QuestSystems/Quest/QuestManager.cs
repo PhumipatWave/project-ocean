@@ -147,6 +147,7 @@ private void HandleEnemyKilled(string enemyId)
                     quest.CurrentCount = s.currentCount;
                 }
             }
+            OnQuestUpdated?.Invoke();
         }
 
         // ── ISaveParticipant ──
