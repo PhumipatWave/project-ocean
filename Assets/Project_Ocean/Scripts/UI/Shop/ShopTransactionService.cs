@@ -68,10 +68,15 @@ namespace Game.Testing
             return true;
         }
 
-        public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item item, int[] ammoCounts)
+public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item item, int[] ammoCounts)
         {
             if (inventory == null || playerMoney == null || item == null) return false;
-            if (playerMoney.Money < item.ItemPrice) return false;
+
+            if (playerMoney.Money < item.ItemPrice)
+            {
+                NotificationManager.Notify("Not enough money");
+                return false;
+            }
 
             if (item.ItemType == ItemType.Ammo)
             {

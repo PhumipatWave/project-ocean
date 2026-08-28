@@ -120,7 +120,7 @@ namespace Game.Testing
             if (playerMoney != null)
             {
                 playerMoney.Use(playerMoney.CurrentMoney);
-                playerMoney.AddMoney(data.money);
+                playerMoney.AddMoneySilent(data.money);
             }
         }
 

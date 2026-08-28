@@ -158,6 +158,8 @@ namespace Game.Testing
 
             if (itemAdded)
                 NotifyChanged();
+            else
+                NotificationManager.Notify("Inventory is full");
 
             return itemAdded;
         }
@@ -335,6 +337,35 @@ namespace Game.Testing
                     if (toRemove == null) return;
                     Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
                     Destroy(toRemove.gameObject);
+                    NotifyChanged();
+                }
+            );
+        }
+
+        public void DiscardDraggedItem(Draggableltem itemToDiscard)
+        {
+            if (itemToDiscard == null)
+                return;
+
+            Item item = itemToDiscard.GetItem();
+
+            if (item == null)
+                return;
+
+            string itemName = item.ItemName;
+
+            ConfirmationDialog.Instance?.Show(
+                $"Discard {itemName}?",
+                () =>
+                {
+                    if (itemToDiscard == null)
+                        return;
+
+                    Debug.Log(
+                        $"[Inventory] Discard dragged item: {itemName}"
+                    );
+
+                    Destroy(itemToDiscard.gameObject);
                     NotifyChanged();
                 }
             );
