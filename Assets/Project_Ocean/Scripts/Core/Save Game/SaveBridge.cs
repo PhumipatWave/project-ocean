@@ -62,8 +62,21 @@ namespace Game.Testing
             }
 
             // Auto-save whenever the player returns to land from the ocean.
+            // Delayed one frame so GameManager.OnSceneLoaded (which repositions
+            // the player to the land PlayerSpawnPoint) has already run before we
+            // capture the position — otherwise this can save the stale ocean pos.
             if (scene.name == SceneNames.Land && GameManager.Instance != null)
-                SaveGame();
+                StartCoroutine(AutoSaveAfterFrame());
+        }
+
+        private IEnumerator AutoSaveAfterFrame()
+        {
+            // GameManager's OnSceneLoaded runs synchronously in the same
+            // SceneManager.sceneLoaded broadcast (regardless of subscriber
+            // order), so by the time this coroutine resumes next frame the
+            // player has already been moved to the land PlayerSpawnPoint.
+            yield return null;
+            SaveGame();
         }
 
         private IEnumerator ApplyAfterFrame(SaveData data)
