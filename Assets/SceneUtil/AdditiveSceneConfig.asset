@@ -15,6 +15,6 @@ MonoBehaviour:
   rules:
   - mainScenePath: Assets/Project_Ocean/Levels/Scenes/Menus/MainMenuScene.unity
     additiveScenes:
-    - scenePath: Assets/Project_Ocean/Levels/Scenes/Lands/AS_LandUI.unity
+    - scenePath: Assets/Project_Ocean/Levels/Scenes/Menus/AS_PlayerHUD.unity
       enabled: 1
   autoLoadEnabled: 1

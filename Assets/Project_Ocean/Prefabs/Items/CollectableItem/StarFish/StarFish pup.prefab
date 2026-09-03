@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5443943700689431670}
@@ -140,7 +140,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 105.89759, y: 2.5404472, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8756868798182659228}
@@ -214,6 +214,14 @@ PrefabInstance:
     - target: {fileID: 5131303728859163733, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
       propertyPath: m_fontSizeBase
       value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5338510380111438668, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5374792249345612963, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
       propertyPath: dropItem

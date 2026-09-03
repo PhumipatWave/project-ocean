@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 44818747}
   - component: {fileID: 44818748}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -855,7 +855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.053798173, y: 0.057000004}
   m_AnchorMax: {x: 0.94828266, y: 0.9517038}
-  m_AnchoredPosition: {x: -2.999939, y: -4.4999695}
+  m_AnchoredPosition: {x: -2.999939, y: -4.5}
   m_SizeDelta: {x: -3.1020508, y: -0.36999512}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &288573725
@@ -2306,7 +2306,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2517,6 +2517,14 @@ PrefabInstance:
       propertyPath: m_text
       value: Reset To Default
       objectReference: {fileID: 0}
+    - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 1268057117473279255, guid: 1fc3826afb002764eac4b4d6be986633, type: 3}
     - target: {fileID: 5045301923758832593, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2631,7 +2639,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d79879db9a197f43a18eab2133ac602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindResetAllButton
-  resetAllButton: {fileID: 0}
+  resetAllButton: {fileID: 922427942}
+--- !u!114 &922427942 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
+  m_PrefabInstance: {fileID: 922427938}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922427940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &930205210
 GameObject:
   m_ObjectHideFlags: 0
@@ -5529,7 +5548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1813194944
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5946,6 +5965,14 @@ PrefabInstance:
       propertyPath: m_text
       value: Quit
       objectReference: {fileID: 0}
+    - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 1268057117473279255, guid: 1fc3826afb002764eac4b4d6be986633, type: 3}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
