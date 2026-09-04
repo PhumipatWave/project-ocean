@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3604155198946700088, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604155198946700088, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738588234762349161, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: hasQuest
       value: 1
@@ -88,6 +100,14 @@ PrefabInstance:
     - target: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: m_Name
       value: Femboy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844767358560791598, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_fontSize
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844767358560791598, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
