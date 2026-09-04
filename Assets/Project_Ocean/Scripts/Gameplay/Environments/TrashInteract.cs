@@ -9,6 +9,8 @@ namespace Game.Testing
     {
         [Header("Basic Settings")]
         [SerializeField] private float shakeAmount = 0.05f;
+        [SerializeField] private int minMoney = 10;
+        [SerializeField] private int maxMoney = 50;
 
         [Header("Audio Settings")]
         [SerializeField] private AudioSource audioSource;
@@ -92,7 +94,7 @@ namespace Game.Testing
 
         IEnumerator MoneySequence()
         {
-            int randomAmount = Random.Range(20, 250);
+            int randomAmount = Random.Range(minMoney, maxMoney);
             targetPlayerMoney?.AddMoney(randomAmount);
             SpawnObject(moneyPrefab);
 

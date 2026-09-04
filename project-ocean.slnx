@@ -5,6 +5,7 @@
   <Project Path="Unity.Mathematics.csproj" />
   <Project Path="Unity.Cinemachine.Editor.csproj" />
   <Project Path="Unity.2D.Psdimporter.Editor.csproj" />
+  <Project Path="Unity.MemoryProfiler.Editor.csproj" />
   <Project Path="Unity.Behavior.GraphFramework.csproj" />
   <Project Path="Unity.Behavior.Authoring.csproj" />
   <Project Path="Unity.InferenceEngine.Microsoft.Msagl.csproj" />
@@ -99,11 +100,14 @@
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
   <Project Path="Unity.AI.Navigation.Editor.ConversionSystem.csproj" />
   <Project Path="Unity.AppUI.Redux.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.AI.Pbr.Srp.csproj" />
   <Project Path="HierarchyPlus.Runtime.csproj" />
+  <Project Path="Unity.Profiling.Core.csproj" />
   <Project Path="glTFast.Editor.csproj" />
   <Project Path="Unity.2D.Aseprite.Common.csproj" />
   <Project Path="Unity.AppUI.Undo.csproj" />
+  <Project Path="Unity.EditorCoroutines.Editor.csproj" />
   <Project Path="Unity.InferenceEngine.Editor.Visualizer.csproj" />
   <Project Path="Unity.Splines.csproj" />
   <Project Path="Unity.AI.Navigation.csproj" />
@@ -120,7 +124,6 @@
   <Project Path="Unity.AI.Toolkit.GenerationContextMenu.csproj" />
   <Project Path="Unity.AppUI.InternalAPIBridge.csproj" />
   <Project Path="Unity.VisualScripting.SettingsProvider.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.AI.Toolkit.Async.csproj" />
   <Project Path="glTFast.dots.csproj" />
   <Project Path="NavMeshPlusEditor.csproj" />
@@ -128,6 +131,7 @@
   <Project Path="Unity.Behavior.SerializableGUID.csproj" />
   <Project Path="Unity.AI.Generators.Contexts.csproj" />
   <Project Path="Unity.AI.Generators.IO.Srp.csproj" />
+  <Project Path="Unity.MemoryProfiler.Editor.MemoryProfilerModule.csproj" />
   <Project Path="Unity.AI.Animate.Motion.Runtime.csproj" />
   <Project Path="Unity.Collections.Editor.csproj" />
   <Project Path="Unity.VisualScripting.DocCodeExamples.csproj" />
@@ -136,6 +140,7 @@
   <Project Path="Unity.InternalAPIEngineBridge.001.csproj" />
   <Project Path="Unity.AI.MCP.Runtime.csproj" />
   <Project Path="Unity.InferenceEngine.MacBLAS.csproj" />
+  <Project Path="Unity.MemoryProfiler.csproj" />
   <Project Path="Unity.InferenceEngine.ONNX.Editor.csproj" />
   <Project Path="Unity.InferenceEngine.iOSBLAS.csproj" />
 </Solution>
