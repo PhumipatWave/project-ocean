@@ -19,15 +19,12 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI acceptButtonText;
         [SerializeField] private Button rejectButton;
         [SerializeField] private TextMeshProUGUI rejectButtonText;
-        [SerializeField] private Button closeButton;
 
         private Quest currentQuest;
         private Action onQuestStatusChangedCallback;
 
         private void Awake()
         {
-            closeButton.onClick.AddListener(HidePanel);
-
             if (acceptButton != null)
                 acceptButton.onClick.AddListener(HandleAcceptQuest);
 

@@ -149,7 +149,7 @@ namespace Game.Testing
             BuildRope();
         }
 
-/// Re-anchor the rope's fixed start (pins[0]) to a new position WITHOUT clearing
+        /// Re-anchor the rope's fixed start (pins[0]) to a new position WITHOUT clearing
         /// existing wrap/checkpoint pins and without touching the player's position.
         /// Use this for structures (e.g. MiniHub) that should re-tie the rope's origin
         /// while preserving the rope's current shape and any active checkpoints.
@@ -157,7 +157,7 @@ namespace Game.Testing
 
 
         /// Clears all wrap pins and rebuilds segments from start to player.
-public void BuildRope()
+        public void BuildRope()
         {
             pins.Clear();
             pins.Add(new WrapPin { pos = StartPointObj.transform.position, side = 0f });
@@ -166,7 +166,7 @@ public void BuildRope()
         }
 
         /// Full reset — call when returning to land.
-public void ResetRope()
+        public void ResetRope()
         {
             if (limitRoutine != null)
             {
@@ -201,7 +201,7 @@ public void ResetRope()
             unwrapCooldown = wrapCooldownFrames;
         }
 
-/// Tie the rope in at worldPos without moving or clearing the original start point —
+        /// Tie the rope in at worldPos without moving or clearing the original start point —
         /// the old start stays exactly where it is and the rope keeps its current shape
         /// (wraps + checkpoints preserved). From this point on, rope-length measurement
         /// (used for the oxygen/max-length limit) counts only from this tie-in to the
@@ -399,7 +399,7 @@ public void ResetRope()
             unwrapCooldown = wrapCooldownFrames; // block unwrap from firing this same wrap event
         }
 
-private void TryUnwrap()
+        private void TryUnwrap()
         {
             if (pins.Count <= 1)
                 return;
@@ -448,9 +448,13 @@ private void TryUnwrap()
             if (Vector2.Distance(pos, playerTransform.position) < segmentLength * 2f) 
                 return false;
 
-            foreach (var p in pins)
-                if (Vector2.Distance(p.pos, pos) < segmentLength * 3f) 
-                    return false;
+            // Only guard against the pin immediately behind the last one — this stops
+            // an instant flap right after unwrapping, but (unlike scanning the whole
+            // pins list) it still lets the rope wrap the same corner again once the
+            // player has looped further around the object.
+            if (pins.Count >= 2 && Vector2.Distance(pins[^2].pos, pos) < segmentLength * 3f)
+                return false;
+
 
             return true;
         }
@@ -571,7 +575,7 @@ private void TryUnwrap()
                 segs.Add(new Seg(Vector2.Lerp(from, to, (float)i / (count - 1))));
         }
 
-private float MeasureLength()
+        private float MeasureLength()
         {
             float len = 0f;
 

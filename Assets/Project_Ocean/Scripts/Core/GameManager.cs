@@ -43,6 +43,10 @@ namespace Game.Testing
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
+            // Lock game fps to 60
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+
             gameState = GameState.Land;
             var spawnPos = playerSpawnPoint != null
                 ? playerSpawnPoint.position

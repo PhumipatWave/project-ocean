@@ -1406,7 +1406,7 @@ MonoBehaviour:
     m_Bits: 512
   segRadius: 0.12
   wrapCooldownFrames: 8
-  maxSimulatedSegs: 60
+  maxSimulatedSegs: 999
 --- !u!114 &3811799620726562632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1461,7 +1461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0ca40ebc69e40498b5b2d3ccd88c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerMoney
-  money: 500
+  money: 150
 --- !u!82 &-5444332486349790352
 AudioSource:
   m_ObjectHideFlags: 0
