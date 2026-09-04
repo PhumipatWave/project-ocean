@@ -860,8 +860,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -7.2640505, y: 0.00000041890726}
-  m_Size: {x: 14.484863, y: 2.7500532}
+  m_Offset: {x: 0, y: 0.00000041890726}
+  m_Size: {x: 4.8, y: 1.35}
   m_Direction: 1
 --- !u!195 &8720175931245338848
 NavMeshAgent:
@@ -919,7 +919,7 @@ MonoBehaviour:
   despawnDistance: 120
   despawnCheckInterval: 10
   enemyId: fishM
-  maxHealth: 75
+  maxHealth: 25
 --- !u!114 &6158050102475070925
 MonoBehaviour:
   m_ObjectHideFlags: 0

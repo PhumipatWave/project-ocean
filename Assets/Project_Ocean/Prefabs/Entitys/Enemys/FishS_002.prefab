@@ -106,7 +106,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.25, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 0.8}
   m_Direction: 1
 --- !u!195 &8020733226240098284
@@ -165,7 +165,7 @@ MonoBehaviour:
   despawnDistance: 120
   despawnCheckInterval: 10
   enemyId: fishS
-  maxHealth: 50
+  maxHealth: 15
 --- !u!114 &5836762674353345798
 MonoBehaviour:
   m_ObjectHideFlags: 0
