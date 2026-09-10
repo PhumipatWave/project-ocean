@@ -11,6 +11,7 @@ namespace Game.Testing
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI questNameText;
         [SerializeField] private Image fishImage;
+        [SerializeField] private TMP_Text npcNameText;
         [SerializeField] private Image npcAvatarImage;
         [SerializeField] private TextMeshProUGUI rewardText;
         [SerializeField] private TextMeshProUGUI questDescriptionText;
@@ -44,6 +45,12 @@ namespace Game.Testing
             if (questDescriptionText != null)
             {
                 questDescriptionText.text = quest.QuestDetail;
+            }
+
+            // ชื่อ NPC
+            if (npcNameText != null)
+            {
+                npcNameText.text = quest.NpcName;
             }
 
             // รูปปลา
