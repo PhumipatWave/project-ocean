@@ -5,22 +5,20 @@ namespace Game.Testing
 {
     public enum QuestType
     {
-        Delivery,  // Delivery คือเควสประเภท เอาของที่ต้องการมาส่งให้ NPC
-        KillCount, // KillCount คือฆ่ามอนสเตอร์ตามที่ NPC ต้องการ
-
+        Delivery,
+        KillCount,
         CollectTrash,
         ExploreArea,
         RepairObject
-
     }
 
     public enum QuestStatus
     {
-        New,           // เควสใหม่ที่ยังไม่ได้รับ
-        InProgress,    // เควสที่รับมาแล้ว
-        Finish,        // เควสที่จบแล้ว
-        ReadyToTurnIn, // เงื่อนไขครบแล้ว รอไปคุย NPC เพื่อส่งเควส (ReadyToHandIn mode)
-        Reject         // เควสที่เราปฏิเสธไปแล้ว
+        New,
+        InProgress,
+        Finish,
+        ReadyToTurnIn,
+        Reject
     }
 
     [System.Serializable]
@@ -28,139 +26,165 @@ namespace Game.Testing
     {
         [SerializeField]
         private int questId;
-        public int QuestID { get { return questId; } }
+        public int QuestID => questId;
+
+        [SerializeField]
+        private QuestCategory category;
+        public QuestCategory Category => category;
 
         [SerializeField]
         private QuestType type;
-        public QuestType Type { get { return type; } }
+        public QuestType Type => type;
 
         [SerializeField]
         private QuestStatus status;
-        public QuestStatus Status { get { return status; } set { status = value; } }
+        public QuestStatus Status
+        {
+            get => status;
+            set => status = value;
+        }
 
         [SerializeField]
         private string targetEnemyId;
-        public string TargetEnemyId { get { return targetEnemyId; } }
+        public string TargetEnemyId => targetEnemyId;
 
         [SerializeField]
         private int targetCount;
-        public int TargetCount { get { return targetCount; } }
+        public int TargetCount => targetCount;
 
         [SerializeField]
         private int currentCount;
-        public int CurrentCount { get { return currentCount; } set { currentCount = value; } }
+        public int CurrentCount
+        {
+            get => currentCount;
+            set => currentCount = value;
+        }
 
         [SerializeField]
         private QuestCompletionMode completionMode;
-        public QuestCompletionMode CompletionMode { get { return completionMode; } }
+        public QuestCompletionMode CompletionMode => completionMode;
 
-        // เช่น "3 / 5"
-        public string Progress { get { return currentCount + " / " + targetCount; } }
-        public bool IsObjectiveComplete { get { return currentCount >= targetCount; } }
+        public string Progress => currentCount + " / " + targetCount;
+
+        public bool IsObjectiveComplete =>
+            currentCount >= targetCount;
 
         [SerializeField]
         private string questName;
-        public string QuestName { get { return questName; } }
+        public string QuestName => questName;
 
         [SerializeField]
         private string questDetail;
-        public string QuestDetail { get { return questDetail; } }
+        public string QuestDetail => questDetail;
 
         [SerializeField]
-        private string questItemId; // questItemId คือไอดีของ Item ที่ NPC ต้องการให้เราเอามาส่ง
-        public string QuestItemId { get { return questItemId; } }
+        private string questItemId;
+        public string QuestItemId => questItemId;
 
         [SerializeField]
-        private string[] questDialogue; // questDialogue คือบทสนทนาที่ NPC พูดเป็น Step
-        public string[] QuestDialogue { get { return questDialogue; } }
+        private string[] questDialogue;
+        public string[] QuestDialogue => questDialogue;
 
         [SerializeField]
-        private string[] answerNext; // answerNext คือบทสนทนาที่ตัวละครเราพูดตอบเป็น Step
-        public string[] AnswerNext { get { return answerNext; } }
+        private string[] answerNext;
+        public string[] AnswerNext => answerNext;
 
         [SerializeField]
-        private string answerAccept; // answerAccept คือคำตอบที่ตัวละครเรารับ Quest
-        public string AnswerAccept { get { return answerAccept; } }
+        private string answerAccept;
+        public string AnswerAccept => answerAccept;
 
         [SerializeField]
-        private string answerReject; // answerReject คือคำตอบที่ตัวละครเราปฏิเสธ Quest
-        public string AnswerReject { get { return answerReject; } }
+        private string answerReject;
+        public string AnswerReject => answerReject;
 
         [SerializeField]
-        private string rewardItemId; // rewardItemId คือไอดี Item ของรางวัลจาก NPC
-        public string RewardItemId { get { return rewardItemId; } }
+        private string rewardItemId;
+        public string RewardItemId => rewardItemId;
 
         [SerializeField]
-        private int rewardExp; // rewardExp คือ Exp รางวัลจากเควสนี้ (ยังไม่ใช้)
-        public int RewardExp { get { return rewardExp; } }
-
-        [SerializeField] private int rewardMoney;
-        public int RewardMoney { get { return rewardMoney; } }
+        private int rewardExp;
+        public int RewardExp => rewardExp;
 
         [SerializeField]
-        private string questionInProgress; // questionInProgress คือคำถามจาก NPC เวลาที่เรารับเควสไปแล้วกลับมาคุย
-        public string QuestionInProgress { get { return questionInProgress; } }
+        private int rewardMoney;
+        public int RewardMoney => rewardMoney;
 
         [SerializeField]
-        private string answerFinish; // answerFinish คือคำตอบของเราที่พร้อมส่งเควส
-        public string AnswerFinish { get { return answerFinish; } }
+        private string questionInProgress;
+        public string QuestionInProgress => questionInProgress;
 
         [SerializeField]
-        private string answerNotFinish; // answerNotFinish คือคำตอบของเราที่บอกว่ายังไม่พร้อมส่งเควส
-        public string AnswerNotFinish { get { return answerNotFinish; } }
+        private string answerFinish;
+        public string AnswerFinish => answerFinish;
+
+        [SerializeField]
+        private string answerNotFinish;
+        public string AnswerNotFinish => answerNotFinish;
 
         [Header("NPCName")]
         private string npcName;
-        public string NpcName { get { return npcName; } }
+        public string NpcName => npcName;
 
         private Sprite npcAvatar;
-        public Sprite NpcAvatar { get { return npcAvatar; } }
+        public Sprite NpcAvatar => npcAvatar;
 
         public Quest(QuestData questData)
         {
             questId = questData.questId;
+
+            // สำคัญ
+            category = questData.category;
+
             type = questData.type;
             status = questData.status;
+
             questName = questData.questName;
             questDetail = questData.questDetail;
             questItemId = questData.questItemId;
+
             questDialogue = questData.questDialogue;
             answerNext = questData.answerNext;
+
             answerAccept = questData.answerAccept;
             answerReject = questData.answerReject;
+
             rewardItemId = questData.rewardItemId;
             rewardExp = questData.rewardExp;
             rewardMoney = questData.rewardMoney;
+
             questionInProgress = questData.questionInProgress;
             answerFinish = questData.answerFinish;
             answerNotFinish = questData.answerNotFinish;
+
             npcName = questData.npcName;
             npcAvatar = questData.npcAvatar;
 
             targetEnemyId = questData.targetEnemyId;
             targetCount = questData.targetCount;
             completionMode = questData.completionMode;
+
             currentCount = 0;
-
-
         }
 
-        /// <summary>
-        /// เพิ่มความคืบหน้าให้เควส KillCount; คืนค่า true ถ้าเพิ่งถึงเป้าในครั้งนี้
-        /// (ใช้ตัดสินใจว่าจะแสดงข้อความ "เควสเสร็จ/พร้อมส่ง" หรือไม่)
-        /// </summary>
         public bool AddProgress(int amount = 1)
         {
-            if (status != QuestStatus.InProgress) return false;
-            if (currentCount >= targetCount) return false;
+            if (status != QuestStatus.InProgress)
+                return false;
+
+            if (currentCount >= targetCount)
+                return false;
 
             currentCount += amount;
-            if (currentCount < targetCount) return false;
+
+            if (currentCount < targetCount)
+                return false;
 
             currentCount = targetCount;
+
             status = completionMode == QuestCompletionMode.AutoComplete
                 ? QuestStatus.Finish
                 : QuestStatus.ReadyToTurnIn;
+
             return true;
         }
 
@@ -174,7 +198,5 @@ namespace Game.Testing
                 return Progress;
             }
         }
-
-
     }
 }

@@ -18,17 +18,14 @@ namespace Game.Testing
 
         private void Awake()
         {
-            // Duplicate guard: Destroy() is deferred, so we MUST return here,
-            // otherwise the doomed copy would still run InitializeQuests().
-            if (Instance != null)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
             Instance = this;
-
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
+            DontDestroyOnLoad(gameObject);
 
             InitializeQuests();
         }
@@ -39,10 +36,17 @@ namespace Game.Testing
         // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
         private void InitializeQuests()
         {
+            activeQuestList.Clear();
+
             foreach (var data in allQuestTemplates)
             {
+                if (data == null)
+                    continue;
+
                 activeQuestList.Add(new Quest(data));
             }
+
+            Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
         /// <summary>
@@ -101,6 +105,14 @@ namespace Game.Testing
         {
             return activeQuestList.FindAll(q => q.Status == status);
         }
+        public List<Quest> GetQuestsByCategory(QuestCategory category)
+        {
+            return activeQuestList.FindAll(q =>
+                q.Category == category &&
+                q.Status == QuestStatus.New
+            );
+        }
+
 
         public List<Quest> GetActiveQuests()
         {
