@@ -21,8 +21,6 @@ namespace Game.Testing
         {
             rb = GetComponent<Rigidbody2D>();
             player = GameManager.CurPlayer;
-
-            Destroy(gameObject, 3f);
         }
 
         protected virtual void Start()
