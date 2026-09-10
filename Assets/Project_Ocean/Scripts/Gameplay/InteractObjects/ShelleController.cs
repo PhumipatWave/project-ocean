@@ -90,21 +90,33 @@ namespace Game.Testing
             }
         }
 
-        private void SetOpen(bool open)
+private void SetOpen(bool open)
         {
             _isOpen = open;
             if (itemDrop != null) itemDrop.IsCollectable = open;
             if (animator == null) return;
-            if (open) animator.SetTrigger(IsOpenTrigger);
-            else      animator.SetTrigger(IsCloseTrigger);
+            if (open)
+            {
+                animator.ResetTrigger(IsCloseTrigger);
+                animator.SetTrigger(IsOpenTrigger);
+            }
+            else
+            {
+                animator.ResetTrigger(IsOpenTrigger);
+                animator.SetTrigger(IsCloseTrigger);
+            }
         }
 
-        private void OnShellCollected()
+private void OnShellCollected()
         {
             _collected = true;
             StopTick();
-            if (itemDrop  != null) itemDrop.IsCollectable = false;
-            if (animator  != null) animator.SetTrigger(IsCloseTrigger);
+            if (itemDrop != null) itemDrop.IsCollectable = false;
+            if (animator != null)
+            {
+                animator.ResetTrigger(IsOpenTrigger);
+                animator.SetTrigger(IsCloseTrigger);
+            }
         }
 
         private void OnDestroy() => Unsubscribe();
