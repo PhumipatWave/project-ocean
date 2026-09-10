@@ -35,9 +35,6 @@ namespace Game.Testing
                     return 10f;
 
                 case 5:
-                    return 10f;
-
-                case 6:
                     return 15f;
 
                 default:
@@ -53,18 +50,15 @@ namespace Game.Testing
                     return 0.5f;
 
                 case 2:
-                    return 0.5f;
+                    return 1.0f;
 
                 case 3:
                     return 1.0f;
 
                 case 4:
-                    return 1.0f;
-
-                case 5:
                     return 1.5f;
 
-                case 6:
+                case 5:
                     return 1.5f;
 
                 default:

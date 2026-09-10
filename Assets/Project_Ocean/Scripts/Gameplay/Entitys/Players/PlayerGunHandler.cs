@@ -173,7 +173,7 @@ namespace Game.Testing
             int level = UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet);
 
             // Level 0-1 ยังไม่ปลดล็อก Laser
-            if (level < 2)
+            if (level < 1)
             {
                 aimLine.enabled = false;
                 return;
