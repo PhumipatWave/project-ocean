@@ -3030,6 +3030,7 @@ RectTransform:
   m_Children:
   - {fileID: 2103135571}
   - {fileID: 436332264}
+  - {fileID: 2107770976}
   m_Father: {fileID: 911411317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -6487,7 +6488,7 @@ GameObject:
   - component: {fileID: 911411317}
   - component: {fileID: 911411318}
   m_Layer: 0
-  m_Name: MenuPanel
+  m_Name: PauseMenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7274,7 +7275,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1672761518}
+    m_TransformParent: {fileID: 362650629}
     m_Modifications:
     - target: {fileID: 1464739419859441620, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_Name
@@ -7282,7 +7283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1464739419859441620, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2751766096868966866, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_Pivot.x
@@ -7346,11 +7347,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2751766096868966866, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 37
+      value: 228.19
       objectReference: {fileID: 0}
     - target: {fileID: 2751766096868966866, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -221
+      value: -595
       objectReference: {fileID: 0}
     - target: {fileID: 2751766096868966866, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11886,7 +11887,6 @@ RectTransform:
   - {fileID: 1827186588}
   - {fileID: 1436342090}
   - {fileID: 1426027080}
-  - {fileID: 2107770976}
   - {fileID: 1414124977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
