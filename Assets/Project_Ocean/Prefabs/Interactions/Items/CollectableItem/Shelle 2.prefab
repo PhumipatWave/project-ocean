@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ShelleController
   animator: {fileID: 8401774527429809258}
-  itemDrop: {fileID: 0}
+  itemDrop: {fileID: 4249929339623461117}
   minTickInterval: 5
   maxTickInterval: 20
 --- !u!1001 &4723658437487433430
@@ -315,6 +315,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+--- !u!114 &4249929339623461117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+  m_PrefabInstance: {fileID: 4723658437487433430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1b386b4610cb34ea5fb045bb00d409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ItemDrop
 --- !u!82 &5901453882919603529 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1183289296014203807, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
