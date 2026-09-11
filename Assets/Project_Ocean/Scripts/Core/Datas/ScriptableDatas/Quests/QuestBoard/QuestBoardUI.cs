@@ -40,7 +40,9 @@ namespace Game.Testing
 
         private int currentPageIndex = 0;
 
-        private const int MaxQuestsPerPage = 4;
+        // Derived from the actual slot objects instead of a hardcoded number,
+        // so paging always matches however many QuestSlots are in the scene.
+        private int QuestsPerPage => questSlots.Length;
 
         [System.Serializable]
         public class QuestCategoryUIData
@@ -202,7 +204,7 @@ namespace Game.Testing
         private void RenderQuestPage()
         {
             int startingIndex =
-                currentPageIndex * MaxQuestsPerPage;
+                currentPageIndex * QuestsPerPage;
 
             for (int i = 0; i < questSlots.Length; i++)
             {
@@ -242,7 +244,7 @@ namespace Game.Testing
             if (nextPageButton != null)
             {
                 nextPageButton.interactable =
-                    startingIndex + MaxQuestsPerPage
+                    startingIndex + QuestsPerPage
                     < questsInCurrentCategory.Count;
             }
         }
@@ -275,7 +277,7 @@ namespace Game.Testing
 
         public void NavigateToNextPage()
         {
-            if ((currentPageIndex + 1) * MaxQuestsPerPage
+            if ((currentPageIndex + 1) * QuestsPerPage
                 < questsInCurrentCategory.Count)
             {
                 currentPageIndex++;

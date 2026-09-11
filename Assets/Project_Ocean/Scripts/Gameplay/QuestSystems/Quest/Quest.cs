@@ -7,9 +7,7 @@ namespace Game.Testing
     {
         Delivery,
         KillCount,
-        CollectTrash,
-        ExploreArea,
-        RepairObject
+        ExploreArea
     }
 
     public enum QuestStatus
