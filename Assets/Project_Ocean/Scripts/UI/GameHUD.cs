@@ -155,11 +155,20 @@ namespace Game.Testing
             if (GameManager.Instance.GameState != GameState.Ocean)
             {
                 maxLengthPanel.SetActive(false);
+                return;
             }
-            else
+
+            maxLengthPanel.SetActive(true);
+
+            var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
+            if (rope == null) return;
+
+            dangerLengthText.text = $"{Mathf.Abs(rope.MaxRopeLength).ToString("F2")} m.";
+
+            if (currentOxygenTubeLength != null)
             {
-                maxLengthPanel.SetActive(true);
-                dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.GetComponentInChildren<OxygenRope>().MaxRopeLength).ToString("F2")} m.";
+                currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.white;
             }
         }
 
