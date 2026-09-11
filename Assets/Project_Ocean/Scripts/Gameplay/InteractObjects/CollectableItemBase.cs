@@ -64,6 +64,7 @@ namespace Game.Testing
 
         private void HandleInteract(bool pressed)
         {
+            if (!pressed) return;
             if (!playerInRange || !CanCollect) return;
             if (!IsClosestToPlayer()) return;
             TryCollect();

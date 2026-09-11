@@ -87,7 +87,7 @@ namespace Game.Testing
             // Always allow closing, even though the inventory itself holds the UI lock.
             if (uiController.IsOpen) { HideAndDeselect(); return; }
             if (PlayerUIState.IsLocked) return;
-            uiController.ShowInventory();
+            OpenInventory();
         }
 
         private void Start()
@@ -117,6 +117,7 @@ namespace Game.Testing
         public void OpenInventory()
         {
             uiController.ShowInventory();
+            PlayerUIState.SetCloser(CloseInventory);
         }
 
         public void CloseInventory()

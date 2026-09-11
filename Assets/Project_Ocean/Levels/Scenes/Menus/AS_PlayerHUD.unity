@@ -335,7 +335,7 @@ RectTransform:
   m_Children:
   - {fileID: 2021419828}
   - {fileID: 1938803967}
-  m_Father: {fileID: 1840922628}
+  m_Father: {fileID: 1672761518}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17579,23 +17579,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 18172501}
+      value:
+      objectReference: {fileID: 911411318}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ToggleMenu
       objectReference: {fileID: 0}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: Game.Testing.UISettingManager, Game.Testing
       objectReference: {fileID: 0}
     - target: {fileID: 4543150632686471177, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -20033,6 +20033,7 @@ RectTransform:
   - {fileID: 1426027080}
   - {fileID: 1414124977}
   - {fileID: 438901907}
+  - {fileID: 18172502}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -22043,7 +22044,6 @@ RectTransform:
   - {fileID: 1552367318}
   - {fileID: 1588411124}
   - {fileID: 1343728290}
-  - {fileID: 18172502}
   - {fileID: 88997386}
   - {fileID: 1046331621}
   - {fileID: 18714933}
