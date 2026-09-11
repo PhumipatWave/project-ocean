@@ -15,7 +15,7 @@ namespace Game.Testing
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                menuPanel.SetActive(false);
+                ToggleMenu();
             }
         }
     }
