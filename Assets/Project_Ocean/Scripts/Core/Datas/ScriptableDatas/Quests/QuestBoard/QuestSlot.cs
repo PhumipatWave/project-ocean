@@ -10,8 +10,11 @@ namespace Game.Testing
     {
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI questNameText;
-        [SerializeField] private GameObject statusIcon; // ไอคอนดาว หรือ เครื่องหมายตกใจ
+        [SerializeField] private Image fishImage;
+        [SerializeField] private TMP_Text npcNameText;
         [SerializeField] private Image npcAvatarImage;
+        [SerializeField] private TextMeshProUGUI rewardText;
+        [SerializeField] private TextMeshProUGUI questDescriptionText;
 
         private Button slotButton;
         private Quest currentQuest;
@@ -23,42 +26,93 @@ namespace Game.Testing
             slotButton.onClick.AddListener(HandleSlotClick);
         }
 
-        /// <summary>
-        /// อัปเดตข้อมูลและแสดงผล Slot เควส
-        /// </summary>
-        public void SetupSlot(Quest quest, Action<Quest> onClickedAction)
+        public void SetupSlot(
+            Quest quest,
+            Action<Quest> onClickedAction)
         {
             currentQuest = quest;
             onSlotClickedCallback = onClickedAction;
 
             gameObject.SetActive(true);
 
+            // ชื่อ Quest
             if (questNameText != null)
             {
-                questNameText.text = quest.QuestName; // ใช้ Property เดิมของคุณ
+                questNameText.text = quest.QuestName;
+            }
+
+            // รายละเอียด Quest
+            if (questDescriptionText != null)
+            {
+                questDescriptionText.text = quest.QuestDetail;
+            }
+
+            // ชื่อ NPC
+            if (npcNameText != null)
+            {
+                npcNameText.text = quest.NpcName;
+            }
+
+            // =========================
+            // รูปปลา
+            // =========================
+            if (fishImage != null)
+            {
+                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
+
+                fishImage.sprite = sprite;
+                fishImage.enabled = sprite != null;
+            }
+
+            // รูป NPC
+            if (npcAvatarImage != null)
+            {
+                npcAvatarImage.sprite = quest.NpcAvatar;
+                npcAvatarImage.enabled = quest.NpcAvatar != null;
+            }
+
+            // รางวัล
+            if (rewardText != null)
+            {
+                rewardText.text =
+                    "Reward: " + quest.RewardMoney;
+            }
+        }
+
+        // =========================
+        // ดึงรูปจาก ItemVisual
+        // =========================
+        private static Sprite GetQuestItemSprite(string questItemId)
+        {
+            if (string.IsNullOrEmpty(questItemId))
+                return null;
+
+            if (!int.TryParse(questItemId, out int id))
+                return null;
+
+            return InventoryManager.Instance?
+                .FindItemInDatabase(id)?
+                .ItemVisual;
+        }
+
+        public void ClearSlot()
+        {
+            currentQuest = null;
+            onSlotClickedCallback = null;
+
+            if (fishImage != null)
+            {
+                fishImage.sprite = null;
+                fishImage.enabled = false;
             }
 
             if (npcAvatarImage != null)
             {
-                npcAvatarImage.sprite  = quest.NpcAvatar;
-                npcAvatarImage.enabled = quest.NpcAvatar != null;
+                npcAvatarImage.sprite = null;
+                npcAvatarImage.enabled = false;
             }
 
-            if (statusIcon != null)
-            {
-                statusIcon.SetActive(true);
-                // ต่อยอดต่อ: สามารถเขียน Logic เปลี่ยนรูปไอคอนตรงนี้ตามประเภทเควสได้ เช่น quest.Type
-            }
-        }
-
-        /// <summary>
-        /// ซ่อน Slot เมื่อไม่มีข้อมูลเควสให้แสดงในหน้านั้น
-        /// </summary>
-        public void ClearSlot()
-        {
             gameObject.SetActive(false);
-            currentQuest = null;
-            onSlotClickedCallback = null;
         }
 
         private void HandleSlotClick()

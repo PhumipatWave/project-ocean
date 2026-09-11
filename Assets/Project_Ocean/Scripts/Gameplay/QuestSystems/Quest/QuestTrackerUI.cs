@@ -37,7 +37,7 @@ namespace Game.Testing
                 return;
 
             Quest activeQuest =
-                QuestManager.Instance.GetCurrentActiveQuest();
+                QuestManager.Instance.GetTrackedQuest();
 
             if (activeQuest == null)
             {
@@ -81,7 +81,7 @@ namespace Game.Testing
         public void OnClickCancelQuest()
         {
             Quest activeQuest =
-                QuestManager.Instance.GetCurrentActiveQuest();
+                QuestManager.Instance.GetTrackedQuest();
 
             if (activeQuest == null)
                 return;

@@ -5,7 +5,8 @@ namespace Game.Testing
     public enum UpgradeType
     {
         Inventory,
-        Rope
+        Rope,
+        NormalBullet
     }
 
     [CreateAssetMenu(menuName = "Game/Upgrade")]
@@ -18,8 +19,11 @@ namespace Game.Testing
 
         public UpgradeType type;
 
-        public int maxLevel = 5;
-        public int basePrice;
+        [Header("Upgrade Settings")]
+        public int maxLevel = 6;
+
+        [Header("Upgrade Prices")]
+        public int[] prices;
 
         public float value;
     }

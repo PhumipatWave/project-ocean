@@ -44,6 +44,16 @@ namespace Game.Testing
         [Tooltip("Layers counted as obstacles for the clearance check.")]
         [SerializeField] private LayerMask obstacleLayer;
 
+        [Header("Ground Snap")]
+        [Tooltip("Ground/floor layer to raycast against. NavMesh height can drift from the real floor collider, so we snap to this after sampling. Same tilemap collider as 'Wall' (Environments/Grid/Main) — there is no separate ground layer.")]
+        [SerializeField] private LayerMask groundLayer = 1 << 9;
+
+        [Tooltip("How far above the sampled point to start the downward ground raycast.")]
+        [SerializeField] private float groundCheckUpOffset = 1f;
+
+        [Tooltip("How far below the start point to search for ground.")]
+        [SerializeField] private float groundCheckDistance = 20f;
+
         [Header("Proximity Activation")]
         [Tooltip("Spawn enemies when the player enters this radius from the zone centre.")]
         [SerializeField] private float activateRadius = 30f;
@@ -165,6 +175,22 @@ namespace Game.Testing
 
                 if (obstacleLayer.value != 0 && Physics2D.OverlapCircle(candidate, spawnClearanceRadius, obstacleLayer) != null)
                     continue;
+
+                if (groundLayer.value != 0)
+                {
+                    Vector2 rayOrigin = (Vector2)candidate + Vector2.up * groundCheckUpOffset;
+                    var groundHit = Physics2D.Raycast(rayOrigin, Vector2.down, groundCheckUpOffset + groundCheckDistance, groundLayer);
+
+                    // Ground collider height can drift slightly from the baked NavMesh height.
+                    // Only accept the ground-corrected point if it's still on the NavMesh —
+                    // otherwise the agent spawns off-mesh and NEVER ticks (isOnNavMesh stays false).
+                    if (groundHit.collider != null)
+                    {
+                        Vector3 groundCandidate = new(candidate.x, groundHit.point.y, candidate.z);
+                        if (NavMesh.SamplePosition(groundCandidate, out NavMeshHit groundNavHit, navSampleDistance, NavMesh.AllAreas))
+                            candidate = groundNavHit.position;
+                    }
+                }
 
                 result = candidate;
                 return true;

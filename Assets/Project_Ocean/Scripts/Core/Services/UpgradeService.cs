@@ -29,7 +29,15 @@ namespace Game.Testing
 
         public int GetPrice(UpgradeData data)
         {
-            return data.basePrice * (GetLevel(data.type) + 1);
+            if (data == null || data.prices == null)
+                return 0;
+
+            int level = GetLevel(data.type);
+
+            if (level < 0 || level >= data.prices.Length)
+                return 0;
+
+            return data.prices[level];
         }
 
         /// <summary>
@@ -76,14 +84,17 @@ namespace Game.Testing
                     var tube = GameManager.CurPlayer != null
                         ? GameManager.CurPlayer.GetComponentInChildren<OxygenRope>()
                         : null;
+
                     if (tube != null)
                     {
                         tube.IncreaseMaxLength(data.value);
-                        // Keep PlayerHealth's snapshot in sync so ResetToOriginal()
-                        // restores to the upgraded max, not the base Inspector value.
+
                         GameManager.CurPlayer.GetComponent<PlayerHealth>()
                             ?.IncreaseOriginalMaxLength(data.value);
                     }
+                    break;
+
+                case UpgradeType.NormalBullet:
                     break;
             }
         }

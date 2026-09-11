@@ -82,7 +82,7 @@ namespace Game.Testing
 
             shakeCoroutine = StartCoroutine(ShakeEffect());
 
-            if (Random.value > 0.7f)
+            if (Random.value > 0.8f)
                 StartCoroutine(MoneySequence());
             else
             {
