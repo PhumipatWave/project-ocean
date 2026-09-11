@@ -182,7 +182,7 @@ namespace Game.Testing
             if (currentOxygenTubeLength != null)
             {
                 currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
-                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.white;
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.blue;
             }
         }
 

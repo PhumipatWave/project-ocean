@@ -94,7 +94,7 @@ namespace Game.Testing
         {
             SelectSlot(0);
             LockStartingSlots();
-            SelectBuildingSlot(0);
+            //SelectBuildingSlot(0);
         }
 
         private void Update()
@@ -110,8 +110,8 @@ namespace Game.Testing
         private void HandleCycleBuildingSlot(bool pressed)
         {
             if (!pressed) return;
-            if (buildingSlots != null && buildingSlots.Count > 1)
-                CycleBuildingSlot();
+            /*if (buildingSlots != null && buildingSlots.Count > 1)
+                CycleBuildingSlot();*/
         }
 
         public void OpenInventory()
@@ -459,7 +459,7 @@ namespace Game.Testing
                 itemInSlot.RefreshCount();
         }
 
-        private void SelectBuildingSlot(int index)
+        /*private void SelectBuildingSlot(int index)
         {
             if (buildingSlots == null || buildingSlots.Count == 0) return;
             if (buildingSlots[activeBuildingSlotIndex] != null)
@@ -473,7 +473,7 @@ namespace Game.Testing
         private void CycleBuildingSlot()
         {
             SelectBuildingSlot((activeBuildingSlotIndex + 1) % buildingSlots.Count);
-        }
+        }*/
 
         public void ClearBuildingSlot(int index)
         {
