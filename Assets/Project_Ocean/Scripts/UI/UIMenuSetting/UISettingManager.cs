@@ -10,6 +10,14 @@ namespace Game.Testing
         //public GameObject savePanel;
         public GameObject settingPanel;
 
+        public void ToggleMenu()
+        {
+            if (menuPanel != null && menuPanel.activeSelf)
+                CloseAll();
+            else
+                BackToMenu();
+        }
+
         public void OpenInventory()
         {
             CloseAll();

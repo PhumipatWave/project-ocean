@@ -14357,7 +14357,6 @@ GameObject:
   - component: {fileID: 1247120227}
   - component: {fileID: 1247120226}
   - component: {fileID: 1247120225}
-  - component: {fileID: 1247120228}
   - component: {fileID: 1247120224}
   m_Layer: 5
   m_Name: MenuButtonNew
@@ -14445,13 +14444,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1247120228}
-        m_TargetAssemblyTypeName: Game.Testing.MenuToggle, Game.Testing
+      - m_Target: {fileID: 911411318}
+        m_TargetAssemblyTypeName: Game.Testing.UISettingManager, Game.Testing
         m_MethodName: ToggleMenu
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14495,19 +14494,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247120222}
   m_CullTransparentMesh: 1
---- !u!114 &1247120228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247120222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d608b04e13122842beb4d7365e11eb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.MenuToggle
-  menuPanel: {fileID: 911411316}
 --- !u!1 &1256435931
 GameObject:
   m_ObjectHideFlags: 0
@@ -19413,6 +19399,8 @@ MonoBehaviour:
   landButton: {fileID: 2107770972}
   weaponUIPanel: {fileID: 1655880864}
   pauseSaveButton: {fileID: 872920713}
+  pauseMenu: {fileID: 911411318}
+  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
   fadeImage: {fileID: 18714934}
   fadeDuration: 1
   hudContentGroup: {fileID: 1840922630}

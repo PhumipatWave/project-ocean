@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Game.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,6 +25,8 @@ namespace Game.Testing
 
         [Header("Pause Menu")]
         [SerializeField] private Button pauseSaveButton;
+        [SerializeField] private UISettingManager pauseMenu;
+        [SerializeField] private InputReader inputReader;
 
         [Header("Black Fade")]
         [SerializeField] private Image fadeImage;
@@ -52,6 +55,9 @@ namespace Game.Testing
             SceneManager.sceneLoaded += OnSceneLoaded;
             DayManager.OnDayAdvanced += RefreshDayText;
             PlayerUIState.OnLockChanged += HandleLockChanged;
+
+            if (inputReader != null)
+                inputReader.OnMenuToggled += HandleMenuToggle;
         }
 
         private void OnDisable()
@@ -59,6 +65,14 @@ namespace Game.Testing
             SceneManager.sceneLoaded -= OnSceneLoaded;
             DayManager.OnDayAdvanced -= RefreshDayText;
             PlayerUIState.OnLockChanged -= HandleLockChanged;
+
+            if (inputReader != null)
+                inputReader.OnMenuToggled -= HandleMenuToggle;
+        }
+
+        private void HandleMenuToggle()
+        {
+            pauseMenu?.ToggleMenu();
         }
 
         private void HandleLockChanged(bool isLocked)
