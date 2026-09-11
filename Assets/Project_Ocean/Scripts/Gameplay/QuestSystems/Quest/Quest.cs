@@ -127,7 +127,7 @@ namespace Game.Testing
 
         private Sprite npcAvatar;
         public Sprite NpcAvatar => npcAvatar;
-
+        public Sprite fishSprite;
         public Quest(QuestData questData)
         {
             questId = questData.questId;
@@ -158,6 +158,7 @@ namespace Game.Testing
 
             npcName = questData.npcName;
             npcAvatar = questData.npcAvatar;
+            fishSprite = questData.fishSprite;
 
             targetEnemyId = questData.targetEnemyId;
             targetCount = questData.targetCount;

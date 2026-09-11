@@ -53,20 +53,22 @@ namespace Game.Testing
                 npcNameText.text = quest.NpcName;
             }
 
+            // =========================
             // รูปปลา
-            // ตอนนี้ Quest.cs ยังไม่มี Sprite ของปลา
-            // จึงยังไม่สามารถเอารูปปลาจาก Quest มาใส่อัตโนมัติได้
+            // =========================
             if (fishImage != null)
             {
-                fishImage.enabled = false;
+                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
+
+                fishImage.sprite = sprite;
+                fishImage.enabled = sprite != null;
             }
 
             // รูป NPC
             if (npcAvatarImage != null)
             {
                 npcAvatarImage.sprite = quest.NpcAvatar;
-                npcAvatarImage.enabled =
-                    quest.NpcAvatar != null;
+                npcAvatarImage.enabled = quest.NpcAvatar != null;
             }
 
             // รางวัล
@@ -77,8 +79,39 @@ namespace Game.Testing
             }
         }
 
+        // =========================
+        // ดึงรูปจาก ItemVisual
+        // =========================
+        private static Sprite GetQuestItemSprite(string questItemId)
+        {
+            if (string.IsNullOrEmpty(questItemId))
+                return null;
+
+            if (!int.TryParse(questItemId, out int id))
+                return null;
+
+            return InventoryManager.Instance?
+                .FindItemInDatabase(id)?
+                .ItemVisual;
+        }
+
         public void ClearSlot()
         {
+            currentQuest = null;
+            onSlotClickedCallback = null;
+
+            if (fishImage != null)
+            {
+                fishImage.sprite = null;
+                fishImage.enabled = false;
+            }
+
+            if (npcAvatarImage != null)
+            {
+                npcAvatarImage.sprite = null;
+                npcAvatarImage.enabled = false;
+            }
+
             gameObject.SetActive(false);
         }
 

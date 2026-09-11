@@ -28,6 +28,9 @@ namespace Game.Testing
         public string npcName;
         public Sprite npcAvatar;
 
+        [Header("Fish")]
+        public Sprite fishSprite;
+
         public int questId;
         public QuestType type;
         public QuestStatus status;
