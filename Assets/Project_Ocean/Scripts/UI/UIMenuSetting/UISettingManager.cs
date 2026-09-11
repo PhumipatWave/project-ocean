@@ -7,7 +7,7 @@ namespace Game.Testing
         public GameObject menuPanel;
         public GameObject inventoryPanel;
         public GameObject questPanel;
-        public GameObject savePanel;
+        //public GameObject savePanel;
         public GameObject settingPanel;
 
         public void OpenInventory()
@@ -22,11 +22,11 @@ namespace Game.Testing
             questPanel.SetActive(true);
         }
 
-        public void OpenSave()
+        /*public void OpenSave()
         {
             CloseAll();
             savePanel.SetActive(true);
-        }
+        }*/
 
         public void OpenSetting()
         {
@@ -39,7 +39,7 @@ namespace Game.Testing
             if (menuPanel != null) menuPanel.SetActive(false);
             if (inventoryPanel != null) inventoryPanel.SetActive(false);
             if (questPanel != null) questPanel.SetActive(false);
-            if (savePanel != null) savePanel.SetActive(false);
+            //if (savePanel != null) savePanel.SetActive(false);
             if (settingPanel != null) settingPanel.SetActive(false);
         }
 

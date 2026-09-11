@@ -22,6 +22,9 @@ namespace Game.Testing
         [SerializeField] private GameObject landButton;
         [SerializeField] private GameObject weaponUIPanel;
 
+        [Header("Pause Menu")]
+        [SerializeField] private Button pauseSaveButton;
+
         [Header("Black Fade")]
         [SerializeField] private Image fadeImage;
         [SerializeField] private float fadeDuration = 1f;
@@ -126,6 +129,16 @@ namespace Game.Testing
                     ConfirmationDialog.Instance?.Show(
                         "Return to land?",
                         () => GameManager.Instance?.ReturnToLand()
+                    ));
+            }
+
+            if (pauseSaveButton != null)
+            {
+                pauseSaveButton.onClick.RemoveAllListeners();
+                pauseSaveButton.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Save game?",
+                        () => SaveBridge.Instance?.SaveGame()
                     ));
             }
         }

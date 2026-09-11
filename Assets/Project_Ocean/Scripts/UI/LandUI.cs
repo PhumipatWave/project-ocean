@@ -21,7 +21,7 @@ namespace Game.Testing
         [SerializeField] private Button nextDayButton;
 
         [Header("Home Panel")]
-        [SerializeField] private Button saveButton;
+        //[SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
 
         private void OnEnable()
@@ -55,12 +55,12 @@ namespace Game.Testing
                 RefreshNextDayButton();
             }
 
-            if (saveButton != null)
+            /*if (saveButton != null)
                 saveButton.onClick.AddListener(() =>
                     ConfirmationDialog.Instance?.Show(
                         "Save game?",
                         () => SaveBridge.Instance?.SaveGame()
-                    ));
+                    ));*/
 
             if (loadButton != null)
                 loadButton.onClick.AddListener(() =>

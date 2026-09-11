@@ -10807,7 +10807,6 @@ MonoBehaviour:
   menuPanel: {fileID: 911411316}
   inventoryPanel: {fileID: 1827186587}
   questPanel: {fileID: 18172501}
-  savePanel: {fileID: 0}
   settingPanel: {fileID: 438901903}
 --- !u!1 &932953915
 GameObject:
@@ -19286,6 +19285,7 @@ MonoBehaviour:
   menuButton: {fileID: 1436342086}
   landButton: {fileID: 2107770972}
   weaponUIPanel: {fileID: 1655880864}
+  pauseSaveButton: {fileID: 872920713}
   fadeImage: {fileID: 18714934}
   fadeDuration: 1
   hudContentGroup: {fileID: 1840922630}
