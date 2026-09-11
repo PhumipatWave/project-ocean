@@ -42,7 +42,7 @@ namespace Game.Testing
         [Tooltip("Damage dealt to the player when the attack hitbox connects. Requires an EnemyAttackHitbox child object on the prefab.")]
         public float attackDamage = 10f;
 
-        public override bool RequiresNavMesh => false;
+        public override bool RequiresNavMesh => true;
         public override IEnemyBrain CreateBrain() => new LinearPatrolBrain(this);
     }
 }

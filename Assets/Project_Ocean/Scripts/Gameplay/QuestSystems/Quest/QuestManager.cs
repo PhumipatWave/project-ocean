@@ -11,23 +11,21 @@ namespace Game.Testing
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
+        private int trackedQuestId = -1;
 
         // รายการเควสที่แปลงเป็น Object พร้อมใช้งานในเกมแล้ว
         private List<Quest> activeQuestList = new List<Quest>();
 
         private void Awake()
         {
-            // Duplicate guard: Destroy() is deferred, so we MUST return here,
-            // otherwise the doomed copy would still run InitializeQuests().
-            if (Instance != null)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
             Instance = this;
-
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
+            DontDestroyOnLoad(gameObject);
 
             InitializeQuests();
         }
@@ -38,10 +36,17 @@ namespace Game.Testing
         // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
         private void InitializeQuests()
         {
+            activeQuestList.Clear();
+
             foreach (var data in allQuestTemplates)
             {
+                if (data == null)
+                    continue;
+
                 activeQuestList.Add(new Quest(data));
             }
+
+            Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
         /// <summary>
@@ -49,7 +54,7 @@ namespace Game.Testing
         /// matches the dead enemy's id. AddProgress handles the threshold + status flip
         /// (Finish for AutoComplete, ReadyToTurnIn for ReadyToHandIn).
         /// </summary>
-private void HandleEnemyKilled(string enemyId)
+        private void HandleEnemyKilled(string enemyId)
         {
             Debug.Log($"Quest Received Kill : {enemyId}");
 
@@ -99,6 +104,23 @@ private void HandleEnemyKilled(string enemyId)
         public List<Quest> GetQuestsByStatus(QuestStatus status)
         {
             return activeQuestList.FindAll(q => q.Status == status);
+        }
+        public List<Quest> GetQuestsByCategory(QuestCategory category)
+        {
+            return activeQuestList.FindAll(q =>
+                q.Category == category &&
+                q.Status == QuestStatus.New
+            );
+        }
+
+
+        public List<Quest> GetActiveQuests()
+        {
+            return activeQuestList.FindAll(
+                q =>
+                    q.Status == QuestStatus.InProgress ||
+                    q.Status == QuestStatus.ReadyToTurnIn
+            );
         }
 
         public Quest GetQuestById(int id)
@@ -162,29 +184,39 @@ private void HandleEnemyKilled(string enemyId)
             LoadSaveState(data.quests);
         }
 
-public bool AcceptQuest(int questID)
+        public bool AcceptQuest(int questID)
         {
-            if (HasActiveQuest())
-            {
-                Debug.Log("Already have an active quest.");
-                NotificationManager.Notify("You already have a quest in process");
-                return false;
-            }
-
             Quest quest = GetQuestById(questID);
 
             if (quest == null)
+            {
+                Debug.LogWarning($"Quest ID {questID} not found.");
                 return false;
+            }
 
+            // รับได้เฉพาะ Quest ที่ยังไม่ได้รับ
             if (quest.Status != QuestStatus.New)
+            {
+                Debug.LogWarning(
+                    $"Quest {quest.QuestName} cannot be accepted. Current status: {quest.Status}"
+                );
                 return false;
+            }
 
+            if (trackedQuestId == -1)
+            {
+                trackedQuestId = questID;
+            }
+
+            // รับ Quest
             quest.Status = QuestStatus.InProgress;
 
             OnQuestUpdated?.Invoke();
 
+            Debug.Log($"Accepted Quest: {quest.QuestName}");
+
             return true;
-        } // AcceptQuest ===
+        }
 
         public bool RejectQuest(int questID)
         {
@@ -214,15 +246,40 @@ public bool AcceptQuest(int questID)
                 quest.Status != QuestStatus.ReadyToTurnIn)
                 return false;
 
-            // รีเซ็ตสถานะ
+            // รีเซ็ต Quest ที่ถูก Cancel
             quest.Status = QuestStatus.New;
-
-            // รีเซ็ต Progress
             quest.CurrentCount = 0;
 
-            OnQuestUpdated?.Invoke();
+            // ถ้า Quest ที่ Cancel คือ Quest ที่กำลัง Track
+            if (trackedQuestId == questID)
+            {
+                trackedQuestId = -1;
 
-            Debug.Log($"Quest {quest.QuestName} cancelled.");
+                // หา Quest อื่นที่ยังทำอยู่มา Track แทน
+                Quest nextQuest = activeQuestList.Find(
+                    q =>
+                        q.Status == QuestStatus.InProgress ||
+                        q.Status == QuestStatus.ReadyToTurnIn
+                );
+
+                if (nextQuest != null)
+                {
+                    trackedQuestId = nextQuest.QuestID;
+
+                    Debug.Log(
+                        $"Quest {quest.QuestName} cancelled. " +
+                        $"Now tracking Quest: {nextQuest.QuestName}"
+                    );
+                }
+                else
+                {
+                    Debug.Log(
+                        $"Quest {quest.QuestName} cancelled. No active quest left."
+                    );
+                }
+            }
+
+            OnQuestUpdated?.Invoke();
 
             return true;
         }
@@ -258,7 +315,7 @@ public bool AcceptQuest(int questID)
             InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }
 
-public bool TurnInQuest(int questID)
+        public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
@@ -277,6 +334,43 @@ public bool TurnInQuest(int questID)
             }
 
             OnQuestUpdated?.Invoke();
+            return true;
+        }
+
+        public Quest GetTrackedQuest()
+        {
+            if (trackedQuestId == -1)
+                return null;
+
+            Quest quest = GetQuestById(trackedQuestId);
+
+            if (quest == null)
+                return null;
+
+            if (quest.Status != QuestStatus.InProgress &&
+                quest.Status != QuestStatus.ReadyToTurnIn)
+                return null;
+
+            return quest;
+        }
+
+        public bool SetTrackedQuest(int questID)
+        {
+            Quest quest = GetQuestById(questID);
+
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.InProgress &&
+                quest.Status != QuestStatus.ReadyToTurnIn)
+                return false;
+
+            trackedQuestId = questID;
+
+            OnQuestUpdated?.Invoke();
+
+            Debug.Log($"Tracking Quest: {quest.QuestName}");
+
             return true;
         }
 

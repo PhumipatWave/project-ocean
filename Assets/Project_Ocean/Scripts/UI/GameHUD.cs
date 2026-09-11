@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Game.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,6 +22,11 @@ namespace Game.Testing
         [SerializeField] private GameObject menuButton;
         [SerializeField] private GameObject landButton;
         [SerializeField] private GameObject weaponUIPanel;
+
+        [Header("Pause Menu")]
+        [SerializeField] private Button pauseSaveButton;
+        [SerializeField] private UISettingManager pauseMenu;
+        [SerializeField] private InputReader inputReader;
 
         [Header("Black Fade")]
         [SerializeField] private Image fadeImage;
@@ -49,6 +55,9 @@ namespace Game.Testing
             SceneManager.sceneLoaded += OnSceneLoaded;
             DayManager.OnDayAdvanced += RefreshDayText;
             PlayerUIState.OnLockChanged += HandleLockChanged;
+
+            if (inputReader != null)
+                inputReader.OnMenuToggled += HandleMenuToggle;
         }
 
         private void OnDisable()
@@ -56,6 +65,14 @@ namespace Game.Testing
             SceneManager.sceneLoaded -= OnSceneLoaded;
             DayManager.OnDayAdvanced -= RefreshDayText;
             PlayerUIState.OnLockChanged -= HandleLockChanged;
+
+            if (inputReader != null)
+                inputReader.OnMenuToggled -= HandleMenuToggle;
+        }
+
+        private void HandleMenuToggle()
+        {
+            pauseMenu?.ToggleMenu();
         }
 
         private void HandleLockChanged(bool isLocked)
@@ -128,6 +145,16 @@ namespace Game.Testing
                         () => GameManager.Instance?.ReturnToLand()
                     ));
             }
+
+            if (pauseSaveButton != null)
+            {
+                pauseSaveButton.onClick.RemoveAllListeners();
+                pauseSaveButton.onClick.AddListener(() =>
+                    ConfirmationDialog.Instance?.Show(
+                        "Save game?",
+                        () => SaveBridge.Instance?.SaveGame()
+                    ));
+            }
         }
 
         private void RefreshDayText()
@@ -142,11 +169,20 @@ namespace Game.Testing
             if (GameManager.Instance.GameState != GameState.Ocean)
             {
                 maxLengthPanel.SetActive(false);
+                return;
             }
-            else
+
+            maxLengthPanel.SetActive(true);
+
+            var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
+            if (rope == null) return;
+
+            dangerLengthText.text = $"{Mathf.Abs(rope.MaxRopeLength).ToString("F2")} m.";
+
+            if (currentOxygenTubeLength != null)
             {
-                maxLengthPanel.SetActive(true);
-                dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.GetComponentInChildren<OxygenRope>().MaxRopeLength).ToString("F2")} m.";
+                currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.white;
             }
         }
 

@@ -14,6 +14,7 @@ namespace Game.Core
         public event Action<bool> OnInteracted;
         public event Action<bool> OnAmmoSelected;
         public event Action<bool> OnInventoryToggled;
+        public event Action OnMenuToggled;
         public event Action<Vector2> OnMoved;
 
         public event Action OnUseItem;
@@ -136,6 +137,11 @@ namespace Game.Core
         {
             if (context.performed) OnInventoryToggled?.Invoke(true);
             else if (context.canceled) OnInventoryToggled?.Invoke(false);
+        }
+
+        public void OnMenu(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnMenuToggled?.Invoke();
         }
 
         // ── IUIActions ─────────────────────────────────────────────────────

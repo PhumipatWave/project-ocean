@@ -18,7 +18,7 @@ namespace Game.Testing
         private void Update()
         {
             if (playerMoney != null && moneyText != null)
-                moneyText.text = "Money: " + playerMoney.Money;
+                moneyText.text = playerMoney.Money.ToString();
         }
     }
 }

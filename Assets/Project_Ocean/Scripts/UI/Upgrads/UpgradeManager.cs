@@ -30,7 +30,9 @@ namespace Game.Testing
 
         public int GetLevel(UpgradeData data)
         {
-            return data != null ? UpgradeService.Instance.GetLevel(data.type) : 0;
+            return data != null
+                ? UpgradeService.Instance.GetLevel(data.type)
+                : 0;
         }
 
         public void BuyUpgrade(UpgradeData data)
@@ -42,6 +44,13 @@ namespace Game.Testing
         {
             if (data != null)
                 UpgradeService.Instance.SetLevel(data.type, level);
+        }
+
+        public int GetPrice(UpgradeData data)
+        {
+            return data != null
+                ? UpgradeService.Instance.GetPrice(data)
+                : 0;
         }
     }
 }

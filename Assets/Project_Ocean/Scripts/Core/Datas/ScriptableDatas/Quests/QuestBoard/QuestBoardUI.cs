@@ -1,78 +1,221 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Game.Testing
 {
     public class QuestBoardUI : MonoBehaviour
     {
-        [Header("Slots Management")]
-        [SerializeField] private QuestSlot[] questSlots; // ลากวัตถุที่มี Script QuestSlot ทั้ง 4 ปุ่มมาใส่ช่องนี้
+        [Header("Quest Board Title")]
+        [SerializeField] private TextMeshProUGUI questBoardTitle;
 
-        [Header("Navigation Buttons")]
+        [Header("Category Page")]
+        [SerializeField] private GameObject categoryPage;
+        [SerializeField] private QuestCategorySlot[] categorySlots;
+
+        [Header("Quest List Page")]
+        [SerializeField] private GameObject questListPage;
+        [SerializeField] private QuestSlot[] questSlots;
+
+        [Header("Quest List Title")]
+        [SerializeField] private TextMeshProUGUI questCategoryTitle;
+
+        [Header("Navigation")]
         [SerializeField] private Button nextPageButton;
         [SerializeField] private Button prevPageButton;
+        [SerializeField] private Button backToCategoryButton;
         [SerializeField] private Button closeBoardButton;
 
-        [Header("Sub Window Component")]
-        [SerializeField] private QuestDetailPanel questDetailPanel; // ลากวัตถุหน้าต่างรายละเอียดมาใส่ช่องนี้
+        [Header("Quest Detail")]
+        [SerializeField] private QuestDetailPanel questDetailPanel;
 
-        private List<Quest> activeNewQuests = new List<Quest>();
+        [Header("Category Settings")]
+        [SerializeField] private QuestCategoryUIData[] categories;
+
+        private List<Quest> questsInCurrentCategory =
+            new List<Quest>();
+
+        private QuestCategory currentCategory;
+
         private int currentPageIndex = 0;
-        private const int MaxQuestsPerPage = 4; // แสดงผลหน้าละ 4 เควสคงที่ตามรูป
+
+        // Derived from the actual slot objects instead of a hardcoded number,
+        // so paging always matches however many QuestSlots are in the scene.
+        private int QuestsPerPage => questSlots.Length;
+
+        [System.Serializable]
+        public class QuestCategoryUIData
+        {
+            public QuestCategory category;
+        }
 
         private void Start()
         {
-            nextPageButton.onClick.AddListener(NavigateToNextPage);
-            prevPageButton.onClick.AddListener(NavigateToPreviousPage);
-            closeBoardButton.onClick.AddListener(() => gameObject.SetActive(false));
+            if (nextPageButton != null)
+                nextPageButton.onClick.AddListener(
+                    NavigateToNextPage
+                );
+
+            if (prevPageButton != null)
+                prevPageButton.onClick.AddListener(
+                    NavigateToPreviousPage
+                );
+
+            if (backToCategoryButton != null)
+                backToCategoryButton.onClick.AddListener(
+                    ShowCategoryPage
+                );
+
+            if (closeBoardButton != null)
+                closeBoardButton.onClick.AddListener(
+                    () => gameObject.SetActive(false)
+                );
         }
 
         private void OnEnable()
         {
             currentPageIndex = 0;
 
-            if (questDetailPanel != null)
-                questDetailPanel.HidePanel();
-
             if (QuestManager.Instance != null)
             {
-                QuestManager.OnQuestUpdated += FetchAndRefreshBoard;
-                FetchAndRefreshBoard();
+                QuestManager.OnQuestUpdated += RefreshCurrentPage;
             }
+
+            ShowCategoryPage();
         }
 
         private void OnDisable()
         {
             if (QuestManager.Instance != null)
-                QuestManager.OnQuestUpdated -= FetchAndRefreshBoard;
+            {
+                QuestManager.OnQuestUpdated -= RefreshCurrentPage;
+            }
         }
 
-        public void FetchAndRefreshBoard()
+        // =========================================================
+        // CATEGORY PAGE
+        // =========================================================
+
+        private void ShowCategoryPage()
         {
+            currentPageIndex = 0;
+
+            // เปลี่ยนชื่อกลับเป็น Quest Board
+            if (questBoardTitle != null)
+            {
+                questBoardTitle.text = "Quest Board";
+            }
+
+            if (questDetailPanel != null)
+                questDetailPanel.HidePanel();
+
+            if (categoryPage != null)
+                categoryPage.SetActive(true);
+
+            if (questListPage != null)
+                questListPage.SetActive(false);
+
+            RenderCategories();
+        }
+
+        private void RenderCategories()
+        {
+            for (int i = 0; i < categorySlots.Length; i++)
+            {
+                if (i < categories.Length)
+                {
+                    QuestCategoryUIData data = categories[i];
+
+                    categorySlots[i].Setup(
+                        data.category,
+                        OnCategorySelected
+                    );
+                }
+                else
+                {
+                    categorySlots[i].Clear();
+                }
+            }
+        }
+
+        private void OnCategorySelected(QuestCategory category)
+        {
+            currentCategory = category;
+            currentPageIndex = 0;
+
+            // เปลี่ยนชื่อหัวกระดาน
+            if (questBoardTitle != null)
+            {
+                switch (category)
+                {
+                    case QuestCategory.FishS:
+                        questBoardTitle.text = "Quest Fish S";
+                        break;
+
+                    case QuestCategory.FishM:
+                        questBoardTitle.text = "Quest Fish M";
+                        break;
+
+                    case QuestCategory.FishL:
+                        questBoardTitle.text = "Quest Fish L";
+                        break;
+
+                    default:
+                        questBoardTitle.text = "Quest Board";
+                        break;
+                }
+            }
+
+            LoadQuestsForCategory();
+
+            if (categoryPage != null)
+                categoryPage.SetActive(false);
+
+            if (questListPage != null)
+                questListPage.SetActive(true);
+
+            RenderQuestPage();
+        }
+
+        // =========================================================
+        // QUEST LIST PAGE
+        // =========================================================
+
+        private void LoadQuestsForCategory()
+        {
+            questsInCurrentCategory.Clear();
+
             if (QuestManager.Instance == null)
             {
-                Debug.LogWarning("QuestManager ยังไม่พร้อม"); 
+                Debug.LogError("[QuestBoardUI] QuestManager.Instance is NULL!");
                 return;
             }
 
-            // คัดกรองเอาเฉพาะเควสที่มีสถานะเป็น New จากคลังเดิมของคุณมาโชว์บนบอร์ด
-            activeNewQuests = QuestManager.Instance.GetQuestsByStatus(QuestStatus.New);
-            RenderBoardPage();
+            questsInCurrentCategory =
+                QuestManager.Instance.GetQuestsByCategory(currentCategory);
+
+            Debug.Log(
+                $"[QuestBoardUI] Category = {currentCategory}, " +
+                $"Quest Count = {questsInCurrentCategory.Count}"
+            );
         }
 
-        private void RenderBoardPage()
+        private void RenderQuestPage()
         {
-            int startingIndex = currentPageIndex * MaxQuestsPerPage;
+            int startingIndex =
+                currentPageIndex * QuestsPerPage;
 
             for (int i = 0; i < questSlots.Length; i++)
             {
-                int targetQuestIndex = startingIndex + i;
+                int targetIndex = startingIndex + i;
 
-                if (targetQuestIndex < activeNewQuests.Count)
+                if (targetIndex < questsInCurrentCategory.Count)
                 {
-                    // ส่งข้อมูลเควสไปให้ Slot แสดงผลตัวเอง
-                    questSlots[i].SetupSlot(activeNewQuests[targetQuestIndex], OnQuestSlotSelected);
+                    questSlots[i].SetupSlot(
+                        questsInCurrentCategory[targetIndex],
+                        OnQuestSlotSelected
+                    );
                 }
                 else
                 {
@@ -80,36 +223,65 @@ namespace Game.Testing
                 }
             }
 
+            if (questCategoryTitle != null)
+            {
+                questCategoryTitle.text =
+                    currentCategory.ToString();
+            }
+
             UpdateNavigationButtons(startingIndex);
         }
 
-        private void UpdateNavigationButtons(int startingIndex)
+        private void UpdateNavigationButtons(
+            int startingIndex)
         {
-            prevPageButton.interactable = (currentPageIndex > 0);
-            nextPageButton.interactable = (startingIndex + MaxQuestsPerPage < activeNewQuests.Count);
+            if (prevPageButton != null)
+            {
+                prevPageButton.interactable =
+                    currentPageIndex > 0;
+            }
+
+            if (nextPageButton != null)
+            {
+                nextPageButton.interactable =
+                    startingIndex + QuestsPerPage
+                    < questsInCurrentCategory.Count;
+            }
         }
 
-        private void OnQuestSlotSelected(Quest selectedQuest)
+        // =========================================================
+        // QUEST DETAIL
+        // =========================================================
+
+        private void OnQuestSlotSelected(
+            Quest selectedQuest)
         {
-            if (questDetailPanel != null)
-            {
-                // สั่งให้หน้าต่างรายละเอียดแสดงผล และรับ Callback กลับมา Refresh บอร์ดเมื่อกดรับ/ปฏิเสธสำเร็จ
-                questDetailPanel.ShowPanel(selectedQuest, OnQuestActionCompleted);
-            }
+            if (questDetailPanel == null)
+                return;
+
+            questDetailPanel.ShowPanel(
+                selectedQuest,
+                OnQuestActionCompleted
+            );
         }
 
         private void OnQuestActionCompleted()
         {
-            // เควสที่ถูกรับหรือปฏิเสธไปแล้วจะหายไปจากกระดานทันที จึงต้องคำนวณหน้ากระดานใหม่
-            FetchAndRefreshBoard();
+            LoadQuestsForCategory();
+            RenderQuestPage();
         }
+
+        // =========================================================
+        // NAVIGATION
+        // =========================================================
 
         public void NavigateToNextPage()
         {
-            if ((currentPageIndex + 1) * MaxQuestsPerPage < activeNewQuests.Count)
+            if ((currentPageIndex + 1) * QuestsPerPage
+                < questsInCurrentCategory.Count)
             {
                 currentPageIndex++;
-                RenderBoardPage();
+                RenderQuestPage();
             }
         }
 
@@ -118,7 +290,25 @@ namespace Game.Testing
             if (currentPageIndex > 0)
             {
                 currentPageIndex--;
-                RenderBoardPage();
+                RenderQuestPage();
+            }
+        }
+
+        // =========================================================
+        // REFRESH
+        // =========================================================
+
+        private void RefreshCurrentPage()
+        {
+            if (questListPage != null &&
+                questListPage.activeSelf)
+            {
+                LoadQuestsForCategory();
+                RenderQuestPage();
+            }
+            else
+            {
+                RenderCategories();
             }
         }
     }

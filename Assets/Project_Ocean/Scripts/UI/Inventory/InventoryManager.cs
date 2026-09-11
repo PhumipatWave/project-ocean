@@ -18,7 +18,7 @@ namespace Game.Testing
 
         [Header("Inventory Slots")]
         [SerializeField] private InventorySlot[] inventorySlots;
-        [SerializeField] private int firstUnlockedSlotCount = 5;
+        [SerializeField] private int firstUnlockedSlotCount = 3;
         [SerializeField] private List<InventorySlot> buildingSlots;
         public InventorySlot[] InventorySlots => inventorySlots;
 

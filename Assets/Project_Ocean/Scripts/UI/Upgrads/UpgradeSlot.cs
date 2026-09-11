@@ -13,7 +13,7 @@ namespace Game.Testing
 
         public Image[] levelBoxes;
 
-        public Color activeColor   = Color.green;
+        public Color activeColor = Color.green;
         public Color inactiveColor = Color.gray;
 
         [SerializeField] private UpgradeManager upgradeManager;
@@ -25,32 +25,66 @@ namespace Game.Testing
 
         public void Upgrade()
         {
-            if (upgradeManager == null) return;
+            if (upgradeManager == null || data == null)
+                return;
 
             int level = upgradeManager.GetLevel(data);
-            if (level >= data.maxLevel) return;
 
-            int price = data.basePrice * (level + 1);
+            if (level >= data.maxLevel)
+                return;
+
+            int price = upgradeManager.GetPrice(data);
+
             ConfirmationDialog.Instance?.Show(
                 $"Upgrade {data.upgradeName} for ${price}?",
-                () => { upgradeManager.BuyUpgrade(data); RefreshUI(); }
+                () =>
+                {
+                    upgradeManager.BuyUpgrade(data);
+                    RefreshUI();
+                }
             );
         }
 
         public void RefreshUI()
         {
-            if (data == null) return;
+            if (data == null)
+                return;
 
             nameText.text = data.upgradeName;
 
-            int level = upgradeManager != null ? upgradeManager.GetLevel(data) : 0;
+            int level = upgradeManager != null
+                ? upgradeManager.GetLevel(data)
+                : 0;
 
-            priceText.text = level >= data.maxLevel
-                ? "MAX"
-                : "$" + (data.basePrice * (level + 1));
-
+            // แสดง Level
             for (int i = 0; i < levelBoxes.Length; i++)
-                levelBoxes[i].color = i < level ? activeColor : inactiveColor;
+            {
+                levelBoxes[i].color =
+                    i < level ? activeColor : inactiveColor;
+            }
+
+            // แสดงราคา
+            if (level >= data.maxLevel)
+            {
+                priceText.text = "MAX";
+            }
+            else
+            {
+                priceText.text = "$" + upgradeManager.GetPrice(data);
+            }
+        }
+
+        public string GetCurrentPriceText()
+        {
+            if (data == null || upgradeManager == null)
+                return "";
+
+            int level = upgradeManager.GetLevel(data);
+
+            if (level >= data.maxLevel)
+                return "MAX";
+
+            return "$" + upgradeManager.GetPrice(data);
         }
     }
 }
