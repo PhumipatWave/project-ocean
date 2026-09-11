@@ -18,11 +18,21 @@ namespace Game.Testing
         Explore
     }
 
+    // Where this quest sits in the game's overall quest structure (main story vs side vs tutorial vs special/event).
+    public enum QuestClassification
+    {
+        MainQuest,
+        SubQuest,
+        Tutorial,
+        Special
+    }
+
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]
     public class QuestData : ScriptableObject
     {
         [Header("Quest Category")]
         public QuestCategory category;
+        public QuestClassification classification;
 
         [Header("NPC")]
         public string npcName;

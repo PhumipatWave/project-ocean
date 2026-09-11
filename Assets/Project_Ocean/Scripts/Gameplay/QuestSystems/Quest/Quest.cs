@@ -37,6 +37,10 @@ namespace Game.Testing
         public QuestType Type => type;
 
         [SerializeField]
+        private QuestClassification classification;
+        public QuestClassification Classification => classification;
+
+        [SerializeField]
         private QuestStatus status;
         public QuestStatus Status
         {
@@ -136,6 +140,7 @@ namespace Game.Testing
             category = questData.category;
 
             type = questData.type;
+            classification = questData.classification;
             status = questData.status;
 
             questName = questData.questName;
