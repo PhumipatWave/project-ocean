@@ -36,11 +36,11 @@ namespace Game.Testing
 
         public void CloseAll()
         {
-            menuPanel.SetActive(false);
-            inventoryPanel.SetActive(false);
-            questPanel.SetActive(false);
-            savePanel.SetActive(false);
-            settingPanel.SetActive(false);
+            if (menuPanel != null) menuPanel.SetActive(false);
+            if (inventoryPanel != null) inventoryPanel.SetActive(false);
+            if (questPanel != null) questPanel.SetActive(false);
+            if (savePanel != null) savePanel.SetActive(false);
+            if (settingPanel != null) settingPanel.SetActive(false);
         }
 
         public void BackToMenu()
