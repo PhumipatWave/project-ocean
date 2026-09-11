@@ -167,11 +167,34 @@ namespace Game.Testing
 
         private void UpdateAimLine()
         {
-            if (aimLine == null || firePoint == null) return;
+            if (aimLine == null || firePoint == null)
+                return;
+
+            int level = UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet);
+
+            // Level 0-1 ยังไม่ปลดล็อก Laser
+            if (level < 1)
+            {
+                aimLine.enabled = false;
+                return;
+            }
+
+            // Level 2 ขึ้นไป เปิด Laser
             aimLine.enabled = true;
+
             Vector3 start = firePoint.transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(start, aimDir, aimLineLength, wallLayer);
-            Vector3 end = hit.collider != null ? (Vector3)hit.point : start + (Vector3)aimDir * aimLineLength;
+
+            RaycastHit2D hit = Physics2D.Raycast(
+                start,
+                aimDir,
+                aimLineLength,
+                wallLayer
+            );
+
+            Vector3 end = hit.collider != null
+                ? (Vector3)hit.point
+                : start + (Vector3)aimDir * aimLineLength;
+
             aimLine.SetPosition(0, start);
             aimLine.SetPosition(1, end);
         }

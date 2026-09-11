@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace Game.Testing
@@ -12,7 +11,6 @@ namespace Game.Testing
         [SerializeField] private LineRenderer line;
         [SerializeField] private Transform playerTransform;
         [SerializeField] private GameObject startPointPrefab;
-        [SerializeField] private TextMeshProUGUI lengthText;
 
         [SerializeField] private float breakLimitTimer = 10f;
 
@@ -124,7 +122,6 @@ namespace Game.Testing
                 TryUnwrap();
 
             CurrentLength = MeasureLength();
-            UpdateLengthUI();
             CheckLimit();
         }
 
@@ -182,11 +179,8 @@ namespace Game.Testing
             hubLengthStartIndex = 0;
             CurrentLength  = 0f;
 
-            if (line != null) 
+            if (line != null)
                 line.positionCount = 0;
-
-            if (lengthText != null) 
-                lengthText.enabled = false;
         }
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
@@ -597,16 +591,6 @@ namespace Game.Testing
                 len += Vector2.Distance(segs[i].pos, segs[i + 1].pos);
 
             return len;
-        }
-
-        private void UpdateLengthUI()
-        {
-            if (lengthText == null) 
-                return;
-
-            lengthText.enabled = true;
-            lengthText.color = CurrentLength >= maxRopeLength ? Color.red : Color.white;
-            lengthText.text  = $"Length : {(int)CurrentLength} m.";
         }
 
         private bool InOcean() =>
