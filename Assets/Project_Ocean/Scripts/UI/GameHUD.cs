@@ -96,22 +96,18 @@ namespace Game.Testing
 
             // A fresh scene load always starts with no land UI open.
             SetHudVisible(true);
-            pauseMenu?.CloseAll();
 
             if (scene.name == "MainMenuScene")
             {
-                menuButton.SetActive(false);
                 landButton.SetActive(false);
             }
             else if (scene.name == "Land_Map")
             {
-                menuButton.SetActive(true);
                 landButton.SetActive(false);
                 RefreshDayText();
             }
             else if (isOcean)
             {
-                menuButton.SetActive(true);
                 landButton.SetActive(true);
             }
         }
