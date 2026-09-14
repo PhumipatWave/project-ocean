@@ -82,6 +82,10 @@ namespace Game.Testing
                 QuestManager.OnQuestUpdated += RefreshCurrentPage;
             }
 
+            // The InteractUI that revealed this board already called PlayerUIState.Open() —
+            // only register how to close it, don't lock a second time.
+            PlayerUIState.SetCloser(() => gameObject.SetActive(false));
+
             ShowCategoryPage();
         }
 
@@ -91,6 +95,8 @@ namespace Game.Testing
             {
                 QuestManager.OnQuestUpdated -= RefreshCurrentPage;
             }
+
+            PlayerUIState.Close();
         }
 
         // =========================================================

@@ -99,18 +99,15 @@ namespace Game.Testing
 
             if (scene.name == "MainMenuScene")
             {
-                menuButton.SetActive(false);
                 landButton.SetActive(false);
             }
             else if (scene.name == "Land_Map")
             {
-                menuButton.SetActive(true);
                 landButton.SetActive(false);
                 RefreshDayText();
             }
             else if (isOcean)
             {
-                menuButton.SetActive(false);
                 landButton.SetActive(true);
             }
         }
@@ -182,7 +179,7 @@ namespace Game.Testing
             if (currentOxygenTubeLength != null)
             {
                 currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
-                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.white;
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.blue;
             }
         }
 
