@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Testing
@@ -19,6 +20,19 @@ namespace Game.Testing
         Reject
     }
 
+    /// <summary>Runtime copy of one QuestStepData checkpoint, with its own live counter.</summary>
+    public class QuestStep
+    {
+        public QuestType Type;
+        public string TargetEnemyId;
+        public int TargetCount;
+        public QuestCompletionMode CompletionMode;
+        public string StepDescription;
+        public int CurrentCount;
+
+        public bool IsComplete => CurrentCount >= TargetCount;
+    }
+
     [System.Serializable]
     public class Quest
     {
@@ -29,10 +43,6 @@ namespace Game.Testing
         [SerializeField]
         private QuestCategory category;
         public QuestCategory Category => category;
-
-        [SerializeField]
-        private QuestType type;
-        public QuestType Type => type;
 
         [SerializeField]
         private QuestClassification classification;
@@ -46,30 +56,43 @@ namespace Game.Testing
             set => status = value;
         }
 
-        [SerializeField]
-        private string targetEnemyId;
-        public string TargetEnemyId => targetEnemyId;
+        // ── Checkpoints ──
+        // A quest is a sequence of steps; only the current one accumulates progress.
+        // Type/TargetEnemyId/TargetCount/CompletionMode/CurrentCount below all proxy
+        // to CurrentStep, so every existing caller (QuestManager, UI) that reads a
+        // "quest's" type/target/progress automatically reads its active checkpoint
+        // without needing to know steps exist.
+        private List<QuestStep> steps = new();
 
         [SerializeField]
-        private int targetCount;
-        public int TargetCount => targetCount;
-
-        [SerializeField]
-        private int currentCount;
-        public int CurrentCount
+        private int currentStepIndex;
+        public int CurrentStepIndex
         {
-            get => currentCount;
-            set => currentCount = value;
+            get => currentStepIndex;
+            set => currentStepIndex = Mathf.Clamp(value, 0, Mathf.Max(0, steps.Count - 1));
         }
 
-        [SerializeField]
-        private QuestCompletionMode completionMode;
-        public QuestCompletionMode CompletionMode => completionMode;
+        public int StepCount => steps.Count;
 
-        public string Progress => currentCount + " / " + targetCount;
+        public QuestStep CurrentStep =>
+            steps.Count == 0 ? null : steps[currentStepIndex];
 
-        public bool IsObjectiveComplete =>
-            currentCount >= targetCount;
+        public string StepDescription => CurrentStep?.StepDescription;
+
+        public QuestType Type => CurrentStep.Type;
+        public string TargetEnemyId => CurrentStep.TargetEnemyId;
+        public int TargetCount => CurrentStep.TargetCount;
+        public QuestCompletionMode CompletionMode => CurrentStep.CompletionMode;
+
+        public int CurrentCount
+        {
+            get => CurrentStep.CurrentCount;
+            set => CurrentStep.CurrentCount = value;
+        }
+
+        public string Progress => CurrentCount + " / " + TargetCount;
+
+        public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
 
         [SerializeField]
         private string questName;
@@ -137,7 +160,6 @@ namespace Game.Testing
             // สำคัญ
             category = questData.category;
 
-            type = questData.type;
             classification = questData.classification;
             status = questData.status;
 
@@ -163,29 +185,77 @@ namespace Game.Testing
             npcAvatar = questData.npcAvatar;
             fishSprite = questData.fishSprite;
 
-            targetEnemyId = questData.targetEnemyId;
-            targetCount = questData.targetCount;
-            completionMode = questData.completionMode;
-
-            currentCount = 0;
+            steps = BuildSteps(questData);
+            currentStepIndex = 0;
         }
 
+        /// <summary>
+        /// Uses the authored Steps list if present; otherwise synthesizes a single
+        /// step from the legacy flat type/targetEnemyId/targetCount/completionMode
+        /// fields, so existing single-objective QuestData assets keep working unchanged.
+        /// </summary>
+        private static List<QuestStep> BuildSteps(QuestData questData)
+        {
+            var list = new List<QuestStep>();
+
+            if (questData.steps != null && questData.steps.Count > 0)
+            {
+                foreach (var s in questData.steps)
+                {
+                    list.Add(new QuestStep
+                    {
+                        Type = s.type,
+                        TargetEnemyId = s.targetEnemyId,
+                        TargetCount = s.targetCount,
+                        CompletionMode = s.completionMode,
+                        StepDescription = s.stepDescription,
+                        CurrentCount = 0,
+                    });
+                }
+            }
+            else
+            {
+                list.Add(new QuestStep
+                {
+                    Type = questData.type,
+                    TargetEnemyId = questData.targetEnemyId,
+                    TargetCount = questData.targetCount,
+                    CompletionMode = questData.completionMode,
+                    StepDescription = questData.questDetail,
+                    CurrentCount = 0,
+                });
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Adds progress to the current checkpoint only. Finishing a checkpoint that
+        /// isn't the last one just advances to the next checkpoint (returns false —
+        /// the quest overall isn't done). Finishing the last checkpoint flips the
+        /// quest's status per that checkpoint's completionMode and returns true.
+        /// </summary>
         public bool AddProgress(int amount = 1)
         {
             if (status != QuestStatus.InProgress)
                 return false;
 
-            if (currentCount >= targetCount)
+            var step = CurrentStep;
+            if (step == null || step.IsComplete)
                 return false;
 
-            currentCount += amount;
+            step.CurrentCount = Mathf.Min(step.CurrentCount + amount, step.TargetCount);
 
-            if (currentCount < targetCount)
+            if (!step.IsComplete)
                 return false;
 
-            currentCount = targetCount;
+            if (currentStepIndex < steps.Count - 1)
+            {
+                currentStepIndex++;
+                return false;
+            }
 
-            status = completionMode == QuestCompletionMode.AutoComplete
+            status = step.CompletionMode == QuestCompletionMode.AutoComplete
                 ? QuestStatus.Finish
                 : QuestStatus.ReadyToTurnIn;
 
@@ -199,7 +269,9 @@ namespace Game.Testing
                 if (status == QuestStatus.ReadyToTurnIn)
                     return "READY TO TURN IN";
 
-                return Progress;
+                return steps.Count > 1
+                    ? $"Step {currentStepIndex + 1}/{steps.Count} — {Progress}"
+                    : Progress;
             }
         }
     }

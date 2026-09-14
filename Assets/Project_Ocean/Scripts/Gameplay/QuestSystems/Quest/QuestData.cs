@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Testing
@@ -27,6 +28,21 @@ namespace Game.Testing
         Special
     }
 
+    /// <summary>
+    /// One checkpoint inside a multi-step quest. Progress only accumulates on the
+    /// quest's current step; the step's own completionMode decides whether finishing
+    /// it just advances to the next step or (on the last step) finishes the quest.
+    /// </summary>
+    [System.Serializable]
+    public class QuestStepData
+    {
+        public QuestType type;
+        public string targetEnemyId;
+        public int targetCount = 1;
+        public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
+        [TextArea(2, 4)] public string stepDescription;
+    }
+
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]
     public class QuestData : ScriptableObject
     {
@@ -42,10 +58,14 @@ namespace Game.Testing
         public Sprite fishSprite;
 
         public int questId;
-        public QuestType type;
         public QuestStatus status;
 
-        [Header("KillCount quest settings")]
+        [Header("Quest Steps (checkpoints)")]
+        [Tooltip("Leave empty for a single-step quest — the fields below (type/targetEnemyId/targetCount/completionMode) are used as that one step. Add entries here to make a multi-checkpoint quest; the fields below are then ignored.")]
+        public List<QuestStepData> steps = new();
+
+        [Header("Legacy single-step settings (used only if Steps above is empty)")]
+        public QuestType type;
         public string targetEnemyId;
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;

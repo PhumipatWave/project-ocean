@@ -137,9 +137,10 @@ namespace Game.Testing
             foreach (var q in activeQuestList)
                 list.Add(new QuestSaveData
                 {
-                    questId      = q.QuestID,
-                    status       = (int)q.Status,
-                    currentCount = q.CurrentCount,
+                    questId         = q.QuestID,
+                    status          = (int)q.Status,
+                    currentCount    = q.CurrentCount,
+                    currentStepIndex = q.CurrentStepIndex,
                 });
             return list;
         }
@@ -165,8 +166,9 @@ namespace Game.Testing
                 var quest = GetQuestById(s.questId);
                 if (quest != null)
                 {
-                    quest.Status       = (QuestStatus)s.status;
-                    quest.CurrentCount = s.currentCount;
+                    quest.Status           = (QuestStatus)s.status;
+                    quest.CurrentStepIndex = s.currentStepIndex; // set before CurrentCount — CurrentCount targets the step at this index
+                    quest.CurrentCount     = s.currentCount;
                 }
             }
             OnQuestUpdated?.Invoke();
