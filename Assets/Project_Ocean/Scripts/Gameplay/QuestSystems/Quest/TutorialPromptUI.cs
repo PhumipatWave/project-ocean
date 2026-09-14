@@ -1,28 +1,28 @@
-using TMPro;
 using UnityEngine;
 
 namespace Game.Testing
 {
     /// <summary>
-    /// Shows the current step's instruction text for whichever active quest is a guided
-    /// sequence (Quest.HasTutorialStep — has a Tutorial step somewhere in its chain), and
-    /// hides once no such step is active. This covers a Tutorial step's own action, and
-    /// also a Talk step that comes AFTER a Tutorial step in the same chain (so "next goal"
-    /// keeps showing across the whole guided quest, not just its literal Tutorial steps).
-    /// A standalone Talk/KillCount/etc. quest with no Tutorial step anywhere in it is never
-    /// treated as guided — no popup, no input restriction, same as any normal quest.
+    /// Drives the current step's instruction text for whichever active quest's CURRENT
+    /// checkpoint is authored as guided (QuestStepData.isGuidedSequence →
+    /// QuestStep.IsGuidedSequence, surfaced quest-wide via Quest.IsGuidedSequence), and
+    /// clears it once no such step is active. Guided is per-checkpoint, not per-quest — a
+    /// Tutorial step's own action, or a Talk step, is only gated/prompted if THAT step has
+    /// the flag set. A step with isGuidedSequence left off is never treated as guided — no
+    /// prompt, no input restriction.
     /// Scans active quests directly (not GetTrackedQuest()) so switching the player's
     /// tracked quest can never hide a tutorial prompt they haven't finished yet.
-    /// Sets TutorialGate.RequiredAction while visible (restricting the player to just
+    /// Sets TutorialGate.RequiredAction while showing (restricting the player to just
     /// that action — ESC/pause stays available) and clears it when the prompt hides.
     /// Hides itself under any OTHER blocking panel (dialogue, shop, menu) rather than
     /// showing over it, but never sets PlayerUIState's lock itself.
+    ///
+    /// Rendering is delegated to GameHUD's shared NotificationTextUI (via
+    /// NotificationManager.ShowPersistent/ClearPersistent) rather than a dedicated panel —
+    /// this is decision-logic only, no UI of its own.
     /// </summary>
     public class TutorialPromptUI : MonoBehaviour
     {
-        [SerializeField] private GameObject panel;
-        [SerializeField] private TextMeshProUGUI promptText;
-
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
@@ -34,7 +34,7 @@ namespace Game.Testing
             QuestManager.OnQuestUpdated -= Refresh;
             PlayerUIState.OnLockChanged -= HandleLockChanged;
 
-            TutorialGate.RequiredAction = null;
+            Hide();
         }
 
         private void Start() => Refresh();
@@ -51,7 +51,7 @@ namespace Game.Testing
 
             foreach (var quest in QuestManager.Instance.GetActiveQuests())
             {
-                if (!quest.HasTutorialStep) continue;
+                if (!quest.IsGuidedSequence) continue;
 
                 var step = quest.CurrentStep;
                 if (step == null) continue;
@@ -71,14 +71,13 @@ namespace Game.Testing
 
         private void Show(string text, TutorialActionId requiredAction)
         {
-            if (panel != null) panel.SetActive(true);
-            if (promptText != null) promptText.text = text;
+            NotificationManager.ShowPersistent(text);
             TutorialGate.RequiredAction = requiredAction;
         }
 
         private void Hide()
         {
-            if (panel != null) panel.SetActive(false);
+            NotificationManager.ClearPersistent();
             TutorialGate.RequiredAction = null;
         }
     }

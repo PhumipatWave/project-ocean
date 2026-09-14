@@ -22,7 +22,11 @@ namespace Game.Testing
         Reject
     }
 
-    /// <summary>Runtime copy of one QuestStepData checkpoint, with its own live counter.</summary>
+    /// <summary>
+    /// Runtime copy of one QuestStepData checkpoint, with its own live counter. Each step
+    /// is self-contained: its own in-progress/turn-in dialogue and its own reward, paid
+    /// when THIS step completes.
+    /// </summary>
     public class QuestStep
     {
         public QuestType Type;
@@ -33,7 +37,50 @@ namespace Game.Testing
         public string StepDescription;
         public int CurrentCount;
 
+        // Just the id — name/avatar are synced from it (e.g. via NPCInteract in the scene),
+        // not duplicated here.
+        public string NpcId;
+
+        /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
+        public bool IsGuidedSequence;
+
+        private Dictionary<(string characterId, DialogueType type), string[]> dialogue;
+
+        public string RewardItemId;
+        public int RewardMoney;
+
         public bool IsComplete => CurrentCount >= TargetCount;
+
+        public void SetDialogue(List<QuestDialogueLine> lines)
+        {
+            dialogue = new Dictionary<(string, DialogueType), string[]>();
+            if (lines == null)
+                return;
+
+            foreach (var line in lines)
+                dialogue[(line.characterId ?? "", line.type)] = line.lines ?? System.Array.Empty<string>();
+        }
+
+        /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
+        public string[] GetLines(string characterId, DialogueType type) =>
+            dialogue != null && dialogue.TryGetValue((characterId ?? "", type), out var lines)
+                ? lines
+                : System.Array.Empty<string>();
+
+        public string GetLine(string characterId, DialogueType type, int index = 0)
+        {
+            var lines = GetLines(characterId, type);
+            return index >= 0 && index < lines.Length ? lines[index] : string.Empty;
+        }
+
+        // Convenience for consumers that don't track their own character id (e.g. QuestDetailPanel) —
+        // resolves against this step's own assigned NPC.
+        public string[] QuestDialogue => GetLines(NpcId, DialogueType.Offer);
+        public string QuestionInProgress => GetLine(NpcId, DialogueType.InProgress);
+        public string AnswerFinish => GetLine(NpcId, DialogueType.Finish);
+        public string AnswerNotFinish => GetLine(NpcId, DialogueType.NotFinish);
+        public string AnswerAccept => GetLine(NpcId, DialogueType.Accept);
+        public string AnswerReject => GetLine(NpcId, DialogueType.Reject);
     }
 
     [System.Serializable]
@@ -61,10 +108,10 @@ namespace Game.Testing
 
         // ── Checkpoints ──
         // A quest is a sequence of steps; only the current one accumulates progress.
-        // Type/TargetEnemyId/TargetCount/CompletionMode/CurrentCount below all proxy
-        // to CurrentStep, so every existing caller (QuestManager, UI) that reads a
-        // "quest's" type/target/progress automatically reads its active checkpoint
-        // without needing to know steps exist.
+        // Type/TargetEnemyId/TutorialAction/CompletionMode are deliberately NOT exposed
+        // here — read them via CurrentStep so it's obvious at the call site that they're
+        // the active checkpoint's, not some fixed quest-level fact. TargetCount/CurrentCount
+        // stay as quest-level conveniences since they're purely for progress display.
         private List<QuestStep> steps = new();
 
         [SerializeField]
@@ -82,11 +129,7 @@ namespace Game.Testing
 
         public string StepDescription => CurrentStep?.StepDescription;
 
-        public QuestType Type => CurrentStep.Type;
-        public string TargetEnemyId => CurrentStep.TargetEnemyId;
-        public TutorialActionId TutorialAction => CurrentStep.TutorialAction;
         public int TargetCount => CurrentStep.TargetCount;
-        public QuestCompletionMode CompletionMode => CurrentStep.CompletionMode;
 
         public int CurrentCount
         {
@@ -98,74 +141,27 @@ namespace Game.Testing
 
         public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
 
-        /// <summary>
-        /// True if any step anywhere in this quest's chain is Tutorial-typed — marks the
-        /// whole quest as a guided sequence, so a later Talk (or other) step in the same
-        /// chain still gets the teaching prompt, even though that step itself isn't Tutorial.
-        /// A quest with no Tutorial step at all (a normal standalone Talk/KillCount/etc.
-        /// quest) is never treated as guided.
-        /// </summary>
-        public bool HasTutorialStep => steps.Exists(s => s.Type == QuestType.Tutorial);
+        // Sourced from the current checkpoint — no quest-level guided flag. Each step
+        // can be guided independently (e.g. a Tutorial step guided, a later KillCount
+        // step not).
+        public bool IsGuidedSequence => CurrentStep?.IsGuidedSequence ?? false;
+
+        /// <summary>What to do to NextQuestIds' quests when this one reaches Finish.</summary>
+        public NextQuestMode NextQuestMode { get; private set; }
+        public List<int> NextQuestIds { get; private set; }
 
         [SerializeField]
         private string questName;
         public string QuestName => questName;
 
         [SerializeField]
-        private string questDetail;
-        public string QuestDetail => questDetail;
-
-        [SerializeField]
         private string questItemId;
         public string QuestItemId => questItemId;
 
-        [SerializeField]
-        private string[] questDialogue;
-        public string[] QuestDialogue => questDialogue;
+        // Sourced from the current checkpoint — no quest-level NPC data. Just the id;
+        // name/avatar are synced from it, not stored on the quest.
+        public string NpcId => CurrentStep?.NpcId;
 
-        [SerializeField]
-        private string[] answerNext;
-        public string[] AnswerNext => answerNext;
-
-        [SerializeField]
-        private string answerAccept;
-        public string AnswerAccept => answerAccept;
-
-        [SerializeField]
-        private string answerReject;
-        public string AnswerReject => answerReject;
-
-        [SerializeField]
-        private string rewardItemId;
-        public string RewardItemId => rewardItemId;
-
-        [SerializeField]
-        private int rewardExp;
-        public int RewardExp => rewardExp;
-
-        [SerializeField]
-        private int rewardMoney;
-        public int RewardMoney => rewardMoney;
-
-        [SerializeField]
-        private string questionInProgress;
-        public string QuestionInProgress => questionInProgress;
-
-        [SerializeField]
-        private string answerFinish;
-        public string AnswerFinish => answerFinish;
-
-        [SerializeField]
-        private string answerNotFinish;
-        public string AnswerNotFinish => answerNotFinish;
-
-        [Header("NPCName")]
-        private string npcName;
-        public string NpcName => npcName;
-
-        private Sprite npcAvatar;
-        public Sprite NpcAvatar => npcAvatar;
-        public Sprite fishSprite;
         public Quest(QuestData questData)
         {
             questId = questData.questId;
@@ -177,69 +173,45 @@ namespace Game.Testing
             status = questData.status;
 
             questName = questData.questName;
-            questDetail = questData.questDetail;
             questItemId = questData.questItemId;
 
-            questDialogue = questData.questDialogue;
-            answerNext = questData.answerNext;
-
-            answerAccept = questData.answerAccept;
-            answerReject = questData.answerReject;
-
-            rewardItemId = questData.rewardItemId;
-            rewardExp = questData.rewardExp;
-            rewardMoney = questData.rewardMoney;
-
-            questionInProgress = questData.questionInProgress;
-            answerFinish = questData.answerFinish;
-            answerNotFinish = questData.answerNotFinish;
-
-            npcName = questData.npcName;
-            npcAvatar = questData.npcAvatar;
-            fishSprite = questData.fishSprite;
+            NextQuestMode = questData.nextQuestMode;
+            NextQuestIds = questData.nextQuestIds ?? new List<int>();
 
             steps = BuildSteps(questData);
             currentStepIndex = 0;
         }
 
-        /// <summary>
-        /// Uses the authored Steps list if present; otherwise synthesizes a single
-        /// step from the legacy flat type/targetEnemyId/targetCount/completionMode
-        /// fields, so existing single-objective QuestData assets keep working unchanged.
-        /// </summary>
+        /// <summary>Builds the runtime step list from QuestData's authored Steps.</summary>
         private static List<QuestStep> BuildSteps(QuestData questData)
         {
             var list = new List<QuestStep>();
 
-            if (questData.steps != null && questData.steps.Count > 0)
+            if (questData.steps == null)
+                return list;
+
+            foreach (var s in questData.steps)
             {
-                foreach (var s in questData.steps)
+                var step = new QuestStep
                 {
-                    list.Add(new QuestStep
-                    {
-                        Type = s.type,
-                        TargetEnemyId = s.targetEnemyId,
-                        TutorialAction = s.tutorialAction,
-                        TargetCount = s.targetCount,
-                        CompletionMode = s.completionMode,
-                        StepDescription = s.stepDescription,
-                        CurrentCount = 0,
-                    });
-                }
-            }
-            else
-            {
-                list.Add(new QuestStep
-                {
-                    Type = questData.type,
-                    TargetEnemyId = questData.targetEnemyId,
-                    TutorialAction = questData.tutorialAction,
-                    TargetCount = questData.targetCount,
-                    CompletionMode = questData.completionMode,
-                    StepDescription = questData.questDetail,
+                    Type = s.type,
+                    TargetEnemyId = s.targetEnemyId,
+                    TutorialAction = s.tutorialAction,
+                    TargetCount = s.targetCount,
+                    CompletionMode = s.completionMode,
+                    StepDescription = s.stepDescription,
                     CurrentCount = 0,
-                });
+                    NpcId = s.npcId,
+                    IsGuidedSequence = s.isGuidedSequence,
+                    RewardItemId = s.rewardItemId,
+                    RewardMoney = s.rewardMoney,
+                };
+                step.SetDialogue(s.dialogue);
+                list.Add(step);
             }
+
+            if (list.Count == 0)
+                Debug.LogWarning($"[Quest] '{questData.name}' has no Steps authored — it will have no objective.");
 
             return list;
         }

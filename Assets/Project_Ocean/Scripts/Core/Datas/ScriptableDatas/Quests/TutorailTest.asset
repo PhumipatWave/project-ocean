@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 4
   classification: 0
-  npcName: 
-  npcAvatar: {fileID: 0}
-  fishSprite: {fileID: 0}
   questId: 0
   status: 1
+  nextQuestMode: 0
+  nextQuestIds: 
   steps:
   - type: 4
     targetEnemyId: 
@@ -26,27 +25,42 @@ MonoBehaviour:
     targetCount: 1
     completionMode: 0
     stepDescription: Press W A S D key to Move
+    npcId: 
+    dialogue: []
+    isGuidedSequence: 1
+    rewardItemId: 
+    rewardMoney: 0
   - type: 3
     targetEnemyId: Hunter
     tutorialAction: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
-  type: 4
-  targetEnemyId: 
-  tutorialAction: 0
-  targetCount: 1
-  completionMode: 0
+    npcId: hunter
+    dialogue:
+    - characterId: hunter
+      type: 0
+      lines:
+      - Hunter Test
+      - Hunter give quest
+    isGuidedSequence: 0
+    rewardItemId: 
+    rewardMoney: 0
+  - type: 3
+    targetEnemyId: Player
+    tutorialAction: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    npcId: Player
+    dialogue:
+    - characterId: player
+      type: 0
+      lines:
+      - "\u201CYou used to be an office worker that quit your job to go to this island
+        because you think diving in the ocean is pretty cool\u201D"
+    isGuidedSequence: 0
+    rewardItemId: 
+    rewardMoney: 0
   questName: 
-  questDetail: 
   questItemId: 
-  questDialogue: []
-  answerNext: []
-  answerAccept: 
-  answerReject: 
-  rewardItemId: 
-  rewardExp: 0
-  rewardMoney: 0
-  questionInProgress: 
-  answerFinish: 
-  answerNotFinish: 

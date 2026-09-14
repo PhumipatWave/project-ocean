@@ -15,13 +15,15 @@ namespace Game.Testing
         public void Setup(Quest quest)
         {
             if (titleText != null) titleText.text = quest.QuestName;
-            if (questNameText != null) questNameText.text = quest.QuestDetail;
+            if (questNameText != null) questNameText.text = quest.StepDescription;
             if (progressText != null) progressText.text = quest.TrackerText;
 
+            // รูป NPC — resolved live from NPCManager by id, not stored on the quest.
             if (npcAvatarImage != null)
             {
-                npcAvatarImage.sprite = quest.NpcAvatar;
-                npcAvatarImage.enabled = quest.NpcAvatar != null;
+                Sprite avatar = NPCManager.Instance?.GetNpcAvatar(quest.NpcId);
+                npcAvatarImage.sprite = avatar;
+                npcAvatarImage.enabled = avatar != null;
             }
 
             if (targetImage != null)

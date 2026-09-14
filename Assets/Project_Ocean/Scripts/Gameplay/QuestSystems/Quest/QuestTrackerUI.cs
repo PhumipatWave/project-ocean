@@ -53,14 +53,16 @@ namespace Game.Testing
             }
 
             titleText.text     = activeQuest.QuestName;
-            questNameText.text = activeQuest.QuestDetail;
+            questNameText.text = activeQuest.StepDescription;
             progressText.text  = activeQuest.TrackerText;
             cancelButton.SetActive(true);
 
+            // รูป NPC — resolved live from NPCManager by id, not stored on the quest.
             if (npcAvatarImage != null)
             {
-                npcAvatarImage.sprite  = activeQuest.NpcAvatar;
-                npcAvatarImage.enabled = activeQuest.NpcAvatar != null;
+                Sprite avatar = NPCManager.Instance?.GetNpcAvatar(activeQuest.NpcId);
+                npcAvatarImage.sprite = avatar;
+                npcAvatarImage.enabled = avatar != null;
             }
 
             if (targetImage != null)

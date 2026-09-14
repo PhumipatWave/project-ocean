@@ -39,9 +39,9 @@ namespace Game.Testing
 
             // ผูกข้อมูลตรงจากตัวแปรในคลาส Quest เดิมของคุณทั้งหมด
             if (titleText != null) titleText.text = quest.QuestName;
-            if (descriptionText != null) descriptionText.text = quest.QuestDetail;
-            if (acceptButtonText != null) acceptButtonText.text = quest.AnswerAccept;
-            if (rejectButtonText != null) rejectButtonText.text = quest.AnswerReject;
+            if (descriptionText != null) descriptionText.text = quest.StepDescription;
+            if (acceptButtonText != null) acceptButtonText.text = quest.CurrentStep.AnswerAccept;
+            if (rejectButtonText != null) rejectButtonText.text = quest.CurrentStep.AnswerReject;
 
             if (itemImage != null)
             {

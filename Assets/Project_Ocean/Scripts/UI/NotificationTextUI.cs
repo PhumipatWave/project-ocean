@@ -15,6 +15,12 @@ namespace Game.Testing
     /// current toast has fully disappeared. This prevents spam-clicking a
     /// single action from queuing up a long chain of toasts.
     ///
+    /// Also handles NotificationManager's persistent channel (ShowPersistent/
+    /// ClearPersistent — e.g. a tutorial prompt): a persistent message shows
+    /// immediately and stays up (no auto-hide) until cleared, and takes priority
+    /// over transient toasts — a Notify() that arrives while persistent is active
+    /// is dropped rather than interrupting it.
+    ///
     /// Put this on a UI GameObject with a CanvasGroup + TextMeshProUGUI, ideally
     /// on a persistent HUD canvas.
     /// </summary>
@@ -27,8 +33,9 @@ namespace Game.Testing
         [SerializeField] private float fadeDuration  = 0.4f;
 
         private Coroutine _activeRoutine;
+        private bool _persistentActive;
 
-        /// <summary>True while a notification is visible or mid-fade. New triggers are ignored until this clears.</summary>
+        /// <summary>True while a toast is visible or mid-fade. New toast triggers are ignored until this clears.</summary>
         private bool IsShowing => _activeRoutine != null;
 
         private void Awake()
@@ -36,16 +43,50 @@ namespace Game.Testing
             if (canvasGroup != null) canvasGroup.alpha = 0f;
         }
 
-        private void OnEnable()  => NotificationManager.OnNotify += HandleNotify;
-        private void OnDisable() => NotificationManager.OnNotify -= HandleNotify;
+        private void OnEnable()
+        {
+            NotificationManager.OnNotify += HandleNotify;
+            NotificationManager.OnPersistentChanged += HandlePersistentChanged;
+        }
+
+        private void OnDisable()
+        {
+            NotificationManager.OnNotify -= HandleNotify;
+            NotificationManager.OnPersistentChanged -= HandlePersistentChanged;
+        }
 
         private void HandleNotify(string message)
         {
+            // A persistent message (e.g. tutorial prompt) always wins — a transient
+            // toast arriving during one is dropped rather than interrupting it.
+            if (_persistentActive) return;
+
             // Ignore spam triggers while a notification is already showing/fading —
             // the next one is only accepted after the current one fully disappears.
             if (IsShowing) return;
 
             _activeRoutine = StartCoroutine(ToastRoutine(message));
+        }
+
+        private void HandlePersistentChanged(string message)
+        {
+            _persistentActive = !string.IsNullOrEmpty(message);
+
+            if (_activeRoutine != null)
+            {
+                StopCoroutine(_activeRoutine);
+                _activeRoutine = null;
+            }
+
+            if (_persistentActive)
+            {
+                if (messageText != null) messageText.text = message;
+                if (canvasGroup != null) canvasGroup.alpha = 1f;
+            }
+            else if (canvasGroup != null)
+            {
+                canvasGroup.alpha = 0f;
+            }
         }
 
         private IEnumerator ToastRoutine(string message)

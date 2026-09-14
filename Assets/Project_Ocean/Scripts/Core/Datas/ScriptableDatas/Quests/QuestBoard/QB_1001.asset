@@ -14,27 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 0
   classification: 1
-  npcName: QuestBoard
-  npcAvatar: {fileID: 21300000, guid: d1eba59f85e792443b24b75557ea685d, type: 3}
-  fishSprite: {fileID: 0}
   questId: 1001
   status: 0
-  steps: []
-  type: 1
-  targetEnemyId: fishS
-  tutorialAction: 0
-  targetCount: 3
-  completionMode: 0
+  steps:
+  - type: 1
+    targetEnemyId: fishS
+    tutorialAction: 0
+    targetCount: 3
+    completionMode: 0
+    stepDescription: 'Kill Fish Size S : 3'
+    npcId: questboard
+    dialogue:
+    - characterId: questboard
+      type: 4
+      lines:
+      - Yes
+    - characterId: questboard
+      type: 5
+      lines:
+      - No
+    rewardItemId:
+    rewardMoney: 50
   questName: '[Quest01]'
-  questDetail: 'Kill Fish Size S : 3'
   questItemId: 31003
-  questDialogue: []
-  answerNext: []
-  answerAccept: Yes
-  answerReject: No
-  rewardItemId: 
-  rewardExp: 0
-  rewardMoney: 50
-  questionInProgress: 
-  answerFinish: 
-  answerNotFinish: 

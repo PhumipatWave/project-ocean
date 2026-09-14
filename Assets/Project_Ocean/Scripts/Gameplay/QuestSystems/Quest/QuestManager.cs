@@ -60,120 +60,127 @@ namespace Game.Testing
             Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
-        /// <summary>
-        /// Routes a kill to every active InProgress KillCount quest whose target
-        /// matches the dead enemy's id. AddProgress handles the threshold + status flip
-        /// (Finish for AutoComplete, ReadyToTurnIn for ReadyToHandIn).
-        /// </summary>
         private void HandleEnemyKilled(string enemyId)
         {
-            Debug.Log($"Quest Received Kill : {enemyId}");
-
-            if (string.IsNullOrEmpty(enemyId))
-                return;
-
-            foreach (var q in activeQuestList)
-            {
-                Debug.Log($"Quest Target : {q.TargetEnemyId}");
-
-                if (q.Type != QuestType.KillCount)
-                    continue;
-
-                if (q.Status != QuestStatus.InProgress)
-                    continue;
-
-                if (q.TargetEnemyId != enemyId)
-                {
-                    Debug.Log("Target Not Match");
-                    continue;
-                }
-
-                Debug.Log("Target Match");
-
-                bool justCompleted = q.AddProgress(1);
-
-                Debug.Log($"Progress : {q.CurrentCount}/{q.TargetCount}");
-
-                OnQuestUpdated?.Invoke();
-
-                if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
-                {
-                    RemoveQuestItems(q);
-
-                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
-
-                    if (q.RewardMoney > 0)
-                    {
-                        OnMoneyRewarded?.Invoke(q.RewardMoney);
-                        Debug.Log($"[QuestManager] (AutoComplete) จ่ายเงินรางวัล: +{q.RewardMoney} บาท");
-                    }
-                }
-            }
+            if (!string.IsNullOrEmpty(enemyId))
+                TryProgress(QuestType.KillCount, step => step.TargetEnemyId == enemyId);
         }
 
-        /// <summary>
-        /// Routes a generic tutorial action (e.g. Move, Interact) to every InProgress
-        /// quest whose current checkpoint is a Tutorial step targeting that action.
-        /// Same routing shape as HandleEnemyKilled, keyed on TutorialEvents instead of kills.
-        /// </summary>
-        private void HandleTutorialAction(TutorialActionId actionId)
-        {
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress)
-                    continue;
+        private void HandleTutorialAction(TutorialActionId actionId) =>
+            TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
 
-                if (q.Type != QuestType.Tutorial)
-                    continue;
-
-                if (q.TutorialAction != actionId)
-                    continue;
-
-                CompleteProgress(q);
-            }
-        }
-
-        /// <summary>
-        /// Routes an NPC interaction to every InProgress quest whose current checkpoint
-        /// is a Talk step targeting that specific NPC (TargetEnemyId reused as the npcId).
-        /// Talking to any other NPC/interactable doesn't progress it — same as killing
-        /// the wrong enemy doesn't progress a KillCount quest.
-        /// </summary>
+        /// <summary>Talk steps reuse TargetEnemyId as the npcId being matched.</summary>
         private void HandleNpcTalk(string npcId)
         {
-            if (string.IsNullOrEmpty(npcId))
-                return;
+            if (!string.IsNullOrEmpty(npcId))
+                TryProgress(QuestType.Talk, step => step.TargetEnemyId == npcId);
+        }
 
+        /// <summary>
+        /// Routes an event to every InProgress quest whose current checkpoint is of the
+        /// given type and whose target matches. Shared by HandleEnemyKilled/HandleTutorialAction/
+        /// HandleNpcTalk — they differ only in which step type and which field they match on.
+        /// </summary>
+        private void TryProgress(QuestType type, Func<QuestStep, bool> targetMatches)
+        {
             foreach (var q in activeQuestList)
             {
                 if (q.Status != QuestStatus.InProgress)
                     continue;
 
-                if (q.Type != QuestType.Talk)
+                var step = q.CurrentStep;
+                if (step == null || step.Type != type)
                     continue;
 
-                if (q.TargetEnemyId != npcId)
+                if (!targetMatches(step))
                     continue;
 
                 CompleteProgress(q);
             }
         }
 
+        /// <summary>
+        /// Each checkpoint pays its own reward the moment IT completes — not just the
+        /// quest's final step — so a quest can pay out incrementally per checkpoint.
+        /// Exception: a final step set to ReadyToHandIn pays nothing here — its reward
+        /// waits for TurnInQuest, same as before, so it isn't paid twice.
+        /// </summary>
         private void CompleteProgress(Quest q)
         {
+            var completedStep = q.CurrentStep;
+
             bool justCompleted = q.AddProgress(1);
 
             OnQuestUpdated?.Invoke();
 
-            if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
+            // Moved on to a new checkpoint (as opposed to just ticking progress on the
+            // same one, or finishing the quest outright) — announce its description.
+            if (!justCompleted && q.CurrentStep != completedStep)
+                NotifyStepDescription(q);
+
+            if (justCompleted)
             {
-                RemoveQuestItems(q);
+                if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
+                {
+                    RemoveQuestItems(q);
+                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
 
-                NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    if (completedStep.RewardMoney > 0)
+                        OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
 
-                if (q.RewardMoney > 0)
-                    OnMoneyRewarded?.Invoke(q.RewardMoney);
+                    HandleNextQuest(q);
+                }
+                // else ReadyToHandIn: reward + next-quest handoff happen in TurnInQuest.
             }
+            else if (completedStep.RewardMoney > 0)
+            {
+                OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
+                NotificationManager.Notify($"+{completedStep.RewardMoney}");
+            }
+        }
+
+        private const float StepDescriptionNotifyDelay = 1.5f;
+
+        /// <summary>Toasts the current checkpoint's Step Description (after a short delay), if one is authored.</summary>
+        private void NotifyStepDescription(Quest q)
+        {
+            if (!string.IsNullOrEmpty(q.StepDescription))
+                StartCoroutine(NotifyStepDescriptionDelayed(q.StepDescription));
+        }
+
+        private System.Collections.IEnumerator NotifyStepDescriptionDelayed(string description)
+        {
+            yield return new WaitForSeconds(StepDescriptionNotifyDelay);
+            NotificationManager.Notify(description);
+        }
+
+        /// <summary>
+        /// If this quest's own NextQuestMode is AutoAccept, immediately accept every
+        /// quest in its NextQuestIds. Unlock needs no action here — IsUnlocked already
+        /// re-evaluates live off this quest's Status, so each successor just stops
+        /// being locked.
+        /// </summary>
+        private void HandleNextQuest(Quest q)
+        {
+            if (q.NextQuestMode != NextQuestMode.AutoAccept)
+                return;
+
+            foreach (var id in q.NextQuestIds)
+                AcceptQuest(id);
+        }
+
+        /// <summary>
+        /// A quest is locked if some OTHER quest's NextQuestIds contains it (with mode
+        /// Unlock or AutoAccept) and that other quest hasn't reached Finish yet. A quest
+        /// nothing points to is always unlocked. Rejecting the prerequisite does NOT
+        /// unlock the successor — only an actual Finish counts.
+        /// </summary>
+        public bool IsUnlocked(Quest quest)
+        {
+            return !activeQuestList.Exists(other =>
+                other.NextQuestMode != NextQuestMode.None &&
+                other.NextQuestIds.Contains(quest.QuestID) &&
+                other.Status != QuestStatus.Finish);
         }
 
         // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ (เช่น เควสใหม่ที่ยังไม่ได้ทำ)
@@ -185,7 +192,8 @@ namespace Game.Testing
         {
             return activeQuestList.FindAll(q =>
                 q.Category == category &&
-                q.Status == QuestStatus.New
+                q.Status == QuestStatus.New &&
+                IsUnlocked(q)
             );
         }
 
@@ -288,6 +296,8 @@ namespace Game.Testing
 
             // รับ Quest
             quest.Status = QuestStatus.InProgress;
+
+            NotifyStepDescription(quest);
 
             OnQuestUpdated?.Invoke();
 
@@ -405,11 +415,14 @@ namespace Game.Testing
 
             NotificationManager.Notify($"Quest complete: {quest.QuestName}");
 
-            if (quest.RewardMoney > 0)
+            var finalStepReward = quest.CurrentStep.RewardMoney;
+            if (finalStepReward > 0)
             {
-                OnMoneyRewarded?.Invoke(quest.RewardMoney);
-                Debug.Log($"[QuestManager] Completing quests: +{quest.RewardMoney} $");
+                OnMoneyRewarded?.Invoke(finalStepReward);
+                Debug.Log($"[QuestManager] Completing quests: +{finalStepReward} $");
             }
+
+            HandleNextQuest(quest);
 
             OnQuestUpdated?.Invoke();
             return true;

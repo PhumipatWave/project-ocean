@@ -44,13 +44,13 @@ namespace Game.Testing
             // รายละเอียด Quest
             if (questDescriptionText != null)
             {
-                questDescriptionText.text = quest.QuestDetail;
+                questDescriptionText.text = quest.StepDescription;
             }
 
-            // ชื่อ NPC
+            // ชื่อ NPC — resolved live from NPCManager by id, not stored on the quest.
             if (npcNameText != null)
             {
-                npcNameText.text = quest.NpcName;
+                npcNameText.text = NPCManager.Instance?.GetNpcName(quest.NpcId);
             }
 
             // =========================
@@ -64,18 +64,19 @@ namespace Game.Testing
                 fishImage.enabled = sprite != null;
             }
 
-            // รูป NPC
+            // รูป NPC — resolved live from NPCManager by id, not stored on the quest.
             if (npcAvatarImage != null)
             {
-                npcAvatarImage.sprite = quest.NpcAvatar;
-                npcAvatarImage.enabled = quest.NpcAvatar != null;
+                Sprite avatar = NPCManager.Instance?.GetNpcAvatar(quest.NpcId);
+                npcAvatarImage.sprite = avatar;
+                npcAvatarImage.enabled = avatar != null;
             }
 
-            // รางวัล
+            // รางวัล — preview shows the first step's reward (board quests are single-step today)
             if (rewardText != null)
             {
                 rewardText.text =
-                    "Reward: " + quest.RewardMoney;
+                    "Reward: " + quest.CurrentStep.RewardMoney;
             }
         }
 

@@ -15,7 +15,7 @@ namespace Game.Testing
         }
     }
 
-    public class NPCInteract : MonoBehaviour
+    public class NPC : MonoBehaviour
     {
         [Header("NPC Settings")]
         [SerializeField] private bool hasQuest;
@@ -24,6 +24,7 @@ namespace Game.Testing
         [SerializeField] private string npcId;
 
         [Header("Normal Dialogue")]
+        [SerializeField] private string npcName;
         [TextArea(3, 10)]
         [SerializeField] private string npcDialogue = "...";
         [SerializeField] private Sprite npcPortrait;
@@ -38,11 +39,18 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI dialogueText;
         [SerializeField] private Image npcAvatarImage;
 
+        public string NpcId => npcId;
+        public string NpcName => npcName;
+        public Sprite NpcPortrait => npcPortrait;
+
         private Quest npcQuest;
         private int currentDialogueIndex;
         private bool isConversing;
         private bool isUIOpen;
         private InteractUI interactUI;
+
+        private void OnEnable() => NPCManager.Instance?.Register(this);
+        private void OnDisable() => NPCManager.Instance?.Unregister(this);
 
         private void Start()
         {
@@ -105,6 +113,11 @@ namespace Game.Testing
             if (npcQuest == null)
                 return;
 
+            // A New quest with an unfinished prerequisite isn't offered yet.
+            if (npcQuest.Status == QuestStatus.New &&
+                QuestManager.Instance != null && !QuestManager.Instance.IsUnlocked(npcQuest))
+                return;
+
             isConversing = true;
             currentDialogueIndex = 0;
 
@@ -113,11 +126,14 @@ namespace Game.Testing
 
             isUIOpen = true;
 
+            // Show THIS physical NPC's own identity, not the quest's — several NPCs can
+            // share one targetQuestId (e.g. different Talk steps of the same quest), and
+            // each should be labeled as themselves when the player talks to them.
             if (npcNameText != null)
-                npcNameText.text = npcQuest.NpcName;
+                npcNameText.text = npcName;
 
-            if (npcAvatarImage != null && npcQuest.NpcAvatar != null)
-                npcAvatarImage.sprite = npcQuest.NpcAvatar;
+            if (npcAvatarImage != null && npcPortrait != null)
+                npcAvatarImage.sprite = npcPortrait;
 
             ShowDialogueText();
         }
@@ -130,17 +146,17 @@ namespace Game.Testing
             switch (npcQuest.Status)
             {
                 case QuestStatus.New:
-                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex];
+                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Offer, currentDialogueIndex);
                     break;
                 case QuestStatus.InProgress:
-                    dialogueText.text = npcQuest.QuestionInProgress;
+                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.InProgress);
                     break;
                 // FIX 1: ReadyToTurnIn was missing — caused blank dialogue on Turn In attempt
                 case QuestStatus.ReadyToTurnIn:
-                    dialogueText.text = npcQuest.AnswerFinish;
+                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish);
                     break;
                 case QuestStatus.Finish:
-                    dialogueText.text = npcQuest.AnswerFinish;
+                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish);
                     break;
                 case QuestStatus.Reject:
                     dialogueText.text = "?";
@@ -153,8 +169,9 @@ namespace Game.Testing
             if (npcQuest.Status == QuestStatus.New)
             {
                 currentDialogueIndex++;
-                if (currentDialogueIndex < npcQuest.QuestDialogue.Length)
-                    dialogueText.text = npcQuest.QuestDialogue[currentDialogueIndex];
+                var offerLines = npcQuest.CurrentStep.GetLines(npcId, DialogueType.Offer);
+                if (currentDialogueIndex < offerLines.Length)
+                    dialogueText.text = offerLines[currentDialogueIndex];
                 else
                 {
                     CloseDialogue();
