@@ -8,11 +8,12 @@ namespace Game.Testing
     /// <summary>
     /// Shows the right target field for the step's type: the TutorialActionId dropdown
     /// for Tutorial steps (pick an action, don't type a matching string), a "Target NPC
-    /// Id" text field for Talk steps, and "Target Enemy Id" for KillCount/Delivery/ExploreArea.
-    /// NPC + dialogue are per-step (tucked behind a foldout, since most steps are the
-    /// generic case and don't need them expanded) — each checkpoint is self-contained:
-    /// its own speaker, its own dialogue lines (keyed by character id + DialogueType),
-    /// and its own payout, paid when that step completes.
+    /// Id" text field for Talk steps (also the step's default dialogue speaker — see
+    /// QuestStep.EffectiveNpcId), and "Target Enemy Id" for KillCount/Delivery/ExploreArea.
+    /// Dialogue is per-step (tucked behind a foldout, since most steps are the generic
+    /// case and don't need it expanded) — each checkpoint is self-contained: its own
+    /// dialogue lines (keyed by character id + DialogueType), and its own payout, paid
+    /// when that step completes.
     ///
     /// The dialogue list uses a ReorderableList rather than the default array GUI: each
     /// entry has a nested "lines" array of variable size, and Unity's default array-of-array
@@ -64,7 +65,6 @@ namespace Game.Testing
             var isGuidedSequenceProp = property.FindPropertyRelative("isGuidedSequence");
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
 
-            var npcIdProp = property.FindPropertyRelative("npcId");
             var dialogueProp = property.FindPropertyRelative("dialogue");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
@@ -99,15 +99,12 @@ namespace Game.Testing
             rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
 
             rect.height = EditorGUIUtility.singleLineHeight;
-            property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, "NPC & Dialogue", true);
+            property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, "Dialogue & Reward", true);
             rect.y += lineHeight;
 
             if (property.isExpanded)
             {
                 EditorGUI.indentLevel++;
-
-                EditorGUI.PropertyField(rect, npcIdProp, new GUIContent("Npc Id"));
-                rect.y += lineHeight;
 
                 var dialogueList = GetDialogueList(dialogueProp);
                 rect.height = dialogueList.GetHeight();
@@ -140,7 +137,6 @@ namespace Game.Testing
             {
                 var dialogueProp = property.FindPropertyRelative("dialogue");
 
-                height += lineHeight; // npcId
                 height += GetDialogueList(dialogueProp).GetHeight() + EditorGUIUtility.standardVerticalSpacing;
                 height += lineHeight * 2; // rewardItemId, rewardMoney
             }

@@ -18,8 +18,6 @@ namespace Game.Testing
     public class NPC : MonoBehaviour
     {
         [Header("NPC Settings")]
-        [SerializeField] private bool hasQuest;
-
         [Tooltip("Stable id for this NPC, matched by Talk-type quest steps (Target NPC Id). Leave blank if no quest ever needs to target this specific NPC.")]
         [SerializeField] private string npcId;
 
@@ -30,8 +28,15 @@ namespace Game.Testing
         [SerializeField] private Sprite npcPortrait;
 
         [Header("Quest Settings")]
-        [SerializeField] private int targetQuestId;
+        [Tooltip("Leave empty for an NPC with no quest — falls back to plain dialogue.")]
+        [SerializeField] private QuestData targetQuest;
         [SerializeField] private QuestDetailPanel questDetailPanel;
+
+        // A Main quest's Talk step targeting this NPC (from ANY active quest) counts even
+        // if this NPC has no targetQuest of its own — see ResolveActiveQuest.
+        private bool HasQuest =>
+            targetQuest != null ||
+            (QuestManager.Instance != null && QuestManager.Instance.GetMainQuestTalkQuest(npcId) != null);
 
         [Header("Dialogue UI")]
         [SerializeField] private GameObject dialoguePanel;
@@ -56,19 +61,33 @@ namespace Game.Testing
         {
             interactUI = GetComponent<InteractUI>();
 
-            if (hasQuest && QuestManager.Instance != null)
-                npcQuest = QuestManager.Instance.GetQuestById(targetQuestId);
-
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(false);
         }
 
+        /// <summary>
+        /// Which quest this NPC currently speaks for. A Main quest's Talk step targeting
+        /// this NPC (from any active quest) takes priority over the NPC's own assigned
+        /// targetQuest — main-story dialogue always plays first, regardless of that step's
+        /// IsGuidedSequence (that flag only controls the tutorial prompt/input-lock, not
+        /// which dialogue is shown — see TutorialPromptUI). Resolved fresh each
+        /// conversation, not cached, so it stays correct as the Main quest advances.
+        /// </summary>
+        private Quest ResolveActiveQuest()
+        {
+            if (QuestManager.Instance == null)
+                return null;
+
+            var mainQuest = QuestManager.Instance.GetMainQuestTalkQuest(npcId);
+            if (mainQuest != null)
+                return mainQuest;
+
+            return targetQuest != null ? QuestManager.Instance.GetQuestById(targetQuest.questId) : null;
+        }
+
         public void Interact()
         {
-            if (!string.IsNullOrEmpty(npcId))
-                NpcEvents.RaiseNpcTalkedTo(npcId);
-
-            if (hasQuest)
+            if (HasQuest)
                 QuestInteract();
             else
                 ToggleDialogue();
@@ -76,10 +95,18 @@ namespace Game.Testing
 
         private void ToggleDialogue()
         {
-            if (dialoguePanel != null && !dialoguePanel.activeSelf)
+            bool wasOpen = dialoguePanel != null && dialoguePanel.activeSelf;
+
+            if (!wasOpen)
                 OpenDialogue();
             else
                 CloseDialogue();
+
+            // Fire only on the close (the player has now actually seen the line) — not
+            // this NPC's own quest, but another quest's (non-guided) Talk step may still
+            // be waiting on this npcId, so keep progressing that in the background.
+            if (wasOpen && !string.IsNullOrEmpty(npcId))
+                NpcEvents.RaiseNpcTalkedTo(npcId);
         }
 
         private void OpenDialogue()
@@ -110,6 +137,7 @@ namespace Game.Testing
 
         private void StartDialogue()
         {
+            npcQuest = ResolveActiveQuest();
             if (npcQuest == null)
                 return;
 
@@ -127,7 +155,7 @@ namespace Game.Testing
             isUIOpen = true;
 
             // Show THIS physical NPC's own identity, not the quest's — several NPCs can
-            // share one targetQuestId (e.g. different Talk steps of the same quest), and
+            // share one targetQuest (e.g. different Talk steps of the same quest), and
             // each should be labeled as themselves when the player talks to them.
             if (npcNameText != null)
                 npcNameText.text = npcName;
@@ -174,6 +202,12 @@ namespace Game.Testing
                     dialogueText.text = offerLines[currentDialogueIndex];
                 else
                 {
+                    // Player has now read this NPC's full greeting — other quests' Talk
+                    // steps targeting this npcId (e.g. a background tutorial step) can
+                    // progress now, same as any other "finished talking" moment below.
+                    if (!string.IsNullOrEmpty(npcId))
+                        NpcEvents.RaiseNpcTalkedTo(npcId);
+
                     CloseDialogue();
                     if (questDetailPanel != null)
                         questDetailPanel.ShowPanel(npcQuest, null);
@@ -182,6 +216,9 @@ namespace Game.Testing
             // FIX 2: ReadyToTurnIn fell into the else-CloseDialogue branch — quest never completed
             else if (npcQuest.Status == QuestStatus.ReadyToTurnIn)
             {
+                if (!string.IsNullOrEmpty(npcId))
+                    NpcEvents.RaiseNpcTalkedTo(npcId);
+
                 CloseDialogue();
                 bool success = QuestManager.Instance.TurnInQuest(npcQuest.QuestID);
                 if (!success)
@@ -189,6 +226,13 @@ namespace Game.Testing
             }
             else
             {
+                // The player has now actually seen this step's line (shown on the previous
+                // press) — only NOW does the Talk step get to progress, not the moment the
+                // conversation was opened. Harmless to raise if the quest already isn't
+                // InProgress (Finish/Reject) — QuestManager only matches InProgress quests.
+                if (!string.IsNullOrEmpty(npcId))
+                    NpcEvents.RaiseNpcTalkedTo(npcId);
+
                 CloseDialogue();
             }
         }
@@ -213,7 +257,7 @@ namespace Game.Testing
 
             CloseDialogue();
 
-            if (hasQuest && questDetailPanel != null)
+            if (HasQuest && questDetailPanel != null)
                 questDetailPanel.HidePanel();
         }
     }

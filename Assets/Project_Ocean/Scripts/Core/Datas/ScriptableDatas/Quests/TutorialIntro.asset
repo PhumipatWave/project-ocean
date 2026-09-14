@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: TutorailTest
+  m_Name: TutorialIntro
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 4
   classification: 0
-  questId: 0
+  questId: 1
   status: 1
   nextQuestMode: 0
   nextQuestIds: 
@@ -24,43 +24,24 @@ MonoBehaviour:
     tutorialAction: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: Press W A S D key to Move
-    npcId: 
+    stepDescription: Press W A S D to move
     dialogue: []
     isGuidedSequence: 1
     rewardItemId: 
     rewardMoney: 0
   - type: 3
-    targetEnemyId: Hunter
-    tutorialAction: 1
+    targetEnemyId: hunter
+    tutorialAction: 0
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
-    npcId: hunter
     dialogue:
     - characterId: hunter
-      type: 0
+      type: 1
       lines:
-      - Hunter Test
-      - Hunter give quest
+      - Nice, you found me! Let's continue your training.
     isGuidedSequence: 0
     rewardItemId: 
     rewardMoney: 0
-  - type: 3
-    targetEnemyId: Player
-    tutorialAction: 1
-    targetCount: 1
-    completionMode: 0
-    stepDescription: 
-    npcId: Player
-    dialogue:
-    - characterId: player
-      type: 0
-      lines:
-      - "\u201CYou used to be an office worker that quit your job to go to this island
-        because you think diving in the ocean is pretty cool\u201D"
-    isGuidedSequence: 0
-    rewardItemId: 
-    rewardMoney: 0
-  questName: 
+  questName: Tutorial Intro
   questItemId: 

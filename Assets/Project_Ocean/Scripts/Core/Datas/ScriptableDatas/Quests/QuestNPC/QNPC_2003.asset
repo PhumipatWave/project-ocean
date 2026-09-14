@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: QNPC_2003
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 1
+  classification: 1
   questId: 2003
   status: 0
+  nextQuestMode: 0
+  nextQuestIds: 
   steps:
   - type: 1
     targetEnemyId: fishM
@@ -22,7 +25,6 @@ MonoBehaviour:
     targetCount: 6
     completionMode: 1
     stepDescription: 'Kill fish size M : 6'
-    npcId: shop
     dialogue:
     - characterId: shop
       type: 0
@@ -50,6 +52,7 @@ MonoBehaviour:
       type: 5
       lines:
       - No
+    isGuidedSequence: 0
     rewardItemId: 0
     rewardMoney: 350
   questName: '[Shop]'

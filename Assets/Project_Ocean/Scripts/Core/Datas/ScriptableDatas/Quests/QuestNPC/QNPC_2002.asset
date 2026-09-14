@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: QNPC_2002
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 2
+  classification: 1
   questId: 2002
   status: 0
+  nextQuestMode: 0
+  nextQuestIds: 
   steps:
   - type: 1
     targetEnemyId: fishL
@@ -22,7 +25,6 @@ MonoBehaviour:
     targetCount: 2
     completionMode: 1
     stepDescription: 'Kill fish size L : 2'
-    npcId: hunter
     dialogue:
     - characterId: hunter
       type: 0
@@ -50,6 +52,7 @@ MonoBehaviour:
       type: 5
       lines:
       - No
+    isGuidedSequence: 0
     rewardItemId: 0
     rewardMoney: 500
   questName: '[Hunter]'

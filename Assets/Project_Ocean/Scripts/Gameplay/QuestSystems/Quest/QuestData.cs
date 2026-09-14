@@ -54,7 +54,7 @@ namespace Game.Testing
     [System.Serializable]
     public class QuestDialogueLine
     {
-        [Tooltip("Matches NPCInteract's npcId. Leave blank for the step's own assigned NPC.")]
+        [Tooltip("Matches an NPC's npcId. Leave blank to default to this step's Target NPC Id (Talk steps only).")]
         public string characterId;
         public DialogueType type;
         [Tooltip("Multiple entries only meaningful for Offer, which plays sequentially.")]
@@ -63,10 +63,10 @@ namespace Game.Testing
 
     /// <summary>
     /// One checkpoint inside a multi-step quest — fully self-contained: its own target,
-    /// its own NPC, its own in-progress/turn-in dialogue, and its own reward, paid when
-    /// THIS step completes (not just the quest's final step). The step's own completionMode
-    /// only controls whether finishing it (as the LAST step) auto-finishes the quest or
-    /// waits for a manual turn-in.
+    /// its own in-progress/turn-in dialogue, and its own reward, paid when THIS step
+    /// completes (not just the quest's final step). The step's own completionMode only
+    /// controls whether finishing it (as the LAST step) auto-finishes the quest or waits
+    /// for a manual turn-in.
     /// </summary>
     [System.Serializable]
     public class QuestStepData
@@ -83,10 +83,7 @@ namespace Game.Testing
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
         [TextArea(2, 4)] public string stepDescription;
 
-        [Tooltip("Matches NPCInteract's npcId — the default speaker for this checkpoint's dialogue. Name/avatar are synced from that id, not stored here.")]
-        public string npcId;
-
-        [Tooltip("Collected by (character id, dialogue type). Leave characterId blank to use this step's own npcId.")]
+        [Tooltip("Collected by (character id, dialogue type). For a Talk step, leave characterId blank to default to Target NPC Id.")]
         public List<QuestDialogueLine> dialogue = new();
 
         [Tooltip("Marks this checkpoint as a guided-sequence step — TutorialPromptUI shows/gates it (even a Talk step), not just literal Tutorial-typed ones.")]

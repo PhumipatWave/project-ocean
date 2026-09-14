@@ -37,9 +37,13 @@ namespace Game.Testing
         public string StepDescription;
         public int CurrentCount;
 
-        // Just the id — name/avatar are synced from it (e.g. via NPCInteract in the scene),
-        // not duplicated here.
-        public string NpcId;
+        /// <summary>
+        /// Default speaker for context-free dialogue lookups (board/tracker avatar,
+        /// QuestDetailPanel's Accept/Reject). Only Talk steps have one — it's just
+        /// TargetEnemyId (who you're talking to), not a separately-authored id. Other
+        /// step types (KillCount, etc.) have no default speaker.
+        /// </summary>
+        public string EffectiveNpcId => Type == QuestType.Talk ? TargetEnemyId : null;
 
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
@@ -74,13 +78,13 @@ namespace Game.Testing
         }
 
         // Convenience for consumers that don't track their own character id (e.g. QuestDetailPanel) —
-        // resolves against this step's own assigned NPC.
-        public string[] QuestDialogue => GetLines(NpcId, DialogueType.Offer);
-        public string QuestionInProgress => GetLine(NpcId, DialogueType.InProgress);
-        public string AnswerFinish => GetLine(NpcId, DialogueType.Finish);
-        public string AnswerNotFinish => GetLine(NpcId, DialogueType.NotFinish);
-        public string AnswerAccept => GetLine(NpcId, DialogueType.Accept);
-        public string AnswerReject => GetLine(NpcId, DialogueType.Reject);
+        // resolves against EffectiveNpcId (Talk steps only).
+        public string[] QuestDialogue => GetLines(EffectiveNpcId, DialogueType.Offer);
+        public string QuestionInProgress => GetLine(EffectiveNpcId, DialogueType.InProgress);
+        public string AnswerFinish => GetLine(EffectiveNpcId, DialogueType.Finish);
+        public string AnswerNotFinish => GetLine(EffectiveNpcId, DialogueType.NotFinish);
+        public string AnswerAccept => GetLine(EffectiveNpcId, DialogueType.Accept);
+        public string AnswerReject => GetLine(EffectiveNpcId, DialogueType.Reject);
     }
 
     [System.Serializable]
@@ -158,9 +162,9 @@ namespace Game.Testing
         private string questItemId;
         public string QuestItemId => questItemId;
 
-        // Sourced from the current checkpoint — no quest-level NPC data. Just the id;
-        // name/avatar are synced from it, not stored on the quest.
-        public string NpcId => CurrentStep?.NpcId;
+        // Sourced from the current checkpoint — no quest-level NPC data. Only Talk steps
+        // have one (see QuestStep.EffectiveNpcId); other step types resolve to null.
+        public string NpcId => CurrentStep?.EffectiveNpcId;
 
         public Quest(QuestData questData)
         {
@@ -201,7 +205,6 @@ namespace Game.Testing
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
-                    NpcId = s.npcId,
                     IsGuidedSequence = s.isGuidedSequence,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,

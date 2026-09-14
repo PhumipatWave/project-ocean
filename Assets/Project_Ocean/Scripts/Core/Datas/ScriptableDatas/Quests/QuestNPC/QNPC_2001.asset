@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QNPC_2001
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 1
-  classification: 0
+  classification: 1
   questId: 2001
   status: 0
   nextQuestMode: 0
@@ -25,7 +25,6 @@ MonoBehaviour:
     targetCount: 3
     completionMode: 1
     stepDescription: 'Kill fish size M : 3 '
-    npcId: peachzy
     dialogue:
     - characterId: peachzy
       type: 0
@@ -53,6 +52,7 @@ MonoBehaviour:
       type: 5
       lines:
       - No
+    isGuidedSequence: 0
     rewardItemId: 0
     rewardMoney: 200
   questName: '[Upgrade]'

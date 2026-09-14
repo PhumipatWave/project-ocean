@@ -57,7 +57,45 @@ namespace Game.Testing
                 activeQuestList.Add(new Quest(data));
             }
 
+            // A quest authored to start already InProgress (e.g. an intro tutorial) never
+            // goes through AcceptQuest — pick up the active Main quest (or any active
+            // quest) so it's tracked from the very start.
+            EnsureQuestTracked();
+
             Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
+        }
+
+        /// <summary>
+        /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
+        /// active Main quest wins if there is one — so it "stays all the time," auto-tracked
+        /// at game start and automatically re-tracked across a quest chain's hand-offs —
+        /// otherwise falls back to any other active quest. Never overrides an already-valid
+        /// tracked quest, so a player's explicit choice to track a Sub quest is left alone.
+        /// </summary>
+        private void EnsureQuestTracked()
+        {
+            if (GetTrackedQuest() != null)
+                return;
+
+            Quest fallback = null;
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress && q.Status != QuestStatus.ReadyToTurnIn)
+                    continue;
+
+                if (q.Classification == QuestClassification.MainQuest)
+                {
+                    trackedQuestId = q.QuestID;
+                    Debug.Log($"[QuestManager] Now tracking Main Quest: {q.QuestName}");
+                    return;
+                }
+
+                fallback ??= q;
+            }
+
+            trackedQuestId = fallback?.QuestID ?? -1;
+            if (fallback != null)
+                Debug.Log($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
         }
 
         private void HandleEnemyKilled(string enemyId)
@@ -137,6 +175,8 @@ namespace Game.Testing
                 OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
                 NotificationManager.Notify($"+{completedStep.RewardMoney}");
             }
+
+            EnsureQuestTracked();
         }
 
         private const float StepDescriptionNotifyDelay = 1.5f;
@@ -190,11 +230,15 @@ namespace Game.Testing
         }
         public List<Quest> GetQuestsByCategory(QuestCategory category)
         {
-            return activeQuestList.FindAll(q =>
+            var quests = activeQuestList.FindAll(q =>
                 q.Category == category &&
                 q.Status == QuestStatus.New &&
                 IsUnlocked(q)
             );
+
+            // MainQuest before SubQuest before Special — matches enum declaration order.
+            quests.Sort((a, b) => a.Classification.CompareTo(b.Classification));
+            return quests;
         }
 
 
@@ -210,6 +254,26 @@ namespace Game.Testing
         public Quest GetQuestById(int id)
         {
             return activeQuestList.Find(q => q.QuestID == id);
+        }
+
+        /// <summary>
+        /// The active quest (if any) whose CURRENT checkpoint is a Main-quest Talk step
+        /// targeting this NPC. A Main quest takes priority over whatever quest the NPC is
+        /// otherwise assigned to — main-story dialogue always wins over an NPC's own Sub
+        /// quest — independent of IsGuidedSequence, which is purely about the tutorial
+        /// prompt/input-lock (see TutorialPromptUI), not dialogue selection.
+        /// </summary>
+        public Quest GetMainQuestTalkQuest(string npcId)
+        {
+            if (string.IsNullOrEmpty(npcId))
+                return null;
+
+            return activeQuestList.Find(q =>
+                q.Status == QuestStatus.InProgress &&
+                q.Classification == QuestClassification.MainQuest &&
+                q.CurrentStep != null &&
+                q.CurrentStep.Type == QuestType.Talk &&
+                q.CurrentStep.TargetEnemyId == npcId);
         }
 
         // ── Save support ──
@@ -255,6 +319,9 @@ namespace Game.Testing
                     quest.CurrentCount     = s.currentCount;
                 }
             }
+
+            EnsureQuestTracked();
+
             OnQuestUpdated?.Invoke();
         }
 
@@ -334,38 +401,22 @@ namespace Game.Testing
                 quest.Status != QuestStatus.ReadyToTurnIn)
                 return false;
 
+            // Main quests are meant to always be running — cancelling isn't allowed.
+            if (quest.Classification == QuestClassification.MainQuest)
+            {
+                Debug.LogWarning($"Quest {quest.QuestName} is a Main Quest and cannot be cancelled.");
+                return false;
+            }
+
             // รีเซ็ต Quest ที่ถูก Cancel
             quest.Status = QuestStatus.New;
             quest.CurrentCount = 0;
 
-            // ถ้า Quest ที่ Cancel คือ Quest ที่กำลัง Track
+            // ถ้า Quest ที่ Cancel คือ Quest ที่กำลัง Track ให้หา Quest อื่นมา Track แทน
             if (trackedQuestId == questID)
-            {
                 trackedQuestId = -1;
 
-                // หา Quest อื่นที่ยังทำอยู่มา Track แทน
-                Quest nextQuest = activeQuestList.Find(
-                    q =>
-                        q.Status == QuestStatus.InProgress ||
-                        q.Status == QuestStatus.ReadyToTurnIn
-                );
-
-                if (nextQuest != null)
-                {
-                    trackedQuestId = nextQuest.QuestID;
-
-                    Debug.Log(
-                        $"Quest {quest.QuestName} cancelled. " +
-                        $"Now tracking Quest: {nextQuest.QuestName}"
-                    );
-                }
-                else
-                {
-                    Debug.Log(
-                        $"Quest {quest.QuestName} cancelled. No active quest left."
-                    );
-                }
-            }
+            EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
 
@@ -423,6 +474,8 @@ namespace Game.Testing
             }
 
             HandleNextQuest(quest);
+
+            EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
             return true;

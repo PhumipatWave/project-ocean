@@ -1634839,6 +1634839,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 951372530}
     - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: targetQuest
+      value: 
+      objectReference: {fileID: 11400000, guid: ea65199b23b4461488444f4b7377bdcf, type: 2}
+    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 2134801005}
@@ -1634883,6 +1634887,10 @@ PrefabInstance:
       propertyPath: npcNameText
       value: 
       objectReference: {fileID: 951372530}
+    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: targetQuest
+      value: 
+      objectReference: {fileID: 11400000, guid: efc2a29d7418be2438f217010589e5e8, type: 2}
     - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
       propertyPath: dialogueText
       value: 
@@ -1635500,9 +1635508,17 @@ PrefabInstance:
       value: Hunter
       objectReference: {fileID: 0}
     - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+      propertyPath: npcDialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: npcNameText
       value: 
       objectReference: {fileID: 951372530}
+    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+      propertyPath: targetQuest
+      value: 
+      objectReference: {fileID: 11400000, guid: 49ff887e0ee871548a5b752ab9bc2da3, type: 2}
     - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: dialogueText
       value: 

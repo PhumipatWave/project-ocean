@@ -5176,6 +5176,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400926442}
   m_CullTransparentMesh: 1
+--- !u!1 &408042279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 408042280}
+  - component: {fileID: 408042281}
+  m_Layer: 0
+  m_Name: NPCManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &408042280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408042279}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2125888984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408042281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408042279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa5cd174842c8d41901ae3e81acebc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.NPCManager
 --- !u!1 &424027768
 GameObject:
   m_ObjectHideFlags: 0
@@ -9434,6 +9478,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cdf3a1fc598b664e89eca66dc13f9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.InventorySlot
+--- !u!1 &688761017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 688761018}
+  - component: {fileID: 688761019}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &688761018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688761017}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2125888984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688761019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688761017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65b84d8aa992b44195064916d914dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestManager
+  allQuestTemplates:
+  - {fileID: 11400000, guid: 9a02f01e5162808409da98286619b78f, type: 2}
+  - {fileID: 11400000, guid: 114128fa1104aeb4cadaef9a8cdabeb5, type: 2}
+  - {fileID: 11400000, guid: 1c2fe95ba69792e47b92857e7880f2d7, type: 2}
+  - {fileID: 11400000, guid: 9bca6f262a3e69f49b966539799bdcb1, type: 2}
+  - {fileID: 11400000, guid: ea65199b23b4461488444f4b7377bdcf, type: 2}
+  - {fileID: 11400000, guid: 49ff887e0ee871548a5b752ab9bc2da3, type: 2}
+  - {fileID: 11400000, guid: efc2a29d7418be2438f217010589e5e8, type: 2}
+  - {fileID: 11400000, guid: 3f8a2c91b4d67e0598f1a2b3c4d5e6f7, type: 2}
 --- !u!1 &702101351
 GameObject:
   m_ObjectHideFlags: 0
@@ -22410,59 +22507,6 @@ MonoBehaviour:
   keyText: {fileID: 1451726046}
   rebindButton: {fileID: 1163016345}
   errorUI: {fileID: 1666193164}
---- !u!1 &1873464160
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1873464162}
-  - component: {fileID: 1873464161}
-  m_Layer: 0
-  m_Name: QuestManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1873464161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873464160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65b84d8aa992b44195064916d914dee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::QuestManager
-  allQuestTemplates:
-  - {fileID: 11400000, guid: ce662f457d9bf11498c2f304391a4d63, type: 2}
-  - {fileID: 11400000, guid: 9a02f01e5162808409da98286619b78f, type: 2}
-  - {fileID: 11400000, guid: 114128fa1104aeb4cadaef9a8cdabeb5, type: 2}
-  - {fileID: 11400000, guid: 1c2fe95ba69792e47b92857e7880f2d7, type: 2}
-  - {fileID: 11400000, guid: 9bca6f262a3e69f49b966539799bdcb1, type: 2}
-  - {fileID: 11400000, guid: ea65199b23b4461488444f4b7377bdcf, type: 2}
-  - {fileID: 11400000, guid: 49ff887e0ee871548a5b752ab9bc2da3, type: 2}
-  - {fileID: 11400000, guid: efc2a29d7418be2438f217010589e5e8, type: 2}
---- !u!4 &1873464162
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873464160}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2125888984}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1887380125
 GameObject:
   m_ObjectHideFlags: 0
@@ -25709,11 +25753,12 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2079108858}
-  - {fileID: 1873464162}
   - {fileID: 13498599}
   - {fileID: 1780993715}
   - {fileID: 1383843509}
   - {fileID: 1722236840}
+  - {fileID: 688761018}
+  - {fileID: 408042280}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2125888985
