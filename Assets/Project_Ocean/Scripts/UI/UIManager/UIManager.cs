@@ -320,12 +320,36 @@ namespace Game.Testing
 
         public void OpenPauseMenu()
         {
+            // ถ้ามี UI อื่นเปิดอยู่ ห้ามเปิด Pause Menu ซ้อน
+            if (currentUI != UIType.None)
+                return;
+
+            // ถ้ามี UI จากระบบอื่นกำลังเปิดอยู่
+            // เช่น Quest Board / Shop / Upgrade / Interaction
+            if (PlayerUIState.IsLocked)
+                return;
+
             Open(UIType.PauseMenu);
         }
 
         public void TogglePauseMenu()
         {
-            Toggle(UIType.PauseMenu);
+            // ถ้า Pause Menu เปิดอยู่ ให้กด Menu เพื่อปิดได้
+            if (currentUI == UIType.PauseMenu)
+            {
+                CloseCurrent();
+                return;
+            }
+
+            // มี UI อื่นของ UIManager เปิดอยู่ → ห้ามเปิด Pause ซ้อน
+            if (currentUI != UIType.None)
+                return;
+
+            // มี UI จากระบบอื่นเปิดอยู่ → ห้ามเปิด Pause
+            if (PlayerUIState.IsLocked)
+                return;
+
+            Open(UIType.PauseMenu);
         }
 
         // =========================================================

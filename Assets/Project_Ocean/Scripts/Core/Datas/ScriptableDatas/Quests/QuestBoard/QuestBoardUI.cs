@@ -30,6 +30,9 @@ namespace Game.Testing
         [Header("Quest Detail")]
         [SerializeField] private QuestDetailPanel questDetailPanel;
 
+        [Header("Quest Board Root")]
+        [SerializeField] private GameObject questBoardPanel;
+
         [Header("Category Settings")]
         [SerializeField] private QuestCategoryUIData[] categories;
 
@@ -77,10 +80,14 @@ namespace Game.Testing
         // This closes both the Quest Board and its PlayerUIState lock.
         public void CloseBoard()
         {
-            if (!gameObject.activeSelf)
-                return;
-
-            gameObject.SetActive(false);
+            if (questBoardPanel != null)
+            {
+                questBoardPanel.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
 
             PlayerUIState.Close();
         }
