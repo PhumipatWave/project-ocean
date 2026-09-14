@@ -30,8 +30,19 @@ namespace Game.Testing
             InitializeQuests();
         }
 
-        private void OnEnable()  => EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
-        private void OnDisable() => EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
+        private void OnEnable()
+        {
+            EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
+            TutorialEvents.OnActionPerformed += HandleTutorialAction;
+            NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
+        }
+
+        private void OnDisable()
+        {
+            EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
+            TutorialEvents.OnActionPerformed -= HandleTutorialAction;
+            NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
+        }
 
         // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
         private void InitializeQuests()
@@ -97,6 +108,71 @@ namespace Game.Testing
                         Debug.Log($"[QuestManager] (AutoComplete) จ่ายเงินรางวัล: +{q.RewardMoney} บาท");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Routes a generic tutorial action (e.g. Move, Interact) to every InProgress
+        /// quest whose current checkpoint is a Tutorial step targeting that action.
+        /// Same routing shape as HandleEnemyKilled, keyed on TutorialEvents instead of kills.
+        /// </summary>
+        private void HandleTutorialAction(TutorialActionId actionId)
+        {
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress)
+                    continue;
+
+                if (q.Type != QuestType.Tutorial)
+                    continue;
+
+                if (q.TutorialAction != actionId)
+                    continue;
+
+                CompleteProgress(q);
+            }
+        }
+
+        /// <summary>
+        /// Routes an NPC interaction to every InProgress quest whose current checkpoint
+        /// is a Talk step targeting that specific NPC (TargetEnemyId reused as the npcId).
+        /// Talking to any other NPC/interactable doesn't progress it — same as killing
+        /// the wrong enemy doesn't progress a KillCount quest.
+        /// </summary>
+        private void HandleNpcTalk(string npcId)
+        {
+            if (string.IsNullOrEmpty(npcId))
+                return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress)
+                    continue;
+
+                if (q.Type != QuestType.Talk)
+                    continue;
+
+                if (q.TargetEnemyId != npcId)
+                    continue;
+
+                CompleteProgress(q);
+            }
+        }
+
+        private void CompleteProgress(Quest q)
+        {
+            bool justCompleted = q.AddProgress(1);
+
+            OnQuestUpdated?.Invoke();
+
+            if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
+            {
+                RemoveQuestItems(q);
+
+                NotificationManager.Notify($"Quest complete: {q.QuestName}");
+
+                if (q.RewardMoney > 0)
+                    OnMoneyRewarded?.Invoke(q.RewardMoney);
             }
         }
 

@@ -87,6 +87,8 @@ namespace Game.Testing
             // Always allow closing, even though the inventory itself holds the UI lock.
             if (uiController.IsOpen) { HideAndDeselect(); return; }
             if (PlayerUIState.IsLocked) return;
+            // Opening inventory isn't a tutorial-teachable action, so any active tutorial restriction blocks it too.
+            if (TutorialGate.IsRestricting) return;
             OpenInventory();
         }
 

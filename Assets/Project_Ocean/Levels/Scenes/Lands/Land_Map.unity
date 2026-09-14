@@ -234551,7 +234551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -23.999817}
+  m_AnchoredPosition: {x: -1, y: -23.999695}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572618357
@@ -1634827,6 +1634827,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: npcId
+      value: Femboy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
       propertyPath: npcNameText
       value: 
       objectReference: {fileID: 951372530}
@@ -1634861,6 +1634865,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1156770055837207706, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
       propertyPath: m_Name
+      value: ShopF
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: npcId
       value: ShopF
       objectReference: {fileID: 0}
     - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
@@ -1635474,6 +1635482,10 @@ PrefabInstance:
     - target: {fileID: 3880132777625175728, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+      propertyPath: npcId
+      value: Hunter
       objectReference: {fileID: 0}
     - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: npcNameText

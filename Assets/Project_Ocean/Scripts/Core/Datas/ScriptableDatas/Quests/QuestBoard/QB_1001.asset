@@ -18,9 +18,11 @@ MonoBehaviour:
   npcAvatar: {fileID: 21300000, guid: d1eba59f85e792443b24b75557ea685d, type: 3}
   fishSprite: {fileID: 0}
   questId: 1001
-  type: 1
   status: 0
+  steps: []
+  type: 1
   targetEnemyId: fishS
+  tutorialAction: 0
   targetCount: 3
   completionMode: 0
   questName: '[Quest01]'

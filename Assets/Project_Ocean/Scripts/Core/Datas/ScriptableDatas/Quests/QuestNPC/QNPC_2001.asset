@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: QNPC_2001
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 1
+  classification: 0
   npcName: Peachzy
   npcAvatar: {fileID: -2338812187634505688, guid: c35ff9eab80b6854dbfbf9b60fa51fb8, type: 3}
   fishSprite: {fileID: 0}
   questId: 2001
-  type: 1
   status: 0
+  steps: []
+  type: 1
   targetEnemyId: fishM
+  tutorialAction: 0
   targetCount: 3
   completionMode: 1
   questName: '[Upgrade]'

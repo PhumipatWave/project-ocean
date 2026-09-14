@@ -21,7 +21,9 @@ namespace Game.Testing
         private void HandleInteract(bool pressed)
         {
             if (!pressed) return;
+            if (TutorialGate.Blocks(TutorialActionId.Interact)) return;
             if (!PlayerUIState.IsLocked) PlayerUIState.Open();
+            TutorialEvents.RaiseAction(TutorialActionId.Interact);
             onInteract?.Invoke();
         }
 

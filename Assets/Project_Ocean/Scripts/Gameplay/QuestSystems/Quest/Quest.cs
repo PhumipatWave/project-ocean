@@ -8,7 +8,9 @@ namespace Game.Testing
     {
         Delivery,
         KillCount,
-        ExploreArea
+        ExploreArea,
+        Talk,
+        Tutorial
     }
 
     public enum QuestStatus
@@ -25,6 +27,7 @@ namespace Game.Testing
     {
         public QuestType Type;
         public string TargetEnemyId;
+        public TutorialActionId TutorialAction;
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -81,6 +84,7 @@ namespace Game.Testing
 
         public QuestType Type => CurrentStep.Type;
         public string TargetEnemyId => CurrentStep.TargetEnemyId;
+        public TutorialActionId TutorialAction => CurrentStep.TutorialAction;
         public int TargetCount => CurrentStep.TargetCount;
         public QuestCompletionMode CompletionMode => CurrentStep.CompletionMode;
 
@@ -93,6 +97,15 @@ namespace Game.Testing
         public string Progress => CurrentCount + " / " + TargetCount;
 
         public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
+
+        /// <summary>
+        /// True if any step anywhere in this quest's chain is Tutorial-typed — marks the
+        /// whole quest as a guided sequence, so a later Talk (or other) step in the same
+        /// chain still gets the teaching prompt, even though that step itself isn't Tutorial.
+        /// A quest with no Tutorial step at all (a normal standalone Talk/KillCount/etc.
+        /// quest) is never treated as guided.
+        /// </summary>
+        public bool HasTutorialStep => steps.Exists(s => s.Type == QuestType.Tutorial);
 
         [SerializeField]
         private string questName;
@@ -206,6 +219,7 @@ namespace Game.Testing
                     {
                         Type = s.type,
                         TargetEnemyId = s.targetEnemyId,
+                        TutorialAction = s.tutorialAction,
                         TargetCount = s.targetCount,
                         CompletionMode = s.completionMode,
                         StepDescription = s.stepDescription,
@@ -219,6 +233,7 @@ namespace Game.Testing
                 {
                     Type = questData.type,
                     TargetEnemyId = questData.targetEnemyId,
+                    TutorialAction = questData.tutorialAction,
                     TargetCount = questData.targetCount,
                     CompletionMode = questData.completionMode,
                     StepDescription = questData.questDetail,

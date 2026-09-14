@@ -4,10 +4,24 @@ using TMPro;
 
 namespace Game.Testing
 {
+    /// <summary>Raised whenever the player interacts with an NPC. Payload = that NPC's npcId.</summary>
+    public static class NpcEvents
+    {
+        public static event System.Action<string> OnNpcTalkedTo;
+
+        public static void RaiseNpcTalkedTo(string npcId)
+        {
+            OnNpcTalkedTo?.Invoke(npcId);
+        }
+    }
+
     public class NPCInteract : MonoBehaviour
     {
         [Header("NPC Settings")]
         [SerializeField] private bool hasQuest;
+
+        [Tooltip("Stable id for this NPC, matched by Talk-type quest steps (Target NPC Id). Leave blank if no quest ever needs to target this specific NPC.")]
+        [SerializeField] private string npcId;
 
         [Header("Normal Dialogue")]
         [TextArea(3, 10)]
@@ -43,6 +57,9 @@ namespace Game.Testing
 
         public void Interact()
         {
+            if (!string.IsNullOrEmpty(npcId))
+                NpcEvents.RaiseNpcTalkedTo(npcId);
+
             if (hasQuest)
                 QuestInteract();
             else

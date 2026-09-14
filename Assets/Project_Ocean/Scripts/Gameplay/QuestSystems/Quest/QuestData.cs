@@ -24,7 +24,6 @@ namespace Game.Testing
     {
         MainQuest,
         SubQuest,
-        Tutorial,
         Special
     }
 
@@ -37,7 +36,13 @@ namespace Game.Testing
     public class QuestStepData
     {
         public QuestType type;
+
+        [Tooltip("Used when type is KillCount/Delivery/ExploreArea.")]
         public string targetEnemyId;
+
+        [Tooltip("Used when type is Tutorial/Talk — pick the action instead of typing an id.")]
+        public TutorialActionId tutorialAction;
+
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
         [TextArea(2, 4)] public string stepDescription;
@@ -67,6 +72,7 @@ namespace Game.Testing
         [Header("Legacy single-step settings (used only if Steps above is empty)")]
         public QuestType type;
         public string targetEnemyId;
+        public TutorialActionId tutorialAction;
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
 
