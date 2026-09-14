@@ -234521,6 +234521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572618356}
+  - component: {fileID: 572618357}
   m_Layer: 5
   m_Name: UpgradeShopPanel
   m_TagString: UpgradeUI
@@ -234553,6 +234554,18 @@ RectTransform:
   m_AnchoredPosition: {x: -1, y: -23.999817}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &572618357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572618355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b05ded33c34f14092bc57bf2df7a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EscClosablePanel
 --- !u!1001 &585692287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -240149,6 +240162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 911797350}
   - component: {fileID: 911797351}
+  - component: {fileID: 911797352}
   m_Layer: 5
   m_Name: HomePanel
   m_TagString: HouseUI
@@ -240189,6 +240203,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911797349}
   m_CullTransparentMesh: 1
+--- !u!114 &911797352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911797349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b05ded33c34f14092bc57bf2df7a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EscClosablePanel
 --- !u!1001 &914426316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278520,6 +278546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1578345926}
+  - component: {fileID: 1578345927}
   m_Layer: 5
   m_Name: FishShopPanel
   m_TagString: ShopUI
@@ -278547,6 +278574,18 @@ RectTransform:
   m_AnchoredPosition: {x: -3.000061, y: 0.9998779}
   m_SizeDelta: {x: -4.819977, y: 8.674}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1578345927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578345925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b05ded33c34f14092bc57bf2df7a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EscClosablePanel
 --- !u!224 &1582925971 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2751766096868966866, guid: cffae2242ebb59d45aa2aa06418eff38, type: 3}
