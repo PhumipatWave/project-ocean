@@ -10,12 +10,37 @@ namespace Game.Testing
         //public GameObject savePanel;
         public GameObject settingPanel;
 
+        /// <summary>True while any pause-menu tab (main/inventory/quest/setting) is on screen.</summary>
+        public bool IsOpen =>
+            (menuPanel != null && menuPanel.activeSelf) ||
+            (inventoryPanel != null && inventoryPanel.activeSelf) ||
+            (questPanel != null && questPanel.activeSelf) ||
+            (settingPanel != null && settingPanel.activeSelf);
+
         public void ToggleMenu()
         {
-            if (menuPanel != null && menuPanel.activeSelf)
+            if (IsOpen)
+            {
                 CloseAll();
+                PlayerUIState.Close();
+            }
+            else if (PlayerUIState.IsLocked)
+            {
+                // Another land UI (inventory, an interact panel...) has the floor — Esc closes that instead.
+                PlayerUIState.CloseCurrent();
+            }
             else
+            {
+                PlayerUIState.Open();
+                PlayerUIState.SetCloser(CloseViaEsc);
                 BackToMenu();
+            }
+        }
+
+        private void CloseViaEsc()
+        {
+            CloseAll();
+            PlayerUIState.Close();
         }
 
         public void OpenInventory()
