@@ -31,6 +31,7 @@ MonoBehaviour:
       lines:
       - "\u201CYou used to be an office worker that quit your job to go to this island
         because you think diving in the ocean is pretty cool\u201D"
+      cutsceneId: 
     isGuidedSequence: 0
     notificationImages: []
     rewardItemId: 
@@ -57,6 +58,23 @@ MonoBehaviour:
       type: 1
       lines:
       - Nice, you found me! Let's continue your training.
+      cutsceneId: TT_01
+    isGuidedSequence: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+  - type: 5
+    targetEnemyId: hunter
+    tutorialAction: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Talk to Hunter
+    dialogue:
+    - characterId: hunter
+      type: 1
+      lines:
+      - Nice, you found me! Let's continue your training.
+      cutsceneId: TT_01
     isGuidedSequence: 0
     notificationImages: []
     rewardItemId: 

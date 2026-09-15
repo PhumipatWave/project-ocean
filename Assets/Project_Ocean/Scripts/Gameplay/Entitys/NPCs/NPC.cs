@@ -192,6 +192,19 @@ namespace Game.Testing
             }
         }
 
+        /// <summary>
+        /// Plays this line's cutscene (QuestDialogueLine.cutsceneId), if one is authored.
+        /// Called from AdvanceDialogue's closing branches (after CloseDialogue), not from
+        /// ShowDialogueText — the cutscene should start once the player has actually finished
+        /// this exchange, not the moment the line first appears.
+        /// </summary>
+        private void PlayCutsceneIfAny(DialogueType type)
+        {
+            var id = npcQuest.CurrentStep.GetCutsceneId(npcId, type);
+            if (!string.IsNullOrEmpty(id))
+                CutsceneManager.Instance?.Get(id)?.Play();
+        }
+
         private void AdvanceDialogue()
         {
             if (npcQuest.Status == QuestStatus.New)
@@ -209,6 +222,8 @@ namespace Game.Testing
                         NpcEvents.RaiseNpcTalkedTo(npcId);
 
                     CloseDialogue();
+                    PlayCutsceneIfAny(DialogueType.Offer);
+
                     if (questDetailPanel != null)
                         questDetailPanel.ShowPanel(npcQuest, null);
                 }
@@ -220,6 +235,8 @@ namespace Game.Testing
                     NpcEvents.RaiseNpcTalkedTo(npcId);
 
                 CloseDialogue();
+                PlayCutsceneIfAny(DialogueType.Finish);
+
                 bool success = QuestManager.Instance.TurnInQuest(npcQuest.QuestID);
                 if (!success)
                     Debug.LogWarning($"[NPCInteract] TurnInQuest failed for id {npcQuest.QuestID}");
@@ -234,6 +251,7 @@ namespace Game.Testing
                     NpcEvents.RaiseNpcTalkedTo(npcId);
 
                 CloseDialogue();
+                PlayCutsceneIfAny(npcQuest.Status == QuestStatus.Finish ? DialogueType.Finish : DialogueType.InProgress);
             }
         }
 

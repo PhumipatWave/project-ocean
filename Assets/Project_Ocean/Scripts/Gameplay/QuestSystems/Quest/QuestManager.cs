@@ -35,6 +35,7 @@ namespace Game.Testing
             EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
             TutorialEvents.OnActionPerformed += HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
+            CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
         }
 
         private void OnDisable()
@@ -42,6 +43,7 @@ namespace Game.Testing
             EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
             TutorialEvents.OnActionPerformed -= HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
+            CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
         }
 
         // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
@@ -112,6 +114,13 @@ namespace Game.Testing
         {
             if (!string.IsNullOrEmpty(npcId))
                 TryProgress(QuestType.Talk, step => step.TargetEnemyId == npcId);
+        }
+
+        /// <summary>Cutscene steps reuse TargetEnemyId as the cutsceneId being matched.</summary>
+        private void HandleCutsceneFinished(string cutsceneId)
+        {
+            if (!string.IsNullOrEmpty(cutsceneId))
+                TryProgress(QuestType.Cutscene, step => step.TargetEnemyId == cutsceneId);
         }
 
         /// <summary>

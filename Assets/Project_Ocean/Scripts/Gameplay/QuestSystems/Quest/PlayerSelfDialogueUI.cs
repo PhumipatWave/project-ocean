@@ -119,10 +119,17 @@ namespace Game.Testing
 
         private void HandleInteract(bool pressed)
         {
-            if (!pressed || !isShowing) return;
+            if (!pressed || !isShowing || CutsceneGate.IsPlaying) return;
+
+            // Captured before Hide() clears activeQuest — the cutscene starts once the
+            // player has actually finished this exchange, not the moment it first showed.
+            var cutsceneId = activeQuest.CurrentStep.GetCutsceneId(SelfNpcId, DialogueType.InProgress);
 
             Hide();
             NpcEvents.RaiseNpcTalkedTo(SelfNpcId);
+
+            if (!string.IsNullOrEmpty(cutsceneId))
+                CutsceneManager.Instance?.Get(cutsceneId)?.Play();
         }
     }
 }

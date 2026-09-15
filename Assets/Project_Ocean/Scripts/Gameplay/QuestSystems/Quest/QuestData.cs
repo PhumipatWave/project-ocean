@@ -59,6 +59,8 @@ namespace Game.Testing
         public DialogueType type;
         [Tooltip("Multiple entries only meaningful for Offer, which plays sequentially.")]
         public string[] lines;
+        [Tooltip("Optional — matches a Cutscene component's Cutscene Id in the current scene. Plays once when this line first shows. Leave blank for plain dialogue.")]
+        public string cutsceneId;
     }
 
     /// <summary>

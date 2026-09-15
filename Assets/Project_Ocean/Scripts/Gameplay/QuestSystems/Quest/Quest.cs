@@ -10,7 +10,9 @@ namespace Game.Testing
         KillCount,
         ExploreArea,
         Talk,
-        Tutorial
+        Tutorial,
+        // Added at the end — existing authored steps are serialized by enum index.
+        Cutscene
     }
 
     public enum QuestStatus
@@ -57,6 +59,7 @@ namespace Game.Testing
             NotificationImages != null && NotificationImages.Count > 0 ? NotificationImages[0] : null;
 
         private Dictionary<(string characterId, DialogueType type), string[]> dialogue;
+        private Dictionary<(string characterId, DialogueType type), string> cutsceneIds;
 
         public string RewardItemId;
         public int RewardMoney;
@@ -66,11 +69,17 @@ namespace Game.Testing
         public void SetDialogue(List<QuestDialogueLine> lines)
         {
             dialogue = new Dictionary<(string, DialogueType), string[]>();
+            cutsceneIds = new Dictionary<(string, DialogueType), string>();
             if (lines == null)
                 return;
 
             foreach (var line in lines)
-                dialogue[(line.characterId ?? "", line.type)] = line.lines ?? System.Array.Empty<string>();
+            {
+                var key = (line.characterId ?? "", line.type);
+                dialogue[key] = line.lines ?? System.Array.Empty<string>();
+                if (!string.IsNullOrEmpty(line.cutsceneId))
+                    cutsceneIds[key] = line.cutsceneId;
+            }
         }
 
         /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
@@ -84,6 +93,10 @@ namespace Game.Testing
             var lines = GetLines(characterId, type);
             return index >= 0 && index < lines.Length ? lines[index] : string.Empty;
         }
+
+        /// <summary>Cutscene id authored on this (characterId, type) dialogue entry, if any — see QuestDialogueLine.cutsceneId.</summary>
+        public string GetCutsceneId(string characterId, DialogueType type) =>
+            cutsceneIds != null && cutsceneIds.TryGetValue((characterId ?? "", type), out var id) ? id : null;
 
         // Convenience for consumers that don't track their own character id (e.g. QuestDetailPanel) —
         // resolves against EffectiveNpcId (Talk steps only).

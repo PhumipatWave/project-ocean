@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3343240530815907172}
   - component: {fileID: 6592997628015165808}
+  - component: {fileID: 4486815296306239554}
   - component: {fileID: 6065576657195912545}
   m_Layer: 0
   m_Name: Visual
@@ -92,6 +93,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &4486815296306239554
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476126982957721232}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!70 &6065576657195912545
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -249,10 +272,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::NPCInteract
-  hasQuest: 0
+  npcId: 
+  npcName: 
   npcDialogue: Hello...
   npcPortrait: {fileID: 3319299164644070594, guid: 4495b0057f683e24dbdc41dcf6baba02, type: 3}
-  targetQuestId: 0
+  targetQuest: {fileID: 0}
   questDetailPanel: {fileID: 0}
   dialoguePanel: {fileID: 0}
   npcNameText: {fileID: 0}

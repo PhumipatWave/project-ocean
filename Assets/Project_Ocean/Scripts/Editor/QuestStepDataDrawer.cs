@@ -9,7 +9,17 @@ namespace Game.Testing
     /// Shows the right target field for the step's type: the TutorialActionId dropdown
     /// for Tutorial steps (pick an action, don't type a matching string), a "Target NPC
     /// Id" text field for Talk steps (also the step's default dialogue speaker — see
-    /// QuestStep.EffectiveNpcId), and "Target Enemy Id" for KillCount/Delivery/ExploreArea.
+    /// QuestStep.EffectiveNpcId), "Cutscene Id" for Cutscene steps (plays automatically
+    /// and completes itself — no dialogue needed, unlike a cutscene attached to one Talk
+    /// line via QuestDialogueLine.cutsceneId), and "Target Enemy Id" for KillCount/Delivery/ExploreArea.
+    ///
+    /// Per-type field visibility (see showTargetCount/showNotificationImages/showDialogueReward
+    /// in OnGUI/GetPropertyHeight — keep both in sync): Talk hides Target Count (a Talk step
+    /// always completes in one exchange) and Notification Images (no guide banner icon for a
+    /// conversation); Tutorial hides the whole Dialogue & Reward foldout (it completes off
+    /// TutorialAction alone, no dialogue box) but keeps Notification Images (used by the
+    /// guide banner). Everything else shows the full field set.
+    ///
     /// Dialogue is per-step (tucked behind a foldout, since most steps are the generic
     /// case and don't need it expanded) — each checkpoint is self-contained: its own
     /// dialogue lines (keyed by character id + DialogueType), and its own payout, paid
@@ -59,6 +69,24 @@ namespace Game.Testing
 
             var typeProp = property.FindPropertyRelative("type");
             var targetEnemyIdProp = property.FindPropertyRelative("targetEnemyId");
+            var type = (QuestType)typeProp.enumValueIndex;
+
+            var rect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+            float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
+            EditorGUI.PropertyField(rect, typeProp);
+            rect.y += lineHeight;
+
+            // A Cutscene step has nothing else to author — it plays and completes itself off
+            // this one id, no target count/completion mode/dialogue/reward to configure.
+            if (type == QuestType.Cutscene)
+            {
+                EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Cutscene Id",
+                    "Matches a Cutscene component's Cutscene Id in the scene. Plays automatically when this step becomes current, and completes the step when it finishes."));
+                EditorGUI.EndProperty();
+                return;
+            }
+
             var tutorialActionProp = property.FindPropertyRelative("tutorialAction");
             var targetCountProp = property.FindPropertyRelative("targetCount");
             var completionModeProp = property.FindPropertyRelative("completionMode");
@@ -70,13 +98,10 @@ namespace Game.Testing
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
 
-            var type = (QuestType)typeProp.enumValueIndex;
-
-            var rect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
-            EditorGUI.PropertyField(rect, typeProp);
-            rect.y += lineHeight;
+            // Per-type field visibility — see class doc for what each step type actually uses.
+            bool showTargetCount = type != QuestType.Talk;
+            bool showNotificationImages = type != QuestType.Talk;
+            bool showDialogueReward = type != QuestType.Tutorial;
 
             if (type == QuestType.Tutorial)
                 EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
@@ -87,8 +112,11 @@ namespace Game.Testing
                 EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target Enemy Id"));
             rect.y += lineHeight;
 
-            EditorGUI.PropertyField(rect, targetCountProp);
-            rect.y += lineHeight;
+            if (showTargetCount)
+            {
+                EditorGUI.PropertyField(rect, targetCountProp);
+                rect.y += lineHeight;
+            }
 
             EditorGUI.PropertyField(rect, completionModeProp);
             rect.y += lineHeight;
@@ -100,9 +128,18 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, stepDescriptionProp);
             rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
 
-            rect.height = EditorGUI.GetPropertyHeight(notificationImagesProp, true);
-            EditorGUI.PropertyField(rect, notificationImagesProp, true);
-            rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+            if (showNotificationImages)
+            {
+                rect.height = EditorGUI.GetPropertyHeight(notificationImagesProp, true);
+                EditorGUI.PropertyField(rect, notificationImagesProp, true);
+                rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            if (!showDialogueReward)
+            {
+                EditorGUI.EndProperty();
+                return;
+            }
 
             rect.height = EditorGUIUtility.singleLineHeight;
             property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, "Dialogue & Reward", true);
@@ -131,16 +168,35 @@ namespace Game.Testing
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
-            var notificationImagesProp = property.FindPropertyRelative("notificationImages");
+            var typeProp = property.FindPropertyRelative("type");
+            var type = (QuestType)typeProp.enumValueIndex;
             float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            // type, target, targetCount, completionMode, isGuidedSequence = 5 single lines, description,
-            // notificationImages, then the foldout header.
-            float height = lineHeight * 5
-                + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing
-                + EditorGUI.GetPropertyHeight(notificationImagesProp, true) + EditorGUIUtility.standardVerticalSpacing
-                + lineHeight;
+            // Cutscene: just type + Cutscene Id.
+            if (type == QuestType.Cutscene)
+                return lineHeight * 2;
+
+            bool showTargetCount = type != QuestType.Talk;
+            bool showNotificationImages = type != QuestType.Talk;
+            bool showDialogueReward = type != QuestType.Tutorial;
+
+            var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
+
+            // type, target, completionMode, isGuidedSequence = 4 single lines (+1 if targetCount shows), then description.
+            float height = lineHeight * (showTargetCount ? 5 : 4)
+                + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing;
+
+            if (showNotificationImages)
+            {
+                var notificationImagesProp = property.FindPropertyRelative("notificationImages");
+                height += EditorGUI.GetPropertyHeight(notificationImagesProp, true) + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            // Tutorial stops here — see the matching early-return in OnGUI.
+            if (!showDialogueReward)
+                return height;
+
+            height += lineHeight; // the "Dialogue & Reward" foldout header
 
             if (property.isExpanded)
             {
