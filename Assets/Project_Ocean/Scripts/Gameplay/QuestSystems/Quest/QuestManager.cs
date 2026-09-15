@@ -11,6 +11,7 @@ namespace Game.Testing
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
+
         private int trackedQuestId = -1;
 
         // รายการเควสที่แปลงเป็น Object พร้อมใช้งานในเกมแล้ว
@@ -30,10 +31,22 @@ namespace Game.Testing
             InitializeQuests();
         }
 
-        private void OnEnable()  => EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
-        private void OnDisable() => EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
+        private void OnEnable()
+        {
+            EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
+        }
 
-        // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
+        private void OnDisable()
+        {
+            EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
+        }
+
+        // =========================================================
+        // INITIALIZE QUESTS
+        // =========================================================
+
+        // แปลง ScriptableObject (QuestData)
+        // ให้กลายเป็น Runtime Quest
         private void InitializeQuests()
         {
             activeQuestList.Clear();
@@ -46,13 +59,18 @@ namespace Game.Testing
                 activeQuestList.Add(new Quest(data));
             }
 
-            Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
+            Debug.Log(
+                $"[QuestManager] Initialized {activeQuestList.Count} quests."
+            );
         }
 
+        // =========================================================
+        // ENEMY KILLED
+        // =========================================================
+
         /// <summary>
-        /// Routes a kill to every active InProgress KillCount quest whose target
-        /// matches the dead enemy's id. AddProgress handles the threshold + status flip
-        /// (Finish for AutoComplete, ReadyToTurnIn for ReadyToHandIn).
+        /// Routes a kill to every active InProgress KillCount quest
+        /// whose target matches the dead enemy's id.
         /// </summary>
         private void HandleEnemyKilled(string enemyId)
         {
@@ -81,38 +99,67 @@ namespace Game.Testing
 
                 bool justCompleted = q.AddProgress(1);
 
-                Debug.Log($"Progress : {q.CurrentCount}/{q.TargetCount}");
+                Debug.Log(
+                    $"Progress : {q.CurrentCount}/{q.TargetCount}"
+                );
 
                 OnQuestUpdated?.Invoke();
 
-                if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
+                // =====================================================
+                // AUTO COMPLETE
+                // =====================================================
+
+                if (justCompleted &&
+                    q.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
 
-                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    // Notification เดิม
+                    NotificationManager.Notify(
+                        $"Quest complete: {q.QuestName}"
+                    );
 
+                    // แสดง Quest Complete UI + Reward
+                    if (QuestCompleteUI.Instance != null)
+                    {
+                        QuestCompleteUI.Instance.Show(q);
+                    }
+
+                    // เงินรางวัล
                     if (q.RewardMoney > 0)
                     {
                         OnMoneyRewarded?.Invoke(q.RewardMoney);
-                        Debug.Log($"[QuestManager] (AutoComplete) จ่ายเงินรางวัล: +{q.RewardMoney} บาท");
+
+                        Debug.Log(
+                            $"[QuestManager] (AutoComplete) " +
+                            $"จ่ายเงินรางวัล: +{q.RewardMoney} บาท"
+                        );
                     }
                 }
             }
         }
 
-        // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ (เช่น เควสใหม่ที่ยังไม่ได้ทำ)
+        // =========================================================
+        // GET QUESTS
+        // =========================================================
+
+        // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ
         public List<Quest> GetQuestsByStatus(QuestStatus status)
         {
-            return activeQuestList.FindAll(q => q.Status == status);
-        }
-        public List<Quest> GetQuestsByCategory(QuestCategory category)
-        {
-            return activeQuestList.FindAll(q =>
-                q.Category == category &&
-                q.Status == QuestStatus.New
+            return activeQuestList.FindAll(
+                q => q.Status == status
             );
         }
 
+        public List<Quest> GetQuestsByCategory(
+            QuestCategory category)
+        {
+            return activeQuestList.FindAll(
+                q =>
+                    q.Category == category &&
+                    q.Status == QuestStatus.New
+            );
+        }
 
         public List<Quest> GetActiveQuests()
         {
@@ -125,54 +172,74 @@ namespace Game.Testing
 
         public Quest GetQuestById(int id)
         {
-            return activeQuestList.Find(q => q.QuestID == id);
-        }
-
-        // ── Save support ──
-
-        /// <summary>Collects the mutable runtime state (id, status, kill progress) of each quest.</summary>
-        public List<QuestSaveData> GetSaveState()
-        {
-            var list = new List<QuestSaveData>();
-            foreach (var q in activeQuestList)
-                list.Add(new QuestSaveData
-                {
-                    questId      = q.QuestID,
-                    status       = (int)q.Status,
-                    currentCount = q.CurrentCount,
-                });
-            return list;
+            return activeQuestList.Find(
+                q => q.QuestID == id
+            );
         }
 
         public List<Quest> GetCompletedQuests()
         {
             return activeQuestList.FindAll(
-                q =>
-                q.Status == QuestStatus.Finish
+                q => q.Status == QuestStatus.Finish
             );
         }
 
+        // =========================================================
+        // SAVE SUPPORT
+        // =========================================================
+
         /// <summary>
-        /// Restores quest status + kill progress from saved data. Quests are matched by id
-        /// and re-hydrated from templates (in Awake), so only mutable state is applied.
-        /// Unknown ids are ignored; quests missing from the save keep their template default.
+        /// Collects the mutable runtime state
+        /// (id, status, kill progress) of each quest.
         /// </summary>
-        public void LoadSaveState(List<QuestSaveData> saved)
+        public List<QuestSaveData> GetSaveState()
         {
-            if (saved == null) return;
+            var list = new List<QuestSaveData>();
+
+            foreach (var q in activeQuestList)
+            {
+                list.Add(
+                    new QuestSaveData
+                    {
+                        questId = q.QuestID,
+                        status = (int)q.Status,
+                        currentCount = q.CurrentCount,
+                    }
+                );
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Restores quest status + kill progress from saved data.
+        /// </summary>
+        public void LoadSaveState(
+            List<QuestSaveData> saved)
+        {
+            if (saved == null)
+                return;
+
             foreach (var s in saved)
             {
                 var quest = GetQuestById(s.questId);
+
                 if (quest != null)
                 {
-                    quest.Status       = (QuestStatus)s.status;
-                    quest.CurrentCount = s.currentCount;
+                    quest.Status =
+                        (QuestStatus)s.status;
+
+                    quest.CurrentCount =
+                        s.currentCount;
                 }
             }
+
             OnQuestUpdated?.Invoke();
         }
 
-        // ── ISaveParticipant ──
+        // =========================================================
+        // ISaveParticipant
+        // =========================================================
 
         public void Collect(SaveData data)
         {
@@ -184,13 +251,20 @@ namespace Game.Testing
             LoadSaveState(data.quests);
         }
 
+        // =========================================================
+        // ACCEPT QUEST
+        // =========================================================
+
         public bool AcceptQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
             if (quest == null)
             {
-                Debug.LogWarning($"Quest ID {questID} not found.");
+                Debug.LogWarning(
+                    $"Quest ID {questID} not found."
+                );
+
                 return false;
             }
 
@@ -198,8 +272,10 @@ namespace Game.Testing
             if (quest.Status != QuestStatus.New)
             {
                 Debug.LogWarning(
-                    $"Quest {quest.QuestName} cannot be accepted. Current status: {quest.Status}"
+                    $"Quest {quest.QuestName} cannot be accepted. " +
+                    $"Current status: {quest.Status}"
                 );
+
                 return false;
             }
 
@@ -213,10 +289,16 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log($"Accepted Quest: {quest.QuestName}");
+            Debug.Log(
+                $"Accepted Quest: {quest.QuestName}"
+            );
 
             return true;
         }
+
+        // =========================================================
+        // REJECT QUEST
+        // =========================================================
 
         public bool RejectQuest(int questID)
         {
@@ -233,7 +315,11 @@ namespace Game.Testing
             OnQuestUpdated?.Invoke();
 
             return true;
-        } // RejectQuest ===
+        }
+
+        // =========================================================
+        // CANCEL QUEST
+        // =========================================================
 
         public bool CancelQuest(int questID)
         {
@@ -268,13 +354,14 @@ namespace Game.Testing
 
                     Debug.Log(
                         $"Quest {quest.QuestName} cancelled. " +
-                        $"Now tracking Quest: {nextQuest.QuestName}"
+                        $"Now tracking Quest: {nextQuest.QuestID}"
                     );
                 }
                 else
                 {
                     Debug.Log(
-                        $"Quest {quest.QuestName} cancelled. No active quest left."
+                        $"Quest {quest.QuestName} cancelled. " +
+                        $"No active quest left."
                     );
                 }
             }
@@ -284,11 +371,16 @@ namespace Game.Testing
             return true;
         }
 
+        // =========================================================
+        // ACTIVE QUEST
+        // =========================================================
+
         public bool HasActiveQuest()
         {
             return activeQuestList.Exists(
-                q => q.Status == QuestStatus.InProgress ||
-                     q.Status == QuestStatus.ReadyToTurnIn
+                q =>
+                    q.Status == QuestStatus.InProgress ||
+                    q.Status == QuestStatus.ReadyToTurnIn
             );
         }
 
@@ -296,53 +388,102 @@ namespace Game.Testing
         {
             return activeQuestList.Find(
                 q =>
-                q.Status == QuestStatus.InProgress ||
-                q.Status == QuestStatus.ReadyToTurnIn
+                    q.Status == QuestStatus.InProgress ||
+                    q.Status == QuestStatus.ReadyToTurnIn
             );
         }
 
-        /// <summary>
-        /// Called by the NPC when the player clicks Turn In.
-        /// Quest must be ReadyToTurnIn — any other state returns false with a warning.
-        /// </summary>
-        
+        // =========================================================
+        // MONEY REWARD
+        // =========================================================
+
         public static event Action<int> OnMoneyRewarded;
+
+        // =========================================================
+        // REMOVE QUEST ITEMS
+        // =========================================================
+
         private void RemoveQuestItems(Quest q)
         {
-            if (string.IsNullOrEmpty(q.QuestItemId)) return;
-            if (!int.TryParse(q.QuestItemId, out int itemId)) return;
-            if (InventoryManager.Instance == null) return;
-            InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
+            if (string.IsNullOrEmpty(q.QuestItemId))
+                return;
+
+            if (!int.TryParse(
+                    q.QuestItemId,
+                    out int itemId))
+                return;
+
+            if (InventoryManager.Instance == null)
+                return;
+
+            InventoryManager.Instance.RemoveQuestItem(
+                itemId,
+                q.TargetCount
+            );
         }
 
+        // =========================================================
+        // TURN IN QUEST
+        // =========================================================
+
+        /// <summary>
+        /// Called by the NPC when the player clicks Turn In.
+        /// Quest must be ReadyToTurnIn.
+        /// </summary>
         public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
-            if (quest == null) return false;
-            if (quest.Status != QuestStatus.ReadyToTurnIn) return false;
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.ReadyToTurnIn)
+                return false;
 
             quest.Status = QuestStatus.Finish;
+
             RemoveQuestItems(quest);
 
-            NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+            // Notification เดิม
+            NotificationManager.Notify(
+                $"Quest complete: {quest.QuestName}"
+            );
 
+            // แสดง Quest Complete UI + Reward
+            if (QuestCompleteUI.Instance != null)
+            {
+                QuestCompleteUI.Instance.Show(quest);
+            }
+
+            // เงินรางวัล
             if (quest.RewardMoney > 0)
             {
-                OnMoneyRewarded?.Invoke(quest.RewardMoney);
-                Debug.Log($"[QuestManager] Completing quests: +{quest.RewardMoney} $");
+                OnMoneyRewarded?.Invoke(
+                    quest.RewardMoney
+                );
+
+                Debug.Log(
+                    $"[QuestManager] Completing quests: " +
+                    $"+{quest.RewardMoney} $"
+                );
             }
 
             OnQuestUpdated?.Invoke();
+
             return true;
         }
+
+        // =========================================================
+        // TRACKED QUEST
+        // =========================================================
 
         public Quest GetTrackedQuest()
         {
             if (trackedQuestId == -1)
                 return null;
 
-            Quest quest = GetQuestById(trackedQuestId);
+            Quest quest =
+                GetQuestById(trackedQuestId);
 
             if (quest == null)
                 return null;
@@ -356,7 +497,8 @@ namespace Game.Testing
 
         public bool SetTrackedQuest(int questID)
         {
-            Quest quest = GetQuestById(questID);
+            Quest quest =
+                GetQuestById(questID);
 
             if (quest == null)
                 return false;
@@ -369,12 +511,11 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log($"Tracking Quest: {quest.QuestName}");
+            Debug.Log(
+                $"Tracking Quest: {quest.QuestName}"
+            );
 
             return true;
         }
-
-
-
     }
 }
