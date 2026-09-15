@@ -64,6 +64,7 @@ namespace Game.Testing
             var completionModeProp = property.FindPropertyRelative("completionMode");
             var isGuidedSequenceProp = property.FindPropertyRelative("isGuidedSequence");
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
+            var notificationImagesProp = property.FindPropertyRelative("notificationImages");
 
             var dialogueProp = property.FindPropertyRelative("dialogue");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
@@ -80,7 +81,8 @@ namespace Game.Testing
             if (type == QuestType.Tutorial)
                 EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
             else if (type == QuestType.Talk)
-                EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target NPC Id"));
+                EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target NPC Id",
+                    "Use \"player\" for a self-talk step — no NPC needed, the line auto-shows via PlayerSelfDialogueUI and completes on the next Interact press."));
             else
                 EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target Enemy Id"));
             rect.y += lineHeight;
@@ -96,6 +98,10 @@ namespace Game.Testing
 
             rect.height = EditorGUI.GetPropertyHeight(stepDescriptionProp);
             EditorGUI.PropertyField(rect, stepDescriptionProp);
+            rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+
+            rect.height = EditorGUI.GetPropertyHeight(notificationImagesProp, true);
+            EditorGUI.PropertyField(rect, notificationImagesProp, true);
             rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
 
             rect.height = EditorGUIUtility.singleLineHeight;
@@ -126,11 +132,14 @@ namespace Game.Testing
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
+            var notificationImagesProp = property.FindPropertyRelative("notificationImages");
             float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            // type, target, targetCount, completionMode, isGuidedSequence = 5 single lines, description, then the foldout header.
+            // type, target, targetCount, completionMode, isGuidedSequence = 5 single lines, description,
+            // notificationImages, then the foldout header.
             float height = lineHeight * 5
                 + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing
+                + EditorGUI.GetPropertyHeight(notificationImagesProp, true) + EditorGUIUtility.standardVerticalSpacing
                 + lineHeight;
 
             if (property.isExpanded)

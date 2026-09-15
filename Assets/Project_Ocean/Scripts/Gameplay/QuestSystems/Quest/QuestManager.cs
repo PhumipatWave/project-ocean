@@ -180,18 +180,30 @@ namespace Game.Testing
         }
 
         private const float StepDescriptionNotifyDelay = 1.5f;
+        private Coroutine stepDescriptionRoutine;
 
-        /// <summary>Toasts the current checkpoint's Step Description (after a short delay), if one is authored.</summary>
+        /// <summary>
+        /// Toasts the current checkpoint's Step Description after a short delay. Cancels any
+        /// still-pending call first — advancing two steps within the delay window (e.g.
+        /// dismissing one Talk step and immediately completing the next) would otherwise leave
+        /// a stale toast queued for a step that isn't current anymore.
+        /// </summary>
         private void NotifyStepDescription(Quest q)
         {
-            if (!string.IsNullOrEmpty(q.StepDescription))
-                StartCoroutine(NotifyStepDescriptionDelayed(q.StepDescription));
+            if (stepDescriptionRoutine != null)
+                StopCoroutine(stepDescriptionRoutine);
+
+            stepDescriptionRoutine = StartCoroutine(NotifyStepDescriptionDelayed(q));
         }
 
-        private System.Collections.IEnumerator NotifyStepDescriptionDelayed(string description)
+        private System.Collections.IEnumerator NotifyStepDescriptionDelayed(Quest q)
         {
             yield return new WaitForSeconds(StepDescriptionNotifyDelay);
-            NotificationManager.Notify(description);
+            stepDescriptionRoutine = null;
+
+            // Re-read now, not at schedule time — the quest may have advanced again since.
+            if (!string.IsNullOrEmpty(q.StepDescription))
+                NotificationManager.Notify(q.StepDescription);
         }
 
         /// <summary>

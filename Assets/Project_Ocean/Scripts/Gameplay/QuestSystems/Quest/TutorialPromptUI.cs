@@ -57,9 +57,9 @@ namespace Game.Testing
                 if (step == null) continue;
 
                 if (step.Type == QuestType.Tutorial)
-                    Show(quest.StepDescription, step.TutorialAction);
+                    Show(quest.StepDescription, step.NotificationImage, step.TutorialAction);
                 else if (step.Type == QuestType.Talk)
-                    Show(quest.StepDescription, TutorialActionId.Interact);
+                    Show(quest.StepDescription, step.NotificationImage, TutorialActionId.Interact);
                 else
                     continue;
 
@@ -69,9 +69,9 @@ namespace Game.Testing
             Hide();
         }
 
-        private void Show(string text, TutorialActionId requiredAction)
+        private void Show(string text, Sprite image, TutorialActionId requiredAction)
         {
-            NotificationManager.ShowPersistent(text);
+            NotificationManager.ShowPersistent(text, image);
             TutorialGate.RequiredAction = requiredAction;
         }
 

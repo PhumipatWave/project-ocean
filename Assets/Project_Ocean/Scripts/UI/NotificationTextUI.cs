@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Testing
 {
@@ -28,6 +29,8 @@ namespace Game.Testing
     {
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private TextMeshProUGUI messageText;
+        [Tooltip("Optional — only used by persistent (guide) notifications. Hidden entirely when a persistent message has no image.")]
+        [SerializeField] private Image persistentImage;
 
         [SerializeField] private float showDuration = 2f;
         [SerializeField] private float fadeDuration  = 0.4f;
@@ -68,24 +71,35 @@ namespace Game.Testing
             _activeRoutine = StartCoroutine(ToastRoutine(message));
         }
 
-        private void HandlePersistentChanged(string message)
+        private void HandlePersistentChanged(string message, Sprite image)
         {
             _persistentActive = !string.IsNullOrEmpty(message);
 
-            if (_activeRoutine != null)
-            {
-                StopCoroutine(_activeRoutine);
-                _activeRoutine = null;
-            }
-
             if (_persistentActive)
             {
+                // Persistent overrides a toast that's currently fading — stop it before
+                // taking over the shared text/alpha.
+                if (_activeRoutine != null)
+                {
+                    StopCoroutine(_activeRoutine);
+                    _activeRoutine = null;
+                }
+
                 if (messageText != null) messageText.text = message;
                 if (canvasGroup != null) canvasGroup.alpha = 1f;
             }
-            else if (canvasGroup != null)
+            // Clearing must not touch an unrelated toast that's mid-fade (e.g. a step
+            // description toast showing while a guided-step banner clears) — only force
+            // the shared alpha to 0 if nothing else is currently animating it.
+            else if (_activeRoutine == null && canvasGroup != null)
             {
                 canvasGroup.alpha = 0f;
+            }
+
+            if (persistentImage != null)
+            {
+                persistentImage.sprite = image;
+                persistentImage.gameObject.SetActive(image != null);
             }
         }
 

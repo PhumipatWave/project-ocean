@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
-  m_Name: QB_1004
+  m_Name: QB_3004
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 1
   classification: 1
-  questId: 1004
+  questId: 3004
   status: 0
+  nextQuestMode: 0
+  nextQuestIds: 
   steps:
   - type: 1
     targetEnemyId: fishM
@@ -32,7 +34,9 @@ MonoBehaviour:
       type: 5
       lines:
       - No
-    rewardItemId:
+    isGuidedSequence: 0
+    notificationImages: []
+    rewardItemId: 
     rewardMoney: 150
   questName: '[Quest04]'
   questItemId: 32001

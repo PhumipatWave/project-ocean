@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Game.Testing
 {
@@ -22,8 +23,8 @@ namespace Game.Testing
         /// <summary>Raised whenever something wants to show a text notification.</summary>
         public static event Action<string> OnNotify;
 
-        /// <summary>Raised when the persistent message changes. Null/empty means cleared.</summary>
-        public static event Action<string> OnPersistentChanged;
+        /// <summary>Raised when the persistent message changes. Null/empty message means cleared.</summary>
+        public static event Action<string, Sprite> OnPersistentChanged;
 
         public static void Notify(string message)
         {
@@ -33,8 +34,9 @@ namespace Game.Testing
             OnNotify?.Invoke(message);
         }
 
-        public static void ShowPersistent(string message) => OnPersistentChanged?.Invoke(message);
+        /// <summary>Image is optional — pass null (or omit) for a text-only guide notification.</summary>
+        public static void ShowPersistent(string message, Sprite image = null) => OnPersistentChanged?.Invoke(message, image);
 
-        public static void ClearPersistent() => OnPersistentChanged?.Invoke(null);
+        public static void ClearPersistent() => OnPersistentChanged?.Invoke(null, null);
     }
 }

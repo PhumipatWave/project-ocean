@@ -89,6 +89,9 @@ namespace Game.Testing
         [Tooltip("Marks this checkpoint as a guided-sequence step — TutorialPromptUI shows/gates it (even a Talk step), not just literal Tutorial-typed ones.")]
         public bool isGuidedSequence;
 
+        [Tooltip("Optional image(s) for this checkpoint's guide notification. The banner shows the first entry; leave empty for a text-only notification.")]
+        public List<Sprite> notificationImages = new();
+
         public string rewardItemId;
         public int rewardMoney;
     }

@@ -48,6 +48,14 @@ namespace Game.Testing
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
 
+        /// <summary>Optional images for this checkpoint's guide notification.</summary>
+        public List<Sprite> NotificationImages;
+
+        // ponytail: the notification banner only shows one image — the first in the list.
+        // If a step ever needs to cycle through several, this is the place to extend.
+        public Sprite NotificationImage =>
+            NotificationImages != null && NotificationImages.Count > 0 ? NotificationImages[0] : null;
+
         private Dictionary<(string characterId, DialogueType type), string[]> dialogue;
 
         public string RewardItemId;
@@ -206,6 +214,7 @@ namespace Game.Testing
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
                     IsGuidedSequence = s.isGuidedSequence,
+                    NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
                 };
