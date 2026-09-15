@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: UpgradeRope
   m_EditorClassIdentifier: Game.Testing::Game.Testing.UpgradeData
   upgradeName: UpgradeRope
-  description: 
+  description: Increases the maximum length of the diving rope, allowing you to dive
+    deeper.
   type: 1
   maxLevel: 5
   prices: f4010000200300001405000034080000480d0000
   value: 20
+  unlocks: []
