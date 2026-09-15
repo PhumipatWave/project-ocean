@@ -17,13 +17,19 @@ namespace Game.Testing
     /// inventory when this checkpoint completes) shows for every step type, Cutscene
     /// included, right after the type-specific target field.
     ///
-    /// Per-type field visibility (see showTargetCount/showNotificationImages/showDialogueReward
-    /// in OnGUI/GetPropertyHeight — keep both in sync): Talk hides Target Count (a Talk step
-    /// always completes in one exchange) and Notification Images (no guide banner icon for a
-    /// conversation); Tutorial hides the whole Dialogue & Reward foldout (it completes off
-    /// TutorialAction alone, no dialogue box) but keeps Notification Images (used by the
-    /// guide banner); Cutscene shows Reward Item Id/Reward Money directly (no foldout — it
-    /// has no dialogue to tuck them behind). Everything else shows the full field set.
+    /// Per-type field visibility (see showTargetCount/showNotificationImages/showDialogueReward/
+    /// showUnlocksFeatures in OnGUI/GetPropertyHeight — keep both in sync): Talk hides Target
+    /// Count (a Talk step always completes in one exchange) and Notification Images (no guide
+    /// banner icon for a conversation); Tutorial hides the whole Dialogue & Reward foldout (it
+    /// completes off TutorialAction alone, no dialogue box) but keeps Notification Images (used
+    /// by the guide banner); Cutscene shows Reward Item Id/Reward Money directly (no foldout —
+    /// it has no dialogue to tuck them behind). Everything else shows the full field set.
+    ///
+    /// Unlocks Features only shows for Tutorial/Talk steps — those are the checkpoint types a
+    /// tutorial-style quest actually uses to gate features (see FeatureUnlockService). Is Guided
+    /// Sequence is no longer author-controlled: it's forced true for Tutorial (the only type
+    /// TutorialGate/TutorialPromptUI restrict input for) and false everywhere else, shown
+    /// disabled so the Inspector still communicates the value without inviting a mismatch.
     ///
     /// Dialogue is per-step (tucked behind a foldout, since most steps are the generic
     /// case and don't need it expanded) — each checkpoint is self-contained: its own
@@ -97,6 +103,7 @@ namespace Game.Testing
             var targetQuestItemIdProp = property.FindPropertyRelative("targetQuestItemId");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
+            var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
             var type = (QuestType)typeProp.enumValueIndex;
 
             var rect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
@@ -138,6 +145,7 @@ namespace Game.Testing
             bool showTargetCount = type != QuestType.Talk;
             bool showNotificationImages = type != QuestType.Talk;
             bool showDialogueReward = type != QuestType.Tutorial;
+            bool showUnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
 
             if (type == QuestType.Tutorial)
                 EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
@@ -151,6 +159,14 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, targetQuestItemIdProp, new GUIContent("Target Quest Item Id"));
             rect.y += lineHeight;
 
+            if (showUnlocksFeatures)
+            {
+                rect.height = EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true);
+                EditorGUI.PropertyField(rect, unlocksFeaturesProp, new GUIContent("Unlocks Features"), true);
+                rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+                rect.height = EditorGUIUtility.singleLineHeight;
+            }
+
             if (showTargetCount)
             {
                 EditorGUI.PropertyField(rect, targetCountProp);
@@ -160,7 +176,12 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, completionModeProp);
             rect.y += lineHeight;
 
-            EditorGUI.PropertyField(rect, isGuidedSequenceProp, new GUIContent("Is Guided Sequence"));
+            // Guided sequence is derived from type, not author-controlled — only a Tutorial
+            // step locks player input to one required action (see TutorialGate), so it's
+            // forced true there and false (and disabled) for every other type.
+            isGuidedSequenceProp.boolValue = type == QuestType.Tutorial;
+            using (new EditorGUI.DisabledScope(true))
+                EditorGUI.PropertyField(rect, isGuidedSequenceProp, new GUIContent("Is Guided Sequence"));
             rect.y += lineHeight;
 
             rect.height = EditorGUI.GetPropertyHeight(stepDescriptionProp);
@@ -218,13 +239,20 @@ namespace Game.Testing
             bool showTargetCount = type != QuestType.Talk;
             bool showNotificationImages = type != QuestType.Talk;
             bool showDialogueReward = type != QuestType.Tutorial;
+            bool showUnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
 
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
 
             // type, target, targetQuestItemId, completionMode, isGuidedSequence = 5 single
-            // lines (+1 if targetCount shows), then description.
+            // lines (+1 if targetCount shows), plus Unlocks Features (Tutorial/Talk only), then description.
             float height = lineHeight * (showTargetCount ? 6 : 5)
                 + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing;
+
+            if (showUnlocksFeatures)
+            {
+                var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
+                height += EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
+            }
 
             if (showNotificationImages)
             {

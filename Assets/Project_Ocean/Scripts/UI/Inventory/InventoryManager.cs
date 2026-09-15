@@ -89,6 +89,11 @@ namespace Game.Testing
             if (PlayerUIState.IsLocked) return;
             // Opening inventory isn't a tutorial-teachable action, so any active tutorial restriction blocks it too.
             if (TutorialGate.IsRestricting) return;
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
+            {
+                NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");
+                return;
+            }
             OpenInventory();
         }
 

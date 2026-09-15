@@ -65,6 +65,9 @@ namespace Game.Testing
         public string RewardItemId;
         public int RewardMoney;
 
+        /// <summary>Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.</summary>
+        public List<GameFeature> UnlocksFeatures;
+
         public bool IsComplete => CurrentCount >= TargetCount;
 
         public void SetDialogue(List<QuestDialogueLine> lines)
@@ -231,6 +234,7 @@ namespace Game.Testing
                     NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
+                    UnlocksFeatures = s.unlocksFeatures,
                 };
                 step.SetDialogue(s.dialogue);
                 list.Add(step);
@@ -273,6 +277,24 @@ namespace Game.Testing
                 : QuestStatus.ReadyToTurnIn;
 
             return true;
+        }
+
+        /// <summary>
+        /// Steps that have definitely already completed — for one-time-style migration
+        /// purposes only (FeatureUnlockService re-deriving unlocks for a save made before
+        /// that feature existed). Progression is sequential and one-way, so every step
+        /// before CurrentStepIndex is guaranteed done; the step AT CurrentStepIndex counts
+        /// too once the quest has reached Finish/ReadyToTurnIn (that index IS the last step,
+        /// and it's what put the quest into that status).
+        /// </summary>
+        public IEnumerable<QuestStep> GetCompletedSteps()
+        {
+            int completedCount = (status == QuestStatus.Finish || status == QuestStatus.ReadyToTurnIn)
+                ? currentStepIndex + 1
+                : currentStepIndex;
+
+            for (int i = 0; i < completedCount && i < steps.Count; i++)
+                yield return steps[i];
         }
 
         public string TrackerText

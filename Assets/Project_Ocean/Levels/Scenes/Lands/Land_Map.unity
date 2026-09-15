@@ -262,6 +262,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!61 &3762140
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -214330,6 +214332,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  requireSpecificFeature: 1
+  specificFeature: 3
 --- !u!1 &248350171
 GameObject:
   m_ObjectHideFlags: 0
@@ -216497,6 +216501,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!1 &359937403
 GameObject:
   m_ObjectHideFlags: 0
@@ -217826,6 +217832,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (11)
@@ -237804,6 +237818,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (2)
@@ -238874,6 +238896,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 1
+  specificFeature: 2
 --- !u!61 &830520543
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -240570,6 +240594,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (8)
@@ -240874,6 +240906,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (10)
@@ -242601,6 +242641,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!61 &1010295437
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -244019,6 +244061,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (3)
@@ -249641,6 +249691,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!61 &1117151091
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -250652,6 +250704,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (6)
@@ -251511,6 +251571,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  requireSpecificFeature: 1
+  specificFeature: 8
 --- !u!4 &1249514462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2761187701102457928, guid: f6c94850914477f4693a29bb734d8cfd, type: 3}
@@ -252847,6 +252909,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!1001 &1280316539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266711,6 +266775,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (9)
@@ -268345,6 +268417,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!1001 &1411267763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -268742,6 +268816,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (5)
@@ -328799,6 +328881,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (7)
@@ -1627692,6 +1627782,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 0
+  specificFeature: 0
 --- !u!61 &1770621480
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1631545,6 +1631637,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  requireSpecificFeature: 1
+  specificFeature: 1
 --- !u!61 &1970277327
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1631746,6 +1631840,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (4)
@@ -1632251,6 +1632353,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan (1)
@@ -1634897,6 +1635007,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 681246809}
     m_Modifications:
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: specificFeature
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2206190854057479041, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
+      propertyPath: requireSpecificFeature
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3427414057167984194, guid: 483ae07b816359c40a3af53eb0ec35b6, type: 3}
       propertyPath: m_Name
       value: TrashCan

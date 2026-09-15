@@ -99,6 +99,9 @@ namespace Game.Testing
 
         public string rewardItemId;
         public int rewardMoney;
+
+        [Tooltip("Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.")]
+        public List<GameFeature> unlocksFeatures = new();
     }
 
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]

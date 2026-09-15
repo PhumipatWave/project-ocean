@@ -160,6 +160,11 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
+            // Reliably fires exactly once — once complete, this step is no longer
+            // q.CurrentStep, so TryProgress stops routing further matching events to it.
+            if (completedStep.IsComplete)
+                UnlockStepFeatures(completedStep);
+
             // Moved on to a new checkpoint (as opposed to just ticking progress on the
             // same one, or finishing the quest outright) — announce its description.
             if (!justCompleted && q.CurrentStep != completedStep)
@@ -186,6 +191,15 @@ namespace Game.Testing
             }
 
             EnsureQuestTracked();
+        }
+
+        private static void UnlockStepFeatures(QuestStep step)
+        {
+            if (step.UnlocksFeatures == null)
+                return;
+
+            foreach (var feature in step.UnlocksFeatures)
+                FeatureUnlockService.Instance.Unlock(feature);
         }
 
         private const float StepDescriptionNotifyDelay = 1.5f;
@@ -243,6 +257,9 @@ namespace Game.Testing
                 other.NextQuestIds.Contains(quest.QuestID) &&
                 other.Status != QuestStatus.Finish);
         }
+
+        /// <summary>Every quest regardless of status — for FeatureUnlockService's one-time-style save migration.</summary>
+        public List<Quest> GetAllQuests() => activeQuestList;
 
         // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ (เช่น เควสใหม่ที่ยังไม่ได้ทำ)
         public List<Quest> GetQuestsByStatus(QuestStatus status)

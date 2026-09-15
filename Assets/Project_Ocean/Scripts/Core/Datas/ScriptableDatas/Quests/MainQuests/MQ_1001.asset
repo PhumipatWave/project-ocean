@@ -16,12 +16,13 @@ MonoBehaviour:
   classification: 0
   questId: 1001
   status: 1
-  nextQuestMode: 0
-  nextQuestIds: 
+  nextQuestMode: 1
+  nextQuestIds: ea030000
   steps:
   - type: 3
     targetEnemyId: player
     tutorialAction: 0
+    targetQuestItemId: 
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -36,36 +37,60 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
+    unlocksFeatures: 
   - type: 4
     targetEnemyId: 
     tutorialAction: 0
+    targetQuestItemId: 
     targetCount: 1
     completionMode: 0
-    stepDescription: Press W A S D to move
+    stepDescription: '"Press W A S D to move"'
     dialogue: []
     isGuidedSequence: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
+    unlocksFeatures: 00000000
+  - type: 4
+    targetEnemyId: TT_01
+    tutorialAction: 0
+    targetQuestItemId: 
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Press [E] to Talk"'
+    dialogue:
+    - characterId: hunter
+      type: 1
+      lines:
+      - Nice, you found me! Let's continue your training.
+      cutsceneId: TT_01
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
   - type: 3
     targetEnemyId: hunter
     tutorialAction: 0
+    targetQuestItemId: 
     targetCount: 1
     completionMode: 0
-    stepDescription: Talk to Hunter
+    stepDescription: '"Talk to Hunter"'
     dialogue:
     - characterId: hunter
       type: 1
       lines:
-      - Nice, you found me! Let's continue your training.
-      cutsceneId: TT_01
+      - Welcome to the island. Follow me to the boat to prepare your first dive.
+      cutsceneId: 
     isGuidedSequence: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
+    unlocksFeatures: 0300000009000000
   - type: 5
-    targetEnemyId: hunter
+    targetEnemyId: TT_01
     tutorialAction: 0
+    targetQuestItemId: 
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
@@ -79,5 +104,5 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
+    unlocksFeatures: 
   questName: Tutorial Intro
-  questItemId: 

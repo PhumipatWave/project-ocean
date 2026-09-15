@@ -44,6 +44,10 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI dialogueText;
         [SerializeField] private Image npcAvatarImage;
 
+        [Header("Quest Marker")]
+        [Tooltip("Shown while this NPC is the target of the active quest's current Talk step (and, for a not-yet-accepted quest, only once its prerequisite is unlocked — same gate as StartDialogue).")]
+        [SerializeField] private GameObject markerUI;
+
         public string NpcId => npcId;
         public string NpcName => npcName;
         public Sprite NpcPortrait => npcPortrait;
@@ -54,8 +58,17 @@ namespace Game.Testing
         private bool isUIOpen;
         private InteractUI interactUI;
 
-        private void OnEnable() => NPCManager.Instance?.Register(this);
-        private void OnDisable() => NPCManager.Instance?.Unregister(this);
+        private void OnEnable()
+        {
+            NPCManager.Instance?.Register(this);
+            QuestManager.OnQuestUpdated += RefreshMarker;
+        }
+
+        private void OnDisable()
+        {
+            NPCManager.Instance?.Unregister(this);
+            QuestManager.OnQuestUpdated -= RefreshMarker;
+        }
 
         private void Start()
         {
@@ -63,6 +76,31 @@ namespace Game.Testing
 
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(false);
+
+            RefreshMarker();
+        }
+
+        /// <summary>True while this NPC is the active quest's current Talk-step target — mirrors
+        /// StartDialogue's own unlock gate for a not-yet-accepted (New) quest.</summary>
+        private bool ShouldShowMarker()
+        {
+            var quest = ResolveActiveQuest();
+            var step = quest?.CurrentStep;
+            if (step == null || step.Type != QuestType.Talk || step.EffectiveNpcId != npcId)
+                return false;
+
+            return quest.Status switch
+            {
+                QuestStatus.New => QuestManager.Instance != null && QuestManager.Instance.IsUnlocked(quest),
+                QuestStatus.InProgress or QuestStatus.ReadyToTurnIn => true,
+                _ => false,
+            };
+        }
+
+        private void RefreshMarker()
+        {
+            if (markerUI != null)
+                markerUI.SetActive(ShouldShowMarker());
         }
 
         /// <summary>

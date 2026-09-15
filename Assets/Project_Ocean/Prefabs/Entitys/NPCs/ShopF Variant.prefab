@@ -29,6 +29,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: markerUI
+      value: 
+      objectReference: {fileID: 1410434902979030466}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: npcDialogue
       value: Welcome, dear! Feel free to look around or sell me any fish you caught.
       objectReference: {fileID: 0}
@@ -113,3 +117,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+--- !u!1 &1410434902979030466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7111621022968023743, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+  m_PrefabInstance: {fileID: 8152450694152267645}
+  m_PrefabAsset: {fileID: 0}

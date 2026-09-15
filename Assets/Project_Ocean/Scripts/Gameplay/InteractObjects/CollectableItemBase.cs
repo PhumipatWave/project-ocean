@@ -17,7 +17,8 @@ namespace Game.Testing
         /// External components (e.g. ShelleController) can set this to false to block collection.
         public bool IsCollectable { get; set; } = true;
 
-        protected virtual bool CanCollect => IsCollectable;
+        protected virtual bool CanCollect =>
+            IsCollectable && FeatureUnlockService.Instance.IsUnlocked(GameFeature.InteractItem);
 
         private static readonly HashSet<CollectableItemBase> _itemsInRange = new();
         private static Transform _playerTransform;

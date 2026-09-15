@@ -315,6 +315,12 @@ private void Update()
             // Aim isn't a tutorial-teachable action, so any active tutorial restriction blocks it too.
             if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked || TutorialGate.IsRestricting)) return;
 
+            if (isAim && !FeatureUnlockService.Instance.IsUnlocked(GameFeature.Combat))
+            {
+                NotificationManager.Notify("Locked — progress the main quest to unlock combat.");
+                return;
+            }
+
             gunHandler.IsAimming = isAim;
 
             if (isAim)
