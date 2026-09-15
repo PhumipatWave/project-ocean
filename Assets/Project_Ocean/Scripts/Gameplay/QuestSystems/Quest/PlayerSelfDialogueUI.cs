@@ -129,7 +129,7 @@ namespace Game.Testing
             NpcEvents.RaiseNpcTalkedTo(SelfNpcId);
 
             if (!string.IsNullOrEmpty(cutsceneId))
-                CutsceneManager.Instance?.Get(cutsceneId)?.Play();
+                CutsceneManager.Instance?.Play(cutsceneId);
         }
     }
 }

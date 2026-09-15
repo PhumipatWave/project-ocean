@@ -34,6 +34,7 @@ namespace Game.Testing
         public QuestType Type;
         public string TargetEnemyId;
         public TutorialActionId TutorialAction;
+        public string TargetQuestItemId;
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -179,13 +180,13 @@ namespace Game.Testing
         private string questName;
         public string QuestName => questName;
 
-        [SerializeField]
-        private string questItemId;
-        public string QuestItemId => questItemId;
-
         // Sourced from the current checkpoint — no quest-level NPC data. Only Talk steps
         // have one (see QuestStep.EffectiveNpcId); other step types resolve to null.
         public string NpcId => CurrentStep?.EffectiveNpcId;
+
+        // Sourced from the current checkpoint — was quest-level (QuestData.questItemId),
+        // now per-step so different checkpoints of the same quest can target different items.
+        public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
 
         public Quest(QuestData questData)
         {
@@ -198,7 +199,6 @@ namespace Game.Testing
             status = questData.status;
 
             questName = questData.questName;
-            questItemId = questData.questItemId;
 
             NextQuestMode = questData.nextQuestMode;
             NextQuestIds = questData.nextQuestIds ?? new List<int>();
@@ -222,6 +222,7 @@ namespace Game.Testing
                     Type = s.type,
                     TargetEnemyId = s.targetEnemyId,
                     TutorialAction = s.tutorialAction,
+                    TargetQuestItemId = s.targetQuestItemId,
                     TargetCount = s.targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,

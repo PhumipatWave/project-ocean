@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,12 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Registry of all currently-loaded Cutscene instances, keyed by cutsceneId. Cutscenes
-    /// self-register/unregister (OnEnable/OnDisable) rather than being scanned via
-    /// FindObjectOfType, so the registry stays correct across additive scene loads and
-    /// unloads — mirrors NPCManager, since QuestData (a ScriptableObject) can only ever
-    /// store a cutsceneId, never a direct reference to a scene object.
+    /// Every cutscene in the project is a prefab (Cutscene + PlayableDirector), assigned once
+    /// here rather than hand-placed in every scene that needs one. Playing an id instantiates
+    /// the matching prefab, resolves its bindings against whatever's actually in the current
+    /// scene (see Cutscene.ResolveBindings/NPCManager), and destroys the instance the moment
+    /// it finishes — a cutscene plays rarely enough (once per quest beat) that this is plenty
+    /// cheap; a real object pool would only add bookkeeping with no payoff at that frequency.
     ///
     /// Also drives QuestType.Cutscene steps directly: unlike a cutscene attached to one
     /// Talk line (triggered by NPC.cs/PlayerSelfDialogueUI when that line shows), a
@@ -20,13 +22,16 @@ namespace Game.Testing
     {
         public static CutsceneManager Instance { get; private set; }
 
+        [Tooltip("Every cutscene prefab in the project — each needs a Cutscene component with a unique Cutscene Id.")]
+        [SerializeField] private List<GameObject> cutscenePrefabs = new();
+
         // A Cutscene-type step becomes current the instant the PREVIOUS step's completion
         // event fires — e.g. NPC.AdvanceDialogue() raises NpcEvents.RaiseNpcTalkedTo before
         // it even calls CloseDialogue(). Without this delay the cutscene would snatch control
         // mid-transition, before that prior step has actually finished closing out.
         private const float CutsceneStartDelay = 1.0f;
 
-        private readonly Dictionary<string, Cutscene> cutscenesById = new();
+        private readonly Dictionary<string, GameObject> prefabsById = new();
 
         // The quest currently waiting on its Cutscene-type step to finish — guards against
         // re-triggering Play() on every OnQuestUpdated while it's already running.
@@ -43,11 +48,20 @@ namespace Game.Testing
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // Awake/OnEnable order between sibling scene objects isn't guaranteed — a
-            // Cutscene already in the scene when this Awake runs may have already tried
-            // (and silently no-op'd) to register itself before Instance existed here.
-            foreach (var cutscene in FindObjectsByType<Cutscene>(FindObjectsSortMode.None))
-                Register(cutscene);
+            foreach (var prefab in cutscenePrefabs)
+            {
+                if (prefab == null)
+                    continue;
+
+                var cutscene = prefab.GetComponent<Cutscene>();
+                if (cutscene == null || string.IsNullOrEmpty(cutscene.CutsceneId))
+                {
+                    Debug.LogWarning($"[CutsceneManager] Prefab '{prefab.name}' has no Cutscene component or Cutscene Id — skipped.");
+                    continue;
+                }
+
+                prefabsById[cutscene.CutsceneId] = prefab;
+            }
         }
 
         private void OnEnable() => QuestManager.OnQuestUpdated += RefreshQuestStep;
@@ -71,20 +85,16 @@ namespace Game.Testing
                     continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Cutscene)
+                if (step == null || step.Type != QuestType.Cutscene || !prefabsById.ContainsKey(step.TargetEnemyId))
                     continue;
 
-                var cutscene = Get(step.TargetEnemyId);
-                if (cutscene == null)
-                    continue; // authored id not in this scene yet — Register() retries this once it loads in
-
                 activeQuestStep = q;
-                StartCoroutine(PlayAfterDelay(q, step.TargetEnemyId, cutscene));
+                StartCoroutine(PlayStepAfterDelay(q, step.TargetEnemyId));
                 return;
             }
         }
 
-        private IEnumerator PlayAfterDelay(Quest q, string cutsceneId, Cutscene cutscene)
+        private IEnumerator PlayStepAfterDelay(Quest q, string cutsceneId)
         {
             yield return new WaitForSeconds(CutsceneStartDelay);
 
@@ -100,37 +110,38 @@ namespace Game.Testing
                 yield break;
             }
 
-            cutscene.Play(() =>
+            Play(cutsceneId, () =>
             {
                 activeQuestStep = null;
                 CutsceneEvents.RaiseCutsceneFinished(cutsceneId);
             });
         }
 
-        public void Register(Cutscene cutscene)
+        /// <summary>
+        /// Instantiates the cutscene prefab matching this id (into the current active scene),
+        /// plays it, and destroys the instance once it finishes or is skipped. Returns false
+        /// if no prefab is registered for this id.
+        /// </summary>
+        public bool Play(string cutsceneId, Action onComplete = null)
         {
-            if (cutscene == null || string.IsNullOrEmpty(cutscene.CutsceneId))
-                return;
+            if (string.IsNullOrEmpty(cutsceneId) || !prefabsById.TryGetValue(cutsceneId, out var prefab))
+                return false;
 
-            cutscenesById[cutscene.CutsceneId] = cutscene;
+            var instance = Instantiate(prefab);
 
-            // A Cutscene-type step may already be current and waiting for exactly this id
-            // (e.g. this Cutscene's scene loaded in after the quest advanced to it).
-            RefreshQuestStep();
+            // Unity never runs Awake on an inactive GameObject (or its instantiated clone)
+            // until it's activated — if the prefab was ever accidentally saved disabled,
+            // Cutscene's own Awake (which fetches its PlayableDirector) would silently never
+            // run, and Play() below would NRE. Cheap to guard against a plausible authoring mistake.
+            if (!instance.activeSelf)
+                instance.SetActive(true);
+
+            instance.GetComponent<Cutscene>().Play(() =>
+            {
+                Destroy(instance);
+                onComplete?.Invoke();
+            });
+            return true;
         }
-
-        public void Unregister(Cutscene cutscene)
-        {
-            if (cutscene == null || string.IsNullOrEmpty(cutscene.CutsceneId))
-                return;
-
-            // Only remove if this instance is still the one registered — avoids a late
-            // OnDisable clobbering a newer registration for the same id.
-            if (cutscenesById.TryGetValue(cutscene.CutsceneId, out var current) && current == cutscene)
-                cutscenesById.Remove(cutscene.CutsceneId);
-        }
-
-        public Cutscene Get(string cutsceneId) =>
-            !string.IsNullOrEmpty(cutsceneId) && cutscenesById.TryGetValue(cutsceneId, out var c) ? c : null;
     }
 }

@@ -45,7 +45,7 @@ namespace Game.Testing
 
             if (itemImage != null)
             {
-                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
+                Sprite sprite = GetQuestItemSprite(quest.TargetQuestItemId);
                 itemImage.sprite  = sprite;
                 itemImage.enabled = sprite != null;
             }

@@ -14846,6 +14846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e6f9e4c6e3cc1d41831e82df1c69a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.CutsceneManager
+  cutscenePrefabs:
+  - {fileID: 5560355171525542675, guid: d5c256c82d8eb954aa87c94c7737d736, type: 3}
 --- !u!1 &1247120222
 GameObject:
   m_ObjectHideFlags: 0

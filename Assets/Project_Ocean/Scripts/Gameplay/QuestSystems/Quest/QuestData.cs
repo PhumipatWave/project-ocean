@@ -81,6 +81,9 @@ namespace Game.Testing
         [Tooltip("Used when type is Tutorial/Talk — pick the action instead of typing an id.")]
         public TutorialActionId tutorialAction;
 
+        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items.")]
+        public string targetQuestItemId;
+
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
         [TextArea(2, 4)] public string stepDescription;
@@ -119,6 +122,5 @@ namespace Game.Testing
 
         [Header("Quest Information")]
         public string questName;
-        public string questItemId;
     }
 }

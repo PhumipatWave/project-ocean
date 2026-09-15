@@ -469,8 +469,8 @@ namespace Game.Testing
         public static event Action<int> OnMoneyRewarded;
         private void RemoveQuestItems(Quest q)
         {
-            if (string.IsNullOrEmpty(q.QuestItemId)) return;
-            if (!int.TryParse(q.QuestItemId, out int itemId)) return;
+            if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
+            if (!int.TryParse(q.TargetQuestItemId, out int itemId)) return;
             if (InventoryManager.Instance == null) return;
             InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }

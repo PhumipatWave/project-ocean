@@ -29,6 +29,14 @@ namespace Game.Testing
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Awake/OnEnable order between sibling scene objects isn't guaranteed — an NPC
+            // already in the scene when this Awake runs may have already tried (and silently
+            // no-op'd) to register itself before Instance existed here. Confirmed this was
+            // actually happening (registry stayed empty at runtime) while wiring Cutscene's
+            // NPC-binding lookup — same fix already applied to CutsceneManager.
+            foreach (var npc in FindObjectsByType<NPC>(FindObjectsSortMode.None))
+                Register(npc);
         }
 
         public void Register(NPC npc)

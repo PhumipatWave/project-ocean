@@ -22,6 +22,7 @@ MonoBehaviour:
   - type: 1
     targetEnemyId: fishS
     tutorialAction: 0
+    targetQuestItemId: 31003
     targetCount: 5
     completionMode: 0
     stepDescription: 'Kill Fish Size S : 5'
@@ -30,13 +31,14 @@ MonoBehaviour:
       type: 4
       lines:
       - Yes
+      cutsceneId: 
     - characterId: questboard
       type: 5
       lines:
       - No
+      cutsceneId: 
     isGuidedSequence: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 80
   questName: '[Quest02]'
-  questItemId: 31003

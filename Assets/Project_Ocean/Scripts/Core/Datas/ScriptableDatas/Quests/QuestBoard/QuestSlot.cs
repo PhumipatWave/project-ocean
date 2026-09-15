@@ -58,7 +58,7 @@ namespace Game.Testing
             // =========================
             if (fishImage != null)
             {
-                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
+                Sprite sprite = GetQuestItemSprite(quest.TargetQuestItemId);
 
                 fishImage.sprite = sprite;
                 fishImage.enabled = sprite != null;

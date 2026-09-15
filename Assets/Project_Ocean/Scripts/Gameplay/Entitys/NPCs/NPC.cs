@@ -202,7 +202,7 @@ namespace Game.Testing
         {
             var id = npcQuest.CurrentStep.GetCutsceneId(npcId, type);
             if (!string.IsNullOrEmpty(id))
-                CutsceneManager.Instance?.Get(id)?.Play();
+                CutsceneManager.Instance?.Play(id);
         }
 
         private void AdvanceDialogue()
