@@ -4294,7 +4294,7 @@ MonoBehaviour:
   menuPanel: {fileID: 911411316}
   inventoryPanel: {fileID: 1827186587}
   questPanel: {fileID: 18172501}
-  settingPanel: {fileID: 0}
+  settingPanel: {fileID: 6019331631254760721}
 --- !u!114 &911411319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6762,6 +6762,10 @@ PrefabInstance:
     - target: {fileID: 8964963841574660867, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
       propertyPath: m_Name
       value: CloseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964963841574660867, guid: b6baf64ff897b5f42a5ab8ca87583313, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10789,6 +10793,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6147dadba6255ec409e36acd76bd6a48, type: 3}
+--- !u!1 &6019331631254760721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3223357130547381892, guid: 6147dadba6255ec409e36acd76bd6a48, type: 3}
+  m_PrefabInstance: {fileID: 6019331631254760720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6609111703617218141
 PrefabInstance:
   m_ObjectHideFlags: 0
