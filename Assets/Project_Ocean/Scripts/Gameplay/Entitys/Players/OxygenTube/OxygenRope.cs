@@ -13,6 +13,7 @@ namespace Game.Testing
         [SerializeField] private GameObject startPointPrefab;
 
         [SerializeField] private float breakLimitTimer = 10f;
+        [SerializeField] private bool enableBreachTimeout = false;
 
         [Header("Rope")]
         [SerializeField] private float segmentLength = 0.3f;
@@ -598,6 +599,11 @@ namespace Game.Testing
 
         private void CheckLimit()
         {
+            // ปิดใช้งานระบบนับถอยหลัง/บังคับกลับขึ้นฝั่งไว้ชั่วคราว
+            // ติ๊ก enableBreachTimeout ใน Inspector เพื่อเปิดกลับมาใช้ตามเดิม โดยไม่ต้องแก้โค้ดส่วนนี้เลย
+            if (!enableBreachTimeout)
+                return;
+
             if (CurrentLength <= maxRopeLength)
             {
                 if (limitRoutine != null)
