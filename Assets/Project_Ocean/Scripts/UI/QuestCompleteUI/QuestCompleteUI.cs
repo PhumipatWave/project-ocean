@@ -13,6 +13,7 @@ namespace Game.Testing
 
         [SerializeField] private TextMeshProUGUI questCompleteText;
         [SerializeField] private TextMeshProUGUI questNameText;
+        [SerializeField] private TextMeshProUGUI questDetailText;
         [SerializeField] private TextMeshProUGUI rewardText;
 
         [Header("Auto Close")]
@@ -39,7 +40,10 @@ namespace Game.Testing
             if (quest == null)
                 return;
 
-            // เปิด Panel
+            // ==============================
+            // OPEN PANEL
+            // ==============================
+
             if (panel != null)
                 panel.SetActive(true);
 
@@ -49,7 +53,8 @@ namespace Game.Testing
 
             if (questCompleteText != null)
             {
-                questCompleteText.text = "QUEST COMPLETE!";
+                questCompleteText.text =
+                    "QUEST COMPLETE!";
             }
 
             // ==============================
@@ -58,7 +63,18 @@ namespace Game.Testing
 
             if (questNameText != null)
             {
-                questNameText.text = quest.QuestName;
+                questNameText.text =
+                    quest.QuestName;
+            }
+
+            // ==============================
+            // QUEST DETAIL
+            // ==============================
+
+            if (questDetailText != null)
+            {
+                questDetailText.text =
+                    quest.QuestDetail;
             }
 
             // ==============================
@@ -85,7 +101,8 @@ namespace Game.Testing
                         "\n";
                 }
 
-                if (!string.IsNullOrEmpty(quest.RewardItemId))
+                if (!string.IsNullOrEmpty(
+                    quest.RewardItemId))
                 {
                     rewards +=
                         "Item  " +
@@ -102,7 +119,7 @@ namespace Game.Testing
             }
 
             // ==============================
-            // AUTO CLOSE TIMER
+            // AUTO CLOSE
             // ==============================
 
             if (hideCoroutine != null)
@@ -110,14 +127,15 @@ namespace Game.Testing
                 StopCoroutine(hideCoroutine);
             }
 
-            hideCoroutine = StartCoroutine(
-                HideAfterDelay()
-            );
+            hideCoroutine =
+                StartCoroutine(HideAfterDelay());
         }
 
         private IEnumerator HideAfterDelay()
         {
-            yield return new WaitForSeconds(displayTime);
+            yield return new WaitForSeconds(
+                displayTime
+            );
 
             Close();
         }
