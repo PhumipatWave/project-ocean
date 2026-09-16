@@ -115,10 +115,8 @@ namespace Game.Testing
                     RemoveQuestItems(q);
 
                     // Notification เดิม
-                    NotificationManager.Notify(
-                        $"Quest complete: {q.QuestName}"
-                    );
-
+                    //NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    
                     // แสดง Quest Complete UI + Reward
                     if (QuestCompleteUI.Instance != null)
                     {
@@ -445,9 +443,9 @@ namespace Game.Testing
             RemoveQuestItems(quest);
 
             // Notification เดิม
-            NotificationManager.Notify(
-                $"Quest complete: {quest.QuestName}"
-            );
+            //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+
+            
 
             // แสดง Quest Complete UI + Reward
             if (QuestCompleteUI.Instance != null)
