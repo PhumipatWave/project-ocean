@@ -15,14 +15,19 @@ namespace Game.Testing
     /// (hidden for Delivery/KillCount — see below).
     ///
     /// The old singular Target Quest Item Id (QuestStepData.targetQuestItemId) is no longer
-    /// shown for ANY step type — Delivery is the only type that removes an item on
-    /// completion, and it authors that through the Target Quest Item Ids list field
-    /// instead (every listed item is removed, Target Count each, on turn-in). KillCount
-    /// similarly authors its enemy id(s) through Target Enemy Ids (kills of ANY listed id
-    /// count toward Target Count), not the singular Target Enemy Id. QuestStepDataDrawer
-    /// still reads the old singular fields as a one-entry-list fallback for legacy-authored
-    /// steps (see Quest.BuildSteps) — existing assets built before these became lists don't
-    /// need to be re-authored, they just can't be edited as a singular field anymore.
+    /// shown for ANY step type. Delivery instead shows a Delivery Count Mode dropdown, then
+    /// ONE of two lists depending on it — never both, they're mutually exclusive ways to author
+    /// the same requirement (QuestManager live-checks whichever's active against the player's
+    /// actual inventory via InventoryManager.OnInventoryChanged, not a one-shot event like
+    /// every other step type): CombinedTotal shows Target Quest Item Ids (plain ids, no
+    /// per-item count — any mix of them, summed, must reach the step's Target Count); PerItem
+    /// shows Target Quest Item Requirements (id + count pairs, each independently required),
+    /// and Target Count itself is derived there (hidden — it's just the requirement list's
+    /// length) rather than authored. KillCount similarly authors its enemy id(s) through
+    /// Target Enemy Ids (kills of ANY listed id count toward Target Count), not the singular
+    /// Target Enemy Id. QuestStepDataDrawer still reads the old singular field as a fallback
+    /// for legacy-authored steps (see Quest.BuildSteps) — existing assets built before these
+    /// existed don't need to be re-authored, they just can't be edited as that field anymore.
     ///
     /// Per-type field visibility (see the FieldVisibility struct below — computed once per
     /// type and shared by OnGUI/GetPropertyHeight): Talk hides Target Count (a Talk step
@@ -143,6 +148,8 @@ namespace Game.Testing
             var targetEnemyIdProp = property.FindPropertyRelative("targetEnemyId");
             var targetEnemyIdsProp = property.FindPropertyRelative("targetEnemyIds");
             var targetQuestItemIdsProp = property.FindPropertyRelative("targetQuestItemIds");
+            var targetQuestItemRequirementsProp = property.FindPropertyRelative("targetQuestItemRequirements");
+            var deliveryCountModeProp = property.FindPropertyRelative("deliveryCountMode");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
             var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
@@ -204,11 +211,30 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
+            // PerItem's required count comes from each requirement's own Count, not this
+            // shared field — hide it there so it can't be authored and left mismatched.
+            bool isDeliveryPerItem = type == QuestType.Delivery &&
+                (DeliveryCountMode)deliveryCountModeProp.enumValueIndex == DeliveryCountMode.PerItem;
+
             if (vis.TargetQuestItemIds)
             {
-                rect.height = EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true);
-                EditorGUI.PropertyField(rect, targetQuestItemIdsProp, new GUIContent("Target Quest Item Ids",
-                    "Every item id in this list is removed (Target Count each) when the step completes."), true);
+                EditorGUI.PropertyField(rect, deliveryCountModeProp, new GUIContent("Delivery Count Mode"));
+                rect.y += lineHeight;
+
+                // Each mode authors a different list — a plain id has no meaningful per-item
+                // count in CombinedTotal, so PerItem is the only one that shows one.
+                if (isDeliveryPerItem)
+                {
+                    rect.height = EditorGUI.GetPropertyHeight(targetQuestItemRequirementsProp, true);
+                    EditorGUI.PropertyField(rect, targetQuestItemRequirementsProp, new GUIContent("Target Quest Item Requirements",
+                        "Which items are required and how many of each, independently."), true);
+                }
+                else
+                {
+                    rect.height = EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true);
+                    EditorGUI.PropertyField(rect, targetQuestItemIdsProp, new GUIContent("Target Quest Item Ids",
+                        "Which items count toward the shared Target Count below — any mix of these, summed, must reach it."), true);
+                }
                 rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
@@ -221,7 +247,7 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
-            if (vis.TargetCount)
+            if (vis.TargetCount && !isDeliveryPerItem)
             {
                 EditorGUI.PropertyField(rect, targetCountProp);
                 rect.y += lineHeight;
@@ -311,13 +337,18 @@ namespace Game.Testing
 
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
 
+            var deliveryCountModeProp = property.FindPropertyRelative("deliveryCountMode");
+            bool isDeliveryPerItem = type == QuestType.Delivery &&
+                (DeliveryCountMode)deliveryCountModeProp.enumValueIndex == DeliveryCountMode.PerItem;
+            bool showTargetCount = vis.TargetCount && !isDeliveryPerItem;
+
             // type, completionMode, isGuidedSequence = 3 single lines, +1 if target field
-            // shows, +1 if targetCount shows, plus Unlocks Features (Tutorial/Talk only),
-            // then description. The two list fields (Target Enemy Ids/Target Quest Item
-            // Ids) are variable height, added separately below.
+            // shows, +1 if targetCount shows, plus Unlocks Features (Tutorial/Talk only), then
+            // description. Target Enemy Ids and the Delivery Count Mode + Target Quest Item
+            // Requirements pair are variable height, added separately below.
             int lineCount = 3
                 + (vis.TargetField ? 1 : 0)
-                + (vis.TargetCount ? 1 : 0);
+                + (showTargetCount ? 1 : 0);
             float height = lineHeight * lineCount
                 + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing;
 
@@ -329,8 +360,18 @@ namespace Game.Testing
 
             if (vis.TargetQuestItemIds)
             {
-                var targetQuestItemIdsProp = property.FindPropertyRelative("targetQuestItemIds");
-                height += EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true) + EditorGUIUtility.standardVerticalSpacing;
+                height += lineHeight; // the "Delivery Count Mode" dropdown
+
+                if (isDeliveryPerItem)
+                {
+                    var targetQuestItemRequirementsProp = property.FindPropertyRelative("targetQuestItemRequirements");
+                    height += EditorGUI.GetPropertyHeight(targetQuestItemRequirementsProp, true) + EditorGUIUtility.standardVerticalSpacing;
+                }
+                else
+                {
+                    var targetQuestItemIdsProp = property.FindPropertyRelative("targetQuestItemIds");
+                    height += EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true) + EditorGUIUtility.standardVerticalSpacing;
+                }
             }
 
             if (vis.UnlocksFeatures)

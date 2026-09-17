@@ -23,5 +23,8 @@ namespace Game.Testing
         EnemySpawnLevel3,
         // Ocean world collectables (starfish, shells, etc.) — see CollectableItemBase.CanCollect.
         InteractItem,
+        // Gates the Next Day button (the "bed"/sleep interaction) in the Home Panel —
+        // see LandUI.TryAdvanceDay/RefreshNextDayButton.
+        Sleep,
     }
 }

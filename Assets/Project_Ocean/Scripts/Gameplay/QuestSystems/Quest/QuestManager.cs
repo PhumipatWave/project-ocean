@@ -36,6 +36,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed += HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
+            InventoryManager.OnInventoryChanged += HandleInventoryChanged;
         }
 
         private void OnDisable()
@@ -44,6 +45,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed -= HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
+            InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
         }
 
         // Converts each ScriptableObject (QuestData) into a runtime Quest.
@@ -122,6 +124,49 @@ namespace Game.Testing
         }
 
         /// <summary>
+        /// Delivery has no single discrete "did the thing" event like every other step type —
+        /// it's satisfied by whatever the player is currently holding, which can go up or down
+        /// as they pick up/drop/sell items. So instead of TryProgress's one-shot event match,
+        /// this re-checks live inventory against the current step's requirements on every
+        /// change. Below the requirement, it just updates CurrentCount for display (no reward
+        /// side effects — see CompleteProgress's doc). At/above it, routes the completing delta
+        /// through the normal CompleteProgress pipeline so Delivery pays out/advances exactly
+        /// like every other type.
+        /// </summary>
+        private void HandleInventoryChanged()
+        {
+            if (InventoryManager.Instance == null)
+                return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress)
+                    continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.Delivery || step.IsComplete)
+                    continue;
+
+                int progress = step.ComputeDeliveryProgress(HeldCountOf);
+                if (progress <= step.CurrentCount)
+                    continue;
+
+                if (progress >= step.TargetCount)
+                {
+                    CompleteProgress(q, step.TargetCount - step.CurrentCount);
+                }
+                else
+                {
+                    step.CurrentCount = progress;
+                    OnQuestUpdated?.Invoke();
+                }
+            }
+        }
+
+        private static int HeldCountOf(string itemIdStr) =>
+            int.TryParse(itemIdStr, out int id) ? InventoryManager.Instance.GetQuestItemCount(id) : 0;
+
+        /// <summary>
         /// Routes an event to every InProgress quest whose current checkpoint is of the
         /// given type and whose target matches. Shared by HandleEnemyKilled/HandleTutorialAction/
         /// HandleNpcTalk — they differ only in which step type and which field they match on.
@@ -148,13 +193,17 @@ namespace Game.Testing
         /// Each checkpoint pays its own reward the moment IT completes — not just the
         /// quest's final step — so a quest can pay out incrementally per checkpoint.
         /// Exception: a final step set to ReadyToHandIn pays nothing here — its reward
-        /// waits for TurnInQuest, same as before, so it isn't paid twice.
+        /// waits for TurnInQuest, same as before, so it isn't paid twice. amount is 1 for
+        /// every discrete-event step type (one kill, one talk, ...); Delivery's live
+        /// inventory check passes whatever delta finishes it — see HandleInventoryChanged,
+        /// which never calls this for a delta that DOESN'T finish the step, since the
+        /// partial-progress branch below would otherwise pay reward money mid-collection.
         /// </summary>
-        private void CompleteProgress(Quest q)
+        private void CompleteProgress(Quest q, int amount = 1)
         {
             var completedStep = q.CurrentStep;
 
-            bool justCompleted = q.AddProgress(1);
+            bool justCompleted = q.AddProgress(amount);
 
             OnQuestUpdated?.Invoke();
 
@@ -189,6 +238,13 @@ namespace Game.Testing
             }
 
             EnsureQuestTracked();
+
+            // A step just became current (this one, or the next one it advanced into) — if
+            // it's a Delivery step, the player may already be holding enough (e.g. it was the
+            // KillCount bounty's own loot, collected before this checkpoint was even reached).
+            // Inventory hasn't changed, so nothing would otherwise trigger HandleInventoryChanged.
+            if (q.CurrentStep?.Type == QuestType.Delivery)
+                HandleInventoryChanged();
         }
 
         private static void UnlockStepFeatures(QuestStep step)
@@ -355,6 +411,11 @@ namespace Game.Testing
             EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
+
+            // A resumed save could land mid-Delivery-step already satisfied (or the player
+            // adjusted their inventory between sessions) — HandleInventoryChanged re-checks
+            // every InProgress quest itself, so one call covers all of them.
+            HandleInventoryChanged();
         }
 
         // ── ISaveParticipant ──
@@ -398,6 +459,11 @@ namespace Game.Testing
             NotifyStepDescription(quest);
 
             OnQuestUpdated?.Invoke();
+
+            // First step could already be a satisfied Delivery (items collected before ever
+            // accepting) — nothing else would trigger a check for that.
+            if (quest.CurrentStep?.Type == QuestType.Delivery)
+                HandleInventoryChanged();
 
             Debug.Log($"Accepted Quest: {quest.QuestName}");
 
@@ -461,9 +527,12 @@ namespace Game.Testing
         public static event Action<int> OnMoneyRewarded;
 
         /// <summary>
-        /// Removes the quest item(s) consumed by turn-in. Delivery can target several item
-        /// ids — every one of them is removed (TargetCount each). Every other type keeps
-        /// the single-item field (e.g. a KillCount bounty's hand-in loot item).
+        /// Removes the quest item(s) consumed by turn-in. Delivery removes according to its
+        /// mode: PerItem takes each requirement's own count from TargetQuestItemRequirements;
+        /// CombinedTotal has no per-item counts to go by (its ids are the plain
+        /// TargetQuestItemIds list), so it takes greedily in list order until the shared
+        /// Target Count is consumed. Every other type keeps the single-item field (e.g. a
+        /// KillCount bounty's hand-in loot item).
         /// </summary>
         private void RemoveQuestItems(Quest q)
         {
@@ -471,11 +540,32 @@ namespace Game.Testing
 
             if (q.CurrentStep.Type == QuestType.Delivery)
             {
-                if (q.TargetQuestItemIds == null) return;
-                foreach (var idStr in q.TargetQuestItemIds)
+                if (q.CurrentStep.DeliveryCountMode == DeliveryCountMode.PerItem)
                 {
-                    if (!string.IsNullOrEmpty(idStr) && int.TryParse(idStr, out int listItemId))
-                        InventoryManager.Instance.RemoveQuestItem(listItemId, q.TargetCount);
+                    var requirements = q.TargetQuestItemRequirements;
+                    if (requirements == null) return;
+
+                    foreach (var req in requirements)
+                        if (!string.IsNullOrEmpty(req.itemId) && int.TryParse(req.itemId, out int reqItemId))
+                            InventoryManager.Instance.RemoveQuestItem(reqItemId, req.count);
+                }
+                else
+                {
+                    var itemIds = q.TargetQuestItemIds;
+                    if (itemIds == null) return;
+
+                    int remaining = q.TargetCount;
+                    foreach (var idStr in itemIds)
+                    {
+                        if (remaining <= 0) break;
+                        if (string.IsNullOrEmpty(idStr) || !int.TryParse(idStr, out int listItemId)) continue;
+
+                        int take = Mathf.Min(InventoryManager.Instance.GetQuestItemCount(listItemId), remaining);
+                        if (take <= 0) continue;
+
+                        InventoryManager.Instance.RemoveQuestItem(listItemId, take);
+                        remaining -= take;
+                    }
                 }
                 return;
             }

@@ -46,6 +46,28 @@ namespace Game.Testing
         Reject,
     }
 
+    /// <summary>Delivery only — which item list is authored/scored, and how. CombinedTotal:
+    /// authors Target Quest Item Ids (plain ids, no per-item count) — any mix of them, summed,
+    /// must reach the step's Target Count. PerItem: authors Target Quest Item Requirements
+    /// (id + count pairs) instead — each one independently satisfied, Target Count unused/derived.</summary>
+    public enum DeliveryCountMode
+    {
+        CombinedTotal,
+        PerItem,
+    }
+
+    /// <summary>One (item id, required count) pair, used by Delivery's PerItem mode only —
+    /// Unity can't serialize Dictionary directly, so this is the list-of-pairs equivalent.
+    /// CombinedTotal mode doesn't use this at all; see QuestStepData.targetQuestItemIds.</summary>
+    [System.Serializable]
+    public class QuestItemRequirement
+    {
+        [Tooltip("Parsed as an int item id, same as Target Quest Item Id elsewhere.")]
+        public string itemId;
+        [Tooltip("Exactly how many of this item are required.")]
+        public int count = 1;
+    }
+
     /// <summary>
     /// One line (or line sequence, for Offer) of dialogue, said by one character. A step's
     /// dialogue list is a flat collection of these — effectively a (characterId, type) → lines
@@ -87,8 +109,14 @@ namespace Game.Testing
         [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery uses Target Quest Item Ids below instead.")]
         public string targetQuestItemId;
 
-        [Tooltip("Delivery only — every item id in this list is removed (Target Count each) when the step completes.")]
+        [Tooltip("Delivery + CombinedTotal only — which items count toward the shared Target Count (any mix of these, summed, must reach it). No per-item count — that's what PerItem's Target Quest Item Requirements below is for.")]
         public List<string> targetQuestItemIds = new();
+
+        [Tooltip("Delivery + PerItem only — which items are required and how many of each, independently.")]
+        public List<QuestItemRequirement> targetQuestItemRequirements = new();
+
+        [Tooltip("Delivery only — CombinedTotal (any mix summing to Target Count) or PerItem (each requirement's own Count must be met).")]
+        public DeliveryCountMode deliveryCountMode = DeliveryCountMode.CombinedTotal;
 
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;

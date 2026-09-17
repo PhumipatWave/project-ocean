@@ -312,8 +312,10 @@ private void Update()
         {
             // Bug 2: block aim entirely when any UI (e.g. inventory) is open
             // Bug 4: block aim when canAttack is false or on land
-            // Aim isn't a tutorial-teachable action, so any active tutorial restriction blocks it too.
-            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked || TutorialGate.IsRestricting)) return;
+            // Aiming/firing is the gesture HitEnemy fires from, same as Interact for other
+            // actions — block it unless HitEnemy is specifically what's required, otherwise a
+            // guided "hit an enemy" step could never be completed.
+            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked || TutorialGate.Blocks(TutorialActionId.HitEnemy))) return;
 
             if (isAim && !FeatureUnlockService.Instance.IsUnlocked(GameFeature.Combat))
             {

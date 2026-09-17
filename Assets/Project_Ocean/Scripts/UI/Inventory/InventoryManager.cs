@@ -87,8 +87,7 @@ namespace Game.Testing
             // Always allow closing, even though the inventory itself holds the UI lock.
             if (uiController.IsOpen) { HideAndDeselect(); return; }
             if (PlayerUIState.IsLocked) return;
-            // Opening inventory isn't a tutorial-teachable action, so any active tutorial restriction blocks it too.
-            if (TutorialGate.IsRestricting) return;
+            if (TutorialGate.Blocks(TutorialActionId.OpenInventory)) return;
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");
@@ -125,6 +124,7 @@ namespace Game.Testing
         {
             uiController.ShowInventory();
             PlayerUIState.SetCloser(CloseInventory);
+            TutorialEvents.RaiseAction(TutorialActionId.OpenInventory);
         }
 
         public void CloseInventory()
@@ -298,6 +298,11 @@ namespace Game.Testing
         public bool HasQuestItem(int itemId)
         {
             return InventoryQuestService.HasQuestItem(inventorySlots, itemId);
+        }
+
+        public int GetQuestItemCount(int itemId)
+        {
+            return InventoryQuestService.GetQuestItemCount(inventorySlots, itemId);
         }
 
         public void RemoveQuestItem(int itemId, int count = 1)

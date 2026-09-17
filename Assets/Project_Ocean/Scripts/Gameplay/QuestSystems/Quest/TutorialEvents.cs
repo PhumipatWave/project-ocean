@@ -11,13 +11,16 @@ namespace Game.Testing
         SellItem,
         Dive,
         OpenQuestBoard,
-        NextDay,
+        Sleep,
         MoveInHouse,
         MoveInShop,
         MoveInUpgradeShop,
         MoveOutHouse,
         MoveOutShop,
         MoveOutUpgradeShop,
+        OpenInventory,
+        BackToLand,
+        HitEnemy,
     }
 
     public static class TutorialEvents
@@ -51,15 +54,16 @@ namespace Game.Testing
         /// True if this specific action should be blocked — a different action is required.
         /// Interact is never blocked on its own: it's the E-press gesture that opens the
         /// panel/door every other required action (Dive, BuyItem, SellItem, OpenQuestBoard,
-        /// MoveInHouse/Shop/UpgradeShop) actually fires from, so blocking it would make the
-        /// required action unreachable. Only Move/NextDay need no Interact press first, so
-        /// those are the only required actions that still block a stray Interact press.
+        /// Sleep — pressing E on the house door opens the Home Panel the Next Day button
+        /// lives in — MoveInHouse/Shop/UpgradeShop) actually fires from, so blocking it would
+        /// make the required action unreachable. Only Move needs no Interact press first, so
+        /// it's the only required action that still blocks a stray Interact press.
         /// </summary>
         public static bool Blocks(TutorialActionId action)
         {
             if (!RequiredAction.HasValue || RequiredAction.Value == action) return false;
             if (action == TutorialActionId.Interact)
-                return RequiredAction.Value is TutorialActionId.Move or TutorialActionId.NextDay;
+                return RequiredAction.Value == TutorialActionId.Move;
             return true;
         }
     }

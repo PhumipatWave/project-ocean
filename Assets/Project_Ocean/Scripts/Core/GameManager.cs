@@ -160,6 +160,7 @@ namespace Game.Testing
         public void ReturnToLand()
         {
             CurPlayer.OxygenTube.ResetRope();
+            TutorialEvents.RaiseAction(TutorialActionId.BackToLand);
             SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
         }

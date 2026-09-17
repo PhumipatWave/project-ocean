@@ -63,7 +63,7 @@ namespace Game.Testing
             onNewDay?.Invoke(CurrentDay);
             OnEnemyReset?.Invoke();
             OnDayAdvanced?.Invoke();
-            TutorialEvents.RaiseAction(TutorialActionId.NextDay);
+            TutorialEvents.RaiseAction(TutorialActionId.Sleep);
         }
     }
 }

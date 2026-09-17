@@ -39,8 +39,15 @@ namespace Game.Testing
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
 
-        /// <summary>Delivery only — every id here is removed (TargetCount each) on turn-in.</summary>
+        /// <summary>Delivery + CombinedTotal only — which items count toward the shared
+        /// TargetCount, no per-item count. PerItem uses TargetQuestItemRequirements instead.</summary>
         public List<string> TargetQuestItemIds;
+
+        /// <summary>Delivery + PerItem only — which items are required and how many of each.</summary>
+        public List<QuestItemRequirement> TargetQuestItemRequirements;
+
+        /// <summary>Delivery only — see QuestData.DeliveryCountMode.</summary>
+        public DeliveryCountMode DeliveryCountMode;
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -79,6 +86,38 @@ namespace Game.Testing
         public List<GameFeature> UnlocksFeatures;
 
         public bool IsComplete => CurrentCount >= TargetCount;
+
+        /// <summary>
+        /// Delivery only — how much of the requirement is currently satisfied, on the same
+        /// scale as TargetCount. PerItem reads TargetQuestItemRequirements (number of
+        /// individual requirements fully met); CombinedTotal reads the plain TargetQuestItemIds
+        /// instead — no per-item counts to speak of, just summed held count across the listed
+        /// items, clamped to TargetCount. Takes a lookup instead of touching InventoryManager
+        /// directly, so Quest/QuestStep stay decoupled from the inventory layer — QuestManager
+        /// supplies the real one.
+        /// </summary>
+        public int ComputeDeliveryProgress(Func<string, int> heldCount)
+        {
+            if (DeliveryCountMode == DeliveryCountMode.PerItem)
+            {
+                if (TargetQuestItemRequirements == null || TargetQuestItemRequirements.Count == 0)
+                    return 0;
+
+                int satisfied = 0;
+                foreach (var req in TargetQuestItemRequirements)
+                    if (heldCount(req.itemId) >= req.count)
+                        satisfied++;
+                return satisfied;
+            }
+
+            if (TargetQuestItemIds == null || TargetQuestItemIds.Count == 0)
+                return 0;
+
+            int total = 0;
+            foreach (var itemId in TargetQuestItemIds)
+                total += heldCount(itemId);
+            return Mathf.Min(total, TargetCount);
+        }
 
         public void SetDialogue(List<QuestDialogueLine> lines)
         {
@@ -201,8 +240,11 @@ namespace Game.Testing
         // now per-step so different checkpoints of the same quest can target different items.
         public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
 
-        /// <summary>Delivery only — see QuestStep.TargetQuestItemIds.</summary>
+        /// <summary>Delivery + CombinedTotal only — see QuestStep.TargetQuestItemIds.</summary>
         public List<string> TargetQuestItemIds => CurrentStep?.TargetQuestItemIds;
+
+        /// <summary>Delivery + PerItem only — see QuestStep.TargetQuestItemRequirements.</summary>
+        public List<QuestItemRequirement> TargetQuestItemRequirements => CurrentStep?.TargetQuestItemRequirements;
 
         public Quest(QuestData questData)
         {
@@ -241,6 +283,21 @@ namespace Game.Testing
                     ? s.targetQuestItemIds
                     : (string.IsNullOrEmpty(s.targetQuestItemId) ? new List<string>() : new List<string> { s.targetQuestItemId });
 
+                // Only consulted when DeliveryCountMode is PerItem (see ComputeDeliveryProgress)
+                // — CombinedTotal uses questItemIds above directly instead. Falls back to that
+                // same plain id list, one requirement per id at the step's old shared Target
+                // Count, for a step authored before PerItem/requirements existed.
+                var itemRequirements = s.targetQuestItemRequirements != null && s.targetQuestItemRequirements.Count > 0
+                    ? s.targetQuestItemRequirements
+                    : questItemIds.ConvertAll(id => new QuestItemRequirement { itemId = id, count = s.targetCount });
+
+                // PerItem's "how many required" is the requirement count, not an authored
+                // Target Count — deriving it here keeps the Inspector from showing a field
+                // that would just be redundant/easy to leave mismatched.
+                int targetCount = s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
+                    ? itemRequirements.Count
+                    : s.targetCount;
+
                 var step = new QuestStep
                 {
                     Type = s.type,
@@ -249,7 +306,9 @@ namespace Game.Testing
                     TutorialAction = s.tutorialAction,
                     TargetQuestItemId = s.targetQuestItemId,
                     TargetQuestItemIds = questItemIds,
-                    TargetCount = s.targetCount,
+                    TargetQuestItemRequirements = itemRequirements,
+                    DeliveryCountMode = s.deliveryCountMode,
+                    TargetCount = targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,

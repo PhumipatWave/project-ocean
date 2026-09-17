@@ -25,6 +25,8 @@ MonoBehaviour:
     tutorialAction: 0
     targetQuestItemId: 
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -46,6 +48,8 @@ MonoBehaviour:
     tutorialAction: 0
     targetQuestItemId: 
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press W A S D to move"'
@@ -55,35 +59,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 00000000
-  - type: 4
-    targetEnemyId: TT_01
-    targetEnemyIds: []
-    tutorialAction: 0
-    targetQuestItemId: 
-    targetQuestItemIds: []
-    targetCount: 1
-    completionMode: 0
-    stepDescription: '"Press [E] to Talk"'
-    dialogue:
-    - characterId: hunter
-      type: 1
-      lines:
-      - Nice, you found me! Let's continue your training.
-      cutsceneId: TT_01
-    isGuidedSequence: 1
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 
   - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Talk to Hunter"'
+    stepDescription: '"Press [E] to Talk with Hunter"'
     dialogue:
     - characterId: hunter
       type: 1
@@ -101,6 +87,8 @@ MonoBehaviour:
     tutorialAction: 0
     targetQuestItemId: 
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
@@ -121,15 +109,40 @@ MonoBehaviour:
     tutorialAction: 4
     targetQuestItemId: 
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: 
+    stepDescription: Interact to board the boat
     dialogue: []
     isGuidedSequence: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
+    unlocksFeatures: 05000000
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 15
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Press [L-Click] to fire gun."'
+    dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 04000000
   - type: 0
     targetEnemyId: 
     targetEnemyIds: []
@@ -142,6 +155,10 @@ MonoBehaviour:
     - 31004
     - 31005
     - 31006
+    targetQuestItemRequirements:
+    - itemId: 
+      count: 0
+    deliveryCountMode: 0
     targetCount: 9
     completionMode: 0
     stepDescription: 
@@ -154,7 +171,7 @@ MonoBehaviour:
   - type: 4
     targetEnemyId: 
     targetEnemyIds: []
-    tutorialAction: 1
+    tutorialAction: 13
     targetQuestItemId: 
     targetQuestItemIds:
     - 31001
@@ -163,10 +180,165 @@ MonoBehaviour:
     - 31004
     - 31005
     - 31006
-    targetCount: 9
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
     completionMode: 0
-    stepDescription: 
+    stepDescription: '"Bag is full. Press [I] to check inventory."'
     dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 14
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Click [Back to land] to return to the surface."'
+    dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 01000000
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 8
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Go to the Fish Shop to sell your catch."'
+    dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 3
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
+    dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: player
+    targetEnemyIds: []
+    tutorialAction: 3
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - '"Thanks! Come back anytime."'
+      cutsceneId: 
+    isGuidedSequence: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0d000000
+  - type: 4
+    targetEnemyId: player
+    targetEnemyIds: []
+    tutorialAction: 7
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Return to your house to rest."'
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - '"Thanks! Come back anytime."'
+      cutsceneId: 
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: player
+    targetEnemyIds: []
+    tutorialAction: 6
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Sleep"'
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - '"Thanks! Come back anytime."'
+      cutsceneId: 
     isGuidedSequence: 1
     notificationImages: []
     rewardItemId: 
