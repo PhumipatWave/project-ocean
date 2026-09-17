@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace Game.Testing
@@ -340,6 +341,7 @@ private void Update()
             if (isAttack)
             {
                 if (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked) return;
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
                 isAttacked = true;
                 gunHandler.IsAimming = true;
 

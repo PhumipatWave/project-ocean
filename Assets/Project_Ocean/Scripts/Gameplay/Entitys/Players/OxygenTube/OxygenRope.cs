@@ -17,7 +17,7 @@ namespace Game.Testing
         [SerializeField] private Rigidbody2D playerRigidbody;
 
         [SerializeField] private float breakLimitTimer = 10f;
-        [SerializeField] private bool enableBreachTimeout = false;
+        [SerializeField] private bool enableBreachTimeout = true;
 
         [Header("Rope")]
         [SerializeField] private float segmentLength = 0.3f;
@@ -43,6 +43,15 @@ namespace Game.Testing
         #region Public API
         public float CurrentLength  { get; private set; }
         public float MaxRopeLength  { get => maxRopeLength; set => maxRopeLength = value; }
+
+        // Breach threshold pushed in from PlayerHealth — starts equal to maxRopeLength and
+        // shrinks as the player takes damage. Unlike maxRopeLength (the hard swim clamp,
+        // always the standard/upgraded distance), this only drives the breach countdown:
+        // going past it doesn't stop the player, it starts the "get back or get pulled to
+        // land" timer.
+        private float healthLimit = float.MaxValue;
+        public float HealthLimit => healthLimit;
+        public void SetHealthLimit(float length) => healthLimit = Mathf.Max(0f, length);
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
@@ -146,6 +155,8 @@ namespace Game.Testing
 
             if (playerRigidbody == null && playerTransform != null)
                 playerRigidbody = playerTransform.GetComponent<Rigidbody2D>();
+
+            healthLimit = maxRopeLength; // safe default until PlayerHealth pushes the real value
         }
 
         private void FixedUpdate()
@@ -717,12 +728,14 @@ namespace Game.Testing
 
         private void CheckLimit()
         {
-            // ปิดใช้งานระบบนับถอยหลัง/บังคับกลับขึ้นฝั่งไว้ชั่วคราว
-            // ติ๊ก enableBreachTimeout ใน Inspector เพื่อเปิดกลับมาใช้ตามเดิม โดยไม่ต้องแก้โค้ดส่วนนี้เลย
             if (!enableBreachTimeout)
                 return;
 
-            if (CurrentLength <= maxRopeLength)
+            // Compared against healthLimit (shrinks on damage), not maxRopeLength (the fixed
+            // standard/upgraded swim clamp) — so taking damage while already out near the
+            // edge starts the breach countdown even though the player is still within the
+            // hard swim range.
+            if (CurrentLength <= healthLimit)
             {
                 if (limitRoutine != null)
                 {
