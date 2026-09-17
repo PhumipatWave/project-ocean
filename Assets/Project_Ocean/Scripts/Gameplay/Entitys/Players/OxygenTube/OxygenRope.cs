@@ -11,6 +11,10 @@ namespace Game.Testing
         [SerializeField] private LineRenderer line;
         [SerializeField] private Transform playerTransform;
         [SerializeField] private GameObject startPointPrefab;
+        [Tooltip("Optional. If the player moves via Rigidbody2D, assign it so the hard rope-limit " +
+                 "clamp can zero outward velocity instead of just teleporting the position (avoids jitter). " +
+                 "Auto-detected from playerTransform if left empty.")]
+        [SerializeField] private Rigidbody2D playerRigidbody;
 
         [SerializeField] private float breakLimitTimer = 10f;
         [SerializeField] private bool enableBreachTimeout = false;
@@ -42,6 +46,53 @@ namespace Game.Testing
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
+
+        /// <summary>Position of the current rope anchor the player is swinging/swimming from
+        /// (the last fixed pin: start, wrap corner, checkpoint, or hub tie-in).</summary>
+        public Vector2 CurrentAnchor => pins.Count > 0 ? pins[^1].pos : (Vector2)transform.position;
+
+        /// <summary>Length already used by the fixed pin-to-pin sections before CurrentAnchor
+        /// (measured from hubLengthStartIndex, same rule MeasureLength uses). Add the
+        /// anchor-to-player leg to this to get the player's total current rope length.</summary>
+        public float UsedPinLength
+        {
+            get
+            {
+                float len = 0f;
+                int pinStart = Mathf.Clamp(hubLengthStartIndex, 0, Mathf.Max(0, pins.Count - 1));
+                for (int i = pinStart; i < pins.Count - 1; i++)
+                    len += Vector2.Distance(pins[i].pos, pins[i + 1].pos);
+                return len;
+            }
+        }
+
+        /// <summary>
+        /// Clamp a desired player position so total rope length (fixed pin sections + the
+        /// anchor-to-player leg) never exceeds maxRopeLength. Call this from the swim/movement
+        /// controller BEFORE applying the player's move, e.g.:
+        /// <code>
+        /// Vector2 desired = rb.position + moveInput * speed * Time.fixedDeltaTime;
+        /// rb.MovePosition(oxygenRope.ClampToRopeLimit(desired));
+        /// </code>
+        /// This only clamps position — pair it with cancelling outward radial velocity in the
+        /// movement controller (see notes) so the player doesn't jitter against the limit.
+        /// </summary>
+        public Vector2 ClampToRopeLimit(Vector2 desiredPos)
+        {
+            if (pins.Count == 0)
+                return desiredPos; // rope not set up yet
+
+            Vector2 anchor = CurrentAnchor;
+            float remaining = maxRopeLength - UsedPinLength;
+
+            if (remaining <= 0f)
+                return anchor; // fixed sections alone already used up the limit
+
+            Vector2 toDesired = desiredPos - anchor;
+            float dist = toDesired.magnitude;
+
+            return dist <= remaining ? desiredPos : anchor + toDesired / dist * remaining;
+        }
 
         /// <summary>Raised when the rope first exceeds its max length. float = countdown duration in seconds.</summary>
         public static event System.Action<float> OnRopeBreachStart;
@@ -92,6 +143,9 @@ namespace Game.Testing
         private void Awake()
         {
             line ??= GetComponent<LineRenderer>();
+
+            if (playerRigidbody == null && playerTransform != null)
+                playerRigidbody = playerTransform.GetComponent<Rigidbody2D>();
         }
 
         private void FixedUpdate()
@@ -107,6 +161,8 @@ namespace Game.Testing
 
             if (unwrapCooldown > 0) 
                 unwrapCooldown--;
+
+            EnforceRopeLimit(); // hard stop: player cannot physically be farther than maxRopeLength
 
             GrowSegs(); // extend segments so there is something to simulate
             ShrinkSegs(); // prune bunched-up segments when player moves back
@@ -130,6 +186,10 @@ namespace Game.Testing
         {
             if (!InOcean()) 
                 return;
+
+            // Safety net: catches any player movement applied by other scripts in
+            // Update/LateUpdate after this frame's physics step already ran.
+            EnforceRopeLimit();
 
             DrawRope();
         }
@@ -278,6 +338,64 @@ namespace Game.Testing
                 s.old = s.pos;
                 s.pos += vel + gravity * (dt * dt);
                 segs[i] = s;
+            }
+        }
+
+        // Directly overwrites the player's position (and, if a Rigidbody2D is assigned,
+        // its outward velocity) so the total rope length can never exceed maxRopeLength —
+        // regardless of what any other script does. This is the sole hard limit; the
+        // ClampToRopeLimit()/UsedPinLength helpers above exist for other scripts that
+        // want to predict the limit in advance, but this method is what actually enforces it.
+        private void EnforceRopeLimit()
+        {
+            if (pins.Count == 0 || playerTransform == null)
+                return;
+
+            Vector2 anchor    = CurrentAnchor;
+            float   remaining = maxRopeLength - UsedPinLength;
+            Vector2 playerPos = playerTransform.position;
+
+            if (remaining <= 0f)
+            {
+                // The fixed pin sections alone already consume the whole limit —
+                // player is pinned to the anchor with no leg length left at all.
+                SnapPlayer(anchor, anchor);
+                return;
+            }
+
+            Vector2 toPlayer = playerPos - anchor;
+            float   dist     = toPlayer.magnitude;
+
+            if (dist > remaining)
+                SnapPlayer(anchor + toPlayer / dist * remaining, anchor);
+        }
+
+        // Moves the player to pos. If a Rigidbody2D is present, also strips the velocity
+        // component pointing further outward from anchor, so the player doesn't keep
+        // pushing into the limit and jitter/rubber-band against it every frame.
+        private void SnapPlayer(Vector2 pos, Vector2 anchor)
+        {
+            if (playerRigidbody != null)
+            {
+                Vector2 radial = pos - anchor;
+                if (radial.sqrMagnitude > 0.0001f)
+                {
+                    Vector2 dir     = radial.normalized;
+                    float   outward = Vector2.Dot(playerRigidbody.linearVelocity, dir);
+                    if (outward > 0f)
+                        playerRigidbody.linearVelocity -= dir * outward;
+                }
+                else
+                {
+                    // Zero-length remaining leg — no valid outward direction, so stop the player outright.
+                    playerRigidbody.linearVelocity = Vector2.zero;
+                }
+
+                playerRigidbody.position = pos; // syncs the Transform automatically
+            }
+            else
+            {
+                playerTransform.position = pos;
             }
         }
 
