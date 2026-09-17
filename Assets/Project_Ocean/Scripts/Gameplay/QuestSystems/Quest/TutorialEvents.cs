@@ -12,6 +12,12 @@ namespace Game.Testing
         Dive,
         OpenQuestBoard,
         NextDay,
+        MoveInHouse,
+        MoveInShop,
+        MoveInUpgradeShop,
+        MoveOutHouse,
+        MoveOutShop,
+        MoveOutUpgradeShop,
     }
 
     public static class TutorialEvents
@@ -41,8 +47,20 @@ namespace Game.Testing
         /// <summary>Any restriction active right now (regardless of which action).</summary>
         public static bool IsRestricting => RequiredAction.HasValue;
 
-        /// <summary>True if this specific action should be blocked — a different action is required.</summary>
-        public static bool Blocks(TutorialActionId action) =>
-            RequiredAction.HasValue && RequiredAction.Value != action;
+        /// <summary>
+        /// True if this specific action should be blocked — a different action is required.
+        /// Interact is never blocked on its own: it's the E-press gesture that opens the
+        /// panel/door every other required action (Dive, BuyItem, SellItem, OpenQuestBoard,
+        /// MoveInHouse/Shop/UpgradeShop) actually fires from, so blocking it would make the
+        /// required action unreachable. Only Move/NextDay need no Interact press first, so
+        /// those are the only required actions that still block a stray Interact press.
+        /// </summary>
+        public static bool Blocks(TutorialActionId action)
+        {
+            if (!RequiredAction.HasValue || RequiredAction.Value == action) return false;
+            if (action == TutorialActionId.Interact)
+                return RequiredAction.Value is TutorialActionId.Move or TutorialActionId.NextDay;
+            return true;
+        }
     }
 }

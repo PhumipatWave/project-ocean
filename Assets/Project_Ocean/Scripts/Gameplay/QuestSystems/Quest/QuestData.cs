@@ -9,7 +9,7 @@ namespace Game.Testing
         ReadyToHandIn,
     }
 
-    // หมวดหลักของ Quest Board
+    // Top-level category shown on the Quest Board.
     public enum QuestCategory
     {
         FishS,

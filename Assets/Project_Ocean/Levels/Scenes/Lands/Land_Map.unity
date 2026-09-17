@@ -425,6 +425,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 9
 --- !u!1 &9211523
 GameObject:
   m_ObjectHideFlags: 0
@@ -216376,6 +216378,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 10
 --- !u!82 &357408900
 AudioSource:
   m_ObjectHideFlags: 0
@@ -234786,7 +234790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -1, y: -23.999695}
+  m_AnchoredPosition: {x: -1, y: -23.999756}
   m_SizeDelta: {x: -72.81998, y: -41.326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572618357
@@ -250025,6 +250029,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 7
 --- !u!1001 &1121882119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252942,6 +252948,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 12
 --- !u!61 &1278676075
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -268450,6 +268458,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 11
 --- !u!61 &1408691345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1628149,6 +1628159,8 @@ MonoBehaviour:
   blackScreenGroup: {fileID: 100423180}
   fadeDuration: 1
   snapCamera: 1
+  raiseTutorialAction: 1
+  tutorialAction: 8
 --- !u!1 &1770818383
 GameObject:
   m_ObjectHideFlags: 0

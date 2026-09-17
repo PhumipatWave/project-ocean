@@ -21,8 +21,10 @@ MonoBehaviour:
   steps:
   - type: 3
     targetEnemyId: player
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -40,8 +42,10 @@ MonoBehaviour:
     unlocksFeatures: 
   - type: 4
     targetEnemyId: 
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press W A S D to move"'
@@ -53,8 +57,10 @@ MonoBehaviour:
     unlocksFeatures: 00000000
   - type: 4
     targetEnemyId: TT_01
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press [E] to Talk"'
@@ -71,8 +77,10 @@ MonoBehaviour:
     unlocksFeatures: 
   - type: 3
     targetEnemyId: hunter
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: '"Talk to Hunter"'
@@ -89,8 +97,10 @@ MonoBehaviour:
     unlocksFeatures: 0300000009000000
   - type: 5
     targetEnemyId: TT_01
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
@@ -107,8 +117,10 @@ MonoBehaviour:
     unlocksFeatures: 
   - type: 4
     targetEnemyId: 
+    targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    targetQuestItemIds: []
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -118,10 +130,13 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 1
+  - type: 0
     targetEnemyId: 
+    targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    targetQuestItemIds:
+    - 
     targetCount: 9
     completionMode: 0
     stepDescription: 

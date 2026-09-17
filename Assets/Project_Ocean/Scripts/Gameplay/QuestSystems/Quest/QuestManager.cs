@@ -13,7 +13,7 @@ namespace Game.Testing
         [SerializeField] private List<QuestData> allQuestTemplates;
         private int trackedQuestId = -1;
 
-        // รายการเควสที่แปลงเป็น Object พร้อมใช้งานในเกมแล้ว
+        // The runtime list of quests, already converted from data and ready to use.
         private List<Quest> activeQuestList = new List<Quest>();
 
         private void Awake()
@@ -46,7 +46,7 @@ namespace Game.Testing
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
         }
 
-        // แปลง ScriptableObject (QuestData) ให้กลายเป็น Runtime Quest
+        // Converts each ScriptableObject (QuestData) into a runtime Quest.
         private void InitializeQuests()
         {
             activeQuestList.Clear();
@@ -109,18 +109,16 @@ namespace Game.Testing
         private void HandleTutorialAction(TutorialActionId actionId) =>
             TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
 
-        /// <summary>Talk steps reuse TargetEnemyId as the npcId being matched.</summary>
         private void HandleNpcTalk(string npcId)
         {
             if (!string.IsNullOrEmpty(npcId))
-                TryProgress(QuestType.Talk, step => step.TargetEnemyId == npcId);
+                TryProgress(QuestType.Talk, step => step.EffectiveNpcId == npcId);
         }
 
-        /// <summary>Cutscene steps reuse TargetEnemyId as the cutsceneId being matched.</summary>
         private void HandleCutsceneFinished(string cutsceneId)
         {
             if (!string.IsNullOrEmpty(cutsceneId))
-                TryProgress(QuestType.Cutscene, step => step.TargetEnemyId == cutsceneId);
+                TryProgress(QuestType.Cutscene, step => step.EffectiveCutsceneId == cutsceneId);
         }
 
         /// <summary>
@@ -261,11 +259,12 @@ namespace Game.Testing
         /// <summary>Every quest regardless of status — for FeatureUnlockService's one-time-style save migration.</summary>
         public List<Quest> GetAllQuests() => activeQuestList;
 
-        // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ (เช่น เควสใหม่ที่ยังไม่ได้ทำ)
+        // Returns every quest with the given status (e.g. New quests not yet accepted).
         public List<Quest> GetQuestsByStatus(QuestStatus status)
         {
             return activeQuestList.FindAll(q => q.Status == status);
         }
+
         public List<Quest> GetQuestsByCategory(QuestCategory category)
         {
             var quests = activeQuestList.FindAll(q =>
@@ -279,15 +278,11 @@ namespace Game.Testing
             return quests;
         }
 
+        /// <summary>Accepted and not yet finished — shared by every "is this quest active" query below.</summary>
+        private static bool IsActive(Quest q) =>
+            q.Status == QuestStatus.InProgress || q.Status == QuestStatus.ReadyToTurnIn;
 
-        public List<Quest> GetActiveQuests()
-        {
-            return activeQuestList.FindAll(
-                q =>
-                    q.Status == QuestStatus.InProgress ||
-                    q.Status == QuestStatus.ReadyToTurnIn
-            );
-        }
+        public List<Quest> GetActiveQuests() => activeQuestList.FindAll(IsActive);
 
         public Quest GetQuestById(int id)
         {
@@ -310,8 +305,7 @@ namespace Game.Testing
                 q.Status == QuestStatus.InProgress &&
                 q.Classification == QuestClassification.MainQuest &&
                 q.CurrentStep != null &&
-                q.CurrentStep.Type == QuestType.Talk &&
-                q.CurrentStep.TargetEnemyId == npcId);
+                q.CurrentStep.EffectiveNpcId == npcId);
         }
 
         // ── Save support ──
@@ -385,7 +379,7 @@ namespace Game.Testing
                 return false;
             }
 
-            // รับได้เฉพาะ Quest ที่ยังไม่ได้รับ
+            // Only a quest that hasn't been accepted yet can be accepted.
             if (quest.Status != QuestStatus.New)
             {
                 Debug.LogWarning(
@@ -399,7 +393,6 @@ namespace Game.Testing
                 trackedQuestId = questID;
             }
 
-            // รับ Quest
             quest.Status = QuestStatus.InProgress;
 
             NotifyStepDescription(quest);
@@ -426,7 +419,7 @@ namespace Game.Testing
             OnQuestUpdated?.Invoke();
 
             return true;
-        } // RejectQuest ===
+        }
 
         public bool CancelQuest(int questID)
         {
@@ -446,11 +439,11 @@ namespace Game.Testing
                 return false;
             }
 
-            // รีเซ็ต Quest ที่ถูก Cancel
+            // Reset the cancelled quest back to New.
             quest.Status = QuestStatus.New;
             quest.CurrentCount = 0;
 
-            // ถ้า Quest ที่ Cancel คือ Quest ที่กำลัง Track ให้หา Quest อื่นมา Track แทน
+            // If the cancelled quest was the tracked one, find another quest to track instead.
             if (trackedQuestId == questID)
                 trackedQuestId = -1;
 
@@ -461,35 +454,21 @@ namespace Game.Testing
             return true;
         }
 
-        public bool HasActiveQuest()
-        {
-            return activeQuestList.Exists(
-                q => q.Status == QuestStatus.InProgress ||
-                     q.Status == QuestStatus.ReadyToTurnIn
-            );
-        }
+        public bool HasActiveQuest() => activeQuestList.Exists(IsActive);
 
-        public Quest GetCurrentActiveQuest()
-        {
-            return activeQuestList.Find(
-                q =>
-                q.Status == QuestStatus.InProgress ||
-                q.Status == QuestStatus.ReadyToTurnIn
-            );
-        }
+        public Quest GetCurrentActiveQuest() => activeQuestList.Find(IsActive);
+
+        public static event Action<int> OnMoneyRewarded;
 
         /// <summary>
-        /// Called by the NPC when the player clicks Turn In.
-        /// Quest must be ReadyToTurnIn — any other state returns false with a warning.
+        /// Removes the quest item(s) consumed by turn-in. Delivery can target several item
+        /// ids — every one of them is removed (TargetCount each). Every other type keeps
+        /// the single-item field (e.g. a KillCount bounty's hand-in loot item).
         /// </summary>
-        
-        public static event Action<int> OnMoneyRewarded;
         private void RemoveQuestItems(Quest q)
         {
             if (InventoryManager.Instance == null) return;
 
-            // Delivery can target several item ids — every one of them is removed
-            // (TargetCount each) on turn-in. Every other type keeps the single-item field.
             if (q.CurrentStep.Type == QuestType.Delivery)
             {
                 if (q.TargetQuestItemIds == null) return;
@@ -506,6 +485,10 @@ namespace Game.Testing
             InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }
 
+        /// <summary>
+        /// Called by the NPC when the player clicks Turn In. Quest must be ReadyToTurnIn —
+        /// any other state returns false with a warning.
+        /// </summary>
         public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
@@ -569,8 +552,6 @@ namespace Game.Testing
 
             return true;
         }
-
-
 
     }
 }

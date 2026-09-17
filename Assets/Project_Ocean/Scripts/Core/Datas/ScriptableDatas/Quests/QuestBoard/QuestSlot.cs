@@ -35,44 +35,30 @@ namespace Game.Testing
 
             gameObject.SetActive(true);
 
-            // ชื่อ Quest
+            // Quest name
             if (questNameText != null)
             {
                 questNameText.text = quest.QuestName;
             }
 
-            // รายละเอียด Quest
+            // Quest description
             if (questDescriptionText != null)
             {
                 questDescriptionText.text = quest.StepDescription;
             }
 
-            // ชื่อ NPC — resolved live from NPCManager by id, not stored on the quest.
+            // NPC name — resolved live from NPCManager by id, not stored on the quest.
             if (npcNameText != null)
             {
                 npcNameText.text = NPCManager.Instance?.GetNpcName(quest.NpcId);
             }
 
-            // =========================
-            // รูปปลา
-            // =========================
-            if (fishImage != null)
-            {
-                Sprite sprite = GetQuestItemSprite(quest.TargetQuestItemId);
+            QuestVisuals.Apply(fishImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
-                fishImage.sprite = sprite;
-                fishImage.enabled = sprite != null;
-            }
+            // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.NpcId));
 
-            // รูป NPC — resolved live from NPCManager by id, not stored on the quest.
-            if (npcAvatarImage != null)
-            {
-                Sprite avatar = NPCManager.Instance?.GetNpcAvatar(quest.NpcId);
-                npcAvatarImage.sprite = avatar;
-                npcAvatarImage.enabled = avatar != null;
-            }
-
-            // รางวัล — preview shows the first step's reward (board quests are single-step today)
+            // Reward preview shows the first step's reward (board quests are single-step today)
             if (rewardText != null)
             {
                 rewardText.text =
@@ -80,38 +66,13 @@ namespace Game.Testing
             }
         }
 
-        // =========================
-        // ดึงรูปจาก ItemVisual
-        // =========================
-        private static Sprite GetQuestItemSprite(string questItemId)
-        {
-            if (string.IsNullOrEmpty(questItemId))
-                return null;
-
-            if (!int.TryParse(questItemId, out int id))
-                return null;
-
-            return InventoryManager.Instance?
-                .FindItemInDatabase(id)?
-                .ItemVisual;
-        }
-
         public void ClearSlot()
         {
             currentQuest = null;
             onSlotClickedCallback = null;
 
-            if (fishImage != null)
-            {
-                fishImage.sprite = null;
-                fishImage.enabled = false;
-            }
-
-            if (npcAvatarImage != null)
-            {
-                npcAvatarImage.sprite = null;
-                npcAvatarImage.enabled = false;
-            }
+            QuestVisuals.Apply(fishImage, null);
+            QuestVisuals.Apply(npcAvatarImage, null);
 
             gameObject.SetActive(false);
         }

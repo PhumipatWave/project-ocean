@@ -54,6 +54,10 @@ namespace Game.Testing
         /// </summary>
         public string EffectiveNpcId => Type == QuestType.Talk ? TargetEnemyId : null;
 
+        /// <summary>Cutscene steps reuse TargetEnemyId as the Cutscene Id to play — this is
+        /// that value, named for what it actually is at this step type.</summary>
+        public string EffectiveCutsceneId => Type == QuestType.Cutscene ? TargetEnemyId : null;
+
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
 
@@ -203,8 +207,6 @@ namespace Game.Testing
         public Quest(QuestData questData)
         {
             questId = questData.questId;
-
-            // สำคัญ
             category = questData.category;
 
             classification = questData.classification;

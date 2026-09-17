@@ -217,7 +217,8 @@ namespace Game.Testing
                 case QuestStatus.InProgress:
                     dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.InProgress);
                     break;
-                // FIX 1: ReadyToTurnIn was missing — caused blank dialogue on Turn In attempt
+                // Must show the Finish line here, not fall through blank — the player is
+                // about to turn the quest in, not still working toward it.
                 case QuestStatus.ReadyToTurnIn:
                     dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish);
                     break;
@@ -266,7 +267,9 @@ namespace Game.Testing
                         questDetailPanel.ShowPanel(npcQuest, null);
                 }
             }
-            // FIX 2: ReadyToTurnIn fell into the else-CloseDialogue branch — quest never completed
+            // Must be handled explicitly, not left to fall into the generic else branch below —
+            // that branch only closes the dialogue, it never calls TurnInQuest, so the quest
+            // would never actually complete.
             else if (npcQuest.Status == QuestStatus.ReadyToTurnIn)
             {
                 if (!string.IsNullOrEmpty(npcId))

@@ -20,6 +20,11 @@ namespace Game.Testing
         [Header("Camera Control")]
         [SerializeField] private bool snapCamera = true;
 
+        [Header("Tutorial")]
+        [Tooltip("Raised once the warp completes, if set — lets a guided Tutorial quest step require walking through this specific door (e.g. MoveInHouse for a house's entry door, MoveOutHouse for its exit door). Leave unset for a door no tutorial step ever targets.")]
+        [SerializeField] private bool raiseTutorialAction;
+        [SerializeField] private TutorialActionId tutorialAction;
+
         private CinemachineCamera vcam;
         private static bool isWarping;
 
@@ -65,6 +70,9 @@ namespace Game.Testing
 
             if (snapCamera && vcam != null)
                 vcam.OnTargetObjectWarped(player.transform, warpDestination.position - oldPosition);
+
+            if (raiseTutorialAction)
+                TutorialEvents.RaiseAction(tutorialAction);
 
             yield return new WaitForSeconds(0.1f);
 

@@ -85,11 +85,11 @@ namespace Game.Testing
                     continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Cutscene || !prefabsById.ContainsKey(step.TargetEnemyId))
+                if (step == null || step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
                     continue;
 
                 activeQuestStep = q;
-                StartCoroutine(PlayStepAfterDelay(q, step.TargetEnemyId));
+                StartCoroutine(PlayStepAfterDelay(q, step.EffectiveCutsceneId));
                 return;
             }
         }
@@ -102,7 +102,7 @@ namespace Game.Testing
             // (or been cancelled) during the wait.
             var step = q.CurrentStep;
             bool stillWaiting = q.Status == QuestStatus.InProgress &&
-                step != null && step.Type == QuestType.Cutscene && step.TargetEnemyId == cutsceneId;
+                step != null && step.EffectiveCutsceneId == cutsceneId;
 
             if (!stillWaiting)
             {

@@ -24,9 +24,9 @@ namespace Game.Testing
     /// steps (see Quest.BuildSteps) — existing assets built before these became lists don't
     /// need to be re-authored, they just can't be edited as a singular field anymore.
     ///
-    /// Per-type field visibility (see showTargetCount/showNotificationImages/showDialogue/
-    /// showReward/showUnlocksFeatures in OnGUI/GetPropertyHeight — keep both in sync): Talk
-    /// hides Target Count (a Talk step always completes in one exchange) and Notification
+    /// Per-type field visibility (see the FieldVisibility struct below — computed once per
+    /// type and shared by OnGUI/GetPropertyHeight): Talk hides Target Count (a Talk step
+    /// always completes in one exchange) and Notification
     /// Images (no guide banner icon for a conversation); Tutorial hides both Dialogue and
     /// Reward (it completes off TutorialAction alone, no dialogue box, no payout); KillCount
     /// and Delivery hide Notification Images (no guide banner for a grind objective) but keep
@@ -53,6 +53,32 @@ namespace Game.Testing
     [CustomPropertyDrawer(typeof(QuestStepData))]
     public class QuestStepDataDrawer : PropertyDrawer
     {
+        /// <summary>
+        /// Which fields show for a given step type — computed once here instead of as eight
+        /// separate booleans duplicated by hand across OnGUI and GetPropertyHeight.
+        /// </summary>
+        private readonly struct FieldVisibility
+        {
+            public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures,
+                TargetField, TargetEnemyIds, TargetQuestItemIds;
+
+            private FieldVisibility(QuestType type)
+            {
+                TargetCount = type != QuestType.Talk;
+                NotificationImages = type != QuestType.Talk && type != QuestType.KillCount && type != QuestType.Delivery;
+                Dialogue = type != QuestType.Tutorial;
+                Reward = type != QuestType.Tutorial;
+                UnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
+                // Delivery targets item(s), not an enemy — KillCount targets enemy id(s), not
+                // an item. Both use a list field instead of the singular one (see class doc).
+                TargetField = type != QuestType.Delivery && type != QuestType.KillCount;
+                TargetEnemyIds = type == QuestType.KillCount;
+                TargetQuestItemIds = type == QuestType.Delivery;
+            }
+
+            public static FieldVisibility For(QuestType type) => new(type);
+        }
+
         private static readonly Dictionary<string, ReorderableList> DialogueLists = new();
 
         // Reward's own foldout state — Dialogue reuses property.isExpanded (the step's native
@@ -155,18 +181,9 @@ namespace Game.Testing
             var dialogueProp = property.FindPropertyRelative("dialogue");
 
             // Per-type field visibility — see class doc for what each step type actually uses.
-            bool showTargetCount = type != QuestType.Talk;
-            bool showNotificationImages = type != QuestType.Talk && type != QuestType.KillCount && type != QuestType.Delivery;
-            bool showDialogue = type != QuestType.Tutorial;
-            bool showReward = type != QuestType.Tutorial;
-            bool showUnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
-            // Delivery targets item(s), not an enemy — KillCount targets enemy id(s), not an
-            // item. Both use a list field instead of the singular one (see class doc).
-            bool showTargetField = type != QuestType.Delivery && type != QuestType.KillCount;
-            bool showTargetEnemyIds = type == QuestType.KillCount;
-            bool showTargetQuestItemIds = type == QuestType.Delivery;
+            var vis = FieldVisibility.For(type);
 
-            if (showTargetField)
+            if (vis.TargetField)
             {
                 if (type == QuestType.Tutorial)
                     EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
@@ -178,7 +195,7 @@ namespace Game.Testing
                 rect.y += lineHeight;
             }
 
-            if (showTargetEnemyIds)
+            if (vis.TargetEnemyIds)
             {
                 rect.height = EditorGUI.GetPropertyHeight(targetEnemyIdsProp, true);
                 EditorGUI.PropertyField(rect, targetEnemyIdsProp, new GUIContent("Target Enemy Ids",
@@ -187,7 +204,7 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
-            if (showTargetQuestItemIds)
+            if (vis.TargetQuestItemIds)
             {
                 rect.height = EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true);
                 EditorGUI.PropertyField(rect, targetQuestItemIdsProp, new GUIContent("Target Quest Item Ids",
@@ -196,7 +213,7 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
-            if (showUnlocksFeatures)
+            if (vis.UnlocksFeatures)
             {
                 rect.height = EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true);
                 EditorGUI.PropertyField(rect, unlocksFeaturesProp, new GUIContent("Unlocks Features"), true);
@@ -204,7 +221,7 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
-            if (showTargetCount)
+            if (vis.TargetCount)
             {
                 EditorGUI.PropertyField(rect, targetCountProp);
                 rect.y += lineHeight;
@@ -225,20 +242,20 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, stepDescriptionProp);
             rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
 
-            if (showNotificationImages)
+            if (vis.NotificationImages)
             {
                 rect.height = EditorGUI.GetPropertyHeight(notificationImagesProp, true);
                 EditorGUI.PropertyField(rect, notificationImagesProp, true);
                 rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            if (!showDialogue && !showReward)
+            if (!vis.Dialogue && !vis.Reward)
             {
                 EditorGUI.EndProperty();
                 return;
             }
 
-            if (showDialogue)
+            if (vis.Dialogue)
             {
                 rect.height = EditorGUIUtility.singleLineHeight;
                 property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, "Dialogue", true);
@@ -257,7 +274,7 @@ namespace Game.Testing
                 }
             }
 
-            if (showReward)
+            if (vis.Reward)
             {
                 rect.height = EditorGUIUtility.singleLineHeight;
                 bool rewardExpanded = EditorGUI.Foldout(rect, GetRewardExpanded(property), "Reward", true);
@@ -290,14 +307,7 @@ namespace Game.Testing
             if (type == QuestType.Cutscene)
                 return lineHeight * 4;
 
-            bool showTargetCount = type != QuestType.Talk;
-            bool showNotificationImages = type != QuestType.Talk && type != QuestType.KillCount && type != QuestType.Delivery;
-            bool showDialogue = type != QuestType.Tutorial;
-            bool showReward = type != QuestType.Tutorial;
-            bool showUnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
-            bool showTargetField = type != QuestType.Delivery && type != QuestType.KillCount;
-            bool showTargetEnemyIds = type == QuestType.KillCount;
-            bool showTargetQuestItemIds = type == QuestType.Delivery;
+            var vis = FieldVisibility.For(type);
 
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
 
@@ -306,40 +316,40 @@ namespace Game.Testing
             // then description. The two list fields (Target Enemy Ids/Target Quest Item
             // Ids) are variable height, added separately below.
             int lineCount = 3
-                + (showTargetField ? 1 : 0)
-                + (showTargetCount ? 1 : 0);
+                + (vis.TargetField ? 1 : 0)
+                + (vis.TargetCount ? 1 : 0);
             float height = lineHeight * lineCount
                 + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing;
 
-            if (showTargetEnemyIds)
+            if (vis.TargetEnemyIds)
             {
                 var targetEnemyIdsProp = property.FindPropertyRelative("targetEnemyIds");
                 height += EditorGUI.GetPropertyHeight(targetEnemyIdsProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            if (showTargetQuestItemIds)
+            if (vis.TargetQuestItemIds)
             {
                 var targetQuestItemIdsProp = property.FindPropertyRelative("targetQuestItemIds");
                 height += EditorGUI.GetPropertyHeight(targetQuestItemIdsProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            if (showUnlocksFeatures)
+            if (vis.UnlocksFeatures)
             {
                 var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
                 height += EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            if (showNotificationImages)
+            if (vis.NotificationImages)
             {
                 var notificationImagesProp = property.FindPropertyRelative("notificationImages");
                 height += EditorGUI.GetPropertyHeight(notificationImagesProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
             // Tutorial stops here — see the matching early-return in OnGUI.
-            if (!showDialogue && !showReward)
+            if (!vis.Dialogue && !vis.Reward)
                 return height;
 
-            if (showDialogue)
+            if (vis.Dialogue)
             {
                 height += lineHeight; // the "Dialogue" foldout header
 
@@ -350,7 +360,7 @@ namespace Game.Testing
                 }
             }
 
-            if (showReward)
+            if (vis.Reward)
             {
                 height += lineHeight; // the "Reward" foldout header
 

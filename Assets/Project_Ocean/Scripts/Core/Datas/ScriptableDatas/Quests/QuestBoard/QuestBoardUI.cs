@@ -109,7 +109,7 @@ namespace Game.Testing
         {
             currentPageIndex = 0;
 
-            // เปลี่ยนชื่อกลับเป็น Quest Board
+            // Reset the title back to "Quest Board".
             if (questBoardTitle != null)
             {
                 questBoardTitle.text = "Quest Board";
@@ -152,7 +152,7 @@ namespace Game.Testing
             currentCategory = category;
             currentPageIndex = 0;
 
-            // เปลี่ยนชื่อหัวกระดาน
+            // Set the header title for this category.
             if (questBoardTitle != null)
             {
                 switch (category)

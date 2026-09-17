@@ -37,18 +37,12 @@ namespace Game.Testing
             currentQuest = quest;
             onQuestStatusChangedCallback = onStatusChanged;
 
-            // ผูกข้อมูลตรงจากตัวแปรในคลาส Quest เดิมของคุณทั้งหมด
             if (titleText != null) titleText.text = quest.QuestName;
             if (descriptionText != null) descriptionText.text = quest.StepDescription;
             if (acceptButtonText != null) acceptButtonText.text = quest.CurrentStep.AnswerAccept;
             if (rejectButtonText != null) rejectButtonText.text = quest.CurrentStep.AnswerReject;
 
-            if (itemImage != null)
-            {
-                Sprite sprite = GetQuestItemSprite(quest.TargetQuestItemId);
-                itemImage.sprite  = sprite;
-                itemImage.enabled = sprite != null;
-            }
+            QuestVisuals.Apply(itemImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
             gameObject.SetActive(true);
         }
@@ -95,13 +89,6 @@ namespace Game.Testing
         {
             onQuestStatusChangedCallback?.Invoke();
             HidePanel();
-        }
-
-        private static Sprite GetQuestItemSprite(string questItemId)
-        {
-            if (string.IsNullOrEmpty(questItemId)) return null;
-            if (!int.TryParse(questItemId, out int id)) return null;
-            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
         }
     }
 }
