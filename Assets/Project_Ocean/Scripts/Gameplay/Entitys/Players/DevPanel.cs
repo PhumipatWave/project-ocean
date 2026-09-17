@@ -4,15 +4,24 @@ using UnityEngine.UI;
 namespace Game.Testing
 {
     /// <summary>
-    /// Dev/Cheat Panel แบบไฟล์เดียว — ไม่แก้ PlayerHealth, OxygenRope, PlayerMoney, GameManager เลย
-    /// ทำงานผ่าน public API ที่มีอยู่แล้วของทุกคลาสเท่านั้น
+    /// Dev/Cheat Panel แบบไฟล์เดียว — ไม่แก้ PlayerHealth, OxygenRope, PlayerMoney, GameManager,
+    /// InventoryManager เลย ทำงานผ่าน public API ที่มีอยู่แล้วของทุกคลาสเท่านั้น
     ///
     /// God Mode         -> เรียก PlayerHealth.Heal() เติมเต็มทุกเฟรม
     /// Infinite Oxygen   -> ตั้ง OxygenRope.MaxRopeLength ให้สูงมากทุกเฟรม กัน breach/นับถอยหลัง
     /// Add Money         -> เรียก PlayerMoney.AddMoney() ตรงๆ
+    /// Add Item          -> เรียก InventoryManager.Instance.AddItem(item) ตรงๆ ต่อปุ่มที่กด
     /// </summary>
     public class DevPanel : MonoBehaviour
     {
+        [System.Serializable]
+        private struct DevItemButton
+        {
+            public Button button;   // ปุ่มปลา/ไอเทมในกริด (ลากจาก Hierarchy)
+            public Item item;       // Item ScriptableObject ที่ปุ่มนี้จะให้
+            public int amount;      // จำนวนที่ให้ต่อการกด 1 ครั้ง (ค่าเริ่มต้น 1 ถ้าใส่ 0 หรือติดลบ)
+        }
+
         [Header("UI References")]
         [SerializeField] private GameObject panelRoot;   // กล่อง panel ทั้งหมด (ซ่อน/โชว์)
         [SerializeField] private Button toggleButton;    // ไอคอนมุมจอ กดเปิด-ปิด
@@ -22,6 +31,10 @@ namespace Game.Testing
         [SerializeField] private Toggle infiniteOxygenToggle;
         [SerializeField] private Button addMoneyButton;
         [SerializeField] private int addMoneyAmount = 9999;
+
+        [Header("Add Item")]
+        [Tooltip("ลากปุ่มแต่ละอันในกริด (เช่น Button Fish S (0)..(8)) มาคู่กับ Item ที่ต้องการให้")]
+        [SerializeField] private DevItemButton[] devItemButtons;
 
         [Header("Settings")]
         [Tooltip("ค่าที่ใช้ตั้งเป็น MaxRopeLength ตอน Infinite Oxygen เปิดอยู่ ยิ่งสูงยิ่งชัวร์ว่าไม่มีวันเกินระยะ")]
@@ -41,6 +54,18 @@ namespace Game.Testing
             godModeToggle.onValueChanged.AddListener(v => godModeOn = v);
             infiniteOxygenToggle.onValueChanged.AddListener(v => infiniteOxygenOn = v);
             addMoneyButton.onClick.AddListener(GiveMoney);
+
+            if (devItemButtons != null)
+            {
+                foreach (DevItemButton entry in devItemButtons)
+                {
+                    if (entry.button == null || entry.item == null)
+                        continue;
+
+                    DevItemButton captured = entry; // avoid closure-over-loop-variable bug
+                    captured.button.onClick.AddListener(() => GiveItem(captured.item, captured.amount));
+                }
+            }
         }
 
         private void Update()
@@ -77,6 +102,24 @@ namespace Game.Testing
                 money.AddMoney(addMoneyAmount);
             else
                 Debug.LogWarning("[DevPanel] ไม่พบ PlayerMoney บน CurPlayer");
+        }
+
+        private void GiveItem(Item item, int amount)
+        {
+            if (item == null)
+                return;
+
+            if (InventoryManager.Instance == null)
+            {
+                Debug.LogWarning("[DevPanel] ไม่พบ InventoryManager.Instance");
+                return;
+            }
+
+            // AddItem() เดิมเพิ่มทีละ 1 ชิ้น — เรียกซ้ำตามจำนวนที่ตั้งไว้
+            // (มันจัดการ full-inventory notification และ NotifyChanged() ให้เองอยู่แล้วในทุกครั้งที่เรียก)
+            int toGive = Mathf.Max(1, amount);
+            for (int i = 0; i < toGive; i++)
+                InventoryManager.Instance.AddItem(item);
         }
     }
 }
