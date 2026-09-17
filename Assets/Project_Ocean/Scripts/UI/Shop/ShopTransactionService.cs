@@ -40,10 +40,6 @@ namespace Game.Testing
             playerMoney.AddMoney(GetSellPrice(realItem.GetItem()));
             RemoveOne(realItem);
             inventory.NotifyChanged();
-
-            if (!HasAnySellableItem(inventory.InventorySlots))
-                TutorialEvents.RaiseAction(TutorialActionId.SellItem);
-
             return true;
         }
 
@@ -70,32 +66,14 @@ namespace Game.Testing
             playerMoney.AddMoney(total);
             inventory.NotifyChanged();
 
-            // SellAll destroys every sellable item in one pass, so this is always empty
-            // afterward — checked anyway rather than raising unconditionally, so the two
-            // sell paths can't disagree about what "sold everything" means.
-            if (!HasAnySellableItem(inventory.InventorySlots))
-                TutorialEvents.RaiseAction(TutorialActionId.SellItem);
+            // SellAll destroys every sellable (Normal-type) item in this one pass, by
+            // definition of what it does — reaching here already means "sold everything",
+            // no need to re-scan inventory afterward (Object.Destroy doesn't take effect
+            // until end of frame, so an immediate re-scan would still see the "destroyed"
+            // items and never fire).
+            TutorialEvents.RaiseAction(TutorialActionId.SellItem);
 
             return true;
-        }
-
-        /// <summary>True if any slot still holds a sellable (ItemType.Normal) item — used to
-        /// gate TutorialActionId.SellItem so it only fires once the player has actually sold
-        /// everything, not on the first single sale.</summary>
-        private static bool HasAnySellableItem(InventorySlot[] slots)
-        {
-            if (slots == null) return false;
-
-            foreach (InventorySlot slot in slots)
-            {
-                if (slot == null) continue;
-
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI != null && itemUI.GetItem() != null && itemUI.GetItem().ItemType == ItemType.Normal)
-                    return true;
-            }
-
-            return false;
         }
 
 public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item item, int[] ammoCounts)

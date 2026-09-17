@@ -37,30 +37,7 @@ namespace Game.Testing
 
         private void OnDisable() => QuestManager.OnQuestUpdated -= RefreshTarget;
 
-        private void RefreshTarget() => target = ResolveTarget();
-
-        private static Transform ResolveTarget()
-        {
-            var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
-            if (step == null)
-                return null;
-
-            if (step.Type == QuestType.Talk)
-                return NPCManager.Instance?.GetNpc(step.EffectiveNpcId)?.transform;
-
-            if (step.Type == QuestType.Tutorial)
-            {
-                if (IsMoveDoorAction(step.TutorialAction))
-                    return DoorInteract.FindByTutorialAction(step.TutorialAction);
-                return TutorialActionMarker.FindByTutorialAction(step.TutorialAction);
-            }
-
-            return null;
-        }
-
-        private static bool IsMoveDoorAction(TutorialActionId action) => action is
-            TutorialActionId.MoveInHouse or TutorialActionId.MoveInShop or TutorialActionId.MoveInUpgradeShop or
-            TutorialActionId.MoveOutHouse or TutorialActionId.MoveOutShop or TutorialActionId.MoveOutUpgradeShop;
+        private void RefreshTarget() => target = QuestNavigation.ResolveQuestTarget();
 
         private void Update()
         {

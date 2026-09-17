@@ -69,10 +69,13 @@ namespace Game.Testing
         /// <summary>True while this door is the tracked quest's current target and the player
         /// is close enough that QuestCompass has handed off to this marker — mirrors
         /// NPC.ShouldShowMarker's condition, but matched against TutorialAction instead of
-        /// EffectiveNpcId (see QuestCompass.ResolveTarget, which targets the same door).
-        /// Also shows with no quest involved at all if this is the exit door for whichever
-        /// interior the player is currently in (see PlayerInteriorState) — same override
-        /// QuestCompass gives that case priority over.</summary>
+        /// EffectiveNpcId (see QuestNavigation.ResolveQuestTarget, which targets the same
+        /// door). Also shows with no quest involved at all if this is the exit door for
+        /// whichever interior the player is currently in (see PlayerInteriorState) — but only
+        /// as a fallback: if the quest wants something ELSE specific (e.g. a shop counter
+        /// inside this same building), that thing's own marker should show instead, not this
+        /// exit — otherwise a SellItem step inside the shop would show the exit marker instead
+        /// of the sell counter's, just because the player happens to be indoors.</summary>
         private bool ShouldShowMarker()
         {
             if (!raiseTutorialAction)
@@ -80,7 +83,11 @@ namespace Game.Testing
 
             var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
             bool questWantsThis = step != null && step.Type == QuestType.Tutorial && step.TutorialAction == tutorialAction;
-            bool isCurrentExit = PlayerInteriorState.CurrentExitAction == tutorialAction;
+
+            var questTarget = QuestNavigation.ResolveQuestTarget();
+            bool isCurrentExit = PlayerInteriorState.CurrentExitAction == tutorialAction &&
+                (questTarget == null || questTarget == transform);
+
             if (!questWantsThis && !isCurrentExit)
                 return false;
 
