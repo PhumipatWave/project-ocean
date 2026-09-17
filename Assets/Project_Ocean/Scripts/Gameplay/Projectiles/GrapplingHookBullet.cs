@@ -127,11 +127,15 @@ namespace Game.Testing
             while (!isDashReachingTarget)
             {
                 Vector2 playerPos = player.transform.position;
-                Vector2 dir = (hitPos - playerPos).normalized;
+                // Never dash past the current (possibly-upgraded) max rope length —
+                // otherwise EnforceRopeLimit pins the player at the boundary while this
+                // loop keeps waiting to reach the out-of-range hitPos, hanging forever.
+                Vector2 target = player.OxygenTube != null ? player.OxygenTube.ClampToRopeLimit(hitPos) : hitPos;
+                Vector2 dir = (target - playerPos).normalized;
 
                 player.RB.linearVelocity = dir * player.DashSpeed;
 
-                isDashReachingTarget = IsReachingTargetPoint(playerPos, hitPos, stopDist);
+                isDashReachingTarget = IsReachingTargetPoint(playerPos, target, stopDist);
 
                 yield return null;
             }
