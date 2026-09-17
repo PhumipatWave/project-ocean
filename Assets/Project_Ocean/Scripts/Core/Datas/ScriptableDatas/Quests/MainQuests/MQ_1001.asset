@@ -136,12 +136,38 @@ MonoBehaviour:
     tutorialAction: 4
     targetQuestItemId: 
     targetQuestItemIds:
-    - 
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
     targetCount: 9
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 1
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetCount: 9
+    completionMode: 0
+    stepDescription: 
+    dialogue: []
+    isGuidedSequence: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0

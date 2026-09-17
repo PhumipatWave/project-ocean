@@ -81,7 +81,9 @@ namespace Game.Testing
         }
 
         /// <summary>True while this NPC is the active quest's current Talk-step target — mirrors
-        /// StartDialogue's own unlock gate for a not-yet-accepted (New) quest.</summary>
+        /// StartDialogue's own unlock gate for a not-yet-accepted (New) quest — and the player
+        /// is close enough that QuestCompass has handed off to this marker (see
+        /// QuestNavigation.CloseRangeMeters).</summary>
         private bool ShouldShowMarker()
         {
             var quest = ResolveActiveQuest();
@@ -89,18 +91,33 @@ namespace Game.Testing
             if (step == null || step.Type != QuestType.Talk || step.EffectiveNpcId != npcId)
                 return false;
 
-            return quest.Status switch
+            bool targeted = quest.Status switch
             {
                 QuestStatus.New => QuestManager.Instance != null && QuestManager.Instance.IsUnlocked(quest),
                 QuestStatus.InProgress or QuestStatus.ReadyToTurnIn => true,
                 _ => false,
             };
+            if (!targeted)
+                return false;
+
+            var player = GameManager.CurPlayer;
+            return player != null &&
+                Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(transform)) <= QuestNavigation.CloseRangeMeters;
         }
 
         private void RefreshMarker()
         {
             if (markerUI != null)
                 markerUI.SetActive(ShouldShowMarker());
+        }
+
+        // Proximity changes every frame as the player walks, unlike the rest of the marker's
+        // condition (which only changes on OnQuestUpdated) — skip entirely for the many NPCs
+        // that never carry a marker (see the dummy "locked door" NPCs) or aren't a live target.
+        private void Update()
+        {
+            if (markerUI != null && HasQuest)
+                RefreshMarker();
         }
 
         /// <summary>
