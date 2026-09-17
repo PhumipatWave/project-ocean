@@ -33,8 +33,14 @@ namespace Game.Testing
     {
         public QuestType Type;
         public string TargetEnemyId;
+
+        /// <summary>KillCount only — kills of any of these ids count toward TargetCount.</summary>
+        public List<string> TargetEnemyIds;
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
+
+        /// <summary>Delivery only — every id here is removed (TargetCount each) on turn-in.</summary>
+        public List<string> TargetQuestItemIds;
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -191,6 +197,9 @@ namespace Game.Testing
         // now per-step so different checkpoints of the same quest can target different items.
         public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
 
+        /// <summary>Delivery only — see QuestStep.TargetQuestItemIds.</summary>
+        public List<string> TargetQuestItemIds => CurrentStep?.TargetQuestItemIds;
+
         public Quest(QuestData questData)
         {
             questId = questData.questId;
@@ -220,12 +229,24 @@ namespace Game.Testing
 
             foreach (var s in questData.steps)
             {
+                // Legacy KillCount/Delivery steps authored before these became lists only have
+                // the singular id set — fall back to that as a one-entry list so old .asset
+                // data keeps working without hand-editing every quest.
+                var enemyIds = s.targetEnemyIds != null && s.targetEnemyIds.Count > 0
+                    ? s.targetEnemyIds
+                    : (string.IsNullOrEmpty(s.targetEnemyId) ? new List<string>() : new List<string> { s.targetEnemyId });
+                var questItemIds = s.targetQuestItemIds != null && s.targetQuestItemIds.Count > 0
+                    ? s.targetQuestItemIds
+                    : (string.IsNullOrEmpty(s.targetQuestItemId) ? new List<string>() : new List<string> { s.targetQuestItemId });
+
                 var step = new QuestStep
                 {
                     Type = s.type,
                     TargetEnemyId = s.targetEnemyId,
+                    TargetEnemyIds = enemyIds,
                     TutorialAction = s.tutorialAction,
                     TargetQuestItemId = s.targetQuestItemId,
+                    TargetQuestItemIds = questItemIds,
                     TargetCount = s.targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,

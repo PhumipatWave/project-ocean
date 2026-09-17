@@ -40,6 +40,7 @@ namespace Game.Testing
             playerMoney.AddMoney(GetSellPrice(realItem.GetItem()));
             RemoveOne(realItem);
             inventory.NotifyChanged();
+            TutorialEvents.RaiseAction(TutorialActionId.SellItem);
             return true;
         }
 
@@ -65,6 +66,7 @@ namespace Game.Testing
 
             playerMoney.AddMoney(total);
             inventory.NotifyChanged();
+            TutorialEvents.RaiseAction(TutorialActionId.SellItem);
             return true;
         }
 
@@ -82,6 +84,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
             {
                 AddAmmo(item, ammoCounts);
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 
@@ -90,6 +93,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
                 if (!inventory.AddItem(item)) return false;
 
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 

@@ -152,6 +152,7 @@ namespace Game.Testing
             }
 
             DayManager.Instance?.MarkDivedToday();
+            TutorialEvents.RaiseAction(TutorialActionId.Dive);
             SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }

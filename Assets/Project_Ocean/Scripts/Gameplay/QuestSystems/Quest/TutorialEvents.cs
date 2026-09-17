@@ -7,6 +7,11 @@ namespace Game.Testing
     {
         Move,
         Interact,
+        BuyItem,
+        SellItem,
+        Dive,
+        OpenQuestBoard,
+        NextDay,
     }
 
     public static class TutorialEvents

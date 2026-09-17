@@ -86,6 +86,8 @@ namespace Game.Testing
             // only register how to close it, don't lock a second time.
             PlayerUIState.SetCloser(() => gameObject.SetActive(false));
 
+            TutorialEvents.RaiseAction(TutorialActionId.OpenQuestBoard);
+
             ShowCategoryPage();
         }
 

@@ -103,7 +103,7 @@ namespace Game.Testing
         private void HandleEnemyKilled(string enemyId)
         {
             if (!string.IsNullOrEmpty(enemyId))
-                TryProgress(QuestType.KillCount, step => step.TargetEnemyId == enemyId);
+                TryProgress(QuestType.KillCount, step => step.TargetEnemyIds != null && step.TargetEnemyIds.Contains(enemyId));
         }
 
         private void HandleTutorialAction(TutorialActionId actionId) =>
@@ -486,9 +486,23 @@ namespace Game.Testing
         public static event Action<int> OnMoneyRewarded;
         private void RemoveQuestItems(Quest q)
         {
+            if (InventoryManager.Instance == null) return;
+
+            // Delivery can target several item ids — every one of them is removed
+            // (TargetCount each) on turn-in. Every other type keeps the single-item field.
+            if (q.CurrentStep.Type == QuestType.Delivery)
+            {
+                if (q.TargetQuestItemIds == null) return;
+                foreach (var idStr in q.TargetQuestItemIds)
+                {
+                    if (!string.IsNullOrEmpty(idStr) && int.TryParse(idStr, out int listItemId))
+                        InventoryManager.Instance.RemoveQuestItem(listItemId, q.TargetCount);
+                }
+                return;
+            }
+
             if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
             if (!int.TryParse(q.TargetQuestItemId, out int itemId)) return;
-            if (InventoryManager.Instance == null) return;
             InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }
 

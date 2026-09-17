@@ -75,14 +75,20 @@ namespace Game.Testing
     {
         public QuestType type;
 
-        [Tooltip("Used when type is KillCount/Delivery/ExploreArea.")]
+        [Tooltip("Used when type is ExploreArea (KillCount uses Target Enemy Ids below instead).")]
         public string targetEnemyId;
+
+        [Tooltip("KillCount only — kills of ANY enemy id in this list count toward the step's shared Target Count.")]
+        public List<string> targetEnemyIds = new();
 
         [Tooltip("Used when type is Tutorial/Talk — pick the action instead of typing an id.")]
         public TutorialActionId tutorialAction;
 
-        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items.")]
+        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery uses Target Quest Item Ids below instead.")]
         public string targetQuestItemId;
+
+        [Tooltip("Delivery only — every item id in this list is removed (Target Count each) when the step completes.")]
+        public List<string> targetQuestItemIds = new();
 
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;

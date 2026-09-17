@@ -105,4 +105,30 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+  - type: 4
+    targetEnemyId: 
+    tutorialAction: 4
+    targetQuestItemId: 
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue: []
+    isGuidedSequence: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 1
+    targetEnemyId: 
+    tutorialAction: 4
+    targetQuestItemId: 
+    targetCount: 9
+    completionMode: 0
+    stepDescription: 
+    dialogue: []
+    isGuidedSequence: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
   questName: Tutorial Intro
