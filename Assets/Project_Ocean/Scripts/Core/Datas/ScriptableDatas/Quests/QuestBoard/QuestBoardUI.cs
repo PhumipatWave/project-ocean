@@ -80,12 +80,6 @@ namespace Game.Testing
         // This closes both the Quest Board and its PlayerUIState lock.
         public void CloseBoard()
         {
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.Close(UIManager.UIType.Quest);
-                return;
-            }
-
             if (questBoardPanel != null)
             {
                 questBoardPanel.SetActive(false);

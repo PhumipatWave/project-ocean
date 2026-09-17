@@ -256564,6 +256564,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4471607610686727499, guid: b737f366bfcac2f4b9be27df965fbf6b, type: 3}
   m_PrefabInstance: {fileID: 1413896961}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1417665073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1417665074}
+  - component: {fileID: 1417665076}
+  - component: {fileID: 1417665075}
+  m_Layer: 5
+  m_Name: BG (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1417665074
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417665073}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5670617356683390332}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.30010986, y: 0.099975586}
+  m_SizeDelta: {x: 1222.935, y: 728.33655}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1417665075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417665073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1417665076
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417665073}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1418373263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1618714,6 +1618789,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 521152456}
     m_Modifications:
+    - target: {fileID: 312054089685413745, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 512762492588016465, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_fontSize
       value: 40
@@ -1618746,6 +1618825,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1.3999939
       objectReference: {fileID: 0}
+    - target: {fileID: 1977150647977803972, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5670617356683390331}
+    - target: {fileID: 1977150647977803972, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseBoard
+      objectReference: {fileID: 0}
     - target: {fileID: 2154089223487911462, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_fontSize
       value: 40
@@ -1618766,6 +1618853,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0.50001526
       objectReference: {fileID: 0}
+    - target: {fileID: 3013205615543751138, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3082069388202133915, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_fontSize
       value: 40
@@ -1618774,6 +1618865,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 3330212030540109411, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3479407267693546062, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.40722656
@@ -1618781,6 +1618876,10 @@ PrefabInstance:
     - target: {fileID: 3787184500612634512, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_Name
       value: QuestBoardPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3787184500612634512, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3912489265144775203, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
       propertyPath: m_fontSize
@@ -1618992,9 +1619091,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6309500213437639974, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1417665074}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+--- !u!114 &5670617356683390331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6739870599133032914, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+  m_PrefabInstance: {fileID: 5670617356683390330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064033270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdbe1e44f22ca7c489cdbdb57ed4c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestBoardUI
+--- !u!224 &5670617356683390332 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6309500213437639974, guid: c417feac075576449ad9e310c2a9d2c6, type: 3}
+  m_PrefabInstance: {fileID: 5670617356683390330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5917247770419313166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2539216317079425700, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
