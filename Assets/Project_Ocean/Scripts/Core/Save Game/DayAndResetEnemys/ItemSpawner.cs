@@ -32,13 +32,31 @@ namespace Game.Testing
 
         private readonly List<GameObject> _spawnedGOs = new();
 
-        private void OnEnable()  => GameObjectSpawnManager.Instance?.RegisterItemSpawner(this);
-        private void OnDisable() => GameObjectSpawnManager.Instance?.UnregisterItemSpawner(this);
+        private void OnEnable()
+        {
+            GameObjectSpawnManager.Instance?.RegisterItemSpawner(this);
+            FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
+        }
+
+        private void OnDisable()
+        {
+            GameObjectSpawnManager.Instance?.UnregisterItemSpawner(this);
+            FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
+        }
 
         private void Start()
         {
             GameObjectSpawnManager.Instance?.RegisterItemSpawner(this);
             SpawnItems();
+        }
+
+        // Spawning is otherwise only re-rolled once a day (ResetSpawner) — this lets a zone
+        // that was locked at Start() populate immediately the moment its quest unlocks it,
+        // instead of waiting for the next day change.
+        private void HandleFeatureUnlocked(GameFeature feature)
+        {
+            if (feature == GameFeature.InteractItem && _spawnedGOs.Count == 0)
+                SpawnItems();
         }
 
         // ── Public API ──
@@ -61,6 +79,8 @@ namespace Game.Testing
 
         private void SpawnItems()
         {
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.InteractItem)) return;
+
             if (spawnEntries == null || spawnEntries.Count == 0)
             {
                 Debug.LogWarning($"[ItemSpawner] '{name}' has no spawn entries assigned.");

@@ -7033,6 +7033,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishS002
     weight: 0.5
+  requiredLevel: 1
   enemyCount: 3
   spawnRadius: 12
   navSampleDistance: 2
@@ -7041,6 +7042,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &383368025
@@ -9114,6 +9120,7 @@ MonoBehaviour:
     weight: 0.25
   - enemyId: fishL001
     weight: 0.25
+  requiredLevel: 2
   enemyCount: 2
   spawnRadius: 8.5
   navSampleDistance: 2
@@ -9122,6 +9129,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &473181141
@@ -10215,6 +10227,7 @@ MonoBehaviour:
   spawnEntries:
   - enemyId: fishM001
     weight: 1
+  requiredLevel: 2
   enemyCount: 2
   spawnRadius: 8.5
   navSampleDistance: 2
@@ -10223,6 +10236,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &533711111
@@ -12744,6 +12762,7 @@ MonoBehaviour:
   spawnEntries:
   - enemyId: jellyFish
     weight: 1
+  requiredLevel: 2
   enemyCount: 3
   spawnRadius: 10
   navSampleDistance: 2
@@ -12752,6 +12771,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1001 &654001494
@@ -14263,6 +14287,7 @@ MonoBehaviour:
     weight: 0.5
   - enemyId: fishS002
     weight: 1
+  requiredLevel: 1
   enemyCount: 3
   spawnRadius: 8.5
   navSampleDistance: 2
@@ -14271,6 +14296,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &778315957
@@ -17599,6 +17629,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishL001
     weight: 0.75
+  requiredLevel: 3
   enemyCount: 2
   spawnRadius: 15
   navSampleDistance: 2
@@ -17607,6 +17638,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &924716191
@@ -18213,6 +18249,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishS004
     weight: 0.75
+  requiredLevel: 1
   enemyCount: 3
   spawnRadius: 7.5
   navSampleDistance: 2
@@ -18221,6 +18258,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &986437234
@@ -23323,6 +23365,7 @@ MonoBehaviour:
     weight: 0.25
   - enemyId: fishS002
     weight: 1
+  requiredLevel: 1
   enemyCount: 4
   spawnRadius: 8.5
   navSampleDistance: 2
@@ -23331,6 +23374,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1153281005
@@ -173809,6 +173857,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishS001
     weight: 0.75
+  requiredLevel: 1
   enemyCount: 4
   spawnRadius: 12
   navSampleDistance: 2
@@ -173817,6 +173866,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1515335900
@@ -174265,6 +174319,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishL001
     weight: 0.5
+  requiredLevel: 3
   enemyCount: 5
   spawnRadius: 12
   navSampleDistance: 2
@@ -174273,6 +174328,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1528806055
@@ -179062,6 +179122,7 @@ MonoBehaviour:
   spawnEntries:
   - enemyId: jellyFish
     weight: 1
+  requiredLevel: 2
   enemyCount: 4
   spawnRadius: 15
   navSampleDistance: 2
@@ -179070,6 +179131,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &1785233009
@@ -180862,6 +180928,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishS004
     weight: 0.75
+  requiredLevel: 1
   enemyCount: 4
   spawnRadius: 12
   navSampleDistance: 2
@@ -180870,6 +180937,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1842482502
@@ -180921,6 +180993,7 @@ MonoBehaviour:
     weight: 0.75
   - enemyId: fishS004
     weight: 1
+  requiredLevel: 1
   enemyCount: 5
   spawnRadius: 7.5
   navSampleDistance: 2
@@ -180929,6 +181002,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1859581097
@@ -282066,6 +282144,7 @@ MonoBehaviour:
     weight: 1
   - enemyId: fishM002
     weight: 0.5
+  requiredLevel: 2
   enemyCount: 2
   spawnRadius: 9.5
   navSampleDistance: 2
@@ -282074,6 +282153,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &2015814826
@@ -282640,6 +282724,7 @@ MonoBehaviour:
   spawnEntries:
   - enemyId: jellyFish
     weight: 1
+  requiredLevel: 2
   enemyCount: 3
   spawnRadius: 12
   navSampleDistance: 2
@@ -282648,6 +282733,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &2055001775

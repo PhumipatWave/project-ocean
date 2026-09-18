@@ -6,7 +6,9 @@ namespace Game.Testing
     public enum GameState
     {
         Land,
-        Ocean
+        Ocean,
+        // Added at the end — SaveData.gameState is serialized by enum index.
+        Menu
     }
 
     public class GameManager : MonoBehaviour
@@ -47,7 +49,15 @@ namespace Game.Testing
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
-            gameState = GameState.Land;
+            gameState = SceneManager.GetActiveScene().name == SceneNames.MainMenu
+                ? GameState.Menu
+                : GameState.Land;
+        }
+
+        /// <summary>Instantiates the player prefab once, the first time a gameplay scene loads
+        /// (normally Land, via "Start Game" — Ocean too, in case a save is loaded straight into it).</summary>
+        private void SpawnPlayer()
+        {
             var spawnPos = playerSpawnPoint != null
                 ? playerSpawnPoint.position
                 : (GameObject.FindWithTag("PlayerSpawnPoint")?.transform.position ?? Vector3.zero);
@@ -59,6 +69,25 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (scene.name == SceneNames.MainMenu)
+            {
+                gameState = GameState.Menu;
+                return;
+            }
+
+            // StartDive/ReturnToLand also set this explicitly after their own LoadScene call,
+            // but "Start Game" (MainMenu -> Land) never went through either — set it here too
+            // so gameState is always correct regardless of which path loaded the scene.
+            if (scene.name == SceneNames.Land)
+                gameState = GameState.Land;
+            else if (scene.name == SceneNames.Ocean)
+                gameState = GameState.Ocean;
+
+            // First time a gameplay scene loads (normal "Start Game" always lands on Land;
+            // Ocean too, for a save loaded straight into a dive) — the player doesn't exist yet.
+            if ((scene.name == SceneNames.Land || scene.name == SceneNames.Ocean) && CurPlayer == null)
+                SpawnPlayer();
+
             // Reads only SceneLoadContext — no reference to SaveBridge, so the
             // GameManager <-> SaveBridge circular dependency is broken.
             if (SceneLoadContext.IsLoading)
@@ -111,12 +140,19 @@ namespace Game.Testing
         public void ToMainMenu()
         {
             SceneManager.LoadScene(SceneNames.MainMenu);
-            gameState = GameState.Land;
+            gameState = GameState.Menu;
         }
 
         public void StartDive()
         {
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Ocean))
+            {
+                NotificationManager.Notify("Locked — progress the main quest to unlock the ocean.");
+                return;
+            }
+
             DayManager.Instance?.MarkDivedToday();
+            TutorialEvents.RaiseAction(TutorialActionId.Dive);
             SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;
         }
@@ -124,6 +160,7 @@ namespace Game.Testing
         public void ReturnToLand()
         {
             CurPlayer.OxygenTube.ResetRope();
+            TutorialEvents.RaiseAction(TutorialActionId.BackToLand);
             SceneManager.LoadScene(SceneNames.Land);
             gameState = GameState.Land;
         }
