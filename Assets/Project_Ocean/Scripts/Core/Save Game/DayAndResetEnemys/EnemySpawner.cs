@@ -24,6 +24,10 @@ namespace Game.Testing
         [Tooltip("Which enemy types spawn here and their relative weights. IDs must match EnemySpawnManager.")]
         [SerializeField] private List<ZoneSpawnEntry> spawnEntries;
 
+        [Tooltip("This zone only spawns once GameFeature.EnemySpawnLevel<N> is unlocked (1-3) — see FeatureUnlockService.")]
+        [Range(1, 3)]
+        [SerializeField] private int requiredLevel = 1;
+
         [Header("Spawn Settings")]
         [Tooltip("How many enemies to spawn in this zone.")]
         [SerializeField] private int enemyCount = 5;
@@ -96,9 +100,15 @@ namespace Game.Testing
             }
         }
 
+        private static readonly GameFeature[] LevelFeatures =
+        {
+            GameFeature.EnemySpawnLevel1, GameFeature.EnemySpawnLevel2, GameFeature.EnemySpawnLevel3,
+        };
+
         private void CheckProximity()
         {
             if (_isActive) return;
+            if (!FeatureUnlockService.Instance.IsUnlocked(LevelFeatures[requiredLevel - 1])) return;
 
             var player = GameManager.CurPlayer;
             if (player == null) return;

@@ -65,6 +65,14 @@ namespace Game.Testing
 
             playerMoney.AddMoney(total);
             inventory.NotifyChanged();
+
+            // SellAll destroys every sellable (Normal-type) item in this one pass, by
+            // definition of what it does — reaching here already means "sold everything",
+            // no need to re-scan inventory afterward (Object.Destroy doesn't take effect
+            // until end of frame, so an immediate re-scan would still see the "destroyed"
+            // items and never fire).
+            TutorialEvents.RaiseAction(TutorialActionId.SellItem);
+
             return true;
         }
 
@@ -82,6 +90,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
             {
                 AddAmmo(item, ammoCounts);
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 
@@ -90,6 +99,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
                 if (!inventory.AddItem(item)) return false;
 
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 
