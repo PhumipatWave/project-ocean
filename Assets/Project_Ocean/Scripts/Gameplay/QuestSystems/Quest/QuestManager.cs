@@ -168,7 +168,7 @@ namespace Game.Testing
                 // AUTO COMPLETE
                 // =====================================================
 
-                if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
+                if (justCompleted && step.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
 
@@ -182,13 +182,13 @@ namespace Game.Testing
                     }
 
                     // เงินรางวัล
-                    if (q.RewardMoney > 0)
+                    if (step.RewardMoney > 0)
                     {
-                        OnMoneyRewarded?.Invoke(q.RewardMoney);
+                        OnMoneyRewarded?.Invoke(step.RewardMoney);
 
                         Debug.Log(
                             $"[QuestManager] (AutoComplete) " +
-                            $"จ่ายเงินรางวัล: +{q.RewardMoney} บาท"
+                            $"จ่ายเงินรางวัล: +{step.RewardMoney} บาท"
                         );
                     }
                 }
@@ -430,33 +430,6 @@ namespace Game.Testing
             return activeQuestList.FindAll(
                 q => q.Status == QuestStatus.Finish
             );
-        }
-
-        // =========================================================
-        // SAVE SUPPORT
-        // =========================================================
-
-        /// <summary>
-        /// Collects the mutable runtime state
-        /// (id, status, kill progress) of each quest.
-        /// </summary>
-        public List<QuestSaveData> GetSaveState()
-        {
-            var list = new List<QuestSaveData>();
-
-            foreach (var q in activeQuestList)
-            {
-                list.Add(
-                    new QuestSaveData
-                    {
-                        questId = q.QuestID,
-                        status = (int)q.Status,
-                        currentCount = q.CurrentCount,
-                    }
-                );
-            }
-
-            return list;
         }
 
         /// <summary>

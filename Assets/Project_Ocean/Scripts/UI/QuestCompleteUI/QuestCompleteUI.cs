@@ -74,7 +74,7 @@ namespace Game.Testing
             if (questDetailText != null)
             {
                 questDetailText.text =
-                    quest.QuestDetail;
+                    quest.StepDescription;
             }
 
             // ==============================
@@ -85,28 +85,20 @@ namespace Game.Testing
             {
                 string rewards = "";
 
-                if (quest.RewardMoney > 0)
+                if (quest.CurrentStep.RewardMoney > 0)
                 {
                     rewards +=
                         "Money  +" +
-                        quest.RewardMoney +
-                        "\n";
-                }
-
-                if (quest.RewardExp > 0)
-                {
-                    rewards +=
-                        "EXP  +" +
-                        quest.RewardExp +
+                        quest.CurrentStep.RewardMoney +
                         "\n";
                 }
 
                 if (!string.IsNullOrEmpty(
-                    quest.RewardItemId))
+                    quest.CurrentStep.RewardItemId))
                 {
                     rewards +=
                         "Item  " +
-                        quest.RewardItemId +
+                        quest.CurrentStep.RewardItemId +
                         "\n";
                 }
 
