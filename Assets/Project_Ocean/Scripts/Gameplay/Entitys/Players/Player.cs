@@ -319,7 +319,16 @@ private void Update()
         {
             // Bug 2: block aim entirely when any UI (e.g. inventory) is open
             // Bug 4: block aim when canAttack is false or on land
-            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked)) return;
+            // Aiming/firing is the gesture HitEnemy fires from, same as Interact for other
+            // actions — block it unless HitEnemy is specifically what's required, otherwise a
+            // guided "hit an enemy" step could never be completed.
+            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked || TutorialGate.Blocks(TutorialActionId.HitEnemy))) return;
+
+            if (isAim && !FeatureUnlockService.Instance.IsUnlocked(GameFeature.Combat))
+            {
+                NotificationManager.Notify("Locked — progress the main quest to unlock combat.");
+                return;
+            }
 
             gunHandler.IsAimming = isAim;
 
@@ -369,6 +378,9 @@ private void Sprint(bool state)
 
 private void ApplyMovement(Vector2 dir)
         {
+            // Movement is never gated by TutorialGate — every guided step (even a Talk/
+            // Interact one) still requires walking to reach its target, so locking movement
+            // would make the objective physically impossible to complete.
             if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
                 rb.linearVelocity = Vector2.zero;
@@ -381,10 +393,13 @@ private void ApplyMovement(Vector2 dir)
 
             bool isMoving = rb.linearVelocity != Vector2.zero;
 
-            // Edge-triggered: play once when movement starts, not every physics tick.
-            if (isMoving && !wasMoving && GameManager.Instance.GameState == GameState.Ocean)
+            // Edge-triggered: fire once when movement starts, not every physics tick.
+            if (isMoving && !wasMoving)
             {
-                audio.PlayOneShot(playerRopeSound);
+                TutorialEvents.RaiseAction(TutorialActionId.Move);
+
+                if (GameManager.Instance.GameState == GameState.Ocean)
+                    audio.PlayOneShot(playerRopeSound);
             }
             wasMoving = isMoving;
 
