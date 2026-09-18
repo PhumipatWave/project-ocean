@@ -279,7 +279,9 @@ namespace Game.Testing
             stepDescriptionRoutine = null;
 
             // Re-read now, not at schedule time — the quest may have advanced again since.
-            if (!string.IsNullOrEmpty(q.StepDescription))
+            // Skip guided steps — TutorialPromptUI already shows this same description on
+            // the dedicated persistent panel; toasting it too would show it twice at once.
+            if (!string.IsNullOrEmpty(q.StepDescription) && !q.IsGuidedSequence)
                 NotificationManager.Notify(q.StepDescription);
         }
 

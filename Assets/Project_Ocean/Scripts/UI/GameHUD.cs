@@ -95,8 +95,12 @@ namespace Game.Testing
 
             //weaponUIPanel?.SetActive(isOcean);
 
-            // A fresh scene load always starts with no land UI open.
-            SetHudVisible(true);
+            // A fresh scene load always starts with no land UI open — except the main menu,
+            // which has no gameplay HUD to show at all (day count, rope panel, weapon UI,
+            // menu/land buttons); leaving it visible there stacks it on top of the menu's own
+            // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
+            // live outside hudContentGroup, so they're unaffected either way.
+            SetHudVisible(scene.name != SceneNames.MainMenu);
 
             if (scene.name == "MainMenuScene")
             {

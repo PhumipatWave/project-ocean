@@ -112,6 +112,7 @@ namespace Game.Testing
 
         private bool isSprinting;
         private bool wasMoving;
+        private bool moveTutorialWasRequired;
 
         private bool isLand;
 
@@ -371,10 +372,25 @@ private void Sprint(bool state)
 
 private void ApplyMovement(Vector2 dir)
         {
+            // The instant the "press WASD" tutorial step becomes active, re-baseline the
+            // edge detector to whatever is currently held. Otherwise movement already in
+            // flight before the prompt appeared (e.g. the player was walking around during
+            // the prior dialogue step) reads as a fresh press and completes the tutorial
+            // with no new key press — only a genuine release-then-press after the prompt
+            // shows should count.
+            bool moveTutorialRequired = TutorialGate.RequiredAction == TutorialActionId.Move;
+            if (moveTutorialRequired && !moveTutorialWasRequired)
+                wasMoving = dir != Vector2.zero;
+            moveTutorialWasRequired = moveTutorialRequired;
+
             if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
                 rb.linearVelocity = Vector2.zero;
-                wasMoving = false;
+                // Track the raw held-input state (not hardcoded false) so a key already
+                // held through the lock doesn't look like a fresh press-edge the instant
+                // the lock releases — e.g. holding W through dialogue would otherwise
+                // instantly satisfy a "press W A S D" tutorial step with no new key press.
+                wasMoving = dir != Vector2.zero;
                 return;
             }
 
@@ -384,9 +400,14 @@ private void ApplyMovement(Vector2 dir)
             bool isMoving = rb.linearVelocity != Vector2.zero;
 
             // Edge-triggered: play once when movement starts, not every physics tick.
-            if (isMoving && !wasMoving && GameManager.Instance.GameState == GameState.Ocean)
+            if (isMoving && !wasMoving)
             {
-                audio.PlayOneShot(playerRopeSound);
+                if (GameManager.Instance.GameState == GameState.Ocean)
+                    audio.PlayOneShot(playerRopeSound);
+
+                if (TutorialGate.RequiredAction == TutorialActionId.Move)
+                    Debug.Log($"[Player] Raising Move tutorial action — dir={dir}, wasMoving was false this frame");
+                TutorialEvents.RaiseAction(TutorialActionId.Move);
             }
             wasMoving = isMoving;
 

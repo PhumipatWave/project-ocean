@@ -47,6 +47,11 @@ namespace Game.Testing
         public GameObject StartPointPrefab => startPointPrefab;
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
 
+        /// <summary>Current health-based rope length, synced from PlayerHealth. Display-only —
+        /// does not clamp movement (see PlayerHealth.TakeDamage).</summary>
+        public float HealthLimit { get; private set; }
+        public void SetHealthLimit(float value) => HealthLimit = value;
+
         /// <summary>Position of the current rope anchor the player is swinging/swimming from
         /// (the last fixed pin: start, wrap corner, checkpoint, or hub tie-in).</summary>
         public Vector2 CurrentAnchor => pins.Count > 0 ? pins[^1].pos : (Vector2)transform.position;
