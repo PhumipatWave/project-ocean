@@ -29,6 +29,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: markerUI
+      value: 
+      objectReference: {fileID: 393718548791785942}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: npcDialogue
       value: Ah hello, you must be the newcomer to our village. Welcome young man.
       objectReference: {fileID: 0}
@@ -113,3 +117,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+--- !u!1 &393718548791785942 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7111621022968023743, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+  m_PrefabInstance: {fileID: 7478026293028778857}
+  m_PrefabAsset: {fileID: 0}

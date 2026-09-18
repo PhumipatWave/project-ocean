@@ -5,15 +5,17 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// <summary>
-    /// Generic text-only notification toast. Subscribes to NotificationManager.OnNotify
-    /// and shows whatever message it receives — fade in, hold, fade out.
-    /// Works for any event in the game (quest, inventory, save, etc.) as long as
-    /// the caller does: NotificationManager.Notify("message here");
+    /// Text notification display. Handles both of NotificationManager's channels on one
+    /// shared UI slot:
+    /// - OnNotify: a timed toast (fade in, hold, fade out).
+    /// - OnPersistentChanged: a tutorial/guide message that shows immediately and stays
+    ///   until explicitly cleared — no fade, no timer. Takes priority: while active, an
+    ///   incoming toast is dropped rather than interrupting it.
     ///
-    /// If a new notification arrives while one is already showing/fading, the
-    /// trigger is ignored (dropped) — the next one is only accepted once the
-    /// current toast has fully disappeared. This prevents spam-clicking a
-    /// single action from queuing up a long chain of toasts.
+    /// If a toast arrives while one is already showing/fading, the trigger is ignored
+    /// (dropped) — the next one is only accepted once the current toast has fully
+    /// disappeared. This prevents spam-clicking a single action from queuing up a long
+    /// chain of toasts.
     ///
     /// Put this on a UI GameObject with a CanvasGroup + TextMeshProUGUI, ideally
     /// on a persistent HUD canvas.
@@ -27,8 +29,9 @@ namespace Game.Testing
         [SerializeField] private float fadeDuration  = 0.4f;
 
         private Coroutine _activeRoutine;
+        private bool _persistentActive;
 
-        /// <summary>True while a notification is visible or mid-fade. New triggers are ignored until this clears.</summary>
+        /// <summary>True while a toast is visible or mid-fade. New toast triggers are ignored until this clears.</summary>
         private bool IsShowing => _activeRoutine != null;
 
         private void Awake()
@@ -36,14 +39,41 @@ namespace Game.Testing
             if (canvasGroup != null) canvasGroup.alpha = 0f;
         }
 
-        private void OnEnable()  => NotificationManager.OnNotify += HandleNotify;
-        private void OnDisable() => NotificationManager.OnNotify -= HandleNotify;
+        private void OnEnable()
+        {
+            NotificationManager.OnNotify += HandleNotify;
+            NotificationManager.OnPersistentChanged += HandlePersistentChanged;
+        }
+
+        private void OnDisable()
+        {
+            NotificationManager.OnNotify -= HandleNotify;
+            NotificationManager.OnPersistentChanged -= HandlePersistentChanged;
+        }
+
+        private void HandlePersistentChanged(string message, Sprite sprite)
+        {
+            _persistentActive = !string.IsNullOrEmpty(message);
+
+            // A persistent message pre-empts any toast in flight — the guide prompt owns
+            // the slot until cleared, not a timed fade.
+            if (_activeRoutine != null)
+            {
+                StopCoroutine(_activeRoutine);
+                _activeRoutine = null;
+            }
+
+            if (messageText != null) messageText.text = message;
+            if (canvasGroup != null) canvasGroup.alpha = _persistentActive ? 1f : 0f;
+        }
 
         private void HandleNotify(string message)
         {
-            // Ignore spam triggers while a notification is already showing/fading —
-            // the next one is only accepted after the current one fully disappears.
-            if (IsShowing) return;
+            // Persistent (tutorial/guide) messages take priority — drop toasts while one
+            // is active rather than interrupting it. Also ignore spam triggers while a
+            // toast is already showing/fading — the next one is only accepted after the
+            // current one fully disappears.
+            if (_persistentActive || IsShowing) return;
 
             _activeRoutine = StartCoroutine(ToastRoutine(message));
         }

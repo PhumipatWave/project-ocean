@@ -72,6 +72,7 @@ namespace Game.Testing
 
         private void HandleMenuToggle()
         {
+            if (PlayerUIState.IsLocked) return;
             pauseMenu?.ToggleMenu();
         }
 
@@ -94,8 +95,12 @@ namespace Game.Testing
 
             //weaponUIPanel?.SetActive(isOcean);
 
-            // A fresh scene load always starts with no land UI open.
-            SetHudVisible(true);
+            // A fresh scene load always starts with no land UI open — except the main menu,
+            // which has no gameplay HUD to show at all (day count, rope panel, weapon UI,
+            // menu/land buttons); leaving it visible there stacks it on top of the menu's own
+            // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
+            // live outside hudContentGroup, so they're unaffected either way.
+            SetHudVisible(scene.name != SceneNames.MainMenu);
 
             if (scene.name == "MainMenuScene")
             {
@@ -174,12 +179,14 @@ namespace Game.Testing
             var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;
 
-            dangerLengthText.text = $"{Mathf.Abs(rope.MaxRopeLength).ToString("F2")} m.";
+            // Shows remaining health (shrinks on hit) — the player can still always swim out to
+            // rope.MaxRopeLength (the standard/upgraded distance), damage no longer restricts that.
+            dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.CurrentHealth).ToString("F2")} m.";
 
             if (currentOxygenTubeLength != null)
             {
                 currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
-                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.blue;
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.HealthLimit ? Color.red : Color.blue;
             }
         }
 

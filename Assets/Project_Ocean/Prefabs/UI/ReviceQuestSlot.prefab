@@ -703,6 +703,7 @@ GameObject:
   - component: {fileID: 2207452122882872015}
   - component: {fileID: 1098441943415396537}
   - component: {fileID: 5301715319954916075}
+  - component: {fileID: 9201715987528543963}
   m_Layer: 0
   m_Name: ReviceQuestSlot
   m_TagString: Untagged
@@ -812,3 +813,17 @@ MonoBehaviour:
   progressText: {fileID: 9099383423197210113}
   npcAvatarImage: {fileID: 4847585940281066669}
   targetImage: {fileID: 2167999910335188890}
+  canvasGroup: {fileID: 9201715987528543963}
+  completedAlpha: 0.5
+--- !u!225 &9201715987528543963
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9161600189474361735}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

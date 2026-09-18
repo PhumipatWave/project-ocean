@@ -12,31 +12,24 @@ namespace Game.Testing
         [SerializeField] private Image npcAvatarImage;
         [SerializeField] private Image targetImage;
 
+        [Tooltip("Dimmed (not hidden) for a completed quest — same alpha-fade convention used elsewhere in the HUD.")]
+        [SerializeField] private CanvasGroup canvasGroup;
+
+        [Tooltip("Alpha applied when the quest passed to Setup is already Finish.")]
+        [SerializeField] private float completedAlpha = 0.5f;
+
         public void Setup(Quest quest)
         {
             if (titleText != null) titleText.text = quest.QuestName;
-            if (questNameText != null) questNameText.text = quest.QuestDetail;
+            if (questNameText != null) questNameText.text = quest.StepDescription;
             if (progressText != null) progressText.text = quest.TrackerText;
 
-            if (npcAvatarImage != null)
-            {
-                npcAvatarImage.sprite = quest.NpcAvatar;
-                npcAvatarImage.enabled = quest.NpcAvatar != null;
-            }
+            // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.NpcId));
+            QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
-            if (targetImage != null)
-            {
-                Sprite sprite = GetQuestItemSprite(quest.QuestItemId);
-                targetImage.sprite = sprite;
-                targetImage.enabled = sprite != null;
-            }
-        }
-
-        private static Sprite GetQuestItemSprite(string questItemId)
-        {
-            if (string.IsNullOrEmpty(questItemId)) return null;
-            if (!int.TryParse(questItemId, out int id)) return null;
-            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
+            if (canvasGroup != null)
+                canvasGroup.alpha = quest.Status == QuestStatus.Finish ? completedAlpha : 1f;
         }
     }
 }

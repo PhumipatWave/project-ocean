@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace Game.Testing
@@ -93,17 +94,25 @@ namespace Game.Testing
         private int faceDir = 1;
         public int FaceDir { get { return faceDir; } }
 
-        [SerializeField] private float moveSpeed = 5f;
-        public float MoveSpeed { get { return moveSpeed; } }
+        [Header("Move Speed - Land")]
+        [SerializeField] private float landMoveSpeed = 5f;
+        [SerializeField] private float landDashSpeed = 25f;
+        [SerializeField] private float landSprintSpeed = 12f;
 
-        [SerializeField] private float dashSpeed = 25f;
-        public float DashSpeed { get { return dashSpeed; } }
+        [Header("Move Speed - Ocean")]
+        [SerializeField] private float oceanMoveSpeed = 8f;
+        [SerializeField] private float oceanDashSpeed = 25f;
+        [SerializeField] private float oceanSprintSpeed = 10f;
 
-        [SerializeField] private float sprintSpeed = 12f;
-        public float SprintSpeed { get { return sprintSpeed; } }
+        // ชื่อ/ชนิดค่าคืนเหมือนเดิมทุกอย่าง เพื่อไม่ให้สคริปต์อื่นที่เรียกใช้อยู่ต้องแก้
+        // แต่ตอนนี้จะสลับชุดค่าอัตโนมัติตาม isLand
+        public float MoveSpeed => isLand ? landMoveSpeed : oceanMoveSpeed;
+        public float DashSpeed => isLand ? landDashSpeed : oceanDashSpeed;
+        public float SprintSpeed => isLand ? landSprintSpeed : oceanSprintSpeed;
 
         private bool isSprinting;
         private bool wasMoving;
+        private bool moveTutorialWasRequired;
 
         private bool isLand;
 
@@ -137,7 +146,7 @@ namespace Game.Testing
 
 private void Start()
         {
-            input.OnAimed += Aim;
+            //input.OnAimed += Aim;
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
@@ -330,16 +339,30 @@ private void Update()
 
         private void Attack(bool isAttack)
         {
-            if (!gunHandler.IsAimming) return;
-
-            isAttacked = isAttack;
             if (isAttack)
             {
-                gunHandler.CanAttack = false;
-                audio.PlayOneShot(playerShootSound);
-                gunHandler.Shooting();
-                Debug.Log("Attack");
+                if (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked) return;
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
+                isAttacked = true;
+                gunHandler.IsAimming = true;
+
+                rb.linearVelocity = Vector2.zero;
+                Time.timeScale = focusTime;
             }
+            else
+            {
+                isAttacked = false;
+
+                if (gunHandler.IsAimming)
+                {
+                    gunHandler.CanAttack = false;
+                    audio.PlayOneShot(playerShootSound);
+                    gunHandler.Shooting();
+                }
+                gunHandler.IsAimming = false;
+                Time.timeScale = originTime;
+            }
+            
         }
 
 private void Sprint(bool state)
@@ -349,22 +372,42 @@ private void Sprint(bool state)
 
 private void ApplyMovement(Vector2 dir)
         {
+            // The instant the "press WASD" tutorial step becomes active, re-baseline the
+            // edge detector to whatever is currently held. Otherwise movement already in
+            // flight before the prompt appeared (e.g. the player was walking around during
+            // the prior dialogue step) reads as a fresh press and completes the tutorial
+            // with no new key press — only a genuine release-then-press after the prompt
+            // shows should count.
+            bool moveTutorialRequired = TutorialGate.RequiredAction == TutorialActionId.Move;
+            if (moveTutorialRequired && !moveTutorialWasRequired)
+                wasMoving = dir != Vector2.zero;
+            moveTutorialWasRequired = moveTutorialRequired;
+
             if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
                 rb.linearVelocity = Vector2.zero;
-                wasMoving = false;
+                // Track the raw held-input state (not hardcoded false) so a key already
+                // held through the lock doesn't look like a fresh press-edge the instant
+                // the lock releases — e.g. holding W through dialogue would otherwise
+                // instantly satisfy a "press W A S D" tutorial step with no new key press.
+                wasMoving = dir != Vector2.zero;
                 return;
             }
 
-            float speed = isSprinting ? sprintSpeed : moveSpeed;
+            float speed = isSprinting ? SprintSpeed : MoveSpeed;
             rb.linearVelocity = dir * speed;
 
             bool isMoving = rb.linearVelocity != Vector2.zero;
 
             // Edge-triggered: play once when movement starts, not every physics tick.
-            if (isMoving && !wasMoving && GameManager.Instance.GameState == GameState.Ocean)
+            if (isMoving && !wasMoving)
             {
-                audio.PlayOneShot(playerRopeSound);
+                if (GameManager.Instance.GameState == GameState.Ocean)
+                    audio.PlayOneShot(playerRopeSound);
+
+                if (TutorialGate.RequiredAction == TutorialActionId.Move)
+                    Debug.Log($"[Player] Raising Move tutorial action — dir={dir}, wasMoving was false this frame");
+                TutorialEvents.RaiseAction(TutorialActionId.Move);
             }
             wasMoving = isMoving;
 

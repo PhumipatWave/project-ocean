@@ -10,6 +10,23 @@ namespace Game.Testing
             return itemInSlot != null;
         }
 
+        /// <summary>Total held count of an item id across every slot — items can stack across
+        /// more than one slot, so this isn't just the first match's count.</summary>
+        public static int GetQuestItemCount(InventorySlot[] slots, int itemId)
+        {
+            if (slots == null) return 0;
+
+            int total = 0;
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot == null) continue;
+                Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+                if (item != null && item.GetItem() != null && item.GetItem().ItemID == itemId)
+                    total += item.count;
+            }
+            return total;
+        }
+
         public static bool RemoveQuestItem(InventorySlot[] slots, int itemId, int count = 1)
         {
             int remaining = count;

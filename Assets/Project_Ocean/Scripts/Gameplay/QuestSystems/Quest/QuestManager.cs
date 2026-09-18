@@ -14,7 +14,7 @@ namespace Game.Testing
 
         private int trackedQuestId = -1;
 
-        // รายการเควสที่แปลงเป็น Object พร้อมใช้งานในเกมแล้ว
+        // The runtime list of quests, already converted from data and ready to use.
         private List<Quest> activeQuestList = new List<Quest>();
 
         private void Awake()
@@ -34,19 +34,22 @@ namespace Game.Testing
         private void OnEnable()
         {
             EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
+            TutorialEvents.OnActionPerformed += HandleTutorialAction;
+            NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
+            CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
+            InventoryManager.OnInventoryChanged += HandleInventoryChanged;
         }
 
         private void OnDisable()
         {
             EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
+            TutorialEvents.OnActionPerformed -= HandleTutorialAction;
+            NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
+            CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
+            InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
         }
 
-        // =========================================================
-        // INITIALIZE QUESTS
-        // =========================================================
-
-        // แปลง ScriptableObject (QuestData)
-        // ให้กลายเป็น Runtime Quest
+        // Converts each ScriptableObject (QuestData) into a runtime Quest.
         private void InitializeQuests()
         {
             activeQuestList.Clear();
@@ -59,9 +62,12 @@ namespace Game.Testing
                 activeQuestList.Add(new Quest(data));
             }
 
-            Debug.Log(
-                $"[QuestManager] Initialized {activeQuestList.Count} quests."
-            );
+            // A quest authored to start already InProgress (e.g. an intro tutorial) never
+            // goes through AcceptQuest — pick up the active Main quest (or any active
+            // quest) so it's tracked from the very start.
+            EnsureQuestTracked();
+
+            Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
         // =========================================================
@@ -69,33 +75,86 @@ namespace Game.Testing
         // =========================================================
 
         /// <summary>
-        /// Routes a kill to every active InProgress KillCount quest
-        /// whose target matches the dead enemy's id.
+        /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
+        /// active Main quest wins if there is one — so it "stays all the time," auto-tracked
+        /// at game start and automatically re-tracked across a quest chain's hand-offs —
+        /// otherwise falls back to any other active quest. Never overrides an already-valid
+        /// tracked quest, so a player's explicit choice to track a Sub quest is left alone.
         /// </summary>
+        private void EnsureQuestTracked()
+        {
+            if (GetTrackedQuest() != null)
+                return;
+
+            Quest fallback = null;
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress && q.Status != QuestStatus.ReadyToTurnIn)
+                    continue;
+
+                if (q.Classification == QuestClassification.MainQuest)
+                {
+                    trackedQuestId = q.QuestID;
+                    Debug.Log($"[QuestManager] Now tracking Main Quest: {q.QuestName}");
+                    return;
+                }
+
+                fallback ??= q;
+            }
+
+            trackedQuestId = fallback?.QuestID ?? -1;
+            if (fallback != null)
+                Debug.Log($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
+        }
+
         private void HandleEnemyKilled(string enemyId)
         {
-            Debug.Log($"Quest Received Kill : {enemyId}");
+            if (!string.IsNullOrEmpty(enemyId))
+                TryProgress(QuestType.KillCount, step => step.TargetEnemyIds != null && step.TargetEnemyIds.Contains(enemyId));
+        }
 
-            if (string.IsNullOrEmpty(enemyId))
+        private void HandleTutorialAction(TutorialActionId actionId) =>
+            TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
+
+        private void HandleNpcTalk(string npcId)
+        {
+            if (!string.IsNullOrEmpty(npcId))
+                TryProgress(QuestType.Talk, step => step.EffectiveNpcId == npcId);
+        }
+
+        private void HandleCutsceneFinished(string cutsceneId)
+        {
+            if (!string.IsNullOrEmpty(cutsceneId))
+                TryProgress(QuestType.Cutscene, step => step.EffectiveCutsceneId == cutsceneId);
+        }
+
+        /// <summary>
+        /// Delivery has no single discrete "did the thing" event like every other step type —
+        /// it's satisfied by whatever the player is currently holding, which can go up or down
+        /// as they pick up/drop/sell items. So instead of TryProgress's one-shot event match,
+        /// this re-checks live inventory against the current step's requirements on every
+        /// change. Below the requirement, it just updates CurrentCount for display (no reward
+        /// side effects — see CompleteProgress's doc). At/above it, routes the completing delta
+        /// through the normal CompleteProgress pipeline so Delivery pays out/advances exactly
+        /// like every other type.
+        /// </summary>
+        private void HandleInventoryChanged()
+        {
+            if (InventoryManager.Instance == null)
                 return;
 
             foreach (var q in activeQuestList)
             {
-                Debug.Log($"Quest Target : {q.TargetEnemyId}");
-
-                if (q.Type != QuestType.KillCount)
-                    continue;
-
                 if (q.Status != QuestStatus.InProgress)
                     continue;
 
-                if (q.TargetEnemyId != enemyId)
-                {
-                    Debug.Log("Target Not Match");
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.Delivery || step.IsComplete)
                     continue;
-                }
 
-                Debug.Log("Target Match");
+                int progress = step.ComputeDeliveryProgress(HeldCountOf);
+                if (progress <= step.CurrentCount)
+                    continue;
 
                 bool justCompleted = q.AddProgress(1);
 
@@ -109,8 +168,7 @@ namespace Game.Testing
                 // AUTO COMPLETE
                 // =====================================================
 
-                if (justCompleted &&
-                    q.CompletionMode == QuestCompletionMode.AutoComplete)
+                if (justCompleted && q.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
 
@@ -134,45 +192,237 @@ namespace Game.Testing
                         );
                     }
                 }
+
+                if (progress >= step.TargetCount)
+                {
+                    CompleteProgress(q, step.TargetCount - step.CurrentCount);
+                }
+                else
+                {
+                    step.CurrentCount = progress;
+                    OnQuestUpdated?.Invoke();
+                }
             }
         }
 
-        // =========================================================
-        // GET QUESTS
-        // =========================================================
+        private static int HeldCountOf(string itemIdStr) =>
+            int.TryParse(itemIdStr, out int id) ? InventoryManager.Instance.GetQuestItemCount(id) : 0;
 
-        // ดึงรายการเควสทั้งหมดที่มีสถานะตามที่ต้องการ
+        /// <summary>
+        /// Routes an event to every InProgress quest whose current checkpoint is of the
+        /// given type and whose target matches. Shared by HandleEnemyKilled/HandleTutorialAction/
+        /// HandleNpcTalk — they differ only in which step type and which field they match on.
+        /// </summary>
+        private void TryProgress(QuestType type, Func<QuestStep, bool> targetMatches)
+        {
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress)
+                    continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != type)
+                    continue;
+
+                if (!targetMatches(step))
+                    continue;
+
+                CompleteProgress(q);
+            }
+        }
+
+        /// <summary>
+        /// Each checkpoint pays its own reward the moment IT completes — not just the
+        /// quest's final step — so a quest can pay out incrementally per checkpoint.
+        /// Exception: a final step set to ReadyToHandIn pays nothing here — its reward
+        /// waits for TurnInQuest, same as before, so it isn't paid twice. amount is 1 for
+        /// every discrete-event step type (one kill, one talk, ...); Delivery's live
+        /// inventory check passes whatever delta finishes it — see HandleInventoryChanged,
+        /// which never calls this for a delta that DOESN'T finish the step, since the
+        /// partial-progress branch below would otherwise pay reward money mid-collection.
+        /// </summary>
+        private void CompleteProgress(Quest q, int amount = 1)
+        {
+            var completedStep = q.CurrentStep;
+
+            bool justCompleted = q.AddProgress(amount);
+
+            OnQuestUpdated?.Invoke();
+
+            // Reliably fires exactly once — once complete, this step is no longer
+            // q.CurrentStep, so TryProgress stops routing further matching events to it.
+            if (completedStep.IsComplete)
+                UnlockStepFeatures(completedStep);
+
+            // Moved on to a new checkpoint (as opposed to just ticking progress on the
+            // same one, or finishing the quest outright) — announce its description.
+            if (!justCompleted && q.CurrentStep != completedStep)
+                NotifyStepDescription(q);
+
+            if (justCompleted)
+            {
+                if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
+                {
+                    RemoveQuestItems(q);
+                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
+
+                    if (completedStep.RewardMoney > 0)
+                        OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
+
+                    HandleNextQuest(q);
+                }
+                // else ReadyToHandIn: reward + next-quest handoff happen in TurnInQuest.
+            }
+            else if (completedStep.RewardMoney > 0)
+            {
+                OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
+                NotificationManager.Notify($"+{completedStep.RewardMoney}");
+            }
+
+            EnsureQuestTracked();
+
+            // A step just became current (this one, or the next one it advanced into) — if
+            // it's a Delivery step, the player may already be holding enough (e.g. it was the
+            // KillCount bounty's own loot, collected before this checkpoint was even reached).
+            // Inventory hasn't changed, so nothing would otherwise trigger HandleInventoryChanged.
+            if (q.CurrentStep?.Type == QuestType.Delivery)
+                HandleInventoryChanged();
+        }
+
+        private static void UnlockStepFeatures(QuestStep step)
+        {
+            if (step.UnlocksFeatures == null)
+                return;
+
+            foreach (var feature in step.UnlocksFeatures)
+                FeatureUnlockService.Instance.Unlock(feature);
+        }
+
+        private const float StepDescriptionNotifyDelay = 1.5f;
+        private Coroutine stepDescriptionRoutine;
+
+        /// <summary>
+        /// Toasts the current checkpoint's Step Description after a short delay. Cancels any
+        /// still-pending call first — advancing two steps within the delay window (e.g.
+        /// dismissing one Talk step and immediately completing the next) would otherwise leave
+        /// a stale toast queued for a step that isn't current anymore.
+        /// </summary>
+        private void NotifyStepDescription(Quest q)
+        {
+            if (stepDescriptionRoutine != null)
+                StopCoroutine(stepDescriptionRoutine);
+
+            stepDescriptionRoutine = StartCoroutine(NotifyStepDescriptionDelayed(q));
+        }
+
+        private System.Collections.IEnumerator NotifyStepDescriptionDelayed(Quest q)
+        {
+            yield return new WaitForSeconds(StepDescriptionNotifyDelay);
+            stepDescriptionRoutine = null;
+
+            // Re-read now, not at schedule time — the quest may have advanced again since.
+            // Skip guided steps — TutorialPromptUI already shows this same description on
+            // the dedicated persistent panel; toasting it too would show it twice at once.
+            if (!string.IsNullOrEmpty(q.StepDescription) && !q.IsGuidedSequence)
+                NotificationManager.Notify(q.StepDescription);
+        }
+
+        /// <summary>
+        /// If this quest's own NextQuestMode is AutoAccept, immediately accept every
+        /// quest in its NextQuestIds. Unlock needs no action here — IsUnlocked already
+        /// re-evaluates live off this quest's Status, so each successor just stops
+        /// being locked.
+        /// </summary>
+        private void HandleNextQuest(Quest q)
+        {
+            if (q.NextQuestMode != NextQuestMode.AutoAccept)
+                return;
+
+            foreach (var id in q.NextQuestIds)
+                AcceptQuest(id);
+        }
+
+        /// <summary>
+        /// A quest is locked if some OTHER quest's NextQuestIds contains it (with mode
+        /// Unlock or AutoAccept) and that other quest hasn't reached Finish yet. A quest
+        /// nothing points to is always unlocked. Rejecting the prerequisite does NOT
+        /// unlock the successor — only an actual Finish counts.
+        /// </summary>
+        public bool IsUnlocked(Quest quest)
+        {
+            return !activeQuestList.Exists(other =>
+                other.NextQuestMode != NextQuestMode.None &&
+                other.NextQuestIds.Contains(quest.QuestID) &&
+                other.Status != QuestStatus.Finish);
+        }
+
+        /// <summary>Every quest regardless of status — for FeatureUnlockService's one-time-style save migration.</summary>
+        public List<Quest> GetAllQuests() => activeQuestList;
+
+        // Returns every quest with the given status (e.g. New quests not yet accepted).
         public List<Quest> GetQuestsByStatus(QuestStatus status)
         {
-            return activeQuestList.FindAll(
-                q => q.Status == status
-            );
+            return activeQuestList.FindAll(q => q.Status == status);
         }
 
-        public List<Quest> GetQuestsByCategory(
-            QuestCategory category)
+        public List<Quest> GetQuestsByCategory(QuestCategory category)
         {
-            return activeQuestList.FindAll(
-                q =>
-                    q.Category == category &&
-                    q.Status == QuestStatus.New
+            var quests = activeQuestList.FindAll(q =>
+                q.Category == category &&
+                q.Status == QuestStatus.New &&
+                IsUnlocked(q)
             );
-        }
 
-        public List<Quest> GetActiveQuests()
-        {
-            return activeQuestList.FindAll(
-                q =>
-                    q.Status == QuestStatus.InProgress ||
-                    q.Status == QuestStatus.ReadyToTurnIn
-            );
+            // MainQuest before SubQuest before Special — matches enum declaration order.
+            quests.Sort((a, b) => a.Classification.CompareTo(b.Classification));
+            return quests;
         }
+        
+        /// <summary>Accepted and not yet finished — shared by every "is this quest active" query below.</summary>
+        private static bool IsActive(Quest q) =>
+            q.Status == QuestStatus.InProgress || q.Status == QuestStatus.ReadyToTurnIn;
+
+        public List<Quest> GetActiveQuests() => activeQuestList.FindAll(IsActive);
 
         public Quest GetQuestById(int id)
         {
-            return activeQuestList.Find(
-                q => q.QuestID == id
-            );
+            return activeQuestList.Find(q => q.QuestID == id);
+        }
+
+        /// <summary>
+        /// The active quest (if any) whose CURRENT checkpoint is a Main-quest Talk step
+        /// targeting this NPC. A Main quest takes priority over whatever quest the NPC is
+        /// otherwise assigned to — main-story dialogue always wins over an NPC's own Sub
+        /// quest — independent of IsGuidedSequence, which is purely about the tutorial
+        /// prompt/input-lock (see TutorialPromptUI), not dialogue selection.
+        /// </summary>
+        public Quest GetMainQuestTalkQuest(string npcId)
+        {
+            if (string.IsNullOrEmpty(npcId))
+                return null;
+
+            return activeQuestList.Find(q =>
+                q.Status == QuestStatus.InProgress &&
+                q.Classification == QuestClassification.MainQuest &&
+                q.CurrentStep != null &&
+                q.CurrentStep.EffectiveNpcId == npcId);
+        }
+
+        // ── Save support ──
+
+        /// <summary>Collects the mutable runtime state (id, status, kill progress) of each quest.</summary>
+        public List<QuestSaveData> GetSaveState()
+        {
+            var list = new List<QuestSaveData>();
+            foreach (var q in activeQuestList)
+                list.Add(new QuestSaveData
+                {
+                    questId         = q.QuestID,
+                    status          = (int)q.Status,
+                    currentCount    = q.CurrentCount,
+                    currentStepIndex = q.CurrentStepIndex,
+                });
+            return list;
         }
 
         public List<Quest> GetCompletedQuests()
@@ -224,15 +474,20 @@ namespace Game.Testing
 
                 if (quest != null)
                 {
-                    quest.Status =
-                        (QuestStatus)s.status;
-
-                    quest.CurrentCount =
-                        s.currentCount;
+                    quest.Status           = (QuestStatus)s.status;
+                    quest.CurrentStepIndex = s.currentStepIndex; // set before CurrentCount — CurrentCount targets the step at this index
+                    quest.CurrentCount     = s.currentCount;
                 }
             }
 
+            EnsureQuestTracked();
+
             OnQuestUpdated?.Invoke();
+
+            // A resumed save could land mid-Delivery-step already satisfied (or the player
+            // adjusted their inventory between sessions) — HandleInventoryChanged re-checks
+            // every InProgress quest itself, so one call covers all of them.
+            HandleInventoryChanged();
         }
 
         // =========================================================
@@ -266,7 +521,7 @@ namespace Game.Testing
                 return false;
             }
 
-            // รับได้เฉพาะ Quest ที่ยังไม่ได้รับ
+            // Only a quest that hasn't been accepted yet can be accepted.
             if (quest.Status != QuestStatus.New)
             {
                 Debug.LogWarning(
@@ -280,14 +535,18 @@ namespace Game.Testing
             // Quest ที่รับใหม่จะถูก Track ทันที
             trackedQuestId = questID;
 
-            // รับ Quest
             quest.Status = QuestStatus.InProgress;
+
+            NotifyStepDescription(quest);
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log(
-                $"Accepted Quest: {quest.QuestName}"
-            );
+            // First step could already be a satisfied Delivery (items collected before ever
+            // accepting) — nothing else would trigger a check for that.
+            if (quest.CurrentStep?.Type == QuestType.Delivery)
+                HandleInventoryChanged();
+
+            Debug.Log($"Accepted Quest: {quest.QuestName}");
 
             return true;
         }
@@ -313,10 +572,6 @@ namespace Game.Testing
             return true;
         }
 
-        // =========================================================
-        // CANCEL QUEST
-        // =========================================================
-
         public bool CancelQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
@@ -328,103 +583,86 @@ namespace Game.Testing
                 quest.Status != QuestStatus.ReadyToTurnIn)
                 return false;
 
-            // รีเซ็ต Quest ที่ถูก Cancel
+            // Main quests are meant to always be running — cancelling isn't allowed.
+            if (quest.Classification == QuestClassification.MainQuest)
+            {
+                Debug.LogWarning($"Quest {quest.QuestName} is a Main Quest and cannot be cancelled.");
+                return false;
+            }
+
+            // Reset the cancelled quest back to New.
             quest.Status = QuestStatus.New;
             quest.CurrentCount = 0;
 
-            // ถ้า Quest ที่ Cancel คือ Quest ที่กำลัง Track
+            // If the cancelled quest was the tracked one, find another quest to track instead.
             if (trackedQuestId == questID)
-            {
                 trackedQuestId = -1;
 
-                // หา Quest อื่นที่ยังทำอยู่มา Track แทน
-                Quest nextQuest = activeQuestList.Find(
-                    q =>
-                        q.Status == QuestStatus.InProgress ||
-                        q.Status == QuestStatus.ReadyToTurnIn
-                );
-
-                if (nextQuest != null)
-                {
-                    trackedQuestId = nextQuest.QuestID;
-
-                    Debug.Log(
-                        $"Quest {quest.QuestName} cancelled. " +
-                        $"Now tracking Quest: {nextQuest.QuestID}"
-                    );
-                }
-                else
-                {
-                    Debug.Log(
-                        $"Quest {quest.QuestName} cancelled. " +
-                        $"No active quest left."
-                    );
-                }
-            }
+            EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
 
             return true;
         }
 
-        // =========================================================
-        // ACTIVE QUEST
-        // =========================================================
+        public bool HasActiveQuest() => activeQuestList.Exists(IsActive);
 
-        public bool HasActiveQuest()
-        {
-            return activeQuestList.Exists(
-                q =>
-                    q.Status == QuestStatus.InProgress ||
-                    q.Status == QuestStatus.ReadyToTurnIn
-            );
-        }
-
-        public Quest GetCurrentActiveQuest()
-        {
-            return activeQuestList.Find(
-                q =>
-                    q.Status == QuestStatus.InProgress ||
-                    q.Status == QuestStatus.ReadyToTurnIn
-            );
-        }
-
-        // =========================================================
-        // MONEY REWARD
-        // =========================================================
+        public Quest GetCurrentActiveQuest() => activeQuestList.Find(IsActive);
 
         public static event Action<int> OnMoneyRewarded;
 
-        // =========================================================
-        // REMOVE QUEST ITEMS
-        // =========================================================
-
+        /// <summary>
+        /// Removes the quest item(s) consumed by turn-in. Delivery removes according to its
+        /// mode: PerItem takes each requirement's own count from TargetQuestItemRequirements;
+        /// CombinedTotal has no per-item counts to go by (its ids are the plain
+        /// TargetQuestItemIds list), so it takes greedily in list order until the shared
+        /// Target Count is consumed. Every other type keeps the single-item field (e.g. a
+        /// KillCount bounty's hand-in loot item).
+        /// </summary>
         private void RemoveQuestItems(Quest q)
         {
-            if (string.IsNullOrEmpty(q.QuestItemId))
-                return;
+            if (InventoryManager.Instance == null) return;
 
-            if (!int.TryParse(
-                    q.QuestItemId,
-                    out int itemId))
-                return;
+            if (q.CurrentStep.Type == QuestType.Delivery)
+            {
+                if (q.CurrentStep.DeliveryCountMode == DeliveryCountMode.PerItem)
+                {
+                    var requirements = q.TargetQuestItemRequirements;
+                    if (requirements == null) return;
 
-            if (InventoryManager.Instance == null)
-                return;
+                    foreach (var req in requirements)
+                        if (!string.IsNullOrEmpty(req.itemId) && int.TryParse(req.itemId, out int reqItemId))
+                            InventoryManager.Instance.RemoveQuestItem(reqItemId, req.count);
+                }
+                else
+                {
+                    var itemIds = q.TargetQuestItemIds;
+                    if (itemIds == null) return;
 
-            InventoryManager.Instance.RemoveQuestItem(
-                itemId,
-                q.TargetCount
-            );
+                    int remaining = q.TargetCount;
+                    foreach (var idStr in itemIds)
+                    {
+                        if (remaining <= 0) break;
+                        if (string.IsNullOrEmpty(idStr) || !int.TryParse(idStr, out int listItemId)) continue;
+
+                        int take = Mathf.Min(InventoryManager.Instance.GetQuestItemCount(listItemId), remaining);
+                        if (take <= 0) continue;
+
+                        InventoryManager.Instance.RemoveQuestItem(listItemId, take);
+                        remaining -= take;
+                    }
+                }
+                return;
+            }
+
+            if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
+            if (!int.TryParse(q.TargetQuestItemId, out int itemId)) return;
+            InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
         }
 
-        // =========================================================
-        // TURN IN QUEST
-        // =========================================================
-
         /// <summary>
-        /// Called by the NPC when the player clicks Turn In.
-        /// Quest must be ReadyToTurnIn.
+        /// Called by the NPC when the player clicks Turn In. Quest must be ReadyToTurnIn —
+        /// any other state returns false with a warning.
         /// </summary>
         public bool TurnInQuest(int questID)
         {
@@ -442,27 +680,23 @@ namespace Game.Testing
 
             // Notification เดิม
             //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
-
             
-
             // แสดง Quest Complete UI + Reward
             if (QuestCompleteUI.Instance != null)
             {
                 QuestCompleteUI.Instance.Show(quest);
             }
 
-            // เงินรางวัล
-            if (quest.RewardMoney > 0)
+            var finalStepReward = quest.CurrentStep.RewardMoney;
+            if (finalStepReward > 0)
             {
-                OnMoneyRewarded?.Invoke(
-                    quest.RewardMoney
-                );
-
-                Debug.Log(
-                    $"[QuestManager] Completing quests: " +
-                    $"+{quest.RewardMoney} $"
-                );
+                OnMoneyRewarded?.Invoke(finalStepReward);
+                Debug.Log($"[QuestManager] Completing quests: +{finalStepReward} $");
             }
+
+            HandleNextQuest(quest);
+
+            EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
 

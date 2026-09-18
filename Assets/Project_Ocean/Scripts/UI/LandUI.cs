@@ -28,12 +28,22 @@ namespace Game.Testing
         {
             DayManager.OnDivedToday  += RefreshNextDayButton;
             DayManager.OnDayAdvanced += RefreshNextDayButton;
+            FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
         }
 
         private void OnDisable()
         {
             DayManager.OnDivedToday  -= RefreshNextDayButton;
             DayManager.OnDayAdvanced -= RefreshNextDayButton;
+            FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
+        }
+
+        // Sleep unlocking mid-session (with no dive/day-advance event to piggyback a
+        // refresh on) would otherwise leave the button showing its stale pre-unlock state.
+        private void HandleFeatureUnlocked(GameFeature feature)
+        {
+            if (feature == GameFeature.Sleep)
+                RefreshNextDayButton();
         }
 
         private void Start()
@@ -75,6 +85,7 @@ namespace Game.Testing
         private void TryAdvanceDay()
         {
             if (DayManager.Instance == null || !DayManager.Instance.HasDivedToday) return;
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Sleep)) return;
             ConfirmationDialog.Instance?.Show(
                 "Are you sure you want to end the day?",
                 () => DayManager.Instance?.AdvanceDay()
@@ -84,7 +95,8 @@ namespace Game.Testing
         private void RefreshNextDayButton()
         {
             if (nextDayButton == null) return;
-            nextDayButton.interactable = DayManager.Instance != null && DayManager.Instance.HasDivedToday;
+            nextDayButton.interactable = DayManager.Instance != null && DayManager.Instance.HasDivedToday &&
+                FeatureUnlockService.Instance.IsUnlocked(GameFeature.Sleep);
         }
 
         private void WireShopButtons()
