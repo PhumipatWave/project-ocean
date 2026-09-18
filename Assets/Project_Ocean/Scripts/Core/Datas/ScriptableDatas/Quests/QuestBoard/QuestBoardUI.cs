@@ -30,6 +30,9 @@ namespace Game.Testing
         [Header("Quest Detail")]
         [SerializeField] private QuestDetailPanel questDetailPanel;
 
+        [Header("Quest Board Root")]
+        [SerializeField] private GameObject questBoardPanel;
+
         [Header("Category Settings")]
         [SerializeField] private QuestCategoryUIData[] categories;
 
@@ -69,8 +72,24 @@ namespace Game.Testing
 
             if (closeBoardButton != null)
                 closeBoardButton.onClick.AddListener(
-                    () => gameObject.SetActive(false)
+                    CloseBoard
                 );
+        }
+
+        // Public so the Close button can call this directly from the Inspector.
+        // This closes both the Quest Board and its PlayerUIState lock.
+        public void CloseBoard()
+        {
+            if (questBoardPanel != null)
+            {
+                questBoardPanel.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+
+            PlayerUIState.Close();
         }
 
         private void OnEnable()
@@ -82,9 +101,9 @@ namespace Game.Testing
                 QuestManager.OnQuestUpdated += RefreshCurrentPage;
             }
 
-            // The InteractUI that revealed this board already called PlayerUIState.Open() —
-            // only register how to close it, don't lock a second time.
-            PlayerUIState.SetCloser(() => gameObject.SetActive(false));
+            // The InteractUI that revealed this board already called PlayerUIState.Open().
+            // Register the FULL close action so ESC also releases the PlayerUIState lock.
+            PlayerUIState.SetCloser(CloseBoard);
 
             TutorialEvents.RaiseAction(TutorialActionId.OpenQuestBoard);
 
@@ -97,8 +116,6 @@ namespace Game.Testing
             {
                 QuestManager.OnQuestUpdated -= RefreshCurrentPage;
             }
-
-            PlayerUIState.Close();
         }
 
         // =========================================================

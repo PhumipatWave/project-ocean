@@ -21,7 +21,18 @@ public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private void Awake()
     {
         originalScale = transform.localScale;
-        targetScale = originalScale;
+
+        // เริ่มต้นด้วยขนาดปกติ
+        ResetButton();
+    }
+
+    private void OnEnable()
+    {
+        // ทุกครั้งที่ UI เปิดใหม่
+        ResetButton();
+
+        // ถ้าเป็นปุ่มราคา ให้กลับไปแสดงราคาปกติ
+        RefreshPrice();
     }
 
     private void Update()
@@ -35,10 +46,8 @@ public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // ขยายปุ่ม
         targetScale = originalScale * hoverScale;
 
-        // เปลี่ยนข้อความเป็น Upgrade
         if (buttonText != null)
         {
             buttonText.text = hoverText;
@@ -47,11 +56,17 @@ public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // กลับขนาดเดิม
-        targetScale = originalScale;
-
-        // กลับไปแสดงราคา
+        ResetButton();
         RefreshPrice();
+    }
+
+    /// <summary>
+    /// รีเซ็ตขนาดปุ่มกลับเป็นขนาดปกติทันที
+    /// </summary>
+    public void ResetButton()
+    {
+        targetScale = originalScale;
+        transform.localScale = originalScale;
     }
 
     public void RefreshPrice()
@@ -59,11 +74,13 @@ public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (buttonText == null)
             return;
 
-        UpgradeSlot upgradeSlot = GetComponentInParent<UpgradeSlot>();
+        UpgradeSlot upgradeSlot =
+            GetComponentInParent<UpgradeSlot>();
 
         if (upgradeSlot == null)
             return;
 
-        buttonText.text = upgradeSlot.GetCurrentPriceText();
+        buttonText.text =
+            upgradeSlot.GetCurrentPriceText();
     }
 }

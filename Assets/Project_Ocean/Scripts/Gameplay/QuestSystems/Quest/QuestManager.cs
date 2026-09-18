@@ -11,6 +11,7 @@ namespace Game.Testing
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
+
         private int trackedQuestId = -1;
 
         // The runtime list of quests, already converted from data and ready to use.
@@ -68,6 +69,10 @@ namespace Game.Testing
 
             Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
+
+        // =========================================================
+        // ENEMY KILLED
+        // =========================================================
 
         /// <summary>
         /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
@@ -150,6 +155,43 @@ namespace Game.Testing
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
                 if (progress <= step.CurrentCount)
                     continue;
+
+                bool justCompleted = q.AddProgress(1);
+
+                Debug.Log(
+                    $"Progress : {q.CurrentCount}/{q.TargetCount}"
+                );
+
+                OnQuestUpdated?.Invoke();
+
+                // =====================================================
+                // AUTO COMPLETE
+                // =====================================================
+
+                if (justCompleted && step.CompletionMode == QuestCompletionMode.AutoComplete)
+                {
+                    RemoveQuestItems(q);
+
+                    // Notification เดิม
+                    //NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    
+                    // แสดง Quest Complete UI + Reward
+                    if (QuestCompleteUI.Instance != null)
+                    {
+                        QuestCompleteUI.Instance.Show(q);
+                    }
+
+                    // เงินรางวัล
+                    if (step.RewardMoney > 0)
+                    {
+                        OnMoneyRewarded?.Invoke(step.RewardMoney);
+
+                        Debug.Log(
+                            $"[QuestManager] (AutoComplete) " +
+                            $"จ่ายเงินรางวัล: +{step.RewardMoney} บาท"
+                        );
+                    }
+                }
 
                 if (progress >= step.TargetCount)
                 {
@@ -335,7 +377,7 @@ namespace Game.Testing
             quests.Sort((a, b) => a.Classification.CompareTo(b.Classification));
             return quests;
         }
-
+        
         /// <summary>Accepted and not yet finished — shared by every "is this quest active" query below.</summary>
         private static bool IsActive(Quest q) =>
             q.Status == QuestStatus.InProgress || q.Status == QuestStatus.ReadyToTurnIn;
@@ -386,22 +428,23 @@ namespace Game.Testing
         public List<Quest> GetCompletedQuests()
         {
             return activeQuestList.FindAll(
-                q =>
-                q.Status == QuestStatus.Finish
+                q => q.Status == QuestStatus.Finish
             );
         }
 
         /// <summary>
-        /// Restores quest status + kill progress from saved data. Quests are matched by id
-        /// and re-hydrated from templates (in Awake), so only mutable state is applied.
-        /// Unknown ids are ignored; quests missing from the save keep their template default.
+        /// Restores quest status + kill progress from saved data.
         /// </summary>
-        public void LoadSaveState(List<QuestSaveData> saved)
+        public void LoadSaveState(
+            List<QuestSaveData> saved)
         {
-            if (saved == null) return;
+            if (saved == null)
+                return;
+
             foreach (var s in saved)
             {
                 var quest = GetQuestById(s.questId);
+
                 if (quest != null)
                 {
                     quest.Status           = (QuestStatus)s.status;
@@ -420,7 +463,9 @@ namespace Game.Testing
             HandleInventoryChanged();
         }
 
-        // ── ISaveParticipant ──
+        // =========================================================
+        // ISaveParticipant
+        // =========================================================
 
         public void Collect(SaveData data)
         {
@@ -432,13 +477,20 @@ namespace Game.Testing
             LoadSaveState(data.quests);
         }
 
+        // =========================================================
+        // ACCEPT QUEST
+        // =========================================================
+
         public bool AcceptQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
             if (quest == null)
             {
-                Debug.LogWarning($"Quest ID {questID} not found.");
+                Debug.LogWarning(
+                    $"Quest ID {questID} not found."
+                );
+
                 return false;
             }
 
@@ -446,15 +498,15 @@ namespace Game.Testing
             if (quest.Status != QuestStatus.New)
             {
                 Debug.LogWarning(
-                    $"Quest {quest.QuestName} cannot be accepted. Current status: {quest.Status}"
+                    $"Quest {quest.QuestName} cannot be accepted. " +
+                    $"Current status: {quest.Status}"
                 );
+
                 return false;
             }
 
-            if (trackedQuestId == -1)
-            {
-                trackedQuestId = questID;
-            }
+            // Quest ที่รับใหม่จะถูก Track ทันที
+            trackedQuestId = questID;
 
             quest.Status = QuestStatus.InProgress;
 
@@ -471,6 +523,10 @@ namespace Game.Testing
 
             return true;
         }
+
+        // =========================================================
+        // REJECT QUEST
+        // =========================================================
 
         public bool RejectQuest(int questID)
         {
@@ -585,13 +641,24 @@ namespace Game.Testing
         {
             Quest quest = GetQuestById(questID);
 
-            if (quest == null) return false;
-            if (quest.Status != QuestStatus.ReadyToTurnIn) return false;
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.ReadyToTurnIn)
+                return false;
 
             quest.Status = QuestStatus.Finish;
+
             RemoveQuestItems(quest);
 
-            NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+            // Notification เดิม
+            //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+            
+            // แสดง Quest Complete UI + Reward
+            if (QuestCompleteUI.Instance != null)
+            {
+                QuestCompleteUI.Instance.Show(quest);
+            }
 
             var finalStepReward = quest.CurrentStep.RewardMoney;
             if (finalStepReward > 0)
@@ -605,15 +672,21 @@ namespace Game.Testing
             EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
+
             return true;
         }
+
+        // =========================================================
+        // TRACKED QUEST
+        // =========================================================
 
         public Quest GetTrackedQuest()
         {
             if (trackedQuestId == -1)
                 return null;
 
-            Quest quest = GetQuestById(trackedQuestId);
+            Quest quest =
+                GetQuestById(trackedQuestId);
 
             if (quest == null)
                 return null;
@@ -627,7 +700,8 @@ namespace Game.Testing
 
         public bool SetTrackedQuest(int questID)
         {
-            Quest quest = GetQuestById(questID);
+            Quest quest =
+                GetQuestById(questID);
 
             if (quest == null)
                 return false;
@@ -640,10 +714,11 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log($"Tracking Quest: {quest.QuestName}");
+            Debug.Log(
+                $"Tracking Quest: {quest.QuestName}"
+            );
 
             return true;
         }
-
     }
 }
