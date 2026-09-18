@@ -53,29 +53,13 @@ namespace Game.Testing
             }
 
             titleText.text     = activeQuest.QuestName;
-            questNameText.text = activeQuest.QuestDetail;
+            questNameText.text = activeQuest.StepDescription;
             progressText.text  = activeQuest.TrackerText;
             cancelButton.SetActive(true);
 
-            if (npcAvatarImage != null)
-            {
-                npcAvatarImage.sprite  = activeQuest.NpcAvatar;
-                npcAvatarImage.enabled = activeQuest.NpcAvatar != null;
-            }
-
-            if (targetImage != null)
-            {
-                Sprite sprite = GetQuestItemSprite(activeQuest.QuestItemId);
-                targetImage.sprite  = sprite;
-                targetImage.enabled = sprite != null;
-            }
-        }
-
-        private static Sprite GetQuestItemSprite(string questItemId)
-        {
-            if (string.IsNullOrEmpty(questItemId)) return null;
-            if (!int.TryParse(questItemId, out int id)) return null;
-            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
+            // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.NpcId));
+            QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(activeQuest.TargetQuestItemId));
         }
 
         public void OnClickCancelQuest()

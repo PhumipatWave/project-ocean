@@ -72,6 +72,7 @@ namespace Game.Testing
 
         private void HandleMenuToggle()
         {
+            if (PlayerUIState.IsLocked) return;
             pauseMenu?.ToggleMenu();
         }
 

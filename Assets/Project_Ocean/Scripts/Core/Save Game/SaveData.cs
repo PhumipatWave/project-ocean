@@ -35,6 +35,9 @@ namespace Game.Testing
         // ── v3: enemy kill persistence ──
         public List<string> killedEnemySpawnIds = new();
         public bool hasDivedToday = false;
+
+        // ── v4: feature unlocks ── (GameFeature enum names, e.g. "Shop", "Ocean")
+        public List<string> unlockedFeatures = new();
     }
 
     [Serializable]
@@ -52,5 +55,7 @@ namespace Game.Testing
         public int currentCount; // kill-quest progress (defaults to 0 on old saves)
 
         public int status; // (int)QuestStatus
+
+        public int currentStepIndex; // which checkpoint is active (0 on old saves — correct, they had only one step)
     }
 }

@@ -29,6 +29,8 @@ namespace Game.Testing
             var list = new List<ISaveParticipant> { UpgradeService.Instance };
             if (QuestManager.Instance != null)     list.Add(QuestManager.Instance);
             if (EnemyKillTracker.Instance != null) list.Add(EnemyKillTracker.Instance);
+            // Must come after QuestManager — it re-derives unlocks from quest progress on load.
+            list.Add(FeatureUnlockService.Instance);
             return list;
         }
 
