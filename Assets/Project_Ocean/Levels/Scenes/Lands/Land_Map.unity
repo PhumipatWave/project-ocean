@@ -213773,6 +213773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.MoneyUI
   moneyText: {fileID: 389614931}
+  showMoneyLabel: 1
 --- !u!114 &389151328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214286,7 +214287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b571a2cfe3ab704c93306b05fc47089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.MoneyUI
-  moneyText: {fileID: 0}
+  moneyText: {fileID: 8277562575494842762}
+  showMoneyLabel: 1
 --- !u!4 &453608950
 Transform:
   m_ObjectHideFlags: 0
@@ -1619439,6 +1619441,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 36
       objectReference: {fileID: 0}
+    - target: {fileID: 511453429677174068, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
+      propertyPath: showMoneyLabel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1135171885453813803, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
       propertyPath: m_fontSize
       value: 36
@@ -1620723,7 +1620729,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pre_PriceText (TMP)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 511453429677174068, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1620731,6 +1620738,17 @@ PrefabInstance:
 --- !u!114 &8277562575494842761 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7866848480830129290, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
+  m_PrefabInstance: {fileID: 8277562575494842760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &8277562575494842762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5271264176979986484, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
   m_PrefabInstance: {fileID: 8277562575494842760}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

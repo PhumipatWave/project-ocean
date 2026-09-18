@@ -277,10 +277,8 @@ namespace Game.Testing
                 return false;
             }
 
-            if (trackedQuestId == -1)
-            {
-                trackedQuestId = questID;
-            }
+            // Quest ที่รับใหม่จะถูก Track ทันที
+            trackedQuestId = questID;
 
             // รับ Quest
             quest.Status = QuestStatus.InProgress;
