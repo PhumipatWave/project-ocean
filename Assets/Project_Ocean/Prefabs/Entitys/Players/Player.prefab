@@ -1437,9 +1437,12 @@ MonoBehaviour:
   playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
   playerSprite: {fileID: 1845563972653589313}
   playerFlashDuration: 0.25
-  moveSpeed: 8
-  dashSpeed: 25
-  sprintSpeed: 10
+  landMoveSpeed: 5
+  landDashSpeed: 25
+  landSprintSpeed: 12
+  oceanMoveSpeed: 8
+  oceanDashSpeed: 25
+  oceanSprintSpeed: 10
 --- !u!114 &4000928468899383921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1456,6 +1459,7 @@ MonoBehaviour:
   playerTransform: {fileID: 4470129359587397084}
   startPointPrefab: {fileID: 8193605775773355012, guid: 993dc56d799905c42a679af7f423230c, type: 3}
   breakLimitTimer: 10
+  enableBreachTimeout: 0
   segmentLength: 0.8
   solverIterations: 20
   maxRopeLength: 150
