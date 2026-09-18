@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace Game.Testing
@@ -319,16 +320,7 @@ private void Update()
         {
             // Bug 2: block aim entirely when any UI (e.g. inventory) is open
             // Bug 4: block aim when canAttack is false or on land
-            // Aiming/firing is the gesture HitEnemy fires from, same as Interact for other
-            // actions — block it unless HitEnemy is specifically what's required, otherwise a
-            // guided "hit an enemy" step could never be completed.
-            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked || TutorialGate.Blocks(TutorialActionId.HitEnemy))) return;
-
-            if (isAim && !FeatureUnlockService.Instance.IsUnlocked(GameFeature.Combat))
-            {
-                NotificationManager.Notify("Locked — progress the main quest to unlock combat.");
-                return;
-            }
+            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked)) return;
 
             gunHandler.IsAimming = isAim;
 
@@ -349,6 +341,7 @@ private void Update()
             if (isAttack)
             {
                 if (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked) return;
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
                 isAttacked = true;
                 gunHandler.IsAimming = true;
 
@@ -378,9 +371,6 @@ private void Sprint(bool state)
 
 private void ApplyMovement(Vector2 dir)
         {
-            // Movement is never gated by TutorialGate — every guided step (even a Talk/
-            // Interact one) still requires walking to reach its target, so locking movement
-            // would make the objective physically impossible to complete.
             if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
                 rb.linearVelocity = Vector2.zero;
@@ -393,13 +383,10 @@ private void ApplyMovement(Vector2 dir)
 
             bool isMoving = rb.linearVelocity != Vector2.zero;
 
-            // Edge-triggered: fire once when movement starts, not every physics tick.
-            if (isMoving && !wasMoving)
+            // Edge-triggered: play once when movement starts, not every physics tick.
+            if (isMoving && !wasMoving && GameManager.Instance.GameState == GameState.Ocean)
             {
-                TutorialEvents.RaiseAction(TutorialActionId.Move);
-
-                if (GameManager.Instance.GameState == GameState.Ocean)
-                    audio.PlayOneShot(playerRopeSound);
+                audio.PlayOneShot(playerRopeSound);
             }
             wasMoving = isMoving;
 

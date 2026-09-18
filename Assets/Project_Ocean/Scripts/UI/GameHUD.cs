@@ -175,12 +175,14 @@ namespace Game.Testing
             var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;
 
-            dangerLengthText.text = $"{Mathf.Abs(rope.MaxRopeLength).ToString("F2")} m.";
+            // Shows remaining health (shrinks on hit) — the player can still always swim out to
+            // rope.MaxRopeLength (the standard/upgraded distance), damage no longer restricts that.
+            dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.CurrentHealth).ToString("F2")} m.";
 
             if (currentOxygenTubeLength != null)
             {
                 currentOxygenTubeLength.text = $"{(int)rope.CurrentLength} m.";
-                currentOxygenTubeLength.color = rope.CurrentLength >= rope.MaxRopeLength ? Color.red : Color.blue;
+                currentOxygenTubeLength.color = rope.CurrentLength >= rope.HealthLimit ? Color.red : Color.blue;
             }
         }
 
