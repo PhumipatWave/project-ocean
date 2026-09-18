@@ -24,6 +24,7 @@ namespace Game.Testing
             }
 
             base.Initialize();
+            oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
         public void ResetToOriginal()
@@ -33,6 +34,7 @@ namespace Game.Testing
 
             Configure(originalMaxRopeLength);
             base.Initialize();
+            oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
         /// Call when a rope upgrade is purchased so ResetToOriginal uses the new max.
@@ -49,31 +51,29 @@ namespace Game.Testing
                 oxygenTube.MaxRopeLength = length;
             Configure(length);
             base.Initialize();
+            oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
+        // Damage depletes CurrentHealth only — it no longer shrinks oxygenTube.MaxRopeLength,
+        // so the player can always swim out to the full standard/upgraded rope length
+        // regardless of how much damage they've taken. Health hitting 0 still pulls the
+        // player back to land instead of killing them.
         public override void TakeDamage(float amount)
         {
             if (IsDead) return;
-            if (oxygenTube == null) 
-            { 
-                base.TakeDamage(amount); 
-                return; 
-            }
 
-            oxygenTube.MaxRopeLength = Mathf.Max(0f, oxygenTube.MaxRopeLength - amount);
+            float remaining = CurrentHealth - amount;
 
-            // Rope hit 0 — pull back to land instead of dying
-            if (oxygenTube.MaxRopeLength <= 0f)
+            if (remaining <= 0f)
             {
-                oxygenTube.ResetRope();
+                SetCurrentHealth(0f);
+                oxygenTube?.ResetRope();
                 GameManager.Instance.ReturnToLand();
                 return;
             }
 
-            // Sync maxHealth and currentHealth to the new rope length
-            Configure(oxygenTube.MaxRopeLength);
-            Initialize();
-
+            SetCurrentHealth(remaining);
+            oxygenTube?.SetHealthLimit(remaining);
             FlashHitColor();
             RaiseOnDamaged();
         }
@@ -81,10 +81,7 @@ namespace Game.Testing
         public override void Heal(float amount)
         {
             base.Heal(amount);
-
-            // Sync rope length up to match restored health
-            if (oxygenTube != null)
-                oxygenTube.MaxRopeLength = CurrentHealth;
+            oxygenTube?.SetHealthLimit(CurrentHealth);
         }
     }
 }
