@@ -9,7 +9,7 @@ namespace Game.Testing
     /// shared UI slot:
     /// - OnNotify: a timed toast (fade in, hold, fade out).
     /// - OnPersistentChanged: a tutorial/guide message that shows immediately and stays
-    ///   until explicitly cleared — no fade, no timer. Takes priority: while active, an
+    ///   until explicitly cleared, then fades out like a toast. Takes priority: while active, an
     ///   incoming toast is dropped rather than interrupting it.
     ///
     /// If a toast arrives while one is already showing/fading, the trigger is ignored
@@ -53,7 +53,22 @@ namespace Game.Testing
 
         private void HandlePersistentChanged(string message, Sprite sprite)
         {
+            bool wasActive = _persistentActive;
             _persistentActive = !string.IsNullOrEmpty(message);
+
+            if (!_persistentActive)
+            {
+                // Cleared: fade out like a normal toast, keeping the old text. Repeated
+                // clears (or a toast already in flight) must not restart/cut it short.
+                if (wasActive && isActiveAndEnabled)
+                {
+                    if (_activeRoutine != null) StopCoroutine(_activeRoutine); // mid fade-in
+                    _activeRoutine = StartCoroutine(FadeToRoutine(0f));
+                }
+                else if (_activeRoutine == null && canvasGroup != null)
+                    canvasGroup.alpha = 0f;
+                return;
+            }
 
             // A persistent message pre-empts any toast in flight — the guide prompt owns
             // the slot until cleared, not a timed fade.
@@ -64,7 +79,22 @@ namespace Game.Testing
             }
 
             if (messageText != null) messageText.text = message;
-            if (canvasGroup != null) canvasGroup.alpha = _persistentActive ? 1f : 0f;
+            if (isActiveAndEnabled) _activeRoutine = StartCoroutine(FadeToRoutine(1f));
+            else if (canvasGroup != null) canvasGroup.alpha = 1f;
+        }
+
+        private IEnumerator FadeToRoutine(float target)
+        {
+            float start = canvasGroup != null ? canvasGroup.alpha : 0f;
+            float t = 0f;
+            while (t < fadeDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                if (canvasGroup != null) canvasGroup.alpha = Mathf.Lerp(start, target, t / fadeDuration);
+                yield return null;
+            }
+            if (canvasGroup != null) canvasGroup.alpha = target;
+            _activeRoutine = null;
         }
 
         private void HandleNotify(string message)
