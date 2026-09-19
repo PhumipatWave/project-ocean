@@ -206,6 +206,9 @@ namespace Game.Testing
                             auto ? "Not used — Auto Display Dialogue has no NPC. Leave dialogue lines' Character Id blank."
                                  : "The NPC the player must walk up to and talk to."));
                 }
+                else if (type == QuestType.ExploreArea)
+                    EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Area Id",
+                        "Matches an ExploreAreaTrigger's Area Id in the scene - completes when the player interacts with it or walks into its zone."));
                 else
                     EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target Enemy Id"));
                 rect.y += lineHeight;

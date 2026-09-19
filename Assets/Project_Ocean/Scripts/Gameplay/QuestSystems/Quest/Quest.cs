@@ -63,6 +63,9 @@ namespace Game.Testing
         /// </summary>
         public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
 
+        /// <summary>ExploreArea steps reuse TargetEnemyId as the Area Id an ExploreAreaTrigger reports.</summary>
+        public string EffectiveAreaId => Type == QuestType.ExploreArea ? TargetEnemyId : null;
+
         /// <summary>Cutscene steps reuse TargetEnemyId as the Cutscene Id to play — this is
         /// that value, named for what it actually is at this step type.</summary>
         public string EffectiveCutsceneId => Type == QuestType.Cutscene ? TargetEnemyId : null;
@@ -142,15 +145,10 @@ namespace Game.Testing
             }
         }
 
-        /// <summary>Every authored entry of this dialogue type, in authored order and one per
-        /// entry (the dictionary above keeps only the last per character) — a multi-speaker
-        /// exchange (Auto Display Dialogue) plays these front to back.</summary>
-        public IEnumerable<QuestDialogueLine> GetSequence(DialogueType type)
-        {
-            foreach (var line in orderedDialogue)
-                if (line.type == type)
-                    yield return line;
-        }
+        /// <summary>Every authored entry, in authored order and one per entry (the dictionary
+        /// above keeps only the last per character+type) — a multi-speaker exchange (Auto
+        /// Display Dialogue) plays these front to back, whatever type each was authored as.</summary>
+        public IReadOnlyList<QuestDialogueLine> DialogueEntries => orderedDialogue;
 
         /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
         public string[] GetLines(string characterId, DialogueType type) =>
@@ -311,9 +309,13 @@ namespace Game.Testing
                 // PerItem's "how many required" is the requirement count, not an authored
                 // Target Count — deriving it here keeps the Inspector from showing a field
                 // that would just be redundant/easy to leave mismatched.
-                int targetCount = s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
+                // Never below 1: a 0-target step is "complete" the moment it starts, so AddProgress
+                // (which bails on an already-complete step) can never advance past it — the quest
+                // sticks on it forever. Talk/Tutorial/Cutscene steps hide this field in the
+                // Inspector, so a freshly added step is easily left at 0.
+                int targetCount = Mathf.Max(1, s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
                     ? itemRequirements.Count
-                    : s.targetCount;
+                    : s.targetCount);
 
                 var step = new QuestStep
                 {

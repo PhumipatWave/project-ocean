@@ -67,6 +67,7 @@ namespace Game.Testing
             if (success)
             {
                 Debug.Log("Accept Quest");
+                TutorialEvents.RaiseAction(TutorialActionId.AcceptQuest);
                 NotifyAndClose();
             }
             else

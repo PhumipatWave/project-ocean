@@ -33,6 +33,10 @@ namespace Game.Testing
 
         private readonly Dictionary<string, GameObject> prefabsById = new();
 
+        // Cutscenes playing right now, by id — a second request for the same id joins the running
+        // one instead of stacking a duplicate on top of it (see Play).
+        private readonly Dictionary<string, Cutscene> running = new();
+
         // The quest currently waiting on its Cutscene-type step to finish — guards against
         // re-triggering Play() on every OnQuestUpdated while it's already running.
         private Quest activeQuestStep;
@@ -127,6 +131,17 @@ namespace Game.Testing
             if (string.IsNullOrEmpty(cutsceneId) || !prefabsById.TryGetValue(cutsceneId, out var prefab))
                 return false;
 
+            // The same id can be asked for twice at once: a dialogue line's Cutscene Id plays it the
+            // moment the dialogue closes, and a Cutscene-type step with that id starts it again a
+            // second later (CutsceneStartDelay) — while the first is still running. Two copies
+            // overlap, and a skip only ever ends one of them. Join the running one instead: its
+            // completion also completes this request (e.g. the quest's Cutscene step).
+            if (running.TryGetValue(cutsceneId, out var already) && already != null)
+            {
+                already.AddOnComplete(onComplete);
+                return true;
+            }
+
             var instance = Instantiate(prefab);
 
             // Unity never runs Awake on an inactive GameObject (or its instantiated clone)
@@ -136,8 +151,11 @@ namespace Game.Testing
             if (!instance.activeSelf)
                 instance.SetActive(true);
 
-            instance.GetComponent<Cutscene>().Play(() =>
+            var cutscene = instance.GetComponent<Cutscene>();
+            running[cutsceneId] = cutscene;
+            cutscene.Play(() =>
             {
+                running.Remove(cutsceneId);
                 Destroy(instance);
                 onComplete?.Invoke();
             });

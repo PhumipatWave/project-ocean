@@ -47,6 +47,7 @@ namespace Game.Testing
             if (!pressed) return;
             if (TutorialGate.Blocks(TutorialActionId.Interact)) return;
             if (CutsceneGate.IsPlaying) return;
+            if (PlayerSelfDialogueUI.BlocksInteraction) return;
             if (IsFeatureLocked())
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock this.");
@@ -90,7 +91,7 @@ namespace Game.Testing
         private void Update()
         {
             if (interactIcon != null)
-                interactIcon.SetActive(_playerInRange && !CutsceneGate.IsPlaying && !IsFeatureLocked());
+                interactIcon.SetActive(_playerInRange && !CutsceneGate.IsPlaying && !PlayerSelfDialogueUI.BlocksInteraction && !IsFeatureLocked());
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

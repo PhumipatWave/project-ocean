@@ -67,6 +67,7 @@ namespace Game.Testing
         {
             if (!pressed) return;
             if (PlayerUIState.IsLocked) return; // some other interactable already has the floor
+            if (PlayerSelfDialogueUI.BlocksInteraction) return; // the press that closed an auto dialogue
             if (!playerInRange || !CanCollect) return;
             if (!IsClosestToPlayer()) return;
             TryCollect();

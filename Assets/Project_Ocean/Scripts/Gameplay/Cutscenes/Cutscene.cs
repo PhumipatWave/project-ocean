@@ -78,6 +78,14 @@ namespace Game.Testing
             if (reader != null) reader.OnSkipCutscene += HandleSkipPressed;
         }
 
+        /// <summary>Also run <paramref name="callback"/> when this cutscene finishes — for a second
+        /// request for the same cutscene while it is already playing (see CutsceneManager.Play).</summary>
+        public void AddOnComplete(Action callback)
+        {
+            if (callback != null)
+                onComplete += callback;
+        }
+
         private void ResolveBindings()
         {
             var timeline = director.playableAsset as TimelineAsset;

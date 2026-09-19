@@ -42,6 +42,9 @@ namespace Game.Testing
             if (step.Type == QuestType.Talk)
                 return NPCManager.Instance?.GetNpc(step.EffectiveNpcId)?.transform;
 
+            if (step.Type == QuestType.ExploreArea)
+                return ExploreAreaTrigger.FindByAreaId(step.EffectiveAreaId);
+
             if (step.Type == QuestType.Tutorial)
             {
                 if (IsMoveDoorAction(step.TutorialAction))

@@ -37,6 +37,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed += HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
+            ExploreEvents.OnAreaReached += HandleAreaReached;
             InventoryManager.OnInventoryChanged += HandleInventoryChanged;
         }
 
@@ -46,6 +47,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed -= HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
+            ExploreEvents.OnAreaReached -= HandleAreaReached;
             InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
         }
 
@@ -130,6 +132,12 @@ namespace Game.Testing
             if (q != null && q.Status == QuestStatus.InProgress &&
                 step != null && step.Type == QuestType.Talk && step.AutoDisplayDialogue)
                 CompleteProgress(q);
+        }
+
+        private void HandleAreaReached(string areaId)
+        {
+            if (!string.IsNullOrEmpty(areaId))
+                TryProgress(QuestType.ExploreArea, step => step.EffectiveAreaId == areaId);
         }
 
         private void HandleCutsceneFinished(string cutsceneId)
@@ -515,8 +523,17 @@ namespace Game.Testing
                 return false;
             }
 
-            // Quest ที่รับใหม่จะถูก Track ทันที
-            trackedQuestId = questID;
+            // Quest ที่รับใหม่จะถูก Track ทันที — except a non-Main quest never takes tracking away
+            // from the Main quest that's already tracked: the compass, door/area markers and the HUD
+            // tracker all follow the tracked quest, so a Sub quest taken off the board mid-story
+            // (e.g. the AcceptQuest tutorial step) would otherwise cut off the story's guidance.
+            // The player can still switch to it explicitly via SetTrackedQuest.
+            var tracked = GetTrackedQuest();
+            bool keepMainTracked = tracked != null &&
+                tracked.Classification == QuestClassification.MainQuest &&
+                quest.Classification != QuestClassification.MainQuest;
+            if (!keepMainTracked)
+                trackedQuestId = questID;
 
             quest.Status = QuestStatus.InProgress;
 

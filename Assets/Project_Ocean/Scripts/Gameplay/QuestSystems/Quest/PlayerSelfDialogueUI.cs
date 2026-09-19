@@ -10,8 +10,8 @@ namespace Game.Testing
     /// <summary>
     /// Drives the shared NPC dialogue panel for a Talk step authored with Auto Display Dialogue
     /// (QuestStepData.autoDisplayDialogue) — there's no NPC to walk up to and press Interact on,
-    /// so the line auto-opens the moment that step becomes current. Plays the step's InProgress
-    /// entries in authored order, one line per Interact press, each with its own Character Id's
+    /// so the line auto-opens the moment that step becomes current. Plays the step's dialogue
+    /// entries (any type) in authored order, one line per Interact press, each with its own Character Id's
     /// name and portrait (blank = the player, "You"); the last press closes it and completes the
     /// step via QuestManager.CompleteAutoDialogue (same CompleteProgress a real NPC conversation
     /// ends in, so rewards/next-step/chaining keep working unchanged).
@@ -29,6 +29,16 @@ namespace Game.Testing
         [SerializeField] private Image npcAvatarImage;
 
         private struct Line { public string speakerId; public string text; }
+
+        private static bool showing;
+        private static int lastHideFrame = -1;
+
+        /// <summary>True while an auto-display dialogue is up, and for the rest of the frame it
+        /// closes on — every Interact listener (InteractUI, collectables) is handling that SAME
+        /// press, and the one that closes the dialogue must not also start a shop/door/pickup.
+        /// InteractUI alone can't rely on the player lock: an interactable that already holds it
+        /// (the shop the player just left) would still act on the press.</summary>
+        public static bool BlocksInteraction => showing || Time.frameCount <= lastHideFrame;
 
         private Quest activeQuest;
         private bool isShowing;
@@ -98,10 +108,11 @@ namespace Game.Testing
         {
             activeQuest = quest;
             isShowing = true;
+            showing = true;
 
             lines.Clear();
             lineIndex = 0;
-            foreach (var entry in quest.CurrentStep.GetSequence(DialogueType.InProgress))
+            foreach (var entry in quest.CurrentStep.DialogueEntries)
                 foreach (var text in entry.lines ?? System.Array.Empty<string>())
                     lines.Add(new Line { speakerId = entry.characterId, text = text });
 
@@ -129,6 +140,8 @@ namespace Game.Testing
         private void Hide()
         {
             isShowing = false;
+            showing = false;
+            lastHideFrame = Time.frameCount;
             activeQuest = null;
 
             if (dialoguePanel != null) dialoguePanel.SetActive(false);
@@ -154,7 +167,7 @@ namespace Game.Testing
             // player has actually finished this exchange, not the moment it first showed.
             var quest = activeQuest;
             string cutsceneId = null;
-            foreach (var entry in quest.CurrentStep.GetSequence(DialogueType.InProgress))
+            foreach (var entry in quest.CurrentStep.DialogueEntries)
             {
                 if (string.IsNullOrEmpty(entry.cutsceneId)) continue;
                 cutsceneId = entry.cutsceneId;
