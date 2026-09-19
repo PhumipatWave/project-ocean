@@ -72,8 +72,13 @@ namespace Game.Testing
 
         private void HandleMenuToggle()
         {
-            if (PlayerUIState.IsLocked) return;
-            pauseMenu?.ToggleMenu();
+            if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying) return;
+            // In-game Esc is the PauseMenu window (AS_PlayerHUD); ToggleMenu asks for the MainMenu
+            // window, which only exists in MainMenuScene.
+            if (UIManager.Instance != null)
+                UIManager.Instance.TogglePauseMenu();
+            else
+                pauseMenu?.ToggleMenu();
         }
 
         private void HandleLockChanged(bool isLocked)

@@ -19,6 +19,7 @@ namespace Game.Core
 
         public event Action OnUseItem;
         public event Action OnTeleport;
+        public event Action OnSkipCutscene;
 
         public Vector2 MousePos { get; private set; }
         public Vector2 MovePos { get; private set; }
@@ -125,6 +126,11 @@ namespace Game.Core
         void IPlayerActions.OnTeleport(InputAction.CallbackContext context)
         {
             if (context.performed) OnTeleport?.Invoke();
+        }
+
+        void IPlayerActions.OnSkipCutscene(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnSkipCutscene?.Invoke();
         }
 
         public void OnSwitchItem(InputAction.CallbackContext context)

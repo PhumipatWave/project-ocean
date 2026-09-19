@@ -142,6 +142,8 @@ namespace Game.Testing
 
         public void Interact()
         {
+            if (CutsceneGate.IsPlaying) return;
+
             if (HasQuest)
                 QuestInteract();
             else

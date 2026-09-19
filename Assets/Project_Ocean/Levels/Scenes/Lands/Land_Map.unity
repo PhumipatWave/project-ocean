@@ -187,8 +187,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  requireSpecificFeature: 0
-  specificFeature: 0
+  requireSpecificFeature: 1
+  specificFeature: 2
 --- !u!61 &3762140
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -212428,8 +212428,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  requireSpecificFeature: 0
-  specificFeature: 0
+  requireSpecificFeature: 1
+  specificFeature: 3
 --- !u!114 &247892273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240455,8 +240455,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  requireSpecificFeature: 0
-  specificFeature: 0
+  requireSpecificFeature: 1
+  specificFeature: 13
 --- !u!61 &1117151091
 BoxCollider2D:
   m_ObjectHideFlags: 0

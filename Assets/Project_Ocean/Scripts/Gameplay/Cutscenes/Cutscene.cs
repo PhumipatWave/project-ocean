@@ -35,7 +35,8 @@ namespace Game.Testing
     /// see NPC.PlayCutsceneIfAny / PlayerSelfDialogueUI.Show) or a Cutscene-type quest step.
     ///
     /// Locks player control for the duration via PlayerUIState, same as any other blocking
-    /// panel. One Interact press skips to the end rather than stopping abruptly, so the
+    /// panel. The SkipCutscene input (Space) asks (ConfirmationDialog; the cutscene keeps playing meanwhile) whether to skip; Interact
+    /// does nothing. Skipping jumps to the end rather than stopping abruptly, so the
     /// Timeline's final frame (camera/actor end state) is always fully applied.
     /// </summary>
     [RequireComponent(typeof(PlayableDirector))]
@@ -52,6 +53,7 @@ namespace Game.Testing
         private PlayableDirector director;
         private Action onComplete;
         private bool isPlaying;
+        private bool confirmingSkip;
 
         private void Awake() => director = GetComponent<PlayableDirector>();
 
@@ -73,7 +75,7 @@ namespace Game.Testing
             PlayerUIState.Open();
 
             var reader = GameManager.CurPlayer?.input;
-            if (reader != null) reader.OnInteracted += HandleInteract;
+            if (reader != null) reader.OnSkipCutscene += HandleSkipPressed;
         }
 
         private void ResolveBindings()
@@ -158,24 +160,43 @@ namespace Game.Testing
         // ponytail: per-clip ExposedReferences (e.g. swapping which Cinemachine camera a
         // specific CinemachineShot clip points at) aren't resolved here — only track-level
         // bindings. Add PlayableDirector.SetReferenceValue resolution if a cutscene needs that.
-        private void HandleInteract(bool pressed)
+        // ponytail: bound to Space in the .inputactions but not in KeyAction, so no rebind UI slot — same as Teleport.
+        private void HandleSkipPressed()
         {
-            if (!pressed || !isPlaying)
+            if (!isPlaying || confirmingSkip || ConfirmationDialog.Instance == null ||
+                (UIManager.Instance != null && UIManager.Instance.IsUIOpen))
                 return;
 
+            confirmingSkip = true;
+            ConfirmationDialog.Instance.Show("Skip this cutscene?", Skip, () => confirmingSkip = false);
+        }
+
+        private void Skip()
+        {
+            confirmingSkip = false;
             director.time = director.duration;
             director.Evaluate();
             director.Stop();
+            HandleStopped(director); // no-op if `stopped` already ran it
         }
 
         private void HandleStopped(PlayableDirector d)
         {
+            if (!isPlaying)
+                return;
+
             director.stopped -= HandleStopped;
             isPlaying = false;
+
+            // Cutscene ended on its own while the skip dialog was still open — close it (Cancel
+            // runs the callback above, resetting confirmingSkip) instead of leaving it over nothing.
+            if (confirmingSkip)
+                ConfirmationDialog.Instance?.Cancel();
+
             CutsceneGate.IsPlaying = false;
 
             var reader = GameManager.CurPlayer?.input;
-            if (reader != null) reader.OnInteracted -= HandleInteract;
+            if (reader != null) reader.OnSkipCutscene -= HandleSkipPressed;
 
             PlayerUIState.Close();
 

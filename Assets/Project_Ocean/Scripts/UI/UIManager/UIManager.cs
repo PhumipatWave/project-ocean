@@ -40,6 +40,8 @@ namespace Game.Testing
 
         private float previousTimeScale = 1f;
         private bool uiManagerOwnsLock;
+        private bool uiManagerOpenedLock; // false when someone else (e.g. a cutscene) already held it
+        private int lastOpenFrame = -1;
 
         [Header("Behaviour")]
         [SerializeField] private bool pauseGameWhenUIOpen = true;
@@ -214,6 +216,7 @@ namespace Game.Testing
             target.transform.SetAsLastSibling();
 
             currentUI = type;
+            lastOpenFrame = Time.frameCount;
 
             ApplyBlockingState();
 
@@ -326,7 +329,8 @@ namespace Game.Testing
 
             // ถ้ามี UI จากระบบอื่นกำลังเปิดอยู่
             // เช่น Quest Board / Shop / Upgrade / Interaction
-            if (PlayerUIState.IsLocked)
+            // (a playing cutscene holds the lock too, but Pause is allowed over it)
+            if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying)
                 return;
 
             Open(UIType.PauseMenu);
@@ -345,8 +349,8 @@ namespace Game.Testing
             if (currentUI != UIType.None)
                 return;
 
-            // มี UI จากระบบอื่นเปิดอยู่ → ห้ามเปิด Pause
-            if (PlayerUIState.IsLocked)
+            // มี UI จากระบบอื่นเปิดอยู่ → ห้ามเปิด Pause (a playing cutscene is the exception)
+            if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying)
                 return;
 
             Open(UIType.PauseMenu);
@@ -433,9 +437,11 @@ namespace Game.Testing
                 return;
 
             // Close UIManager-owned UI first.
+            // (Not on the frame it opened: the Menu input action also opens the pause menu on Esc.)
             if (IsUIOpen)
             {
-                CloseCurrent();
+                if (lastOpenFrame != Time.frameCount)
+                    CloseCurrent();
                 return;
             }
 
@@ -462,6 +468,7 @@ namespace Game.Testing
                 if (!PlayerUIState.IsLocked)
                 {
                     PlayerUIState.Open();
+                    uiManagerOpenedLock = true;
                 }
 
                 uiManagerOwnsLock = true;
@@ -479,8 +486,10 @@ namespace Game.Testing
         {
             if (uiManagerOwnsLock)
             {
-                PlayerUIState.Close();
+                if (uiManagerOpenedLock)
+                    PlayerUIState.Close();
                 uiManagerOwnsLock = false;
+                uiManagerOpenedLock = false;
             }
 
             if (pauseGameWhenUIOpen)
