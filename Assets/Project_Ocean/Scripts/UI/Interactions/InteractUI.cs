@@ -28,6 +28,9 @@ namespace Game.Testing
         [SerializeField] private bool requireSpecificFeature;
         [SerializeField] private GameFeature specificFeature;
 
+        /// <summary>Raised when the player leaves this zone (after the lock is released).</summary>
+        public event System.Action PlayerExited;
+
         private bool _subscribed;
         private bool holdingLock;
         private bool _playerInRange;
@@ -106,6 +109,7 @@ namespace Game.Testing
                 Unsubscribe();
                 _playerInRange = false;
                 ReleasePlayerLock();
+                PlayerExited?.Invoke();
             }
         }
 

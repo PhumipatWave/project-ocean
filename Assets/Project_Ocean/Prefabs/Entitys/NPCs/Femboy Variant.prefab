@@ -24,6 +24,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5428581210912805024, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2318859831075951602}
+    - target: {fileID: 5428581210912805024, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Game.Testing.NPC, Game.Testing
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: npcId
+      value: peachzy
+      objectReference: {fileID: 0}
     - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: hasQuest
       value: 1
@@ -105,6 +117,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Femboy Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7906456317786598898, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8844767358560791598, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
       propertyPath: m_fontSize
       value: 1.25
@@ -113,13 +129,47 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 1.25
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+    - {fileID: 4661900574750797600, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2318859831075951602}
   m_SourcePrefab: {fileID: 100100000, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
 --- !u!1 &5311085831851042887 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7111621022968023743, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
   m_PrefabInstance: {fileID: 3099965044140729080}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5344566878394878239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+  m_PrefabInstance: {fileID: 3099965044140729080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2318859831075951602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344566878394878239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::NPCInteract
+  npcId: femboy
+  npcName: 
+  npcDialogue: Hm? Why are you looking at me like that? Did you fall in love with
+    me? ...Hehe, just kidding!
+  npcPortrait: {fileID: -8331839177789629585, guid: cd8c0acba6598174082be30717d2a09d, type: 3}
+  targetQuest: {fileID: 0}
+  questDetailPanel: {fileID: 0}
+  dialoguePanel: {fileID: 0}
+  npcNameText: {fileID: 0}
+  dialogueText: {fileID: 0}
+  npcAvatarImage: {fileID: 0}
+  markerUI: {fileID: 5311085831851042887}

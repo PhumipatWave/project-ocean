@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using Game.Core;
 using TMPro;
 using UnityEngine;
@@ -8,16 +8,19 @@ using UnityEngine.UI;
 namespace Game.Testing
 {
     /// <summary>
-    /// Drives the shared NPC dialogue panel for a Talk step whose Target NPC Id is "player" —
-    /// there's no NPC to walk up to and press Interact on, so the line auto-opens the moment
-    /// that step becomes current, and one Interact press closes it and completes the step via
-    /// the same NpcEvents pipeline a real NPC conversation uses (rewards/next-step/chaining
-    /// all keep working unchanged).
+    /// Drives the shared NPC dialogue panel for a Talk step authored with Auto Display Dialogue
+    /// (QuestStepData.autoDisplayDialogue) — there's no NPC to walk up to and press Interact on,
+    /// so the line auto-opens the moment that step becomes current. Plays the step's InProgress
+    /// entries in authored order, one line per Interact press, each with its own Character Id's
+    /// name and portrait (blank = the player, "You"); the last press closes it and completes the
+    /// step via QuestManager.CompleteAutoDialogue (same CompleteProgress a real NPC conversation
+    /// ends in, so rewards/next-step/chaining keep working unchanged).
     /// </summary>
     public class PlayerSelfDialogueUI : MonoBehaviour
     {
-        private const string SelfNpcId = "player";
+        private const string PlayerId = "player";
 
+        [Tooltip("Shown when a line's Character Id is blank or unknown to the CharacterDatabase.")]
         [SerializeField] private string displayName = "You";
 
         [SerializeField] private GameObject dialoguePanel;
@@ -25,8 +28,12 @@ namespace Game.Testing
         [SerializeField] private TextMeshProUGUI dialogueText;
         [SerializeField] private Image npcAvatarImage;
 
+        private struct Line { public string speakerId; public string text; }
+
         private Quest activeQuest;
         private bool isShowing;
+        private readonly List<Line> lines = new();
+        private int lineIndex;
 
         private void OnEnable()
         {
@@ -68,8 +75,7 @@ namespace Game.Testing
                         continue;
 
                     var step = q.CurrentStep;
-                    if (step != null && step.Type == QuestType.Talk &&
-                        string.Equals(step.TargetEnemyId, SelfNpcId, StringComparison.OrdinalIgnoreCase))
+                    if (step != null && step.Type == QuestType.Talk && step.AutoDisplayDialogue)
                     {
                         match = q;
                         break;
@@ -93,15 +99,31 @@ namespace Game.Testing
             activeQuest = quest;
             isShowing = true;
 
-            if (npcNameText != null) npcNameText.text = displayName;
-            if (npcAvatarImage != null) npcAvatarImage.gameObject.SetActive(false);
-            if (dialogueText != null) dialogueText.text = quest.CurrentStep.QuestionInProgress;
+            lines.Clear();
+            lineIndex = 0;
+            foreach (var entry in quest.CurrentStep.GetSequence(DialogueType.InProgress))
+                foreach (var text in entry.lines ?? System.Array.Empty<string>())
+                    lines.Add(new Line { speakerId = entry.characterId, text = text });
+
+            // Nothing authored still needs one press to complete the step (as before).
+            if (lines.Count == 0)
+                lines.Add(new Line { speakerId = null, text = "" });
+
+            ShowCurrentLine();
             if (dialoguePanel != null) dialoguePanel.SetActive(true);
 
             PlayerUIState.Open();
 
             var reader = GameManager.CurPlayer?.input;
             if (reader != null) reader.OnInteracted += HandleInteract;
+        }
+
+        private void ShowCurrentLine()
+        {
+            var line = lines[lineIndex];
+            DialogueSpeaker.Apply(npcNameText, npcAvatarImage,
+                string.IsNullOrEmpty(line.speakerId) ? PlayerId : line.speakerId, displayName);
+            if (dialogueText != null) dialogueText.text = line.text;
         }
 
         private void Hide()
@@ -121,12 +143,26 @@ namespace Game.Testing
         {
             if (!pressed || !isShowing || CutsceneGate.IsPlaying) return;
 
+            if (lineIndex < lines.Count - 1)
+            {
+                lineIndex++;
+                ShowCurrentLine();
+                return;
+            }
+
             // Captured before Hide() clears activeQuest — the cutscene starts once the
             // player has actually finished this exchange, not the moment it first showed.
-            var cutsceneId = activeQuest.CurrentStep.GetCutsceneId(SelfNpcId, DialogueType.InProgress);
+            var quest = activeQuest;
+            string cutsceneId = null;
+            foreach (var entry in quest.CurrentStep.GetSequence(DialogueType.InProgress))
+            {
+                if (string.IsNullOrEmpty(entry.cutsceneId)) continue;
+                cutsceneId = entry.cutsceneId;
+                break;
+            }
 
             Hide();
-            NpcEvents.RaiseNpcTalkedTo(SelfNpcId);
+            QuestManager.Instance?.CompleteAutoDialogue(quest);
 
             if (!string.IsNullOrEmpty(cutsceneId))
                 CutsceneManager.Instance?.Play(cutsceneId);

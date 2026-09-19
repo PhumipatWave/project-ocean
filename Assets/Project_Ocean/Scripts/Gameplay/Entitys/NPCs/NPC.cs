@@ -72,7 +72,15 @@ namespace Game.Testing
 
         private void Start()
         {
-            interactUI = GetComponent<InteractUI>();
+            // The InteractUI (and its trigger collider) may sit on a child (e.g. the prefab's
+            // "Talk" object) rather than on the NPC itself — find it either way, or the
+            // player lock never gets released when the dialogue closes.
+            interactUI = GetComponentInChildren<InteractUI>();
+
+            // Trigger events go to the collider's own object, so an NPC whose zone is on a
+            // child never gets its own OnTriggerExit2D — listen through the InteractUI instead.
+            if (interactUI != null && interactUI.gameObject != gameObject)
+                interactUI.PlayerExited += HandlePlayerExited;
 
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(false);
@@ -174,12 +182,7 @@ namespace Game.Testing
             if (dialogueText != null)
                 dialogueText.text = npcDialogue;
 
-            if (npcAvatarImage != null)
-            {
-                npcAvatarImage.gameObject.SetActive(npcPortrait != null);
-                if (npcPortrait != null)
-                    npcAvatarImage.sprite = npcPortrait;
-            }
+            DialogueSpeaker.Apply(npcNameText, npcAvatarImage, npcId, npcName, npcPortrait);
             dialoguePanel.SetActive(true);
             isUIOpen = true;
         }
@@ -214,11 +217,7 @@ namespace Game.Testing
             // Show THIS physical NPC's own identity, not the quest's — several NPCs can
             // share one targetQuest (e.g. different Talk steps of the same quest), and
             // each should be labeled as themselves when the player talks to them.
-            if (npcNameText != null)
-                npcNameText.text = npcName;
-
-            if (npcAvatarImage != null && npcPortrait != null)
-                npcAvatarImage.sprite = npcPortrait;
+            DialogueSpeaker.Apply(npcNameText, npcAvatarImage, npcId, npcName, npcPortrait);
 
             ShowDialogueText();
         }
@@ -328,11 +327,20 @@ namespace Game.Testing
             }
         }
 
+        private void OnDestroy()
+        {
+            if (interactUI != null)
+                interactUI.PlayerExited -= HandlePlayerExited;
+        }
+
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (!collision.CompareTag("Player"))
-                return;
+            if (collision.CompareTag("Player"))
+                HandlePlayerExited();
+        }
 
+        private void HandlePlayerExited()
+        {
             CloseDialogue();
 
             if (HasQuest && questDetailPanel != null)

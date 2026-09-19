@@ -20,7 +20,7 @@ MonoBehaviour:
   nextQuestIds: ea030000
   steps:
   - type: 3
-    targetEnemyId: player
+    targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
@@ -29,7 +29,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: 
+    stepDescription: "\u201CYou used to be an office worker that quit your job to
+      go to this island because you think diving in the ocean is pretty cool\u201D"
     dialogue:
     - characterId: player
       type: 1
@@ -38,6 +39,7 @@ MonoBehaviour:
         because you think diving in the ocean is pretty cool\u201D"
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -55,6 +57,7 @@ MonoBehaviour:
     stepDescription: '"Press W A S D to move"'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -77,6 +80,7 @@ MonoBehaviour:
       - Welcome to the island. Follow me to the boat to prepare your first dive.
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -99,6 +103,7 @@ MonoBehaviour:
       - Nice, you found me! Let's continue your training.
       cutsceneId: TT_01
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -116,6 +121,7 @@ MonoBehaviour:
     stepDescription: Interact to board the boat
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -139,6 +145,7 @@ MonoBehaviour:
     stepDescription: '"Press [L-Click] to fire gun."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -164,6 +171,7 @@ MonoBehaviour:
     stepDescription: 
     dialogue: []
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -187,6 +195,7 @@ MonoBehaviour:
     stepDescription: '"Bag is full. Press [I] to check inventory."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -210,6 +219,7 @@ MonoBehaviour:
     stepDescription: '"Click [Back to land] to return to the surface."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -233,6 +243,7 @@ MonoBehaviour:
     stepDescription: '"Go to the Fish Shop to sell your catch."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -256,6 +267,7 @@ MonoBehaviour:
     stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -284,12 +296,13 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
   - type: 3
-    targetEnemyId: player
+    targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 6
     targetQuestItemId: 
@@ -312,6 +325,7 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -340,6 +354,7 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -368,6 +383,7 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0

@@ -1618353,6 +1618353,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 985109910}
     m_Modifications:
+    - target: {fileID: 2318859831075951602, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: npcNameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 2318859831075951602, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 2134801005}
+    - target: {fileID: 2318859831075951602, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: dialoguePanel
+      value: 
+      objectReference: {fileID: 1530314195}
+    - target: {fileID: 2318859831075951602, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: npcAvatarImage
+      value: 
+      objectReference: {fileID: 704739547}
+    - target: {fileID: 2318859831075951602, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
+      propertyPath: questDetailPanel
+      value: 
+      objectReference: {fileID: 1277156060}
     - target: {fileID: 5344566878394878239, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
       propertyPath: m_Name
       value: Femboy
@@ -1618397,30 +1618417,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: npcId
-      value: peachzy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: npcNameText
-      value: 
-      objectReference: {fileID: 951372530}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: dialogueText
-      value: 
-      objectReference: {fileID: 2134801005}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: dialoguePanel
-      value: 
-      objectReference: {fileID: 1530314195}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: npcAvatarImage
-      value: 
-      objectReference: {fileID: 704739547}
-    - target: {fileID: 8837978842552151195, guid: cd28e76ec6a15c54b9d496f95ef5cd45, type: 3}
-      propertyPath: questDetailPanel
-      value: 
-      objectReference: {fileID: 1277156060}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1619216,34 +1619212,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 985109910}
     m_Modifications:
+    - target: {fileID: 998238365471145577, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: npcNameText
+      value: 
+      objectReference: {fileID: 951372530}
+    - target: {fileID: 998238365471145577, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 2134801005}
+    - target: {fileID: 998238365471145577, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: dialoguePanel
+      value: 
+      objectReference: {fileID: 1530314195}
+    - target: {fileID: 998238365471145577, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: npcAvatarImage
+      value: 
+      objectReference: {fileID: 704739547}
+    - target: {fileID: 998238365471145577, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: questDetailPanel
+      value: 
+      objectReference: {fileID: 1277156060}
     - target: {fileID: 1156770055837207706, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
       propertyPath: m_Name
       value: ShopF
       objectReference: {fileID: 0}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: npcId
-      value: shop
+    - target: {fileID: 2061015403664312975, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: npcNameText
-      value: 
-      objectReference: {fileID: 951372530}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: dialogueText
-      value: 
-      objectReference: {fileID: 2134801005}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: dialoguePanel
-      value: 
-      objectReference: {fileID: 1530314195}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: npcAvatarImage
-      value: 
-      objectReference: {fileID: 704739547}
-    - target: {fileID: 2342106622618954014, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
-      propertyPath: questDetailPanel
-      value: 
-      objectReference: {fileID: 1277156060}
     - target: {fileID: 2539216317079425700, guid: 7e7f4937097d62648b5683a7d59a02c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -115.79
@@ -1621787,6 +1621783,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hunter
       objectReference: {fileID: 0}
+    - target: {fileID: 756087324513853083, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3880132777625175728, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: m_LocalPosition.x
       value: -194.2
@@ -1621827,65 +1621827,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
-      propertyPath: npcId
-      value: hunter
-      objectReference: {fileID: 0}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+    - target: {fileID: 7881338905784811976, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: npcNameText
       value: 
       objectReference: {fileID: 951372530}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+    - target: {fileID: 7881338905784811976, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 2134801005}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+    - target: {fileID: 7881338905784811976, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: dialoguePanel
       value: 
       objectReference: {fileID: 1530314195}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+    - target: {fileID: 7881338905784811976, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: npcAvatarImage
       value: 
       objectReference: {fileID: 704739547}
-    - target: {fileID: 3919484543729220874, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
+    - target: {fileID: 7881338905784811976, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
       propertyPath: questDetailPanel
       value: 
       objectReference: {fileID: 1277156060}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 498131276581804174, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8818801279176461612}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
---- !u!1 &8818801279176461611 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 498131276581804174, guid: d3ec43b21e8ade5489ca732ff8f7aeef, type: 3}
-  m_PrefabInstance: {fileID: 8818801279176461610}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &8818801279176461612
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8818801279176461611}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

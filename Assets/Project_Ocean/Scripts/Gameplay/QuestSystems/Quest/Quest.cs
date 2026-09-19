@@ -56,10 +56,12 @@ namespace Game.Testing
         /// <summary>
         /// Default speaker for context-free dialogue lookups (board/tracker avatar,
         /// QuestDetailPanel's Accept/Reject). Only Talk steps have one — it's just
-        /// TargetEnemyId (who you're talking to), not a separately-authored id. Other
+        /// TargetEnemyId (who you're talking to), not a separately-authored id. An Auto Display
+        /// Dialogue step talks to nobody, so it has none (null) — author its lines with a blank
+        /// characterId. Other
         /// step types (KillCount, etc.) have no default speaker.
         /// </summary>
-        public string EffectiveNpcId => Type == QuestType.Talk ? TargetEnemyId : null;
+        public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
 
         /// <summary>Cutscene steps reuse TargetEnemyId as the Cutscene Id to play — this is
         /// that value, named for what it actually is at this step type.</summary>
@@ -67,6 +69,9 @@ namespace Game.Testing
 
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
+
+        /// <summary>Talk steps only — see QuestStepData.autoDisplayDialogue (PlayerSelfDialogueUI shows it).</summary>
+        public bool AutoDisplayDialogue;
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
@@ -78,6 +83,7 @@ namespace Game.Testing
 
         private Dictionary<(string characterId, DialogueType type), string[]> dialogue;
         private Dictionary<(string characterId, DialogueType type), string> cutsceneIds;
+        private List<QuestDialogueLine> orderedDialogue = new();
 
         public string RewardItemId;
         public int RewardMoney;
@@ -123,6 +129,7 @@ namespace Game.Testing
         {
             dialogue = new Dictionary<(string, DialogueType), string[]>();
             cutsceneIds = new Dictionary<(string, DialogueType), string>();
+            orderedDialogue = lines != null ? new List<QuestDialogueLine>(lines) : new List<QuestDialogueLine>();
             if (lines == null)
                 return;
 
@@ -133,6 +140,16 @@ namespace Game.Testing
                 if (!string.IsNullOrEmpty(line.cutsceneId))
                     cutsceneIds[key] = line.cutsceneId;
             }
+        }
+
+        /// <summary>Every authored entry of this dialogue type, in authored order and one per
+        /// entry (the dictionary above keeps only the last per character) — a multi-speaker
+        /// exchange (Auto Display Dialogue) plays these front to back.</summary>
+        public IEnumerable<QuestDialogueLine> GetSequence(DialogueType type)
+        {
+            foreach (var line in orderedDialogue)
+                if (line.type == type)
+                    yield return line;
         }
 
         /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
@@ -313,6 +330,7 @@ namespace Game.Testing
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
                     IsGuidedSequence = s.isGuidedSequence,
+                    AutoDisplayDialogue = s.type == QuestType.Talk && s.autoDisplayDialogue,
                     NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
