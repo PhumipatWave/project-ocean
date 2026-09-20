@@ -41,6 +41,12 @@ namespace Game.Testing
         // re-triggering Play() on every OnQuestUpdated while it's already running.
         private Quest activeQuestStep;
 
+        // The player is locked for the whole CutsceneStartDelay, not just once the cutscene
+        // itself starts — otherwise they can keep walking (or open a panel) for that second and
+        // the cutscene begins from wherever they wandered to. Released once Cutscene.Play has
+        // taken its own lock, or if the wait is abandoned.
+        private bool holdingStartLock;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -69,7 +75,18 @@ namespace Game.Testing
         }
 
         private void OnEnable() => QuestManager.OnQuestUpdated += RefreshQuestStep;
-        private void OnDisable() => QuestManager.OnQuestUpdated -= RefreshQuestStep;
+        private void OnDisable()
+        {
+            QuestManager.OnQuestUpdated -= RefreshQuestStep;
+            ReleaseStartLock();
+        }
+
+        private void ReleaseStartLock()
+        {
+            if (!holdingStartLock) return;
+            holdingStartLock = false;
+            PlayerUIState.Close();
+        }
 
         // QuestManager.InitializeQuests() runs in ITS Awake — a quest authored to start
         // already InProgress never fires OnQuestUpdated, so this OnEnable's subscription
@@ -93,6 +110,8 @@ namespace Game.Testing
                     continue;
 
                 activeQuestStep = q;
+                PlayerUIState.Open();
+                holdingStartLock = true;
                 StartCoroutine(PlayStepAfterDelay(q, step.EffectiveCutsceneId));
                 return;
             }
@@ -111,6 +130,7 @@ namespace Game.Testing
             if (!stillWaiting)
             {
                 activeQuestStep = null;
+                ReleaseStartLock();
                 yield break;
             }
 
@@ -119,6 +139,9 @@ namespace Game.Testing
                 activeQuestStep = null;
                 CutsceneEvents.RaiseCutsceneFinished(cutsceneId);
             });
+
+            // After Play, so the cutscene's own lock is already held — no unlocked frame in between.
+            ReleaseStartLock();
         }
 
         /// <summary>
