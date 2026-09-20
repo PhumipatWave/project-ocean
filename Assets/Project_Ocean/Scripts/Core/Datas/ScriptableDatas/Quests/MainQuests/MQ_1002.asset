@@ -211,7 +211,30 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 2
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 2
+    targetQuestItemId: 
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Buy a MiniHub item."'
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
@@ -222,6 +245,52 @@ MonoBehaviour:
     targetCount: 1
     completionMode: 0
     stepDescription: '"Head to the boat to begin Day 2 diving."'
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 18
+    targetQuestItemId: 
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Use MiniHub item."'
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 07000000
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 4
+    targetQuestItemId: 
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Explore Ocean."'
     dialogue:
     - characterId: femboy
       type: 0

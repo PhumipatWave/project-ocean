@@ -26,6 +26,8 @@ namespace Game.Testing
         AcceptQuest,
         // Raised when a Rope upgrade is actually bought (UpgradeService.TryBuyUpgrade succeeds).
         UpgradeRope,
+        // Raised when the player actually uses an item from the inventory (Player.UseItem succeeds).
+        UseItem,
     }
 
     public static class TutorialEvents

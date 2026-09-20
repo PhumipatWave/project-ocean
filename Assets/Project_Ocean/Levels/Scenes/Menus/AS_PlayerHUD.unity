@@ -3420,7 +3420,7 @@ GameObject:
   - component: {fileID: 596145108}
   - component: {fileID: 596145110}
   m_Layer: 0
-  m_Name: UIDimBackground
+  m_Name: UIFadeBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3492,10 +3492,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 596145106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f36b14ded7577146b45dcff93306083, type: 3}
+  m_Script: {fileID: 11500000, guid: 445d7fecc75fa564884c6c31f2a5f431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.UIDimBackground
-  dimAlpha: 0.55
+  dimAlpha: 1
   fadeSpeed: 8
 --- !u!1 &621521762
 GameObject:

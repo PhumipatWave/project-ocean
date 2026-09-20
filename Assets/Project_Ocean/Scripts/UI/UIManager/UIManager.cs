@@ -50,7 +50,7 @@ namespace Game.Testing
         [SerializeField] private bool debugLogs = false;
 
         [Header("Background Dim")]
-        [SerializeField] private UIDimBackground backgroundDim;
+        [SerializeField] private UIFadeBackground backgroundDim;
 
         public UIType CurrentUI => currentUI;
 

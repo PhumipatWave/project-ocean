@@ -13,6 +13,9 @@ namespace Game.Testing
     public class TutorialActionMarker : MonoBehaviour
     {
         [SerializeField] private TutorialActionId action;
+
+        [Tooltip("Other actions that happen at this same object (e.g. the upgrade shop counter is where both UpgradeRope and BuyItem happen).")]
+        [SerializeField] private TutorialActionId[] additionalActions;
         [SerializeField] private GameObject markerUI;
 
         private static readonly List<TutorialActionMarker> all = new();
@@ -20,10 +23,13 @@ namespace Game.Testing
         public static Transform FindByTutorialAction(TutorialActionId action)
         {
             foreach (var marker in all)
-                if (marker.action == action)
+                if (marker.Handles(action))
                     return marker.transform;
             return null;
         }
+
+        private bool Handles(TutorialActionId candidate) =>
+            action == candidate || (additionalActions != null && System.Array.IndexOf(additionalActions, candidate) >= 0);
 
         private void OnEnable()
         {
@@ -40,7 +46,7 @@ namespace Game.Testing
         private bool ShouldShowMarker()
         {
             var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
-            if (step == null || step.Type != QuestType.Tutorial || step.TutorialAction != action)
+            if (step == null || step.Type != QuestType.Tutorial || !Handles(step.TutorialAction))
                 return false;
 
             var player = GameManager.CurPlayer;

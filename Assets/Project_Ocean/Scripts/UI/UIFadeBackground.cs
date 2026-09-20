@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class UIDimBackground : MonoBehaviour
+    public class UIFadeBackground : MonoBehaviour
     {
-        [Header("Dim Settings")]
+        [Header("Fade Settings")]
         [SerializeField, Range(0f, 1f)]
         private float dimAlpha = 0.55f;
 

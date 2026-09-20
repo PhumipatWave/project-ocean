@@ -279,6 +279,7 @@ private void Update()
                 if (effect != null && effect.KeepInInventory)
                 {
                     effect.ExecuteItem(this);
+                    TutorialEvents.RaiseAction(TutorialActionId.UseItem);
                     return;
                 }
             }
@@ -293,6 +294,7 @@ private void Update()
             }
 
             ExecuteItem(itemData);
+            TutorialEvents.RaiseAction(TutorialActionId.UseItem);
         }
 
         private void ExecuteItem(Item item)
