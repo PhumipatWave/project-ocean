@@ -79,7 +79,7 @@ namespace Game.Testing
                 cancelButton.SetActive(true);
 
             // NPC Avatar
-            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.NpcId));
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.DisplayNpcId));
 
             // Quest Target Image
             QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(activeQuest.TargetQuestItemId));

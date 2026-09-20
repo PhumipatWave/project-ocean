@@ -162,5 +162,8 @@ namespace Game.Testing
 
         [Header("Quest Information")]
         public string questName;
+
+        [Tooltip("Optional — npcId / CharacterDatabase id of the NPC who gave this quest; drives the tracker/accepted-quest avatar. Leave blank for quest-board quests (no avatar).")]
+        public string questGiverNpcId;
     }
 }

@@ -172,8 +172,22 @@ namespace Game.Testing
         public string QuestionInProgress => GetLine(EffectiveNpcId, DialogueType.InProgress);
         public string AnswerFinish => GetLine(EffectiveNpcId, DialogueType.Finish);
         public string AnswerNotFinish => GetLine(EffectiveNpcId, DialogueType.NotFinish);
-        public string AnswerAccept => GetLine(EffectiveNpcId, DialogueType.Accept);
-        public string AnswerReject => GetLine(EffectiveNpcId, DialogueType.Reject);
+        public string AnswerAccept => GetLineFromAnySpeaker(DialogueType.Accept);
+        public string AnswerReject => GetLineFromAnySpeaker(DialogueType.Reject);
+
+        /// <summary>Accept/Reject button labels have no speaker context — board quests have no
+        /// Talk NPC, and their lines are authored under any characterId (e.g. "questboard").
+        /// Prefer the Talk NPC's line, else the first authored entry of this type.</summary>
+        private string GetLineFromAnySpeaker(DialogueType type)
+        {
+            var line = GetLine(EffectiveNpcId, type);
+            if (!string.IsNullOrEmpty(line)) return line;
+
+            foreach (var entry in orderedDialogue)
+                if (entry.type == type && entry.lines != null && entry.lines.Length > 0)
+                    return entry.lines[0];
+            return string.Empty;
+        }
     }
 
     [System.Serializable]
@@ -251,6 +265,11 @@ namespace Game.Testing
         // have one (see QuestStep.EffectiveNpcId); other step types resolve to null.
         public string NpcId => CurrentStep?.EffectiveNpcId;
 
+        // Quest-level giver (authored on QuestData), falling back to the Talk-step NPC.
+        // Display-only (name/avatar) — NpcId above stays the dialogue/navigation speaker.
+        private string questGiverNpcId;
+        public string DisplayNpcId => string.IsNullOrEmpty(questGiverNpcId) ? NpcId : questGiverNpcId;
+
         // Sourced from the current checkpoint — was quest-level (QuestData.questItemId),
         // now per-step so different checkpoints of the same quest can target different items.
         public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
@@ -270,6 +289,7 @@ namespace Game.Testing
             status = questData.status;
 
             questName = questData.questName;
+            questGiverNpcId = questData.questGiverNpcId;
 
             NextQuestMode = questData.nextQuestMode;
             NextQuestIds = questData.nextQuestIds ?? new List<int>();

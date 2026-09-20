@@ -50,13 +50,14 @@ namespace Game.Testing
             // NPC name — resolved live from NPCManager by id, not stored on the quest.
             if (npcNameText != null)
             {
-                npcNameText.text = NPCManager.Instance?.GetNpcName(quest.NpcId);
+                npcNameText.text = NPCManager.Instance?.GetNpcName(quest.DisplayNpcId);
             }
 
             QuestVisuals.Apply(fishImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
-            // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
-            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.NpcId));
+            // NPC avatar — resolved live from NPCManager by id, not stored on the quest. Pure
+            // board quests have no giver id, so DisplayNpcId is null and the image hides.
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId));
 
             // Reward preview shows the first step's reward (board quests are single-step today)
             if (rewardText != null)

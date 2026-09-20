@@ -25,7 +25,7 @@ namespace Game.Testing
             if (progressText != null) progressText.text = quest.TrackerText;
 
             // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
-            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.NpcId));
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId));
             QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
             if (canvasGroup != null)

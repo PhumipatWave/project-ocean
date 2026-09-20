@@ -17,7 +17,7 @@ namespace Game.Testing
         private bool showIdentity = true;
         private bool showSteps = true;
 
-        private SerializedProperty questId, questName, category, classification, status;
+        private SerializedProperty questId, questName, questGiverNpcId, category, classification, status;
         private SerializedProperty nextQuestMode, nextQuestIds;
         private SerializedProperty steps;
 
@@ -25,6 +25,7 @@ namespace Game.Testing
         {
             questId = serializedObject.FindProperty("questId");
             questName = serializedObject.FindProperty("questName");
+            questGiverNpcId = serializedObject.FindProperty("questGiverNpcId");
             category = serializedObject.FindProperty("category");
             classification = serializedObject.FindProperty("classification");
             status = serializedObject.FindProperty("status");
@@ -45,6 +46,7 @@ namespace Game.Testing
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(questId);
                 EditorGUILayout.PropertyField(questName);
+                EditorGUILayout.PropertyField(questGiverNpcId);
                 EditorGUILayout.PropertyField(category);
                 EditorGUILayout.PropertyField(classification);
                 EditorGUILayout.PropertyField(status);

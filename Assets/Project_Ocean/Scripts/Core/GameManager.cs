@@ -7,7 +7,6 @@ namespace Game.Testing
     {
         Land,
         Ocean,
-        // Added at the end — SaveData.gameState is serialized by enum index.
         Menu
     }
 

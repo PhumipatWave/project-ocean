@@ -46,13 +46,13 @@ namespace Game.Testing
             // Distance uses the target's actual interact trigger (its Collider2D, if it has
             // one), not necessarily its transform pivot — PlayerShip's collider sits ~6 units
             // from its own transform, so comparing raw positions meant "in range" was
-            // essentially unreachable. Rotation below still aims at the visual pivot itself.
+            // essentially unreachable. Rotation below aims at that same point, not the pivot.
             bool inRange = Vector3.Distance(transform.position, QuestNavigation.InteractPosition(target)) <= QuestNavigation.CloseRangeMeters;
             if (visual != null) visual.SetActive(!inRange);
             if (inRange)
                 return;
 
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = QuestNavigation.InteractPosition(target) - transform.position;
             // The Arrow child's rest position is straight up (+Y) from this pivot, not along
             // +X — so 0° rotation here already points it up. Atan2 measures from +X, so the
             // rotation this pivot actually needs is offset by -90° to match that rest pose.
