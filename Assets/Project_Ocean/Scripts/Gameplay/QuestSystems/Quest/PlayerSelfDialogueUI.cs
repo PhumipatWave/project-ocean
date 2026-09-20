@@ -122,6 +122,7 @@ namespace Game.Testing
 
             ShowCurrentLine();
             if (dialoguePanel != null) dialoguePanel.SetActive(true);
+            DialogueState.Show(dialoguePanel);
 
             PlayerUIState.Open();
 
@@ -145,6 +146,7 @@ namespace Game.Testing
             activeQuest = null;
 
             if (dialoguePanel != null) dialoguePanel.SetActive(false);
+            DialogueState.Hide(dialoguePanel);
 
             var reader = GameManager.CurPlayer?.input;
             if (reader != null) reader.OnInteracted -= HandleInteract;

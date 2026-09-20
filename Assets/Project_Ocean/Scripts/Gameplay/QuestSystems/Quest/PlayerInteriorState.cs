@@ -32,6 +32,16 @@ namespace Game.Testing
             }
         }
 
+        /// <summary>The entrance action paired with an interior's exit action, or null if
+        /// <paramref name="exitAction"/> isn't an exit (MoveOutShop -> MoveInShop, ...).</summary>
+        public static TutorialActionId? EntryActionFor(TutorialActionId exitAction) => exitAction switch
+        {
+            TutorialActionId.MoveOutHouse => TutorialActionId.MoveInHouse,
+            TutorialActionId.MoveOutShop => TutorialActionId.MoveInShop,
+            TutorialActionId.MoveOutUpgradeShop => TutorialActionId.MoveInUpgradeShop,
+            _ => null,
+        };
+
         /// <summary>The exit action for whichever interior the player is currently in, or null while outside.</summary>
         public static TutorialActionId? CurrentExitAction => Current switch
         {

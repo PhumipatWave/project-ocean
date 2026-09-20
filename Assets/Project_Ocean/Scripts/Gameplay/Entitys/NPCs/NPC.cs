@@ -183,8 +183,17 @@ namespace Game.Testing
                 dialogueText.text = npcDialogue;
 
             DialogueSpeaker.Apply(npcNameText, npcAvatarImage, npcId, npcName, npcPortrait);
-            dialoguePanel.SetActive(true);
+            SetDialoguePanel(true);
             isUIOpen = true;
+        }
+
+        // Also reports to DialogueState so other land UI (shop, board...) hides while it shows.
+        private void SetDialoguePanel(bool show)
+        {
+            if (dialoguePanel == null) return;
+            dialoguePanel.SetActive(show);
+            if (show) DialogueState.Show(dialoguePanel);
+            else DialogueState.Hide(dialoguePanel);
         }
 
         private void QuestInteract()
@@ -209,8 +218,7 @@ namespace Game.Testing
             isConversing = true;
             currentDialogueIndex = 0;
 
-            if (dialoguePanel != null)
-                dialoguePanel.SetActive(true);
+            SetDialoguePanel(true);
 
             isUIOpen = true;
 
@@ -317,8 +325,7 @@ namespace Game.Testing
         private void CloseDialogue()
         {
             isConversing = false;
-            if (dialoguePanel != null)
-                dialoguePanel.SetActive(false);
+            SetDialoguePanel(false);
 
             if (isUIOpen)
             {

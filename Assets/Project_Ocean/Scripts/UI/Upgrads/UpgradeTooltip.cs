@@ -334,8 +334,12 @@ namespace Game.Testing
             // Tooltip ขนาดจริง
             // =====================================================
 
+            // rect.size is in canvas units, but every position below is in screen pixels
+            // (Screen.width, WorldToScreenPoint). With ScaleWithScreenSize the two only match
+            // when the screen is exactly the reference resolution — on a smaller Game view the
+            // tooltip looked wider than the screen and got clamped to the top-left corner.
             Vector2 tooltipSize =
-                tooltipRect.rect.size;
+                tooltipRect.rect.size * canvas.scaleFactor;
 
             float spacing = 12f;
 

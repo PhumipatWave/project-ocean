@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,8 +25,12 @@ namespace Game.Testing
         //[SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
 
+        // Panels hidden while a dialogue shows, with the CanvasGroup state to restore afterwards.
+        private readonly Dictionary<CanvasGroup, (float alpha, bool interactable, bool blocksRaycasts)> hiddenPanels = new();
+
         private void OnEnable()
         {
+            DialogueState.OnChanged += HandleDialogueChanged;
             DayManager.OnDivedToday  += RefreshNextDayButton;
             DayManager.OnDayAdvanced += RefreshNextDayButton;
             FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
@@ -33,9 +38,49 @@ namespace Game.Testing
 
         private void OnDisable()
         {
+            DialogueState.OnChanged -= HandleDialogueChanged;
+            RestorePanels();
             DayManager.OnDivedToday  -= RefreshNextDayButton;
             DayManager.OnDayAdvanced -= RefreshNextDayButton;
             FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
+        }
+
+        // Dive/shop/upgrade/board/home panels would otherwise stack under a dialogue box. They
+        // stay open (and keep their PlayerUIState lock) — just invisible and unclickable until
+        // the dialogue closes. Dialogue boxes themselves live under this canvas too, so skip them.
+        private void HandleDialogueChanged()
+        {
+            if (DialogueState.IsShowing) HideOtherPanels();
+            else RestorePanels();
+        }
+
+        private void HideOtherPanels()
+        {
+            foreach (Transform child in transform)
+            {
+                if (DialogueState.ContainsShowingPanel(child)) continue;
+
+                var group = child.GetComponent<CanvasGroup>();
+                if (group == null) group = child.gameObject.AddComponent<CanvasGroup>();
+                if (!hiddenPanels.ContainsKey(group))
+                    hiddenPanels[group] = (group.alpha, group.interactable, group.blocksRaycasts);
+
+                group.alpha = 0f;
+                group.interactable = false;
+                group.blocksRaycasts = false;
+            }
+        }
+
+        private void RestorePanels()
+        {
+            foreach (var (group, state) in hiddenPanels)
+            {
+                if (group == null) continue;
+                group.alpha = state.alpha;
+                group.interactable = state.interactable;
+                group.blocksRaycasts = state.blocksRaycasts;
+            }
+            hiddenPanels.Clear();
         }
 
         // Sleep unlocking mid-session (with no dive/day-advance event to piggyback a

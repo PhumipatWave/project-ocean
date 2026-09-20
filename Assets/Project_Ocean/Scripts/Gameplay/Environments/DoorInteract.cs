@@ -48,6 +48,29 @@ namespace Game.Testing
             return null;
         }
 
+        /// <summary>The MoveOut* action of the registered exit door nearest to <paramref name="position"/>
+        /// within <paramref name="maxDistance"/>, or null if none — i.e. which interior a point
+        /// inside a building belongs to.</summary>
+        public static TutorialActionId? FindNearestExitAction(Vector3 position, float maxDistance)
+        {
+            TutorialActionId? best = null;
+            float bestDist = maxDistance;
+            foreach (var door in all)
+            {
+                var action = door.TutorialAction;
+                if (action == null || PlayerInteriorState.EntryActionFor(action.Value) == null)
+                    continue;
+
+                float dist = Vector3.Distance(position, QuestNavigation.InteractPosition(door.transform));
+                if (dist <= bestDist)
+                {
+                    bestDist = dist;
+                    best = action;
+                }
+            }
+            return best;
+        }
+
         void Awake()
         {
             if (snapCamera)
@@ -82,7 +105,10 @@ namespace Game.Testing
                 return false;
 
             var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
-            bool questWantsThis = step != null && step.Type == QuestType.Tutorial && step.TutorialAction == tutorialAction;
+            // Also this door when the compass is redirecting the player here because the quest's
+            // real target is inside this building (see QuestNavigation.ResolveCompassTarget).
+            bool questWantsThis = (step != null && step.Type == QuestType.Tutorial && step.TutorialAction == tutorialAction) ||
+                QuestNavigation.ResolveCompassTarget() == transform;
 
             var questTarget = QuestNavigation.ResolveQuestTarget();
             bool isCurrentExit = PlayerInteriorState.CurrentExitAction == tutorialAction &&

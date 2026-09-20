@@ -291,10 +291,10 @@ namespace Game.Testing
                 }
                 // else ReadyToHandIn: reward + next-quest handoff happen in TurnInQuest.
             }
-            else if (completedStep.RewardMoney > 0)
+            else if (completedStep.IsComplete && completedStep.RewardMoney > 0)
             {
                 OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
-                NotificationManager.Notify($"+{completedStep.RewardMoney}");
+                NotificationManager.Notify($"+{completedStep.RewardMoney} Money");
             }
 
             EnsureQuestTracked();

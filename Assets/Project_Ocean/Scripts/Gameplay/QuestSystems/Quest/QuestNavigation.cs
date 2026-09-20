@@ -9,6 +9,11 @@ namespace Game.Testing
     {
         public const float CloseRangeMeters = 5f;
 
+        // ponytail: proximity heuristic — a target within this distance of an interior's exit door
+        // is inside that interior (interiors are stacked far from the town, so outdoor targets
+        // are never this close). Explicit per-target interior field if layouts ever overlap.
+        private const float InteriorRadiusMeters = 40f;
+
         /// <summary>
         /// The point proximity should actually be measured against for this object — its
         /// Collider2D's bounds center if it has one (on itself or a child), else its own
@@ -54,6 +59,27 @@ namespace Game.Testing
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// What the compass should actually aim at: ResolveQuestTarget(), except that while the
+        /// player is outdoors a target inside a building (NPC, counter, bed...) is replaced by
+        /// that building's entrance door. Interiors sit far from the town, so aiming at the raw
+        /// target points the arrow across the map in the wrong direction. Null if the entrance
+        /// can't be found — hiding the arrow beats pointing the wrong way.
+        /// </summary>
+        public static Transform ResolveCompassTarget()
+        {
+            var target = ResolveQuestTarget();
+            if (target == null || PlayerInteriorState.Current != PlayerInterior.None)
+                return target;
+
+            var exit = DoorInteract.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
+            if (exit == null)
+                return target;
+
+            var entry = PlayerInteriorState.EntryActionFor(exit.Value);
+            return entry != null ? DoorInteract.FindByTutorialAction(entry.Value) : null;
         }
 
         private static bool IsMoveDoorAction(TutorialActionId action) => action is
