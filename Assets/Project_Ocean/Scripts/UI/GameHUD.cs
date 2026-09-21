@@ -12,6 +12,8 @@ namespace Game.Testing
     {
         [Header("Day Count")]
         [SerializeField] private TextMeshProUGUI dayCountText;
+        [Tooltip("Optional second day label, e.g. the one in the pause menu.")]
+        [SerializeField] private TextMeshProUGUI pauseDayCountText;
 
         [Header("Rope Length")]
         [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
@@ -166,9 +168,9 @@ namespace Game.Testing
 
         private void RefreshDayText()
         {
-            if (dayCountText == null) return;
             int day = DayManager.Instance != null ? DayManager.Instance.CurrentDay : 1;
-            dayCountText.text = $"Day {day}";
+            if (dayCountText != null) dayCountText.text = $"Day {day}";
+            if (pauseDayCountText != null) pauseDayCountText.text = $"Day {day}";
         }
 
         private void Update()
