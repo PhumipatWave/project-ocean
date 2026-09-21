@@ -163,7 +163,6 @@ GameObject:
   - component: {fileID: 4876268102706842193}
   - component: {fileID: 1997219238594583749}
   - component: {fileID: 5428581210912805024}
-  - component: {fileID: 5882694135732751971}
   m_Layer: 0
   m_Name: Talk
   m_TagString: Untagged
@@ -248,8 +247,8 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5882694135732751971}
-        m_TargetAssemblyTypeName: Game.Testing.NPCInteract, Game.Testing
+      - m_Target: {fileID: 4661900574750797600}
+        m_TargetAssemblyTypeName: Game.Testing.NPC, Game.Testing
         m_MethodName: Interact
         m_Mode: 1
         m_Arguments:
@@ -262,28 +261,6 @@ MonoBehaviour:
         m_CallState: 2
   requireSpecificFeature: 0
   specificFeature: 0
---- !u!114 &5882694135732751971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841750191304489354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::NPCInteract
-  npcId: 
-  npcName: 
-  npcDialogue: Hello...
-  npcPortrait: {fileID: 3319299164644070594, guid: 4495b0057f683e24dbdc41dcf6baba02, type: 3}
-  targetQuest: {fileID: 0}
-  questDetailPanel: {fileID: 0}
-  dialoguePanel: {fileID: 0}
-  npcNameText: {fileID: 0}
-  dialogueText: {fileID: 0}
-  npcAvatarImage: {fileID: 0}
 --- !u!1 &7002814342775794663
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,6 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5917247770266187225}
+  - component: {fileID: 4661900574750797600}
   m_Layer: 0
   m_Name: BaseNPC
   m_TagString: Untagged
@@ -318,6 +296,29 @@ Transform:
   - {fileID: 4738588234762349161}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4661900574750797600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002814342775794663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::NPCInteract
+  npcId: 
+  npcName: 
+  npcDialogue: Hello...
+  npcPortrait: {fileID: 3319299164644070594, guid: 4495b0057f683e24dbdc41dcf6baba02, type: 3}
+  targetQuest: {fileID: 0}
+  questDetailPanel: {fileID: 0}
+  dialoguePanel: {fileID: 0}
+  npcNameText: {fileID: 0}
+  dialogueText: {fileID: 0}
+  npcAvatarImage: {fileID: 0}
+  markerUI: {fileID: 0}
 --- !u!1 &7111621022968023743
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,10 +521,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3514447778836233187, guid: a976b303a445de34c9e556536c7a40ce, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5882694135732751971}
     - target: {fileID: 3514447778836233187, guid: a976b303a445de34c9e556536c7a40ce, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2

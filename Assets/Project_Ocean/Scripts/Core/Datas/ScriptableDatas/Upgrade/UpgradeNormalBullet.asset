@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: UpgradeNormalBullet
   m_EditorClassIdentifier: Game.Testing::Game.Testing.UpgradeData
   upgradeName: UpgradeGun
-  description: 
+  description: Improves normal bullet performance and unlocks new abilities at certain
+    levels.
   type: 2
   maxLevel: 5
   prices: dc050000c4090000a00f00006419000004290000
   value: 0
+  unlocks:
+  - unlockName: Laser
+    unlockLevel: 1

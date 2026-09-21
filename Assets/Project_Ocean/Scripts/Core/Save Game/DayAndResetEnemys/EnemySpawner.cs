@@ -58,6 +58,9 @@ namespace Game.Testing
         [Tooltip("How far below the start point to search for ground.")]
         [SerializeField] private float groundCheckDistance = 20f;
 
+        [Tooltip("Gravity-driven enemies (e.g. crabs) only spawn where they'd start resting on the ground: the spawn point may be at most this far above it. Swimmers are unaffected.")]
+        [SerializeField] private float maxGroundGap = 0.6f;
+
         [Header("Proximity Activation")]
         [Tooltip("Spawn enemies when the player enters this radius from the zone centre.")]
         [SerializeField] private float activateRadius = 30f;
@@ -148,7 +151,7 @@ namespace Game.Testing
                 var prefab = GameObjectSpawnManager.Instance?.GetEnemyPrefab(entry.enemyId);
                 if (prefab == null) continue;
 
-                if (!TryGetNavMeshPosition(out Vector3 spawnPos))
+                if (!TryGetNavMeshPosition(NeedsGround(prefab), out Vector3 spawnPos))
                 {
                     Debug.LogWarning($"[EnemySpawner] '{name}' slot {i}: no valid position after {maxSpawnAttempts} attempts — skipped.");
                     continue;
@@ -172,7 +175,15 @@ namespace Game.Testing
             Debug.Log($"[EnemySpawner] '{name}' spawned {spawned}/{enemyCount} enemies.");
         }
 
-        private bool TryGetNavMeshPosition(out Vector3 result)
+        // A dynamic body with gravity walks/falls rather than swims (crab) — spawning it in open
+        // water leaves it hanging in the air or dropping from it.
+        private static bool NeedsGround(GameObject prefab)
+        {
+            var rb = prefab.GetComponent<Rigidbody2D>();
+            return rb != null && rb.bodyType == RigidbodyType2D.Dynamic && rb.gravityScale > 0f;
+        }
+
+        private bool TryGetNavMeshPosition(bool requireGround, out Vector3 result)
         {
             for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
             {
@@ -200,6 +211,13 @@ namespace Game.Testing
                         if (NavMesh.SamplePosition(groundCandidate, out NavMeshHit groundNavHit, navSampleDistance, NavMesh.AllAreas))
                             candidate = groundNavHit.position;
                     }
+
+                    // Checked at the FINAL point (the NavMesh snaps above can move it sideways off
+                    // the ledge the first ray found): ground must be right underneath, not
+                    // somewhere far below in open water.
+                    if (requireGround &&
+                        Physics2D.Raycast((Vector2)candidate + Vector2.up * 0.05f, Vector2.down, maxGroundGap + 0.05f, groundLayer).collider == null)
+                        continue;
                 }
 
                 result = candidate;

@@ -1,7 +1,6 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 namespace Game.Testing
 {
@@ -19,16 +18,12 @@ namespace Game.Testing
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
+            Refresh();
         }
 
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= Refresh;
-        }
-
-        private void Start()
-        {
-            Refresh();
         }
 
         private void Refresh()
@@ -39,31 +34,72 @@ namespace Game.Testing
             Quest activeQuest =
                 QuestManager.Instance.GetTrackedQuest();
 
+            // ไม่มี Quest ที่กำลัง Track
             if (activeQuest == null)
             {
-                titleText.text = "";
-                questNameText.text = "";
-                progressText.text = "";
-                cancelButton.SetActive(false);
+                if (titleText != null)
+                    titleText.text = "";
 
-                if (npcAvatarImage != null) npcAvatarImage.enabled = false;
-                if (targetImage != null)    targetImage.enabled    = false;
+                if (questNameText != null)
+                    questNameText.text = "";
+
+                if (progressText != null)
+                    progressText.text = "";
+
+                if (cancelButton != null)
+                    cancelButton.SetActive(false);
+
+                if (npcAvatarImage != null)
+                    npcAvatarImage.enabled = false;
+
+                if (targetImage != null)
+                    targetImage.enabled = false;
 
                 return;
             }
 
-            titleText.text     = activeQuest.QuestName;
-            questNameText.text = activeQuest.StepDescription;
-            progressText.text  = activeQuest.TrackerText;
-            cancelButton.SetActive(true);
+            // =========================
+            // Step ปัจจุบันของ Quest ที่กำลัง Track (persistent, unlike the step notification)
+            // =========================
 
-            // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
-            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.NpcId));
+            if (questNameText != null)
+            {
+                string text = string.IsNullOrEmpty(activeQuest.StepDescription)
+                    ? activeQuest.QuestName
+                    : activeQuest.StepDescription;
+
+                // Delivery: show held/needed, e.g. "0/9".
+                if (activeQuest.CurrentStep?.Type == QuestType.Delivery)
+                    text += $" {activeQuest.CurrentCount}/{activeQuest.TargetCount}";
+
+                questNameText.text = text;
+            }
+
+            // =========================
+            // ส่วนอื่น ๆ
+            // =========================
+
+            if (titleText != null)
+                titleText.text = activeQuest.QuestName;
+
+            if (progressText != null)
+                progressText.text = activeQuest.TrackerText;
+
+            if (cancelButton != null)
+                cancelButton.SetActive(true);
+
+            // NPC Avatar
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.DisplayNpcId));
+
+            // Quest Target Image
             QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(activeQuest.TargetQuestItemId));
         }
 
         public void OnClickCancelQuest()
         {
+            if (QuestManager.Instance == null)
+                return;
+
             Quest activeQuest =
                 QuestManager.Instance.GetTrackedQuest();
 

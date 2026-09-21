@@ -4,17 +4,18 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
+    // Raw-key handling (E press → TrySleep) is delegated to an InteractUI on the same
+    // GameObject, wired to call TrySleep() — same shared PlayerUIState "floor" lock every
+    // other interactable (NPC/door/chest) uses, instead of a second, ungated subscription
+    // that used to fire TrySleep() even while another panel was already open.
+    [RequireComponent(typeof(InteractUI))]
     public class InteractableNextDay : MonoBehaviour
     {
-        private bool _subscribed;
-
         [Header("UI")]
         [SerializeField] private GameObject promptUI;
         /// Assign the Button inside promptUI. Its interactable state reflects HasDivedToday.
         /// Wire its onClick to TrySleep() in the Inspector.
         [SerializeField] private Button sleepButton;
-
-        private bool _playerInRange;
 
         private void Awake()
         {
@@ -32,37 +33,11 @@ namespace Game.Testing
         {
             DayManager.OnDivedToday  -= RefreshSleepButton;
             DayManager.OnDayAdvanced -= RefreshSleepButton;
-            Unsubscribe();
-        }
-
-        private void HandleInteract(bool pressed)
-        {
-            if (!pressed) return;
-            TrySleep();
-        }
-
-        private void Subscribe()
-        {
-            if (_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
-            if (reader == null) return;
-            reader.OnInteracted += HandleInteract;
-            _subscribed = true;
-        }
-
-        private void Unsubscribe()
-        {
-            if (!_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
-            if (reader != null) reader.OnInteracted -= HandleInteract;
-            _subscribed = false;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
-            _playerInRange = true;
-            Subscribe();
             promptUI?.SetActive(true);
             RefreshSleepButton();
         }
@@ -70,8 +45,6 @@ namespace Game.Testing
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
-            _playerInRange = false;
-            Unsubscribe();
             promptUI?.SetActive(false);
         }
 

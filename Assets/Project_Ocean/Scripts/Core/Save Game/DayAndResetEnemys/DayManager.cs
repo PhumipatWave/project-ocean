@@ -9,9 +9,16 @@ namespace Game.Testing
 
         public int CurrentDay { get; private set; } = 1;
 
+        public const int MaxDivesPerDay = 3;
+
+        /// How many times the player has dived today. Reset to 0 each time a new day begins.
+        public int DivesToday { get; private set; }
+
+        public int DivesRemaining => Mathf.Max(0, MaxDivesPerDay - DivesToday);
+        public bool CanDive => DivesToday < MaxDivesPerDay;
+
         /// True once the player has dived into the ocean at least once today.
-        /// Reset to false each time a new day begins.
-        public bool HasDivedToday { get; private set; }
+        public bool HasDivedToday => DivesToday > 0;
 
         [Header("Events")]
         public UnityEvent<int> onNewDay;
@@ -29,7 +36,7 @@ namespace Game.Testing
         /// </summary>
         public static event System.Action OnDayAdvanced;
 
-        /// <summary>Fired when the player dives for the first time today — gates the sleep interaction.</summary>
+        /// <summary>Fired whenever today's dive count changes — gates the sleep interaction and the dive panel text.</summary>
         public static event System.Action OnDivedToday;
 
         void Awake()
@@ -43,21 +50,27 @@ namespace Game.Testing
         public void SetDay(int day) => CurrentDay = Mathf.Max(1, day);
 
         /// Called by SaveBridge after a save is loaded.
-        public void SetDivedToday(bool value) => HasDivedToday = value;
-
-        /// Called by GameManager when the player starts a dive.
-        public void MarkDivedToday()
+        public void SetDivesToday(int count)
         {
-            if (HasDivedToday) return;
-            HasDivedToday = true;
+            DivesToday = Mathf.Clamp(count, 0, MaxDivesPerDay);
             OnDivedToday?.Invoke();
+        }
+
+        /// Called by GameManager when the player starts a dive. Returns false (and counts
+        /// nothing) once today's dive limit is used up.
+        public bool TryRecordDive()
+        {
+            if (!CanDive) return false;
+            DivesToday++;
+            OnDivedToday?.Invoke();
+            return true;
         }
 
         /// Called by the bed interactable — advances to the next day.
         public void AdvanceDay()
         {
             CurrentDay++;
-            HasDivedToday = false;
+            DivesToday = 0;
             Debug.Log($"[DayManager] Day {CurrentDay} begins");
 
             onNewDay?.Invoke(CurrentDay);

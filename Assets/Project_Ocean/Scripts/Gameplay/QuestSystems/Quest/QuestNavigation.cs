@@ -9,17 +9,23 @@ namespace Game.Testing
     {
         public const float CloseRangeMeters = 5f;
 
+        // ponytail: proximity heuristic — a target within this distance of an interior's exit door
+        // is inside that interior (interiors are stacked far from the town, so outdoor targets
+        // are never this close). Explicit per-target interior field if layouts ever overlap.
+        private const float InteriorRadiusMeters = 40f;
+
         /// <summary>
         /// The point proximity should actually be measured against for this object — its
-        /// Collider2D's bounds center if it has one, else its own transform. A GameObject's
-        /// interact trigger is often offset well away from its own pivot (e.g. PlayerShip's
-        /// BoxCollider2D sits ~6 units from its transform), so measuring raw transform.position
-        /// can put the "close enough" threshold nowhere near where the player actually stands
-        /// to interact.
+        /// Collider2D's bounds center if it has one (on itself or a child), else its own
+        /// transform. A GameObject's interact trigger is often offset well away from its own
+        /// pivot (e.g. PlayerShip's BoxCollider2D sits ~6 units from its transform; an NPC's
+        /// Visual/Talk children sit ~116 units from the NPC root), so measuring raw
+        /// transform.position can put the "close enough" threshold, or the compass arrow,
+        /// nowhere near where the player actually stands to interact.
         /// </summary>
         public static Vector3 InteractPosition(Transform t)
         {
-            var collider = t.GetComponent<Collider2D>();
+            var collider = t.GetComponentInChildren<Collider2D>();
             return collider != null ? (Vector3)collider.bounds.center : t.position;
         }
 
@@ -42,6 +48,9 @@ namespace Game.Testing
             if (step.Type == QuestType.Talk)
                 return NPCManager.Instance?.GetNpc(step.EffectiveNpcId)?.transform;
 
+            if (step.Type == QuestType.ExploreArea)
+                return ExploreAreaTrigger.FindByAreaId(step.EffectiveAreaId);
+
             if (step.Type == QuestType.Tutorial)
             {
                 if (IsMoveDoorAction(step.TutorialAction))
@@ -50,6 +59,27 @@ namespace Game.Testing
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// What the compass should actually aim at: ResolveQuestTarget(), except that while the
+        /// player is outdoors a target inside a building (NPC, counter, bed...) is replaced by
+        /// that building's entrance door. Interiors sit far from the town, so aiming at the raw
+        /// target points the arrow across the map in the wrong direction. Null if the entrance
+        /// can't be found — hiding the arrow beats pointing the wrong way.
+        /// </summary>
+        public static Transform ResolveCompassTarget()
+        {
+            var target = ResolveQuestTarget();
+            if (target == null || PlayerInteriorState.Current != PlayerInterior.None)
+                return target;
+
+            var exit = DoorInteract.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
+            if (exit == null)
+                return target;
+
+            var entry = PlayerInteriorState.EntryActionFor(exit.Value);
+            return entry != null ? DoorInteract.FindByTutorialAction(entry.Value) : null;
         }
 
         private static bool IsMoveDoorAction(TutorialActionId action) => action is

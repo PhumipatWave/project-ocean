@@ -77,6 +77,10 @@ namespace Game.Testing
 
         private void Hide()
         {
+            if (TutorialGate.RequiredAction.HasValue)
+                Debug.Log($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
+                    $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
+
             NotificationManager.ClearPersistent();
             TutorialGate.RequiredAction = null;
         }

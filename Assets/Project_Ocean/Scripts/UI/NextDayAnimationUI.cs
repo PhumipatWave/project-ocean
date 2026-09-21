@@ -13,6 +13,9 @@ namespace Game.Testing
         private static readonly int PlayHash = Animator.StringToHash("Play");
         private Coroutine _routine;
 
+        /// True while the day-transition animation is on screen.
+        public static bool IsPlaying { get; private set; }
+
         private void Awake()
         {
             if (canvasGroup != null)
@@ -23,7 +26,11 @@ namespace Game.Testing
         }
 
         private void OnEnable()  => DayManager.OnDayAdvanced += PlayAnimation;
-        private void OnDisable() => DayManager.OnDayAdvanced -= PlayAnimation;
+        private void OnDisable()
+        {
+            DayManager.OnDayAdvanced -= PlayAnimation;
+            IsPlaying = false;
+        }
 
         private void PlayAnimation()
         {
@@ -33,6 +40,7 @@ namespace Game.Testing
 
         private IEnumerator AnimRoutine()
         {
+            IsPlaying = true;
             canvasGroup.alpha          = 1f;
             canvasGroup.blocksRaycasts = true;
             PlayerUIState.Open();
@@ -54,6 +62,7 @@ namespace Game.Testing
             PlayerUIState.Close();
             canvasGroup.blocksRaycasts = false;
             canvasGroup.alpha          = 0f;
+            IsPlaying = false;
             _routine = null;
         }
     }

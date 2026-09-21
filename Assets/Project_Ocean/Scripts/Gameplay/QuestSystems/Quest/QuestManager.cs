@@ -11,6 +11,7 @@ namespace Game.Testing
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
+
         private int trackedQuestId = -1;
 
         // The runtime list of quests, already converted from data and ready to use.
@@ -36,6 +37,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed += HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
+            ExploreEvents.OnAreaReached += HandleAreaReached;
             InventoryManager.OnInventoryChanged += HandleInventoryChanged;
         }
 
@@ -45,6 +47,7 @@ namespace Game.Testing
             TutorialEvents.OnActionPerformed -= HandleTutorialAction;
             NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
+            ExploreEvents.OnAreaReached -= HandleAreaReached;
             InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
         }
 
@@ -68,6 +71,10 @@ namespace Game.Testing
 
             Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
+
+        // =========================================================
+        // ENEMY KILLED
+        // =========================================================
 
         /// <summary>
         /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
@@ -117,6 +124,22 @@ namespace Game.Testing
                 TryProgress(QuestType.Talk, step => step.EffectiveNpcId == npcId);
         }
 
+        /// <summary>Completes a Talk step authored with Auto Display Dialogue — it has no NPC id
+        /// for NpcEvents.RaiseNpcTalkedTo to match on, so PlayerSelfDialogueUI calls this directly.</summary>
+        public void CompleteAutoDialogue(Quest q)
+        {
+            var step = q?.CurrentStep;
+            if (q != null && q.Status == QuestStatus.InProgress &&
+                step != null && step.Type == QuestType.Talk && step.AutoDisplayDialogue)
+                CompleteProgress(q);
+        }
+
+        private void HandleAreaReached(string areaId)
+        {
+            if (!string.IsNullOrEmpty(areaId))
+                TryProgress(QuestType.ExploreArea, step => step.EffectiveAreaId == areaId);
+        }
+
         private void HandleCutsceneFinished(string cutsceneId)
         {
             if (!string.IsNullOrEmpty(cutsceneId))
@@ -148,8 +171,53 @@ namespace Game.Testing
                     continue;
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
-                if (progress <= step.CurrentCount)
+                if (progress == step.CurrentCount)
                     continue;
+
+                // Player dropped/sold some — keep the displayed count live.
+                if (progress < step.CurrentCount)
+                {
+                    step.CurrentCount = progress;
+                    OnQuestUpdated?.Invoke();
+                    continue;
+                }
+
+                bool justCompleted = q.AddProgress(1);
+
+                Debug.Log(
+                    $"Progress : {q.CurrentCount}/{q.TargetCount}"
+                );
+
+                OnQuestUpdated?.Invoke();
+
+                // =====================================================
+                // AUTO COMPLETE
+                // =====================================================
+
+                if (justCompleted && step.CompletionMode == QuestCompletionMode.AutoComplete)
+                {
+                    RemoveQuestItems(q);
+
+                    // Notification เดิม
+                    //NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    
+                    // แสดง Quest Complete UI + Reward
+                    if (QuestCompleteUI.Instance != null)
+                    {
+                        QuestCompleteUI.Instance.Show(q);
+                    }
+
+                    // เงินรางวัล
+                    if (step.RewardMoney > 0)
+                    {
+                        OnMoneyRewarded?.Invoke(step.RewardMoney);
+
+                        Debug.Log(
+                            $"[QuestManager] (AutoComplete) " +
+                            $"จ่ายเงินรางวัล: +{step.RewardMoney} บาท"
+                        );
+                    }
+                }
 
                 if (progress >= step.TargetCount)
                 {
@@ -222,7 +290,8 @@ namespace Game.Testing
                 if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
-                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    if (QuestCompleteUI.Instance != null)
+                        QuestCompleteUI.Instance.Show(q);
 
                     if (completedStep.RewardMoney > 0)
                         OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
@@ -231,10 +300,10 @@ namespace Game.Testing
                 }
                 // else ReadyToHandIn: reward + next-quest handoff happen in TurnInQuest.
             }
-            else if (completedStep.RewardMoney > 0)
+            else if (completedStep.IsComplete && completedStep.RewardMoney > 0)
             {
                 OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
-                NotificationManager.Notify($"+{completedStep.RewardMoney}");
+                NotificationManager.Notify($"+{completedStep.RewardMoney} Money");
             }
 
             EnsureQuestTracked();
@@ -279,7 +348,9 @@ namespace Game.Testing
             stepDescriptionRoutine = null;
 
             // Re-read now, not at schedule time — the quest may have advanced again since.
-            if (!string.IsNullOrEmpty(q.StepDescription))
+            // Skip guided steps — TutorialPromptUI already shows this same description on
+            // the dedicated persistent panel; toasting it too would show it twice at once.
+            if (!string.IsNullOrEmpty(q.StepDescription) && !q.IsGuidedSequence)
                 NotificationManager.Notify(q.StepDescription);
         }
 
@@ -333,7 +404,7 @@ namespace Game.Testing
             quests.Sort((a, b) => a.Classification.CompareTo(b.Classification));
             return quests;
         }
-
+        
         /// <summary>Accepted and not yet finished — shared by every "is this quest active" query below.</summary>
         private static bool IsActive(Quest q) =>
             q.Status == QuestStatus.InProgress || q.Status == QuestStatus.ReadyToTurnIn;
@@ -384,22 +455,23 @@ namespace Game.Testing
         public List<Quest> GetCompletedQuests()
         {
             return activeQuestList.FindAll(
-                q =>
-                q.Status == QuestStatus.Finish
+                q => q.Status == QuestStatus.Finish
             );
         }
 
         /// <summary>
-        /// Restores quest status + kill progress from saved data. Quests are matched by id
-        /// and re-hydrated from templates (in Awake), so only mutable state is applied.
-        /// Unknown ids are ignored; quests missing from the save keep their template default.
+        /// Restores quest status + kill progress from saved data.
         /// </summary>
-        public void LoadSaveState(List<QuestSaveData> saved)
+        public void LoadSaveState(
+            List<QuestSaveData> saved)
         {
-            if (saved == null) return;
+            if (saved == null)
+                return;
+
             foreach (var s in saved)
             {
                 var quest = GetQuestById(s.questId);
+
                 if (quest != null)
                 {
                     quest.Status           = (QuestStatus)s.status;
@@ -418,7 +490,9 @@ namespace Game.Testing
             HandleInventoryChanged();
         }
 
-        // ── ISaveParticipant ──
+        // =========================================================
+        // ISaveParticipant
+        // =========================================================
 
         public void Collect(SaveData data)
         {
@@ -430,13 +504,20 @@ namespace Game.Testing
             LoadSaveState(data.quests);
         }
 
+        // =========================================================
+        // ACCEPT QUEST
+        // =========================================================
+
         public bool AcceptQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
 
             if (quest == null)
             {
-                Debug.LogWarning($"Quest ID {questID} not found.");
+                Debug.LogWarning(
+                    $"Quest ID {questID} not found."
+                );
+
                 return false;
             }
 
@@ -444,15 +525,24 @@ namespace Game.Testing
             if (quest.Status != QuestStatus.New)
             {
                 Debug.LogWarning(
-                    $"Quest {quest.QuestName} cannot be accepted. Current status: {quest.Status}"
+                    $"Quest {quest.QuestName} cannot be accepted. " +
+                    $"Current status: {quest.Status}"
                 );
+
                 return false;
             }
 
-            if (trackedQuestId == -1)
-            {
+            // Quest ที่รับใหม่จะถูก Track ทันที — except a non-Main quest never takes tracking away
+            // from the Main quest that's already tracked: the compass, door/area markers and the HUD
+            // tracker all follow the tracked quest, so a Sub quest taken off the board mid-story
+            // (e.g. the AcceptQuest tutorial step) would otherwise cut off the story's guidance.
+            // The player can still switch to it explicitly via SetTrackedQuest.
+            var tracked = GetTrackedQuest();
+            bool keepMainTracked = tracked != null &&
+                tracked.Classification == QuestClassification.MainQuest &&
+                quest.Classification != QuestClassification.MainQuest;
+            if (!keepMainTracked)
                 trackedQuestId = questID;
-            }
 
             quest.Status = QuestStatus.InProgress;
 
@@ -469,6 +559,10 @@ namespace Game.Testing
 
             return true;
         }
+
+        // =========================================================
+        // REJECT QUEST
+        // =========================================================
 
         public bool RejectQuest(int questID)
         {
@@ -583,13 +677,24 @@ namespace Game.Testing
         {
             Quest quest = GetQuestById(questID);
 
-            if (quest == null) return false;
-            if (quest.Status != QuestStatus.ReadyToTurnIn) return false;
+            if (quest == null)
+                return false;
+
+            if (quest.Status != QuestStatus.ReadyToTurnIn)
+                return false;
 
             quest.Status = QuestStatus.Finish;
+
             RemoveQuestItems(quest);
 
-            NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+            // Notification เดิม
+            //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
+            
+            // แสดง Quest Complete UI + Reward
+            if (QuestCompleteUI.Instance != null)
+            {
+                QuestCompleteUI.Instance.Show(quest);
+            }
 
             var finalStepReward = quest.CurrentStep.RewardMoney;
             if (finalStepReward > 0)
@@ -603,15 +708,21 @@ namespace Game.Testing
             EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
+
             return true;
         }
+
+        // =========================================================
+        // TRACKED QUEST
+        // =========================================================
 
         public Quest GetTrackedQuest()
         {
             if (trackedQuestId == -1)
                 return null;
 
-            Quest quest = GetQuestById(trackedQuestId);
+            Quest quest =
+                GetQuestById(trackedQuestId);
 
             if (quest == null)
                 return null;
@@ -625,7 +736,8 @@ namespace Game.Testing
 
         public bool SetTrackedQuest(int questID)
         {
-            Quest quest = GetQuestById(questID);
+            Quest quest =
+                GetQuestById(questID);
 
             if (quest == null)
                 return false;
@@ -638,10 +750,11 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log($"Tracking Quest: {quest.QuestName}");
+            Debug.Log(
+                $"Tracking Quest: {quest.QuestName}"
+            );
 
             return true;
         }
-
     }
 }

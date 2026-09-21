@@ -26,8 +26,9 @@ namespace Game.Testing
 
         public void RefreshCount()
         {
-            countText.text = count.ToString();
-            bool textActive = count > 1;
+            int max = item != null ? item.MaxStackable : 1;
+            countText.text = $"{count}/{max}";
+            bool textActive = max > 1; // single-stack items have nothing to show
             countText.gameObject.SetActive(textActive);
         }
         
