@@ -20,7 +20,7 @@ MonoBehaviour:
   nextQuestIds: ea030000
   steps:
   - type: 3
-    targetEnemyId: player
+    targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
@@ -38,6 +38,7 @@ MonoBehaviour:
         because you think diving in the ocean is pretty cool\u201D"
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -55,6 +56,7 @@ MonoBehaviour:
     stepDescription: '"Press W A S D to move"'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -77,12 +79,13 @@ MonoBehaviour:
       - Welcome to the island. Follow me to the boat to prepare your first dive.
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0300000009000000
   - type: 5
-    targetEnemyId: TT_01
+    targetEnemyId: MQ1001_01
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
@@ -99,6 +102,7 @@ MonoBehaviour:
       - Nice, you found me! Let's continue your training.
       cutsceneId: TT_01
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -113,9 +117,10 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: Interact to board the boat
+    stepDescription: '"Interact to board the boat"'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -136,9 +141,10 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Press [L-Click] to fire gun."'
+    stepDescription: '"Press [Left Click] to fire gun to Fish."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -161,9 +167,10 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 9
     completionMode: 0
-    stepDescription: 
+    stepDescription: '"Collected fish"'
     dialogue: []
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -187,6 +194,7 @@ MonoBehaviour:
     stepDescription: '"Bag is full. Press [I] to check inventory."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -210,6 +218,7 @@ MonoBehaviour:
     stepDescription: '"Click [Back to land] to return to the surface."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -233,6 +242,7 @@ MonoBehaviour:
     stepDescription: '"Go to the Fish Shop to sell your catch."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -256,6 +266,36 @@ MonoBehaviour:
     stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 6
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - '"Thanks! Come back anytime."'
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -284,38 +324,11 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
-  - type: 3
-    targetEnemyId: player
-    targetEnemyIds: []
-    tutorialAction: 6
-    targetQuestItemId: 
-    targetQuestItemIds:
-    - 31001
-    - 31002
-    - 31003
-    - 31004
-    - 31005
-    - 31006
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
-    targetCount: 1
-    completionMode: 0
-    stepDescription: 
-    dialogue:
-    - characterId: shop
-      type: 0
-      lines:
-      - '"Thanks! Come back anytime."'
-      cutsceneId: 
-    isGuidedSequence: 0
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 
   - type: 4
     targetEnemyId: player
     targetEnemyIds: []
@@ -340,6 +353,7 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -368,8 +382,10 @@ MonoBehaviour:
       - '"Thanks! Come back anytime."'
       cutsceneId: 
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
+    unlocksFeatures: 070000000c0000000a0000000b000000
   questName: Tutorial Intro
+  questGiverNpcId: 

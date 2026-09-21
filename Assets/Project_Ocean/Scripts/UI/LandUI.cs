@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace Game.Testing
 
         [Header("Dive Panel")]
         [SerializeField] private Button startDiveButton;
+        [SerializeField] private TMPro.TMP_Text divePerDayText;
 
         [Header("Day Panel")]
         [SerializeField] private Button nextDayButton;
@@ -24,18 +26,66 @@ namespace Game.Testing
         //[SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
 
+        // Panels hidden while a dialogue shows, with the CanvasGroup state to restore afterwards.
+        private readonly Dictionary<CanvasGroup, (float alpha, bool interactable, bool blocksRaycasts)> hiddenPanels = new();
+
         private void OnEnable()
         {
+            DialogueState.OnChanged += HandleDialogueChanged;
             DayManager.OnDivedToday  += RefreshNextDayButton;
             DayManager.OnDayAdvanced += RefreshNextDayButton;
+            DayManager.OnDivedToday  += RefreshDiveUI;
+            DayManager.OnDayAdvanced += RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
         }
 
         private void OnDisable()
         {
+            DialogueState.OnChanged -= HandleDialogueChanged;
+            RestorePanels();
             DayManager.OnDivedToday  -= RefreshNextDayButton;
             DayManager.OnDayAdvanced -= RefreshNextDayButton;
+            DayManager.OnDivedToday  -= RefreshDiveUI;
+            DayManager.OnDayAdvanced -= RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
+        }
+
+        // Dive/shop/upgrade/board/home panels would otherwise stack under a dialogue box. They
+        // stay open (and keep their PlayerUIState lock) — just invisible and unclickable until
+        // the dialogue closes. Dialogue boxes themselves live under this canvas too, so skip them.
+        private void HandleDialogueChanged()
+        {
+            if (DialogueState.IsShowing) HideOtherPanels();
+            else RestorePanels();
+        }
+
+        private void HideOtherPanels()
+        {
+            foreach (Transform child in transform)
+            {
+                if (DialogueState.ContainsShowingPanel(child)) continue;
+
+                var group = child.GetComponent<CanvasGroup>();
+                if (group == null) group = child.gameObject.AddComponent<CanvasGroup>();
+                if (!hiddenPanels.ContainsKey(group))
+                    hiddenPanels[group] = (group.alpha, group.interactable, group.blocksRaycasts);
+
+                group.alpha = 0f;
+                group.interactable = false;
+                group.blocksRaycasts = false;
+            }
+        }
+
+        private void RestorePanels()
+        {
+            foreach (var (group, state) in hiddenPanels)
+            {
+                if (group == null) continue;
+                group.alpha = state.alpha;
+                group.interactable = state.interactable;
+                group.blocksRaycasts = state.blocksRaycasts;
+            }
+            hiddenPanels.Clear();
         }
 
         // Sleep unlocking mid-session (with no dive/day-advance event to piggyback a
@@ -58,6 +108,8 @@ namespace Game.Testing
                         () => { InventoryManager.Instance?.CloseInventory(); GameManager.Instance?.StartDive(); }
                     );
                 });
+
+            RefreshDiveUI();
 
             if (nextDayButton != null)
             {
@@ -90,6 +142,17 @@ namespace Game.Testing
                 "Are you sure you want to end the day?",
                 () => DayManager.Instance?.AdvanceDay()
             );
+        }
+
+        private void RefreshDiveUI()
+        {
+            var day = DayManager.Instance;
+            if (day == null) return;
+
+            if (divePerDayText != null)
+                divePerDayText.text = $"Remain {day.DivesRemaining}/{DayManager.MaxDivesPerDay} in Day";
+            if (startDiveButton != null)
+                startDiveButton.interactable = day.CanDive;
         }
 
         private void RefreshNextDayButton()

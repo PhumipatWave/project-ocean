@@ -6,18 +6,39 @@ namespace Game.Testing
     {
         private GameObject inventoryMenu;
         private AudioClip openInventorySound;
+
         private bool isInventoryOpen;
+
         public bool IsOpen => isInventoryOpen;
 
-        public void Initialize(GameObject menu, AudioClip openSound)
+        public void Initialize(
+            GameObject menu,
+            AudioClip openSound)
         {
             inventoryMenu = menu;
             openInventorySound = openSound;
-            isInventoryOpen = inventoryMenu != null && inventoryMenu.activeSelf;
+
+            isInventoryOpen =
+                inventoryMenu != null &&
+                inventoryMenu.activeSelf;
         }
 
         public void ToggleInventory()
         {
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.Toggle(
+                    UIManager.UIType.Inventory
+                );
+
+                isInventoryOpen =
+                    UIManager.Instance.CurrentUI ==
+                    UIManager.UIType.Inventory;
+
+                return;
+            }
+
+            // Fallback
             if (isInventoryOpen)
                 HideInventory();
             else
@@ -26,11 +47,23 @@ namespace Game.Testing
 
         public void ShowInventory()
         {
-            if (GameManager.CurPlayer != null && GameManager.CurPlayer.Audio != null && openInventorySound != null)
-                GameManager.CurPlayer.Audio.PlayOneShot(openInventorySound);
+            if (GameManager.CurPlayer != null &&
+                GameManager.CurPlayer.Audio != null &&
+                openInventorySound != null)
+            {
+                GameManager.CurPlayer.Audio.PlayOneShot(
+                    openInventorySound
+                );
+            }
 
-            PlayerUIState.Open();
-            Time.timeScale = 0;
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.OpenInventory();
+                isInventoryOpen = true;
+                return;
+            }
+
+            // Fallback
             if (inventoryMenu != null)
                 inventoryMenu.SetActive(true);
 
@@ -39,8 +72,16 @@ namespace Game.Testing
 
         public void HideInventory()
         {
-            PlayerUIState.Close();
-            Time.timeScale = 1;
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.Close(
+                    UIManager.UIType.Inventory
+                );
+
+                isInventoryOpen = false;
+                return;
+            }
+
             if (inventoryMenu != null)
                 inventoryMenu.SetActive(false);
 

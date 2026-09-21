@@ -67,6 +67,10 @@ namespace Game.Testing
 
             ApplyEffect(data);
             levels[data.type] = level + 1;
+
+            if (data.type == UpgradeType.Rope)
+                TutorialEvents.RaiseAction(TutorialActionId.UpgradeRope);
+
             return true;
         }
 

@@ -7047,6 +7047,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &383368025
@@ -9134,6 +9135,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &473181141
@@ -10241,6 +10243,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &533711111
@@ -12776,6 +12779,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1001 &654001494
@@ -14301,6 +14305,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &778315957
@@ -17643,6 +17648,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &924716191
@@ -18263,6 +18269,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &986437234
@@ -23379,6 +23386,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1153281005
@@ -173871,6 +173879,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1515335900
@@ -174333,6 +174342,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1528806055
@@ -177335,7 +177345,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1647411792}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -179136,6 +179146,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &1785233009
@@ -180942,6 +180953,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1842482502
@@ -181007,6 +181019,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &1859581097
@@ -282158,6 +282171,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 50
   proximityCheckInterval: 1.25
 --- !u!1 &2015814826
@@ -282738,6 +282752,7 @@ MonoBehaviour:
     m_Bits: 512
   groundCheckUpOffset: 1
   groundCheckDistance: 20
+  maxGroundGap: 0.6
   activateRadius: 35
   proximityCheckInterval: 1.25
 --- !u!1 &2055001775

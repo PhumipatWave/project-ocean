@@ -38,9 +38,13 @@ namespace Game.Testing
         }
 
         /// Call when a rope upgrade is purchased so ResetToOriginal uses the new max.
+        /// Also raises the live max/current health (what the HUD's max-length text reads, and
+        /// the rope's HealthLimit) right away, instead of only after the next reset.
         public void IncreaseOriginalMaxLength(float amount)
         {
             originalMaxRopeLength += amount;
+            Configure(originalMaxRopeLength);
+            Heal(amount); // clamps to the new max and refreshes oxygenTube's HealthLimit
         }
 
         /// Call when loading a save to sync the snapshot to the saved upgraded value.

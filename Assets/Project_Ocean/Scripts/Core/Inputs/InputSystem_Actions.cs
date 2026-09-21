@@ -156,6 +156,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""SkipCutscene"",
+                    ""type"": ""Button"",
+                    ""id"": ""e639accd-17ba-4e67-b226-bea3fefdf6c3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""f1ba0d36-48eb-4cd5-b651-1c94a6531f70"",
@@ -344,6 +353,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Teleport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65a6a384-0915-4fd0-82f2-b4f82d9bb105"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipCutscene"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -561,6 +581,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_ItemConsume = m_Player.FindAction("ItemConsume", throwIfNotFound: true);
         m_Player_Teleport = m_Player.FindAction("Teleport", throwIfNotFound: true);
+        m_Player_SkipCutscene = m_Player.FindAction("SkipCutscene", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_SwitchItem = m_Player.FindAction("SwitchItem", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
@@ -661,6 +682,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_ItemConsume;
     private readonly InputAction m_Player_Teleport;
+    private readonly InputAction m_Player_SkipCutscene;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_SwitchItem;
     private readonly InputAction m_Player_Inventory;
@@ -704,6 +726,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Teleport".
         /// </summary>
         public InputAction @Teleport => m_Wrapper.m_Player_Teleport;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SkipCutscene".
+        /// </summary>
+        public InputAction @SkipCutscene => m_Wrapper.m_Player_SkipCutscene;
         /// <summary>
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
@@ -767,6 +793,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Teleport.started += instance.OnTeleport;
             @Teleport.performed += instance.OnTeleport;
             @Teleport.canceled += instance.OnTeleport;
+            @SkipCutscene.started += instance.OnSkipCutscene;
+            @SkipCutscene.performed += instance.OnSkipCutscene;
+            @SkipCutscene.canceled += instance.OnSkipCutscene;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
@@ -811,6 +840,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Teleport.started -= instance.OnTeleport;
             @Teleport.performed -= instance.OnTeleport;
             @Teleport.canceled -= instance.OnTeleport;
+            @SkipCutscene.started -= instance.OnSkipCutscene;
+            @SkipCutscene.performed -= instance.OnSkipCutscene;
+            @SkipCutscene.canceled -= instance.OnSkipCutscene;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
@@ -1128,6 +1160,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTeleport(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SkipCutscene" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkipCutscene(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

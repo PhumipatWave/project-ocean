@@ -12,6 +12,8 @@ namespace Game.Testing
     {
         [Header("Day Count")]
         [SerializeField] private TextMeshProUGUI dayCountText;
+        [Tooltip("Optional second day label, e.g. the one in the pause menu.")]
+        [SerializeField] private TextMeshProUGUI pauseDayCountText;
 
         [Header("Rope Length")]
         [SerializeField] private TextMeshProUGUI currentOxygenTubeLength;
@@ -72,8 +74,13 @@ namespace Game.Testing
 
         private void HandleMenuToggle()
         {
-            if (PlayerUIState.IsLocked) return;
-            pauseMenu?.ToggleMenu();
+            if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying) return;
+            // In-game Esc is the PauseMenu window (AS_PlayerHUD); ToggleMenu asks for the MainMenu
+            // window, which only exists in MainMenuScene.
+            if (UIManager.Instance != null)
+                UIManager.Instance.TogglePauseMenu();
+            else
+                pauseMenu?.ToggleMenu();
         }
 
         private void HandleLockChanged(bool isLocked)
@@ -95,8 +102,12 @@ namespace Game.Testing
 
             //weaponUIPanel?.SetActive(isOcean);
 
-            // A fresh scene load always starts with no land UI open.
-            SetHudVisible(true);
+            // A fresh scene load always starts with no land UI open — except the main menu,
+            // which has no gameplay HUD to show at all (day count, rope panel, weapon UI,
+            // menu/land buttons); leaving it visible there stacks it on top of the menu's own
+            // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
+            // live outside hudContentGroup, so they're unaffected either way.
+            SetHudVisible(scene.name != SceneNames.MainMenu);
 
             if (scene.name == "MainMenuScene")
             {
@@ -157,9 +168,9 @@ namespace Game.Testing
 
         private void RefreshDayText()
         {
-            if (dayCountText == null) return;
             int day = DayManager.Instance != null ? DayManager.Instance.CurrentDay : 1;
-            dayCountText.text = $"Day {day}";
+            if (dayCountText != null) dayCountText.text = $"Day {day}";
+            if (pauseDayCountText != null) pauseDayCountText.text = $"Day {day}";
         }
 
         private void Update()

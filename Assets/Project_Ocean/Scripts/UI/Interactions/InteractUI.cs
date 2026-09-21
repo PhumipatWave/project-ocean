@@ -28,6 +28,9 @@ namespace Game.Testing
         [SerializeField] private bool requireSpecificFeature;
         [SerializeField] private GameFeature specificFeature;
 
+        /// <summary>Raised when the player leaves this zone (after the lock is released).</summary>
+        public event System.Action PlayerExited;
+
         private bool _subscribed;
         private bool holdingLock;
         private bool _playerInRange;
@@ -44,6 +47,7 @@ namespace Game.Testing
             if (!pressed) return;
             if (TutorialGate.Blocks(TutorialActionId.Interact)) return;
             if (CutsceneGate.IsPlaying) return;
+            if (PlayerSelfDialogueUI.BlocksInteraction) return;
             if (IsFeatureLocked())
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock this.");
@@ -87,7 +91,7 @@ namespace Game.Testing
         private void Update()
         {
             if (interactIcon != null)
-                interactIcon.SetActive(_playerInRange && !CutsceneGate.IsPlaying && !IsFeatureLocked());
+                interactIcon.SetActive(_playerInRange && !CutsceneGate.IsPlaying && !PlayerSelfDialogueUI.BlocksInteraction && !IsFeatureLocked());
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -106,6 +110,7 @@ namespace Game.Testing
                 Unsubscribe();
                 _playerInRange = false;
                 ReleasePlayerLock();
+                PlayerExited?.Invoke();
             }
         }
 

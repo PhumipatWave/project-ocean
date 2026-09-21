@@ -5,20 +5,52 @@ namespace Game.Testing
 {
     public class MoneyUI : MonoBehaviour
     {
+        [Header("Money Display")]
         [SerializeField] private TMP_Text moneyText;
+
+        [Tooltip("เปิด = แสดง Money: 1,250 | ปิด = แสดง 1,250")]
+        [SerializeField] private bool showMoneyLabel = false;
 
         private PlayerMoney playerMoney;
 
         private void Start()
         {
-            if (GameManager.CurPlayer != null)
-                playerMoney = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            FindPlayerMoney();
+            Refresh();
         }
 
         private void Update()
         {
-            if (playerMoney != null && moneyText != null)
-                moneyText.text = playerMoney.Money.ToString();
+            if (playerMoney == null)
+                FindPlayerMoney();
+
+            Refresh();
+        }
+
+        private void FindPlayerMoney()
+        {
+            if (GameManager.CurPlayer != null)
+            {
+                playerMoney =
+                    GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            }
+        }
+
+        private void Refresh()
+        {
+            if (playerMoney == null || moneyText == null)
+                return;
+
+            string value = playerMoney.Money.ToString("N0");
+
+            if (showMoneyLabel)
+            {
+                moneyText.text = "Money: " + value;
+            }
+            else
+            {
+                moneyText.text = value;
+            }
         }
     }
 }
