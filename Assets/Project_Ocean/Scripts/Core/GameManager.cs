@@ -150,7 +150,12 @@ namespace Game.Testing
                 return;
             }
 
-            DayManager.Instance?.MarkDivedToday();
+            if (DayManager.Instance != null && !DayManager.Instance.TryRecordDive())
+            {
+                NotificationManager.Notify($"You can only dive {DayManager.MaxDivesPerDay} times per day.");
+                return;
+            }
+
             TutorialEvents.RaiseAction(TutorialActionId.Dive);
             SceneManager.LoadScene(SceneNames.Ocean);
             gameState = GameState.Ocean;

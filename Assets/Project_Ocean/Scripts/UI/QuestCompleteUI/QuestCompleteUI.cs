@@ -40,6 +40,21 @@ namespace Game.Testing
             if (quest == null)
                 return;
 
+            StartCoroutine(ShowWhenReady(quest));
+        }
+
+        // Quests can finish as the day advances; wait so the next-day animation doesn't cover the panel.
+        private IEnumerator ShowWhenReady(Quest quest)
+        {
+            yield return null; // let NextDayAnimationUI start first if it's reacting to the same event
+            while (NextDayAnimationUI.IsPlaying)
+                yield return null;
+
+            Display(quest);
+        }
+
+        private void Display(Quest quest)
+        {
             // ==============================
             // OPEN PANEL
             // ==============================
@@ -102,12 +117,7 @@ namespace Game.Testing
                         "\n";
                 }
 
-                if (string.IsNullOrEmpty(rewards))
-                {
-                    rewards = "No Rewards";
-                }
-
-                rewardText.text = rewards;
+                rewardText.text = rewards; // empty when there is no reward
             }
 
             // ==============================

@@ -194,7 +194,8 @@ namespace Game.Testing
         {
             if (DayManager.Instance == null) { Debug.LogWarning("[SaveBridge] ApplyDay: DayManager not found"); return; }
             DayManager.Instance.SetDay(data.currentDay);
-            DayManager.Instance.SetDivedToday(data.hasDivedToday);
+            // Saves from before divesToday existed only carry the bool — count that as one dive.
+            DayManager.Instance.SetDivesToday(data.divesToday > 0 ? data.divesToday : (data.hasDivedToday ? 1 : 0));
         }
 
         // -------------------- Public API -------------------- //
@@ -337,6 +338,7 @@ namespace Game.Testing
             if (DayManager.Instance == null) return;
             data.currentDay    = DayManager.Instance.CurrentDay;
             data.hasDivedToday = DayManager.Instance.HasDivedToday;
+            data.divesToday    = DayManager.Instance.DivesToday;
         }
     }
 }

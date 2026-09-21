@@ -28,7 +28,8 @@ namespace Game.Testing
 
         public void SetupSlot(
             Quest quest,
-            Action<Quest> onClickedAction)
+            Action<Quest> onClickedAction,
+            Sprite fallbackAvatar = null)
         {
             currentQuest = quest;
             onSlotClickedCallback = onClickedAction;
@@ -57,7 +58,8 @@ namespace Game.Testing
 
             // NPC avatar — resolved live from NPCManager by id, not stored on the quest. Pure
             // board quests have no giver id, so DisplayNpcId is null and the image hides.
-            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId));
+            // Falls back to the quest board's own image when there's no giver portrait.
+            QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId) ?? fallbackAvatar);
 
             // Reward preview shows the first step's reward (board quests are single-step today)
             if (rewardText != null)

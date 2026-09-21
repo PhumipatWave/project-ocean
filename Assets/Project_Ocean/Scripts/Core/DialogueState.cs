@@ -14,6 +14,13 @@ namespace Game.Testing
     {
         private static readonly HashSet<GameObject> panels = new();
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Init()
+        {
+            panels.Clear();
+            Game.Core.InputReader.IsDialogueShowing = () => IsShowing;
+        }
+
         /// <summary>Fired whenever a dialogue panel starts or stops showing.</summary>
         public static event Action OnChanged;
 

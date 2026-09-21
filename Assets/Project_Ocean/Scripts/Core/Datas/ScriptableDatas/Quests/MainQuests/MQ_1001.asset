@@ -29,8 +29,7 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: "\u201CYou used to be an office worker that quit your job to
-      go to this island because you think diving in the ocean is pretty cool\u201D"
+    stepDescription: 
     dialogue:
     - characterId: player
       type: 1
@@ -118,7 +117,7 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: Interact to board the boat
+    stepDescription: '"Interact to board the boat"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Press [L-Click] to fire gun."'
+    stepDescription: '"Press [Left Click] to fire gun to Fish."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -168,7 +167,7 @@ MonoBehaviour:
     deliveryCountMode: 0
     targetCount: 9
     completionMode: 0
-    stepDescription: 
+    stepDescription: '"Collected fish"'
     dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
@@ -272,35 +271,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
-    targetEnemyId: player
-    targetEnemyIds: []
-    tutorialAction: 11
-    targetQuestItemId: 
-    targetQuestItemIds:
-    - 31001
-    - 31002
-    - 31003
-    - 31004
-    - 31005
-    - 31006
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
-    targetCount: 1
-    completionMode: 0
-    stepDescription: '"Move out of shop."'
-    dialogue:
-    - characterId: shop
-      type: 0
-      lines:
-      - '"Thanks! Come back anytime."'
-      cutsceneId: 
-    isGuidedSequence: 1
-    autoDisplayDialogue: 0
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 0d000000
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -330,6 +300,35 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+  - type: 4
+    targetEnemyId: player
+    targetEnemyIds: []
+    tutorialAction: 11
+    targetQuestItemId: 
+    targetQuestItemIds:
+    - 31001
+    - 31002
+    - 31003
+    - 31004
+    - 31005
+    - 31006
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Move out of shop."'
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - '"Thanks! Come back anytime."'
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0d000000
   - type: 4
     targetEnemyId: player
     targetEnemyIds: []
@@ -387,5 +386,6 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
+    unlocksFeatures: 070000000c0000000a0000000b000000
   questName: Tutorial Intro
+  questGiverNpcId: 

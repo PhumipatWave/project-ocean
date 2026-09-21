@@ -171,8 +171,16 @@ namespace Game.Testing
                     continue;
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
-                if (progress <= step.CurrentCount)
+                if (progress == step.CurrentCount)
                     continue;
+
+                // Player dropped/sold some — keep the displayed count live.
+                if (progress < step.CurrentCount)
+                {
+                    step.CurrentCount = progress;
+                    OnQuestUpdated?.Invoke();
+                    continue;
+                }
 
                 bool justCompleted = q.AddProgress(1);
 
@@ -282,7 +290,8 @@ namespace Game.Testing
                 if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
                     RemoveQuestItems(q);
-                    NotificationManager.Notify($"Quest complete: {q.QuestName}");
+                    if (QuestCompleteUI.Instance != null)
+                        QuestCompleteUI.Instance.Show(q);
 
                     if (completedStep.RewardMoney > 0)
                         OnMoneyRewarded?.Invoke(completedStep.RewardMoney);

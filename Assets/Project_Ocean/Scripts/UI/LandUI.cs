@@ -17,6 +17,7 @@ namespace Game.Testing
 
         [Header("Dive Panel")]
         [SerializeField] private Button startDiveButton;
+        [SerializeField] private TMPro.TMP_Text divePerDayText;
 
         [Header("Day Panel")]
         [SerializeField] private Button nextDayButton;
@@ -33,6 +34,8 @@ namespace Game.Testing
             DialogueState.OnChanged += HandleDialogueChanged;
             DayManager.OnDivedToday  += RefreshNextDayButton;
             DayManager.OnDayAdvanced += RefreshNextDayButton;
+            DayManager.OnDivedToday  += RefreshDiveUI;
+            DayManager.OnDayAdvanced += RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
         }
 
@@ -42,6 +45,8 @@ namespace Game.Testing
             RestorePanels();
             DayManager.OnDivedToday  -= RefreshNextDayButton;
             DayManager.OnDayAdvanced -= RefreshNextDayButton;
+            DayManager.OnDivedToday  -= RefreshDiveUI;
+            DayManager.OnDayAdvanced -= RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
         }
 
@@ -104,6 +109,8 @@ namespace Game.Testing
                     );
                 });
 
+            RefreshDiveUI();
+
             if (nextDayButton != null)
             {
                 nextDayButton.onClick.AddListener(TryAdvanceDay);
@@ -135,6 +142,17 @@ namespace Game.Testing
                 "Are you sure you want to end the day?",
                 () => DayManager.Instance?.AdvanceDay()
             );
+        }
+
+        private void RefreshDiveUI()
+        {
+            var day = DayManager.Instance;
+            if (day == null) return;
+
+            if (divePerDayText != null)
+                divePerDayText.text = $"Remain {day.DivesRemaining}/{DayManager.MaxDivesPerDay} in Day";
+            if (startDiveButton != null)
+                startDiveButton.interactable = day.CanDive;
         }
 
         private void RefreshNextDayButton()

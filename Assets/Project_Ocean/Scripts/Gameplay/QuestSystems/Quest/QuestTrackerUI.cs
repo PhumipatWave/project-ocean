@@ -59,11 +59,21 @@ namespace Game.Testing
             }
 
             // =========================
-            // ชื่อ Quest ที่กำลัง Track
+            // Step ปัจจุบันของ Quest ที่กำลัง Track (persistent, unlike the step notification)
             // =========================
 
             if (questNameText != null)
-                questNameText.text = activeQuest.QuestName;
+            {
+                string text = string.IsNullOrEmpty(activeQuest.StepDescription)
+                    ? activeQuest.QuestName
+                    : activeQuest.StepDescription;
+
+                // Delivery: show held/needed, e.g. "0/9".
+                if (activeQuest.CurrentStep?.Type == QuestType.Delivery)
+                    text += $" {activeQuest.CurrentCount}/{activeQuest.TargetCount}";
+
+                questNameText.text = text;
+            }
 
             // =========================
             // ส่วนอื่น ๆ

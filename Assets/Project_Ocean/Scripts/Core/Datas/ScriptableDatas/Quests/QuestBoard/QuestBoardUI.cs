@@ -18,6 +18,9 @@ namespace Game.Testing
         [SerializeField] private GameObject questListPage;
         [SerializeField] private QuestSlot[] questSlots;
 
+        [Tooltip("Avatar shown on a quest row that has no quest-giver portrait.")]
+        [SerializeField] private Sprite questBoardAvatar;
+
         [Header("Quest List Title")]
         [SerializeField] private TextMeshProUGUI questCategoryTitle;
 
@@ -239,7 +242,8 @@ namespace Game.Testing
                 {
                     questSlots[i].SetupSlot(
                         questsInCurrentCategory[targetIndex],
-                        OnQuestSlotSelected
+                        OnQuestSlotSelected,
+                        questBoardAvatar
                     );
                 }
                 else

@@ -49,6 +49,10 @@ namespace Game.Testing
             if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
             if (extraImageObject != null) extraImage = extraImageObject.GetComponent<Image>();
             interactUI = GetComponent<InteractUI>();
+
+            // The scene's InteractUI had no onInteract call wired, so E did nothing.
+            if (interactUI.onInteract.GetPersistentEventCount() == 0)
+                interactUI.onInteract.AddListener(Interact);
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -72,6 +76,9 @@ namespace Game.Testing
             if (!dialogueBox.activeSelf) OpenUI();
             else CloseUI();
         }
+
+        /// Wire the on-screen interact button's onClick here — same path as pressing E.
+        public void PressInteract() => GameManager.CurPlayer?.input?.TriggerInteract();
 
         void OpenUI()
         {

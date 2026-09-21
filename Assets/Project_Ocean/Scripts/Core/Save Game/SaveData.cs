@@ -35,6 +35,7 @@ namespace Game.Testing
         // ── v3: enemy kill persistence ──
         public List<string> killedEnemySpawnIds = new();
         public bool hasDivedToday = false;
+        public int  divesToday    = 0; // supersedes hasDivedToday; absent in older saves (0)
 
         // ── v4: feature unlocks ── (GameFeature enum names, e.g. "Shop", "Ocean")
         public List<string> unlockedFeatures = new();
