@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
@@ -195,10 +196,29 @@ namespace Game.Testing
                 if (type == QuestType.Tutorial)
                     EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
                 else if (type == QuestType.Talk)
-                    EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target NPC Id",
-                        "Use \"player\" for a self-talk step — no NPC needed, the line auto-shows via PlayerSelfDialogueUI and completes on the next Interact press."));
+                {
+                    // Auto Display Dialogue talks to nobody — no NPC id, and its lines are authored
+                    // with a blank characterId (see QuestStep.EffectiveNpcId).
+                    bool auto = property.FindPropertyRelative("autoDisplayDialogue").boolValue;
+                    if (auto)
+                        targetEnemyIdProp.stringValue = "";
+                    using (new EditorGUI.DisabledScope(auto))
+                        EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target NPC Id",
+                            auto ? "Not used — Auto Display Dialogue has no NPC. Leave dialogue lines' Character Id blank."
+                                 : "The NPC the player must walk up to and talk to."));
+                }
+                else if (type == QuestType.ExploreArea)
+                    EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Area Id",
+                        "Matches an ExploreAreaTrigger's Area Id in the scene - completes when the player interacts with it or walks into its zone."));
                 else
                     EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target Enemy Id"));
+                rect.y += lineHeight;
+            }
+
+            if (type == QuestType.Talk)
+            {
+                EditorGUI.PropertyField(rect, property.FindPropertyRelative("autoDisplayDialogue"), new GUIContent("Auto Display Dialogue",
+                    "ON: the line shows by itself when this step becomes current (self-talk via PlayerSelfDialogueUI), completes on the next Interact press. No Target NPC Id (cleared) — author its dialogue lines with a blank Character Id. OFF: the player must walk up to the Target NPC and talk."));
                 rect.y += lineHeight;
             }
 
@@ -348,6 +368,7 @@ namespace Game.Testing
             // Requirements pair are variable height, added separately below.
             int lineCount = 3
                 + (vis.TargetField ? 1 : 0)
+                + (type == QuestType.Talk ? 1 : 0) // Auto Display Dialogue
                 + (showTargetCount ? 1 : 0);
             float height = lineHeight * lineCount
                 + EditorGUI.GetPropertyHeight(stepDescriptionProp) + EditorGUIUtility.standardVerticalSpacing;
@@ -413,3 +434,4 @@ namespace Game.Testing
         }
     }
 }
+#endif

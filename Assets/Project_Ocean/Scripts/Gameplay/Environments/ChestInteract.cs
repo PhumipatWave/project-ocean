@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
+    // Raw-key handling (E press) is delegated to an InteractUI on the same GameObject, wired
+    // to call Interact() — same shared PlayerUIState "floor" lock every other interactable
+    // (NPC/door/collectible) uses, instead of a second, ungated subscription that used to
+    // open/close this chest's dialogue even while another panel was already open.
+    [RequireComponent(typeof(InteractUI))]
     public class ChestInteract : MonoBehaviour
     {
         [Header("Settings")]
@@ -31,10 +36,10 @@ namespace Game.Testing
         private static readonly List<string> globalOpenedChests = new();
         private string uniqueID;
         private bool wasOpened;
-        private bool _subscribed;
         private PlayerMoney targetPlayerMoney;
         private Image portraitImage;
         private Image extraImage;
+        private InteractUI interactUI;
 
         void Awake()
         {
@@ -43,15 +48,17 @@ namespace Game.Testing
 
             if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
             if (extraImageObject != null) extraImage = extraImageObject.GetComponent<Image>();
+            interactUI = GetComponent<InteractUI>();
+
+            // The scene's InteractUI had no onInteract call wired, so E did nothing.
+            if (interactUI.onInteract.GetPersistentEventCount() == 0)
+                interactUI.onInteract.AddListener(Interact);
         }
 
         void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
-            {
                 targetPlayerMoney = other.GetComponent<PlayerMoney>();
-                Subscribe();
-            }
         }
 
         void OnTriggerExit2D(Collider2D other)
@@ -59,36 +66,19 @@ namespace Game.Testing
             if (other.CompareTag("Player"))
             {
                 targetPlayerMoney = null;
-                Unsubscribe();
                 CloseUI();
             }
         }
 
-        private void OnDisable() => Unsubscribe();
-
-        private void HandleInteract(bool pressed)
+        /// Called by InteractUI's onInteract (wired in the Inspector) on E press.
+        public void Interact()
         {
-            if (!pressed) return;
             if (!dialogueBox.activeSelf) OpenUI();
             else CloseUI();
         }
 
-        private void Subscribe()
-        {
-            if (_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
-            if (reader == null) return;
-            reader.OnInteracted += HandleInteract;
-            _subscribed = true;
-        }
-
-        private void Unsubscribe()
-        {
-            if (!_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
-            if (reader != null) reader.OnInteracted -= HandleInteract;
-            _subscribed = false;
-        }
+        /// Wire the on-screen interact button's onClick here — same path as pressing E.
+        public void PressInteract() => GameManager.CurPlayer?.input?.TriggerInteract();
 
         void OpenUI()
         {
@@ -139,6 +129,7 @@ namespace Game.Testing
             if (dialogueBox != null) dialogueBox.SetActive(false);
             if (extraImageObject != null) extraImageObject.SetActive(false);
             Time.timeScale = 1f;
+            interactUI?.ReleasePlayerLock();
         }
     }
 }

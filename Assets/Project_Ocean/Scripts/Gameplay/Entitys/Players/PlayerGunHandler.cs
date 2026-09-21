@@ -67,6 +67,12 @@ namespace Game.Testing
 
         public AmmoType currentAmmoType;
 
+        [Tooltip("The gun and shooting-arm sprites stay hidden until the player aims/fires. Left empty, every SpriteRenderer under this object is used.")]
+        [SerializeField] private SpriteRenderer[] gunRenderers;
+        [Tooltip("Seconds the gun stays visible after a shot, so the muzzle flash isn't drawn on a hidden gun.")]
+        [SerializeField] private float visibleAfterShot = 0.2f;
+        private float visibleUntil;
+
         private void Start()
         {
             player = GetComponentInParent<Player>();
@@ -85,6 +91,21 @@ namespace Game.Testing
                 aimLine.positionCount = 2;
                 aimLine.enabled = false;
             }
+        }
+
+        // LateUpdate so nothing else touching the renderers this frame can override it.
+        private void LateUpdate()
+        {
+            SetGunVisible(isAimming || isHooked || Time.unscaledTime < visibleUntil);
+        }
+
+        private void SetGunVisible(bool visible)
+        {
+            if (gunRenderers == null || gunRenderers.Length == 0)
+                gunRenderers = GetComponentsInChildren<SpriteRenderer>(true);
+
+            foreach (var r in gunRenderers)
+                if (r != null) r.enabled = visible;
         }
 
         private float HandlerGunRotation(ref int faceDir, float angle)
@@ -225,6 +246,7 @@ namespace Game.Testing
                 currentBulletObj.GetComponent<Bullet>().Initialize(aimDir);
             }
 
+            visibleUntil = Time.unscaledTime + visibleAfterShot;
             CameraShakeManager.Instance.SmallShake();
         }
 

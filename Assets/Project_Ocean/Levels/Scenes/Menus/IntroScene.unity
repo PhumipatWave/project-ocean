@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37c1c1f1f460ee42b3908bd93a0a562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::IntroPlayer
-  videoPlayer: {fileID: 8452015291621995210, guid: 9a5ade9e0ed29424bb74a565c64b80ae, type: 3}
+  videoPlayer: {fileID: 1504779495}
   nextSceneName: MainMenuScene
   skipButton: {fileID: 0}
 --- !u!4 &1198542243
@@ -170,6 +170,11 @@ Transform:
 Camera:
   m_CorrespondingSourceObject: {fileID: 7240560313443943210, guid: b5ba8f8c520d3a448864a3afe4d86328, type: 3}
   m_PrefabInstance: {fileID: 6344541660520180797}
+  m_PrefabAsset: {fileID: 0}
+--- !u!328 &1504779495 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 8452015291621995210, guid: 9a5ade9e0ed29424bb74a565c64b80ae, type: 3}
+  m_PrefabInstance: {fileID: 6634676793983614700}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6344541660520180797
 PrefabInstance:

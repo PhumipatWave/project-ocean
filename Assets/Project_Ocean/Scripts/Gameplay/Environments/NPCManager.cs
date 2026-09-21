@@ -17,6 +17,9 @@ namespace Game.Testing
     {
         public static NPCManager Instance { get; private set; }
 
+        [Tooltip("Name/portrait per characterId, independent of which scene's NPCs are loaded. Anything it doesn't cover falls back to the loaded NPC's own fields.")]
+        [SerializeField] private CharacterDatabase characterDatabase;
+
         private readonly Dictionary<string, NPC> npcsById = new();
 
         private void Awake()
@@ -61,8 +64,16 @@ namespace Game.Testing
         public NPC GetNpc(string npcId) =>
             !string.IsNullOrEmpty(npcId) && npcsById.TryGetValue(npcId, out var npc) ? npc : null;
 
-        public string GetNpcName(string npcId) => GetNpc(npcId)?.NpcName;
+        public string GetNpcName(string npcId)
+        {
+            var name = characterDatabase != null ? characterDatabase.Get(npcId)?.displayName : null;
+            return string.IsNullOrEmpty(name) ? GetNpc(npcId)?.NpcName : name;
+        }
 
-        public Sprite GetNpcAvatar(string npcId) => GetNpc(npcId)?.NpcPortrait;
+        public Sprite GetNpcAvatar(string npcId)
+        {
+            var portrait = characterDatabase != null ? characterDatabase.Get(npcId)?.portrait : null;
+            return portrait != null ? portrait : GetNpc(npcId)?.NpcPortrait;
+        }
     }
 }

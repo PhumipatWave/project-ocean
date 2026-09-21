@@ -76,7 +76,7 @@ namespace Game.Testing
     [System.Serializable]
     public class QuestDialogueLine
     {
-        [Tooltip("Matches an NPC's npcId. Leave blank to default to this step's Target NPC Id (Talk steps only).")]
+        [Tooltip("Who speaks: matches a CharacterDatabase id / an NPC's npcId (name and portrait follow it). Leave blank to default to this step's Target NPC Id (Talk steps); on an Auto Display Dialogue step, blank = the player.")]
         public string characterId;
         public DialogueType type;
         [Tooltip("Multiple entries only meaningful for Offer, which plays sequentially.")]
@@ -128,6 +128,9 @@ namespace Game.Testing
         [Tooltip("Marks this checkpoint as a guided-sequence step — TutorialPromptUI shows/gates it (even a Talk step), not just literal Tutorial-typed ones.")]
         public bool isGuidedSequence;
 
+        [Tooltip("Talk only — ON: the line shows by itself the moment this step becomes current (self-talk, no NPC to walk up to; Target Id is just the key its dialogue lines are stored under) and one Interact press completes it. OFF: the player must walk up to the Target NPC and talk to them.")]
+        public bool autoDisplayDialogue;
+
         [Tooltip("Optional image(s) for this checkpoint's guide notification. The banner shows the first entry; leave empty for a text-only notification.")]
         public List<Sprite> notificationImages = new();
 
@@ -159,5 +162,8 @@ namespace Game.Testing
 
         [Header("Quest Information")]
         public string questName;
+
+        [Tooltip("Optional — npcId / CharacterDatabase id of the NPC who gave this quest; drives the tracker/accepted-quest avatar. Leave blank for quest-board quests (no avatar).")]
+        public string questGiverNpcId;
     }
 }

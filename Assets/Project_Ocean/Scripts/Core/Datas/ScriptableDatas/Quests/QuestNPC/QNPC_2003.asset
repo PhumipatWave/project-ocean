@@ -21,8 +21,12 @@ MonoBehaviour:
   steps:
   - type: 1
     targetEnemyId: fishM
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 32001
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     targetCount: 6
     completionMode: 1
     stepDescription: 'Kill fish size M : 6'
@@ -60,7 +64,10 @@ MonoBehaviour:
       - No
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 0
     rewardMoney: 350
+    unlocksFeatures: 
   questName: '[Shop]'
+  questGiverNpcId: shop

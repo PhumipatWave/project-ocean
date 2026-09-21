@@ -21,6 +21,13 @@ namespace Game.Testing
         OpenInventory,
         BackToLand,
         HitEnemy,
+        // Added at the end — existing authored tutorialAction values are serialized by enum index.
+        // Raised when the player clicks the quest detail panel's Accept button (QuestDetailPanel).
+        AcceptQuest,
+        // Raised when a Rope upgrade is actually bought (UpgradeService.TryBuyUpgrade succeeds).
+        UpgradeRope,
+        // Raised when the player actually uses an item from the inventory (Player.UseItem succeeds).
+        UseItem,
     }
 
     public static class TutorialEvents

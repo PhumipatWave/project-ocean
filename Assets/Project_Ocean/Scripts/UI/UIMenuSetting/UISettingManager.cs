@@ -7,79 +7,112 @@ namespace Game.Testing
         public GameObject menuPanel;
         public GameObject inventoryPanel;
         public GameObject questPanel;
-        //public GameObject savePanel;
         public GameObject settingPanel;
 
-        /// <summary>True while any pause-menu tab (main/inventory/quest/setting) is on screen.</summary>
-        public bool IsOpen =>
-            (menuPanel != null && menuPanel.activeSelf) ||
-            (inventoryPanel != null && inventoryPanel.activeSelf) ||
-            (questPanel != null && questPanel.activeSelf) ||
-            (settingPanel != null && settingPanel.activeSelf);
-
-        public void ToggleMenu()
+        public bool IsOpen
         {
-            if (IsOpen)
+            get
             {
-                CloseAll();
-                PlayerUIState.Close();
-            }
-            else if (PlayerUIState.IsLocked)
-            {
-                // Another land UI (inventory, an interact panel...) has the floor — Esc closes that instead.
-                PlayerUIState.CloseCurrent();
-            }
-            else
-            {
-                PlayerUIState.Open();
-                PlayerUIState.SetCloser(CloseViaEsc);
-                BackToMenu();
+                if (UIManager.Instance != null)
+                    return UIManager.Instance.IsUIOpen;
+
+                return
+                    (menuPanel != null && menuPanel.activeSelf) ||
+                    (inventoryPanel != null && inventoryPanel.activeSelf) ||
+                    (questPanel != null && questPanel.activeSelf) ||
+                    (settingPanel != null && settingPanel.activeSelf);
             }
         }
 
-        private void CloseViaEsc()
+        public void ToggleMenu()
         {
-            CloseAll();
-            PlayerUIState.Close();
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ToggleMainMenu();
+                return;
+            }
+
+            if (IsOpen)
+                CloseAll();
+            else
+                BackToMenu();
         }
 
         public void OpenInventory()
         {
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.OpenInventory();
+                return;
+            }
+
             CloseAll();
-            inventoryPanel.SetActive(true);
+
+            if (inventoryPanel != null)
+                inventoryPanel.SetActive(true);
         }
 
         public void OpenQuest()
         {
-            CloseAll();
-            questPanel.SetActive(true);
-        }
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.OpenQuest();
+                return;
+            }
 
-        /*public void OpenSave()
-        {
             CloseAll();
-            savePanel.SetActive(true);
-        }*/
+
+            if (questPanel != null)
+                questPanel.SetActive(true);
+        }
 
         public void OpenSetting()
         {
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.OpenSetting();
+                return;
+            }
+
             CloseAll();
-            settingPanel.SetActive(true);
+
+            if (settingPanel != null)
+                settingPanel.SetActive(true);
         }
 
         public void CloseAll()
         {
-            if (menuPanel != null) menuPanel.SetActive(false);
-            if (inventoryPanel != null) inventoryPanel.SetActive(false);
-            if (questPanel != null) questPanel.SetActive(false);
-            //if (savePanel != null) savePanel.SetActive(false);
-            if (settingPanel != null) settingPanel.SetActive(false);
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.CloseAll();
+                return;
+            }
+
+            if (menuPanel != null)
+                menuPanel.SetActive(false);
+
+            if (inventoryPanel != null)
+                inventoryPanel.SetActive(false);
+
+            if (questPanel != null)
+                questPanel.SetActive(false);
+
+            if (settingPanel != null)
+                settingPanel.SetActive(false);
         }
 
         public void BackToMenu()
         {
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.OpenMainMenu();
+                return;
+            }
+
             CloseAll();
-            menuPanel.SetActive(true);
+
+            if (menuPanel != null)
+                menuPanel.SetActive(true);
         }
     }
 }

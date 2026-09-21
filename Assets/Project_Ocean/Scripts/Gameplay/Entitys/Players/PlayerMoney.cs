@@ -5,35 +5,63 @@ namespace Game.Testing
     public class PlayerMoney : MonoBehaviour
     {
         [SerializeField] private int money = 100;
-        public int Money { get { return money; } }
+
+        public int Money
+        {
+            get { return money; }
+        }
 
         private void OnEnable()
         {
-            QuestManager.OnMoneyRewarded += AddMoney;
+            // Quest Reward เพิ่มเงินแบบไม่เด้ง Notification
+            QuestManager.OnMoneyRewarded += AddMoneySilent;
         }
 
         private void OnDisable()
         {
-            QuestManager.OnMoneyRewarded -= AddMoney;
+            QuestManager.OnMoneyRewarded -= AddMoneySilent;
         }
 
-public void AddMoney(int amount)
+        // =========================================================
+        // ADD MONEY
+        // =========================================================
+
+        public void AddMoney(int amount)
         {
             money += amount;
+
             Debug.Log("Money: " + money);
 
+            // การเพิ่มเงินทั่วไปยังสามารถแจ้งเตือนได้
             if (amount > 0)
-                NotificationManager.Notify($"+{amount} Money");
+            {
+                NotificationManager.Notify(
+                    $"+{amount} Money"
+                );
+            }
         }
 
+        // =========================================================
+        // ADD MONEY SILENT
+        // =========================================================
+
         /// <summary>
-        /// Adds money without a UI notification — used when restoring saved state,
-        /// so loading a save doesn't show a spurious "+money" toast.
+        /// เพิ่มเงินโดยไม่แสดง Notification
+        /// ใช้สำหรับ Quest Reward
+        /// และการโหลด Save
         /// </summary>
         public void AddMoneySilent(int amount)
         {
             money += amount;
+
+            Debug.Log(
+                "Money (Silent): " + money
+            );
         }
+
+        // =========================================================
+        // USE MONEY
+        // =========================================================
 
         public bool Use(int amount)
         {
@@ -42,15 +70,17 @@ public void AddMoney(int amount)
                 money -= amount;
                 return true;
             }
+
             return false;
         }
-        
+
+        // =========================================================
+        // CURRENT MONEY
+        // =========================================================
+
         public int CurrentMoney
         {
-            get { return money; } // หรือชื่อตัวแปรจริงของนาย
+            get { return money; }
         }
-        
-        
-        
     }
 }

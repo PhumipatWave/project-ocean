@@ -7,8 +7,9 @@ using UnityEngine;
 namespace Game.Testing
 {
     /// Populates the accepted-quests scroll view (GameHUD/PlayerHUDPanel/QuestUI/ReviceQuestScrollView)
-    /// with one ReviceQuestSlot per quest the player currently has accepted (InProgress or ReadyToTurnIn),
-    /// grouped under a header per QuestClassification. Classifications with no accepted quests are skipped.
+    /// with one ReviceQuestSlot per quest the player currently has accepted (InProgress or ReadyToTurnIn)
+    /// plus every already-completed quest (dimmed — see ReviceQuestSlot), grouped under a header per
+    /// QuestClassification. Classifications with no quests at all are skipped.
     public class ReviceQuestListUI : MonoBehaviour
     {
         [SerializeField] private Transform content;
@@ -35,11 +36,16 @@ namespace Game.Testing
 
             if (QuestManager.Instance == null) return;
 
-            var activeQuests = QuestManager.Instance.GetActiveQuests();
+            // Completed quests stay listed (dimmed by ReviceQuestSlot) rather than
+            // disappearing the moment they're turned in — appended after the active ones
+            // within each classification group.
+            var quests = QuestManager.Instance.GetActiveQuests()
+                .Concat(QuestManager.Instance.GetCompletedQuests())
+                .ToList();
 
             foreach (QuestClassification classification in Enum.GetValues(typeof(QuestClassification)))
             {
-                var questsInGroup = activeQuests.Where(q => q.Classification == classification).ToList();
+                var questsInGroup = quests.Where(q => q.Classification == classification).ToList();
                 if (questsInGroup.Count == 0) continue;
 
                 if (headerPrefab != null)

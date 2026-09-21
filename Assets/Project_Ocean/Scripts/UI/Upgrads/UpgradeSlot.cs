@@ -1,10 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class UpgradeSlot : MonoBehaviour
+    public class UpgradeSlot :
+        MonoBehaviour,
+        IPointerEnterHandler,
+        IPointerExitHandler
     {
         public UpgradeData data;
 
@@ -56,35 +60,65 @@ namespace Game.Testing
                 ? upgradeManager.GetLevel(data)
                 : 0;
 
-            // แสดง Level
             for (int i = 0; i < levelBoxes.Length; i++)
             {
                 levelBoxes[i].color =
-                    i < level ? activeColor : inactiveColor;
+                    i < level
+                        ? activeColor
+                        : inactiveColor;
             }
 
-            // แสดงราคา
             if (level >= data.maxLevel)
             {
                 priceText.text = "MAX";
             }
             else
             {
-                priceText.text = "$" + upgradeManager.GetPrice(data);
+                priceText.text =
+                    "$" + upgradeManager.GetPrice(data);
             }
         }
 
         public string GetCurrentPriceText()
         {
-            if (data == null || upgradeManager == null)
+            if (data == null ||
+                upgradeManager == null)
                 return "";
 
-            int level = upgradeManager.GetLevel(data);
+            int level =
+                upgradeManager.GetLevel(data);
 
             if (level >= data.maxLevel)
                 return "MAX";
 
-            return "$" + upgradeManager.GetPrice(data);
+            return "$" +
+                   upgradeManager.GetPrice(data);
+        }
+
+        // =========================================================
+        // HOVER TOOLTIP
+        // =========================================================
+
+        public void OnPointerEnter(
+            PointerEventData eventData)
+        {
+            if (upgradeManager == null ||
+                data == null)
+                return;
+
+            RectTransform target =
+                GetComponent<RectTransform>();
+
+            UpgradeTooltip.Instance?.Show(
+                data,
+                upgradeManager,
+                target);
+        }
+
+        public void OnPointerExit(
+            PointerEventData eventData)
+        {
+            UpgradeTooltip.Instance?.Hide();
         }
     }
 }

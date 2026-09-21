@@ -1,3 +1,5 @@
+using System;
+
 namespace Game.Testing
 {
     /// <summary>
@@ -8,6 +10,19 @@ namespace Game.Testing
     /// </summary>
     public static class CutsceneGate
     {
-        public static bool IsPlaying;
+        private static bool isPlaying;
+
+        public static event Action<bool> OnPlayingChanged;
+
+        public static bool IsPlaying
+        {
+            get => isPlaying;
+            set
+            {
+                if (isPlaying == value) return;
+                isPlaying = value;
+                OnPlayingChanged?.Invoke(value);
+            }
+        }
     }
 }

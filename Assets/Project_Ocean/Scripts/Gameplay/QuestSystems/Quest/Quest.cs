@@ -56,10 +56,15 @@ namespace Game.Testing
         /// <summary>
         /// Default speaker for context-free dialogue lookups (board/tracker avatar,
         /// QuestDetailPanel's Accept/Reject). Only Talk steps have one — it's just
-        /// TargetEnemyId (who you're talking to), not a separately-authored id. Other
+        /// TargetEnemyId (who you're talking to), not a separately-authored id. An Auto Display
+        /// Dialogue step talks to nobody, so it has none (null) — author its lines with a blank
+        /// characterId. Other
         /// step types (KillCount, etc.) have no default speaker.
         /// </summary>
-        public string EffectiveNpcId => Type == QuestType.Talk ? TargetEnemyId : null;
+        public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
+
+        /// <summary>ExploreArea steps reuse TargetEnemyId as the Area Id an ExploreAreaTrigger reports.</summary>
+        public string EffectiveAreaId => Type == QuestType.ExploreArea ? TargetEnemyId : null;
 
         /// <summary>Cutscene steps reuse TargetEnemyId as the Cutscene Id to play — this is
         /// that value, named for what it actually is at this step type.</summary>
@@ -67,6 +72,9 @@ namespace Game.Testing
 
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
+
+        /// <summary>Talk steps only — see QuestStepData.autoDisplayDialogue (PlayerSelfDialogueUI shows it).</summary>
+        public bool AutoDisplayDialogue;
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
@@ -78,6 +86,7 @@ namespace Game.Testing
 
         private Dictionary<(string characterId, DialogueType type), string[]> dialogue;
         private Dictionary<(string characterId, DialogueType type), string> cutsceneIds;
+        private List<QuestDialogueLine> orderedDialogue = new();
 
         public string RewardItemId;
         public int RewardMoney;
@@ -123,6 +132,7 @@ namespace Game.Testing
         {
             dialogue = new Dictionary<(string, DialogueType), string[]>();
             cutsceneIds = new Dictionary<(string, DialogueType), string>();
+            orderedDialogue = lines != null ? new List<QuestDialogueLine>(lines) : new List<QuestDialogueLine>();
             if (lines == null)
                 return;
 
@@ -134,6 +144,11 @@ namespace Game.Testing
                     cutsceneIds[key] = line.cutsceneId;
             }
         }
+
+        /// <summary>Every authored entry, in authored order and one per entry (the dictionary
+        /// above keeps only the last per character+type) — a multi-speaker exchange (Auto
+        /// Display Dialogue) plays these front to back, whatever type each was authored as.</summary>
+        public IReadOnlyList<QuestDialogueLine> DialogueEntries => orderedDialogue;
 
         /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
         public string[] GetLines(string characterId, DialogueType type) =>
@@ -157,8 +172,22 @@ namespace Game.Testing
         public string QuestionInProgress => GetLine(EffectiveNpcId, DialogueType.InProgress);
         public string AnswerFinish => GetLine(EffectiveNpcId, DialogueType.Finish);
         public string AnswerNotFinish => GetLine(EffectiveNpcId, DialogueType.NotFinish);
-        public string AnswerAccept => GetLine(EffectiveNpcId, DialogueType.Accept);
-        public string AnswerReject => GetLine(EffectiveNpcId, DialogueType.Reject);
+        public string AnswerAccept => GetLineFromAnySpeaker(DialogueType.Accept);
+        public string AnswerReject => GetLineFromAnySpeaker(DialogueType.Reject);
+
+        /// <summary>Accept/Reject button labels have no speaker context — board quests have no
+        /// Talk NPC, and their lines are authored under any characterId (e.g. "questboard").
+        /// Prefer the Talk NPC's line, else the first authored entry of this type.</summary>
+        private string GetLineFromAnySpeaker(DialogueType type)
+        {
+            var line = GetLine(EffectiveNpcId, type);
+            if (!string.IsNullOrEmpty(line)) return line;
+
+            foreach (var entry in orderedDialogue)
+                if (entry.type == type && entry.lines != null && entry.lines.Length > 0)
+                    return entry.lines[0];
+            return string.Empty;
+        }
     }
 
     [System.Serializable]
@@ -236,6 +265,11 @@ namespace Game.Testing
         // have one (see QuestStep.EffectiveNpcId); other step types resolve to null.
         public string NpcId => CurrentStep?.EffectiveNpcId;
 
+        // Quest-level giver (authored on QuestData), falling back to the Talk-step NPC.
+        // Display-only (name/avatar) — NpcId above stays the dialogue/navigation speaker.
+        private string questGiverNpcId;
+        public string DisplayNpcId => string.IsNullOrEmpty(questGiverNpcId) ? NpcId : questGiverNpcId;
+
         // Sourced from the current checkpoint — was quest-level (QuestData.questItemId),
         // now per-step so different checkpoints of the same quest can target different items.
         public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
@@ -255,6 +289,7 @@ namespace Game.Testing
             status = questData.status;
 
             questName = questData.questName;
+            questGiverNpcId = questData.questGiverNpcId;
 
             NextQuestMode = questData.nextQuestMode;
             NextQuestIds = questData.nextQuestIds ?? new List<int>();
@@ -294,9 +329,13 @@ namespace Game.Testing
                 // PerItem's "how many required" is the requirement count, not an authored
                 // Target Count — deriving it here keeps the Inspector from showing a field
                 // that would just be redundant/easy to leave mismatched.
-                int targetCount = s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
+                // Never below 1: a 0-target step is "complete" the moment it starts, so AddProgress
+                // (which bails on an already-complete step) can never advance past it — the quest
+                // sticks on it forever. Talk/Tutorial/Cutscene steps hide this field in the
+                // Inspector, so a freshly added step is easily left at 0.
+                int targetCount = Mathf.Max(1, s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
                     ? itemRequirements.Count
-                    : s.targetCount;
+                    : s.targetCount);
 
                 var step = new QuestStep
                 {
@@ -313,6 +352,7 @@ namespace Game.Testing
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
                     IsGuidedSequence = s.isGuidedSequence,
+                    AutoDisplayDialogue = s.type == QuestType.Talk && s.autoDisplayDialogue,
                     NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,

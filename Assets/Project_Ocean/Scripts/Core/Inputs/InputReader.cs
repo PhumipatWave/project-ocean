@@ -8,6 +8,9 @@ namespace Game.Core
     [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
     public class InputReader : ScriptableObject, IPlayerActions, IUIActions
     {
+        /// <summary>Set by DialogueState (other assembly) so a left click can advance dialogue.</summary>
+        public static Func<bool> IsDialogueShowing;
+
         public event Action<bool> OnAimed;
         public event Action<bool> OnAttacked;
         public event Action<bool> OnSprinted;
@@ -19,6 +22,7 @@ namespace Game.Core
 
         public event Action OnUseItem;
         public event Action OnTeleport;
+        public event Action OnSkipCutscene;
 
         public Vector2 MousePos { get; private set; }
         public Vector2 MovePos { get; private set; }
@@ -94,6 +98,13 @@ namespace Game.Core
 
         public void OnAttack(InputAction.CallbackContext context)
         {
+            // Left click advances dialogue like Interact does, instead of attacking.
+            if (context.performed && IsDialogueShowing != null && IsDialogueShowing())
+            {
+                TriggerInteract();
+                return;
+            }
+
             if (context.performed) OnAttacked?.Invoke(true);
             else if (context.canceled) OnAttacked?.Invoke(false);
         }
@@ -125,6 +136,11 @@ namespace Game.Core
         void IPlayerActions.OnTeleport(InputAction.CallbackContext context)
         {
             if (context.performed) OnTeleport?.Invoke();
+        }
+
+        void IPlayerActions.OnSkipCutscene(InputAction.CallbackContext context)
+        {
+            if (context.performed) OnSkipCutscene?.Invoke();
         }
 
         public void OnSwitchItem(InputAction.CallbackContext context)

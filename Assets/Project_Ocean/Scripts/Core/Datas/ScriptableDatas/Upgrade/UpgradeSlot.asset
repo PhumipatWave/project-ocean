@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: UpgradeSlot
   m_EditorClassIdentifier: Game.Testing::Game.Testing.UpgradeData
   upgradeName: UpgradeSlot
-  description: 
+  description: Increases the number of inventory slots, allowing you to carry more
+    items.
   type: 0
   maxLevel: 5
   prices: 200300001405000034080000480d00007c150000
-  value: 3
+  value: 1
+  unlocks: []
