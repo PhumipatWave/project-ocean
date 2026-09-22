@@ -41,10 +41,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -61,13 +63,16 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 00000000
+    locksFeatures: 
   - type: 2
     targetEnemyId: hunter
-    targetEnemyIds: []
+    targetEnemyIds:
+    - hunter
     tutorialAction: 0
     targetQuestItemId: 
     deliverySource: 0
@@ -86,10 +91,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0300000009000000
+    locksFeatures: 
   - type: 4
     targetEnemyId: MQ1001_01
     targetEnemyIds: []
@@ -111,10 +118,12 @@ MonoBehaviour:
       cutsceneId: TT_01
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -131,10 +140,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 05000000
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -157,10 +168,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 04000000
+    locksFeatures: 
   - type: 0
     targetEnemyId: 
     targetEnemyIds: []
@@ -185,10 +198,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -211,10 +226,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0e000000
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -237,10 +254,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 01000000
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -263,10 +282,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -289,10 +310,12 @@ MonoBehaviour:
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 2
     targetEnemyId: 
     targetEnemyIds: []
@@ -320,10 +343,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -351,10 +376,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
+    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -382,10 +409,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -413,9 +442,11 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 070000000c0000000a0000000b000000
-  questName: Tutorial Intro
+    locksFeatures: 
+  questName: Main Quest I
   questGiverNpcId: 

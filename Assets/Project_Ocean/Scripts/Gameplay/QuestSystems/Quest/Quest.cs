@@ -43,7 +43,10 @@ namespace Game.Testing
         public QuestType Type;
         public string TargetEnemyId;
 
-        /// <summary>Delivery + EnemyKills only — kills of any of these ids count toward TargetCount.</summary>
+        /// <summary>Delivery + EnemyKills: kills of any of these ids count toward TargetCount.
+        /// Talk (non-auto-display): every NPC id that counts as this step's target — see
+        /// EffectiveNpcIds, which is what actually reads it for that case. Whether talking to
+        /// ANY one or ALL of them completes the step is TalkCompletionMode below.</summary>
         public List<string> TargetEnemyIds;
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
@@ -65,20 +68,39 @@ namespace Game.Testing
         /// item(s) from inventory (see QuestManager.RemoveQuestItems). Defaults true, matching the
         /// always-consume behavior every Delivery/former-KillCount step had before this existed.</summary>
         public bool ConsumeOnComplete;
+
+        /// <summary>Delivery only — extra money required alongside the item/kill count. See QuestData.requiredMoney.</summary>
+        public int RequiredMoney;
+
+        /// <summary>Delivery only — true while item/kill progress alone would complete this step
+        /// but RequiredMoney hasn't been paid yet (CurrentCount is deliberately held one short,
+        /// since Quest.AddProgress refuses to act on an already-complete step). Cleared once
+        /// QuestManager.HandleMoneyChanged finalizes it, or if item/kill progress drops back
+        /// below completion. See QuestManager for the only reader/writer.</summary>
+        public bool MoneyPending;
+
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
         public int CurrentCount;
 
-        /// <summary>
-        /// Default speaker for context-free dialogue lookups (board/tracker avatar,
-        /// QuestDetailPanel's Accept/Reject). Only Talk steps have one — it's just
-        /// TargetEnemyId (who you're talking to), not a separately-authored id. An Auto Display
-        /// Dialogue step talks to nobody, so it has none (null) — author its lines with a blank
-        /// characterId. Other
-        /// step types (Delivery, etc.) have no default speaker.
+        /// <summary>Talk (non-auto-display) only — every NPC id that counts as this step's
+        /// target (talking to ANY of them completes it, and each independently shows its own
+        /// marker/greeting — see NPC.ShouldShowMarker/QuestManager.HandleNpcTalk). Reuses
+        /// TargetEnemyIds (already the merged list-or-singular-fallback Quest.BuildSteps
+        /// computes for EnemyKills) rather than a separate field. Empty (not null) for every
+        /// other case, so callers can Contains()/FirstOrDefault() without a null check.</summary>
+        public List<string> EffectiveNpcIds =>
+            Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyIds : EmptyNpcIds;
+        private static readonly List<string> EmptyNpcIds = new();
+
+        /// <summary>Default/primary speaker for context-free single-NPC lookups (board/tracker
+        /// avatar, QuestDetailPanel's Accept/Reject, the compass target) — the first id in
+        /// EffectiveNpcIds, or null. An Auto Display Dialogue step talks to nobody, so it has
+        /// none — author its lines with a blank characterId. Other step types (Delivery, etc.)
+        /// have no default speaker either.
         /// </summary>
-        public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
+        public string EffectiveNpcId => EffectiveNpcIds.Count > 0 ? EffectiveNpcIds[0] : null;
 
         /// <summary>ExploreArea steps reuse TargetEnemyId as the Area Id an ExploreAreaTrigger reports.</summary>
         public string EffectiveAreaId => Type == QuestType.ExploreArea ? TargetEnemyId : null;
@@ -92,6 +114,17 @@ namespace Game.Testing
 
         /// <summary>Talk steps only — see QuestStepData.autoDisplayDialogue (PlayerSelfDialogueUI shows it).</summary>
         public bool AutoDisplayDialogue;
+
+        /// <summary>Talk (non-auto-display) only — whether ANY or ALL of EffectiveNpcIds must
+        /// be talked to. See QuestManager.HandleNpcTalk, the only reader.</summary>
+        public TalkCompletionMode TalkCompletionMode;
+
+        private readonly HashSet<string> talkedToNpcIds = new();
+
+        /// <summary>All mode only — records that npcId has been talked to. Returns false (a
+        /// no-op for the caller) if it was already recorded, so re-talking to the same NPC
+        /// never double-counts progress.</summary>
+        public bool MarkNpcTalkedTo(string npcId) => talkedToNpcIds.Add(npcId);
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
@@ -349,15 +382,21 @@ namespace Game.Testing
 
                 // PerItem's "how many required" is the requirement count, not an authored
                 // Target Count — deriving it here keeps the Inspector from showing a field
-                // that would just be redundant/easy to leave mismatched.
-                // Never below 1: a 0-target step is "complete" the moment it starts, so AddProgress
-                // (which bails on an already-complete step) can never advance past it — the quest
-                // sticks on it forever. Talk/Tutorial/Cutscene steps hide this field in the
-                // Inspector, so a freshly added step is easily left at 0.
+                // that would just be redundant/easy to leave mismatched. Talk's All mode is
+                // the same idea: "how many NPCs" is just the list length. Never below 1: a
+                // 0-target step is "complete" the moment it starts, so AddProgress (which bails
+                // on an already-complete step) can never advance past it — the quest sticks on
+                // it forever. Talk/Tutorial/Cutscene steps hide this field in the Inspector, so
+                // a freshly added step is easily left at 0.
                 bool isInventoryHeldPerItem = s.type == QuestType.Delivery &&
                     s.deliverySource == DeliverySource.InventoryHeld &&
                     s.deliveryCountMode == DeliveryCountMode.PerItem;
-                int targetCount = Mathf.Max(1, isInventoryHeldPerItem ? itemRequirements.Count : s.targetCount);
+                bool isTalkAll = s.type == QuestType.Talk && !s.autoDisplayDialogue &&
+                    s.talkCompletionMode == TalkCompletionMode.All;
+                int targetCount = Mathf.Max(1,
+                    isInventoryHeldPerItem ? itemRequirements.Count :
+                    isTalkAll ? enemyIds.Count :
+                    s.targetCount);
 
                 var step = new QuestStep
                 {
@@ -370,7 +409,9 @@ namespace Game.Testing
                     TargetQuestItemRequirements = itemRequirements,
                     DeliveryCountMode = s.deliveryCountMode,
                     DeliverySource = s.deliverySource,
+                    TalkCompletionMode = s.talkCompletionMode,
                     ConsumeOnComplete = s.consumeOnComplete,
+                    RequiredMoney = s.requiredMoney,
                     TargetCount = targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,

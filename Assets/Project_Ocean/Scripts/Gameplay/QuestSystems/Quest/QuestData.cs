@@ -56,6 +56,17 @@ namespace Game.Testing
         PerItem,
     }
 
+    /// <summary>Talk (non-auto-display) only — how multiple Target NPC Ids count. AnyOne:
+    /// talking to any single listed NPC completes the step (default — matches how every Talk
+    /// step behaved before multiple targets existed). All: every listed NPC must be talked to
+    /// (each once; re-talking to the same one doesn't double-count), Target Count is derived
+    /// from the list length rather than authored — same shape as DeliveryCountMode above.</summary>
+    public enum TalkCompletionMode
+    {
+        AnyOne,
+        All,
+    }
+
     /// <summary>One (item id, required count) pair, used by Delivery's PerItem mode only —
     /// Unity can't serialize Dictionary directly, so this is the list-of-pairs equivalent.
     /// CombinedTotal mode doesn't use this at all; see QuestStepData.targetQuestItemIds.</summary>
@@ -124,6 +135,9 @@ namespace Game.Testing
         [Tooltip("Delivery only — ON (default): completing this step removes the delivered/killed-for item(s) from inventory, same as always. OFF: the step still completes and pays out, but nothing is removed — e.g. \"show me 5 fish\" without losing them.")]
         public bool consumeOnComplete = true;
 
+        [Tooltip("Delivery only — extra money required alongside the item/kill count above (0 = none). The step won't complete until BOTH are satisfied; whichever is met second finishes it. Consume On Complete also governs whether this money is spent on completion.")]
+        public int requiredMoney = 0;
+
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
         [TextArea(2, 4)] public string stepDescription;
@@ -136,6 +150,9 @@ namespace Game.Testing
 
         [Tooltip("Talk only — ON: the line shows by itself the moment this step becomes current (self-talk, no NPC to walk up to; Target Id is just the key its dialogue lines are stored under) and one Interact press completes it. OFF: the player must walk up to the Target NPC and talk to them.")]
         public bool autoDisplayDialogue;
+
+        [Tooltip("Talk (non-auto) only — AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to before it completes.")]
+        public TalkCompletionMode talkCompletionMode = TalkCompletionMode.AnyOne;
 
         [Tooltip("Optional image(s) for this checkpoint's guide notification. The banner shows the first entry; leave empty for a text-only notification.")]
         public List<Sprite> notificationImages = new();

@@ -29,12 +29,14 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -50,6 +52,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -61,6 +64,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -76,6 +80,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 0
     completionMode: 0
     stepDescription: 
@@ -87,6 +92,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -102,12 +108,14 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Check quests in quest board"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -123,12 +131,14 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Accept quest on quest board"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -144,6 +154,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -155,6 +166,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 500
@@ -170,6 +182,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: Go to the Upgrade Shop.
@@ -181,6 +194,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -196,6 +210,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -207,6 +222,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -222,6 +238,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -233,6 +250,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 1250
@@ -248,6 +266,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Buy a MiniHub item."'
@@ -259,6 +278,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -274,6 +294,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Head to the boat to begin Day 2 diving."'
@@ -285,6 +306,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -300,6 +322,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean until rope hit limit."'
@@ -312,6 +335,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -327,6 +351,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Use MiniHub item."'
@@ -338,6 +363,7 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -353,6 +379,7 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean."'
@@ -365,10 +392,60 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 07000000
+    unlocksFeatures: 
+    locksFeatures: 0d00000003000000
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds:
+    - hunter
+    - shop
+    - femboy
+    tutorialAction: 4
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Ask the islanders about the underwater obstacle."'
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    - characterId: hunter
+      type: 0
+      lines:
+      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      cutsceneId: 
+    - characterId: shop
+      type: 0
+      lines:
+      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      cutsceneId: 
+    - characterId: femboy
+      type: 0
+      lines:
+      - '"That rock needs a heavy demolition tool. I can craft one, but I need specific
+        materials and gold. I''ll post the work order on the Quest Board tomorrow
+        morning." '
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0d00000003000000
     locksFeatures: 
-  questName: Quest + Quest Board
+  questName: Main Quest II
   questGiverNpcId: 

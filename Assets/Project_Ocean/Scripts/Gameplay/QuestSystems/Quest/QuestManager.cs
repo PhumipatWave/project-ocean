@@ -39,6 +39,7 @@ namespace Game.Testing
             CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
             ExploreEvents.OnAreaReached += HandleAreaReached;
             InventoryManager.OnInventoryChanged += HandleInventoryChanged;
+            PlayerMoney.OnMoneyChanged += HandleMoneyChanged;
         }
 
         private void OnDisable()
@@ -49,6 +50,7 @@ namespace Game.Testing
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
             ExploreEvents.OnAreaReached -= HandleAreaReached;
             InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
+            PlayerMoney.OnMoneyChanged -= HandleMoneyChanged;
         }
 
         // Converts each ScriptableObject (QuestData) into a runtime Quest.
@@ -109,20 +111,89 @@ namespace Game.Testing
                 Debug.Log($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
         }
 
+        // Not routed through TryProgress — a kill that would complete the step still has to
+        // hold back one short of completion when RequiredMoney isn't paid yet (see
+        // MoneyRequirementMet/HandleMoneyChanged), which a plain type+match predicate can't express.
         private void HandleEnemyKilled(string enemyId)
         {
-            if (!string.IsNullOrEmpty(enemyId))
-                TryProgress(QuestType.Delivery, step => step.DeliverySource == DeliverySource.EnemyKills &&
-                    step.TargetEnemyIds != null && step.TargetEnemyIds.Contains(enemyId));
+            if (string.IsNullOrEmpty(enemyId)) return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress) continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.Delivery ||
+                    step.DeliverySource != DeliverySource.EnemyKills ||
+                    step.TargetEnemyIds == null || !step.TargetEnemyIds.Contains(enemyId))
+                    continue;
+
+                if (step.CurrentCount + 1 >= step.TargetCount && !MoneyRequirementMet(step))
+                {
+                    step.MoneyPending = true;
+                    if (step.CurrentCount != step.TargetCount - 1)
+                    {
+                        step.CurrentCount = step.TargetCount - 1;
+                        OnQuestUpdated?.Invoke();
+                    }
+                    continue;
+                }
+
+                CompleteProgress(q);
+            }
+        }
+
+        /// <summary>Delivery only — true if the step has no RequiredMoney, or the player can
+        /// currently afford it. See QuestStep.RequiredMoney.</summary>
+        private static bool MoneyRequirementMet(QuestStep step)
+        {
+            if (step.RequiredMoney <= 0) return true;
+
+            var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
+            return money != null && money.CurrentMoney >= step.RequiredMoney;
+        }
+
+        /// <summary>Finalizes any Delivery step that was held back solely on RequiredMoney
+        /// (see QuestStep.MoneyPending) now that the balance can cover it.</summary>
+        private void HandleMoneyChanged(int _)
+        {
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress) continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.Delivery || !step.MoneyPending) continue;
+                if (!MoneyRequirementMet(step)) continue;
+
+                step.MoneyPending = false;
+                CompleteProgress(q, step.TargetCount - step.CurrentCount);
+            }
         }
 
         private void HandleTutorialAction(TutorialActionId actionId) =>
             TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
 
+        // Not routed through the generic TryProgress — All mode needs per-NPC dedup (talking
+        // to the same one twice must not double-count) that a plain type+match predicate can't
+        // express, so this owns its own loop over activeQuestList instead.
         private void HandleNpcTalk(string npcId)
         {
-            if (!string.IsNullOrEmpty(npcId))
-                TryProgress(QuestType.Talk, step => step.EffectiveNpcId == npcId);
+            if (string.IsNullOrEmpty(npcId)) return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress) continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId))
+                    continue;
+
+                // Already talked to this one — no further progress, no re-triggered rewards.
+                if (step.TalkCompletionMode == TalkCompletionMode.All && !step.MarkNpcTalkedTo(npcId))
+                    continue;
+
+                CompleteProgress(q);
+            }
         }
 
         /// <summary>Completes a Talk step authored with Auto Display Dialogue — it has no NPC id
@@ -173,6 +244,23 @@ namespace Game.Testing
                     continue;
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
+
+                // Items are ready but RequiredMoney hasn't been paid yet — hold one short of
+                // completion (AddProgress refuses to act on an already-complete step) and flag
+                // it; HandleMoneyChanged finalizes once the player can afford it.
+                if (progress >= step.TargetCount && !MoneyRequirementMet(step))
+                {
+                    step.MoneyPending = true;
+                    int capped = step.TargetCount - 1;
+                    if (step.CurrentCount != capped)
+                    {
+                        step.CurrentCount = capped;
+                        OnQuestUpdated?.Invoke();
+                    }
+                    continue;
+                }
+                step.MoneyPending = false;
+
                 if (progress == step.CurrentCount)
                     continue;
 
@@ -439,7 +527,7 @@ namespace Game.Testing
                 q.Status == QuestStatus.InProgress &&
                 q.Classification == QuestClassification.MainQuest &&
                 q.CurrentStep != null &&
-                q.CurrentStep.EffectiveNpcId == npcId);
+                q.CurrentStep.EffectiveNpcIds.Contains(npcId));
         }
 
         // ── Save support ──
@@ -643,6 +731,12 @@ namespace Game.Testing
             if (q.CurrentStep.Type == QuestType.Delivery)
             {
                 if (!q.CurrentStep.ConsumeOnComplete) return;
+
+                if (q.CurrentStep.RequiredMoney > 0)
+                {
+                    var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
+                    money?.Use(q.CurrentStep.RequiredMoney);
+                }
 
                 if (q.CurrentStep.DeliverySource == DeliverySource.EnemyKills)
                 {

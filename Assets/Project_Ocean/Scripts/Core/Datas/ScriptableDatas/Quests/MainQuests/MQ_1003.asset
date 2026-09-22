@@ -19,24 +19,26 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: ec030000
   steps:
-  - type: 3
+  - type: 0
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
     deliverySource: 0
     targetQuestItemIds: []
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
-    consumeOnComplete: 1
+    targetQuestItemRequirements:
+    - itemId: MQI001
+      count: 5
+    deliveryCountMode: 1
+    consumeOnComplete: 0
+    requiredMoney: 3000
     targetCount: 1
     completionMode: 0
-    stepDescription: "-------------Quest Day 2 Quest\u0E41\u0E22\u0E01 \u0E02\u0E49\u0E2D.2
-      \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E17\u0E33 --------------------\nAsk
-      the islanders about the underwater obstacle."
+    stepDescription: '"Find materials"'
     dialogue: []
-    isGuidedSequence: 1
+    isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -44,7 +46,8 @@ MonoBehaviour:
     locksFeatures: 
   - type: 2
     targetEnemyId: Upgrade Shop
-    targetEnemyIds: []
+    targetEnemyIds:
+    - femboy
     tutorialAction: 9
     targetQuestItemId: 
     deliverySource: 0
@@ -52,53 +55,24 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: I don't have tools for heavy demolition. Talk to the Upgrade
-      Shop.
+    stepDescription: '"Turn in materials at the Upgrade Shop."'
     dialogue:
-    - characterId: 
+    - characterId: femboy
       type: 0
       lines:
-      - That rock needs a heavy demolition tool. I can craft one, but I need specific
-        materials and gold. I'll post the work order on the Quest Board tomorrow
-        morning.
+      - ' "Materials received. Crafting will take 1 day. Check back tomorrow after
+        your morning dive."'
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
     locksFeatures: 
-  - type: 3
-    targetEnemyId: Upgrade Shop
-    targetEnemyIds: []
-    tutorialAction: 7
-    targetQuestItemId: 
-    deliverySource: 0
-    targetQuestItemIds: []
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
-    consumeOnComplete: 1
-    targetCount: 1
-    completionMode: 0
-    stepDescription: Rest for today. Check the Quest Board tomorrow for the work
-      order.
-    dialogue:
-    - characterId: 
-      type: 0
-      lines:
-      - That rock needs a heavy demolition tool. I can craft one, but I need specific
-        materials and gold. I'll post the work order on the Quest Board tomorrow
-        morning.
-      cutsceneId: 
-    isGuidedSequence: 1
-    autoDisplayDialogue: 0
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 
-    locksFeatures: 
-  questName: Explore Area 2
+  questName: Main Quest III
   questGiverNpcId: 
