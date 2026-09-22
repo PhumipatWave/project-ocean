@@ -19,14 +19,16 @@ MonoBehaviour:
   nextQuestMode: 0
   nextQuestIds: 
   steps:
-  - type: 1
+  - type: 0
     targetEnemyId: fishM
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 32001
+    deliverySource: 1
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 6
     completionMode: 1
     stepDescription: 'Kill fish size M : 6'

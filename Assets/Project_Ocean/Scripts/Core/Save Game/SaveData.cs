@@ -39,6 +39,12 @@ namespace Game.Testing
 
         // ── v4: feature unlocks ── (GameFeature enum names, e.g. "Shop", "Ocean")
         public List<string> unlockedFeatures = new();
+
+        // ── v5: lifetime dive count ── absent in older saves (0)
+        public int totalDives = 0;
+
+        // ── v6: feature locks ── (GameFeature enum names) — always wins over unlockedFeatures, see FeatureUnlockService
+        public List<string> lockedFeatures = new();
     }
 
     [Serializable]

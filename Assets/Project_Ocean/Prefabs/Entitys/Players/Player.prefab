@@ -256,6 +256,8 @@ MonoBehaviour:
   currentHookObj: {fileID: 0}
   canAttack: 1
   currentAmmoType: 0
+  gunRenderers: []
+  visibleAfterShot: 0.2
 --- !u!114 &3920244353337492007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,8 +1460,9 @@ MonoBehaviour:
   line: {fileID: 5126783939423844365}
   playerTransform: {fileID: 4470129359587397084}
   startPointPrefab: {fileID: 8193605775773355012, guid: 993dc56d799905c42a679af7f423230c, type: 3}
+  playerRigidbody: {fileID: 0}
   breakLimitTimer: 10
-  enableBreachTimeout: 0
+  enableBreachTimeout: 1
   segmentLength: 0.8
   solverIterations: 20
   maxRopeLength: 150

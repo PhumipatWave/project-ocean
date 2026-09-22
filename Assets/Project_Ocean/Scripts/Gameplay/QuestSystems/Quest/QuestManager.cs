@@ -112,7 +112,8 @@ namespace Game.Testing
         private void HandleEnemyKilled(string enemyId)
         {
             if (!string.IsNullOrEmpty(enemyId))
-                TryProgress(QuestType.KillCount, step => step.TargetEnemyIds != null && step.TargetEnemyIds.Contains(enemyId));
+                TryProgress(QuestType.Delivery, step => step.DeliverySource == DeliverySource.EnemyKills &&
+                    step.TargetEnemyIds != null && step.TargetEnemyIds.Contains(enemyId));
         }
 
         private void HandleTutorialAction(TutorialActionId actionId) =>
@@ -167,7 +168,8 @@ namespace Game.Testing
                     continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Delivery || step.IsComplete)
+                if (step == null || step.Type != QuestType.Delivery ||
+                    step.DeliverySource != DeliverySource.InventoryHeld || step.IsComplete)
                     continue;
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
@@ -278,7 +280,7 @@ namespace Game.Testing
             // Reliably fires exactly once — once complete, this step is no longer
             // q.CurrentStep, so TryProgress stops routing further matching events to it.
             if (completedStep.IsComplete)
-                UnlockStepFeatures(completedStep);
+                ApplyStepFeatureChanges(completedStep);
 
             // Moved on to a new checkpoint (as opposed to just ticking progress on the
             // same one, or finishing the quest outright) — announce its description.
@@ -309,20 +311,25 @@ namespace Game.Testing
             EnsureQuestTracked();
 
             // A step just became current (this one, or the next one it advanced into) — if
-            // it's a Delivery step, the player may already be holding enough (e.g. it was the
-            // KillCount bounty's own loot, collected before this checkpoint was even reached).
-            // Inventory hasn't changed, so nothing would otherwise trigger HandleInventoryChanged.
-            if (q.CurrentStep?.Type == QuestType.Delivery)
+            // it's an InventoryHeld Delivery step, the player may already be holding enough
+            // (e.g. it was an EnemyKills bounty's own loot, collected before this checkpoint
+            // was even reached). Inventory hasn't changed, so nothing would otherwise trigger
+            // HandleInventoryChanged.
+            if (q.CurrentStep?.Type == QuestType.Delivery && q.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
                 HandleInventoryChanged();
         }
 
-        private static void UnlockStepFeatures(QuestStep step)
+        // Locks always win over unlocks (see FeatureUnlockService.IsUnlocked) — order here
+        // doesn't matter, but unlocking first reads naturally as "grant, then restrict".
+        private static void ApplyStepFeatureChanges(QuestStep step)
         {
-            if (step.UnlocksFeatures == null)
-                return;
+            if (step.UnlocksFeatures != null)
+                foreach (var feature in step.UnlocksFeatures)
+                    FeatureUnlockService.Instance.Unlock(feature);
 
-            foreach (var feature in step.UnlocksFeatures)
-                FeatureUnlockService.Instance.Unlock(feature);
+            if (step.LocksFeatures != null)
+                foreach (var feature in step.LocksFeatures)
+                    FeatureUnlockService.Instance.Lock(feature);
         }
 
         private const float StepDescriptionNotifyDelay = 1.5f;
@@ -550,9 +557,9 @@ namespace Game.Testing
 
             OnQuestUpdated?.Invoke();
 
-            // First step could already be a satisfied Delivery (items collected before ever
-            // accepting) — nothing else would trigger a check for that.
-            if (quest.CurrentStep?.Type == QuestType.Delivery)
+            // First step could already be a satisfied InventoryHeld Delivery (items collected
+            // before ever accepting) — nothing else would trigger a check for that.
+            if (quest.CurrentStep?.Type == QuestType.Delivery && quest.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
                 HandleInventoryChanged();
 
             Debug.Log($"Accepted Quest: {quest.QuestName}");
@@ -621,12 +628,13 @@ namespace Game.Testing
         public static event Action<int> OnMoneyRewarded;
 
         /// <summary>
-        /// Removes the quest item(s) consumed by turn-in. Delivery removes according to its
-        /// mode: PerItem takes each requirement's own count from TargetQuestItemRequirements;
-        /// CombinedTotal has no per-item counts to go by (its ids are the plain
-        /// TargetQuestItemIds list), so it takes greedily in list order until the shared
-        /// Target Count is consumed. Every other type keeps the single-item field (e.g. a
-        /// KillCount bounty's hand-in loot item).
+        /// Removes the quest item(s) consumed by turn-in. Delivery steps skip entirely when
+        /// ConsumeOnComplete is off. InventoryHeld removes according to its count mode: PerItem
+        /// takes each requirement's own count from TargetQuestItemRequirements; CombinedTotal has
+        /// no per-item counts to go by (its ids are the plain TargetQuestItemIds list), so it
+        /// takes greedily in list order until the shared Target Count is consumed. EnemyKills
+        /// (and every non-Delivery type) keeps the single-item field (e.g. a kill bounty's
+        /// hand-in loot item) — always consumed, no ConsumeOnComplete toggle for those.
         /// </summary>
         private void RemoveQuestItems(Quest q)
         {
@@ -634,6 +642,16 @@ namespace Game.Testing
 
             if (q.CurrentStep.Type == QuestType.Delivery)
             {
+                if (!q.CurrentStep.ConsumeOnComplete) return;
+
+                if (q.CurrentStep.DeliverySource == DeliverySource.EnemyKills)
+                {
+                    if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
+                    if (!int.TryParse(q.TargetQuestItemId, out int lootItemId)) return;
+                    InventoryManager.Instance.RemoveQuestItem(lootItemId, q.TargetCount);
+                    return;
+                }
+
                 if (q.CurrentStep.DeliveryCountMode == DeliveryCountMode.PerItem)
                 {
                     var requirements = q.TargetQuestItemRequirements;

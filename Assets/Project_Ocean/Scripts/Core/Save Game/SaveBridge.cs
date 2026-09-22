@@ -196,6 +196,7 @@ namespace Game.Testing
             DayManager.Instance.SetDay(data.currentDay);
             // Saves from before divesToday existed only carry the bool — count that as one dive.
             DayManager.Instance.SetDivesToday(data.divesToday > 0 ? data.divesToday : (data.hasDivedToday ? 1 : 0));
+            DayManager.Instance.SetTotalDives(data.totalDives);
         }
 
         // -------------------- Public API -------------------- //
@@ -339,6 +340,7 @@ namespace Game.Testing
             data.currentDay    = DayManager.Instance.CurrentDay;
             data.hasDivedToday = DayManager.Instance.HasDivedToday;
             data.divesToday    = DayManager.Instance.DivesToday;
+            data.totalDives    = DayManager.Instance.TotalDives;
         }
     }
 }

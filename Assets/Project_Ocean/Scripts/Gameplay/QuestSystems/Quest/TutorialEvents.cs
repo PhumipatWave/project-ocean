@@ -28,6 +28,9 @@ namespace Game.Testing
         UpgradeRope,
         // Raised when the player actually uses an item from the inventory (Player.UseItem succeeds).
         UseItem,
+        // Raised when the player swims past the rope's Max Rope Length (OxygenRope.CheckLimit) —
+        // only fires while OxygenRope's Enable Breach Timeout is on, same as OnRopeBreachStart.
+        BreakRopeLimit,
     }
 
     public static class TutorialEvents
@@ -65,13 +68,25 @@ namespace Game.Testing
         /// lives in — MoveInHouse/Shop/UpgradeShop) actually fires from, so blocking it would
         /// make the required action unreachable. Only Move needs no Interact press first, so
         /// it's the only required action that still blocks a stray Interact press.
+        /// OpenInventory is also never blocked — checking your bag is read-only and can't
+        /// derail tutorial progress, unlike Sleep/Dive, so there's no reason to lock it to
+        /// whichever single step currently owns the guided sequence.
         /// </summary>
         public static bool Blocks(TutorialActionId action)
         {
             if (!RequiredAction.HasValue || RequiredAction.Value == action) return false;
             if (action == TutorialActionId.Interact)
                 return RequiredAction.Value == TutorialActionId.Move;
+            if (action == TutorialActionId.OpenInventory)
+                return false;
             return true;
         }
+
+        /// <summary>Call when Blocks() returns true for a direct key press (Sleep/Dive/OpenInventory)
+        /// so the player gets a reason instead of the key silently doing nothing. Pulses
+        /// TutorialPromptUI's persistent banner rather than a Notify() toast — a toast is
+        /// silently dropped while a persistent message owns the notification slot, which is
+        /// always the case whenever Blocks() can return true.</summary>
+        public static void NotifyBlocked() => NotificationManager.PulsePersistent();
     }
 }

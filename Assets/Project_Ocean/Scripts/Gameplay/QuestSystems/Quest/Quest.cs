@@ -7,12 +7,21 @@ namespace Game.Testing
     public enum QuestType
     {
         Delivery,
-        KillCount,
         ExploreArea,
         Talk,
         Tutorial,
         // Added at the end — existing authored steps are serialized by enum index.
         Cutscene
+    }
+
+    /// <summary>Delivery only — what drives step progress. InventoryHeld: live-rechecked
+    /// against inventory (QuestManager.HandleInventoryChanged), same as always. EnemyKills:
+    /// one-shot kill events matching TargetEnemyIds (replaces the old, now-removed KillCount
+    /// QuestType) — merged in here since it shared everything else with Delivery already.</summary>
+    public enum DeliverySource
+    {
+        InventoryHeld,
+        EnemyKills,
     }
 
     public enum QuestStatus
@@ -34,20 +43,28 @@ namespace Game.Testing
         public QuestType Type;
         public string TargetEnemyId;
 
-        /// <summary>KillCount only — kills of any of these ids count toward TargetCount.</summary>
+        /// <summary>Delivery + EnemyKills only — kills of any of these ids count toward TargetCount.</summary>
         public List<string> TargetEnemyIds;
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
 
-        /// <summary>Delivery + CombinedTotal only — which items count toward the shared
-        /// TargetCount, no per-item count. PerItem uses TargetQuestItemRequirements instead.</summary>
+        /// <summary>Delivery + InventoryHeld + CombinedTotal only — which items count toward the
+        /// shared TargetCount, no per-item count. PerItem uses TargetQuestItemRequirements instead.</summary>
         public List<string> TargetQuestItemIds;
 
-        /// <summary>Delivery + PerItem only — which items are required and how many of each.</summary>
+        /// <summary>Delivery + InventoryHeld + PerItem only — which items are required and how many of each.</summary>
         public List<QuestItemRequirement> TargetQuestItemRequirements;
 
-        /// <summary>Delivery only — see QuestData.DeliveryCountMode.</summary>
+        /// <summary>Delivery + InventoryHeld only — see QuestData.DeliveryCountMode.</summary>
         public DeliveryCountMode DeliveryCountMode;
+
+        /// <summary>Delivery only — what drives progress. See QuestData.DeliverySource.</summary>
+        public DeliverySource DeliverySource;
+
+        /// <summary>Delivery only — whether completing this step removes the delivered/killed-for
+        /// item(s) from inventory (see QuestManager.RemoveQuestItems). Defaults true, matching the
+        /// always-consume behavior every Delivery/former-KillCount step had before this existed.</summary>
+        public bool ConsumeOnComplete;
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -59,7 +76,7 @@ namespace Game.Testing
         /// TargetEnemyId (who you're talking to), not a separately-authored id. An Auto Display
         /// Dialogue step talks to nobody, so it has none (null) — author its lines with a blank
         /// characterId. Other
-        /// step types (KillCount, etc.) have no default speaker.
+        /// step types (Delivery, etc.) have no default speaker.
         /// </summary>
         public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
 
@@ -93,6 +110,10 @@ namespace Game.Testing
 
         /// <summary>Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.</summary>
         public List<GameFeature> UnlocksFeatures;
+
+        /// <summary>Feature(s) locked when this checkpoint completes — always wins over an
+        /// unlock, however/whenever that was granted. See FeatureUnlockService.</summary>
+        public List<GameFeature> LocksFeatures;
 
         public bool IsComplete => CurrentCount >= TargetCount;
 
@@ -249,7 +270,7 @@ namespace Game.Testing
         public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
 
         // Sourced from the current checkpoint — no quest-level guided flag. Each step
-        // can be guided independently (e.g. a Tutorial step guided, a later KillCount
+        // can be guided independently (e.g. a Tutorial step guided, a later Delivery
         // step not).
         public bool IsGuidedSequence => CurrentStep?.IsGuidedSequence ?? false;
 
@@ -308,9 +329,9 @@ namespace Game.Testing
 
             foreach (var s in questData.steps)
             {
-                // Legacy KillCount/Delivery steps authored before these became lists only have
-                // the singular id set — fall back to that as a one-entry list so old .asset
-                // data keeps working without hand-editing every quest.
+                // Legacy Delivery steps authored before these became lists only have the
+                // singular id set — fall back to that as a one-entry list so old .asset data
+                // keeps working without hand-editing every quest.
                 var enemyIds = s.targetEnemyIds != null && s.targetEnemyIds.Count > 0
                     ? s.targetEnemyIds
                     : (string.IsNullOrEmpty(s.targetEnemyId) ? new List<string>() : new List<string> { s.targetEnemyId });
@@ -333,9 +354,10 @@ namespace Game.Testing
                 // (which bails on an already-complete step) can never advance past it — the quest
                 // sticks on it forever. Talk/Tutorial/Cutscene steps hide this field in the
                 // Inspector, so a freshly added step is easily left at 0.
-                int targetCount = Mathf.Max(1, s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
-                    ? itemRequirements.Count
-                    : s.targetCount);
+                bool isInventoryHeldPerItem = s.type == QuestType.Delivery &&
+                    s.deliverySource == DeliverySource.InventoryHeld &&
+                    s.deliveryCountMode == DeliveryCountMode.PerItem;
+                int targetCount = Mathf.Max(1, isInventoryHeldPerItem ? itemRequirements.Count : s.targetCount);
 
                 var step = new QuestStep
                 {
@@ -347,6 +369,8 @@ namespace Game.Testing
                     TargetQuestItemIds = questItemIds,
                     TargetQuestItemRequirements = itemRequirements,
                     DeliveryCountMode = s.deliveryCountMode,
+                    DeliverySource = s.deliverySource,
+                    ConsumeOnComplete = s.consumeOnComplete,
                     TargetCount = targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,
@@ -357,6 +381,7 @@ namespace Game.Testing
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
                     UnlocksFeatures = s.unlocksFeatures,
+                    LocksFeatures = s.locksFeatures,
                 };
                 step.SetDialogue(s.dialogue);
                 list.Add(step);

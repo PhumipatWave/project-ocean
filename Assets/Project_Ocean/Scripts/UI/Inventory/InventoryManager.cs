@@ -87,7 +87,8 @@ namespace Game.Testing
             // Always allow closing, even though the inventory itself holds the UI lock.
             if (uiController.IsOpen) { HideAndDeselect(); return; }
             if (PlayerUIState.IsLocked) return;
-            if (TutorialGate.Blocks(TutorialActionId.OpenInventory)) return;
+            // TutorialGate never blocks OpenInventory (see TutorialGate.Blocks) — checking your
+            // bag is read-only and can't derail a guided step, so it's always allowed here.
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");

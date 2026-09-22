@@ -26,6 +26,11 @@ namespace Game.Testing
         /// <summary>Raised when the persistent message changes. Null/empty message means cleared.</summary>
         public static event Action<string, Sprite> OnPersistentChanged;
 
+        /// <summary>Raised to draw the eye back to an already-showing persistent message (e.g. a
+        /// blocked key press) — a transient Notify() toast would otherwise be silently dropped
+        /// while a persistent message owns the slot.</summary>
+        public static event Action OnPersistentPulse;
+
         public static void Notify(string message)
         {
             if (string.IsNullOrEmpty(message))
@@ -38,5 +43,7 @@ namespace Game.Testing
         public static void ShowPersistent(string message, Sprite image = null) => OnPersistentChanged?.Invoke(message, image);
 
         public static void ClearPersistent() => OnPersistentChanged?.Invoke(null, null);
+
+        public static void PulsePersistent() => OnPersistentPulse?.Invoke();
     }
 }

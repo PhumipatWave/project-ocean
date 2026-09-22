@@ -14,6 +14,10 @@ namespace Game.Testing
         /// How many times the player has dived today. Reset to 0 each time a new day begins.
         public int DivesToday { get; private set; }
 
+        /// Lifetime dive count — never reset by AdvanceDay. Drives permanent, one-time unlocks
+        /// (e.g. RevealAfterTotalDives) that should stay revealed once reached.
+        public int TotalDives { get; private set; }
+
         public int DivesRemaining => Mathf.Max(0, MaxDivesPerDay - DivesToday);
         public bool CanDive => DivesToday < MaxDivesPerDay;
 
@@ -56,12 +60,16 @@ namespace Game.Testing
             OnDivedToday?.Invoke();
         }
 
+        /// Called by SaveBridge after a save is loaded.
+        public void SetTotalDives(int count) => TotalDives = Mathf.Max(0, count);
+
         /// Called by GameManager when the player starts a dive. Returns false (and counts
         /// nothing) once today's dive limit is used up.
         public bool TryRecordDive()
         {
             if (!CanDive) return false;
             DivesToday++;
+            TotalDives++;
             OnDivedToday?.Invoke();
             return true;
         }

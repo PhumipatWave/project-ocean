@@ -19,10 +19,16 @@ MonoBehaviour:
   nextQuestMode: 0
   nextQuestIds: 
   steps:
-  - type: 1
+  - type: 0
     targetEnemyId: crab
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 31001
+    deliverySource: 1
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 6
     completionMode: 0
     stepDescription: 'Kill Crab : 6'
@@ -38,7 +44,10 @@ MonoBehaviour:
       - No
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 100
+    unlocksFeatures: 
   questName: '[Quest03]'
+  questGiverNpcId: 

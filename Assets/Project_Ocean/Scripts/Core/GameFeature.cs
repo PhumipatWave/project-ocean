@@ -26,5 +26,7 @@ namespace Game.Testing
         // Gates the Next Day button (the "bed"/sleep interaction) in the Home Panel —
         // see LandUI.TryAdvanceDay/RefreshNextDayButton.
         Sleep,
+        // Gates the "Back to Land" button in the Ocean HUD — see GameHUD.RefreshLandButton.
+        BackToLand,
     }
 }

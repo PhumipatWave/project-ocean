@@ -120,8 +120,20 @@ namespace Game.Testing
             }
             else if (isOcean)
             {
-                landButton.SetActive(true);
+                RefreshLandButton();
             }
+        }
+
+        /// <summary>Hides the "Back to Land" button until GameFeature.BackToLand is unlocked
+        /// (a quest step's Unlocks Features list) — a permanent, one-time unlock like
+        /// Shop/Inventory/Sleep, not a per-step gate: TutorialGate.RequiredAction only equals
+        /// BackToLand during MQ_1001's own "click Back to Land" step, so gating on that alone
+        /// would re-hide the button on every later dive (e.g. MQ_1002's), which never asks for
+        /// BackToLand as its required action.</summary>
+        private void RefreshLandButton()
+        {
+            if (landButton == null) return;
+            landButton.SetActive(FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand));
         }
 
         private void Start()
@@ -182,6 +194,7 @@ namespace Game.Testing
             }
 
             maxLengthPanel.SetActive(true);
+            RefreshLandButton();
 
             var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;

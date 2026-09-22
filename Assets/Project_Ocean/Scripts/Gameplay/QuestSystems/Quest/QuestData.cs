@@ -97,26 +97,32 @@ namespace Game.Testing
     {
         public QuestType type;
 
-        [Tooltip("Used when type is ExploreArea (KillCount uses Target Enemy Ids below instead).")]
+        [Tooltip("Used when type is ExploreArea (Delivery + EnemyKills uses Target Enemy Ids below instead).")]
         public string targetEnemyId;
 
-        [Tooltip("KillCount only — kills of ANY enemy id in this list count toward the step's shared Target Count.")]
+        [Tooltip("Delivery + EnemyKills only — kills of ANY enemy id in this list count toward the step's shared Target Count.")]
         public List<string> targetEnemyIds = new();
 
         [Tooltip("Used when type is Tutorial/Talk — pick the action instead of typing an id.")]
         public TutorialActionId tutorialAction;
 
-        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery uses Target Quest Item Ids below instead.")]
+        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery + InventoryHeld uses Target Quest Item Ids below instead; Delivery + EnemyKills uses this as its optional single hand-in item.")]
         public string targetQuestItemId;
 
-        [Tooltip("Delivery + CombinedTotal only — which items count toward the shared Target Count (any mix of these, summed, must reach it). No per-item count — that's what PerItem's Target Quest Item Requirements below is for.")]
+        [Tooltip("Delivery only — what drives this step's progress. InventoryHeld: live-rechecked against the player's current inventory (drag items in/out, sell, etc.). EnemyKills: one-shot kill events matching Target Enemy Ids below (the old KillCount type, merged in here).")]
+        public DeliverySource deliverySource = DeliverySource.InventoryHeld;
+
+        [Tooltip("Delivery + InventoryHeld + CombinedTotal only — which items count toward the shared Target Count (any mix of these, summed, must reach it). No per-item count — that's what PerItem's Target Quest Item Requirements below is for.")]
         public List<string> targetQuestItemIds = new();
 
-        [Tooltip("Delivery + PerItem only — which items are required and how many of each, independently.")]
+        [Tooltip("Delivery + InventoryHeld + PerItem only — which items are required and how many of each, independently.")]
         public List<QuestItemRequirement> targetQuestItemRequirements = new();
 
-        [Tooltip("Delivery only — CombinedTotal (any mix summing to Target Count) or PerItem (each requirement's own Count must be met).")]
+        [Tooltip("Delivery + InventoryHeld only — CombinedTotal (any mix summing to Target Count) or PerItem (each requirement's own Count must be met).")]
         public DeliveryCountMode deliveryCountMode = DeliveryCountMode.CombinedTotal;
+
+        [Tooltip("Delivery only — ON (default): completing this step removes the delivered/killed-for item(s) from inventory, same as always. OFF: the step still completes and pays out, but nothing is removed — e.g. \"show me 5 fish\" without losing them.")]
+        public bool consumeOnComplete = true;
 
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
@@ -139,6 +145,9 @@ namespace Game.Testing
 
         [Tooltip("Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.")]
         public List<GameFeature> unlocksFeatures = new();
+
+        [Tooltip("Feature(s) locked when this checkpoint completes — always wins over an unlock, however/whenever that was granted (this step's own Unlocks Features, another step's, or a direct Unlock() call). See FeatureUnlockService.")]
+        public List<GameFeature> locksFeatures = new();
     }
 
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]

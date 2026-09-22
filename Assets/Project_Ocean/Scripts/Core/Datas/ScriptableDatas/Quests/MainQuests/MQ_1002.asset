@@ -19,14 +19,16 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: eb030000
   steps:
-  - type: 4
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 10
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -37,14 +39,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 5
+    locksFeatures: 
+  - type: 4
     targetEnemyId: MQ1002_01
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -60,14 +65,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 10
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 0
     completionMode: 0
     stepDescription: 
@@ -83,14 +91,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 08000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 5
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Check quests in quest board"'
@@ -101,14 +112,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 16
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Accept quest on quest board"'
@@ -119,14 +133,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 02000000
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -140,16 +157,19 @@ MonoBehaviour:
     autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 0
+    rewardMoney: 500
     unlocksFeatures: 02000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Go to the Upgrade Shop.
@@ -165,14 +185,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 17
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -188,14 +211,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -209,16 +235,19 @@ MonoBehaviour:
     autoDisplayDialogue: 1
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 0
+    rewardMoney: 1250
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 2
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Buy a MiniHub item."'
@@ -234,14 +263,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Head to the boat to begin Day 2 diving."'
@@ -257,14 +289,44 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
+    targetEnemyId: AR001
+    targetEnemyIds: []
+    tutorialAction: 19
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Explore Ocean until rope hit limit."'
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 18
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Use MiniHub item."'
@@ -279,23 +341,27 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 07000000
-  - type: 2
-    targetEnemyId: 
+    unlocksFeatures: 
+    locksFeatures: 
+  - type: 1
+    targetEnemyId: AR001
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean."'
     dialogue:
-    - characterId: femboy
+    - characterId: 
       type: 0
       lines:
-      - Upgrade complete. Your tether line is now longer.
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -303,5 +369,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 07000000
+    locksFeatures: 
   questName: Quest + Quest Board
   questGiverNpcId: 

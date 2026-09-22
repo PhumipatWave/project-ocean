@@ -150,6 +150,10 @@ namespace Game.Testing
                 return;
             }
 
+            // A different action is the guided tutorial's current requirement — diving now
+            // would waste the Dive step's one-shot completion event (and burn a daily dive).
+            if (TutorialGate.Blocks(TutorialActionId.Dive)) { TutorialGate.NotifyBlocked(); return; }
+
             if (DayManager.Instance != null && !DayManager.Instance.TryRecordDive())
             {
                 NotificationManager.Notify($"You can only dive {DayManager.MaxDivesPerDay} times per day.");

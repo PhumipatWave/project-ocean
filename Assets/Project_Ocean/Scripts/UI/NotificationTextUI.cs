@@ -29,6 +29,7 @@ namespace Game.Testing
         [SerializeField] private float fadeDuration  = 0.4f;
 
         private Coroutine _activeRoutine;
+        private Coroutine _pulseRoutine;
         private bool _persistentActive;
 
         /// <summary>True while a toast is visible or mid-fade. New toast triggers are ignored until this clears.</summary>
@@ -43,12 +44,14 @@ namespace Game.Testing
         {
             NotificationManager.OnNotify += HandleNotify;
             NotificationManager.OnPersistentChanged += HandlePersistentChanged;
+            NotificationManager.OnPersistentPulse += HandlePersistentPulse;
         }
 
         private void OnDisable()
         {
             NotificationManager.OnNotify -= HandleNotify;
             NotificationManager.OnPersistentChanged -= HandlePersistentChanged;
+            NotificationManager.OnPersistentPulse -= HandlePersistentPulse;
         }
 
         private void HandlePersistentChanged(string message, Sprite sprite)
@@ -81,6 +84,24 @@ namespace Game.Testing
             if (messageText != null) messageText.text = message;
             if (isActiveAndEnabled) _activeRoutine = StartCoroutine(FadeToRoutine(1f));
             else if (canvasGroup != null) canvasGroup.alpha = 1f;
+        }
+
+        // Quick blink on the already-visible persistent banner — draws the eye back to it
+        // when a blocked key press would otherwise fail silently (a Notify() toast is
+        // dropped while a persistent message owns the slot, so it can't be used here).
+        private void HandlePersistentPulse()
+        {
+            if (!_persistentActive || !isActiveAndEnabled || canvasGroup == null) return;
+            if (_pulseRoutine != null) StopCoroutine(_pulseRoutine);
+            _pulseRoutine = StartCoroutine(PulseRoutine());
+        }
+
+        private IEnumerator PulseRoutine()
+        {
+            canvasGroup.alpha = 0.2f;
+            yield return new WaitForSecondsRealtime(0.1f);
+            canvasGroup.alpha = 1f;
+            _pulseRoutine = null;
         }
 
         private IEnumerator FadeToRoutine(float target)

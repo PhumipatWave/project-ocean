@@ -13,34 +13,35 @@ namespace Game.Testing
     /// QuestStep.EffectiveNpcId), "Cutscene Id" for Cutscene steps (plays automatically
     /// and completes itself — no dialogue needed, unlike a cutscene attached to one Talk
     /// line via QuestDialogueLine.cutsceneId), and "Target Enemy Id" for ExploreArea
-    /// (hidden for Delivery/KillCount — see below).
+    /// (hidden for Delivery — see below).
     ///
-    /// The old singular Target Quest Item Id (QuestStepData.targetQuestItemId) is no longer
-    /// shown for ANY step type. Delivery instead shows a Delivery Count Mode dropdown, then
-    /// ONE of two lists depending on it — never both, they're mutually exclusive ways to author
-    /// the same requirement (QuestManager live-checks whichever's active against the player's
-    /// actual inventory via InventoryManager.OnInventoryChanged, not a one-shot event like
-    /// every other step type): CombinedTotal shows Target Quest Item Ids (plain ids, no
-    /// per-item count — any mix of them, summed, must reach the step's Target Count); PerItem
-    /// shows Target Quest Item Requirements (id + count pairs, each independently required),
-    /// and Target Count itself is derived there (hidden — it's just the requirement list's
-    /// length) rather than authored. KillCount similarly authors its enemy id(s) through
-    /// Target Enemy Ids (kills of ANY listed id count toward Target Count), not the singular
-    /// Target Enemy Id. QuestStepDataDrawer still reads the old singular field as a fallback
-    /// for legacy-authored steps (see Quest.BuildSteps) — existing assets built before these
-    /// existed don't need to be re-authored, they just can't be edited as that field anymore.
+    /// Delivery shows a Delivery Source dropdown first (InventoryHeld/EnemyKills — see
+    /// DeliverySource; EnemyKills replaces the old, now-removed KillCount QuestType, since it
+    /// shared everything else with Delivery). InventoryHeld then shows a Delivery Count Mode
+    /// dropdown, then ONE of two lists depending on it — never both, they're mutually exclusive
+    /// ways to author the same requirement (QuestManager live-checks whichever's active against
+    /// the player's actual inventory via InventoryManager.OnInventoryChanged, not a one-shot
+    /// event like every other step type): CombinedTotal shows Target Quest Item Ids (plain ids,
+    /// no per-item count — any mix of them, summed, must reach the step's Target Count); PerItem
+    /// shows Target Quest Item Requirements (id + count pairs, each independently required), and
+    /// Target Count itself is derived there (hidden — it's just the requirement list's length)
+    /// rather than authored. EnemyKills instead shows Target Enemy Ids (kills of ANY listed id
+    /// count toward Target Count) plus the singular Target Quest Item Id as an optional hand-in
+    /// loot item. Either Delivery source shows a Consume On Complete toggle — OFF skips removing
+    /// the delivered/killed-for item(s) when the step completes.
     ///
     /// Per-type field visibility (see the FieldVisibility struct below — computed once per
-    /// type and shared by OnGUI/GetPropertyHeight): Talk hides Target Count (a Talk step
+    /// type/source and shared by OnGUI/GetPropertyHeight): Talk hides Target Count (a Talk step
     /// always completes in one exchange) and Notification
     /// Images (no guide banner icon for a conversation); Tutorial hides both Dialogue and
-    /// Reward (it completes off TutorialAction alone, no dialogue box, no payout); KillCount
-    /// and Delivery hide Notification Images (no guide banner for a grind objective) but keep
-    /// Dialogue and Reward; Cutscene shows Reward Item Id/Reward Money directly (no foldout —
+    /// Reward (it completes off TutorialAction alone, no dialogue box, no payout); Delivery
+    /// hides Notification Images (no guide banner for a grind objective) but keeps Dialogue and
+    /// Reward; Cutscene shows Reward Item Id/Reward Money directly (no foldout —
     /// it has no dialogue to tuck them behind). Everything else shows the full field set.
     ///
-    /// Unlocks Features only shows for Tutorial/Talk steps — those are the checkpoint types a
-    /// tutorial-style quest actually uses to gate features (see FeatureUnlockService). Is Guided
+    /// Unlocks Features and Locks Features only show for Tutorial/Talk steps — those are the
+    /// checkpoint types a tutorial-style quest actually uses to gate features (see
+    /// FeatureUnlockService; a lock always wins over an unlock, however/whenever granted). Is Guided
     /// Sequence is no longer author-controlled: it's forced true for Tutorial (the only type
     /// TutorialGate/TutorialPromptUI restrict input for) and false everywhere else, shown
     /// disabled so the Inspector still communicates the value without inviting a mismatch.
@@ -65,24 +66,33 @@ namespace Game.Testing
         /// </summary>
         private readonly struct FieldVisibility
         {
-            public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures,
-                TargetField, TargetEnemyIds, TargetQuestItemIds;
+            public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures, LocksFeatures,
+                TargetField, DeliverySource, TargetEnemyIds, TargetQuestItemIds, ConsumeOnComplete, LootItemId;
 
-            private FieldVisibility(QuestType type)
+            private FieldVisibility(QuestType type, DeliverySource deliverySource)
             {
+                bool isDelivery = type == QuestType.Delivery;
+                bool isEnemyKills = isDelivery && deliverySource == Game.Testing.DeliverySource.EnemyKills;
+                bool isInventoryHeld = isDelivery && deliverySource == Game.Testing.DeliverySource.InventoryHeld;
+
                 TargetCount = type != QuestType.Talk;
-                NotificationImages = type != QuestType.Talk && type != QuestType.KillCount && type != QuestType.Delivery;
+                NotificationImages = type != QuestType.Talk && !isDelivery;
                 Dialogue = type != QuestType.Tutorial;
                 Reward = type != QuestType.Tutorial;
                 UnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk;
-                // Delivery targets item(s), not an enemy — KillCount targets enemy id(s), not
-                // an item. Both use a list field instead of the singular one (see class doc).
-                TargetField = type != QuestType.Delivery && type != QuestType.KillCount;
-                TargetEnemyIds = type == QuestType.KillCount;
-                TargetQuestItemIds = type == QuestType.Delivery;
+                LocksFeatures = UnlocksFeatures;
+                // Delivery targets item(s)/enemy id(s) through a list field instead of the
+                // singular one (see class doc) — EnemyKills still uses the singular Target
+                // Quest Item Id, but only as the optional hand-in loot (LootItemId below).
+                TargetField = !isDelivery;
+                DeliverySource = isDelivery;
+                TargetEnemyIds = isEnemyKills;
+                TargetQuestItemIds = isInventoryHeld;
+                ConsumeOnComplete = isDelivery;
+                LootItemId = isEnemyKills;
             }
 
-            public static FieldVisibility For(QuestType type) => new(type);
+            public static FieldVisibility For(QuestType type, DeliverySource deliverySource) => new(type, deliverySource);
         }
 
         private static readonly Dictionary<string, ReorderableList> DialogueLists = new();
@@ -148,13 +158,18 @@ namespace Game.Testing
             var typeProp = property.FindPropertyRelative("type");
             var targetEnemyIdProp = property.FindPropertyRelative("targetEnemyId");
             var targetEnemyIdsProp = property.FindPropertyRelative("targetEnemyIds");
+            var targetQuestItemIdProp = property.FindPropertyRelative("targetQuestItemId");
             var targetQuestItemIdsProp = property.FindPropertyRelative("targetQuestItemIds");
             var targetQuestItemRequirementsProp = property.FindPropertyRelative("targetQuestItemRequirements");
+            var deliverySourceProp = property.FindPropertyRelative("deliverySource");
             var deliveryCountModeProp = property.FindPropertyRelative("deliveryCountMode");
+            var consumeOnCompleteProp = property.FindPropertyRelative("consumeOnComplete");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
             var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
+            var locksFeaturesProp = property.FindPropertyRelative("locksFeatures");
             var type = (QuestType)typeProp.enumValueIndex;
+            var deliverySource = (DeliverySource)deliverySourceProp.enumValueIndex;
 
             var rect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
             float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -189,7 +204,14 @@ namespace Game.Testing
             var dialogueProp = property.FindPropertyRelative("dialogue");
 
             // Per-type field visibility — see class doc for what each step type actually uses.
-            var vis = FieldVisibility.For(type);
+            var vis = FieldVisibility.For(type, deliverySource);
+
+            if (vis.DeliverySource)
+            {
+                EditorGUI.PropertyField(rect, deliverySourceProp, new GUIContent("Delivery Source",
+                    "InventoryHeld: progress tracks the player's current inventory. EnemyKills: progress tracks kill events matching Target Enemy Ids below (the old KillCount type)."));
+                rect.y += lineHeight;
+            }
 
             if (vis.TargetField)
             {
@@ -231,9 +253,16 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
+            if (vis.LootItemId)
+            {
+                EditorGUI.PropertyField(rect, targetQuestItemIdProp, new GUIContent("Target Quest Item Id (optional loot)",
+                    "Parsed as an int item id. If set and Consume On Complete is on, this many (Target Count) are removed from inventory when the step completes — e.g. a bounty's hand-in proof."));
+                rect.y += lineHeight;
+            }
+
             // PerItem's required count comes from each requirement's own Count, not this
             // shared field — hide it there so it can't be authored and left mismatched.
-            bool isDeliveryPerItem = type == QuestType.Delivery &&
+            bool isDeliveryPerItem = vis.TargetQuestItemIds &&
                 (DeliveryCountMode)deliveryCountModeProp.enumValueIndex == DeliveryCountMode.PerItem;
 
             if (vis.TargetQuestItemIds)
@@ -259,10 +288,26 @@ namespace Game.Testing
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
+            if (vis.ConsumeOnComplete)
+            {
+                EditorGUI.PropertyField(rect, consumeOnCompleteProp, new GUIContent("Consume On Complete",
+                    "ON: completing this step removes the delivered/killed-for item(s) from inventory. OFF: it still completes and pays out, nothing is removed."));
+                rect.y += lineHeight;
+            }
+
             if (vis.UnlocksFeatures)
             {
                 rect.height = EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true);
                 EditorGUI.PropertyField(rect, unlocksFeaturesProp, new GUIContent("Unlocks Features"), true);
+                rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+                rect.height = EditorGUIUtility.singleLineHeight;
+            }
+
+            if (vis.LocksFeatures)
+            {
+                rect.height = EditorGUI.GetPropertyHeight(locksFeaturesProp, true);
+                EditorGUI.PropertyField(rect, locksFeaturesProp, new GUIContent("Locks Features",
+                    "Locked when this checkpoint completes — always wins over an unlock, however/whenever that was granted."), true);
                 rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
@@ -353,21 +398,27 @@ namespace Game.Testing
             if (type == QuestType.Cutscene)
                 return lineHeight * 4;
 
-            var vis = FieldVisibility.For(type);
+            var deliverySourceProp = property.FindPropertyRelative("deliverySource");
+            var deliverySource = (DeliverySource)deliverySourceProp.enumValueIndex;
+            var vis = FieldVisibility.For(type, deliverySource);
 
             var stepDescriptionProp = property.FindPropertyRelative("stepDescription");
 
             var deliveryCountModeProp = property.FindPropertyRelative("deliveryCountMode");
-            bool isDeliveryPerItem = type == QuestType.Delivery &&
+            bool isDeliveryPerItem = vis.TargetQuestItemIds &&
                 (DeliveryCountMode)deliveryCountModeProp.enumValueIndex == DeliveryCountMode.PerItem;
             bool showTargetCount = vis.TargetCount && !isDeliveryPerItem;
 
-            // type, completionMode, isGuidedSequence = 3 single lines, +1 if target field
+            // type, completionMode, isGuidedSequence = 3 single lines, +1 if delivery source
+            // shows, +1 if target field shows, +1 if loot item id shows, +1 if consume toggle
             // shows, +1 if targetCount shows, plus Unlocks Features (Tutorial/Talk only), then
             // description. Target Enemy Ids and the Delivery Count Mode + Target Quest Item
             // Requirements pair are variable height, added separately below.
             int lineCount = 3
+                + (vis.DeliverySource ? 1 : 0)
                 + (vis.TargetField ? 1 : 0)
+                + (vis.LootItemId ? 1 : 0)
+                + (vis.ConsumeOnComplete ? 1 : 0)
                 + (type == QuestType.Talk ? 1 : 0) // Auto Display Dialogue
                 + (showTargetCount ? 1 : 0);
             float height = lineHeight * lineCount
@@ -399,6 +450,12 @@ namespace Game.Testing
             {
                 var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
                 height += EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            if (vis.LocksFeatures)
+            {
+                var locksFeaturesProp = property.FindPropertyRelative("locksFeatures");
+                height += EditorGUI.GetPropertyHeight(locksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
             if (vis.NotificationImages)

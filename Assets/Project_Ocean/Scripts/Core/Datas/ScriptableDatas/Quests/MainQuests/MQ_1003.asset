@@ -19,33 +19,16 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: ec030000
   steps:
-  - type: 2
-    targetEnemyId: 
-    targetEnemyIds: []
-    tutorialAction: 0
-    targetQuestItemId: 
-    targetQuestItemIds: []
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
-    targetCount: 1
-    completionMode: 0
-    stepDescription: A solid obstacle is blocking the path. Return to the surface
-      to find a solution.
-    dialogue: []
-    isGuidedSequence: 0
-    autoDisplayDialogue: 0
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: "-------------Quest Day 2 Quest\u0E41\u0E22\u0E01 \u0E02\u0E49\u0E2D.2
@@ -58,14 +41,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: Upgrade Shop
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: I don't have tools for heavy demolition. Talk to the Upgrade
@@ -84,14 +70,17 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: Upgrade Shop
     targetEnemyIds: []
     tutorialAction: 7
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Rest for today. Check the Quest Board tomorrow for the work
@@ -110,4 +99,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
+    locksFeatures: 
   questName: Explore Area 2
+  questGiverNpcId: 

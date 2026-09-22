@@ -19,14 +19,16 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: ea030000
   steps:
-  - type: 3
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -43,14 +45,16 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press W A S D to move"'
@@ -61,14 +65,16 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 00000000
-  - type: 3
+  - type: 2
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press [E] to Talk with Hunter"'
@@ -84,14 +90,16 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0300000009000000
-  - type: 5
+  - type: 4
     targetEnemyId: MQ1001_01
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
@@ -107,14 +115,16 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Interact to board the boat"'
@@ -125,11 +135,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 05000000
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 15
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -139,6 +150,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press [Left Click] to fire gun to Fish."'
@@ -154,6 +166,7 @@ MonoBehaviour:
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -165,6 +178,7 @@ MonoBehaviour:
     - itemId: 
       count: 0
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 9
     completionMode: 0
     stepDescription: '"Collected fish"'
@@ -175,11 +189,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 13
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -189,6 +204,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Bag is full. Press [I] to check inventory."'
@@ -198,12 +214,13 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
-  - type: 4
+    unlocksFeatures: 0e000000
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 14
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -213,6 +230,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Click [Back to land] to return to the surface."'
@@ -223,11 +241,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 01000000
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 8
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -237,6 +256,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Go to the Fish Shop to sell your catch."'
@@ -247,11 +267,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 3
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -261,6 +282,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
@@ -271,11 +293,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 6
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -285,6 +308,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -300,11 +324,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 11
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -314,6 +339,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Move out of shop."'
@@ -329,11 +355,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
-  - type: 4
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 7
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -343,6 +370,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Return to your house to rest."'
@@ -358,11 +386,12 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 6
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -372,6 +401,7 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Sleep"'
