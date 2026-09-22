@@ -138,6 +138,11 @@ namespace Game.Testing
 
         public void ToMainMenu()
         {
+            // UIManager (pause menu, etc.) is DontDestroyOnLoad — without this, returning to
+            // the menu while it's open leaves its panel active, its PlayerUIState lock held,
+            // and (since ApplyBlockingState set it) Time.timeScale stuck at 0 forever, silently
+            // freezing everything that loads next (including a fresh New Game).
+            UIManager.Instance?.CloseAll();
             SceneManager.LoadScene(SceneNames.MainMenu);
             gameState = GameState.Menu;
         }
@@ -149,6 +154,10 @@ namespace Game.Testing
                 NotificationManager.Notify("Locked — progress the main quest to unlock the ocean.");
                 return;
             }
+
+            // A different action is the guided tutorial's current requirement — diving now
+            // would waste the Dive step's one-shot completion event (and burn a daily dive).
+            if (TutorialGate.Blocks(TutorialActionId.Dive)) { TutorialGate.NotifyBlocked(); return; }
 
             if (DayManager.Instance != null && !DayManager.Instance.TryRecordDive())
             {

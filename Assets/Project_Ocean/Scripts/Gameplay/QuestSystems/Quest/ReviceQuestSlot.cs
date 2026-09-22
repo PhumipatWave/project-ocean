@@ -21,7 +21,16 @@ namespace Game.Testing
         public void Setup(Quest quest)
         {
             if (titleText != null) titleText.text = quest.QuestName;
-            if (questNameText != null) questNameText.text = quest.StepDescription;
+
+            if (questNameText != null)
+            {
+                // Delivery: append item name + held/needed + Required Money, same as QuestTrackerUI.
+                var deliverySuffix = QuestVisuals.GetDeliveryStatusSuffix(quest);
+                questNameText.text = deliverySuffix != null
+                    ? $"{quest.StepDescription} {deliverySuffix}"
+                    : quest.StepDescription;
+            }
+
             if (progressText != null) progressText.text = quest.TrackerText;
 
             // NPC avatar — resolved live from NPCManager by id, not stored on the quest.

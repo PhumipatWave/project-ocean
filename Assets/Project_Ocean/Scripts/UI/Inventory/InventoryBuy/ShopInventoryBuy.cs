@@ -41,6 +41,11 @@ namespace Game.Testing
             Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
             shopItem.InitialiseItem(item);
 
+            // This is a catalog listing (one entry per purchasable item), not a real stack —
+            // RefreshCount()'s "1/99" reads as a held-item count, which is misleading here.
+            if (shopItem.countText != null)
+                shopItem.countText.gameObject.SetActive(false);
+
             shopItem.enabled = false;
 
             // ⭐ สำคัญมาก: ผูก item เข้ากับ slot

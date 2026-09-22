@@ -79,6 +79,13 @@ namespace Game.Testing
         {
             QuestManager.OnQuestUpdated -= RefreshQuestStep;
             ReleaseStartLock();
+
+            // Safety net: if this gets disabled while PlayStepAfterDelay is still waiting out
+            // CutsceneStartDelay (Play mode stopped mid-wait, etc.), the coroutine dies without
+            // ever reaching its own activeQuestStep = null reset — leaving that quest's Cutscene
+            // step permanently stuck (RefreshQuestStep's q == activeQuestStep guard silently
+            // skips it forever after, even across a fresh Play session with no domain reload).
+            activeQuestStep = null;
         }
 
         private void ReleaseStartLock()
@@ -86,6 +93,26 @@ namespace Game.Testing
             if (!holdingStartLock) return;
             holdingStartLock = false;
             PlayerUIState.Close();
+        }
+
+        /// <summary>Cancels any in-flight cutscene state — called by SaveBridge.ResetForNewGame().
+        /// This component is DontDestroyOnLoad, so a normal scene load (e.g. returning to Main
+        /// Menu) never disables it — interrupting a cutscene mid-CutsceneStartDelay or mid-play
+        /// that way leaves its coroutine/lock/activeQuestStep running, and it can fire late (or
+        /// block the guard in RefreshQuestStep) on the next "New Game" attempt, without this.</summary>
+        public void ResetToDefault()
+        {
+            StopAllCoroutines();
+            ReleaseStartLock();
+            activeQuestStep = null;
+
+            // OnDestroy's safety net (see Cutscene.cs) cleans up PlayerUIState/onComplete for
+            // each one — harmless here since QuestManager.ResetToDefault() (called just before
+            // this) already replaced every Quest object those callbacks could act on.
+            foreach (var cutscene in new List<Cutscene>(running.Values))
+                if (cutscene != null)
+                    Destroy(cutscene.gameObject);
+            running.Clear();
         }
 
         // QuestManager.InitializeQuests() runs in ITS Awake — a quest authored to start
@@ -106,7 +133,11 @@ namespace Game.Testing
                     continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
+                // Auto Display Dialogue steps are driven by PlayerSelfDialogueUI instead —
+                // press-to-advance dialogue, not an auto-played Timeline. See Quest.BuildSteps
+                // and PlayerSelfDialogueUI's class doc.
+                if (step == null || step.AutoDisplayDialogue ||
+                    step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
                     continue;
 
                 activeQuestStep = q;

@@ -56,6 +56,17 @@ namespace Game.Testing
         PerItem,
     }
 
+    /// <summary>Talk (non-auto-display) only — how multiple Target NPC Ids count. AnyOne:
+    /// talking to any single listed NPC completes the step (default — matches how every Talk
+    /// step behaved before multiple targets existed). All: every listed NPC must be talked to
+    /// (each once; re-talking to the same one doesn't double-count), Target Count is derived
+    /// from the list length rather than authored — same shape as DeliveryCountMode above.</summary>
+    public enum TalkCompletionMode
+    {
+        AnyOne,
+        All,
+    }
+
     /// <summary>One (item id, required count) pair, used by Delivery's PerItem mode only —
     /// Unity can't serialize Dictionary directly, so this is the list-of-pairs equivalent.
     /// CombinedTotal mode doesn't use this at all; see QuestStepData.targetQuestItemIds.</summary>
@@ -97,26 +108,41 @@ namespace Game.Testing
     {
         public QuestType type;
 
-        [Tooltip("Used when type is ExploreArea (KillCount uses Target Enemy Ids below instead).")]
+        [Tooltip("Used when type is ExploreArea (Delivery + EnemyKills uses Target Enemy Ids below instead).")]
         public string targetEnemyId;
 
-        [Tooltip("KillCount only — kills of ANY enemy id in this list count toward the step's shared Target Count.")]
+        [Tooltip("Delivery + EnemyKills only — kills of ANY enemy id in this list count toward the step's shared Target Count.")]
         public List<string> targetEnemyIds = new();
 
         [Tooltip("Used when type is Tutorial/Talk — pick the action instead of typing an id.")]
         public TutorialActionId tutorialAction;
 
-        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery uses Target Quest Item Ids below instead.")]
+        [Tooltip("Item removed from inventory when this checkpoint completes (parsed as an int item id) — was quest-level, now per-step so different checkpoints can target different items. Delivery + InventoryHeld uses Target Quest Item Ids below instead; Delivery + EnemyKills uses this as its optional single hand-in item.")]
         public string targetQuestItemId;
 
-        [Tooltip("Delivery + CombinedTotal only — which items count toward the shared Target Count (any mix of these, summed, must reach it). No per-item count — that's what PerItem's Target Quest Item Requirements below is for.")]
+        [Tooltip("Delivery only — what drives this step's progress. InventoryHeld: live-rechecked against the player's current inventory (drag items in/out, sell, etc.). EnemyKills: one-shot kill events matching Target Enemy Ids below (the old KillCount type, merged in here).")]
+        public DeliverySource deliverySource = DeliverySource.InventoryHeld;
+
+        [Tooltip("Delivery + InventoryHeld + CombinedTotal only — which items count toward the shared Target Count (any mix of these, summed, must reach it). No per-item count — that's what PerItem's Target Quest Item Requirements below is for.")]
         public List<string> targetQuestItemIds = new();
 
-        [Tooltip("Delivery + PerItem only — which items are required and how many of each, independently.")]
+        [Tooltip("Delivery + InventoryHeld + PerItem only — which items are required and how many of each, independently.")]
         public List<QuestItemRequirement> targetQuestItemRequirements = new();
 
-        [Tooltip("Delivery only — CombinedTotal (any mix summing to Target Count) or PerItem (each requirement's own Count must be met).")]
+        [Tooltip("Delivery + InventoryHeld only — CombinedTotal (any mix summing to Target Count) or PerItem (each requirement's own Count must be met).")]
         public DeliveryCountMode deliveryCountMode = DeliveryCountMode.CombinedTotal;
+
+        [Tooltip("Delivery only — ON (default): completing this step removes the delivered/killed-for item(s) from inventory, same as always. OFF: the step still completes and pays out, but nothing is removed — e.g. \"show me 5 fish\" without losing them.")]
+        public bool consumeOnComplete = true;
+
+        [Tooltip("Delivery only — extra money required alongside the item/kill count above (0 = none). The step won't complete until BOTH are satisfied; whichever is met second finishes it. Consume On Complete also governs whether this money is spent on completion.")]
+        public int requiredMoney = 0;
+
+        [Tooltip("WaitingQuest only — how many day-advances (sleeps) must happen after this step becomes current before it can complete.")]
+        public int requiredDaysToWait = 1;
+
+        [Tooltip("WaitingQuest only — how many dives must happen on the day the wait finishes (capped by DayManager.MaxDivesPerDay — don't set this higher).")]
+        public int requiredDivesThatDay = 1;
 
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
@@ -131,6 +157,9 @@ namespace Game.Testing
         [Tooltip("Talk only — ON: the line shows by itself the moment this step becomes current (self-talk, no NPC to walk up to; Target Id is just the key its dialogue lines are stored under) and one Interact press completes it. OFF: the player must walk up to the Target NPC and talk to them.")]
         public bool autoDisplayDialogue;
 
+        [Tooltip("Talk (non-auto) only — AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to before it completes.")]
+        public TalkCompletionMode talkCompletionMode = TalkCompletionMode.AnyOne;
+
         [Tooltip("Optional image(s) for this checkpoint's guide notification. The banner shows the first entry; leave empty for a text-only notification.")]
         public List<Sprite> notificationImages = new();
 
@@ -139,6 +168,9 @@ namespace Game.Testing
 
         [Tooltip("Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.")]
         public List<GameFeature> unlocksFeatures = new();
+
+        [Tooltip("Feature(s) locked when this checkpoint completes — always wins over an unlock, however/whenever that was granted (this step's own Unlocks Features, another step's, or a direct Unlock() call). See FeatureUnlockService.")]
+        public List<GameFeature> locksFeatures = new();
     }
 
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]

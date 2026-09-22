@@ -34,10 +34,12 @@ namespace Game.Testing
         /// Talk step, the relevant door for a Tutorial step that requires walking through one,
         /// or a TutorialActionMarker-tagged object for any other Tutorial action with one
         /// registered. Null if the current step has no resolvable position (every other
-        /// quest/step type). Shared by QuestCompass (what to point the player's own arrow at)
-        /// and DoorInteract (an exit door's "always show while indoors" fallback must yield
-        /// to this when it names something more specific, e.g. a shop counter inside the same
-        /// building — see DoorInteract.ShouldShowMarker).
+        /// quest/step type, including ExploreArea — deliberately unguided, see
+        /// ExploreAreaTrigger's class doc, so the player has to actually search rather than
+        /// follow a compass to it). Shared by QuestCompass (what to point the player's own
+        /// arrow at) and DoorInteract (an exit door's "always show while indoors" fallback must
+        /// yield to this when it names something more specific, e.g. a shop counter inside the
+        /// same building — see DoorInteract.ShouldShowMarker).
         /// </summary>
         public static Transform ResolveQuestTarget()
         {
@@ -46,10 +48,7 @@ namespace Game.Testing
                 return null;
 
             if (step.Type == QuestType.Talk)
-                return NPCManager.Instance?.GetNpc(step.EffectiveNpcId)?.transform;
-
-            if (step.Type == QuestType.ExploreArea)
-                return ExploreAreaTrigger.FindByAreaId(step.EffectiveAreaId);
+                return NPCManager.Instance?.GetNpc(step.NextTalkTargetNpcId)?.transform;
 
             if (step.Type == QuestType.Tutorial)
             {

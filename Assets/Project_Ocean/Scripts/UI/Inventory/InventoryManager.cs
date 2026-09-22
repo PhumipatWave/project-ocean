@@ -87,7 +87,8 @@ namespace Game.Testing
             // Always allow closing, even though the inventory itself holds the UI lock.
             if (uiController.IsOpen) { HideAndDeselect(); return; }
             if (PlayerUIState.IsLocked) return;
-            if (TutorialGate.Blocks(TutorialActionId.OpenInventory)) return;
+            // TutorialGate never blocks OpenInventory (see TutorialGate.Blocks) — checking your
+            // bag is read-only and can't derail a guided step, so it's always allowed here.
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");
@@ -388,6 +389,21 @@ namespace Game.Testing
         {
             if (!IsValidSlotIndex(slotIndex)) return null;
             return inventorySlots[slotIndex].GetComponentInChildren<Draggableltem>();
+        }
+
+        /// <summary>Destroys every held item and relocks any slot unlocked via upgrades —
+        /// called by SaveBridge.ResetForNewGame() so a fresh game doesn't inherit a previous
+        /// playthrough's items/unlocked slots.</summary>
+        public void ResetToDefault()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                var item = GetItemInSlot(i);
+                if (item != null)
+                    Destroy(item.gameObject);
+            }
+
+            LockStartingSlots();
         }
 
         private void LockStartingSlots()
