@@ -19,50 +19,69 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: 
   steps:
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 0
     completionMode: 0
     stepDescription: Demolition Tool is ready! Collect it from the Upgrade Shop.
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: Upgrade Shop
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 0
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 2
+    locksFeatures: 
+  - type: 1
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 0
     completionMode: 0
     stepDescription: "-------------Quest Day 3 \u0E02\u0E49\u0E2D.3 \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E17\u0E33
       --------------------"
     dialogue: []
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  questName: Break down the wall
+    locksFeatures: 
+  questName: Main Quest V
+  questGiverNpcId: 

@@ -68,9 +68,11 @@ namespace Game.Testing
                     ? activeQuest.QuestName
                     : activeQuest.StepDescription;
 
-                // Delivery: show held/needed, e.g. "0/9".
-                if (activeQuest.CurrentStep?.Type == QuestType.Delivery)
-                    text += $" {activeQuest.CurrentCount}/{activeQuest.TargetCount}";
+                // Delivery: show item name + held/needed, e.g. "Material 0/5", plus Required
+                // Money if the step has any — see QuestVisuals.GetDeliveryStatusSuffix.
+                var deliverySuffix = QuestVisuals.GetDeliveryStatusSuffix(activeQuest);
+                if (deliverySuffix != null)
+                    text += $" {deliverySuffix}";
 
                 questNameText.text = text;
             }

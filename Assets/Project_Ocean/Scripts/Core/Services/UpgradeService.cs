@@ -120,6 +120,12 @@ namespace Game.Testing
                 Debug.LogWarning("[UpgradeService] InventoryManager not found — slot unlocks not restored");
         }
 
+        /// <summary>Clears every upgrade level — called by SaveBridge.ResetForNewGame(). Doesn't
+        /// need to un-apply rope length/inventory slots itself: the player gets destroyed and
+        /// respawned fresh (default stats) and InventoryManager.ResetToDefault() relocks slots
+        /// independently, so there's nothing left on the old levels to undo.</summary>
+        public void ResetToDefault() => levels.Clear();
+
         // ── ISaveParticipant ──
 
         public void Collect(SaveData data)

@@ -19,32 +19,44 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: eb030000
   steps:
-  - type: 4
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 10
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 5
+    locksFeatures: 
+  - type: 4
     targetEnemyId: MQ1002_01
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -56,18 +68,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 10
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 0
     completionMode: 0
     stepDescription: 
@@ -79,54 +98,75 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 08000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 5
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Check quests in quest board"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 16
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Accept quest on quest board"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 02000000
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -138,18 +178,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 0
+    rewardMoney: 500
     unlocksFeatures: 02000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Go to the Upgrade Shop.
@@ -161,18 +208,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
     tutorialAction: 17
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -184,18 +238,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -207,18 +268,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 0
+    rewardMoney: 1250
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 2
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Buy a MiniHub item."'
@@ -230,18 +298,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Head to the boat to begin Day 2 diving."'
@@ -253,18 +328,56 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
+    targetEnemyId: AR001
+    targetEnemyIds: []
+    tutorialAction: 19
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Explore Ocean until rope hit limit."'
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0f000000
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 18
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Use MiniHub item."'
@@ -276,32 +389,93 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 07000000
-  - type: 2
-    targetEnemyId: 
+    unlocksFeatures: 
+    locksFeatures: 
+  - type: 1
+    targetEnemyId: AR001
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean."'
     dialogue:
-    - characterId: femboy
+    - characterId: 
       type: 0
       lines:
-      - Upgrade complete. Your tether line is now longer.
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 07000000
-  questName: Quest + Quest Board
+    unlocksFeatures: 0d00000003000000
+    locksFeatures: 0d00000003000000
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds:
+    - hunter
+    - shop
+    - femboy
+    tutorialAction: 4
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Ask the islanders about the underwater obstacle."'
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    - characterId: hunter
+      type: 1
+      lines:
+      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      cutsceneId: 
+    - characterId: shop
+      type: 1
+      lines:
+      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      cutsceneId: 
+    - characterId: femboy
+      type: 1
+      lines:
+      - '"That rock needs a heavy demolition tool. I can craft one, but I need specific
+        materials and gold. I''ll post the work order on the Quest Board tomorrow
+        morning." '
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 1
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0d0000000300000010000000
+    locksFeatures: 
+  questName: Main Quest II
   questGiverNpcId: 

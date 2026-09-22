@@ -8,13 +8,17 @@ using UnityEngine.UI;
 namespace Game.Testing
 {
     /// <summary>
-    /// Drives the shared NPC dialogue panel for a Talk step authored with Auto Display Dialogue
-    /// (QuestStepData.autoDisplayDialogue) — there's no NPC to walk up to and press Interact on,
-    /// so the line auto-opens the moment that step becomes current. Plays the step's dialogue
-    /// entries (any type) in authored order, one line per Interact press, each with its own Character Id's
-    /// name and portrait (blank = the player, "You"); the last press closes it and completes the
-    /// step via QuestManager.CompleteAutoDialogue (same CompleteProgress a real NPC conversation
-    /// ends in, so rewards/next-step/chaining keep working unchanged).
+    /// Drives the shared NPC dialogue panel for a Talk or Cutscene step authored with Auto
+    /// Display Dialogue (QuestStepData.autoDisplayDialogue) — there's no NPC to walk up to and
+    /// press Interact on, so the line auto-opens the moment that step becomes current. Plays
+    /// the step's dialogue entries (any type) in authored order, one line per Interact press,
+    /// each with its own Character Id's name and portrait (blank = the player, "You"); the last
+    /// press closes it and completes the step via QuestManager.CompleteAutoDialogue (same
+    /// CompleteProgress a real NPC conversation ends in, so rewards/next-step/chaining keep
+    /// working unchanged). On a Cutscene step this replaces CutsceneManager's own auto-play —
+    /// see its RefreshQuestStep guard — so a "cinematic" beat can instead be driven by the
+    /// player pressing through dialogue, optionally still chaining into a real Timeline
+    /// cutscene via a line's own cutsceneId (see HandleInteract below).
     /// </summary>
     public class PlayerSelfDialogueUI : MonoBehaviour
     {
@@ -85,7 +89,8 @@ namespace Game.Testing
                         continue;
 
                     var step = q.CurrentStep;
-                    if (step != null && step.Type == QuestType.Talk && step.AutoDisplayDialogue)
+                    if (step != null && (step.Type == QuestType.Talk || step.Type == QuestType.Cutscene) &&
+                        step.AutoDisplayDialogue)
                     {
                         match = q;
                         break;

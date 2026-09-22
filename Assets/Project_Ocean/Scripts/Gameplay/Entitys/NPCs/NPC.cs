@@ -96,7 +96,7 @@ namespace Game.Testing
         {
             var quest = ResolveActiveQuest();
             var step = quest?.CurrentStep;
-            if (step == null || step.Type != QuestType.Talk || step.EffectiveNpcId != npcId)
+            if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId))
                 return false;
 
             bool targeted = quest.Status switch

@@ -19,56 +19,70 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: ea030000
   steps:
+  - type: 4
+    targetEnemyId: Prologue
+    targetEnemyIds: []
+    tutorialAction: 0
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue: []
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
-    targetCount: 1
-    completionMode: 0
-    stepDescription: 
-    dialogue:
-    - characterId: player
-      type: 1
-      lines:
-      - "\u201CYou used to be an office worker that quit your job to go to this island
-        because you think diving in the ocean is pretty cool\u201D"
-      cutsceneId: 
-    isGuidedSequence: 0
-    autoDisplayDialogue: 1
-    notificationImages: []
-    rewardItemId: 
-    rewardMoney: 0
-    unlocksFeatures: 
-  - type: 4
-    targetEnemyId: 
-    targetEnemyIds: []
-    tutorialAction: 0
-    targetQuestItemId: 
-    targetQuestItemIds: []
-    targetQuestItemRequirements: []
-    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press W A S D to move"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 00000000
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: hunter
-    targetEnemyIds: []
+    targetEnemyIds:
+    - hunter
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press [E] to Talk with Hunter"'
@@ -80,18 +94,25 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0300000009000000
-  - type: 5
+    locksFeatures: 
+  - type: 4
     targetEnemyId: MQ1001_01
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Talk to Hunter
@@ -103,33 +124,43 @@ MonoBehaviour:
       cutsceneId: TT_01
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Interact to board the boat"'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 05000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 15
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -139,21 +170,28 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Press [Left Click] to fire gun to Fish."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 04000000
+    locksFeatures: 
   - type: 0
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 4
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -165,21 +203,28 @@ MonoBehaviour:
     - itemId: 
       count: 0
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 9
     completionMode: 0
     stepDescription: '"Collected fish"'
     dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 13
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -189,21 +234,28 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Bag is full. Press [I] to check inventory."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
-  - type: 4
+    unlocksFeatures: 0e000000
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 14
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -213,21 +265,28 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Click [Back to land] to return to the surface."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 01000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 8
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -237,21 +296,28 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Go to the Fish Shop to sell your catch."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 3
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -261,21 +327,28 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Click [Sell All] to sell all fishes in your inventory."'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 6
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -285,6 +358,10 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -296,15 +373,18 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 11
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -314,6 +394,10 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Move out of shop."'
@@ -325,15 +409,18 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 7
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -343,6 +430,10 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Return to your house to rest."'
@@ -354,15 +445,18 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: player
     targetEnemyIds: []
     tutorialAction: 6
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds:
     - 31001
     - 31002
@@ -372,6 +466,10 @@ MonoBehaviour:
     - 31006
     targetQuestItemRequirements: []
     deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Sleep"'
@@ -383,9 +481,11 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 1
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 070000000c0000000a0000000b000000
-  questName: Tutorial Intro
+    locksFeatures: 
+  questName: Main Quest I
   questGiverNpcId: 
