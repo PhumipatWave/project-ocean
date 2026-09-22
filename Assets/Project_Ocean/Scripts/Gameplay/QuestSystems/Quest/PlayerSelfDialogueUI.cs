@@ -48,11 +48,13 @@ namespace Game.Testing
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
+            LoadingManager.OnLoadingFinished += Refresh;
         }
 
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= Refresh;
+            LoadingManager.OnLoadingFinished -= Refresh;
             if (isShowing)
                 Hide();
         }
@@ -75,6 +77,9 @@ namespace Game.Testing
 
         private void Refresh()
         {
+            // Wait for the loading screen; OnLoadingFinished calls Refresh again.
+            if (LoadingManager.IsLoading) return;
+
             Quest match = null;
 
             if (QuestManager.Instance != null)

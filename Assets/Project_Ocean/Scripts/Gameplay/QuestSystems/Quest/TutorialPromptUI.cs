@@ -27,12 +27,14 @@ namespace Game.Testing
         {
             QuestManager.OnQuestUpdated += Refresh;
             PlayerUIState.OnLockChanged += HandleLockChanged;
+            LoadingManager.OnLoadingFinished += Refresh;
         }
 
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= Refresh;
             PlayerUIState.OnLockChanged -= HandleLockChanged;
+            LoadingManager.OnLoadingFinished -= Refresh;
 
             Hide();
         }
@@ -43,7 +45,7 @@ namespace Game.Testing
 
         private void Refresh()
         {
-            if (PlayerUIState.IsLocked || QuestManager.Instance == null)
+            if (PlayerUIState.IsLocked || QuestManager.Instance == null || LoadingManager.IsLoading)
             {
                 Hide();
                 return;

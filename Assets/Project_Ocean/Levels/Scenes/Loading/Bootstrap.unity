@@ -595,13 +595,13 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1004661149
 CanvasRenderer:
@@ -621,9 +621,9 @@ Animator:
   m_GameObject: {fileID: 1004661146}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 895517e011d95ad4e99e466934c2b98c, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -650,13 +650,13 @@ MonoBehaviour:
   profiles:
   - type: 0
     sprite: {fileID: 6852730229416396848, guid: b3e0f5053a492e04a8a5c0cc5ecb9a15, type: 3}
-    animatorController: {fileID: 9100000, guid: 769da3cdf27e5d247a1bee690cebcd5a, type: 2}
+    stateName: MenuToLand
   - type: 1
     sprite: {fileID: 8445679384528525379, guid: 2aadceb34c2a780409bf7c12c2f60001, type: 3}
-    animatorController: {fileID: 9100000, guid: 4e6ce6e38578e0b4ba83270ecf6d5807, type: 2}
+    stateName: OceanToLand
   - type: 2
     sprite: {fileID: 7615496367178961462, guid: 808a06dc0e3dd974b99b07ea3c18e76d, type: 3}
-    animatorController: {fileID: 9100000, guid: 13d02cd814a409646b44e5a0de69032e, type: 2}
+    stateName: LandToOcean
 --- !u!1 &1029063284
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,7 +967,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 2000
   m_TargetDisplay: 0
 --- !u!225 &1751461011
 CanvasGroup:

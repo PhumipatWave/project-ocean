@@ -7,7 +7,10 @@ namespace Game.Testing
     {
         private void Start()
         {
-            SceneManager.LoadScene("MainMenuScene");
+            if (LoadingManager.Instance != null)
+                LoadingManager.Instance.LoadScene(SceneNames.MainMenu, LoadingType.Menu);
+            else
+                SceneManager.LoadScene(SceneNames.MainMenu);
         }
     }
 }
