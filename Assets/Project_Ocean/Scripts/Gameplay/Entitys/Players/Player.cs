@@ -231,7 +231,9 @@ private void Start()
                 isLand = false;
                 entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
 
-                oxygenTube.SetStartPoint(transform.position);
+                // Rope anchor is separate from player spawn; falls back to spawn point if scene has none.
+                var ropeAnchor = GameObject.FindGameObjectWithTag("OxygenTubePoint");
+                oxygenTube.SetStartPoint(ropeAnchor != null ? ropeAnchor.transform.position : spawnPoint.position);
             }
         }
 
