@@ -138,6 +138,11 @@ namespace Game.Testing
 
         public void ToMainMenu()
         {
+            // UIManager (pause menu, etc.) is DontDestroyOnLoad — without this, returning to
+            // the menu while it's open leaves its panel active, its PlayerUIState lock held,
+            // and (since ApplyBlockingState set it) Time.timeScale stuck at 0 forever, silently
+            // freezing everything that loads next (including a fresh New Game).
+            UIManager.Instance?.CloseAll();
             SceneManager.LoadScene(SceneNames.MainMenu);
             gameState = GameState.Menu;
         }

@@ -107,7 +107,11 @@ namespace Game.Testing
             // menu/land buttons); leaving it visible there stacks it on top of the menu's own
             // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
             // live outside hudContentGroup, so they're unaffected either way.
-            SetHudVisible(scene.name != SceneNames.MainMenu);
+            // Still respects PlayerUIState.IsLocked — a scene load landing while something's
+            // already locked (e.g. a Cutscene-type step that plays the instant the scene loads,
+            // like Prologue) must not force the HUD back on over it; HandleLockChanged already
+            // hid it and won't fire again since the lock itself didn't change.
+            SetHudVisible(scene.name != SceneNames.MainMenu && !PlayerUIState.IsLocked);
 
             if (scene.name == "MainMenuScene")
             {

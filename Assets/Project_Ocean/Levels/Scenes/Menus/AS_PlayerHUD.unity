@@ -573,9 +573,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.CutsceneManager
   cutscenePrefabs:
+  - {fileID: 2674864648947791285, guid: ad0f49146e0fa1d4c98c0e6453aaaff7, type: 3}
   - {fileID: 5560355171525542675, guid: d5c256c82d8eb954aa87c94c7737d736, type: 3}
   - {fileID: 3384283212005128527, guid: 41c087ad41dd53d498e80bd3b1af894a, type: 3}
-  - {fileID: 2674864648947791285, guid: ad0f49146e0fa1d4c98c0e6453aaaff7, type: 3}
 --- !u!114 &120138391 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5507655906424910810, guid: 475e396cbde8f174da13706da1472356, type: 3}
@@ -10006,7 +10006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4916282410336610952, guid: 912e4c85f81883045b16575c1974d2e8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.6000366
+      value: 2.6000595
       objectReference: {fileID: 0}
     - target: {fileID: 4916282410336610952, guid: 912e4c85f81883045b16575c1974d2e8, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -10102,7 +10102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8127156214562061744, guid: 912e4c85f81883045b16575c1974d2e8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.2001648
+      value: 1.20018
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10587,7 +10587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6500705699526667134, guid: 475e396cbde8f174da13706da1472356, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.41992188
+      value: 0.41986084
       objectReference: {fileID: 0}
     - target: {fileID: 6545836620300043488, guid: 475e396cbde8f174da13706da1472356, type: 3}
       propertyPath: m_AnchorMax.y

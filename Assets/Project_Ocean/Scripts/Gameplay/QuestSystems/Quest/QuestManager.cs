@@ -57,6 +57,16 @@ namespace Game.Testing
             DayManager.OnDivedToday -= HandleDayOrDiveChanged;
         }
 
+        /// <summary>Rebuilds every quest from scratch, as if the game had just started —
+        /// called by SaveBridge.ResetForNewGame() so "New Game" doesn't inherit a previous
+        /// playthrough's progress.</summary>
+        public void ResetToDefault()
+        {
+            trackedQuestId = -1;
+            InitializeQuests();
+            OnQuestUpdated?.Invoke();
+        }
+
         // Converts each ScriptableObject (QuestData) into a runtime Quest.
         private void InitializeQuests()
         {

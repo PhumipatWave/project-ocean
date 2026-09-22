@@ -391,6 +391,21 @@ namespace Game.Testing
             return inventorySlots[slotIndex].GetComponentInChildren<Draggableltem>();
         }
 
+        /// <summary>Destroys every held item and relocks any slot unlocked via upgrades —
+        /// called by SaveBridge.ResetForNewGame() so a fresh game doesn't inherit a previous
+        /// playthrough's items/unlocked slots.</summary>
+        public void ResetToDefault()
+        {
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                var item = GetItemInSlot(i);
+                if (item != null)
+                    Destroy(item.gameObject);
+            }
+
+            LockStartingSlots();
+        }
+
         private void LockStartingSlots()
         {
             for (int i = 0; i < inventorySlots.Length; i++)

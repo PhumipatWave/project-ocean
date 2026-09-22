@@ -47,6 +47,14 @@ namespace Game.Testing
                 OnFeatureLocked?.Invoke(feature);
         }
 
+        /// <summary>Clears every unlock/lock — called by SaveBridge.ResetForNewGame() so a
+        /// fresh game doesn't inherit a previous playthrough's unlocked features.</summary>
+        public void ResetToDefault()
+        {
+            unlocked.Clear();
+            locked.Clear();
+        }
+
         /// <summary>
         /// Re-derives unlocks and locks from every quest's already-completed steps. Purely
         /// additive (both are idempotent), so always safe to run — this is what lets a save

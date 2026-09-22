@@ -215,6 +215,45 @@ namespace Game.Testing
 
         // -------------------- Public API -------------------- //
 
+        /// <summary>
+        /// Resets every persistent system to its fresh-game default — call before SaveGame()
+        /// when starting a New Game. Without this, "New Game" would just snapshot whatever's
+        /// currently in memory into the new slot: every one of these is a DontDestroyOnLoad
+        /// singleton that survives GameManager.ToMainMenu()'s scene load untouched, so a
+        /// previous playthrough's quest progress/unlocks/inventory/day count would carry over.
+        /// Destroys the current player outright (rather than resetting its components
+        /// individually) — GameManager.SpawnPlayer() rebuilds a fresh one, with prefab-default
+        /// stats, the next time a gameplay scene loads.
+        /// </summary>
+        public void ResetForNewGame()
+        {
+            if (GameManager.CurPlayer != null)
+                Destroy(GameManager.CurPlayer.gameObject);
+
+            // Before QuestManager — clears any coroutine/lock left over from a PREVIOUS
+            // interrupted attempt while activeQuestStep still points at the about-to-be-discarded
+            // quest objects. QuestManager.ResetToDefault() below fires OnQuestUpdated as a side
+            // effect of rebuilding, which CutsceneManager is subscribed to — with this reset
+            // already done, that pass legitimately (re)starts a Cutscene-type first step (e.g.
+            // Prologue) for the fresh game, instead of that trigger racing a stale one.
+            CutsceneManager.Instance?.ResetToDefault();
+            QuestManager.Instance?.ResetToDefault();
+            FeatureUnlockService.Instance.ResetToDefault();
+            InventoryManager.Instance?.ResetToDefault();
+            EnemyKillTracker.Instance?.ResetAll();
+            UpgradeService.Instance.ResetToDefault();
+
+            if (DayManager.Instance != null)
+            {
+                DayManager.Instance.SetDay(1);
+                DayManager.Instance.SetDivesToday(0);
+                DayManager.Instance.SetTotalDives(0);
+            }
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.MiniHubAvaliable = false;
+        }
+
         /// <summary>Saves to whichever slot was last used (see CurrentSlot).</summary>
         public void SaveGame() => SaveGame(CurrentSlot);
 

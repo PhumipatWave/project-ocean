@@ -188,6 +188,17 @@ namespace Game.Testing
             HandleStopped(director); // no-op if `stopped` already ran it
         }
 
+        // Safety net: HandleStopped normally runs off director.stopped, but that event never
+        // fires if this instance is destroyed abnormally (Play mode stopped mid-cutscene, scene
+        // torn down, etc.) — without this, PlayerUIState's Open() from Play() above never gets
+        // its matching Close(), leaking the lock for the rest of the session and permanently
+        // preventing GameHUD's hide-on-cutscene (its 0→1 transition never re-fires).
+        private void OnDestroy()
+        {
+            if (isPlaying)
+                HandleStopped(director);
+        }
+
         private void HandleStopped(PlayableDirector d)
         {
             if (!isPlaying)
