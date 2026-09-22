@@ -47,6 +47,7 @@ namespace Game.Testing
             if (!pressed) return;
             if (TutorialGate.Blocks(TutorialActionId.Interact)) return;
             if (CutsceneGate.IsPlaying) return;
+            if (LoadingManager.IsLoading) return;
             if (PlayerSelfDialogueUI.BlocksInteraction) return;
             if (IsFeatureLocked())
             {

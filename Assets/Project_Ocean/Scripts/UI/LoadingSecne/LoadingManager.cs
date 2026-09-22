@@ -26,6 +26,12 @@ namespace Game.Testing
 
         private bool isLoading;
 
+        /// <summary>True while the loading screen is up. Tutorial/dialogue UI and interaction wait on this.</summary>
+        public static bool IsLoading => Instance != null && Instance.isLoading;
+
+        /// <summary>Fired after the loading screen hides.</summary>
+        public static event System.Action OnLoadingFinished;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -40,7 +46,9 @@ namespace Game.Testing
 
         private void Start()
         {
-            HideLoading();
+            // BootstrapLoader.Start may already have begun the first load.
+            if (!isLoading)
+                HideLoading();
         }
 
         // =========================================================
@@ -67,7 +75,7 @@ namespace Game.Testing
 
         public void StartGame()
         {
-            LoadScene(landScene);
+            LoadScene(landScene, LoadingType.Menu);
         }
 
         public void BackToMenu()
@@ -142,16 +150,24 @@ namespace Game.Testing
             isLoading = false;
 
             HideLoading();
+
+            OnLoadingFinished?.Invoke();
         }
 
         public void LoadScene(string sceneName, LoadingType loadingType)
         {
+            if (isLoading)
+                return;
+
+            // Show first: Animator.Play is ignored on an inactive icon.
+            ShowLoading();
+
             if (loadingVisualController != null)
             {
                 loadingVisualController.ApplyProfile(loadingType);
             }
 
-            StartCoroutine(LoadSceneRoutine(sceneName));
+            LoadScene(sceneName);
         }
 
         // =========================================================
