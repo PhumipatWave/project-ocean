@@ -198,6 +198,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &160325805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8754813299144597131, guid: c27e53fa5262264498ace7633893765c, type: 3}
+  m_PrefabInstance: {fileID: 196013891}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &196013891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,6 +292,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8453429535329954512, guid: c27e53fa5262264498ace7633893765c, type: 3}
+      propertyPath: m_text
+      value: Loading...
+      objectReference: {fileID: 0}
+    - target: {fileID: 8453429535329954512, guid: c27e53fa5262264498ace7633893765c, type: 3}
       propertyPath: m_fontSize
       value: 56
       objectReference: {fileID: 0}
@@ -301,13 +310,66 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8754813299144597131, guid: c27e53fa5262264498ace7633893765c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 196013896}
+    - targetCorrespondingSourceObject: {fileID: 8754813299144597131, guid: c27e53fa5262264498ace7633893765c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 196013895}
   m_SourcePrefab: {fileID: 100100000, guid: c27e53fa5262264498ace7633893765c, type: 3}
 --- !u!224 &196013892 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5560289397748526273, guid: c27e53fa5262264498ace7633893765c, type: 3}
   m_PrefabInstance: {fileID: 196013891}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &196013893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8453429535329954512, guid: c27e53fa5262264498ace7633893765c, type: 3}
+  m_PrefabInstance: {fileID: 196013891}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160325805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &196013895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160325805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5fe9c93e51eb1240bae61d50a48a33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.LoadingTextAnimation
+  loadingText: {fileID: 196013893}
+  dotInterval: 0.5
+--- !u!95 &196013896
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160325805}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4efd5b9305900004fafd87ce3e0d565b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &277021767
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +546,7 @@ GameObject:
   - component: {fileID: 1004661149}
   - component: {fileID: 1004661148}
   - component: {fileID: 1004661150}
+  - component: {fileID: 1004661151}
   m_Layer: 5
   m_Name: LoadingIcon
   m_TagString: Untagged
@@ -530,7 +593,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7615496367178961462, guid: 808a06dc0e3dd974b99b07ea3c18e76d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -558,7 +621,7 @@ Animator:
   m_GameObject: {fileID: 1004661146}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 13d02cd814a409646b44e5a0de69032e, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -570,6 +633,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1004661151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004661146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5256696d3ef040c4caf67cecb6505f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.LoadingVisualController
+  loadingImage: {fileID: 1004661148}
+  animator: {fileID: 1004661150}
+  profiles:
+  - type: 0
+    sprite: {fileID: 6852730229416396848, guid: b3e0f5053a492e04a8a5c0cc5ecb9a15, type: 3}
+    animatorController: {fileID: 9100000, guid: 769da3cdf27e5d247a1bee690cebcd5a, type: 2}
+  - type: 1
+    sprite: {fileID: 8445679384528525379, guid: 2aadceb34c2a780409bf7c12c2f60001, type: 3}
+    animatorController: {fileID: 9100000, guid: 4e6ce6e38578e0b4ba83270ecf6d5807, type: 2}
+  - type: 2
+    sprite: {fileID: 7615496367178961462, guid: 808a06dc0e3dd974b99b07ea3c18e76d, type: 3}
+    animatorController: {fileID: 9100000, guid: 13d02cd814a409646b44e5a0de69032e, type: 2}
 --- !u!1 &1029063284
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +782,8 @@ MonoBehaviour:
   mainMenuScene: MainMenuScene
   landScene: Land_Map
   oceanScene: Ocean_Map
-  minimumLoadingTime: 5
+  minimumLoadingTime: 3
+  loadingVisualController: {fileID: 1004661151}
 --- !u!1 &1127721918
 GameObject:
   m_ObjectHideFlags: 0
