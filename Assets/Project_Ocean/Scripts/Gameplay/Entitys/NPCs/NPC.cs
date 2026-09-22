@@ -150,7 +150,7 @@ namespace Game.Testing
 
         public void Interact()
         {
-            if (CutsceneGate.IsPlaying) return;
+            if (CutsceneGate.IsPlaying || LoadingManager.IsLoading) return;
 
             if (HasQuest)
                 QuestInteract();

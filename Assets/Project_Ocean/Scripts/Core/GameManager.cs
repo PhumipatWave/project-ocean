@@ -143,7 +143,7 @@ namespace Game.Testing
             // and (since ApplyBlockingState set it) Time.timeScale stuck at 0 forever, silently
             // freezing everything that loads next (including a fresh New Game).
             UIManager.Instance?.CloseAll();
-            SceneManager.LoadScene(SceneNames.MainMenu);
+            LoadWithLoadingScreen(SceneNames.MainMenu, LoadingType.Menu);
             gameState = GameState.Menu;
         }
 
@@ -166,7 +166,7 @@ namespace Game.Testing
             }
 
             TutorialEvents.RaiseAction(TutorialActionId.Dive);
-            SceneManager.LoadScene(SceneNames.Ocean);
+            LoadWithLoadingScreen(SceneNames.Ocean, LoadingType.Ocean);
             gameState = GameState.Ocean;
         }
 
@@ -174,8 +174,16 @@ namespace Game.Testing
         {
             CurPlayer.OxygenTube.ResetRope();
             TutorialEvents.RaiseAction(TutorialActionId.BackToLand);
-            SceneManager.LoadScene(SceneNames.Land);
+            LoadWithLoadingScreen(SceneNames.Land, LoadingType.Land);
             gameState = GameState.Land;
+        }
+
+        private static void LoadWithLoadingScreen(string sceneName, LoadingType loadingType)
+        {
+            if (LoadingManager.Instance != null)
+                LoadingManager.Instance.LoadScene(sceneName, loadingType);
+            else
+                SceneManager.LoadScene(sceneName);
         }
     }
 }
