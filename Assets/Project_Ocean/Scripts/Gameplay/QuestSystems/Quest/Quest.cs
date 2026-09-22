@@ -11,7 +11,13 @@ namespace Game.Testing
         Talk,
         Tutorial,
         // Added at the end — existing authored steps are serialized by enum index.
-        Cutscene
+        Cutscene,
+        // Completes once DayManager reports at least RequiredDaysToWait days have passed
+        // since this step became current AND at least RequiredDivesThatDay dives happened
+        // on the current day — see QuestManager.HandleDayOrDiveChanged. Deliberately NOT a
+        // Tutorial step: Tutorial forces TutorialPromptUI's guided/input-locked mode, which
+        // is wrong for an ordinary "come back after you sleep and dive" checkpoint.
+        WaitingQuest
     }
 
     /// <summary>Delivery only — what drives step progress. InventoryHeld: live-rechecked
@@ -79,6 +85,20 @@ namespace Game.Testing
         /// below completion. See QuestManager for the only reader/writer.</summary>
         public bool MoneyPending;
 
+        /// <summary>WaitingQuest only — at least this many day-advances must occur after the
+        /// step becomes current. See QuestData.requiredDaysToWait.</summary>
+        public int RequiredDaysToWait;
+
+        /// <summary>WaitingQuest only — at least this many dives must happen on the day the
+        /// wait finishes. See QuestData.requiredDivesThatDay.</summary>
+        public int RequiredDivesThatDay;
+
+        /// <summary>WaitingQuest only — DayManager.CurrentDay when this step became current,
+        /// -1 until QuestManager stamps it (AcceptQuest/CompleteProgress/LoadSaveState — see
+        /// QuestManager.StampWaitingQuestStart, the only writer). Persisted via
+        /// QuestSaveData.dayStepBecameCurrent so a save/quit mid-wait isn't lost.</summary>
+        public int DayStepBecameCurrent = -1;
+
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
@@ -95,12 +115,33 @@ namespace Game.Testing
         private static readonly List<string> EmptyNpcIds = new();
 
         /// <summary>Default/primary speaker for context-free single-NPC lookups (board/tracker
-        /// avatar, QuestDetailPanel's Accept/Reject, the compass target) — the first id in
-        /// EffectiveNpcIds, or null. An Auto Display Dialogue step talks to nobody, so it has
-        /// none — author its lines with a blank characterId. Other step types (Delivery, etc.)
-        /// have no default speaker either.
+        /// avatar, QuestDetailPanel's Accept/Reject) — the first id in EffectiveNpcIds, or null.
+        /// An Auto Display Dialogue step talks to nobody, so it has none — author its lines with
+        /// a blank characterId. Other step types (Delivery, etc.) have no default speaker either.
+        /// Not used for the compass — see NextTalkTargetNpcId for that.
         /// </summary>
         public string EffectiveNpcId => EffectiveNpcIds.Count > 0 ? EffectiveNpcIds[0] : null;
+
+        /// <summary>Talk (non-auto) only — which NPC the compass/marker should point at right
+        /// now. AnyOne: same as EffectiveNpcId, any listed NPC is a valid target. All: the first
+        /// listed id NOT already in talkedToNpcIds, so the arrow advances past an NPC once
+        /// they're done instead of pointing at them forever (see QuestNavigation.ResolveQuestTarget,
+        /// the only reader). Falls back to EffectiveNpcId if every NPC is already talked to
+        /// (the step should already be complete by then).</summary>
+        public string NextTalkTargetNpcId
+        {
+            get
+            {
+                if (TalkCompletionMode == TalkCompletionMode.AnyOne)
+                    return EffectiveNpcId;
+
+                foreach (var id in EffectiveNpcIds)
+                    if (!talkedToNpcIds.Contains(id))
+                        return id;
+
+                return EffectiveNpcId;
+            }
+        }
 
         /// <summary>ExploreArea steps reuse TargetEnemyId as the Area Id an ExploreAreaTrigger reports.</summary>
         public string EffectiveAreaId => Type == QuestType.ExploreArea ? TargetEnemyId : null;
@@ -412,6 +453,8 @@ namespace Game.Testing
                     TalkCompletionMode = s.talkCompletionMode,
                     ConsumeOnComplete = s.consumeOnComplete,
                     RequiredMoney = s.requiredMoney,
+                    RequiredDaysToWait = s.requiredDaysToWait,
+                    RequiredDivesThatDay = s.requiredDivesThatDay,
                     TargetCount = targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,

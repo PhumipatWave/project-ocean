@@ -40,6 +40,8 @@ namespace Game.Testing
             ExploreEvents.OnAreaReached += HandleAreaReached;
             InventoryManager.OnInventoryChanged += HandleInventoryChanged;
             PlayerMoney.OnMoneyChanged += HandleMoneyChanged;
+            DayManager.OnDayAdvanced += HandleDayOrDiveChanged;
+            DayManager.OnDivedToday += HandleDayOrDiveChanged;
         }
 
         private void OnDisable()
@@ -51,6 +53,8 @@ namespace Game.Testing
             ExploreEvents.OnAreaReached -= HandleAreaReached;
             InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
             PlayerMoney.OnMoneyChanged -= HandleMoneyChanged;
+            DayManager.OnDayAdvanced -= HandleDayOrDiveChanged;
+            DayManager.OnDivedToday -= HandleDayOrDiveChanged;
         }
 
         // Converts each ScriptableObject (QuestData) into a runtime Quest.
@@ -154,9 +158,14 @@ namespace Game.Testing
         }
 
         /// <summary>Finalizes any Delivery step that was held back solely on RequiredMoney
-        /// (see QuestStep.MoneyPending) now that the balance can cover it.</summary>
+        /// (see QuestStep.MoneyPending) now that the balance can cover it. Also pokes
+        /// OnQuestUpdated unconditionally — QuestVisuals.GetDeliveryStatusSuffix shows the
+        /// player's live balance against RequiredMoney, so the tracker needs to redraw on
+        /// every money change even when no step actually completes.</summary>
         private void HandleMoneyChanged(int _)
         {
+            OnQuestUpdated?.Invoke();
+
             foreach (var q in activeQuestList)
             {
                 if (q.Status != QuestStatus.InProgress) continue;
@@ -167,6 +176,41 @@ namespace Game.Testing
 
                 step.MoneyPending = false;
                 CompleteProgress(q, step.TargetCount - step.CurrentCount);
+            }
+        }
+
+        /// <summary>WaitingQuest only — records the day this step became current, once. Safe to
+        /// call repeatedly (AcceptQuest/CompleteProgress/LoadSaveState all call it) — a no-op once
+        /// DayStepBecameCurrent is already set, since a step only becomes current once.</summary>
+        private static void StampWaitingQuestStart(QuestStep step)
+        {
+            if (step != null && step.Type == QuestType.WaitingQuest &&
+                step.DayStepBecameCurrent < 0 && DayManager.Instance != null)
+                step.DayStepBecameCurrent = DayManager.Instance.CurrentDay;
+        }
+
+        /// <summary>
+        /// Not routed through TryProgress — WaitingQuest is a live state condition (day count +
+        /// today's dive count), not a one-shot event match, same reasoning as Delivery's
+        /// HandleInventoryChanged. Re-checks every InProgress quest on every day-advance or dive.
+        /// </summary>
+        private void HandleDayOrDiveChanged()
+        {
+            if (DayManager.Instance == null) return;
+
+            foreach (var q in activeQuestList)
+            {
+                if (q.Status != QuestStatus.InProgress) continue;
+
+                var step = q.CurrentStep;
+                if (step == null || step.Type != QuestType.WaitingQuest) continue;
+
+                StampWaitingQuestStart(step);
+
+                bool dayReady = DayManager.Instance.CurrentDay >= step.DayStepBecameCurrent + step.RequiredDaysToWait;
+                bool diveReady = DayManager.Instance.DivesToday >= step.RequiredDivesThatDay;
+                if (dayReady && diveReady)
+                    CompleteProgress(q);
             }
         }
 
@@ -405,6 +449,14 @@ namespace Game.Testing
             // HandleInventoryChanged.
             if (q.CurrentStep?.Type == QuestType.Delivery && q.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
                 HandleInventoryChanged();
+
+            // Same idea for WaitingQuest — stamp its start day now, and check right away in
+            // case DayManager already satisfies it (e.g. RequiredDaysToWait is 0).
+            if (q.CurrentStep?.Type == QuestType.WaitingQuest)
+            {
+                StampWaitingQuestStart(q.CurrentStep);
+                HandleDayOrDiveChanged();
+            }
         }
 
         // Locks always win over unlocks (see FeatureUnlockService.IsUnlocked) — order here
@@ -543,6 +595,7 @@ namespace Game.Testing
                     status          = (int)q.Status,
                     currentCount    = q.CurrentCount,
                     currentStepIndex = q.CurrentStepIndex,
+                    dayStepBecameCurrent = q.CurrentStep?.DayStepBecameCurrent ?? -1,
                 });
             return list;
         }
@@ -572,6 +625,9 @@ namespace Game.Testing
                     quest.Status           = (QuestStatus)s.status;
                     quest.CurrentStepIndex = s.currentStepIndex; // set before CurrentCount — CurrentCount targets the step at this index
                     quest.CurrentCount     = s.currentCount;
+
+                    if (quest.CurrentStep != null && s.dayStepBecameCurrent >= 0)
+                        quest.CurrentStep.DayStepBecameCurrent = s.dayStepBecameCurrent;
                 }
             }
 
@@ -583,6 +639,11 @@ namespace Game.Testing
             // adjusted their inventory between sessions) — HandleInventoryChanged re-checks
             // every InProgress quest itself, so one call covers all of them.
             HandleInventoryChanged();
+
+            // Same idea for WaitingQuest — old saves (or a step reached for the first time
+            // this session) have no dayStepBecameCurrent yet; StampWaitingQuestStart inside
+            // it fills that in from the live day as a reasonable fallback.
+            HandleDayOrDiveChanged();
         }
 
         // =========================================================
@@ -649,6 +710,12 @@ namespace Game.Testing
             // before ever accepting) — nothing else would trigger a check for that.
             if (quest.CurrentStep?.Type == QuestType.Delivery && quest.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
                 HandleInventoryChanged();
+
+            if (quest.CurrentStep?.Type == QuestType.WaitingQuest)
+            {
+                StampWaitingQuestStart(quest.CurrentStep);
+                HandleDayOrDiveChanged();
+            }
 
             Debug.Log($"Accepted Quest: {quest.QuestName}");
 
@@ -844,6 +911,19 @@ namespace Game.Testing
                 return null;
 
             return quest;
+        }
+
+        /// <summary>Dev/cheat only — forces the tracked quest's current step to complete
+        /// through the normal CompleteProgress pipeline (rewards, item/money consumption,
+        /// feature unlocks, HandleNextQuest all still run), regardless of whether its real
+        /// requirement is actually met. See DevPanel.</summary>
+        public void DevSkipCurrentStep()
+        {
+            var q = GetTrackedQuest();
+            var step = q?.CurrentStep;
+            if (q == null || q.Status != QuestStatus.InProgress || step == null) return;
+
+            CompleteProgress(q, step.TargetCount - step.CurrentCount);
         }
 
         public bool SetTrackedQuest(int questID)

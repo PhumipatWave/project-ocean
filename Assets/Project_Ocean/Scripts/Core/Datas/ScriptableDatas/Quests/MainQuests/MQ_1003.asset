@@ -16,8 +16,8 @@ MonoBehaviour:
   classification: 0
   questId: 1003
   status: 0
-  nextQuestMode: 2
-  nextQuestIds: ec030000
+  nextQuestMode: 0
+  nextQuestIds: 
   steps:
   - type: 0
     targetEnemyId: 
@@ -27,11 +27,13 @@ MonoBehaviour:
     deliverySource: 0
     targetQuestItemIds: []
     targetQuestItemRequirements:
-    - itemId: MQI001
+    - itemId: 80001
       count: 5
     deliveryCountMode: 1
     consumeOnComplete: 0
-    requiredMoney: 3000
+    requiredMoney: 5000
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Find materials"'
@@ -56,16 +58,99 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Turn in materials at the Upgrade Shop."'
     dialogue:
     - characterId: femboy
-      type: 0
+      type: 1
       lines:
       - ' "Materials received. Crafting will take 1 day. Check back tomorrow after
         your morning dive."'
       cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+    locksFeatures: 10000000
+  - type: 5
+    targetEnemyId: Upgrade Shop
+    targetEnemyIds: []
+    tutorialAction: 9
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Waiting for crafting."'
+    dialogue: []
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+    locksFeatures: 
+  - type: 2
+    targetEnemyId: Upgrade Shop
+    targetEnemyIds:
+    - femboy
+    tutorialAction: 9
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Demolition Tool is ready! Collect it from the Upgrade Shop."'
+    dialogue:
+    - characterId: femboy
+      type: 1
+      lines:
+      - ' "Here your tool..."'
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+    locksFeatures: 
+  - type: 5
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 9
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 0
+    requiredDivesThatDay: 0
+    targetCount: 1
+    completionMode: 0
+    stepDescription: '"Now your finish all tutorial.  Enjoy a free roam of the game!"'
+    dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0

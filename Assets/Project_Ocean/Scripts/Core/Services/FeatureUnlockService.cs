@@ -29,14 +29,18 @@ namespace Game.Testing
 
         public bool IsUnlocked(GameFeature feature) => unlocked.Contains(feature) && !locked.Contains(feature);
 
+        /// <summary>Reopens a feature — clears any earlier Lock() on it, so a later step can
+        /// intentionally re-open something an earlier step locked (e.g. "explore ocean" locks
+        /// Ocean/Sleep until the follow-up talk step unlocks them again). Whichever of
+        /// Lock/Unlock ran most recently for a feature wins; GetCompletedSteps()/live play both
+        /// apply steps in order, so this stays chronologically correct either way.</summary>
         public void Unlock(GameFeature feature)
         {
+            locked.Remove(feature);
             if (unlocked.Add(feature))
                 OnFeatureUnlocked?.Invoke(feature);
         }
 
-        /// <summary>One-way, like Unlock — there's no matching "clear a lock" (nothing needs it
-        /// yet; add one if a future step needs to re-open something it previously locked).</summary>
         public void Lock(GameFeature feature)
         {
             if (locked.Add(feature))

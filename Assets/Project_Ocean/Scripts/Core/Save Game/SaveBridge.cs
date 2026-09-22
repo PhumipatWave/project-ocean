@@ -22,6 +22,13 @@ namespace Game.Testing
 
         private SaveData _pendingData;
 
+        // True once this play session has gone through SaveGame(slot)/LoadGame(slot) — the
+        // explicit "New Game"/"Continue" entry points (see SaveMenuUI). Entering Land_Map
+        // directly (e.g. pressing Play on that scene in the Editor) skips both, so without
+        // this guard OnSceneLoaded's auto-save would silently overwrite the real save with
+        // default/fresh state the moment the scene loads.
+        private bool _sessionStarted;
+
         // Order is intentional and stable. Built fresh each call because scene-level
         // managers (QuestManager, EnemyKillTracker) may not exist at save time.
         private List<ISaveParticipant> BuildParticipants()
@@ -68,7 +75,14 @@ namespace Game.Testing
             // the player to the land PlayerSpawnPoint) has already run before we
             // capture the position — otherwise this can save the stale ocean pos.
             if (scene.name == SceneNames.Land && GameManager.Instance != null)
-                StartCoroutine(AutoSaveAfterFrame());
+            {
+                if (_sessionStarted)
+                    StartCoroutine(AutoSaveAfterFrame());
+                else
+                    Debug.LogWarning("[SaveBridge] Landed on " + SceneNames.Land +
+                        " without going through New Game/Continue this session — skipping " +
+                        "auto-save so slot " + CurrentSlot + " isn't overwritten.");
+            }
         }
 
         private IEnumerator AutoSaveAfterFrame()
@@ -208,6 +222,7 @@ namespace Game.Testing
         public void SaveGame(int slot)
         {
             CurrentSlot = slot;
+            _sessionStarted = true;
 
             var gm = GameManager.Instance;
             if (gm == null) { Debug.LogError("[SaveBridge] GameManager not found"); return; }
@@ -248,6 +263,7 @@ namespace Game.Testing
         public void LoadGame(int slot)
         {
             CurrentSlot = slot;
+            _sessionStarted = true;
 
             if (!SaveSystem.HasSave(slot))
             {

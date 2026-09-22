@@ -138,6 +138,12 @@ namespace Game.Testing
         [Tooltip("Delivery only — extra money required alongside the item/kill count above (0 = none). The step won't complete until BOTH are satisfied; whichever is met second finishes it. Consume On Complete also governs whether this money is spent on completion.")]
         public int requiredMoney = 0;
 
+        [Tooltip("WaitingQuest only — how many day-advances (sleeps) must happen after this step becomes current before it can complete.")]
+        public int requiredDaysToWait = 1;
+
+        [Tooltip("WaitingQuest only — how many dives must happen on the day the wait finishes (capped by DayManager.MaxDivesPerDay — don't set this higher).")]
+        public int requiredDivesThatDay = 1;
+
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
         [TextArea(2, 4)] public string stepDescription;

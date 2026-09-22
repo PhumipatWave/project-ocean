@@ -64,5 +64,7 @@ namespace Game.Testing
         public int status; // (int)QuestStatus
 
         public int currentStepIndex; // which checkpoint is active (0 on old saves — correct, they had only one step)
+
+        public int dayStepBecameCurrent = -1; // WaitingQuest only; -1 = not recorded (old saves, or non-WaitingQuest steps)
     }
 }

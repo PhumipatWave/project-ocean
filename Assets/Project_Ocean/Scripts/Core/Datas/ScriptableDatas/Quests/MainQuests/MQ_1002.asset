@@ -30,6 +30,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -53,6 +55,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -81,6 +85,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 0
     completionMode: 0
     stepDescription: 
@@ -109,6 +115,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Check quests in quest board"'
@@ -132,6 +140,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Accept quest on quest board"'
@@ -155,6 +165,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -183,6 +195,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Go to the Upgrade Shop.
@@ -211,6 +225,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -239,6 +255,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
@@ -267,6 +285,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Buy a MiniHub item."'
@@ -295,6 +315,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Head to the boat to begin Day 2 diving."'
@@ -323,6 +345,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean until rope hit limit."'
@@ -339,7 +363,7 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
+    unlocksFeatures: 0f000000
     locksFeatures: 
   - type: 3
     targetEnemyId: 
@@ -352,6 +376,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Use MiniHub item."'
@@ -380,6 +406,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Explore Ocean."'
@@ -396,7 +424,7 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 
+    unlocksFeatures: 0d00000003000000
     locksFeatures: 0d00000003000000
   - type: 2
     targetEnemyId: 
@@ -412,6 +440,8 @@ MonoBehaviour:
     deliveryCountMode: 0
     consumeOnComplete: 1
     requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
     stepDescription: '"Ask the islanders about the underwater obstacle."'
@@ -423,17 +453,17 @@ MonoBehaviour:
         solution."'
       cutsceneId: 
     - characterId: hunter
-      type: 0
+      type: 1
       lines:
       - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
       cutsceneId: 
     - characterId: shop
-      type: 0
+      type: 1
       lines:
       - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
       cutsceneId: 
     - characterId: femboy
-      type: 0
+      type: 1
       lines:
       - '"That rock needs a heavy demolition tool. I can craft one, but I need specific
         materials and gold. I''ll post the work order on the Quest Board tomorrow
@@ -445,7 +475,7 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 0d00000003000000
+    unlocksFeatures: 0d0000000300000010000000
     locksFeatures: 
   questName: Main Quest II
   questGiverNpcId: 

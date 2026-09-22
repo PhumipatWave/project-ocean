@@ -71,7 +71,7 @@ namespace Game.Testing
         {
             public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures, LocksFeatures,
                 TargetField, DeliverySource, TargetEnemyIds, TargetQuestItemIds, ConsumeOnComplete, LootItemId,
-                TalkCompletionMode, RequiredMoney;
+                TalkCompletionMode, RequiredMoney, WaitingQuestFields;
 
             private FieldVisibility(QuestType type, DeliverySource deliverySource, bool autoDisplayDialogue)
             {
@@ -79,8 +79,9 @@ namespace Game.Testing
                 bool isEnemyKills = isDelivery && deliverySource == Game.Testing.DeliverySource.EnemyKills;
                 bool isInventoryHeld = isDelivery && deliverySource == Game.Testing.DeliverySource.InventoryHeld;
                 bool isTalkNonAuto = type == QuestType.Talk && !autoDisplayDialogue;
+                bool isWaitingQuest = type == QuestType.WaitingQuest;
 
-                TargetCount = type != QuestType.Talk;
+                TargetCount = type != QuestType.Talk && !isWaitingQuest;
                 NotificationImages = type != QuestType.Talk && !isDelivery;
                 Dialogue = type != QuestType.Tutorial;
                 Reward = type != QuestType.Tutorial;
@@ -91,7 +92,8 @@ namespace Game.Testing
                 // uses the singular Target Quest Item Id, but only as the optional hand-in loot
                 // (LootItemId below). Talk+auto keeps showing the singular field (disabled,
                 // cleared) same as always — it talks to nobody, there's nothing to list.
-                TargetField = !isDelivery && !isTalkNonAuto;
+                // WaitingQuest has no id to target at all — it's driven entirely by DayManager.
+                TargetField = !isDelivery && !isTalkNonAuto && !isWaitingQuest;
                 DeliverySource = isDelivery;
                 TargetEnemyIds = isEnemyKills || isTalkNonAuto;
                 TargetQuestItemIds = isInventoryHeld;
@@ -99,6 +101,7 @@ namespace Game.Testing
                 LootItemId = isEnemyKills;
                 TalkCompletionMode = isTalkNonAuto;
                 RequiredMoney = isDelivery;
+                WaitingQuestFields = isWaitingQuest;
             }
 
             public static FieldVisibility For(QuestType type, DeliverySource deliverySource, bool autoDisplayDialogue) =>
@@ -329,6 +332,8 @@ namespace Game.Testing
             var deliveryCountModeProp = property.FindPropertyRelative("deliveryCountMode");
             var consumeOnCompleteProp = property.FindPropertyRelative("consumeOnComplete");
             var requiredMoneyProp = property.FindPropertyRelative("requiredMoney");
+            var requiredDaysToWaitProp = property.FindPropertyRelative("requiredDaysToWait");
+            var requiredDivesThatDayProp = property.FindPropertyRelative("requiredDivesThatDay");
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
             var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
@@ -477,6 +482,17 @@ namespace Game.Testing
                 rect.y += lineHeight;
             }
 
+            if (vis.WaitingQuestFields)
+            {
+                EditorGUI.PropertyField(rect, requiredDaysToWaitProp, new GUIContent("Required Days To Wait",
+                    "How many day-advances (sleeps) must happen after this step becomes current before it can complete."));
+                rect.y += lineHeight;
+
+                EditorGUI.PropertyField(rect, requiredDivesThatDayProp, new GUIContent("Required Dives That Day",
+                    "How many dives must happen on the day the wait finishes. Keep at or below DayManager.MaxDivesPerDay."));
+                rect.y += lineHeight;
+            }
+
             if (vis.UnlocksFeatures)
             {
                 rect.height = EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true);
@@ -614,6 +630,7 @@ namespace Game.Testing
                 + (vis.LootItemId ? 1 : 0)
                 + (vis.ConsumeOnComplete ? 1 : 0)
                 + (vis.RequiredMoney ? 1 : 0)
+                + (vis.WaitingQuestFields ? 2 : 0)
                 + (vis.TalkCompletionMode ? 1 : 0)
                 + (type == QuestType.Talk ? 1 : 0) // Auto Display Dialogue
                 + (showTargetCount ? 1 : 0);

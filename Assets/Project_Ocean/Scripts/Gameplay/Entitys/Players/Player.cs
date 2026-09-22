@@ -428,6 +428,7 @@ private void ApplyMovement(Vector2 dir)
 
         private void HandleUseItem()
         {
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.UseItem)) return;
             if (GameManager.Instance.GameState == GameState.Ocean)
                 UseItem(ItemType.Building);
         }

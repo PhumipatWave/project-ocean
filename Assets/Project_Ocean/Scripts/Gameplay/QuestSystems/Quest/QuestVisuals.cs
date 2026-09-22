@@ -26,5 +26,58 @@ namespace Game.Testing
             image.sprite = sprite;
             image.enabled = sprite != null;
         }
+
+        private static string ItemNameOf(int itemId) =>
+            InventoryManager.Instance?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
+
+        private static int HeldCountOf(int itemId) =>
+            InventoryManager.Instance != null ? InventoryManager.Instance.GetQuestItemCount(itemId) : 0;
+
+        /// <summary>Delivery only — "{item name} {held}/{required}" (PerItem: one per requirement,
+        /// comma-joined; CombinedTotal: one entry against the shared Target Count), plus
+        /// " · {N} Money" appended when the step has RequiredMoney. Null for every other step
+        /// type — QuestTrackerUI/ReviceQuestSlot fall back to their normal description text.</summary>
+        public static string GetDeliveryStatusSuffix(Quest quest)
+        {
+            var step = quest?.CurrentStep;
+            if (step == null || step.Type != QuestType.Delivery || step.DeliverySource == DeliverySource.EnemyKills)
+                return null;
+
+            string itemsPart;
+            if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
+            {
+                var reqs = quest.TargetQuestItemRequirements;
+                var parts = new System.Collections.Generic.List<string>();
+                if (reqs != null)
+                    foreach (var req in reqs)
+                    {
+                        if (!int.TryParse(req.itemId, out int id)) continue;
+                        parts.Add($"{ItemNameOf(id)} {Mathf.Min(HeldCountOf(id), req.count)}/{req.count}");
+                    }
+                itemsPart = string.Join(", ", parts);
+            }
+            else
+            {
+                var ids = quest.TargetQuestItemIds;
+                string name = null;
+                if (ids != null)
+                    foreach (var idStr in ids)
+                        if (int.TryParse(idStr, out int id) && InventoryManager.Instance?.FindItemInDatabase(id) != null)
+                        {
+                            name = ItemNameOf(id);
+                            break;
+                        }
+                itemsPart = $"{name ?? "Item"} {quest.CurrentCount}/{quest.TargetCount}";
+            }
+
+            if (step.RequiredMoney <= 0)
+                return itemsPart;
+
+            var money = Game.Testing.GameManager.CurPlayer != null
+                ? Game.Testing.GameManager.CurPlayer.GetComponent<PlayerMoney>()
+                : null;
+            int currentMoney = money != null ? money.CurrentMoney : 0;
+            return $"{itemsPart} · {Mathf.Min(currentMoney, step.RequiredMoney)}/{step.RequiredMoney} Money";
+        }
     }
 }

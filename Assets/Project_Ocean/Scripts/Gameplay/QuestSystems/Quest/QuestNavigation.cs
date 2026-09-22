@@ -48,7 +48,7 @@ namespace Game.Testing
                 return null;
 
             if (step.Type == QuestType.Talk)
-                return NPCManager.Instance?.GetNpc(step.EffectiveNpcId)?.transform;
+                return NPCManager.Instance?.GetNpc(step.NextTalkTargetNpcId)?.transform;
 
             if (step.Type == QuestType.Tutorial)
             {
