@@ -21,6 +21,9 @@ namespace Game.Testing
         [Header("Settings")]
         [SerializeField] private float minimumLoadingTime = 0.5f;
 
+        [SerializeField]
+        private LoadingVisualController loadingVisualController;
+
         private bool isLoading;
 
         private void Awake()
@@ -69,7 +72,7 @@ namespace Game.Testing
 
         public void BackToMenu()
         {
-            LoadScene(mainMenuScene);
+            LoadScene(mainMenuScene, LoadingType.Menu);
         }
 
         // =========================================================
@@ -78,12 +81,12 @@ namespace Game.Testing
 
         public void GoToOcean()
         {
-            LoadScene(oceanScene);
+            LoadScene(oceanScene, LoadingType.Ocean);
         }
 
         public void BackToLand()
         {
-            LoadScene(landScene);
+            LoadScene(landScene, LoadingType.Land);
         }
 
         // =========================================================
@@ -139,6 +142,16 @@ namespace Game.Testing
             isLoading = false;
 
             HideLoading();
+        }
+
+        public void LoadScene(string sceneName, LoadingType loadingType)
+        {
+            if (loadingVisualController != null)
+            {
+                loadingVisualController.ApplyProfile(loadingType);
+            }
+
+            StartCoroutine(LoadSceneRoutine(sceneName));
         }
 
         // =========================================================
