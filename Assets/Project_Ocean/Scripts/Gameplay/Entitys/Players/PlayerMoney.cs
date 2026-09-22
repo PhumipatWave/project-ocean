@@ -6,6 +6,10 @@ namespace Game.Testing
     {
         [SerializeField] private int money = 100;
 
+        /// <summary>Fires after every balance change (AddMoney/AddMoneySilent/Use) — QuestManager
+        /// listens to re-check Delivery steps gated on RequiredMoney.</summary>
+        public static event System.Action<int> OnMoneyChanged;
+
         public int Money
         {
             get { return money; }
@@ -39,6 +43,8 @@ namespace Game.Testing
                     $"+{amount} Money"
                 );
             }
+
+            OnMoneyChanged?.Invoke(money);
         }
 
         // =========================================================
@@ -57,6 +63,8 @@ namespace Game.Testing
             Debug.Log(
                 "Money (Silent): " + money
             );
+
+            OnMoneyChanged?.Invoke(money);
         }
 
         // =========================================================
@@ -68,6 +76,7 @@ namespace Game.Testing
             if (money >= amount)
             {
                 money -= amount;
+                OnMoneyChanged?.Invoke(money);
                 return true;
             }
 

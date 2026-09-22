@@ -86,6 +86,7 @@ namespace Game.Testing
             }
             else
             {
+                SaveBridge.Instance.ResetForNewGame();
                 SaveBridge.Instance.SaveGame(slot);
                 SceneManager.LoadScene("Land_Map"); // เปลี่ยนเป็นชื่อ scene แรกจริงของคุณ
             }

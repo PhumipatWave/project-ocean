@@ -140,7 +140,17 @@ namespace Game.Testing
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Sleep)) return;
             ConfirmationDialog.Instance?.Show(
                 "Are you sure you want to end the day?",
-                () => DayManager.Instance?.AdvanceDay()
+                () =>
+                {
+                    // Close HomePanel BEFORE advancing the day, not after — AdvanceDay() raises
+                    // TutorialEvents' Sleep action, which can itself open other UI (e.g. an
+                    // auto-display tutorial line for the next step). Closing first means
+                    // CloseCurrent() unambiguously targets HomePanel's own slot (the current top
+                    // right after ConfirmationDialog.Confirm() released its own), instead of
+                    // racing whatever AdvanceDay() might push on top afterward.
+                    PlayerUIState.CloseCurrent();
+                    DayManager.Instance?.AdvanceDay();
+                }
             );
         }
 

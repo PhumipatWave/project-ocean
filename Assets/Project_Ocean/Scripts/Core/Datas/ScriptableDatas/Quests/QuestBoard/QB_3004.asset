@@ -19,10 +19,16 @@ MonoBehaviour:
   nextQuestMode: 0
   nextQuestIds: 
   steps:
-  - type: 1
+  - type: 0
     targetEnemyId: fishM
+    targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 32001
+    deliverySource: 1
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 3
     completionMode: 0
     stepDescription: 'Kill Fish Size M : 3'
@@ -38,7 +44,10 @@ MonoBehaviour:
       - No
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 150
+    unlocksFeatures: 
   questName: '[Quest04]'
+  questGiverNpcId: 

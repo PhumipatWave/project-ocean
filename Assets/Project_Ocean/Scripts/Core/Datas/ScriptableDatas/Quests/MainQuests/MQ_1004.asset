@@ -19,57 +19,79 @@ MonoBehaviour:
   nextQuestMode: 2
   nextQuestIds: ed030000
   steps:
-  - type: 4
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 5
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 2
+    locksFeatures: 
+  - type: 1
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 5
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: 
     dialogue: []
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 4
+    locksFeatures: 
+  - type: 3
     targetEnemyId: 
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Turn in materials at the Upgrade Shop.
     dialogue: []
     isGuidedSequence: 1
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  - type: 3
+    locksFeatures: 
+  - type: 2
     targetEnemyId: Upgrade Shop
     targetEnemyIds: []
     tutorialAction: 9
     targetQuestItemId: 
+    deliverySource: 0
     targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
     targetCount: 1
     completionMode: 0
     stepDescription: Turn in materials at the Upgrade Shop.
@@ -81,8 +103,11 @@ MonoBehaviour:
         morning dive.
       cutsceneId: 
     isGuidedSequence: 0
+    autoDisplayDialogue: 0
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-  questName: Gather the ingredients.
+    locksFeatures: 
+  questName: Main Quest IV
+  questGiverNpcId: 

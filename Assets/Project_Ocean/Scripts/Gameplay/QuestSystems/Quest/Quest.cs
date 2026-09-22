@@ -7,12 +7,27 @@ namespace Game.Testing
     public enum QuestType
     {
         Delivery,
-        KillCount,
         ExploreArea,
         Talk,
         Tutorial,
         // Added at the end — existing authored steps are serialized by enum index.
-        Cutscene
+        Cutscene,
+        // Completes once DayManager reports at least RequiredDaysToWait days have passed
+        // since this step became current AND at least RequiredDivesThatDay dives happened
+        // on the current day — see QuestManager.HandleDayOrDiveChanged. Deliberately NOT a
+        // Tutorial step: Tutorial forces TutorialPromptUI's guided/input-locked mode, which
+        // is wrong for an ordinary "come back after you sleep and dive" checkpoint.
+        WaitingQuest
+    }
+
+    /// <summary>Delivery only — what drives step progress. InventoryHeld: live-rechecked
+    /// against inventory (QuestManager.HandleInventoryChanged), same as always. EnemyKills:
+    /// one-shot kill events matching TargetEnemyIds (replaces the old, now-removed KillCount
+    /// QuestType) — merged in here since it shared everything else with Delivery already.</summary>
+    public enum DeliverySource
+    {
+        InventoryHeld,
+        EnemyKills,
     }
 
     public enum QuestStatus
@@ -34,34 +49,99 @@ namespace Game.Testing
         public QuestType Type;
         public string TargetEnemyId;
 
-        /// <summary>KillCount only — kills of any of these ids count toward TargetCount.</summary>
+        /// <summary>Delivery + EnemyKills: kills of any of these ids count toward TargetCount.
+        /// Talk (non-auto-display): every NPC id that counts as this step's target — see
+        /// EffectiveNpcIds, which is what actually reads it for that case. Whether talking to
+        /// ANY one or ALL of them completes the step is TalkCompletionMode below.</summary>
         public List<string> TargetEnemyIds;
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
 
-        /// <summary>Delivery + CombinedTotal only — which items count toward the shared
-        /// TargetCount, no per-item count. PerItem uses TargetQuestItemRequirements instead.</summary>
+        /// <summary>Delivery + InventoryHeld + CombinedTotal only — which items count toward the
+        /// shared TargetCount, no per-item count. PerItem uses TargetQuestItemRequirements instead.</summary>
         public List<string> TargetQuestItemIds;
 
-        /// <summary>Delivery + PerItem only — which items are required and how many of each.</summary>
+        /// <summary>Delivery + InventoryHeld + PerItem only — which items are required and how many of each.</summary>
         public List<QuestItemRequirement> TargetQuestItemRequirements;
 
-        /// <summary>Delivery only — see QuestData.DeliveryCountMode.</summary>
+        /// <summary>Delivery + InventoryHeld only — see QuestData.DeliveryCountMode.</summary>
         public DeliveryCountMode DeliveryCountMode;
+
+        /// <summary>Delivery only — what drives progress. See QuestData.DeliverySource.</summary>
+        public DeliverySource DeliverySource;
+
+        /// <summary>Delivery only — whether completing this step removes the delivered/killed-for
+        /// item(s) from inventory (see QuestManager.RemoveQuestItems). Defaults true, matching the
+        /// always-consume behavior every Delivery/former-KillCount step had before this existed.</summary>
+        public bool ConsumeOnComplete;
+
+        /// <summary>Delivery only — extra money required alongside the item/kill count. See QuestData.requiredMoney.</summary>
+        public int RequiredMoney;
+
+        /// <summary>Delivery only — true while item/kill progress alone would complete this step
+        /// but RequiredMoney hasn't been paid yet (CurrentCount is deliberately held one short,
+        /// since Quest.AddProgress refuses to act on an already-complete step). Cleared once
+        /// QuestManager.HandleMoneyChanged finalizes it, or if item/kill progress drops back
+        /// below completion. See QuestManager for the only reader/writer.</summary>
+        public bool MoneyPending;
+
+        /// <summary>WaitingQuest only — at least this many day-advances must occur after the
+        /// step becomes current. See QuestData.requiredDaysToWait.</summary>
+        public int RequiredDaysToWait;
+
+        /// <summary>WaitingQuest only — at least this many dives must happen on the day the
+        /// wait finishes. See QuestData.requiredDivesThatDay.</summary>
+        public int RequiredDivesThatDay;
+
+        /// <summary>WaitingQuest only — DayManager.CurrentDay when this step became current,
+        /// -1 until QuestManager stamps it (AcceptQuest/CompleteProgress/LoadSaveState — see
+        /// QuestManager.StampWaitingQuestStart, the only writer). Persisted via
+        /// QuestSaveData.dayStepBecameCurrent so a save/quit mid-wait isn't lost.</summary>
+        public int DayStepBecameCurrent = -1;
+
         public int TargetCount;
         public QuestCompletionMode CompletionMode;
         public string StepDescription;
         public int CurrentCount;
 
-        /// <summary>
-        /// Default speaker for context-free dialogue lookups (board/tracker avatar,
-        /// QuestDetailPanel's Accept/Reject). Only Talk steps have one — it's just
-        /// TargetEnemyId (who you're talking to), not a separately-authored id. An Auto Display
-        /// Dialogue step talks to nobody, so it has none (null) — author its lines with a blank
-        /// characterId. Other
-        /// step types (KillCount, etc.) have no default speaker.
+        /// <summary>Talk (non-auto-display) only — every NPC id that counts as this step's
+        /// target (talking to ANY of them completes it, and each independently shows its own
+        /// marker/greeting — see NPC.ShouldShowMarker/QuestManager.HandleNpcTalk). Reuses
+        /// TargetEnemyIds (already the merged list-or-singular-fallback Quest.BuildSteps
+        /// computes for EnemyKills) rather than a separate field. Empty (not null) for every
+        /// other case, so callers can Contains()/FirstOrDefault() without a null check.</summary>
+        public List<string> EffectiveNpcIds =>
+            Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyIds : EmptyNpcIds;
+        private static readonly List<string> EmptyNpcIds = new();
+
+        /// <summary>Default/primary speaker for context-free single-NPC lookups (board/tracker
+        /// avatar, QuestDetailPanel's Accept/Reject) — the first id in EffectiveNpcIds, or null.
+        /// An Auto Display Dialogue step talks to nobody, so it has none — author its lines with
+        /// a blank characterId. Other step types (Delivery, etc.) have no default speaker either.
+        /// Not used for the compass — see NextTalkTargetNpcId for that.
         /// </summary>
-        public string EffectiveNpcId => Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyId : null;
+        public string EffectiveNpcId => EffectiveNpcIds.Count > 0 ? EffectiveNpcIds[0] : null;
+
+        /// <summary>Talk (non-auto) only — which NPC the compass/marker should point at right
+        /// now. AnyOne: same as EffectiveNpcId, any listed NPC is a valid target. All: the first
+        /// listed id NOT already in talkedToNpcIds, so the arrow advances past an NPC once
+        /// they're done instead of pointing at them forever (see QuestNavigation.ResolveQuestTarget,
+        /// the only reader). Falls back to EffectiveNpcId if every NPC is already talked to
+        /// (the step should already be complete by then).</summary>
+        public string NextTalkTargetNpcId
+        {
+            get
+            {
+                if (TalkCompletionMode == TalkCompletionMode.AnyOne)
+                    return EffectiveNpcId;
+
+                foreach (var id in EffectiveNpcIds)
+                    if (!talkedToNpcIds.Contains(id))
+                        return id;
+
+                return EffectiveNpcId;
+            }
+        }
 
         /// <summary>ExploreArea steps reuse TargetEnemyId as the Area Id an ExploreAreaTrigger reports.</summary>
         public string EffectiveAreaId => Type == QuestType.ExploreArea ? TargetEnemyId : null;
@@ -73,8 +153,21 @@ namespace Game.Testing
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
 
-        /// <summary>Talk steps only — see QuestStepData.autoDisplayDialogue (PlayerSelfDialogueUI shows it).</summary>
+        /// <summary>Talk or Cutscene steps only — see QuestStepData.autoDisplayDialogue
+        /// (PlayerSelfDialogueUI shows it). On a Cutscene step this takes over from
+        /// CutsceneManager's own auto-play-on-current — see its RefreshQuestStep guard.</summary>
         public bool AutoDisplayDialogue;
+
+        /// <summary>Talk (non-auto-display) only — whether ANY or ALL of EffectiveNpcIds must
+        /// be talked to. See QuestManager.HandleNpcTalk, the only reader.</summary>
+        public TalkCompletionMode TalkCompletionMode;
+
+        private readonly HashSet<string> talkedToNpcIds = new();
+
+        /// <summary>All mode only — records that npcId has been talked to. Returns false (a
+        /// no-op for the caller) if it was already recorded, so re-talking to the same NPC
+        /// never double-counts progress.</summary>
+        public bool MarkNpcTalkedTo(string npcId) => talkedToNpcIds.Add(npcId);
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
@@ -93,6 +186,10 @@ namespace Game.Testing
 
         /// <summary>Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.</summary>
         public List<GameFeature> UnlocksFeatures;
+
+        /// <summary>Feature(s) locked when this checkpoint completes — always wins over an
+        /// unlock, however/whenever that was granted. See FeatureUnlockService.</summary>
+        public List<GameFeature> LocksFeatures;
 
         public bool IsComplete => CurrentCount >= TargetCount;
 
@@ -249,7 +346,7 @@ namespace Game.Testing
         public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
 
         // Sourced from the current checkpoint — no quest-level guided flag. Each step
-        // can be guided independently (e.g. a Tutorial step guided, a later KillCount
+        // can be guided independently (e.g. a Tutorial step guided, a later Delivery
         // step not).
         public bool IsGuidedSequence => CurrentStep?.IsGuidedSequence ?? false;
 
@@ -308,9 +405,9 @@ namespace Game.Testing
 
             foreach (var s in questData.steps)
             {
-                // Legacy KillCount/Delivery steps authored before these became lists only have
-                // the singular id set — fall back to that as a one-entry list so old .asset
-                // data keeps working without hand-editing every quest.
+                // Legacy Delivery steps authored before these became lists only have the
+                // singular id set — fall back to that as a one-entry list so old .asset data
+                // keeps working without hand-editing every quest.
                 var enemyIds = s.targetEnemyIds != null && s.targetEnemyIds.Count > 0
                     ? s.targetEnemyIds
                     : (string.IsNullOrEmpty(s.targetEnemyId) ? new List<string>() : new List<string> { s.targetEnemyId });
@@ -328,14 +425,21 @@ namespace Game.Testing
 
                 // PerItem's "how many required" is the requirement count, not an authored
                 // Target Count — deriving it here keeps the Inspector from showing a field
-                // that would just be redundant/easy to leave mismatched.
-                // Never below 1: a 0-target step is "complete" the moment it starts, so AddProgress
-                // (which bails on an already-complete step) can never advance past it — the quest
-                // sticks on it forever. Talk/Tutorial/Cutscene steps hide this field in the
-                // Inspector, so a freshly added step is easily left at 0.
-                int targetCount = Mathf.Max(1, s.type == QuestType.Delivery && s.deliveryCountMode == DeliveryCountMode.PerItem
-                    ? itemRequirements.Count
-                    : s.targetCount);
+                // that would just be redundant/easy to leave mismatched. Talk's All mode is
+                // the same idea: "how many NPCs" is just the list length. Never below 1: a
+                // 0-target step is "complete" the moment it starts, so AddProgress (which bails
+                // on an already-complete step) can never advance past it — the quest sticks on
+                // it forever. Talk/Tutorial/Cutscene steps hide this field in the Inspector, so
+                // a freshly added step is easily left at 0.
+                bool isInventoryHeldPerItem = s.type == QuestType.Delivery &&
+                    s.deliverySource == DeliverySource.InventoryHeld &&
+                    s.deliveryCountMode == DeliveryCountMode.PerItem;
+                bool isTalkAll = s.type == QuestType.Talk && !s.autoDisplayDialogue &&
+                    s.talkCompletionMode == TalkCompletionMode.All;
+                int targetCount = Mathf.Max(1,
+                    isInventoryHeldPerItem ? itemRequirements.Count :
+                    isTalkAll ? enemyIds.Count :
+                    s.targetCount);
 
                 var step = new QuestStep
                 {
@@ -347,16 +451,23 @@ namespace Game.Testing
                     TargetQuestItemIds = questItemIds,
                     TargetQuestItemRequirements = itemRequirements,
                     DeliveryCountMode = s.deliveryCountMode,
+                    DeliverySource = s.deliverySource,
+                    TalkCompletionMode = s.talkCompletionMode,
+                    ConsumeOnComplete = s.consumeOnComplete,
+                    RequiredMoney = s.requiredMoney,
+                    RequiredDaysToWait = s.requiredDaysToWait,
+                    RequiredDivesThatDay = s.requiredDivesThatDay,
                     TargetCount = targetCount,
                     CompletionMode = s.completionMode,
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
                     IsGuidedSequence = s.isGuidedSequence,
-                    AutoDisplayDialogue = s.type == QuestType.Talk && s.autoDisplayDialogue,
+                    AutoDisplayDialogue = (s.type == QuestType.Talk || s.type == QuestType.Cutscene) && s.autoDisplayDialogue,
                     NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
                     UnlocksFeatures = s.unlocksFeatures,
+                    LocksFeatures = s.locksFeatures,
                 };
                 step.SetDialogue(s.dialogue);
                 list.Add(step);

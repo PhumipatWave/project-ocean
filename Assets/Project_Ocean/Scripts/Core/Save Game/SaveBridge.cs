@@ -22,6 +22,13 @@ namespace Game.Testing
 
         private SaveData _pendingData;
 
+        // True once this play session has gone through SaveGame(slot)/LoadGame(slot) — the
+        // explicit "New Game"/"Continue" entry points (see SaveMenuUI). Entering Land_Map
+        // directly (e.g. pressing Play on that scene in the Editor) skips both, so without
+        // this guard OnSceneLoaded's auto-save would silently overwrite the real save with
+        // default/fresh state the moment the scene loads.
+        private bool _sessionStarted;
+
         // Order is intentional and stable. Built fresh each call because scene-level
         // managers (QuestManager, EnemyKillTracker) may not exist at save time.
         private List<ISaveParticipant> BuildParticipants()
@@ -68,7 +75,14 @@ namespace Game.Testing
             // the player to the land PlayerSpawnPoint) has already run before we
             // capture the position — otherwise this can save the stale ocean pos.
             if (scene.name == SceneNames.Land && GameManager.Instance != null)
-                StartCoroutine(AutoSaveAfterFrame());
+            {
+                if (_sessionStarted)
+                    StartCoroutine(AutoSaveAfterFrame());
+                else
+                    Debug.LogWarning("[SaveBridge] Landed on " + SceneNames.Land +
+                        " without going through New Game/Continue this session — skipping " +
+                        "auto-save so slot " + CurrentSlot + " isn't overwritten.");
+            }
         }
 
         private IEnumerator AutoSaveAfterFrame()
@@ -196,9 +210,49 @@ namespace Game.Testing
             DayManager.Instance.SetDay(data.currentDay);
             // Saves from before divesToday existed only carry the bool — count that as one dive.
             DayManager.Instance.SetDivesToday(data.divesToday > 0 ? data.divesToday : (data.hasDivedToday ? 1 : 0));
+            DayManager.Instance.SetTotalDives(data.totalDives);
         }
 
         // -------------------- Public API -------------------- //
+
+        /// <summary>
+        /// Resets every persistent system to its fresh-game default — call before SaveGame()
+        /// when starting a New Game. Without this, "New Game" would just snapshot whatever's
+        /// currently in memory into the new slot: every one of these is a DontDestroyOnLoad
+        /// singleton that survives GameManager.ToMainMenu()'s scene load untouched, so a
+        /// previous playthrough's quest progress/unlocks/inventory/day count would carry over.
+        /// Destroys the current player outright (rather than resetting its components
+        /// individually) — GameManager.SpawnPlayer() rebuilds a fresh one, with prefab-default
+        /// stats, the next time a gameplay scene loads.
+        /// </summary>
+        public void ResetForNewGame()
+        {
+            if (GameManager.CurPlayer != null)
+                Destroy(GameManager.CurPlayer.gameObject);
+
+            // Before QuestManager — clears any coroutine/lock left over from a PREVIOUS
+            // interrupted attempt while activeQuestStep still points at the about-to-be-discarded
+            // quest objects. QuestManager.ResetToDefault() below fires OnQuestUpdated as a side
+            // effect of rebuilding, which CutsceneManager is subscribed to — with this reset
+            // already done, that pass legitimately (re)starts a Cutscene-type first step (e.g.
+            // Prologue) for the fresh game, instead of that trigger racing a stale one.
+            CutsceneManager.Instance?.ResetToDefault();
+            QuestManager.Instance?.ResetToDefault();
+            FeatureUnlockService.Instance.ResetToDefault();
+            InventoryManager.Instance?.ResetToDefault();
+            EnemyKillTracker.Instance?.ResetAll();
+            UpgradeService.Instance.ResetToDefault();
+
+            if (DayManager.Instance != null)
+            {
+                DayManager.Instance.SetDay(1);
+                DayManager.Instance.SetDivesToday(0);
+                DayManager.Instance.SetTotalDives(0);
+            }
+
+            if (GameManager.Instance != null)
+                GameManager.Instance.MiniHubAvaliable = false;
+        }
 
         /// <summary>Saves to whichever slot was last used (see CurrentSlot).</summary>
         public void SaveGame() => SaveGame(CurrentSlot);
@@ -207,6 +261,7 @@ namespace Game.Testing
         public void SaveGame(int slot)
         {
             CurrentSlot = slot;
+            _sessionStarted = true;
 
             var gm = GameManager.Instance;
             if (gm == null) { Debug.LogError("[SaveBridge] GameManager not found"); return; }
@@ -247,6 +302,7 @@ namespace Game.Testing
         public void LoadGame(int slot)
         {
             CurrentSlot = slot;
+            _sessionStarted = true;
 
             if (!SaveSystem.HasSave(slot))
             {
@@ -339,6 +395,7 @@ namespace Game.Testing
             data.currentDay    = DayManager.Instance.CurrentDay;
             data.hasDivedToday = DayManager.Instance.HasDivedToday;
             data.divesToday    = DayManager.Instance.DivesToday;
+            data.totalDives    = DayManager.Instance.TotalDives;
         }
     }
 }

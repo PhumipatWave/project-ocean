@@ -30,6 +30,9 @@ namespace Game.Testing
         [Tooltip("How many of the spawn points are used per day. Cannot exceed the number of spawn points.")]
         [SerializeField, Min(1)] private int spawnPerDay = 1;
 
+        [Tooltip("Which GameFeature must be unlocked for this zone to spawn — set by a quest step's Unlocks Features. Defaults to InteractItem (every zone's original shared gate) so existing spawners are unaffected.")]
+        [SerializeField] private GameFeature requiredFeature = GameFeature.InteractItem;
+
         private readonly List<GameObject> _spawnedGOs = new();
 
         private void OnEnable()
@@ -55,7 +58,7 @@ namespace Game.Testing
         // instead of waiting for the next day change.
         private void HandleFeatureUnlocked(GameFeature feature)
         {
-            if (feature == GameFeature.InteractItem && _spawnedGOs.Count == 0)
+            if (feature == requiredFeature && _spawnedGOs.Count == 0)
                 SpawnItems();
         }
 
@@ -79,7 +82,7 @@ namespace Game.Testing
 
         private void SpawnItems()
         {
-            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.InteractItem)) return;
+            if (!FeatureUnlockService.Instance.IsUnlocked(requiredFeature)) return;
 
             if (spawnEntries == null || spawnEntries.Count == 0)
             {
