@@ -17,13 +17,15 @@ namespace Game.Testing
         {
             public LoadingType type;
             public Sprite sprite;
-            public RuntimeAnimatorController animatorController;
+            [Tooltip("State name in the icon's Animator Controller.")]
+            public string stateName;
         }
 
         [SerializeField] private Image loadingImage;
         [SerializeField] private Animator animator;
         [SerializeField] private LoadingProfile[] profiles;
 
+        // Must be called while the icon is active, or Animator.Play is ignored.
         public void ApplyProfile(LoadingType type)
         {
             foreach (LoadingProfile profile in profiles)
@@ -35,8 +37,11 @@ namespace Game.Testing
                     loadingImage.sprite = profile.sprite;
 
                 if (animator != null)
-                    animator.runtimeAnimatorController =
-                        profile.animatorController;
+                {
+                    // Keep animating while game is paused (timeScale = 0).
+                    animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+                    animator.Play(profile.stateName, 0, 0f);
+                }
 
                 return;
             }
