@@ -720,6 +720,14 @@ namespace Game.Testing
         private bool InOcean() =>
             GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean;
 
+        // EnforceRopeLimit() already hard-clamps the player to exactly maxRopeLength every
+        // frame before this runs, so CurrentLength (summed from Verlet segments, not the same
+        // math as that snap) essentially never lands strictly ABOVE maxRopeLength — "> " here
+        // was nearly unreachable. Reaching the limit (>=, within this tolerance of it) is the
+        // real "broke the limit" moment — 1m instead of a hair's-width epsilon so it reliably
+        // triggers, not just on a razor-exact snap value.
+        private const float RopeLimitEpsilon = 1f;
+
         private void CheckLimit()
         {
             // ปิดใช้งานระบบนับถอยหลัง/บังคับกลับขึ้นฝั่งไว้ชั่วคราว
@@ -727,7 +735,7 @@ namespace Game.Testing
             if (!enableBreachTimeout)
                 return;
 
-            if (CurrentLength <= maxRopeLength)
+            if (CurrentLength < maxRopeLength - RopeLimitEpsilon)
             {
                 if (limitRoutine != null)
                 {
@@ -740,6 +748,7 @@ namespace Game.Testing
             {
                 limitRoutine = StartCoroutine(LimitBreached());
                 OnRopeBreachStart?.Invoke(breakLimitTimer);
+                TutorialEvents.RaiseAction(TutorialActionId.BreakRopeLimit);
             }
         }
 

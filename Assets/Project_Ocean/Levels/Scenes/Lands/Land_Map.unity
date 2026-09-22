@@ -1574932,6 +1574932,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 814753871126769728, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 814753871126769728, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      propertyPath: far clip plane
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 814753871126769728, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      propertyPath: near clip plane
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 814753871126769728, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
+      propertyPath: orthographic size
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5608857984997453074, guid: 565a2ec4515fa83419346879ad7debe0, type: 3}
       propertyPath: m_Icon
       value: 
@@ -1627943,7 +1627959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2617981161684136250, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -4.500061
+      value: -4.500122
       objectReference: {fileID: 0}
     - target: {fileID: 2708576528745595804, guid: 8ddfaa73d638708499789ef21bad51a5, type: 3}
       propertyPath: m_AnchoredPosition.y

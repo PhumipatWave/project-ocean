@@ -69,6 +69,10 @@ namespace Game.Testing
                 return;
             }
 
+            // A different action is the guided tutorial's current requirement — sleeping now
+            // would advance the day and waste the Sleep step's one-shot completion event.
+            if (TutorialGate.Blocks(TutorialActionId.Sleep)) { TutorialGate.NotifyBlocked(); return; }
+
             promptUI?.SetActive(false);
             DayManager.Instance.AdvanceDay();
         }

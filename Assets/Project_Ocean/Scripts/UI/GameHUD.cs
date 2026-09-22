@@ -107,7 +107,11 @@ namespace Game.Testing
             // menu/land buttons); leaving it visible there stacks it on top of the menu's own
             // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
             // live outside hudContentGroup, so they're unaffected either way.
-            SetHudVisible(scene.name != SceneNames.MainMenu);
+            // Still respects PlayerUIState.IsLocked — a scene load landing while something's
+            // already locked (e.g. a Cutscene-type step that plays the instant the scene loads,
+            // like Prologue) must not force the HUD back on over it; HandleLockChanged already
+            // hid it and won't fire again since the lock itself didn't change.
+            SetHudVisible(scene.name != SceneNames.MainMenu && !PlayerUIState.IsLocked);
 
             if (scene.name == "MainMenuScene")
             {
@@ -120,8 +124,20 @@ namespace Game.Testing
             }
             else if (isOcean)
             {
-                landButton.SetActive(true);
+                RefreshLandButton();
             }
+        }
+
+        /// <summary>Hides the "Back to Land" button until GameFeature.BackToLand is unlocked
+        /// (a quest step's Unlocks Features list) — a permanent, one-time unlock like
+        /// Shop/Inventory/Sleep, not a per-step gate: TutorialGate.RequiredAction only equals
+        /// BackToLand during MQ_1001's own "click Back to Land" step, so gating on that alone
+        /// would re-hide the button on every later dive (e.g. MQ_1002's), which never asks for
+        /// BackToLand as its required action.</summary>
+        private void RefreshLandButton()
+        {
+            if (landButton == null) return;
+            landButton.SetActive(FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand));
         }
 
         private void Start()
@@ -182,6 +198,7 @@ namespace Game.Testing
             }
 
             maxLengthPanel.SetActive(true);
+            RefreshLandButton();
 
             var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Game.Testing
@@ -31,6 +32,7 @@ namespace Game.Testing
         [SerializeField] private Toggle infiniteOxygenToggle;
         [SerializeField] private Button addMoneyButton;
         [SerializeField] private int addMoneyAmount = 9999;
+        [SerializeField] private Button skipStepButton;
 
         [Header("Add Item")]
         [Tooltip("ลากปุ่มแต่ละอันในกริด (เช่น Button Fish S (0)..(8)) มาคู่กับ Item ที่ต้องการให้")]
@@ -54,6 +56,7 @@ namespace Game.Testing
             godModeToggle.onValueChanged.AddListener(v => godModeOn = v);
             infiniteOxygenToggle.onValueChanged.AddListener(v => infiniteOxygenOn = v);
             addMoneyButton.onClick.AddListener(GiveMoney);
+            skipStepButton.onClick.AddListener(SkipStep);
 
             if (devItemButtons != null)
             {
@@ -70,6 +73,9 @@ namespace Game.Testing
 
         private void Update()
         {
+            if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
+                TogglePanel();
+
             if (!godModeOn && !infiniteOxygenOn) return;
 
             Player player = GameManager.CurPlayer;
@@ -102,6 +108,17 @@ namespace Game.Testing
                 money.AddMoney(addMoneyAmount);
             else
                 Debug.LogWarning("[DevPanel] ไม่พบ PlayerMoney บน CurPlayer");
+        }
+
+        private void SkipStep()
+        {
+            if (QuestManager.Instance == null)
+            {
+                Debug.LogWarning("[DevPanel] ไม่พบ QuestManager.Instance");
+                return;
+            }
+
+            QuestManager.Instance.DevSkipCurrentStep();
         }
 
         private void GiveItem(Item item, int amount)
