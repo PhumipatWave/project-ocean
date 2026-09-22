@@ -106,7 +106,11 @@ namespace Game.Testing
                     continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
+                // Auto Display Dialogue steps are driven by PlayerSelfDialogueUI instead —
+                // press-to-advance dialogue, not an auto-played Timeline. See Quest.BuildSteps
+                // and PlayerSelfDialogueUI's class doc.
+                if (step == null || step.AutoDisplayDialogue ||
+                    step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
                     continue;
 
                 activeQuestStep = q;

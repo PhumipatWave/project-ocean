@@ -348,19 +348,45 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, typeProp);
             rect.y += lineHeight;
 
-            // A Cutscene step has almost nothing else to author — it plays and completes
-            // itself off this one id, no target count/completion mode/dialogue to configure —
-            // but it can still reward an item like any other step.
+            // A Cutscene step normally has almost nothing else to author — it plays and
+            // completes itself off this one id, no target count/completion mode to configure —
+            // but it can still reward an item like any other step. Auto Display Dialogue below
+            // switches it to the same press-to-advance dialogue Talk uses instead (see
+            // PlayerSelfDialogueUI/CutsceneManager.RefreshQuestStep's guard).
             if (type == QuestType.Cutscene)
             {
+                var cutsceneAutoDisplayDialogueProp = property.FindPropertyRelative("autoDisplayDialogue");
+                var cutsceneDialogueProp = property.FindPropertyRelative("dialogue");
+
                 EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Cutscene Id",
-                    "Matches a Cutscene component's Cutscene Id in the scene. Plays automatically when this step becomes current, and completes the step when it finishes."));
+                    "Matches a Cutscene component's Cutscene Id in the scene. Plays automatically when this step becomes current, and completes the step when it finishes. Ignored while Auto Display Dialogue below is on."));
+                rect.y += lineHeight;
+
+                EditorGUI.PropertyField(rect, cutsceneAutoDisplayDialogueProp, new GUIContent("Auto Display Dialogue",
+                    "OFF (default): plays the Timeline named by Cutscene Id above automatically, no interaction. ON: shows Dialogue below instead — one line per Interact press, completing on the last line; a line's own Cutscene Id can still chain into a Timeline once dialogue closes, same as Talk."));
                 rect.y += lineHeight;
 
                 EditorGUI.PropertyField(rect, rewardItemIdProp, new GUIContent("Reward Item Id"));
                 rect.y += lineHeight;
 
                 EditorGUI.PropertyField(rect, rewardMoneyProp, new GUIContent("Reward Money"));
+                rect.y += lineHeight;
+
+                if (cutsceneAutoDisplayDialogueProp.boolValue)
+                {
+                    rect.height = EditorGUIUtility.singleLineHeight;
+                    property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, "Dialogue", true);
+                    rect.y += lineHeight;
+
+                    if (property.isExpanded)
+                    {
+                        EditorGUI.indentLevel++;
+                        var dialogueList = GetDialogueList(cutsceneDialogueProp);
+                        rect.height = dialogueList.GetHeight();
+                        dialogueList.DoList(rect);
+                        EditorGUI.indentLevel--;
+                    }
+                }
 
                 EditorGUI.EndProperty();
                 return;
@@ -602,9 +628,23 @@ namespace Game.Testing
             var type = (QuestType)typeProp.enumValueIndex;
             float lineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            // Cutscene: type, Cutscene Id, Reward Item Id, Reward Money.
+            // Cutscene: type, Cutscene Id, Auto Display Dialogue, Reward Item Id, Reward Money —
+            // plus the Dialogue foldout (+ expanded list) when Auto Display Dialogue is on.
             if (type == QuestType.Cutscene)
-                return lineHeight * 4;
+            {
+                float cutsceneHeight = lineHeight * 5;
+                var cutsceneAutoDisplayDialogueProp = property.FindPropertyRelative("autoDisplayDialogue");
+                if (cutsceneAutoDisplayDialogueProp.boolValue)
+                {
+                    cutsceneHeight += lineHeight;
+                    if (property.isExpanded)
+                    {
+                        var cutsceneDialogueProp = property.FindPropertyRelative("dialogue");
+                        cutsceneHeight += GetDialogueList(cutsceneDialogueProp).GetHeight() + EditorGUIUtility.standardVerticalSpacing;
+                    }
+                }
+                return cutsceneHeight;
+            }
 
             var deliverySourceProp = property.FindPropertyRelative("deliverySource");
             var deliverySource = (DeliverySource)deliverySourceProp.enumValueIndex;

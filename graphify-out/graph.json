@@ -2457,7 +2457,7 @@
       },
       "norm_label": "quest",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L288"
+      "source_location": "L290"
     },
     {
       "id": "assets_project_ocean_scripts_ui_inventory_inventoryplayer_draggableltem_game_testing_draggableltem",
@@ -4481,7 +4481,7 @@
       },
       "norm_label": "line",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L31"
+      "source_location": "L35"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui",
@@ -4500,7 +4500,7 @@
       },
       "norm_label": "playerselfdialogueui",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L19"
+      "source_location": "L23"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_navagents_enemyagent_game_testing_enemyagent",
@@ -15081,13 +15081,13 @@
             "callee": "Min",
             "receiver_type": "Mathf",
             "lang": "csharp",
-            "line": "L495"
+            "line": "L497"
           }
         ]
       },
       "norm_label": ".addprogress()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L486"
+      "source_location": "L488"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_acceptquest",
@@ -15107,25 +15107,25 @@
             "callee": "LogWarning",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L673"
+            "line": "L674"
           },
           {
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L707"
+            "line": "L708"
           },
           {
             "callee": "Log",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L720"
+            "line": "L721"
           }
         ]
       },
       "norm_label": ".acceptquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L667"
+      "source_location": "L668"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_apply",
@@ -15143,7 +15143,7 @@
       },
       "norm_label": ".apply()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L658"
+      "source_location": "L659"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_applystepfeaturechanges",
@@ -15161,7 +15161,7 @@
       },
       "norm_label": ".applystepfeaturechanges()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L464"
+      "source_location": "L465"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_awake",
@@ -15199,19 +15199,19 @@
             "callee": "LogWarning",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L760"
+            "line": "L761"
           },
           {
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L774"
+            "line": "L775"
           }
         ]
       },
       "norm_label": ".cancelquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L746"
+      "source_location": "L747"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_completeautodialogue",
@@ -15229,7 +15229,7 @@
       },
       "norm_label": ".completeautodialogue()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L245"
+      "source_location": "L246"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_completeprogress",
@@ -15249,19 +15249,19 @@
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L410"
+            "line": "L411"
           },
           {
             "callee": "Invoke",
             "receiver_type": "OnMoneyRewarded?",
             "lang": "csharp",
-            "line": "L431"
+            "line": "L432"
           }
         ]
       },
       "norm_label": ".completeprogress()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L404"
+      "source_location": "L405"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_devskipcurrentstep",
@@ -15279,7 +15279,7 @@
       },
       "norm_label": ".devskipcurrentstep()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L920"
+      "source_location": "L921"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_ensurequesttracked",
@@ -15325,13 +15325,13 @@
             "callee": "Find",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L781"
+            "line": "L782"
           }
         ]
       },
       "norm_label": ".getcurrentactivequest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L781"
+      "source_location": "L782"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestbyid",
@@ -15351,13 +15351,13 @@
             "callee": "Find",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L563"
+            "line": "L564"
           }
         ]
       },
       "norm_label": ".getquestbyid()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L561"
+      "source_location": "L562"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_gettrackedquest",
@@ -15375,7 +15375,7 @@
       },
       "norm_label": ".gettrackedquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L898"
+      "source_location": "L899"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handleareareached",
@@ -15393,7 +15393,7 @@
       },
       "norm_label": ".handleareareached()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L253"
+      "source_location": "L254"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handlecutscenefinished",
@@ -15411,7 +15411,7 @@
       },
       "norm_label": ".handlecutscenefinished()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L259"
+      "source_location": "L260"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handledayordivechanged",
@@ -15475,25 +15475,25 @@
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L302"
+            "line": "L303"
           },
           {
             "callee": "Log",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L321"
+            "line": "L322"
           },
           {
             "callee": "Invoke",
             "receiver_type": "OnMoneyRewarded?",
             "lang": "csharp",
-            "line": "L347"
+            "line": "L348"
           }
         ]
       },
       "norm_label": ".handleinventorychanged()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L275"
+      "source_location": "L276"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handlemoneychanged",
@@ -15537,7 +15537,7 @@
       },
       "norm_label": ".handlenextquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L510"
+      "source_location": "L511"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handlenpctalk",
@@ -15593,13 +15593,13 @@
             "callee": "Exists",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L779"
+            "line": "L780"
           }
         ]
       },
       "norm_label": ".hasactivequest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L779"
+      "source_location": "L780"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_heldcountof",
@@ -15617,7 +15617,7 @@
       },
       "norm_label": ".heldcountof()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L368"
+      "source_location": "L369"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_initializequests",
@@ -15673,7 +15673,7 @@
       },
       "norm_label": ".isactive()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L556"
+      "source_location": "L557"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_loadsavestate",
@@ -15693,13 +15693,13 @@
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L636"
+            "line": "L637"
           }
         ]
       },
       "norm_label": ".loadsavestate()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L613"
+      "source_location": "L614"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_moneyrequirementmet",
@@ -15773,13 +15773,13 @@
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L741"
+            "line": "L742"
           }
         ]
       },
       "norm_label": ".rejectquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L729"
+      "source_location": "L730"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_removequestitems",
@@ -15799,13 +15799,13 @@
             "callee": "Min",
             "receiver_type": "Mathf",
             "lang": "csharp",
-            "line": "L836"
+            "line": "L837"
           }
         ]
       },
       "norm_label": ".removequestitems()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L794"
+      "source_location": "L795"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_settrackedquest",
@@ -15825,19 +15825,19 @@
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L943"
+            "line": "L944"
           },
           {
             "callee": "Log",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L945"
+            "line": "L946"
           }
         ]
       },
       "norm_label": ".settrackedquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L929"
+      "source_location": "L930"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_stampwaitingqueststart",
@@ -15873,7 +15873,7 @@
       },
       "norm_label": ".tryprogress()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L376"
+      "source_location": "L377"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_turninquest",
@@ -15893,25 +15893,25 @@
             "callee": "Invoke",
             "receiver_type": "OnMoneyRewarded?",
             "lang": "csharp",
-            "line": "L881"
+            "line": "L882"
           },
           {
             "callee": "Log",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L882"
+            "line": "L883"
           },
           {
             "callee": "Invoke",
             "receiver_type": "OnQuestUpdated?",
             "lang": "csharp",
-            "line": "L889"
+            "line": "L890"
           }
         ]
       },
       "norm_label": ".turninquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L855"
+      "source_location": "L856"
     },
     {
       "id": "assets_project_ocean_scripts_core_gamemanager_game_testing_gamemanager_startdive",
@@ -18659,13 +18659,13 @@
             "callee": "Find",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L578"
+            "line": "L579"
           }
         ]
       },
       "norm_label": ".getmainquesttalkquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L573"
+      "source_location": "L574"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbycategory",
@@ -18685,13 +18685,13 @@
             "callee": "FindAll",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L544"
+            "line": "L545"
           }
         ]
       },
       "norm_label": ".getquestsbycategory()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L542"
+      "source_location": "L543"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_isunlocked",
@@ -18711,13 +18711,13 @@
             "callee": "Exists",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L527"
+            "line": "L528"
           }
         ]
       },
       "norm_label": ".isunlocked()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L525"
+      "source_location": "L526"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescription",
@@ -18735,7 +18735,7 @@
       },
       "norm_label": ".notifystepdescription()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L484"
+      "source_location": "L485"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescriptiondelayed",
@@ -18753,7 +18753,7 @@
       },
       "norm_label": ".notifystepdescriptiondelayed()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L492"
+      "source_location": "L493"
     },
     {
       "id": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_testing_inventorymanager_getquestitemcount",
@@ -19665,25 +19665,25 @@
             "callee": "Max",
             "receiver_type": "Mathf",
             "lang": "csharp",
-            "line": "L437"
+            "line": "L439"
           },
           {
             "callee": "Add",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L471"
+            "line": "L473"
           },
           {
             "callee": "LogWarning",
             "receiver_type": "Debug",
             "lang": "csharp",
-            "line": "L475"
+            "line": "L477"
           }
         ]
       },
       "norm_label": ".buildsteps()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L397"
+      "source_location": "L399"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_getcompletedsteps",
@@ -19701,7 +19701,7 @@
       },
       "norm_label": ".getcompletedsteps()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L521"
+      "source_location": "L523"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_computedeliveryprogress",
@@ -19721,13 +19721,13 @@
             "callee": "Min",
             "receiver_type": "Mathf",
             "lang": "csharp",
-            "line": "L223"
+            "line": "L225"
           }
         ]
       },
       "norm_label": ".computedeliveryprogress()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L203"
+      "source_location": "L205"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_getcutsceneid",
@@ -19747,13 +19747,13 @@
             "callee": "TryGetValue",
             "receiver_type": "Dictionary",
             "lang": "csharp",
-            "line": "L262"
+            "line": "L264"
           }
         ]
       },
       "norm_label": ".getcutsceneid()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L261"
+      "source_location": "L263"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_getline",
@@ -19771,7 +19771,7 @@
       },
       "norm_label": ".getline()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L254"
+      "source_location": "L256"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_getlinefromanyspeaker",
@@ -19789,7 +19789,7 @@
       },
       "norm_label": ".getlinefromanyspeaker()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L276"
+      "source_location": "L278"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_getlines",
@@ -19809,13 +19809,13 @@
             "callee": "TryGetValue",
             "receiver_type": "Dictionary",
             "lang": "csharp",
-            "line": "L250"
+            "line": "L252"
           }
         ]
       },
       "norm_label": ".getlines()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L249"
+      "source_location": "L251"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_marknpctalkedto",
@@ -19835,13 +19835,13 @@
             "callee": "Add",
             "receiver_type": "HashSet",
             "lang": "csharp",
-            "line": "L168"
+            "line": "L170"
           }
         ]
       },
       "norm_label": ".marknpctalkedto()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L168"
+      "source_location": "L170"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_setdialogue",
@@ -19859,7 +19859,7 @@
       },
       "norm_label": ".setdialogue()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L226"
+      "source_location": "L228"
     },
     {
       "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_quests_questboard_questboardui_game_testing_questboardui_closeboard",
@@ -22057,19 +22057,19 @@
             "callee": "TryGetValue",
             "receiver_type": "Dictionary",
             "lang": "csharp",
-            "line": "L154"
+            "line": "L158"
           },
           {
             "callee": "Remove",
             "receiver_type": "Dictionary",
             "lang": "csharp",
-            "line": "L181"
+            "line": "L185"
           }
         ]
       },
       "norm_label": ".play()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L152"
+      "source_location": "L156"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_cutscenes_cutscenemanager_game_testing_cutscenemanager_playstepafterdelay",
@@ -22087,7 +22087,7 @@
       },
       "norm_label": ".playstepafterdelay()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L120"
+      "source_location": "L124"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_cutscenes_cutscenemanager_game_testing_cutscenemanager_refreshqueststep",
@@ -22107,7 +22107,7 @@
             "callee": "ContainsKey",
             "receiver_type": "Dictionary",
             "lang": "csharp",
-            "line": "L109"
+            "line": "L113"
           }
         ]
       },
@@ -30455,7 +30455,7 @@
       },
       "norm_label": ".handleinteract()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L157"
+      "source_location": "L162"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_hide",
@@ -30475,13 +30475,13 @@
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L148"
+            "line": "L153"
           }
         ]
       },
       "norm_label": ".hide()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L141"
+      "source_location": "L146"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_ondisable",
@@ -30499,7 +30499,7 @@
       },
       "norm_label": ".ondisable()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L53"
+      "source_location": "L57"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_onenable",
@@ -30517,7 +30517,7 @@
       },
       "norm_label": ".onenable()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L48"
+      "source_location": "L52"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_refresh",
@@ -30535,7 +30535,7 @@
       },
       "norm_label": ".refresh()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L76"
+      "source_location": "L80"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_refreshnextframe",
@@ -30553,7 +30553,7 @@
       },
       "norm_label": ".refreshnextframe()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L70"
+      "source_location": "L74"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_show",
@@ -30573,25 +30573,25 @@
             "callee": "Clear",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L113"
+            "line": "L118"
           },
           {
             "callee": "Add",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L117"
+            "line": "L122"
           },
           {
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L124"
+            "line": "L129"
           }
         ]
       },
       "norm_label": ".show()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L107"
+      "source_location": "L112"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_showcurrentline",
@@ -30609,7 +30609,7 @@
       },
       "norm_label": ".showcurrentline()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L133"
+      "source_location": "L138"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_start",
@@ -30627,7 +30627,7 @@
       },
       "norm_label": ".start()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L68"
+      "source_location": "L72"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_navagents_core_enemynavagentbase_game_testing_enemynavagentbase_tickfacingfromagentvelocity",
@@ -34659,19 +34659,19 @@
             "callee": "FindPropertyRelative",
             "receiver_type": "SerializedProperty",
             "lang": "csharp",
-            "line": "L601"
+            "line": "L627"
           },
           {
             "callee": "GetPropertyHeight",
             "receiver_type": "EditorGUI",
             "lang": "csharp",
-            "line": "L638"
+            "line": "L678"
           }
         ]
       },
       "norm_label": ".getpropertyheight()",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L599"
+      "source_location": "L625"
     },
     {
       "id": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getrewardexpanded",
@@ -34764,22 +34764,22 @@
             "line": "L348"
           },
           {
+            "callee": "Foldout",
+            "receiver_type": "EditorGUI",
+            "lang": "csharp",
+            "line": "L378"
+          },
+          {
             "callee": "EndProperty",
             "receiver_type": "EditorGUI",
             "lang": "csharp",
-            "line": "L365"
+            "line": "L391"
           },
           {
             "callee": "GetPropertyHeight",
             "receiver_type": "EditorGUI",
             "lang": "csharp",
-            "line": "L421"
-          },
-          {
-            "callee": "Foldout",
-            "receiver_type": "EditorGUI",
-            "lang": "csharp",
-            "line": "L550"
+            "line": "L447"
           }
         ]
       },
@@ -35073,7 +35073,7 @@
       },
       "norm_label": ".collect()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L653"
+      "source_location": "L654"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getactivequests",
@@ -35093,13 +35093,13 @@
             "callee": "FindAll",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L559"
+            "line": "L560"
           }
         ]
       },
       "norm_label": ".getactivequests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L559"
+      "source_location": "L560"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getallquests",
@@ -35117,7 +35117,7 @@
       },
       "norm_label": ".getallquests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L534"
+      "source_location": "L535"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getcompletedquests",
@@ -35137,13 +35137,13 @@
             "callee": "FindAll",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L605"
+            "line": "L606"
           }
         ]
       },
       "norm_label": ".getcompletedquests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L603"
+      "source_location": "L604"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbystatus",
@@ -35163,13 +35163,13 @@
             "callee": "FindAll",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L539"
+            "line": "L540"
           }
         ]
       },
       "norm_label": ".getquestsbystatus()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L537"
+      "source_location": "L538"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getsavestate",
@@ -35189,13 +35189,13 @@
             "callee": "Add",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L592"
+            "line": "L593"
           }
         ]
       },
       "norm_label": ".getsavestate()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L588"
+      "source_location": "L589"
     },
     {
       "id": "assets_project_ocean_scripts_ui_notificationtextui_game_testing_notificationtextui_awake",
@@ -46913,7 +46913,7 @@
       },
       "norm_label": "category",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L297"
+      "source_location": "L299"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_classification",
@@ -46930,7 +46930,7 @@
       },
       "norm_label": "classification",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L301"
+      "source_location": "L303"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_currentcount",
@@ -46947,7 +46947,7 @@
       },
       "norm_label": "currentcount",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L336"
+      "source_location": "L338"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_currentstep",
@@ -46964,7 +46964,7 @@
       },
       "norm_label": "currentstep",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L329"
+      "source_location": "L331"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_currentstepindex",
@@ -46981,7 +46981,7 @@
       },
       "norm_label": "currentstepindex",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L321"
+      "source_location": "L323"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_displaynpcid",
@@ -46998,7 +46998,7 @@
       },
       "norm_label": "displaynpcid",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L366"
+      "source_location": "L368"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_isguidedsequence",
@@ -47015,7 +47015,7 @@
       },
       "norm_label": "isguidedsequence",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L349"
+      "source_location": "L351"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_isobjectivecomplete",
@@ -47032,7 +47032,7 @@
       },
       "norm_label": "isobjectivecomplete",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L344"
+      "source_location": "L346"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_nextquestids",
@@ -47049,7 +47049,7 @@
       },
       "norm_label": "nextquestids",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L353"
+      "source_location": "L355"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_npcid",
@@ -47066,7 +47066,7 @@
       },
       "norm_label": "npcid",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L361"
+      "source_location": "L363"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_progress",
@@ -47083,7 +47083,7 @@
       },
       "norm_label": "progress",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L342"
+      "source_location": "L344"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_questid",
@@ -47100,7 +47100,7 @@
       },
       "norm_label": "questid",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L293"
+      "source_location": "L295"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_questname",
@@ -47117,7 +47117,7 @@
       },
       "norm_label": "questname",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L357"
+      "source_location": "L359"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_status",
@@ -47134,7 +47134,7 @@
       },
       "norm_label": "status",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L305"
+      "source_location": "L307"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_stepcount",
@@ -47151,7 +47151,7 @@
       },
       "norm_label": "stepcount",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L327"
+      "source_location": "L329"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_stepdescription",
@@ -47168,7 +47168,7 @@
       },
       "norm_label": "stepdescription",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L332"
+      "source_location": "L334"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_targetcount",
@@ -47185,7 +47185,7 @@
       },
       "norm_label": "targetcount",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L334"
+      "source_location": "L336"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_targetquestitemid",
@@ -47202,7 +47202,7 @@
       },
       "norm_label": "targetquestitemid",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L370"
+      "source_location": "L372"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_targetquestitemids",
@@ -47219,7 +47219,7 @@
       },
       "norm_label": "targetquestitemids",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L373"
+      "source_location": "L375"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_targetquestitemrequirements",
@@ -47236,7 +47236,7 @@
       },
       "norm_label": "targetquestitemrequirements",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L376"
+      "source_location": "L378"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_trackertext",
@@ -47253,7 +47253,7 @@
       },
       "norm_label": "trackertext",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L531"
+      "source_location": "L533"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_ienumerator",
@@ -47646,7 +47646,7 @@
       },
       "norm_label": "answeraccept",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L270"
+      "source_location": "L272"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_answerfinish",
@@ -47663,7 +47663,7 @@
       },
       "norm_label": "answerfinish",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L268"
+      "source_location": "L270"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_answernotfinish",
@@ -47680,7 +47680,7 @@
       },
       "norm_label": "answernotfinish",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L269"
+      "source_location": "L271"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_answerreject",
@@ -47697,7 +47697,7 @@
       },
       "norm_label": "answerreject",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L271"
+      "source_location": "L273"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_dialogueentries",
@@ -47714,7 +47714,7 @@
       },
       "norm_label": "dialogueentries",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L246"
+      "source_location": "L248"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_effectiveareaid",
@@ -47799,7 +47799,7 @@
       },
       "norm_label": "iscomplete",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L192"
+      "source_location": "L194"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_nexttalktargetnpcid",
@@ -47833,7 +47833,7 @@
       },
       "norm_label": "notificationimage",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L175"
+      "source_location": "L177"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_questdialogue",
@@ -47850,7 +47850,7 @@
       },
       "norm_label": "questdialogue",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L266"
+      "source_location": "L268"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_questioninprogress",
@@ -47867,7 +47867,7 @@
       },
       "norm_label": "questioninprogress",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L267"
+      "source_location": "L269"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questdata_game_testing_dialoguetype_accept",
@@ -54332,7 +54332,7 @@
       },
       "norm_label": "nextquestmode",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L352"
+      "source_location": "L354"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questdata",
@@ -57923,7 +57923,7 @@
       },
       "norm_label": "blocksinteraction",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L41"
+      "source_location": "L45"
     },
     {
       "id": "packages_packages_lock_com_unity_editorcoroutines_dependencies",
@@ -64435,6 +64435,18 @@
     },
     {
       "source": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getpropertyheight",
+      "target": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getdialoguelist",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
+      "source_location": "L643",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getpropertyheight",
       "target": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_fieldvisibility_for",
       "relation": "calls",
       "_origin": "ast",
@@ -64442,7 +64454,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L612",
+      "source_location": "L652",
       "weight": 1.0
     },
     {
@@ -64454,7 +64466,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L693",
+      "source_location": "L733",
       "weight": 1.0
     },
     {
@@ -64466,7 +64478,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L694",
+      "source_location": "L734",
       "weight": 1.0
     },
     {
@@ -64478,19 +64490,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L694",
-      "weight": 1.0
-    },
-    {
-      "source": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getpropertyheight",
-      "target": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getdialoguelist",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L695",
+      "source_location": "L734",
       "weight": 1.0
     },
     {
@@ -64502,7 +64502,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L704",
+      "source_location": "L744",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_ongui",
+      "target": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getdialoguelist",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
+      "source_location": "L384",
       "weight": 1.0
     },
     {
@@ -64514,7 +64526,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L379",
+      "source_location": "L405",
       "weight": 1.0
     },
     {
@@ -64526,7 +64538,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L557",
+      "source_location": "L583",
       "weight": 1.0
     },
     {
@@ -64538,7 +64550,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L559",
+      "source_location": "L585",
       "weight": 1.0
     },
     {
@@ -64550,7 +64562,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L560",
+      "source_location": "L586",
       "weight": 1.0
     },
     {
@@ -64562,19 +64574,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L561",
-      "weight": 1.0
-    },
-    {
-      "source": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_ongui",
-      "target": "assets_project_ocean_scripts_editor_queststepdatadrawer_game_testing_queststepdatadrawer_getdialoguelist",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L566",
+      "source_location": "L587",
       "weight": 1.0
     },
     {
@@ -64586,7 +64586,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L579",
+      "source_location": "L605",
       "weight": 1.0
     },
     {
@@ -64730,7 +64730,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L133",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -64742,7 +64742,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L137",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -64754,7 +64754,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L140",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -64766,7 +64766,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L113",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -64778,7 +64778,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L115",
+      "source_location": "L119",
       "weight": 1.0
     },
     {
@@ -68582,7 +68582,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L164",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -68594,7 +68594,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L179",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -68606,7 +68606,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L149",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -68618,7 +68618,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L154",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -68630,19 +68630,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L57",
-      "weight": 1.0
-    },
-    {
-      "source": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_refresh",
-      "target": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_hide",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L103",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -68654,7 +68642,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L99",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_refresh",
+      "target": "assets_project_ocean_scripts_gameplay_questsystems_quest_playerselfdialogueui_game_testing_playerselfdialogueui_hide",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
+      "source_location": "L108",
       "weight": 1.0
     },
     {
@@ -68666,7 +68666,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L73",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
@@ -68678,7 +68678,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L117",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -68690,7 +68690,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L123",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -68702,7 +68702,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L125",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -68714,7 +68714,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L127",
+      "source_location": "L132",
       "weight": 1.0
     },
     {
@@ -68726,7 +68726,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L136",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -68738,7 +68738,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L68",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -68750,7 +68750,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L442",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -68762,7 +68762,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L256",
+      "source_location": "L258",
       "weight": 1.0
     },
     {
@@ -68774,7 +68774,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L278",
+      "source_location": "L280",
       "weight": 1.0
     },
     {
@@ -68786,7 +68786,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L669",
+      "source_location": "L670",
       "weight": 1.0
     },
     {
@@ -68798,7 +68798,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L696",
+      "source_location": "L697",
       "weight": 1.0
     },
     {
@@ -68810,7 +68810,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L705",
+      "source_location": "L706",
       "weight": 1.0
     },
     {
@@ -68822,7 +68822,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L712",
+      "source_location": "L713",
       "weight": 1.0
     },
     {
@@ -68834,7 +68834,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L716",
+      "source_location": "L717",
       "weight": 1.0
     },
     {
@@ -68846,7 +68846,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L717",
+      "source_location": "L718",
       "weight": 1.0
     },
     {
@@ -68858,7 +68858,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L660",
+      "source_location": "L661",
       "weight": 1.0
     },
     {
@@ -68882,7 +68882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L748",
+      "source_location": "L749",
       "weight": 1.0
     },
     {
@@ -68894,7 +68894,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L772",
+      "source_location": "L773",
       "weight": 1.0
     },
     {
@@ -68906,7 +68906,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L655",
+      "source_location": "L656",
       "weight": 1.0
     },
     {
@@ -68918,7 +68918,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L250",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -68930,7 +68930,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L415",
+      "source_location": "L416",
       "weight": 1.0
     },
     {
@@ -68942,7 +68942,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L420",
+      "source_location": "L421",
       "weight": 1.0
     },
     {
@@ -68954,7 +68954,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L426",
+      "source_location": "L427",
       "weight": 1.0
     },
     {
@@ -68966,7 +68966,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L433",
+      "source_location": "L434",
       "weight": 1.0
     },
     {
@@ -68978,7 +68978,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L440",
+      "source_location": "L441",
       "weight": 1.0
     },
     {
@@ -68990,7 +68990,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L443",
+      "source_location": "L444",
       "weight": 1.0
     },
     {
@@ -69002,7 +69002,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L451",
+      "source_location": "L452",
       "weight": 1.0
     },
     {
@@ -69014,7 +69014,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L457",
+      "source_location": "L458",
       "weight": 1.0
     },
     {
@@ -69026,7 +69026,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L458",
+      "source_location": "L459",
       "weight": 1.0
     },
     {
@@ -69038,7 +69038,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L922",
+      "source_location": "L923",
       "weight": 1.0
     },
     {
@@ -69050,7 +69050,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L926",
+      "source_location": "L927",
       "weight": 1.0
     },
     {
@@ -69074,7 +69074,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L547",
+      "source_location": "L548",
       "weight": 1.0
     },
     {
@@ -69086,7 +69086,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L904",
+      "source_location": "L905",
       "weight": 1.0
     },
     {
@@ -69098,7 +69098,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L256",
+      "source_location": "L257",
       "weight": 1.0
     },
     {
@@ -69110,7 +69110,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L262",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -69158,7 +69158,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L295",
+      "source_location": "L296",
       "weight": 1.0
     },
     {
@@ -69170,7 +69170,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L333",
+      "source_location": "L334",
       "weight": 1.0
     },
     {
@@ -69206,7 +69206,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L516",
+      "source_location": "L517",
       "weight": 1.0
     },
     {
@@ -69254,7 +69254,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L621",
+      "source_location": "L622",
       "weight": 1.0
     },
     {
@@ -69266,7 +69266,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L634",
+      "source_location": "L635",
       "weight": 1.0
     },
     {
@@ -69278,7 +69278,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L641",
+      "source_location": "L642",
       "weight": 1.0
     },
     {
@@ -69290,7 +69290,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L646",
+      "source_location": "L647",
       "weight": 1.0
     },
     {
@@ -69302,7 +69302,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L489",
+      "source_location": "L490",
       "weight": 1.0
     },
     {
@@ -69314,7 +69314,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L501",
+      "source_location": "L502",
       "weight": 1.0
     },
     {
@@ -69326,7 +69326,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L731",
+      "source_location": "L732",
       "weight": 1.0
     },
     {
@@ -69338,7 +69338,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L932",
+      "source_location": "L933",
       "weight": 1.0
     },
     {
@@ -69350,7 +69350,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L390",
+      "source_location": "L391",
       "weight": 1.0
     },
     {
@@ -69362,7 +69362,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L857",
+      "source_location": "L858",
       "weight": 1.0
     },
     {
@@ -69374,7 +69374,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L867",
+      "source_location": "L868",
       "weight": 1.0
     },
     {
@@ -69386,7 +69386,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L885",
+      "source_location": "L886",
       "weight": 1.0
     },
     {
@@ -69398,7 +69398,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L887",
+      "source_location": "L888",
       "weight": 1.0
     },
     {
@@ -74170,7 +74170,7 @@
         "ref_token": "Coroutine"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L476",
+      "source_location": "L477",
       "weight": 1.0
     },
     {
@@ -74575,7 +74575,7 @@
         "ref_token": "Dictionary"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -75970,7 +75970,7 @@
         "ref_token": "GameObject"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L26",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -76315,7 +76315,7 @@
         "ref_token": "HashSet"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L163",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -76450,7 +76450,7 @@
         "ref_token": "IReadOnlyList"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L246",
+      "source_location": "L248",
       "weight": 1.0
     },
     {
@@ -76555,7 +76555,7 @@
         "ref_token": "Image"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L29",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -77755,7 +77755,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L45",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -77770,7 +77770,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L376",
+      "source_location": "L378",
       "weight": 1.0
     },
     {
@@ -77785,7 +77785,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L190",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -78475,7 +78475,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L43",
+      "source_location": "L47",
       "weight": 1.0
     },
     {
@@ -78520,7 +78520,7 @@
         "ref_token": "QuestCategory"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L297",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -78580,7 +78580,7 @@
         "ref_token": "QuestClassification"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L301",
+      "source_location": "L303",
       "weight": 1.0
     },
     {
@@ -78700,7 +78700,7 @@
         "ref_token": "QuestStatus"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L305",
+      "source_location": "L307",
       "weight": 1.0
     },
     {
@@ -78730,7 +78730,7 @@
         "ref_token": "QuestStep"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L329",
+      "source_location": "L331",
       "weight": 1.0
     },
     {
@@ -79210,7 +79210,7 @@
         "ref_token": "Sprite"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L175",
+      "source_location": "L177",
       "weight": 1.0
     },
     {
@@ -79585,7 +79585,7 @@
         "ref_token": "TalkCompletionMode"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L161",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -79735,7 +79735,7 @@
         "ref_token": "TextMeshProUGUI"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -83290,7 +83290,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L41",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -83302,7 +83302,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L293",
+      "source_location": "L295",
       "weight": 1.0
     },
     {
@@ -83314,7 +83314,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L297",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -83326,7 +83326,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L301",
+      "source_location": "L303",
       "weight": 1.0
     },
     {
@@ -83338,7 +83338,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L305",
+      "source_location": "L307",
       "weight": 1.0
     },
     {
@@ -83350,7 +83350,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L321",
+      "source_location": "L323",
       "weight": 1.0
     },
     {
@@ -83362,7 +83362,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L327",
+      "source_location": "L329",
       "weight": 1.0
     },
     {
@@ -83374,7 +83374,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L329",
+      "source_location": "L331",
       "weight": 1.0
     },
     {
@@ -83386,7 +83386,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L332",
+      "source_location": "L334",
       "weight": 1.0
     },
     {
@@ -83398,7 +83398,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L334",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
@@ -83410,7 +83410,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L336",
+      "source_location": "L338",
       "weight": 1.0
     },
     {
@@ -83422,7 +83422,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L342",
+      "source_location": "L344",
       "weight": 1.0
     },
     {
@@ -83434,7 +83434,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L344",
+      "source_location": "L346",
       "weight": 1.0
     },
     {
@@ -83446,7 +83446,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L349",
+      "source_location": "L351",
       "weight": 1.0
     },
     {
@@ -83458,7 +83458,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L352",
+      "source_location": "L354",
       "weight": 1.0
     },
     {
@@ -83470,7 +83470,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L353",
+      "source_location": "L355",
       "weight": 1.0
     },
     {
@@ -83482,7 +83482,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L357",
+      "source_location": "L359",
       "weight": 1.0
     },
     {
@@ -83494,7 +83494,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L361",
+      "source_location": "L363",
       "weight": 1.0
     },
     {
@@ -83506,7 +83506,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L366",
+      "source_location": "L368",
       "weight": 1.0
     },
     {
@@ -83518,7 +83518,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L370",
+      "source_location": "L372",
       "weight": 1.0
     },
     {
@@ -83530,7 +83530,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L373",
+      "source_location": "L375",
       "weight": 1.0
     },
     {
@@ -83542,7 +83542,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L376",
+      "source_location": "L378",
       "weight": 1.0
     },
     {
@@ -83554,7 +83554,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L531",
+      "source_location": "L533",
       "weight": 1.0
     },
     {
@@ -83626,7 +83626,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L175",
+      "source_location": "L177",
       "weight": 1.0
     },
     {
@@ -83638,7 +83638,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L192",
+      "source_location": "L194",
       "weight": 1.0
     },
     {
@@ -83650,7 +83650,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L246",
+      "source_location": "L248",
       "weight": 1.0
     },
     {
@@ -83662,7 +83662,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L266",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -83674,7 +83674,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L267",
+      "source_location": "L269",
       "weight": 1.0
     },
     {
@@ -83686,7 +83686,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L268",
+      "source_location": "L270",
       "weight": 1.0
     },
     {
@@ -83698,7 +83698,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L269",
+      "source_location": "L271",
       "weight": 1.0
     },
     {
@@ -83710,7 +83710,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L270",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -83722,7 +83722,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L271",
+      "source_location": "L273",
       "weight": 1.0
     },
     {
@@ -84729,7 +84729,7 @@
         "ref_token": "Cutscene"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L177",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -84834,7 +84834,7 @@
         "ref_token": "DialogueType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -85509,7 +85509,7 @@
         "ref_token": "GameFeature"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L190",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -86139,7 +86139,7 @@
         "ref_token": "Line"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L45",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -86559,7 +86559,7 @@
         "ref_token": "PlayerMoney"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L804",
+      "source_location": "L805",
       "weight": 1.0
     },
     {
@@ -86679,7 +86679,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L559",
+      "source_location": "L560",
       "weight": 1.0
     },
     {
@@ -86694,7 +86694,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L534",
+      "source_location": "L535",
       "weight": 1.0
     },
     {
@@ -86709,7 +86709,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L603",
+      "source_location": "L604",
       "weight": 1.0
     },
     {
@@ -86724,7 +86724,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L542",
+      "source_location": "L543",
       "weight": 1.0
     },
     {
@@ -86739,7 +86739,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L537",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -86799,7 +86799,7 @@
         "ref_token": "QuestDialogueLine"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L246",
+      "source_location": "L248",
       "weight": 1.0
     },
     {
@@ -86814,7 +86814,7 @@
         "ref_token": "QuestDialogueLine"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L226",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -86844,7 +86844,7 @@
         "ref_token": "QuestItemRequirement"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L376",
+      "source_location": "L378",
       "weight": 1.0
     },
     {
@@ -86904,7 +86904,7 @@
         "ref_token": "QuestSaveData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L588",
+      "source_location": "L589",
       "weight": 1.0
     },
     {
@@ -86919,7 +86919,7 @@
         "ref_token": "QuestSaveData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L613",
+      "source_location": "L614",
       "weight": 1.0
     },
     {
@@ -86934,7 +86934,7 @@
         "ref_token": "QuestStep"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L521",
+      "source_location": "L523",
       "weight": 1.0
     },
     {
@@ -86949,7 +86949,7 @@
         "ref_token": "QuestStep"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L376",
+      "source_location": "L377",
       "weight": 1.0
     },
     {
@@ -87999,7 +87999,7 @@
         "ref_token": "characterId"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -88074,7 +88074,7 @@
         "ref_token": "type"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L179",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -98313,7 +98313,7 @@
         "ref_token": "Action"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L152",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -99048,7 +99048,7 @@
         "ref_token": "DialogueType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L261",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -99063,7 +99063,7 @@
         "ref_token": "DialogueType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L254",
+      "source_location": "L256",
       "weight": 1.0
     },
     {
@@ -99078,7 +99078,7 @@
         "ref_token": "DialogueType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L276",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -99093,7 +99093,7 @@
         "ref_token": "DialogueType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L249",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -99738,7 +99738,7 @@
         "ref_token": "Func"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L203",
+      "source_location": "L205",
       "weight": 1.0
     },
     {
@@ -99753,7 +99753,7 @@
         "ref_token": "Func"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L376",
+      "source_location": "L377",
       "weight": 1.0
     },
     {
@@ -99768,7 +99768,7 @@
         "ref_token": "GUIContent"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L599",
+      "source_location": "L625",
       "weight": 1.0
     },
     {
@@ -101388,7 +101388,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L226",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -101403,7 +101403,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L613",
+      "source_location": "L614",
       "weight": 1.0
     },
     {
@@ -102153,7 +102153,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L120",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -102168,7 +102168,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L107",
+      "source_location": "L112",
       "weight": 1.0
     },
     {
@@ -102183,7 +102183,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L245",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -102198,7 +102198,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L404",
+      "source_location": "L405",
       "weight": 1.0
     },
     {
@@ -102213,7 +102213,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L510",
+      "source_location": "L511",
       "weight": 1.0
     },
     {
@@ -102228,7 +102228,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L556",
+      "source_location": "L557",
       "weight": 1.0
     },
     {
@@ -102243,7 +102243,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L525",
+      "source_location": "L526",
       "weight": 1.0
     },
     {
@@ -102258,7 +102258,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L484",
+      "source_location": "L485",
       "weight": 1.0
     },
     {
@@ -102273,7 +102273,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L492",
+      "source_location": "L493",
       "weight": 1.0
     },
     {
@@ -102288,7 +102288,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L794",
+      "source_location": "L795",
       "weight": 1.0
     },
     {
@@ -102393,7 +102393,7 @@
         "ref_token": "QuestCategory"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L542",
+      "source_location": "L543",
       "weight": 1.0
     },
     {
@@ -102423,7 +102423,7 @@
         "ref_token": "QuestData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L397",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -102438,7 +102438,7 @@
         "ref_token": "QuestStatus"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L537",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -102468,7 +102468,7 @@
         "ref_token": "QuestStep"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L464",
+      "source_location": "L465",
       "weight": 1.0
     },
     {
@@ -102543,7 +102543,7 @@
         "ref_token": "QuestType"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L376",
+      "source_location": "L377",
       "weight": 1.0
     },
     {
@@ -103083,7 +103083,7 @@
         "ref_token": "SaveData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L658",
+      "source_location": "L659",
       "weight": 1.0
     },
     {
@@ -103098,7 +103098,7 @@
         "ref_token": "SaveData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L653",
+      "source_location": "L654",
       "weight": 1.0
     },
     {
@@ -103368,7 +103368,7 @@
         "ref_token": "SerializedProperty"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L599",
+      "source_location": "L625",
       "weight": 1.0
     },
     {
@@ -105020,7 +105020,7 @@
         "ref_qualifier": "System.Collections"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L492",
+      "source_location": "L493",
       "weight": 1.0
     },
     {
@@ -105350,7 +105350,7 @@
         "ref_token": "IEnumerable"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L521",
+      "source_location": "L523",
       "weight": 1.0
     },
     {
@@ -105470,7 +105470,7 @@
         "ref_token": "IEnumerator"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L120",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -105755,7 +105755,7 @@
         "ref_token": "IEnumerator"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L70",
+      "source_location": "L74",
       "weight": 1.0
     },
     {
@@ -106400,7 +106400,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L397",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -106415,7 +106415,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L559",
+      "source_location": "L560",
       "weight": 1.0
     },
     {
@@ -106430,7 +106430,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L534",
+      "source_location": "L535",
       "weight": 1.0
     },
     {
@@ -106445,7 +106445,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L603",
+      "source_location": "L604",
       "weight": 1.0
     },
     {
@@ -106460,7 +106460,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L542",
+      "source_location": "L543",
       "weight": 1.0
     },
     {
@@ -106475,7 +106475,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L537",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -106490,7 +106490,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L588",
+      "source_location": "L589",
       "weight": 1.0
     },
     {
@@ -106565,7 +106565,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L781",
+      "source_location": "L782",
       "weight": 1.0
     },
     {
@@ -106580,7 +106580,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L573",
+      "source_location": "L574",
       "weight": 1.0
     },
     {
@@ -106595,7 +106595,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L561",
+      "source_location": "L562",
       "weight": 1.0
     },
     {
@@ -106610,7 +106610,7 @@
         "ref_token": "Quest"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L898",
+      "source_location": "L899",
       "weight": 1.0
     },
     {
@@ -109119,7 +109119,7 @@
         "ref_token": "MonoBehaviour"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L19",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -115850,7 +115850,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L19",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -115872,7 +115872,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L31",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -115894,7 +115894,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L288",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -130303,7 +130303,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Editor/QuestStepDataDrawer.cs",
-      "source_location": "L599",
+      "source_location": "L625",
       "weight": 1.0
     },
     {
@@ -130512,7 +130512,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L120",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -130523,7 +130523,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
-      "source_location": "L152",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -136100,7 +136100,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L107",
+      "source_location": "L112",
       "weight": 1.0
     },
     {
@@ -136111,7 +136111,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L133",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -136122,7 +136122,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L141",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -136133,7 +136133,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L157",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -136144,7 +136144,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L48",
+      "source_location": "L52",
       "weight": 1.0
     },
     {
@@ -136155,7 +136155,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L53",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -136166,7 +136166,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L68",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -136177,7 +136177,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L70",
+      "source_location": "L74",
       "weight": 1.0
     },
     {
@@ -136188,7 +136188,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/PlayerSelfDialogueUI.cs",
-      "source_location": "L76",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -136199,7 +136199,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L397",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -136210,7 +136210,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L486",
+      "source_location": "L488",
       "weight": 1.0
     },
     {
@@ -136221,7 +136221,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L521",
+      "source_location": "L523",
       "weight": 1.0
     },
     {
@@ -136232,7 +136232,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L168",
+      "source_location": "L170",
       "weight": 1.0
     },
     {
@@ -136243,7 +136243,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L203",
+      "source_location": "L205",
       "weight": 1.0
     },
     {
@@ -136254,7 +136254,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L226",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -136265,7 +136265,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L249",
+      "source_location": "L251",
       "weight": 1.0
     },
     {
@@ -136276,7 +136276,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L254",
+      "source_location": "L256",
       "weight": 1.0
     },
     {
@@ -136287,7 +136287,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L261",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -136298,7 +136298,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L276",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -136397,7 +136397,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L245",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -136408,7 +136408,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L253",
+      "source_location": "L254",
       "weight": 1.0
     },
     {
@@ -136419,7 +136419,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L259",
+      "source_location": "L260",
       "weight": 1.0
     },
     {
@@ -136430,7 +136430,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L275",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -136452,7 +136452,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L368",
+      "source_location": "L369",
       "weight": 1.0
     },
     {
@@ -136463,7 +136463,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L376",
+      "source_location": "L377",
       "weight": 1.0
     },
     {
@@ -136474,7 +136474,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L404",
+      "source_location": "L405",
       "weight": 1.0
     },
     {
@@ -136485,7 +136485,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L464",
+      "source_location": "L465",
       "weight": 1.0
     },
     {
@@ -136507,7 +136507,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L484",
+      "source_location": "L485",
       "weight": 1.0
     },
     {
@@ -136518,7 +136518,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L492",
+      "source_location": "L493",
       "weight": 1.0
     },
     {
@@ -136529,7 +136529,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L510",
+      "source_location": "L511",
       "weight": 1.0
     },
     {
@@ -136540,7 +136540,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L525",
+      "source_location": "L526",
       "weight": 1.0
     },
     {
@@ -136551,7 +136551,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L534",
+      "source_location": "L535",
       "weight": 1.0
     },
     {
@@ -136562,7 +136562,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L537",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -136573,7 +136573,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L542",
+      "source_location": "L543",
       "weight": 1.0
     },
     {
@@ -136584,7 +136584,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L556",
+      "source_location": "L557",
       "weight": 1.0
     },
     {
@@ -136595,7 +136595,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L559",
+      "source_location": "L560",
       "weight": 1.0
     },
     {
@@ -136606,7 +136606,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L561",
+      "source_location": "L562",
       "weight": 1.0
     },
     {
@@ -136617,7 +136617,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L573",
+      "source_location": "L574",
       "weight": 1.0
     },
     {
@@ -136628,7 +136628,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L588",
+      "source_location": "L589",
       "weight": 1.0
     },
     {
@@ -136639,7 +136639,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L603",
+      "source_location": "L604",
       "weight": 1.0
     },
     {
@@ -136661,7 +136661,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L613",
+      "source_location": "L614",
       "weight": 1.0
     },
     {
@@ -136672,7 +136672,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L653",
+      "source_location": "L654",
       "weight": 1.0
     },
     {
@@ -136683,7 +136683,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L658",
+      "source_location": "L659",
       "weight": 1.0
     },
     {
@@ -136694,7 +136694,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L667",
+      "source_location": "L668",
       "weight": 1.0
     },
     {
@@ -136705,7 +136705,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L729",
+      "source_location": "L730",
       "weight": 1.0
     },
     {
@@ -136716,7 +136716,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L746",
+      "source_location": "L747",
       "weight": 1.0
     },
     {
@@ -136727,7 +136727,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L779",
+      "source_location": "L780",
       "weight": 1.0
     },
     {
@@ -136738,7 +136738,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L781",
+      "source_location": "L782",
       "weight": 1.0
     },
     {
@@ -136749,7 +136749,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L794",
+      "source_location": "L795",
       "weight": 1.0
     },
     {
@@ -136760,7 +136760,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L855",
+      "source_location": "L856",
       "weight": 1.0
     },
     {
@@ -136771,7 +136771,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L898",
+      "source_location": "L899",
       "weight": 1.0
     },
     {
@@ -136793,7 +136793,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L920",
+      "source_location": "L921",
       "weight": 1.0
     },
     {
@@ -136804,7 +136804,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L929",
+      "source_location": "L930",
       "weight": 1.0
     },
     {
@@ -141631,7 +141631,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L470",
+      "source_location": "L472",
       "weight": 1.0
     },
     {
@@ -141643,7 +141643,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L408",
+      "source_location": "L409",
       "weight": 1.0
     },
     {
@@ -142884,5 +142884,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1b0d088b01843bb4488b15adb2ddf4ecaba7ccc2"
+  "built_at_commit": "0c2b597baea65f2da73d0c7942bc75ab5b9a2c7a"
 }

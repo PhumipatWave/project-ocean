@@ -153,7 +153,9 @@ namespace Game.Testing
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
 
-        /// <summary>Talk steps only — see QuestStepData.autoDisplayDialogue (PlayerSelfDialogueUI shows it).</summary>
+        /// <summary>Talk or Cutscene steps only — see QuestStepData.autoDisplayDialogue
+        /// (PlayerSelfDialogueUI shows it). On a Cutscene step this takes over from
+        /// CutsceneManager's own auto-play-on-current — see its RefreshQuestStep guard.</summary>
         public bool AutoDisplayDialogue;
 
         /// <summary>Talk (non-auto-display) only — whether ANY or ALL of EffectiveNpcIds must
@@ -460,7 +462,7 @@ namespace Game.Testing
                     StepDescription = s.stepDescription,
                     CurrentCount = 0,
                     IsGuidedSequence = s.isGuidedSequence,
-                    AutoDisplayDialogue = s.type == QuestType.Talk && s.autoDisplayDialogue,
+                    AutoDisplayDialogue = (s.type == QuestType.Talk || s.type == QuestType.Cutscene) && s.autoDisplayDialogue,
                     NotificationImages = s.notificationImages,
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,

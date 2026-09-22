@@ -240,13 +240,14 @@ namespace Game.Testing
             }
         }
 
-        /// <summary>Completes a Talk step authored with Auto Display Dialogue — it has no NPC id
-        /// for NpcEvents.RaiseNpcTalkedTo to match on, so PlayerSelfDialogueUI calls this directly.</summary>
+        /// <summary>Completes a Talk or Cutscene step authored with Auto Display Dialogue — it
+        /// has no NPC id for NpcEvents.RaiseNpcTalkedTo to match on, so PlayerSelfDialogueUI
+        /// calls this directly.</summary>
         public void CompleteAutoDialogue(Quest q)
         {
             var step = q?.CurrentStep;
-            if (q != null && q.Status == QuestStatus.InProgress &&
-                step != null && step.Type == QuestType.Talk && step.AutoDisplayDialogue)
+            if (q != null && q.Status == QuestStatus.InProgress && step != null &&
+                (step.Type == QuestType.Talk || step.Type == QuestType.Cutscene) && step.AutoDisplayDialogue)
                 CompleteProgress(q);
         }
 
