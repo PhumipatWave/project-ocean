@@ -47,6 +47,11 @@ namespace Game.Testing
         // taken its own lock, or if the wait is abandoned.
         private bool holdingStartLock;
 
+        // PlayerUIState.ResetCount when the start lock was taken. A scene load during
+        // CutsceneStartDelay (New Game → Land_Map) resets PlayerUIState; releasing after that
+        // would close the cutscene's OWN lock instead and show the HUD mid-cutscene.
+        private int startLockResetCount;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -74,10 +79,18 @@ namespace Game.Testing
             }
         }
 
-        private void OnEnable() => QuestManager.OnQuestUpdated += RefreshQuestStep;
+        private void OnEnable()
+        {
+            QuestManager.OnQuestUpdated += RefreshQuestStep;
+            LoadingManager.OnLoadingFinished += RefreshQuestStep;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += HandleSceneLoaded;
+        }
+
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= RefreshQuestStep;
+            LoadingManager.OnLoadingFinished -= RefreshQuestStep;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= HandleSceneLoaded;
             ReleaseStartLock();
 
             // Safety net: if this gets disabled while PlayStepAfterDelay is still waiting out
@@ -92,7 +105,8 @@ namespace Game.Testing
         {
             if (!holdingStartLock) return;
             holdingStartLock = false;
-            PlayerUIState.Close();
+            if (PlayerUIState.ResetCount == startLockResetCount)
+                PlayerUIState.Close();
         }
 
         /// <summary>Cancels any in-flight cutscene state — called by SaveBridge.ResetForNewGame().
@@ -122,9 +136,20 @@ namespace Game.Testing
         private void Start() => RefreshQuestStep();
 
         /// <summary>Plays the current Cutscene-type step's cutscene, if one is waiting and not already running.</summary>
+        // Scene loads that skip LoadingManager (Continue/SaveBridge) still get a re-check here.
+        private void HandleSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+            => RefreshQuestStep();
+
         private void RefreshQuestStep()
         {
             if (QuestManager.Instance == null)
+                return;
+
+            // This manager lives from the Main Menu on (AS_PlayerHUD loads with it). A quest
+            // cutscene started there plays unseen and gets destroyed by the Land load, which
+            // marks its step done. Wait for gameplay; OnLoadingFinished/sceneLoaded re-check.
+            if (LoadingManager.IsLoading ||
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == SceneNames.MainMenu)
                 return;
 
             foreach (var q in QuestManager.Instance.GetActiveQuests())
@@ -143,6 +168,7 @@ namespace Game.Testing
                 activeQuestStep = q;
                 PlayerUIState.Open();
                 holdingStartLock = true;
+                startLockResetCount = PlayerUIState.ResetCount;
                 StartCoroutine(PlayStepAfterDelay(q, step.EffectiveCutsceneId));
                 return;
             }

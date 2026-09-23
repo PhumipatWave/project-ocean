@@ -40,6 +40,9 @@ namespace Game.Testing
                 {
                     // Keep animating while game is paused (timeScale = 0).
                     animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+                    // Hiding the canvas would otherwise rebind the Animator on next show and
+                    // capture MenuToLand's full-screen size as the new "default" for other states.
+                    animator.keepAnimatorStateOnDisable = true;
                     animator.Play(profile.stateName, 0, 0f);
                 }
 
