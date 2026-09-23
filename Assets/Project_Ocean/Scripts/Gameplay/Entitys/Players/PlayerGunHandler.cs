@@ -9,7 +9,6 @@ namespace Game.Testing
         //[SerializeField] private AmmoWheel ammoWheel;
         [SerializeField] private Player player;
 
-        [SerializeField] private AudioClip shootSound;
 
         [Header("Rope System")]
         [SerializeField] private LineRenderer line;
@@ -31,6 +30,7 @@ namespace Game.Testing
         public Transform GunSprite {  get { return gunSprite; } }
 
         [SerializeField] private LineRenderer aimLine;
+        [Tooltip("Fallback laser length, used only when the current ammo has no range of its own. Normal ammo and the hook use their real reach.")]
         [SerializeField] private float aimLineLength = 10f;
         [SerializeField] private LayerMask wallLayer;
 
@@ -204,20 +204,41 @@ namespace Game.Testing
             aimLine.enabled = true;
 
             Vector3 start = firePoint.transform.position;
+            float range = GetAimRange();
 
             RaycastHit2D hit = Physics2D.Raycast(
                 start,
                 aimDir,
-                aimLineLength,
+                range,
                 wallLayer
             );
 
             Vector3 end = hit.collider != null
                 ? (Vector3)hit.point
-                : start + (Vector3)aimDir * aimLineLength;
+                : start + (Vector3)aimDir * range;
 
             aimLine.SetPosition(0, start);
             aimLine.SetPosition(1, end);
+        }
+
+        /// <summary>How far the laser reaches = how far the CURRENT ammo actually flies. Read every
+        /// frame, so it follows upgrades and ammo switches. Falls back to aimLineLength when the ammo
+        /// has no range of its own.</summary>
+        private float GetAimRange()
+        {
+            // The hook flies until the rope is at its maximum length, then pulls back.
+            if (currentAmmoType == AmmoType.GrapplingHook)
+                return ropeData != null ? ropeData.maxRopeLength : aimLineLength;
+
+            int i = (int)currentAmmoType;
+            if (bulletTypePrefab != null && i < bulletTypePrefab.Length && bulletTypePrefab[i] != null)
+            {
+                var bullet = bulletTypePrefab[i].GetComponent<Bullet>();
+                if (bullet != null && bullet.MaxRange > 0f)
+                    return bullet.MaxRange;
+            }
+
+            return aimLineLength;
         }
 
         private void SetAimLineActive(bool active)
@@ -239,7 +260,6 @@ namespace Game.Testing
             }
             else
             {
-                player.Audio.PlayOneShot(shootSound);
                 ShowMuzzleFlash();
 
                 currentBulletObj = Instantiate(bulletTypePrefab[(int)currentAmmoType], firePoint.transform.position, Quaternion.identity);

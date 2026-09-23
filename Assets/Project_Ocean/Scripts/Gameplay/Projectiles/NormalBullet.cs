@@ -4,6 +4,11 @@ namespace Game.Testing
 {
     public class NormalBullet : Bullet
     {
+        // Speed × lifetime for the current upgrade level. Uses the same lifetime table the bullet
+        // destroys itself with, so the laser and the real shot can never disagree.
+        public override float MaxRange =>
+            moveSpeed * GetLifetime(UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet));
+
         protected override void Awake()
         {
             rb = GetComponent<Rigidbody2D>();

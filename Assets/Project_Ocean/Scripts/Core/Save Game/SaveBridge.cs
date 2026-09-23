@@ -228,7 +228,13 @@ namespace Game.Testing
         public void ResetForNewGame()
         {
             if (GameManager.CurPlayer != null)
-                Destroy(GameManager.CurPlayer.gameObject);
+            {
+                // Destroy() is deferred to end of frame — unregister now so nothing later in this
+                // frame (SaveGame, ResetToDefault below) still reads the previous run's player.
+                var oldPlayer = GameManager.CurPlayer;
+                PlayerRegistry.Unregister(oldPlayer);
+                Destroy(oldPlayer.gameObject);
+            }
 
             // Before QuestManager — clears any coroutine/lock left over from a PREVIOUS
             // interrupted attempt while activeQuestStep still points at the about-to-be-discarded
@@ -252,6 +258,18 @@ namespace Game.Testing
 
             if (GameManager.Instance != null)
                 GameManager.Instance.MiniHubAvaliable = false;
+        }
+
+        /// <summary>
+        /// New Game entry point: makes <paramref name="slot"/> the active slot WITHOUT writing it yet.
+        /// The fresh player doesn't exist until the next scene loads, so saving now would snapshot
+        /// stale/default values (this used to leak the previous run's money and rope length into
+        /// the new slot). The auto-save that runs after Land loads writes it from the real player.
+        /// </summary>
+        public void BeginNewGameSession(int slot)
+        {
+            CurrentSlot = slot;
+            _sessionStarted = true;
         }
 
         /// <summary>Saves to whichever slot was last used (see CurrentSlot).</summary>

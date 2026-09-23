@@ -836,6 +836,7 @@ GameObject:
   - component: {fileID: 387871269}
   - component: {fileID: 387871271}
   - component: {fileID: 387871270}
+  - component: {fileID: 387871272}
   m_Layer: 0
   m_Name: MusicSlider
   m_TagString: Untagged
@@ -931,19 +932,20 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1414129934}
-        m_TargetAssemblyTypeName: AudioManager, Game.Testing
-        m_MethodName: SetMusicVolume
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 100
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &387871272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387871268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e858739d6969fb459afa79bcb5de9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::AudioSliderBinder
+  channel: 1
 --- !u!1 &401348342
 GameObject:
   m_ObjectHideFlags: 0
@@ -5111,6 +5113,7 @@ GameObject:
   - component: {fileID: 1403686521}
   - component: {fileID: 1403686522}
   - component: {fileID: 1403686523}
+  - component: {fileID: 1403686524}
   m_Layer: 0
   m_Name: VolumeSlider
   m_TagString: Untagged
@@ -5192,19 +5195,7 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1414129934}
-        m_TargetAssemblyTypeName: AudioManager, Game.Testing
-        m_MethodName: SetMasterVolume
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 100
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1403686523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5219,6 +5210,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::VolumeSliderUI
   slider: {fileID: 1403686522}
   percentText: {fileID: 808568773}
+--- !u!114 &1403686524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403686520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e858739d6969fb459afa79bcb5de9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::AudioSliderBinder
+  channel: 0
 --- !u!1 &1414129932
 GameObject:
   m_ObjectHideFlags: 0
@@ -5229,7 +5233,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1414129933}
   - component: {fileID: 1414129935}
-  - component: {fileID: 1414129934}
   m_Layer: 0
   m_Name: AudioSetting
   m_TagString: Untagged
@@ -5260,23 +5263,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1.5, y: 4.527588}
   m_SizeDelta: {x: -3.572, y: -5.0568}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1414129934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414129932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69d733fe267e634438eb440d087c90be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::AudioManager
-  musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
-  masterVolume: 1
-  musicVolume: 1
-  sfxVolume: 1
 --- !u!114 &1414129935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6153,6 +6139,7 @@ GameObject:
   - component: {fileID: 1619024930}
   - component: {fileID: 1619024932}
   - component: {fileID: 1619024931}
+  - component: {fileID: 1619024933}
   m_Layer: 0
   m_Name: SFXSlider
   m_TagString: Untagged
@@ -6248,19 +6235,20 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1414129934}
-        m_TargetAssemblyTypeName: AudioManager, Game.Testing
-        m_MethodName: SetSFXVolume
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 100
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &1619024933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619024929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e858739d6969fb459afa79bcb5de9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::AudioSliderBinder
+  channel: 2
 --- !u!1 &1635976209
 GameObject:
   m_ObjectHideFlags: 0

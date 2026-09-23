@@ -87,7 +87,7 @@ namespace Game.Testing
             else
             {
                 SaveBridge.Instance.ResetForNewGame();
-                SaveBridge.Instance.SaveGame(slot);
+                SaveBridge.Instance.BeginNewGameSession(slot); // file is written by the auto-save after Land loads
                 SceneManager.LoadScene("Land_Map"); // เปลี่ยนเป็นชื่อ scene แรกจริงของคุณ
             }
         }
