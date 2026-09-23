@@ -8,6 +8,9 @@ namespace Game.Testing
         [SerializeField] private GameObject panelRoot;   // the whole panel — toggled on/off
         [SerializeField] private SaveSlotUI[] slotCards; // drag SlotCard_0, SlotCard_1, ... here in order
 
+        // True while the panel was opened by New Game with every slot full: picking a slot replaces it.
+        private bool replaceMode;
+
         // ── Main Menu Continue / New Game (ไม่เปิด panel) ──
 
         /// <summary>ปุ่ม Continue — โหลด save ล่าสุดทันที</summary>
@@ -46,10 +49,13 @@ namespace Game.Testing
 
             int slot = FindFirstEmptySlot(maxSlots: slotCards.Length);
 
-            // Every slot is taken: refuse. Starting a new game here used to silently overwrite slot 0.
+            // Every slot is taken: let the player pick one to replace (SelectSlot confirms before wiping).
+            // Never falls back to overwriting a slot on its own — that used to silently clobber slot 0.
             if (slot < 0)
             {
-                NotificationManager.Notify("All save slots are full — delete a save to start a new game.");
+                Open();
+                replaceMode = true;
+                NotificationManager.Notify("All save slots are full — select a save to replace with a new game.");
                 return;
             }
 
@@ -77,11 +83,16 @@ namespace Game.Testing
 
         public void Open()
         {
+            replaceMode = false; // NewGame turns it on again right after opening
             panelRoot.SetActive(true);
             Refresh();
         }
 
-        public void Close() => panelRoot.SetActive(false);
+        public void Close()
+        {
+            replaceMode = false;
+            panelRoot.SetActive(false);
+        }
 
         private void Refresh()
         {
@@ -115,7 +126,20 @@ namespace Game.Testing
                 return;
             }
 
-            if (hasSave)
+            if (hasSave && replaceMode)
+            {
+                // Picked a slot to overwrite with a new game: confirm first, never wipe silently.
+                if (ConfirmationDialog.Instance == null)
+                {
+                    NotificationManager.Notify("Can't confirm — no save was replaced.");
+                    return;
+                }
+
+                ConfirmationDialog.Instance.Show(
+                    "Replace this save with a new game? The old save will be erased.",
+                    () => { replaceMode = false; RestartSlot(slot); });
+            }
+            else if (hasSave)
             {
                 SaveBridge.Instance.LoadGame(slot);
             }
