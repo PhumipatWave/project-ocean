@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 6074436936552189558}
   - component: {fileID: 9117292401145227584}
   m_Layer: 5
-  m_Name: SkipStepButton
+  m_Name: SkipQuestButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 802.9, y: 344.5}
+  m_AnchoredPosition: {x: 890.67, y: 404.7}
   m_SizeDelta: {x: 174.3375, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3004559958707084382
@@ -547,7 +547,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1350398285274906378
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Skip Step
+  m_text: Skip Quest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -844,7 +844,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1599509816537107138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,7 +1768,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 802.9, y: 404.5}
+  m_AnchoredPosition: {x: 710.57, y: 404.7}
   m_SizeDelta: {x: 174.3375, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1949924259977789038
