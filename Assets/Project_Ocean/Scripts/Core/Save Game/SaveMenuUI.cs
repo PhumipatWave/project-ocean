@@ -13,7 +13,9 @@ namespace Game.Testing
         /// <summary>ปุ่ม Continue — โหลด save ล่าสุดทันที</summary>
         public void ContinueGame()
         {
-            var metas = SaveSystem.GetAllSlotMeta(); // เรียงใหม่สุดไว้บนสุดอยู่แล้ว
+            // Same slot range the menu shows (slotCards.Length) — the default of 10 also picked up
+            // saves in slots the menu can't display, so Continue could load a save you can't see.
+            var metas = SaveSystem.GetAllSlotMeta(slotCards.Length); // เรียงใหม่สุดไว้บนสุดอยู่แล้ว
             if (metas.Count == 0)
             {
                 Debug.LogWarning("[SaveMenuUI] กด Continue แต่ไม่มี save เลย");
@@ -25,8 +27,41 @@ namespace Game.Testing
         /// <summary>ปุ่ม New Game — หา slot ว่างเอง แล้วเข้าเกมทันที</summary>
         public void NewGame()
         {
+            // Pressed again after playing a New Game: restart THAT slot (wipe + fresh) instead of taking
+            // another one — but only if this session began with New Game, so a loaded save is never wiped.
+            int reuse = SaveBridge.Instance != null ? SaveBridge.Instance.ReusableNewGameSlot : -1;
+            if (reuse >= 0 && reuse < slotCards.Length && SaveSystem.HasSave(reuse))
+            {
+                if (ConfirmationDialog.Instance != null)
+                {
+                    ConfirmationDialog.Instance.Show(
+                        "Start over? The save you just played will be erased and a new game will begin.",
+                        () => RestartSlot(reuse));
+                    return;
+                }
+
+                // No dialog available: never wipe silently — fall through to the normal "first empty slot".
+                Debug.LogWarning("[SaveMenuUI] No ConfirmationDialog — not wiping slot " + reuse + "; using the first empty slot instead.");
+            }
+
             int slot = FindFirstEmptySlot(maxSlots: slotCards.Length);
+
+            // Every slot is taken: refuse. Starting a new game here used to silently overwrite slot 0.
+            if (slot < 0)
+            {
+                NotificationManager.Notify("All save slots are full — delete a save to start a new game.");
+                return;
+            }
+
             SelectSlot(slot, hasSave: false); // ใช้ path "save ใหม่ + โหลดฉาก" เดิมด้านล่าง
+        }
+
+        // Wipes the slot's data and starts a fresh game in it. Delete() keeps a backup by default, so an
+        // accidental "yes" is recoverable (LoadGame restores the backup if the slot has no file).
+        private void RestartSlot(int slot)
+        {
+            SaveSystem.Delete(slot);
+            SelectSlot(slot, hasSave: false);
         }
 
         private int FindFirstEmptySlot(int maxSlots)
@@ -37,7 +72,7 @@ namespace Game.Testing
                 if (!occupied.Exists(m => m.slot == slot))
                     return slot;
             }
-            return 0; // เต็มหมดทุกช่อง — fallback ทับ slot 0
+            return -1; // every slot is occupied — the caller must NOT fall back to overwriting one
         }
 
         public void Open()
@@ -86,9 +121,19 @@ namespace Game.Testing
             }
             else
             {
+                // A load is already running: LoadingManager would ignore the scene request below, so the
+                // game would be reset without ever switching scenes.
+                if (LoadingManager.IsLoading) return;
+
                 SaveBridge.Instance.ResetForNewGame();
                 SaveBridge.Instance.BeginNewGameSession(slot); // file is written by the auto-save after Land loads
-                SceneManager.LoadScene("Land_Map"); // เปลี่ยนเป็นชื่อ scene แรกจริงของคุณ
+
+                // Through the loading screen, as the old New Game button did. CutsceneManager waits for
+                // LoadingManager to finish before starting the prologue, so resetting first is safe.
+                if (LoadingManager.Instance != null)
+                    LoadingManager.Instance.StartGame();
+                else
+                    SceneManager.LoadScene(SceneNames.Land);
             }
         }
 

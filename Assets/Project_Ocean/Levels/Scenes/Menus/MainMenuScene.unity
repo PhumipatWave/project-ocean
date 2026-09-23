@@ -5328,7 +5328,7 @@ PrefabInstance:
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1433009533}
+      objectReference: {fileID: 269758570}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -5343,7 +5343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGame
+      value: NewGame
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -5351,7 +5351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Game.Testing.LoadingButton, Game.Testing
+      value: Game.Testing.SaveMenuUI, Game.Testing
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -5359,7 +5359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1853630858598366491, guid: e0ae9b4bced2bb24d87fdc5a95e091ac, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
