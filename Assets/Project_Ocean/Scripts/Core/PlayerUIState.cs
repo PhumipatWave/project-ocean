@@ -20,6 +20,10 @@ namespace Game.Testing
 
         public static bool IsLocked => openCount > 0;
 
+        // Bumped by Reset(). A holder that Open()ed before a Reset must not Close() after it —
+        // that Close would eat a lock someone else took since (see CutsceneManager's start lock).
+        public static int ResetCount { get; private set; }
+
         /// <summary>Fired only on the 0→1 and 1→0 transitions (not on every nested Open/Close call).</summary>
         public static event Action<bool> OnLockChanged;
 
@@ -58,6 +62,7 @@ namespace Game.Testing
             bool wasLocked = openCount > 0;
             openCount = 0;
             closers.Clear();
+            ResetCount++;
             if (wasLocked) OnLockChanged?.Invoke(false);
         }
     }

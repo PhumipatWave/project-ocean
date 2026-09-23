@@ -38,6 +38,14 @@ namespace Game.Testing
         [Tooltip("ลากปุ่มแต่ละอันในกริด (เช่น Button Fish S (0)..(8)) มาคู่กับ Item ที่ต้องการให้")]
         [SerializeField] private DevItemButton[] devItemButtons;
 
+        [Header("Spawn Any Item")]
+        [Tooltip("Filled at runtime from InventoryManager.AllItems.")]
+        [SerializeField] private TMPro.TMP_Dropdown itemDropdown;
+        [SerializeField] private Button spawnItemButton;
+        [SerializeField] private int spawnAmount = 1;
+
+        private readonly System.Collections.Generic.List<Item> dropdownItems = new();
+
         [Header("Settings")]
         [Tooltip("ค่าที่ใช้ตั้งเป็น MaxRopeLength ตอน Infinite Oxygen เปิดอยู่ ยิ่งสูงยิ่งชัวร์ว่าไม่มีวันเกินระยะ")]
         [SerializeField] private float infiniteRopeLength = 999999f;
@@ -57,6 +65,9 @@ namespace Game.Testing
             infiniteOxygenToggle.onValueChanged.AddListener(v => infiniteOxygenOn = v);
             addMoneyButton.onClick.AddListener(GiveMoney);
             skipStepButton.onClick.AddListener(SkipStep);
+
+            if (spawnItemButton != null)
+                spawnItemButton.onClick.AddListener(SpawnSelectedItem);
 
             if (devItemButtons != null)
             {
@@ -99,6 +110,40 @@ namespace Game.Testing
         private void TogglePanel()
         {
             panelRoot.SetActive(!panelRoot.activeSelf);
+
+            if (panelRoot.activeSelf && dropdownItems.Count == 0)
+                FillItemDropdown();
+        }
+
+        // Filled on open, not Start: InventoryManager may not exist yet when this panel starts.
+        private void FillItemDropdown()
+        {
+            if (itemDropdown == null || InventoryManager.Instance?.AllItems == null)
+                return;
+
+            dropdownItems.Clear();
+            var options = new System.Collections.Generic.List<string>();
+            foreach (Item item in InventoryManager.Instance.AllItems)
+            {
+                if (item == null) continue;
+                dropdownItems.Add(item);
+                options.Add($"{item.ItemID} - {item.ItemName}");
+            }
+
+            itemDropdown.ClearOptions();
+            itemDropdown.AddOptions(options);
+        }
+
+        private void SpawnSelectedItem()
+        {
+            if (dropdownItems.Count == 0)
+                FillItemDropdown();
+
+            int index = itemDropdown != null ? itemDropdown.value : -1;
+            if (index < 0 || index >= dropdownItems.Count)
+                return;
+
+            GiveItem(dropdownItems[index], spawnAmount);
         }
 
         private void GiveMoney()

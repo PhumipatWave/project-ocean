@@ -27,6 +27,7 @@ namespace Game.Testing
 
         [Header("Item Database")]
         [SerializeField] private Item[] allItems;
+        public System.Collections.Generic.IReadOnlyList<Item> AllItems => allItems;
 
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
