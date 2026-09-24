@@ -18,6 +18,10 @@ namespace Game.Testing
         [SerializeField] private TMP_Text valueText;
         [SerializeField] private TMP_Text priceText;
 
+        [Header("Gun Stats")]
+        [Tooltip("NormalBullet prefab — the gun tooltip reads its range per level. Unassigned = damage only.")]
+        [SerializeField] private NormalBullet normalBulletPrefab;
+
         [Header("Unlock")]
         [SerializeField] private Transform unlockSection;
         [SerializeField] private GameObject unlockRowTemplate;
@@ -193,9 +197,14 @@ namespace Game.Testing
 
                 case UpgradeType.NormalBullet:
 
-                    // ความเสียหายกระสุน
+                    // ความเสียหายกระสุน — read from NormalBullet's own tables (data.value is unused
+                    // for the gun: gains aren't flat per level, levels 1-3 improve range instead).
                     valueText.text =
-                        $"+{data.value:0} Damage";
+                        $"Damage {NormalBullet.GetDamage(currentLevel):0} > {NormalBullet.GetDamage(currentLevel + 1):0}";
+
+                    if (normalBulletPrefab != null)
+                        valueText.text +=
+                            $"\nRange {normalBulletPrefab.RangeAt(currentLevel):0.#}m > {normalBulletPrefab.RangeAt(currentLevel + 1):0.#}m";
                     break;
 
                 default:

@@ -981,41 +981,22 @@
       "source_location": "L13"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot",
-      "label": "EnemyLoot",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype",
+      "label": "QuestType",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s40"
+          "s72"
         ]
       },
-      "norm_label": "enemyloot",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L6"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase",
-      "label": "CollectableItemBase",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ]
-      },
-      "norm_label": "collectableitembase",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "norm_label": "questtype",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
       "source_location": "L7"
     },
     {
@@ -1531,6 +1512,25 @@
       },
       "norm_label": "enemyevents",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Enemy.cs",
+      "source_location": "L6"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot",
+      "label": "EnemyLoot",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": "enemyloot",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
       "source_location": "L6"
     },
     {
@@ -2064,25 +2064,6 @@
       "norm_label": "questmanager",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
       "source_location": "L7"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus",
-      "label": "QuestStatus",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 170,
-      "community_name": "QuestStatus",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "queststatus",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L33"
     },
     {
       "id": "assets_project_ocean_scripts_core_save_game_dayandresetenemys_onetimepickuptracker_game_testing_onetimepickuptracker",
@@ -2754,6 +2735,25 @@
       "source_location": "L8"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet",
+      "label": "NormalBullet",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": "normalbullet",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L5"
+    },
+    {
       "id": "assets_project_ocean_scripts_core_save_game_encryptionhelper_game_testing_encryptionhelper",
       "label": "EncryptionHelper",
       "_callable": true,
@@ -2847,6 +2847,25 @@
       "norm_label": "quest",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
       "source_location": "L290"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus",
+      "label": "QuestStatus",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "queststatus",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L33"
     },
     {
       "id": "assets_project_ocean_scripts_ui_inventory_inventoryplayer_draggableltem_game_testing_draggableltem",
@@ -5039,6 +5058,25 @@
       "source_location": "L8"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase",
+      "label": "CollectableItemBase",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ]
+      },
+      "norm_label": "collectableitembase",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L7"
+    },
+    {
       "id": "assets_project_ocean_scripts_ui_ocean_ropebreakcountdownui_game_testing_ropebreakcountdownui",
       "label": "RopeBreakCountdownUI",
       "_callable": true,
@@ -5267,25 +5305,6 @@
       "source_location": "L3"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet",
-      "label": "NormalBullet",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s22"
-        ]
-      },
-      "norm_label": "normalbullet",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L5"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_projectiles_tranquilizerbullet_game_testing_tranquilizerbullet",
       "label": "TranquilizerBullet",
       "_callable": true,
@@ -5401,25 +5420,6 @@
       "source_location": "L63"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype",
-      "label": "QuestType",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "questtype",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L7"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_interactobjects_shellecontroller_game_testing_shellecontroller",
       "label": "ShelleController",
       "_callable": true,
@@ -5507,7 +5507,7 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ]
       },
       "norm_label": "upgradetooltip",
@@ -7106,56 +7106,6 @@
       "norm_label": ".tick()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Brain/FSM/States/EnemyFollowState.cs",
       "source_location": "L46"
-    },
-    {
-      "id": "assets_project_ocean_scripts_core_playeruistate_game_testing_playeruistate_open",
-      "label": ".Open()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 105,
-      "community_name": "NextDayAnimationUI",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "Push",
-            "receiver_type": "Stack",
-            "lang": "csharp",
-            "line": "L33"
-          },
-          {
-            "callee": "Invoke",
-            "receiver_type": "OnLockChanged?",
-            "lang": "csharp",
-            "line": "L34"
-          }
-        ]
-      },
-      "norm_label": ".open()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs",
-      "source_location": "L30"
-    },
-    {
-      "id": "assets_project_ocean_scripts_ui_landui_game_testing_landui_openui",
-      "label": ".OpenUI()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 105,
-      "community_name": "NextDayAnimationUI",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s80"
-        ]
-      },
-      "norm_label": ".openui()",
-      "source_file": "Assets/Project_Ocean/Scripts/UI/LandUI.cs",
-      "source_location": "L13"
     },
     {
       "id": "assets_project_ocean_scripts_ui_nextdayanimationui_game_testing_nextdayanimationui_animroutine",
@@ -10668,38 +10618,6 @@
       "source_location": "L53"
     },
     {
-      "id": "assets_project_ocean_scripts_core_playeruistate_game_testing_playeruistate_reset",
-      "label": ".Reset()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 127,
-      "community_name": "PlayerUIState",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "Clear",
-            "receiver_type": "Stack",
-            "lang": "csharp",
-            "line": "L64"
-          },
-          {
-            "callee": "Invoke",
-            "receiver_type": "OnLockChanged?",
-            "lang": "csharp",
-            "line": "L66"
-          }
-        ]
-      },
-      "norm_label": ".reset()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs",
-      "source_location": "L60"
-    },
-    {
       "id": "assets_project_ocean_scripts_core_playeruistate_game_testing_playeruistate_setcloser",
       "label": ".SetCloser()",
       "_callable": true,
@@ -10730,38 +10648,6 @@
       "norm_label": ".setcloser()",
       "source_file": "Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs",
       "source_location": "L46"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_game_testing_player_onsceneloaded",
-      "label": ".OnSceneLoaded()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 127,
-      "community_name": "PlayerUIState",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s212"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "FindGameObjectWithTag",
-            "receiver_type": "GameObject",
-            "lang": "csharp",
-            "line": "L181"
-          },
-          {
-            "callee": "Clear",
-            "receiver_type": "List",
-            "lang": "csharp",
-            "line": "L207"
-          }
-        ]
-      },
-      "norm_label": ".onsceneloaded()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/Player.cs",
-      "source_location": "L168"
     },
     {
       "id": "assets_project_ocean_scripts_ui_escclosablepanel_game_testing_escclosablepanel_onenable",
@@ -10798,24 +10684,6 @@
       "norm_label": ".tryadvanceday()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/LandUI.cs",
       "source_location": "L137"
-    },
-    {
-      "id": "assets_project_ocean_scripts_ui_uimanager_uimanager_game_testing_uimanager_awake",
-      "label": ".Awake()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 127,
-      "community_name": "PlayerUIState",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s89"
-        ]
-      },
-      "norm_label": ".awake()",
-      "source_file": "Assets/Project_Ocean/Scripts/UI/UIManager/UIManager.cs",
-      "source_location": "L62"
     },
     {
       "id": "assets_project_ocean_scripts_core_save_game_dayandresetenemys_daymanager_game_testing_daymanager_awake",
@@ -11504,298 +11372,76 @@
       "source_location": "L64"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemy_game_testing_enemy_cacheenemycomponents",
-      "label": ".CacheEnemyComponents()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handleareareached",
+      "label": ".HandleAreaReached()",
       "_callable": true,
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s49"
+          "s72"
         ]
       },
-      "norm_label": ".cacheenemycomponents()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Enemy.cs",
-      "source_location": "L146"
+      "norm_label": ".handleareareached()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L264"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_awake",
-      "label": ".Awake()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handlecutscenefinished",
+      "label": ".HandleCutsceneFinished()",
       "_callable": true,
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s40"
+          "s72"
         ]
       },
-      "norm_label": ".awake()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L15"
+      "norm_label": ".handlecutscenefinished()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L270"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_collect",
-      "label": ".Collect()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handletutorialaction",
+      "label": ".HandleTutorialAction()",
       "_callable": true,
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s40"
+          "s72"
         ]
       },
-      "norm_label": ".collect()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L32"
+      "norm_label": ".handletutorialaction()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L227"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_onenable",
-      "label": ".OnEnable()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_tryprogress",
+      "label": ".TryProgress()",
       "_callable": true,
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s40"
+          "s72"
         ]
       },
-      "norm_label": ".onenable()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L20"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_trycollect",
-      "label": ".TryCollect()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s40"
-        ]
-      },
-      "norm_label": ".trycollect()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L26"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_handleinteract",
-      "label": ".HandleInteract()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ]
-      },
-      "norm_label": ".handleinteract()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L66"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_isclosesttoplayer",
-      "label": ".IsClosestToPlayer()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "SqrMagnitude",
-            "receiver_type": "Vector2",
-            "lang": "csharp",
-            "line": "L80"
-          }
-        ]
-      },
-      "norm_label": ".isclosesttoplayer()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L76"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ondisable",
-      "label": ".OnDisable()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "Remove",
-            "receiver_type": "HashSet",
-            "lang": "csharp",
-            "line": "L37"
-          }
-        ]
-      },
-      "norm_label": ".ondisable()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L33"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_onenable",
-      "label": ".OnEnable()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "SetActive",
-            "receiver_type": "GameObject",
-            "lang": "csharp",
-            "line": "L30"
-          }
-        ]
-      },
-      "norm_label": ".onenable()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L26"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ontriggerenter2d",
-      "label": ".OnTriggerEnter2D()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "CompareTag",
-            "receiver_type": "Collider2D",
-            "lang": "csharp",
-            "line": "L49"
-          },
-          {
-            "callee": "Add",
-            "receiver_type": "HashSet",
-            "lang": "csharp",
-            "line": "L53"
-          }
-        ]
-      },
-      "norm_label": ".ontriggerenter2d()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L47"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ontriggerexit2d",
-      "label": ".OnTriggerExit2D()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "CompareTag",
-            "receiver_type": "Collider2D",
-            "lang": "csharp",
-            "line": "L59"
-          },
-          {
-            "callee": "Remove",
-            "receiver_type": "HashSet",
-            "lang": "csharp",
-            "line": "L62"
-          }
-        ]
-      },
-      "norm_label": ".ontriggerexit2d()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L57"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_trycollect",
-      "label": ".TryCollect()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ]
-      },
-      "norm_label": ".trycollect()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L90"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_update",
-      "label": ".Update()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "SetActive",
-            "receiver_type": "GameObject",
-            "lang": "csharp",
-            "line": "L44"
-          }
-        ]
-      },
-      "norm_label": ".update()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L41"
+      "norm_label": ".tryprogress()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L366"
     },
     {
       "id": "assets_project_ocean_scripts_ui_questcompleteui_questcompleteui_game_testing_questcompleteui_awake",
@@ -14504,6 +14150,24 @@
       "source_location": "L51"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemy_game_testing_enemy_cacheenemycomponents",
+      "label": ".CacheEnemyComponents()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s49"
+        ]
+      },
+      "norm_label": ".cacheenemycomponents()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Enemy.cs",
+      "source_location": "L146"
+    },
+    {
       "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemy_game_testing_enemy_debugkill",
       "label": ".DebugKill()",
       "_callable": true,
@@ -14716,6 +14380,60 @@
       "norm_label": ".raiseenemykilled()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Enemy.cs",
       "source_location": "L11"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_awake",
+      "label": ".Awake()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": ".awake()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
+      "source_location": "L15"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_collect",
+      "label": ".Collect()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": ".collect()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
+      "source_location": "L32"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_trycollect",
+      "label": ".TryCollect()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": ".trycollect()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
+      "source_location": "L26"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_navagents_core_enemynavagentbase_game_testing_enemynavagentbase_awake",
@@ -16612,8 +16330,8 @@
       "source_location": "L102"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getactivequests",
-      "label": ".GetActiveQuests()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getcurrentactivequest",
+      "label": ".GetCurrentActiveQuest()",
       "_callable": true,
       "_origin": "ast",
       "community": 17,
@@ -16626,60 +16344,16 @@
         ],
         "unresolved_calls": [
           {
-            "callee": "FindAll",
+            "callee": "Find",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L556"
+            "line": "L778"
           }
         ]
       },
-      "norm_label": ".getactivequests()",
+      "norm_label": ".getcurrentactivequest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L556"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getallquests",
-      "label": ".GetAllQuests()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".getallquests()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L531"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getcompletedquests",
-      "label": ".GetCompletedQuests()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "FindAll",
-            "receiver_type": "List",
-            "lang": "csharp",
-            "line": "L602"
-          }
-        ]
-      },
-      "norm_label": ".getcompletedquests()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L600"
+      "source_location": "L778"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getmainquesttalkquest",
@@ -16734,32 +16408,6 @@
       "source_location": "L558"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbycategory",
-      "label": ".GetQuestsByCategory()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "FindAll",
-            "receiver_type": "List",
-            "lang": "csharp",
-            "line": "L541"
-          }
-        ]
-      },
-      "norm_label": ".getquestsbycategory()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L539"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getsavestate",
       "label": ".GetSaveState()",
       "_callable": true,
@@ -16802,42 +16450,6 @@
       "norm_label": ".gettrackedquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
       "source_location": "L896"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handleareareached",
-      "label": ".HandleAreaReached()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".handleareareached()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L264"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handlecutscenefinished",
-      "label": ".HandleCutsceneFinished()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".handlecutscenefinished()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L270"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handledayordivechanged",
@@ -16972,24 +16584,6 @@
       "source_location": "L233"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_handletutorialaction",
-      "label": ".HandleTutorialAction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".handletutorialaction()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L227"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_hasactivequest",
       "label": ".HasActiveQuest()",
       "_callable": true,
@@ -17072,8 +16666,8 @@
       "source_location": "L71"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_isunlocked",
-      "label": ".IsUnlocked()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_isactive",
+      "label": ".IsActive()",
       "_callable": true,
       "_origin": "ast",
       "community": 17,
@@ -17083,19 +16677,11 @@
         "namespace": "Game.Testing",
         "scope_chain": [
           "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "Exists",
-            "receiver_type": "List",
-            "lang": "csharp",
-            "line": "L524"
-          }
         ]
       },
-      "norm_label": ".isunlocked()",
+      "norm_label": ".isactive()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L522"
+      "source_location": "L553"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_loadsavestate",
@@ -17140,6 +16726,42 @@
       "norm_label": ".moneyrequirementmet()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
       "source_location": "L162"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescription",
+      "label": ".NotifyStepDescription()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "QuestManager",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": ".notifystepdescription()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L481"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescriptiondelayed",
+      "label": ".NotifyStepDescriptionDelayed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "QuestManager",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": ".notifystepdescriptiondelayed()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L489"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_ondisable",
@@ -17306,24 +16928,6 @@
       "source_location": "L195"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_tryprogress",
-      "label": ".TryProgress()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".tryprogress()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L366"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_turninquest",
       "label": ".TurnInQuest()",
       "_callable": true,
@@ -17360,32 +16964,6 @@
       "norm_label": ".turninquest()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
       "source_location": "L853"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbystatus",
-      "label": ".GetQuestsByStatus()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 170,
-      "community_name": "QuestStatus",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "FindAll",
-            "receiver_type": "List",
-            "lang": "csharp",
-            "line": "L536"
-          }
-        ]
-      },
-      "norm_label": ".getquestsbystatus()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L534"
     },
     {
       "id": "assets_project_ocean_scripts_core_save_game_dayandresetenemys_onetimepickuptracker_game_testing_onetimepickuptracker_apply",
@@ -20910,6 +20488,96 @@
       "source_location": "L39"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_awake",
+      "label": ".Awake()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": ".awake()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L15"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getdamage",
+      "label": ".GetDamage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": ".getdamage()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L30"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getlifetime",
+      "label": ".GetLifetime()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": ".getlifetime()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L54"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_rangeat",
+      "label": ".RangeAt()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": ".rangeat()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L13"
+    },
+    {
+      "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_updatevalue",
+      "label": ".UpdateValue()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "NormalBullet",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s67"
+        ]
+      },
+      "norm_label": ".updatevalue()",
+      "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
+      "source_location": "L172"
+    },
+    {
       "id": "assets_project_ocean_scripts_core_save_game_encryptionhelper_game_testing_encryptionhelper_decrypt",
       "label": ".Decrypt()",
       "_callable": true,
@@ -21026,6 +20694,88 @@
       "source_location": "L17"
     },
     {
+      "id": "assets_project_ocean_scripts_core_playeruistate_game_testing_playeruistate_reset",
+      "label": ".Reset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 205,
+      "community_name": ".OnSceneLoaded",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "Clear",
+            "receiver_type": "Stack",
+            "lang": "csharp",
+            "line": "L64"
+          },
+          {
+            "callee": "Invoke",
+            "receiver_type": "OnLockChanged?",
+            "lang": "csharp",
+            "line": "L66"
+          }
+        ]
+      },
+      "norm_label": ".reset()",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs",
+      "source_location": "L60"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_game_testing_player_onsceneloaded",
+      "label": ".OnSceneLoaded()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 205,
+      "community_name": ".OnSceneLoaded",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s212"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "FindGameObjectWithTag",
+            "receiver_type": "GameObject",
+            "lang": "csharp",
+            "line": "L181"
+          },
+          {
+            "callee": "Clear",
+            "receiver_type": "List",
+            "lang": "csharp",
+            "line": "L207"
+          }
+        ]
+      },
+      "norm_label": ".onsceneloaded()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/Player.cs",
+      "source_location": "L168"
+    },
+    {
+      "id": "assets_project_ocean_scripts_ui_uimanager_uimanager_game_testing_uimanager_awake",
+      "label": ".Awake()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 205,
+      "community_name": ".OnSceneLoaded",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s89"
+        ]
+      },
+      "norm_label": ".awake()",
+      "source_file": "Assets/Project_Ocean/Scripts/UI/UIManager/UIManager.cs",
+      "source_location": "L62"
+    },
+    {
       "id": "assets_project_ocean_scripts_ui_savenotificationui_game_testing_savenotificationui_handlesaved",
       "label": ".HandleSaved()",
       "_callable": true,
@@ -21080,8 +20830,26 @@
       "source_location": "L14"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getcurrentactivequest",
-      "label": ".GetCurrentActiveQuest()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_getcompletedsteps",
+      "label": ".GetCompletedSteps()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": ".getcompletedsteps()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L523"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getactivequests",
+      "label": ".GetActiveQuests()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
@@ -21094,20 +20862,20 @@
         ],
         "unresolved_calls": [
           {
-            "callee": "Find",
+            "callee": "FindAll",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L778"
+            "line": "L556"
           }
         ]
       },
-      "norm_label": ".getcurrentactivequest()",
+      "norm_label": ".getactivequests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L778"
+      "source_location": "L556"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_isactive",
-      "label": ".IsActive()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getallquests",
+      "label": ".GetAllQuests()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
@@ -21119,13 +20887,13 @@
           "s72"
         ]
       },
-      "norm_label": ".isactive()",
+      "norm_label": ".getallquests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L553"
+      "source_location": "L531"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescription",
-      "label": ".NotifyStepDescription()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getcompletedquests",
+      "label": ".GetCompletedQuests()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
@@ -21135,15 +20903,23 @@
         "namespace": "Game.Testing",
         "scope_chain": [
           "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "FindAll",
+            "receiver_type": "List",
+            "lang": "csharp",
+            "line": "L602"
+          }
         ]
       },
-      "norm_label": ".notifystepdescription()",
+      "norm_label": ".getcompletedquests()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L481"
+      "source_location": "L600"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_notifystepdescriptiondelayed",
-      "label": ".NotifyStepDescriptionDelayed()",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbycategory",
+      "label": ".GetQuestsByCategory()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
@@ -21153,11 +20929,71 @@
         "namespace": "Game.Testing",
         "scope_chain": [
           "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "FindAll",
+            "receiver_type": "List",
+            "lang": "csharp",
+            "line": "L541"
+          }
         ]
       },
-      "norm_label": ".notifystepdescriptiondelayed()",
+      "norm_label": ".getquestsbycategory()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
-      "source_location": "L489"
+      "source_location": "L539"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_getquestsbystatus",
+      "label": ".GetQuestsByStatus()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "FindAll",
+            "receiver_type": "List",
+            "lang": "csharp",
+            "line": "L536"
+          }
+        ]
+      },
+      "norm_label": ".getquestsbystatus()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L534"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_game_testing_questmanager_isunlocked",
+      "label": ".IsUnlocked()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "Exists",
+            "receiver_type": "List",
+            "lang": "csharp",
+            "line": "L524"
+          }
+        ]
+      },
+      "norm_label": ".isunlocked()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs",
+      "source_location": "L522"
     },
     {
       "id": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_testing_inventorymanager_getquestitemcount",
@@ -22124,24 +21960,6 @@
       "norm_label": ".buildsteps()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
       "source_location": "L399"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_getcompletedsteps",
-      "label": ".GetCompletedSteps()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "QuestStep",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": ".getcompletedsteps()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L523"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststep_computedeliveryprogress",
@@ -24274,6 +24092,38 @@
       "source_location": "L168"
     },
     {
+      "id": "assets_project_ocean_scripts_core_playeruistate_game_testing_playeruistate_open",
+      "label": ".Open()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "CutsceneManager",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "Push",
+            "receiver_type": "Stack",
+            "lang": "csharp",
+            "line": "L33"
+          },
+          {
+            "callee": "Invoke",
+            "receiver_type": "OnLockChanged?",
+            "lang": "csharp",
+            "line": "L34"
+          }
+        ]
+      },
+      "norm_label": ".open()",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs",
+      "source_location": "L30"
+    },
+    {
       "id": "assets_project_ocean_scripts_gameplay_cutscenes_cutsceneevents_game_testing_cutsceneevents_raisecutscenefinished",
       "label": ".RaiseCutsceneFinished()",
       "_callable": true,
@@ -24516,6 +24366,24 @@
       "norm_label": ".start()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneManager.cs",
       "source_location": "L136"
+    },
+    {
+      "id": "assets_project_ocean_scripts_ui_landui_game_testing_landui_openui",
+      "label": ".OpenUI()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 34,
+      "community_name": "CutsceneManager",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s80"
+        ]
+      },
+      "norm_label": ".openui()",
+      "source_file": "Assets/Project_Ocean/Scripts/UI/LandUI.cs",
+      "source_location": "L13"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_game_testing_player_attack",
@@ -24862,6 +24730,32 @@
       "norm_label": ".updateaimline()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/PlayerGunHandler.cs",
       "source_location": "L189"
+    },
+    {
+      "id": "assets_project_ocean_scripts_core_gamemanager_game_testing_gamemanager_spawnplayer",
+      "label": ".SpawnPlayer()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "Player",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s58"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "FindWithTag",
+            "receiver_type": "GameObject",
+            "lang": "csharp",
+            "line": "L62"
+          }
+        ]
+      },
+      "norm_label": ".spawnplayer()",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/GameManager.cs",
+      "source_location": "L58"
     },
     {
       "id": "assets_project_ocean_scripts_core_playerregistry_game_testing_playerregistry_getnearest",
@@ -29456,32 +29350,6 @@
       "norm_label": ".returntoland()",
       "source_file": "Assets/Project_Ocean/Scripts/Core/GameManager.cs",
       "source_location": "L179"
-    },
-    {
-      "id": "assets_project_ocean_scripts_core_gamemanager_game_testing_gamemanager_spawnplayer",
-      "label": ".SpawnPlayer()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 61,
-      "community_name": "GameManager",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s58"
-        ],
-        "unresolved_calls": [
-          {
-            "callee": "FindWithTag",
-            "receiver_type": "GameObject",
-            "lang": "csharp",
-            "line": "L62"
-          }
-        ]
-      },
-      "norm_label": ".spawnplayer()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/GameManager.cs",
-      "source_location": "L58"
     },
     {
       "id": "assets_project_ocean_scripts_core_gamemanager_game_testing_gamemanager_startdive",
@@ -34104,6 +33972,228 @@
       "source_location": "L129"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_onenable",
+      "label": ".OnEnable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": ".onenable()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
+      "source_location": "L20"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_handleinteract",
+      "label": ".HandleInteract()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ]
+      },
+      "norm_label": ".handleinteract()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L66"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_isclosesttoplayer",
+      "label": ".IsClosestToPlayer()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "SqrMagnitude",
+            "receiver_type": "Vector2",
+            "lang": "csharp",
+            "line": "L80"
+          }
+        ]
+      },
+      "norm_label": ".isclosesttoplayer()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L76"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ondisable",
+      "label": ".OnDisable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "Remove",
+            "receiver_type": "HashSet",
+            "lang": "csharp",
+            "line": "L37"
+          }
+        ]
+      },
+      "norm_label": ".ondisable()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L33"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_onenable",
+      "label": ".OnEnable()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "SetActive",
+            "receiver_type": "GameObject",
+            "lang": "csharp",
+            "line": "L30"
+          }
+        ]
+      },
+      "norm_label": ".onenable()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L26"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ontriggerenter2d",
+      "label": ".OnTriggerEnter2D()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "CompareTag",
+            "receiver_type": "Collider2D",
+            "lang": "csharp",
+            "line": "L49"
+          },
+          {
+            "callee": "Add",
+            "receiver_type": "HashSet",
+            "lang": "csharp",
+            "line": "L53"
+          }
+        ]
+      },
+      "norm_label": ".ontriggerenter2d()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L47"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_ontriggerexit2d",
+      "label": ".OnTriggerExit2D()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "CompareTag",
+            "receiver_type": "Collider2D",
+            "lang": "csharp",
+            "line": "L59"
+          },
+          {
+            "callee": "Remove",
+            "receiver_type": "HashSet",
+            "lang": "csharp",
+            "line": "L62"
+          }
+        ]
+      },
+      "norm_label": ".ontriggerexit2d()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L57"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_trycollect",
+      "label": ".TryCollect()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ]
+      },
+      "norm_label": ".trycollect()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L90"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_update",
+      "label": ".Update()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ],
+        "unresolved_calls": [
+          {
+            "callee": "SetActive",
+            "receiver_type": "GameObject",
+            "lang": "csharp",
+            "line": "L44"
+          }
+        ]
+      },
+      "norm_label": ".update()",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L41"
+    },
+    {
       "id": "assets_project_ocean_scripts_ui_ocean_ropebreakcountdownui_game_testing_ropebreakcountdownui_awake",
       "label": ".Awake()",
       "_callable": true,
@@ -35294,60 +35384,6 @@
       "norm_label": ".start()",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/Bullet.cs",
       "source_location": "L30"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_awake",
-      "label": ".Awake()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s22"
-        ]
-      },
-      "norm_label": ".awake()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L12"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getdamage",
-      "label": ".GetDamage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s22"
-        ]
-      },
-      "norm_label": ".getdamage()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L26"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getlifetime",
-      "label": ".GetLifetime()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s22"
-        ]
-      },
-      "norm_label": ".getlifetime()",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L50"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgrademanager_game_testing_upgrademanager_buyupgrade",
@@ -37144,26 +37180,26 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L41"
+            "line": "L45"
           },
           {
             "callee": "GetComponent",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L44"
+            "line": "L48"
           }
         ]
       },
       "norm_label": ".awake()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L33"
+      "source_location": "L37"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_clearunlockrows",
@@ -37176,20 +37212,20 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "Clear",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L264"
+            "line": "L273"
           }
         ]
       },
       "norm_label": ".clearunlockrows()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L256"
+      "source_location": "L265"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_followtarget",
@@ -37202,50 +37238,50 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "GetComponent",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L289"
+            "line": "L298"
           },
           {
             "callee": "GetComponent",
             "receiver_type": "Canvas",
             "lang": "csharp",
-            "line": "L292"
+            "line": "L301"
           },
           {
             "callee": "GetWorldCorners",
             "receiver_type": "RectTransform",
             "lang": "csharp",
-            "line": "L308"
+            "line": "L317"
           },
           {
             "callee": "WorldToScreenPoint",
             "receiver_type": "RectTransformUtility",
             "lang": "csharp",
-            "line": "L311"
+            "line": "L320"
           },
           {
             "callee": "Clamp",
             "receiver_type": "Mathf",
             "lang": "csharp",
-            "line": "L377"
+            "line": "L386"
           },
           {
             "callee": "ScreenPointToLocalPointInRectangle",
             "receiver_type": "RectTransformUtility",
             "lang": "csharp",
-            "line": "L424"
+            "line": "L433"
           }
         ]
       },
       "norm_label": ".followtarget()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L281"
+      "source_location": "L290"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_hide",
@@ -37258,20 +37294,20 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L272"
+            "line": "L281"
           }
         ]
       },
       "norm_label": ".hide()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L267"
+      "source_location": "L276"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_show",
@@ -37284,26 +37320,26 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L160"
+            "line": "L164"
           },
           {
             "callee": "ForceUpdateCanvases",
             "receiver_type": "Canvas",
             "lang": "csharp",
-            "line": "L163"
+            "line": "L167"
           }
         ]
       },
       "norm_label": ".show()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L89"
+      "source_location": "L93"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_update",
@@ -37316,12 +37352,12 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ]
       },
       "norm_label": ".update()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L80"
+      "source_location": "L84"
     },
     {
       "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_updateunlocks",
@@ -37334,50 +37370,32 @@
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s71"
+          "s67"
         ],
         "unresolved_calls": [
           {
             "callee": "SetActive",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L233"
+            "line": "L242"
           },
           {
             "callee": "Add",
             "receiver_type": "List",
             "lang": "csharp",
-            "line": "L235"
+            "line": "L244"
           },
           {
             "callee": "GetComponentInChildren",
             "receiver_type": "GameObject",
             "lang": "csharp",
-            "line": "L238"
+            "line": "L247"
           }
         ]
       },
       "norm_label": ".updateunlocks()",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L210"
-    },
-    {
-      "id": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_updatevalue",
-      "label": ".UpdateValue()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 94,
-      "community_name": "UpgradeTooltip",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s71"
-        ]
-      },
-      "norm_label": ".updatevalue()",
-      "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L168"
+      "source_location": "L219"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_players_oxygentube_oxygenrope_game_testing_oxygenrope_attachtocheckpoint",
@@ -41567,301 +41585,191 @@
       "source_location": ""
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_hierarchycore_dependencies",
+      "id": "packages_packages_lock_com_unity_2d_common_dependencies",
       "label": "dependencies",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
       "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L508"
+      "source_location": "L50"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_hierarchycore_depth",
+      "id": "packages_packages_lock_com_unity_ai_inference_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L137"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_ai_inference_depth",
       "label": "depth",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
       "norm_label": "depth",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L506"
+      "source_location": "L135"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_hierarchycore_source",
+      "id": "packages_packages_lock_com_unity_ai_inference_source",
       "label": "source",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
       "norm_label": "source",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L507"
+      "source_location": "L136"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_hierarchycore_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L505"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_jsonserialize_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L526"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_jsonserialize_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L524"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_jsonserialize_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L525"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_jsonserialize_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L523"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_ui_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L589"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_ui_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L587"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_ui_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L588"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_ui_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L586"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_uielements_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L595"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ugui_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L428"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ugui_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L426"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ugui_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L427"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ugui_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L425"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_visualscripting_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L437"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_visualscripting_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L435"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_visualscripting_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L436"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_visualscripting_url",
+      "id": "packages_packages_lock_com_unity_ai_inference_url",
       "label": "url",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
       "norm_label": "url",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L441"
+      "source_location": "L144"
     },
     {
-      "id": "packages_packages_lock_com_unity_visualscripting_version",
+      "id": "packages_packages_lock_com_unity_ai_inference_version",
       "label": "version",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L434"
+      "source_location": "L134"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_modules_hierarchycore",
-      "label": "com.unity.modules.hierarchycore",
+      "id": "packages_packages_lock_com_unity_collections_depth",
+      "label": "depth",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
-      "norm_label": "com.unity.modules.hierarchycore",
+      "norm_label": "depth",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L504"
+      "source_location": "L214"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_modules_jsonserialize",
-      "label": "com.unity.modules.jsonserialize",
+      "id": "packages_packages_lock_com_unity_collections_source",
+      "label": "source",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
-      "norm_label": "com.unity.modules.jsonserialize",
+      "norm_label": "source",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L105"
+      "source_location": "L215"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_modules_ui",
-      "label": "com.unity.modules.ui",
+      "id": "packages_packages_lock_com_unity_collections_url",
+      "label": "url",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
-      "norm_label": "com.unity.modules.ui",
+      "norm_label": "url",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L429"
+      "source_location": "L223"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_ugui",
-      "label": "com.unity.ugui",
+      "id": "packages_packages_lock_com_unity_collections_version",
+      "label": "version",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
-      "norm_label": "com.unity.ugui",
+      "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L333"
+      "source_location": "L213"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_visualscripting",
-      "label": "com.unity.visualscripting",
+      "id": "packages_packages_lock_com_unity_modules_imageconversion_dependencies",
+      "label": "dependencies",
       "_origin": "ast",
       "community": 107,
-      "community_name": "com.unity.modules.jsonserialize",
+      "community_name": "com.unity.collections",
       "file_type": "code",
-      "norm_label": "com.unity.visualscripting",
+      "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L433"
+      "source_location": "L514"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_imageconversion_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L512"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_imageconversion_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L513"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_imageconversion_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L511"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_ai_inference",
+      "label": "com.unity.ai.inference",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "com.unity.ai.inference",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L133"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_collections",
+      "label": "com.unity.collections",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "com.unity.collections",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L27"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_modules_imageconversion",
+      "label": "com.unity.modules.imageconversion",
+      "_origin": "ast",
+      "community": 107,
+      "community_name": "com.unity.collections",
+      "file_type": "code",
+      "norm_label": "com.unity.modules.imageconversion",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L57"
     },
     {
       "id": "assets_project_ocean_scripts_gameplay_entitys_players_questcompass_cs_gameobject",
@@ -42140,61 +42048,6 @@
       "source_location": "L4"
     },
     {
-      "id": "packages_packages_lock_com_unity_ai_assistant_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L123"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ai_assistant_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L121"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ai_assistant_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L122"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ai_assistant_url",
-      "label": "url",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "url",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L131"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ai_assistant_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L120"
-    },
-    {
       "id": "packages_packages_lock_com_unity_nuget_newtonsoft_json_dependencies",
       "label": "dependencies",
       "_origin": "ast",
@@ -42259,17 +42112,6 @@
       "norm_label": "com.coplaydev.unity-mcp",
       "source_file": "Packages/packages-lock.json",
       "source_location": "L3"
-    },
-    {
-      "id": "packages_packages_lock_dependencies_com_unity_ai_assistant",
-      "label": "com.unity.ai.assistant",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "com.unity.nuget.newtonsoft-json",
-      "file_type": "code",
-      "norm_label": "com.unity.ai.assistant",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L119"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_nuget_newtonsoft_json",
@@ -42703,17 +42545,6 @@
       "community_name": "ButtonHoverScale",
       "file_type": "code",
       "norm_label": "vector3",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "ipointerexithandler",
-      "label": "IPointerExitHandler",
-      "_origin": "ast",
-      "community": 118,
-      "community_name": "ButtonHoverScale",
-      "file_type": "code",
-      "norm_label": "ipointerexithandler",
       "source_file": "",
       "source_location": ""
     },
@@ -43676,28 +43507,6 @@
       "source_location": "L25"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_cs_loadscenemode",
-      "label": "LoadSceneMode",
-      "_origin": "ast",
-      "community": 127,
-      "community_name": "PlayerUIState",
-      "file_type": "code",
-      "norm_label": "loadscenemode",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_cs_scene",
-      "label": "Scene",
-      "_origin": "ast",
-      "community": 127,
-      "community_name": "PlayerUIState",
-      "file_type": "code",
-      "norm_label": "scene",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "stack",
       "label": "Stack",
       "_origin": "ast",
@@ -44643,99 +44452,117 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_cancollect",
-      "label": "CanCollect",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_cutscene",
+      "label": "Cutscene",
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s40"
+          "s72"
         ]
       },
-      "norm_label": "cancollect",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
-      "source_location": "L13"
+      "norm_label": "cutscene",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L14"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_collider2d",
-      "label": "Collider2D",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_delivery",
+      "label": "Delivery",
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "norm_label": "collider2d",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_gameobject",
-      "label": "GameObject",
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "norm_label": "gameobject",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_hashset",
-      "label": "HashSet",
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "norm_label": "hashset",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_transform",
-      "label": "Transform",
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
-      "file_type": "code",
-      "norm_label": "transform",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_cancollect",
-      "label": "CanCollect",
-      "_origin": "ast",
-      "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
       "metadata": {
         "namespace": "Game.Testing",
         "scope_chain": [
-          "s75"
+          "s72"
         ]
       },
-      "norm_label": "cancollect",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "norm_label": "delivery",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L9"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_explorearea",
+      "label": "ExploreArea",
+      "_origin": "ast",
+      "community": 133,
+      "community_name": "QuestType",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "explorearea",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L10"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_talk",
+      "label": "Talk",
+      "_origin": "ast",
+      "community": 133,
+      "community_name": "QuestType",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "talk",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L11"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_tutorial",
+      "label": "Tutorial",
+      "_origin": "ast",
+      "community": 133,
+      "community_name": "QuestType",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "tutorial",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L12"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_waitingquest",
+      "label": "WaitingQuest",
+      "_origin": "ast",
+      "community": 133,
+      "community_name": "QuestType",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "waitingquest",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
       "source_location": "L20"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_iscollectable",
-      "label": "IsCollectable",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_func",
+      "label": "Func",
       "_origin": "ast",
       "community": 133,
-      "community_name": "CollectableItemBase",
+      "community_name": "QuestType",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s75"
-        ]
-      },
-      "norm_label": "iscollectable",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
-      "source_location": "L18"
+      "norm_label": "func",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "assets_project_ocean_scripts_ui_questcompleteui_questcompleteui_cs_coroutine",
@@ -46012,6 +45839,23 @@
       "source_location": "L30"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_enemyloot_game_testing_enemyloot_cancollect",
+      "label": "CanCollect",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "Enemy",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s40"
+        ]
+      },
+      "norm_label": "cancollect",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/EnemyLoot.cs",
+      "source_location": "L13"
+    },
+    {
       "id": "assets_project_ocean_scripts_gameplay_entitys_enemys_partbraked_enemyattackhitbox_cs_collider2d",
       "label": "Collider2D",
       "_origin": "ast",
@@ -47257,24 +47101,13 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_func",
-      "label": "Func",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_ienumerator",
+      "label": "IEnumerator",
       "_origin": "ast",
       "community": 17,
       "community_name": "QuestManager",
       "file_type": "code",
-      "norm_label": "func",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_list",
-      "label": "List",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "QuestManager",
-      "file_type": "code",
-      "norm_label": "list",
+      "norm_label": "ienumerator",
       "source_file": "",
       "source_location": ""
     },
@@ -47296,89 +47129,125 @@
       "source_location": "L9"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_finish",
-      "label": "Finish",
+      "id": "packages_packages_lock_com_unity_2d_spriteshape_dependencies",
+      "label": "dependencies",
       "_origin": "ast",
       "community": 170,
-      "community_name": "QuestStatus",
+      "community_name": "com.unity.modules.physics2d",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "finish",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L37"
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L82"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_inprogress",
-      "label": "InProgress",
+      "id": "packages_packages_lock_com_unity_2d_spriteshape_depth",
+      "label": "depth",
       "_origin": "ast",
       "community": 170,
-      "community_name": "QuestStatus",
+      "community_name": "com.unity.modules.physics2d",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "inprogress",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L36"
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L80"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_new",
-      "label": "New",
+      "id": "packages_packages_lock_com_unity_2d_spriteshape_source",
+      "label": "source",
       "_origin": "ast",
       "community": 170,
-      "community_name": "QuestStatus",
+      "community_name": "com.unity.modules.physics2d",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "new",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L35"
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L81"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_readytoturnin",
-      "label": "ReadyToTurnIn",
+      "id": "packages_packages_lock_com_unity_2d_spriteshape_url",
+      "label": "url",
       "_origin": "ast",
       "community": 170,
-      "community_name": "QuestStatus",
+      "community_name": "com.unity.modules.physics2d",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "readytoturnin",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L38"
+      "norm_label": "url",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L87"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_reject",
-      "label": "Reject",
+      "id": "packages_packages_lock_com_unity_2d_spriteshape_version",
+      "label": "version",
       "_origin": "ast",
       "community": 170,
-      "community_name": "QuestStatus",
+      "community_name": "com.unity.modules.physics2d",
       "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "reject",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L39"
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L79"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_physics2d_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L544"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_physics2d_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L542"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_physics2d_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L543"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_physics2d_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L541"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_2d_spriteshape",
+      "label": "com.unity.2d.spriteshape",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "com.unity.2d.spriteshape",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L78"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_modules_physics2d",
+      "label": "com.unity.modules.physics2d",
+      "_origin": "ast",
+      "community": 170,
+      "community_name": "com.unity.modules.physics2d",
+      "file_type": "code",
+      "norm_label": "com.unity.modules.physics2d",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L85"
     },
     {
       "id": "assets_project_ocean_scripts_core_save_game_dayandresetenemys_onetimepickuptracker_cs_list",
@@ -47746,7 +47615,18 @@
       "source_location": ""
     },
     {
-      "id": "packages_packages_lock_com_unity_2d_common_dependencies",
+      "id": "ipointerexithandler",
+      "label": "IPointerExitHandler",
+      "_origin": "ast",
+      "community": 179,
+      "community_name": "UISlotHoverHighlight",
+      "file_type": "code",
+      "norm_label": "ipointerexithandler",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "packages_packages_lock_com_unity_ai_assistant_dependencies",
       "label": "dependencies",
       "_origin": "ast",
       "community": 18,
@@ -47754,21 +47634,10 @@
       "file_type": "code",
       "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L50"
+      "source_location": "L123"
     },
     {
-      "id": "packages_packages_lock_com_unity_ai_inference_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L137"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_ai_inference_depth",
+      "id": "packages_packages_lock_com_unity_ai_assistant_depth",
       "label": "depth",
       "_origin": "ast",
       "community": 18,
@@ -47776,10 +47645,10 @@
       "file_type": "code",
       "norm_label": "depth",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L135"
+      "source_location": "L121"
     },
     {
-      "id": "packages_packages_lock_com_unity_ai_inference_source",
+      "id": "packages_packages_lock_com_unity_ai_assistant_source",
       "label": "source",
       "_origin": "ast",
       "community": 18,
@@ -47787,10 +47656,10 @@
       "file_type": "code",
       "norm_label": "source",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L136"
+      "source_location": "L122"
     },
     {
-      "id": "packages_packages_lock_com_unity_ai_inference_url",
+      "id": "packages_packages_lock_com_unity_ai_assistant_url",
       "label": "url",
       "_origin": "ast",
       "community": 18,
@@ -47798,10 +47667,10 @@
       "file_type": "code",
       "norm_label": "url",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L144"
+      "source_location": "L131"
     },
     {
-      "id": "packages_packages_lock_com_unity_ai_inference_version",
+      "id": "packages_packages_lock_com_unity_ai_assistant_version",
       "label": "version",
       "_origin": "ast",
       "community": 18,
@@ -47809,7 +47678,7 @@
       "file_type": "code",
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L134"
+      "source_location": "L120"
     },
     {
       "id": "packages_packages_lock_com_unity_burst_dependencies",
@@ -47922,50 +47791,6 @@
       "source_location": "L193"
     },
     {
-      "id": "packages_packages_lock_com_unity_collections_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L214"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_collections_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L215"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_collections_url",
-      "label": "url",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "url",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L223"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_collections_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L213"
-    },
-    {
       "id": "packages_packages_lock_com_unity_mathematics_dependencies",
       "label": "dependencies",
       "_origin": "ast",
@@ -48021,7 +47846,7 @@
       "source_location": "L278"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_imageconversion_dependencies",
+      "id": "packages_packages_lock_com_unity_modules_jsonserialize_dependencies",
       "label": "dependencies",
       "_origin": "ast",
       "community": 18,
@@ -48029,10 +47854,10 @@
       "file_type": "code",
       "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L514"
+      "source_location": "L526"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_imageconversion_depth",
+      "id": "packages_packages_lock_com_unity_modules_jsonserialize_depth",
       "label": "depth",
       "_origin": "ast",
       "community": 18,
@@ -48040,10 +47865,10 @@
       "file_type": "code",
       "norm_label": "depth",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L512"
+      "source_location": "L524"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_imageconversion_source",
+      "id": "packages_packages_lock_com_unity_modules_jsonserialize_source",
       "label": "source",
       "_origin": "ast",
       "community": 18,
@@ -48051,10 +47876,10 @@
       "file_type": "code",
       "norm_label": "source",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L513"
+      "source_location": "L525"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_imageconversion_version",
+      "id": "packages_packages_lock_com_unity_modules_jsonserialize_version",
       "label": "version",
       "_origin": "ast",
       "community": 18,
@@ -48062,18 +47887,117 @@
       "file_type": "code",
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L511"
+      "source_location": "L523"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_ai_inference",
-      "label": "com.unity.ai.inference",
+      "id": "packages_packages_lock_com_unity_render_pipelines_core_dependencies",
+      "label": "dependencies",
       "_origin": "ast",
       "community": 18,
       "community_name": "com.unity.mathematics",
       "file_type": "code",
-      "norm_label": "com.unity.ai.inference",
+      "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L133"
+      "source_location": "L330"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_ugui_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L426"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_ugui_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L427"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_ugui_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L425"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_visualscripting_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L437"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_visualscripting_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L435"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_visualscripting_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L436"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_visualscripting_url",
+      "label": "url",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "url",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L441"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_visualscripting_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L434"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_ai_assistant",
+      "label": "com.unity.ai.assistant",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "com.unity.ai.assistant",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L119"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_burst",
@@ -48098,17 +48022,6 @@
       "source_location": "L126"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_collections",
-      "label": "com.unity.collections",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "com.unity.mathematics",
-      "file_type": "code",
-      "norm_label": "com.unity.collections",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L27"
-    },
-    {
       "id": "packages_packages_lock_dependencies_com_unity_mathematics",
       "label": "com.unity.mathematics",
       "_origin": "ast",
@@ -48120,15 +48033,37 @@
       "source_location": "L41"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_modules_imageconversion",
-      "label": "com.unity.modules.imageconversion",
+      "id": "packages_packages_lock_dependencies_com_unity_modules_jsonserialize",
+      "label": "com.unity.modules.jsonserialize",
       "_origin": "ast",
       "community": 18,
       "community_name": "com.unity.mathematics",
       "file_type": "code",
-      "norm_label": "com.unity.modules.imageconversion",
+      "norm_label": "com.unity.modules.jsonserialize",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L57"
+      "source_location": "L105"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_ugui",
+      "label": "com.unity.ugui",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "com.unity.ugui",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L333"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_visualscripting",
+      "label": "com.unity.visualscripting",
+      "_origin": "ast",
+      "community": 18,
+      "community_name": "com.unity.mathematics",
+      "file_type": "code",
+      "norm_label": "com.unity.visualscripting",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L433"
     },
     {
       "id": "assets_project_ocean_scripts_core_dialoguestate_cs_gameobject",
@@ -49272,70 +49207,32 @@
       "source_location": "L10"
     },
     {
-      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_dependencies",
-      "label": "dependencies",
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_cs_rigidbody2d",
+      "label": "Rigidbody2D",
       "_origin": "ast",
       "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
+      "community_name": "NormalBullet",
       "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L17"
+      "norm_label": "rigidbody2d",
+      "source_file": "",
+      "source_location": ""
     },
     {
-      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_depth",
-      "label": "depth",
+      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_maxrange",
+      "label": "MaxRange",
       "_origin": "ast",
       "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
+      "community_name": "NormalBullet",
       "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L15"
-    },
-    {
-      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_hash",
-      "label": "hash",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
-      "file_type": "code",
-      "norm_label": "hash",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L18"
-    },
-    {
-      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L16"
-    },
-    {
-      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L14"
-    },
-    {
-      "id": "packages_packages_lock_dependencies_com_h8man_2d_navmeshplus",
-      "label": "com.h8man.2d.navmeshplus",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "com.h8man.2d.navmeshplus",
-      "file_type": "code",
-      "norm_label": "com.h8man.2d.navmeshplus",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L13"
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s22"
+        ]
+      },
+      "norm_label": "maxrange",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L9"
     },
     {
       "id": "assets_project_ocean_scripts_core_scenenames",
@@ -49367,6 +49264,94 @@
       "community_name": "PlayerStabAttack",
       "file_type": "code",
       "norm_label": "ienumerator",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "packages_packages_lock_com_unity_collab_proxy_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L209"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_collab_proxy_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L207"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_collab_proxy_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L208"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_collab_proxy_url",
+      "label": "url",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "url",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L210"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_collab_proxy_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L206"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_collab_proxy",
+      "label": "com.unity.collab-proxy",
+      "_origin": "ast",
+      "community": 204,
+      "community_name": "com.unity.collab-proxy",
+      "file_type": "code",
+      "norm_label": "com.unity.collab-proxy",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L205"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_cs_loadscenemode",
+      "label": "LoadSceneMode",
+      "_origin": "ast",
+      "community": 205,
+      "community_name": ".OnSceneLoaded",
+      "file_type": "code",
+      "norm_label": "loadscenemode",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_entitys_players_player_cs_scene",
+      "label": "Scene",
+      "_origin": "ast",
+      "community": 205,
+      "community_name": ".OnSceneLoaded",
+      "file_type": "code",
+      "norm_label": "scene",
       "source_file": "",
       "source_location": ""
     },
@@ -49756,6 +49741,17 @@
       "source_location": "L1"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_cs_ienumerable",
+      "label": "IEnumerable",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "norm_label": "ienumerable",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_quest_category",
       "label": "Category",
       "_origin": "ast",
@@ -50113,13 +50109,98 @@
       "source_location": "L533"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_ienumerator",
-      "label": "IEnumerator",
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_finish",
+      "label": "Finish",
       "_origin": "ast",
       "community": 22,
       "community_name": "Quest",
       "file_type": "code",
-      "norm_label": "ienumerator",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "finish",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L37"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_inprogress",
+      "label": "InProgress",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "inprogress",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L36"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_new",
+      "label": "New",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "new",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L35"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_readytoturnin",
+      "label": "ReadyToTurnIn",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "readytoturnin",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L38"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_queststatus_reject",
+      "label": "Reject",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s72"
+        ]
+      },
+      "norm_label": "reject",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
+      "source_location": "L39"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_questmanager_cs_list",
+      "label": "List",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "Quest",
+      "file_type": "code",
+      "norm_label": "list",
       "source_file": "",
       "source_location": ""
     },
@@ -50430,17 +50511,6 @@
       "community_name": "QuestStep",
       "file_type": "code",
       "norm_label": "hashset",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_cs_ienumerable",
-      "label": "IEnumerable",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "QuestStep",
-      "file_type": "code",
-      "norm_label": "ienumerable",
       "source_file": "",
       "source_location": ""
     },
@@ -50884,6 +50954,50 @@
       "source_location": "L183"
     },
     {
+      "id": "packages_packages_lock_com_unity_modules_hierarchycore_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L508"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_hierarchycore_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L506"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_hierarchycore_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L507"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_hierarchycore_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L505"
+    },
+    {
       "id": "packages_packages_lock_com_unity_modules_imgui_dependencies",
       "label": "dependencies",
       "_origin": "ast",
@@ -50926,6 +51040,61 @@
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
       "source_location": "L517"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_ui_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L589"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_ui_depth",
+      "label": "depth",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "depth",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L587"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_ui_source",
+      "label": "source",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "source",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L588"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_ui_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L586"
+    },
+    {
+      "id": "packages_packages_lock_com_unity_modules_uielements_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L595"
     },
     {
       "id": "packages_packages_lock_com_unity_settings_manager_dependencies",
@@ -51038,6 +51207,17 @@
       "source_location": "L382"
     },
     {
+      "id": "packages_packages_lock_com_unity_ugui_dependencies",
+      "label": "dependencies",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "dependencies",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L428"
+    },
+    {
       "id": "packages_packages_lock_dependencies_com_unity_cinemachine",
       "label": "com.unity.cinemachine",
       "_origin": "ast",
@@ -51049,6 +51229,17 @@
       "source_location": "L182"
     },
     {
+      "id": "packages_packages_lock_dependencies_com_unity_modules_hierarchycore",
+      "label": "com.unity.modules.hierarchycore",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "com.unity.modules.hierarchycore",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L504"
+    },
+    {
       "id": "packages_packages_lock_dependencies_com_unity_modules_imgui",
       "label": "com.unity.modules.imgui",
       "_origin": "ast",
@@ -51058,6 +51249,17 @@
       "norm_label": "com.unity.modules.imgui",
       "source_file": "Packages/packages-lock.json",
       "source_location": "L188"
+    },
+    {
+      "id": "packages_packages_lock_dependencies_com_unity_modules_ui",
+      "label": "com.unity.modules.ui",
+      "_origin": "ast",
+      "community": 26,
+      "community_name": "com.unity.modules.imgui",
+      "file_type": "code",
+      "norm_label": "com.unity.modules.ui",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L429"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_settings_manager",
@@ -55667,7 +55869,7 @@
       "source_location": ""
     },
     {
-      "id": "packages_packages_lock_com_unity_collab_proxy_dependencies",
+      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_dependencies",
       "label": "dependencies",
       "_origin": "ast",
       "community": 46,
@@ -55675,10 +55877,10 @@
       "file_type": "code",
       "norm_label": "dependencies",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L209"
+      "source_location": "L17"
     },
     {
-      "id": "packages_packages_lock_com_unity_collab_proxy_depth",
+      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_depth",
       "label": "depth",
       "_origin": "ast",
       "community": 46,
@@ -55686,10 +55888,21 @@
       "file_type": "code",
       "norm_label": "depth",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L207"
+      "source_location": "L15"
     },
     {
-      "id": "packages_packages_lock_com_unity_collab_proxy_source",
+      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_hash",
+      "label": "hash",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "dependencies",
+      "file_type": "code",
+      "norm_label": "hash",
+      "source_file": "Packages/packages-lock.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_source",
       "label": "source",
       "_origin": "ast",
       "community": 46,
@@ -55697,21 +55910,10 @@
       "file_type": "code",
       "norm_label": "source",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L208"
+      "source_location": "L16"
     },
     {
-      "id": "packages_packages_lock_com_unity_collab_proxy_url",
-      "label": "url",
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "dependencies",
-      "file_type": "code",
-      "norm_label": "url",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L210"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_collab_proxy_version",
+      "id": "packages_packages_lock_com_h8man_2d_navmeshplus_version",
       "label": "version",
       "_origin": "ast",
       "community": 46,
@@ -55719,7 +55921,7 @@
       "file_type": "code",
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L206"
+      "source_location": "L14"
     },
     {
       "id": "packages_packages_lock_com_unity_modules_accessibility_dependencies",
@@ -55876,15 +56078,15 @@
       "source_location": "L2"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_collab_proxy",
-      "label": "com.unity.collab-proxy",
+      "id": "packages_packages_lock_dependencies_com_h8man_2d_navmeshplus",
+      "label": "com.h8man.2d.navmeshplus",
       "_origin": "ast",
       "community": 46,
       "community_name": "dependencies",
       "file_type": "code",
-      "norm_label": "com.unity.collab-proxy",
+      "norm_label": "com.h8man.2d.navmeshplus",
       "source_file": "Packages/packages-lock.json",
-      "source_location": "L205"
+      "source_location": "L13"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_modules_accessibility",
@@ -58457,17 +58659,6 @@
       "norm_label": "version",
       "source_file": "Packages/packages-lock.json",
       "source_location": "L569"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_render_pipelines_core_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 58,
-      "community_name": "com.unity.modules.physics",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L330"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_modules_cloth",
@@ -61782,6 +61973,84 @@
       "source_location": "L28"
     },
     {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_collider2d",
+      "label": "Collider2D",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "norm_label": "collider2d",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_gameobject",
+      "label": "GameObject",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "norm_label": "gameobject",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_hashset",
+      "label": "HashSet",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "norm_label": "hashset",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_cs_transform",
+      "label": "Transform",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "norm_label": "transform",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_cancollect",
+      "label": "CanCollect",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ]
+      },
+      "norm_label": "cancollect",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L20"
+    },
+    {
+      "id": "assets_project_ocean_scripts_gameplay_interactobjects_collectableitembase_game_testing_collectableitembase_iscollectable",
+      "label": "IsCollectable",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "InputReader",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "Game.Testing",
+        "scope_chain": [
+          "s75"
+        ]
+      },
+      "norm_label": "iscollectable",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/CollectableItemBase.cs",
+      "source_location": "L18"
+    },
+    {
       "id": "iplayeractions",
       "label": "IPlayerActions",
       "_origin": "ast",
@@ -61868,61 +62137,6 @@
       "norm_label": "scene",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "packages_packages_lock_com_unity_2d_spriteshape_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L82"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_2d_spriteshape_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L80"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_2d_spriteshape_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L81"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_2d_spriteshape_url",
-      "label": "url",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "url",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L87"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_2d_spriteshape_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L79"
     },
     {
       "id": "packages_packages_lock_com_unity_2d_tilemap_dependencies",
@@ -62024,50 +62238,6 @@
       "source_location": "L90"
     },
     {
-      "id": "packages_packages_lock_com_unity_modules_physics2d_dependencies",
-      "label": "dependencies",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "dependencies",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L544"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_physics2d_depth",
-      "label": "depth",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "depth",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L542"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_physics2d_source",
-      "label": "source",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "source",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L543"
-    },
-    {
-      "id": "packages_packages_lock_com_unity_modules_physics2d_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L541"
-    },
-    {
       "id": "packages_packages_lock_com_unity_modules_tilemap_dependencies",
       "label": "dependencies",
       "_origin": "ast",
@@ -62112,17 +62282,6 @@
       "source_location": "L578"
     },
     {
-      "id": "packages_packages_lock_dependencies_com_unity_2d_spriteshape",
-      "label": "com.unity.2d.spriteshape",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "com.unity.2d.spriteshape",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L78"
-    },
-    {
       "id": "packages_packages_lock_dependencies_com_unity_2d_tilemap",
       "label": "com.unity.2d.tilemap",
       "_origin": "ast",
@@ -62143,17 +62302,6 @@
       "norm_label": "com.unity.2d.tilemap.extras",
       "source_file": "Packages/packages-lock.json",
       "source_location": "L98"
-    },
-    {
-      "id": "packages_packages_lock_dependencies_com_unity_modules_physics2d",
-      "label": "com.unity.modules.physics2d",
-      "_origin": "ast",
-      "community": 81,
-      "community_name": "com.unity.2d.tilemap",
-      "file_type": "code",
-      "norm_label": "com.unity.modules.physics2d",
-      "source_file": "Packages/packages-lock.json",
-      "source_location": "L85"
     },
     {
       "id": "packages_packages_lock_dependencies_com_unity_modules_tilemap",
@@ -62689,34 +62837,6 @@
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_cs_rigidbody2d",
-      "label": "Rigidbody2D",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "norm_label": "rigidbody2d",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_maxrange",
-      "label": "MaxRange",
-      "_origin": "ast",
-      "community": 87,
-      "community_name": "Bullet",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s22"
-        ]
-      },
-      "norm_label": "maxrange",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L9"
-    },
-    {
       "id": "assets_project_ocean_scripts_gameplay_projectiles_tranquilizerbullet",
       "label": "TranquilizerBullet.cs",
       "_origin": "ast",
@@ -63146,108 +63266,6 @@
       "norm_label": "serializedproperty",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_cutscene",
-      "label": "Cutscene",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "cutscene",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L14"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_delivery",
-      "label": "Delivery",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "delivery",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L9"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_explorearea",
-      "label": "ExploreArea",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "explorearea",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L10"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_talk",
-      "label": "Talk",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "talk",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L11"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_tutorial",
-      "label": "Tutorial",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "tutorial",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L12"
-    },
-    {
-      "id": "assets_project_ocean_scripts_gameplay_questsystems_quest_quest_game_testing_questtype_waitingquest",
-      "label": "WaitingQuest",
-      "_origin": "ast",
-      "community": 90,
-      "community_name": "QuestStepDataDrawer",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "Game.Testing",
-        "scope_chain": [
-          "s72"
-        ]
-      },
-      "norm_label": "waitingquest",
-      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/Quest.cs",
-      "source_location": "L20"
     },
     {
       "id": "fieldvisibility",
@@ -71670,7 +71688,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L21",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -71682,7 +71700,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L23",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_rangeat",
+      "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getlifetime",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -76542,7 +76572,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L274",
+      "source_location": "L283",
       "weight": 1.0
     },
     {
@@ -76554,7 +76584,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L140",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -76566,7 +76596,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L158",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -76578,7 +76608,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L165",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -76590,7 +76620,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L86",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -76602,7 +76632,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L214",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_updatevalue",
+      "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_getdamage",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
+      "source_location": "L203",
       "weight": 1.0
     },
     {
@@ -77579,7 +77621,7 @@
         "ref_token": "Canvas"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L30",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -81914,7 +81956,7 @@
         "ref_token": "List"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -82170,6 +82212,21 @@
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestData.cs",
       "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip",
+      "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "field",
+      "metadata": {
+        "ref_token": "NormalBullet"
+      },
+      "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -82964,7 +83021,7 @@
         "ref_token": "RectTransform"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L31",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -84329,7 +84386,7 @@
         "ref_token": "Transform"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L21",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -88711,7 +88768,7 @@
         "ref_token": "Canvas"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L37",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -88816,7 +88873,7 @@
         "ref_token": "CanvasGroup"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L71",
+      "source_location": "L75",
       "weight": 1.0
     },
     {
@@ -90076,7 +90133,7 @@
         "ref_token": "GameObject"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -91441,7 +91498,7 @@
         "ref_token": "RectTransform"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -91456,7 +91513,7 @@
         "ref_token": "RectTransform"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L292",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -91636,7 +91693,7 @@
         "ref_token": "Rigidbody2D"
       },
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L14",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -91951,7 +92008,7 @@
         "ref_token": "TMP_Text"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L238",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -107931,7 +107988,7 @@
         "ref_token": "RectTransform"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -109386,7 +109443,7 @@
         "ref_token": "UpgradeData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -109401,7 +109458,7 @@
         "ref_token": "UpgradeData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L210",
+      "source_location": "L219",
       "weight": 1.0
     },
     {
@@ -109416,7 +109473,7 @@
         "ref_token": "UpgradeData"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L168",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -109431,7 +109488,7 @@
         "ref_token": "UpgradeManager"
       },
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -142253,13 +142310,24 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet",
+      "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_rangeat",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet",
       "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_awake",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L12",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -142270,7 +142338,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L26",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -142281,7 +142349,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/Gameplay/Projectiles/NormalBullet.cs",
-      "source_location": "L50",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -147462,7 +147530,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L168",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -147473,7 +147541,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L210",
+      "source_location": "L219",
       "weight": 1.0
     },
     {
@@ -147484,7 +147552,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L256",
+      "source_location": "L265",
       "weight": 1.0
     },
     {
@@ -147495,7 +147563,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L267",
+      "source_location": "L276",
       "weight": 1.0
     },
     {
@@ -147506,7 +147574,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L281",
+      "source_location": "L290",
       "weight": 1.0
     },
     {
@@ -147517,7 +147585,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -147528,7 +147596,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L80",
+      "source_location": "L84",
       "weight": 1.0
     },
     {
@@ -147539,7 +147607,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -149248,7 +149316,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L102",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -149260,7 +149328,19 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
-      "source_location": "L103",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "assets_project_ocean_scripts_ui_upgrads_upgradetooltip_game_testing_upgradetooltip_updatevalue",
+      "target": "assets_project_ocean_scripts_gameplay_projectiles_normalbullet_game_testing_normalbullet_rangeat",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "Assets/Project_Ocean/Scripts/UI/Upgrads/UpgradeTooltip.cs",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -149841,5 +149921,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "be28d9521b41326c15c4fe9832748a2837cea6f6"
+  "built_at_commit": "ffa08aa821b46a50ea6fe9ce9ee0f273d214c6a7"
 }
