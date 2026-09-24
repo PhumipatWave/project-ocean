@@ -9,5 +9,6 @@ namespace Game.Testing
         public const string Land      = "Land_Map";
         public const string Ocean     = "Ocean_Map";
         public const string MainMenu  = "MainMenuScene";
+        public const string Intro     = "IntroScene";
     }
 }

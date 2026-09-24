@@ -45,6 +45,7 @@ namespace Game.Testing
             var list = new List<ISaveParticipant> { UpgradeService.Instance };
             if (QuestManager.Instance != null)     list.Add(QuestManager.Instance);
             if (EnemyKillTracker.Instance != null) list.Add(EnemyKillTracker.Instance);
+            if (OneTimePickupTracker.Instance != null) list.Add(OneTimePickupTracker.Instance);
             // Must come after QuestManager — it re-derives unlocks from quest progress on load.
             list.Add(FeatureUnlockService.Instance);
             return list;
@@ -256,6 +257,7 @@ namespace Game.Testing
             FeatureUnlockService.Instance.ResetToDefault();
             InventoryManager.Instance?.ResetToDefault();
             EnemyKillTracker.Instance?.ResetAll();
+            OneTimePickupTracker.Instance?.ResetAll();
             UpgradeService.Instance.ResetToDefault();
 
             if (DayManager.Instance != null)

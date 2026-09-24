@@ -47,6 +47,10 @@ namespace Game.Testing
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
+            // One shot = one hit. Overlapping fish all queue a trigger in the same physics step,
+            // before the collider disable below takes effect.
+            if (isHit) return;
+
             switch (collision.tag)
             {
                 case "Environment":

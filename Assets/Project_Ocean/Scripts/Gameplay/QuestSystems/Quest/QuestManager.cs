@@ -288,6 +288,11 @@ namespace Game.Testing
             if (InventoryManager.Instance == null)
                 return;
 
+            // PerItem progress only counts fully-met requirements, so picking up 3 of 5 leaves
+            // CurrentCount unchanged and nothing below fires — but the tracker text shows live
+            // held counts (QuestVisuals), so it must still redraw.
+            bool perItemDisplayStale = false;
+
             foreach (var q in activeQuestList)
             {
                 if (q.Status != QuestStatus.InProgress)
@@ -297,6 +302,9 @@ namespace Game.Testing
                 if (step == null || step.Type != QuestType.Delivery ||
                     step.DeliverySource != DeliverySource.InventoryHeld || step.IsComplete)
                     continue;
+
+                if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
+                    perItemDisplayStale = true;
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
 
@@ -342,6 +350,9 @@ namespace Game.Testing
                     OnQuestUpdated?.Invoke();
                 }
             }
+
+            if (perItemDisplayStale)
+                OnQuestUpdated?.Invoke();
         }
 
         private static int HeldCountOf(string itemIdStr) =>
@@ -391,7 +402,15 @@ namespace Game.Testing
             // Reliably fires exactly once — once complete, this step is no longer
             // q.CurrentStep, so TryProgress stops routing further matching events to it.
             if (completedStep.IsComplete)
+            {
                 ApplyStepFeatureChanges(completedStep);
+
+                // Consume per step, not per quest — a mid-quest Delivery step (e.g. MQ_1003's
+                // "Find materials") used to never take its items. A final ReadyToHandIn step
+                // consumes in TurnInQuest instead.
+                if (!(justCompleted && completedStep.CompletionMode != QuestCompletionMode.AutoComplete))
+                    RemoveQuestItems(completedStep);
+            }
 
             // Moved on to a new checkpoint (as opposed to just ticking progress on the
             // same one, or finishing the quest outright) — announce its description.
@@ -402,7 +421,6 @@ namespace Game.Testing
             {
                 if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
-                    RemoveQuestItems(q);
                     if (QuestCompleteUI.Instance != null)
                         QuestCompleteUI.Instance.Show(q);
 
@@ -762,7 +780,8 @@ namespace Game.Testing
         public static event Action<int> OnMoneyRewarded;
 
         /// <summary>
-        /// Removes the quest item(s) consumed by turn-in. Delivery steps skip entirely when
+        /// Removes the item(s) the given step consumes — called when that step completes (or at
+        /// turn-in for a final ReadyToHandIn step). Delivery steps skip entirely when
         /// ConsumeOnComplete is off. InventoryHeld removes according to its count mode: PerItem
         /// takes each requirement's own count from TargetQuestItemRequirements; CombinedTotal has
         /// no per-item counts to go by (its ids are the plain TargetQuestItemIds list), so it
@@ -770,31 +789,31 @@ namespace Game.Testing
         /// (and every non-Delivery type) keeps the single-item field (e.g. a kill bounty's
         /// hand-in loot item) — always consumed, no ConsumeOnComplete toggle for those.
         /// </summary>
-        private void RemoveQuestItems(Quest q)
+        private void RemoveQuestItems(QuestStep step)
         {
-            if (InventoryManager.Instance == null) return;
+            if (InventoryManager.Instance == null || step == null) return;
 
-            if (q.CurrentStep.Type == QuestType.Delivery)
+            if (step.Type == QuestType.Delivery)
             {
-                if (!q.CurrentStep.ConsumeOnComplete) return;
+                if (!step.ConsumeOnComplete) return;
 
-                if (q.CurrentStep.RequiredMoney > 0)
+                if (step.RequiredMoney > 0)
                 {
                     var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
-                    money?.Use(q.CurrentStep.RequiredMoney);
+                    money?.Use(step.RequiredMoney);
                 }
 
-                if (q.CurrentStep.DeliverySource == DeliverySource.EnemyKills)
+                if (step.DeliverySource == DeliverySource.EnemyKills)
                 {
-                    if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
-                    if (!int.TryParse(q.TargetQuestItemId, out int lootItemId)) return;
-                    InventoryManager.Instance.RemoveQuestItem(lootItemId, q.TargetCount);
+                    if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
+                    if (!int.TryParse(step.TargetQuestItemId, out int lootItemId)) return;
+                    InventoryManager.Instance.RemoveQuestItem(lootItemId, step.TargetCount);
                     return;
                 }
 
-                if (q.CurrentStep.DeliveryCountMode == DeliveryCountMode.PerItem)
+                if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
                 {
-                    var requirements = q.TargetQuestItemRequirements;
+                    var requirements = step.TargetQuestItemRequirements;
                     if (requirements == null) return;
 
                     foreach (var req in requirements)
@@ -803,10 +822,10 @@ namespace Game.Testing
                 }
                 else
                 {
-                    var itemIds = q.TargetQuestItemIds;
+                    var itemIds = step.TargetQuestItemIds;
                     if (itemIds == null) return;
 
-                    int remaining = q.TargetCount;
+                    int remaining = step.TargetCount;
                     foreach (var idStr in itemIds)
                     {
                         if (remaining <= 0) break;
@@ -822,9 +841,9 @@ namespace Game.Testing
                 return;
             }
 
-            if (string.IsNullOrEmpty(q.TargetQuestItemId)) return;
-            if (!int.TryParse(q.TargetQuestItemId, out int itemId)) return;
-            InventoryManager.Instance.RemoveQuestItem(itemId, q.TargetCount);
+            if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
+            if (!int.TryParse(step.TargetQuestItemId, out int itemId)) return;
+            InventoryManager.Instance.RemoveQuestItem(itemId, step.TargetCount);
         }
 
         /// <summary>
@@ -843,7 +862,7 @@ namespace Game.Testing
 
             quest.Status = QuestStatus.Finish;
 
-            RemoveQuestItems(quest);
+            RemoveQuestItems(quest.CurrentStep);
 
             // Notification เดิม
             //NotificationManager.Notify($"Quest complete: {quest.QuestName}");

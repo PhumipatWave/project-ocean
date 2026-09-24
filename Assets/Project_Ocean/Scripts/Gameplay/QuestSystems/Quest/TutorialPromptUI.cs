@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Testing
 {
@@ -41,11 +42,38 @@ namespace Game.Testing
 
         private void Start() => Refresh();
 
+        private bool pausingForUseItem;
+
+        // Guided "Use MiniHub" step in the ocean: freeze the game (breach countdown, fish, movement)
+        // until the player places it. Re-asserted every frame — aim, UIManager and chests all write
+        // timeScale. ponytail: scans active quests per frame; cache on OnQuestUpdated if quests grow.
+        private void LateUpdate()
+        {
+            bool shouldPause = TutorialStep.IsActive(TutorialActionId.UseItem)
+                && GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean
+                && !LoadingManager.IsLoading
+                && InventoryManager.Instance != null
+                && InventoryManager.Instance.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
+
+            if (shouldPause)
+            {
+                Time.timeScale = 0f;
+                pausingForUseItem = true;
+            }
+            else if (pausingForUseItem)
+            {
+                pausingForUseItem = false;
+                if (!PlayerUIState.IsLocked) Time.timeScale = 1f; // an open pause menu keeps its own 0
+            }
+        }
+
         private void HandleLockChanged(bool locked) => Refresh();
 
         private void Refresh()
         {
-            if (PlayerUIState.IsLocked || QuestManager.Instance == null || LoadingManager.IsLoading)
+            // Quests stay active in memory back at the main menu — no prompt there.
+            if (PlayerUIState.IsLocked || QuestManager.Instance == null || LoadingManager.IsLoading
+                || SceneManager.GetActiveScene().name == SceneNames.MainMenu)
             {
                 Hide();
                 return;

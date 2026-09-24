@@ -33,6 +33,9 @@ namespace Game.Testing
         [Tooltip("Which GameFeature must be unlocked for this zone to spawn — set by a quest step's Unlocks Features. Defaults to InteractItem (every zone's original shared gate) so existing spawners are unaffected.")]
         [SerializeField] private GameFeature requiredFeature = GameFeature.InteractItem;
 
+        [Tooltip("Spawn Per Day becomes the total for the whole playthrough: collected items never respawn (saved via OneTimePickupTracker, keyed by this GameObject's name — renaming resets it).")]
+        [SerializeField] private bool oneTimeOnly;
+
         private readonly List<GameObject> _spawnedGOs = new();
 
         private void OnEnable()
@@ -76,6 +79,9 @@ namespace Game.Testing
         public void OnItemCollected(GameObject collectedGO)
         {
             _spawnedGOs.Remove(collectedGO);
+
+            if (oneTimeOnly)
+                OneTimePickupTracker.Instance?.RegisterPickup(name);
         }
 
         // ── Internal ──
@@ -97,6 +103,8 @@ namespace Game.Testing
             }
 
             int count = Mathf.Min(spawnPerDay, spawnPoints.Count);
+            if (oneTimeOnly && OneTimePickupTracker.Instance != null)
+                count = Mathf.Max(0, count - OneTimePickupTracker.Instance.CountFor(name));
             var selectedPoints = PickRandomPoints(count);
 
             foreach (var point in selectedPoints)
