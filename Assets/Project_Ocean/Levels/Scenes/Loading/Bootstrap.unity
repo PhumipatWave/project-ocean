@@ -783,6 +783,7 @@ MonoBehaviour:
   landScene: Land_Map
   oceanScene: Ocean_Map
   minimumLoadingTime: 3
+  postLoadHold: 0.3
   loadingVisualController: {fileID: 1004661151}
 --- !u!1 &1127721918
 GameObject:

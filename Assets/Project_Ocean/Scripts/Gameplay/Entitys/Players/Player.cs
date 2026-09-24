@@ -433,6 +433,9 @@ namespace Game.Testing
             bool shouldShowSprintVFX =
                 isLand && isSprinting && isMoving;
 
+            if (shouldShowSprintVFX)
+                playerSprintVFX?.SetDirection(dir);
+
             playerSprintVFX?.SetSprinting(shouldShowSprintVFX);
 
             // Edge-triggered: play once when movement starts, not every physics tick.
