@@ -38,6 +38,8 @@ namespace Game.Testing
         [Tooltip("Assign a CanvasGroup on a CHILD that wraps only the toggleable HUD panels (day count, rope panel, menu/land buttons, weapon UI). Must NOT be an ancestor of NotificationTextUI/ConfirmationDialog, or they'll be hidden along with the HUD.")]
         [SerializeField] private CanvasGroup hudContentGroup;
 
+        private OxygenRope rope;
+
         public static GameHUD instance {  get; private set; }
         private void Awake()
         {
@@ -143,6 +145,13 @@ namespace Game.Testing
         private void Start()
         {
             maxLengthPanel.SetActive(false);
+
+            // First boot: this HUD scene loads additively AFTER MainMenuScene's sceneLoaded fired,
+            // so OnSceneLoaded never hid the gameplay HUD behind the main menu. Do it here too.
+            bool inMenu = SceneManager.GetActiveScene().name == SceneNames.MainMenu
+                          || (GameManager.Instance != null && GameManager.Instance.GameState == GameState.Menu);
+            SetHudVisible(!inMenu && !PlayerUIState.IsLocked);
+
             RefreshDayText();
             WireConfirmButtons();
         }
@@ -200,12 +209,17 @@ namespace Game.Testing
             maxLengthPanel.SetActive(true);
             RefreshLandButton();
 
-            var rope = GameManager.CurPlayer.GetComponentInChildren<OxygenRope>();
+            var player = GameManager.CurPlayer;
+            if (player == null) return;
+
+            if (rope == null) // cached: was a GetComponentInChildren every frame
+                rope = player.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;
 
             // Shows remaining health (shrinks on hit) — the player can still always swim out to
             // rope.MaxRopeLength (the standard/upgraded distance), damage no longer restricts that.
-            dangerLengthText.text = $"{Mathf.Abs(GameManager.CurPlayer.CurrentHealth).ToString("F2")} m.";
+            // Same whole-metre format as the current length below so the two read consistently.
+            dangerLengthText.text = $"{(int)Mathf.Abs(player.CurrentHealth)} m.";
 
             if (currentOxygenTubeLength != null)
             {

@@ -9,8 +9,6 @@ namespace Game.Testing
         [Header("Drop Item")]
         [SerializeField] private Item dropItem;
 
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private AudioClip dropSound;
 
         [Tooltip("Seconds to wait before returning to pool after collection. 0 = immediate. Use 60 for shells.")]
         [SerializeField, Min(0f)] private float poolReturnDelay = 0f;
@@ -39,8 +37,7 @@ namespace Game.Testing
             bool added = InventoryManager.Instance.AddItem(ActiveItem);
             if (!added) return; // inventory full — leave item in world
 
-            if (audioSource != null && dropSound != null)
-                audioSource.PlayOneShot(dropSound);
+            AudioManager.Instance?.PlaySFX(SoundKeys.Collect);
 
             var root = transform.root.gameObject;
             _owner?.OnItemCollected(root);

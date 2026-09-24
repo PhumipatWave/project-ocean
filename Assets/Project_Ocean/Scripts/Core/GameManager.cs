@@ -138,6 +138,8 @@ namespace Game.Testing
 
         public void ToMainMenu()
         {
+            if (LoadingManager.IsLoading) return;
+
             // UIManager (pause menu, etc.) is DontDestroyOnLoad — without this, returning to
             // the menu while it's open leaves its panel active, its PlayerUIState lock held,
             // and (since ApplyBlockingState set it) Time.timeScale stuck at 0 forever, silently
@@ -149,6 +151,10 @@ namespace Game.Testing
 
         public void StartDive()
         {
+            // A load is already running — LoadingManager would ignore this request, but the dive
+            // would still be counted below (a double trigger burned 2 of the 3 daily dives).
+            if (LoadingManager.IsLoading) return;
+
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Ocean))
             {
                 NotificationManager.Notify("Locked — progress the main quest to unlock the ocean.");
@@ -172,6 +178,8 @@ namespace Game.Testing
 
         public void ReturnToLand()
         {
+            if (LoadingManager.IsLoading) return; // already transitioning: don't re-raise BackToLand or flip gameState
+
             CurPlayer.OxygenTube.ResetRope();
             TutorialEvents.RaiseAction(TutorialActionId.BackToLand);
             LoadWithLoadingScreen(SceneNames.Land, LoadingType.Land);

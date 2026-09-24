@@ -46,6 +46,12 @@ namespace Game.Testing
 
         private readonly System.Collections.Generic.List<Item> dropdownItems = new();
 
+        [Header("Upgrade (free, +1 level per click)")]
+        [Tooltip("One entry per upgrade type — drag the UpgradeData assets (Slot / Rope / Gun). Order = dropdown order.")]
+        [SerializeField] private UpgradeData[] upgrades;
+        [SerializeField] private TMPro.TMP_Dropdown upgradeDropdown;
+        [SerializeField] private Button upgradeButton;
+
         [Header("Settings")]
         [Tooltip("ค่าที่ใช้ตั้งเป็น MaxRopeLength ตอน Infinite Oxygen เปิดอยู่ ยิ่งสูงยิ่งชัวร์ว่าไม่มีวันเกินระยะ")]
         [SerializeField] private float infiniteRopeLength = 999999f;
@@ -68,6 +74,9 @@ namespace Game.Testing
 
             if (spawnItemButton != null)
                 spawnItemButton.onClick.AddListener(SpawnSelectedItem);
+
+            if (upgradeButton != null)
+                upgradeButton.onClick.AddListener(UpgradeOneStep);
 
             if (devItemButtons != null)
             {
@@ -113,6 +122,41 @@ namespace Game.Testing
 
             if (panelRoot.activeSelf && dropdownItems.Count == 0)
                 FillItemDropdown();
+
+            if (panelRoot.activeSelf)
+                RefreshUpgradeDropdown(); // levels may have changed since it was last open (real purchases, load)
+        }
+
+        // Option text = "<name>  Lv current/max", so the current level is always visible in the dropdown.
+        private void RefreshUpgradeDropdown()
+        {
+            if (upgradeDropdown == null || upgrades == null || upgrades.Length == 0)
+                return;
+
+            int selected = upgradeDropdown.value;
+            var options = new System.Collections.Generic.List<string>();
+            foreach (UpgradeData u in upgrades)
+                options.Add(u == null
+                    ? "(missing UpgradeData)"
+                    : $"{u.upgradeName}  Lv {UpgradeService.Instance.GetLevel(u.type)}/{u.maxLevel}");
+
+            upgradeDropdown.ClearOptions();
+            upgradeDropdown.AddOptions(options);
+            upgradeDropdown.SetValueWithoutNotify(Mathf.Clamp(selected, 0, options.Count - 1)); // keep the selection
+            upgradeDropdown.RefreshShownValue();
+        }
+
+        private void UpgradeOneStep()
+        {
+            int index = upgradeDropdown != null ? upgradeDropdown.value : -1;
+            if (upgrades == null || index < 0 || index >= upgrades.Length)
+                return;
+
+            UpgradeData data = upgrades[index];
+            if (!UpgradeService.Instance.DevGrantNextLevel(data, out string reason))
+                Debug.LogWarning($"[DevPanel] Upgrade '{(data != null ? data.upgradeName : "?")}' not applied: {reason}");
+
+            RefreshUpgradeDropdown();
         }
 
         // Filled on open, not Start: InventoryManager may not exist yet when this panel starts.

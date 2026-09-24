@@ -119,7 +119,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Check quests in quest board"'
+    stepDescription: 'Check quests in quest board'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Accept quest on quest board"'
+    stepDescription: 'Accept quest on quest board'
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Buy a MiniHub item."'
+    stepDescription: 'Buy a MiniHub item.'
     dialogue:
     - characterId: femboy
       type: 0
@@ -319,7 +319,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Head to the boat to begin Day 2 diving."'
+    stepDescription: 'Head to the boat to begin Day 2 diving.'
     dialogue:
     - characterId: femboy
       type: 0
@@ -349,7 +349,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Explore Ocean until rope hit limit."'
+    stepDescription: 'Explore Ocean until rope hit limit.'
     dialogue:
     - characterId: 
       type: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Use MiniHub item."'
+    stepDescription: 'Use MiniHub item.'
     dialogue:
     - characterId: femboy
       type: 0
@@ -410,7 +410,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Explore Ocean."'
+    stepDescription: 'Explore Ocean.'
     dialogue:
     - characterId: 
       type: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: '"Ask the islanders about the underwater obstacle."'
+    stepDescription: 'Ask the islanders about the underwater obstacle.'
     dialogue:
     - characterId: 
       type: 0

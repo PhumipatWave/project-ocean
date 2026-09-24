@@ -43,8 +43,8 @@ namespace Game.Testing
                 }
             }
 
-            if (GameManager.CurPlayer?.Audio != null)
-                GameManager.CurPlayer.Audio.PlayOneShot(GameManager.CurPlayer.playerCollectItemSound);
+            if (GameManager.CurPlayer != null)
+                AudioManager.Instance?.PlaySFX(SoundKeys.Collect);
 
             var root = enemy != null ? enemy.gameObject : gameObject;
             if (ObjectPoolManager.Instance != null)

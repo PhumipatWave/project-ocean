@@ -65,12 +65,39 @@ namespace Game.Testing
                 return false;
             }
 
+            GrantLevel(data);
+            return true;
+        }
+
+        /// <summary>Gives ONE level of this upgrade: applies the effect, raises the level, and raises
+        /// the tutorial action. The shared tail of a purchase — TryBuyUpgrade and the dev button both
+        /// end here, so their effects can never drift apart.</summary>
+        private void GrantLevel(UpgradeData data)
+        {
             ApplyEffect(data);
-            levels[data.type] = level + 1;
+            levels[data.type] = GetLevel(data.type) + 1;
 
             if (data.type == UpgradeType.Rope)
                 TutorialEvents.RaiseAction(TutorialActionId.UpgradeRope);
+        }
 
+        /// <summary>Dev/testing (DevPanel): gives one level for FREE. Returns false with a reason instead
+        /// of raising the level with no effect — e.g. Rope with no player, or Inventory with no manager.</summary>
+        public bool DevGrantNextLevel(UpgradeData data, out string failReason)
+        {
+            failReason = null;
+
+            if (data == null) { failReason = "no upgrade selected"; return false; }
+            if (GetLevel(data.type) >= data.maxLevel) { failReason = "already at max level"; return false; }
+
+            if (data.type == UpgradeType.Rope &&
+                (GameManager.CurPlayer == null || GameManager.CurPlayer.GetComponentInChildren<OxygenRope>() == null))
+            { failReason = "no player / oxygen rope in this scene yet"; return false; }
+
+            if (data.type == UpgradeType.Inventory && InventoryManager.Instance == null)
+            { failReason = "InventoryManager not found"; return false; }
+
+            GrantLevel(data);
             return true;
         }
 
@@ -130,8 +157,9 @@ namespace Game.Testing
 
         public void Collect(SaveData data)
         {
-            data.inventoryUpgradeLevel = GetLevel(UpgradeType.Inventory);
-            data.ropeUpgradeLevel      = GetLevel(UpgradeType.Rope);
+            data.inventoryUpgradeLevel    = GetLevel(UpgradeType.Inventory);
+            data.ropeUpgradeLevel         = GetLevel(UpgradeType.Rope);
+            data.normalBulletUpgradeLevel = GetLevel(UpgradeType.NormalBullet);
         }
 
         public void Apply(SaveData data)
@@ -139,6 +167,9 @@ namespace Game.Testing
             // Rope length is restored by SaveBridge via SaveData.maxRopeLength,
             // so this intentionally does not re-apply the rope effect.
             ApplyLoadedLevels(data.inventoryUpgradeLevel, data.ropeUpgradeLevel);
+
+            // The gun level has no stored effect to re-apply — bullets and the laser read the level directly.
+            SetLevel(UpgradeType.NormalBullet, data.normalBulletUpgradeLevel);
         }
 
     }

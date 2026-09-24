@@ -13,9 +13,6 @@ namespace Game.Testing
         // Kept public so existing scene and button references do not break.
         public GameObject InventoryMenu;
 
-        [Header("Inventory UI")]
-        [SerializeField] private AudioClip openInventorySound;
-
         [Header("Inventory Slots")]
         [SerializeField] private InventorySlot[] inventorySlots;
         [SerializeField] private int firstUnlockedSlotCount = 3;
@@ -60,7 +57,7 @@ namespace Game.Testing
             if (uiController == null)
                 uiController = gameObject.AddComponent<InventoryUIController>();
 
-            uiController.Initialize(InventoryMenu, openInventorySound);
+            uiController.Initialize(InventoryMenu);
             itemDatabase = new InventoryItemDatabase(allItems);
         }
 

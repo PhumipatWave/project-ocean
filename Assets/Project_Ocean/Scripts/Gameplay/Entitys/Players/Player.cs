@@ -14,13 +14,8 @@ namespace Game.Testing
         [Header("Player Component")]
         public InputReader input;
 
-        [SerializeField] private AudioSource audio;
-        public AudioSource Audio { get { return audio; } }
-
-        [SerializeField] private AudioClip playerHurtSound;
-        [SerializeField] private AudioClip playerRopeSound;
-        [SerializeField] private AudioClip playerShootSound;
-        public AudioClip playerCollectItemSound;
+        // Sounds are played through AudioManager by key (SoundKeys.Hurt / RopeMove / Shoot / Collect) —
+        // the clips live in the manager's SFX list, not on the player.
 
         private PlayerGunHandler gunHandler;
         public PlayerGunHandler GunHandler { get { return gunHandler; } }
@@ -131,7 +126,6 @@ namespace Game.Testing
             playerSpriteRenderer = playerSprite != null ? playerSprite.GetComponentInChildren<SpriteRenderer>() : null;
             if (playerSpriteRenderer != null) playerOriginalColor = playerSpriteRenderer.color;
 
-            audio = GetComponent<AudioSource>();
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
             DontDestroyOnLoad(gameObject);
         }
@@ -327,6 +321,14 @@ private void Update()
             // Bug 4: block aim when canAttack is false or on land
             if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked)) return;
 
+            // Released while a UI is open (e.g. Pause opened mid-aim): just drop the aim state.
+            // UIManager owns Time.timeScale while locked — writing it here would un-pause the game.
+            if (!isAim && PlayerUIState.IsLocked)
+            {
+                gunHandler.IsAimming = false;
+                return;
+            }
+
             gunHandler.IsAimming = isAim;
 
             if (isAim)
@@ -357,10 +359,18 @@ private void Update()
             {
                 isAttacked = false;
 
+                // Released while a UI is open: cancel the shot (no fire, no timeScale write) —
+                // UIManager owns Time.timeScale while locked.
+                if (PlayerUIState.IsLocked)
+                {
+                    gunHandler.IsAimming = false;
+                    return;
+                }
+
                 if (gunHandler.IsAimming)
                 {
                     gunHandler.CanAttack = false;
-                    audio.PlayOneShot(playerShootSound);
+                    AudioManager.Instance?.PlaySFX(SoundKeys.Shoot);
                     gunHandler.Shooting();
                 }
                 gunHandler.IsAimming = false;
@@ -407,7 +417,7 @@ private void ApplyMovement(Vector2 dir)
             if (isMoving && !wasMoving)
             {
                 if (GameManager.Instance.GameState == GameState.Ocean)
-                    audio.PlayOneShot(playerRopeSound);
+                    AudioManager.Instance?.PlaySFX(SoundKeys.RopeMove);
 
                 if (TutorialGate.RequiredAction == TutorialActionId.Move)
                     Debug.Log($"[Player] Raising Move tutorial action — dir={dir}, wasMoving was false this frame");
@@ -445,7 +455,7 @@ private void ApplyMovement(Vector2 dir)
 
         protected override void OnDamagedHandler()
         {
-            audio?.PlayOneShot(playerHurtSound);
+            AudioManager.Instance?.PlaySFX(SoundKeys.Hurt);
         }
 
         protected override void OnDamagedVisual()

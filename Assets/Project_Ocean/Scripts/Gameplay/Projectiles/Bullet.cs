@@ -17,6 +17,10 @@ namespace Game.Testing
 
         protected Vector2 shootDir;
 
+        /// <summary>How far this ammo flies before it stops on its own (world units) — the aim laser
+        /// is drawn this long. 0 = the ammo has no range of its own (e.g. it flies until it hits).</summary>
+        public virtual float MaxRange => 0f;
+
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
