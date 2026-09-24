@@ -79,8 +79,16 @@ namespace Game.Testing
                 return RequiredAction.Value == TutorialActionId.Move;
             if (action == TutorialActionId.OpenInventory)
                 return false;
+            // Ocean-only steps: the dive is how the player reaches them — blocking it soft-locks
+            // the step once the player is back on land.
+            if (action == TutorialActionId.Dive && IsOceanAction(RequiredAction.Value))
+                return false;
             return true;
         }
+
+        private static bool IsOceanAction(TutorialActionId a) =>
+            a == TutorialActionId.BreakRopeLimit || a == TutorialActionId.HitEnemy ||
+            a == TutorialActionId.BackToLand     || a == TutorialActionId.UseItem;
 
         /// <summary>Call when Blocks() returns true for a direct key press (Sleep/Dive/OpenInventory)
         /// so the player gets a reason instead of the key silently doing nothing. Pulses
@@ -88,5 +96,42 @@ namespace Game.Testing
         /// silently dropped while a persistent message owns the notification slot, which is
         /// always the case whenever Blocks() can return true.</summary>
         public static void NotifyBlocked() => NotificationManager.PulsePersistent();
+    }
+
+    /// <summary>
+    /// Reads the quest state directly, for UI inside blocking panels (shop, upgrade) — there
+    /// TutorialGate.RequiredAction is always null, because TutorialPromptUI hides and clears it
+    /// while any panel holds PlayerUIState's lock.
+    /// </summary>
+    public static class TutorialStep
+    {
+        /// <summary>Some active quest's current step is a Tutorial step for this action
+        /// (scans every active quest, like TutorialPromptUI, not just the tracked one).</summary>
+        public static bool IsActive(TutorialActionId action)
+        {
+            if (QuestManager.Instance == null) return false;
+
+            foreach (var quest in QuestManager.Instance.GetActiveQuests())
+            {
+                var step = quest.CurrentStep;
+                if (quest.Status == QuestStatus.InProgress && step != null &&
+                    step.Type == QuestType.Tutorial && step.TutorialAction == action)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>A shop-panel tutorial step (sell / buy / upgrade) is active and wants an
+        /// action other than this one — so this shop button must stay locked.</summary>
+        public static bool BlocksShop(TutorialActionId action)
+        {
+            foreach (var shopAction in ShopActions)
+                if (shopAction != action && IsActive(shopAction))
+                    return true;
+            return false;
+        }
+
+        private static readonly TutorialActionId[] ShopActions =
+            { TutorialActionId.SellItem, TutorialActionId.BuyItem, TutorialActionId.UpgradeRope };
     }
 }

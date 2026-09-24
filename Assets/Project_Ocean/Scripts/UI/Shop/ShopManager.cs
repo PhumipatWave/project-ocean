@@ -15,6 +15,10 @@ namespace Game.Testing
         [SerializeField] private GameObject inventorySlot;
         [SerializeField] private GameObject shopbuySlot;
 
+        [Header("Tutorial")]
+        [Tooltip("The only item buyable while a Tutorial BuyItem step is active (MQ_1002: Mini Hub).")]
+        [SerializeField] private Item tutorialBuyItem;
+
         [Header("Shop Slots Sell Display")]
         [SerializeField] private InventorySlot[] shopInventorySlots;
         [SerializeField] private GameObject inventoryItemPrefab;
@@ -57,6 +61,8 @@ namespace Game.Testing
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
             InventoryManager.OnInventoryClosed += DeselectAllShopSlots;
             InventorySlot.OnShopSlotClicked += HandleShopSlotClicked;
+            QuestManager.OnQuestUpdated += RefreshSellButton;
+            RefreshSellButton();
         }
 
         private void OnDisable()
@@ -64,6 +70,36 @@ namespace Game.Testing
             InventoryManager.OnInventoryChanged -= RefreshShopInventory;
             InventoryManager.OnInventoryClosed -= DeselectAllShopSlots;
             InventorySlot.OnShopSlotClicked -= HandleShopSlotClicked;
+            QuestManager.OnQuestUpdated -= RefreshSellButton;
+        }
+
+        // The tutorial's SellItem step teaches Sell All, so single Sell stays locked until it's done;
+        // a buy/upgrade tutorial step locks both sell buttons.
+        private static bool SellBlocked() =>
+            TutorialStep.IsActive(TutorialActionId.SellItem) || TutorialStep.BlocksShop(TutorialActionId.SellItem);
+
+        private static bool SellAllBlocked() => TutorialStep.BlocksShop(TutorialActionId.SellItem);
+
+        private void RefreshSellButton()
+        {
+            SetInteractable(sellSelectButton, !SellBlocked());
+            SetInteractable(sellAllButton, !SellAllBlocked());
+        }
+
+        private static void SetInteractable(GameObject go, bool interactable)
+        {
+            var button = go != null ? go.GetComponent<Button>() : null;
+            if (button != null) button.interactable = interactable;
+        }
+
+        /// <summary>Tutorial reason this item can't be bought right now, or null if it can.</summary>
+        private string TutorialBuyBlockReason(Item item)
+        {
+            if (TutorialStep.BlocksShop(TutorialActionId.BuyItem))
+                return "Follow the tutorial step first.";
+            if (TutorialStep.IsActive(TutorialActionId.BuyItem) && tutorialBuyItem != null && item != tutorialBuyItem)
+                return $"Buy the {tutorialBuyItem.ItemName} first.";
+            return null;
         }
 
         private void HandleShopSlotClicked(InventorySlot clickedSlot)
@@ -155,6 +191,7 @@ namespace Game.Testing
             if (shopbuySlot != null)      shopbuySlot.SetActive(false);
 
             isSellMode = true;
+            RefreshSellButton();
             RefreshShopInventory();
         }
 
@@ -170,6 +207,8 @@ namespace Game.Testing
 
         public void Sell()
         {
+            if (SellBlocked()) return;
+
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot == null) return;
 
@@ -192,6 +231,8 @@ namespace Game.Testing
 
         public void SellAll()
         {
+            if (SellAllBlocked()) return;
+
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
@@ -205,6 +246,10 @@ namespace Game.Testing
         {
             Item item = GetSelectedBuyItem();
             if (item == null) return;
+
+            string blocked = TutorialBuyBlockReason(item);
+            if (blocked != null) { NotificationManager.Notify(blocked); return; }
+
             ConfirmationDialog.Instance?.Show(
                 $"Buy {item.ItemName} for {item.ItemPrice}?",
                 BuySelectedItem
@@ -214,7 +259,7 @@ namespace Game.Testing
         public void BuySelectedItem()
         {
             Item selectedItem = GetSelectedBuyItem();
-            if (selectedItem == null) return;
+            if (selectedItem == null || TutorialBuyBlockReason(selectedItem) != null) return;
 
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;

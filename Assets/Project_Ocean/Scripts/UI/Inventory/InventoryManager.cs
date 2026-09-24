@@ -66,7 +66,8 @@ namespace Game.Testing
             if (inputReader != null)
             {
                 inputReader.OnInventoryToggled += HandleInventoryToggle;
-                inputReader.OnAmmoSelected += HandleCycleBuildingSlot;
+                // Switch item disabled: only 1 building slot now, nothing to cycle.
+                //inputReader.OnAmmoSelected += HandleCycleBuildingSlot;
             }
         }
 
@@ -75,7 +76,7 @@ namespace Game.Testing
             if (inputReader != null)
             {
                 inputReader.OnInventoryToggled -= HandleInventoryToggle;
-                inputReader.OnAmmoSelected -= HandleCycleBuildingSlot;
+                //inputReader.OnAmmoSelected -= HandleCycleBuildingSlot;
             }
         }
 
@@ -112,12 +113,14 @@ namespace Game.Testing
             }
         }
 
-        private void HandleCycleBuildingSlot(bool pressed)
+        // Switch item disabled: only 1 building slot now. Re-enable with the OnAmmoSelected
+        // subscription in OnEnable/OnDisable if more building slots come back.
+        /*private void HandleCycleBuildingSlot(bool pressed)
         {
             if (!pressed) return;
-            /*if (buildingSlots != null && buildingSlots.Count > 1)
-                CycleBuildingSlot();*/
-        }
+            if (buildingSlots != null && buildingSlots.Count > 1)
+                CycleBuildingSlot();
+        }*/
 
         public void OpenInventory()
         {

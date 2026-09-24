@@ -18,6 +18,10 @@ namespace Game.Testing
         [SerializeField] private TMP_Text valueText;
         [SerializeField] private TMP_Text priceText;
 
+        [Header("Gun Stats")]
+        [Tooltip("NormalBullet prefab — the gun tooltip reads its range per level. Unassigned = damage only.")]
+        [SerializeField] private NormalBullet normalBulletPrefab;
+
         [Header("Unlock")]
         [SerializeField] private Transform unlockSection;
         [SerializeField] private GameObject unlockRowTemplate;
@@ -165,9 +169,7 @@ namespace Game.Testing
             FollowTarget();
         }
 
-        private void UpdateValue(
-            UpgradeData data,
-            int currentLevel)
+        private void UpdateValue(UpgradeData data,int currentLevel)
         {
             if (valueText == null)
                 return;
@@ -188,14 +190,21 @@ namespace Game.Testing
 
                 case UpgradeType.Rope:
 
+                    // ความยาวเชือก
                     valueText.text =
-                        $"+{data.value:0} m";
+                        $"+{data.value:0} meter";
                     break;
 
                 case UpgradeType.NormalBullet:
 
+                    // ความเสียหายกระสุน — read from NormalBullet's own tables (data.value is unused
+                    // for the gun: gains aren't flat per level, levels 1-3 improve range instead).
                     valueText.text =
-                        $"+{data.value:0}";
+                        $"Damage {NormalBullet.GetDamage(currentLevel):0} > {NormalBullet.GetDamage(currentLevel + 1):0}";
+
+                    if (normalBulletPrefab != null)
+                        valueText.text +=
+                            $"\nRange {normalBulletPrefab.RangeAt(currentLevel):0.#}m > {normalBulletPrefab.RangeAt(currentLevel + 1):0.#}m";
                     break;
 
                 default:
@@ -243,12 +252,12 @@ namespace Game.Testing
                 if (currentLevel >= unlock.unlockLevel)
                 {
                     text.text =
-                        $"🔓 {unlock.unlockName} Unlocked";
+                        $"Unlock {unlock.unlockName}";
                 }
                 else
                 {
                     text.text =
-                        $"🔒 {unlock.unlockName} • Level {unlock.unlockLevel}";
+                        $"Unlock {unlock.unlockName} • Level {unlock.unlockLevel}";
                 }
             }
         }
