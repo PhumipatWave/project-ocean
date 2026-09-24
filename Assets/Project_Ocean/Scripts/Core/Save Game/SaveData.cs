@@ -49,6 +49,10 @@ namespace Game.Testing
         // ── v7: gun (NormalBullet) upgrade level ── it was never saved before, so it reset to 0 on load.
         // Absent in older saves (0), which is also the correct value for them — no migration needed.
         public int normalBulletUpgradeLevel = 0;
+
+        // ── v8: one-time item pickups ── (ItemSpawner name per pickup, see OneTimePickupTracker)
+        // Absent in older saves (empty), which is correct — nothing collected yet.
+        public List<string> collectedPickupIds = new();
     }
 
     [Serializable]

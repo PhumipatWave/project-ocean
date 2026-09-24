@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -57,6 +58,13 @@ public class IntroPlayer : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Space skips the intro (no InputReader exists this early — it lives with the player/HUD).
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            SkipIntro();
+    }
+
     // เรียกอัตโนมัติเมื่อคลิปเล่นจบ
     private void OnIntroFinished(VideoPlayer vp)
     {
@@ -86,6 +94,10 @@ public class IntroPlayer : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(nextSceneName);
+        // Through the loading screen when started from Bootstrap; plain load when IntroScene is played directly.
+        if (Game.Testing.LoadingManager.Instance != null)
+            Game.Testing.LoadingManager.Instance.LoadScene(nextSceneName, Game.Testing.LoadingType.Menu);
+        else
+            SceneManager.LoadScene(nextSceneName);
     }
 }

@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 330821442327759310}
@@ -256,7 +256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4467100493488792654, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4467100493488792654, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -302,14 +302,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 5374792249345612963, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715847367328909989, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
       propertyPath: dropItem
       value: 
       objectReference: {fileID: 11400000, guid: 8697797b5c97a3449bd4a204a6f025ee, type: 2}
-    - target: {fileID: 8896586623084611115, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 5901453882919603529}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -326,11 +330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1b386b4610cb34ea5fb045bb00d409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ItemDrop
---- !u!82 &5901453882919603529 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1183289296014203807, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
-  m_PrefabInstance: {fileID: 4723658437487433430}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8967681060077318808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4467100493488792654, guid: 54faf026776a7f24e841d3bb28511b83, type: 3}
