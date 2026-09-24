@@ -28,6 +28,14 @@ namespace Game.Testing
         [Tooltip("Seconds paused before reversing direction.")]
         public float pauseDuration = 0.4f;
 
+        [Header("Variation")]
+        [Tooltip("0 = every enemy moves identically. Above 0: random start direction/delay, and each leg's speed, length and pause vary by ±this fraction (0.3 = ±30%).")]
+        [Range(0f, 0.5f)]
+        public float randomness;
+
+        [Tooltip("Vertical axis only: side-to-side sway in units while moving up/down (0 = off). Each enemy sways at its own rhythm. Stops at walls.")]
+        public float driftAmplitude;
+
         [Header("Edge / Ground Check (UntilWall mode)")]
         [Tooltip("Horizontal offset from center in the move direction where the downward ground ray originates. Set to roughly half the enemy collider width.")]
         public float groundCheckOffset = 0.4f;
