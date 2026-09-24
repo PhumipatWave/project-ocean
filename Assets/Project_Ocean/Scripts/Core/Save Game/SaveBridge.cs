@@ -130,6 +130,10 @@ namespace Game.Testing
                 SceneLoadContext.Clear();
                 Debug.LogError($"[SaveBridge] Failed to apply save data: {e.Message}");
             }
+            finally
+            {
+                LoadingManager.Unblock(this); // save fully applied — loading screen may hide
+            }
         }
 
         // -------------------- Apply helpers -------------------- //
@@ -331,6 +335,10 @@ namespace Game.Testing
         /// <summary>Loads a specific slot and remembers it as the active slot.</summary>
         public void LoadGame(int slot)
         {
+            // A load is already running: LoadingManager would ignore this scene request, leaving
+            // _pendingData/SceneLoadContext set for whatever scene loads next.
+            if (LoadingManager.IsLoading) return;
+
             CurrentSlot = slot;
             NewGameSlot = -1; // this session now comes from a saved game, so New Game must never wipe it
             _sessionStarted = true;
@@ -365,7 +373,14 @@ namespace Game.Testing
             // Position MUST be set before LoadScene() — BeginLoad does both atomically.
             SceneLoadContext.BeginLoad(new Vector3(data.posX, data.posY, data.posZ));
 
-            SceneManager.LoadScene(data.currentScene);
+            // Through the loading screen, which stays up until ApplyAfterFrame has applied the data.
+            if (LoadingManager.Instance != null)
+            {
+                LoadingManager.Block(this);
+                LoadingManager.Instance.LoadScene(data.currentScene, LoadingType.Menu);
+            }
+            else
+                SceneManager.LoadScene(data.currentScene);
             Debug.Log($"[SaveBridge] Loading scene for slot {slot}...");
         }
 

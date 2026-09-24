@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,6 +25,18 @@ namespace Game.Testing
 
         [Tooltip("Extra realtime seconds the screen stays up after the scene activates, so Start() and Animators (player land/ocean sprite) settle out of view.")]
         [SerializeField] private float postLoadHold = 0.3f;
+
+        [Tooltip("Max realtime seconds to wait for Block()ers (e.g. SaveBridge applying save data) before hiding anyway.")]
+        [SerializeField] private float readyTimeout = 5f;
+
+        // Systems still preparing the new scene. The screen stays up until each calls Unblock.
+        private static readonly HashSet<object> readyBlockers = new();
+
+        /// <summary>Hold the loading screen up until Unblock(owner) — call before starting the load
+        /// (or in Awake of a scene object). Always pair with Unblock, ideally in a finally.</summary>
+        public static void Block(object owner) => readyBlockers.Add(owner);
+
+        public static void Unblock(object owner) => readyBlockers.Remove(owner);
 
         // How fast the bar may move toward its target, in bar-lengths per second. Only smooths the
         // steps of the real load progress; the time-based fill is already linear.
@@ -71,6 +84,7 @@ namespace Game.Testing
             if (string.IsNullOrEmpty(sceneName))
             {
                 Debug.LogError("LoadingManager: Scene name is empty.");
+                readyBlockers.Clear(); // no load will run to release them
                 HideLoading(); // LoadScene(name, type) shows the canvas first — don't leave it up
                 return;
             }
@@ -130,6 +144,7 @@ namespace Game.Testing
             {
                 Debug.LogError($"LoadingManager: cannot load scene '{sceneName}' (missing from Build Settings?).");
                 isLoading = false;
+                readyBlockers.Clear(); // no scene to prepare — don't leave the next load waiting on them
                 HideLoading();
                 yield break;
             }
@@ -161,6 +176,20 @@ namespace Game.Testing
             while (!operation.isDone)
             {
                 yield return null;
+            }
+
+            // Old scene's textures/audio/meshes no longer referenced — free them behind the screen.
+            yield return Resources.UnloadUnusedAssets();
+
+            // Wait for systems still preparing the scene (e.g. SaveBridge applying a save).
+            float waitStart = Time.unscaledTime;
+            while (readyBlockers.Count > 0 && Time.unscaledTime - waitStart < readyTimeout)
+                yield return null;
+
+            if (readyBlockers.Count > 0)
+            {
+                Debug.LogWarning($"[LoadingManager] Ready timeout — still blocked by: {string.Join(", ", readyBlockers)}");
+                readyBlockers.Clear();
             }
 
             // Scene is active but its Start() and Animator updates haven't run yet — hiding now
