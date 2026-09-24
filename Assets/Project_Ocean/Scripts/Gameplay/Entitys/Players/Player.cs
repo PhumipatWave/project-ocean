@@ -85,6 +85,9 @@ namespace Game.Testing
         private Color playerOriginalColor;
         private Coroutine playerFlashCoroutine;
 
+        [Header("Player Feedback VFX")]
+        private PlayerFeedbackVFX playerFeedbackVFX;
+
         [Header("Player Status")]
         private int faceDir = 1;
         public int FaceDir { get { return faceDir; } }
@@ -123,10 +126,15 @@ namespace Game.Testing
 
             base.Awake();
 
-            playerSpriteRenderer = playerSprite != null ? playerSprite.GetComponentInChildren<SpriteRenderer>() : null;
-            if (playerSpriteRenderer != null) playerOriginalColor = playerSpriteRenderer.color;
+            playerSpriteRenderer = playerSprite != null
+                ? playerSprite.GetComponentInChildren<SpriteRenderer>()
+                : null;
+
+            if (playerSpriteRenderer != null)
+                playerOriginalColor = playerSpriteRenderer.color;
 
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
+
             DontDestroyOnLoad(gameObject);
         }
 
@@ -138,8 +146,10 @@ namespace Game.Testing
             return playerHealth;
         }
 
-private void Start()
+        private void Start()
         {
+            FindPlayerFeedbackVFX();
+
             //input.OnAimed += Aim;
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
@@ -168,6 +178,8 @@ private void Start()
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             PlayerUIState.Reset();
+
+            FindPlayerFeedbackVFX();
 
             if (scene.name == "Land_Map")
             {
@@ -231,7 +243,7 @@ private void Start()
             }
         }
 
-private void Update()
+        private void Update()
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
@@ -379,12 +391,17 @@ private void Update()
             
         }
 
-private void Sprint(bool state)
+        private void Sprint(bool state)
         {
             isSprinting = state;
+
+            if (!state)
+            {
+                playerFeedbackVFX?.SetSprinting(false);
+            }
         }
 
-private void ApplyMovement(Vector2 dir)
+        private void ApplyMovement(Vector2 dir)
         {
             // The instant the "press WASD" tutorial step becomes active, re-baseline the
             // edge detector to whatever is currently held. Otherwise movement already in
@@ -404,6 +421,7 @@ private void ApplyMovement(Vector2 dir)
                 // held through the lock doesn't look like a fresh press-edge the instant
                 // the lock releases — e.g. holding W through dialogue would otherwise
                 // instantly satisfy a "press W A S D" tutorial step with no new key press.
+                playerFeedbackVFX?.SetSprinting(false);
                 wasMoving = dir != Vector2.zero;
                 return;
             }
@@ -412,6 +430,7 @@ private void ApplyMovement(Vector2 dir)
             rb.linearVelocity = dir * speed;
 
             bool isMoving = rb.linearVelocity != Vector2.zero;
+            playerFeedbackVFX?.SetSprinting(isSprinting && isMoving);
 
             // Edge-triggered: play once when movement starts, not every physics tick.
             if (isMoving && !wasMoving)
@@ -460,8 +479,14 @@ private void ApplyMovement(Vector2 dir)
 
         protected override void OnDamagedVisual()
         {
-            if (playerSpriteRenderer == null) return;
-            if (playerFlashCoroutine != null) StopCoroutine(playerFlashCoroutine);
+            playerFeedbackVFX?.PlayDamageVFX();
+
+            if (playerSpriteRenderer == null)
+                return;
+
+            if (playerFlashCoroutine != null)
+                StopCoroutine(playerFlashCoroutine);
+
             playerFlashCoroutine = StartCoroutine(PlayerHitFlashRoutine());
         }
 
@@ -477,6 +502,11 @@ private void ApplyMovement(Vector2 dir)
         protected override void OnDeathHandler()
         {
             entityDeathHandler?.HandleDeath();
+        }
+
+        private void FindPlayerFeedbackVFX()
+        {
+            playerFeedbackVFX = FindFirstObjectByType<PlayerFeedbackVFX>();
         }
         #endregion
 
