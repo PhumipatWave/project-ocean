@@ -5,12 +5,11 @@ namespace Game.Testing
 {
     public class BootstrapLoader : MonoBehaviour
     {
+        // First launch: straight into the Intro, no loading screen. IntroPlayer uses the
+        // loading screen for Intro -> Main Menu.
         private void Start()
         {
-            if (LoadingManager.Instance != null)
-                LoadingManager.Instance.LoadScene(SceneNames.MainMenu, LoadingType.Menu);
-            else
-                SceneManager.LoadScene(SceneNames.MainMenu);
+            SceneManager.LoadScene(SceneNames.Intro);
         }
     }
 }

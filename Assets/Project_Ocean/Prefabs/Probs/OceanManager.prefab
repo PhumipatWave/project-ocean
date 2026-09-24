@@ -580,6 +580,7 @@ MonoBehaviour:
   - {fileID: 9016917132198112272}
   spawnPerDay: 10
   requiredFeature: 12
+  oneTimeOnly: 0
 --- !u!1 &1381628732787031526
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,6 +900,7 @@ MonoBehaviour:
   - {fileID: 1488293983338537461}
   spawnPerDay: 5
   requiredFeature: 16
+  oneTimeOnly: 1
 --- !u!1 &2198090600254859317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,6 +1954,7 @@ MonoBehaviour:
   - {fileID: 438801443687874020}
   spawnPerDay: 8
   requiredFeature: 12
+  oneTimeOnly: 0
 --- !u!1 &4372438000233206374
 GameObject:
   m_ObjectHideFlags: 0

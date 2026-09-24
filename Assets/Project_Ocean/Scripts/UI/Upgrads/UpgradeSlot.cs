@@ -27,9 +27,31 @@ namespace Game.Testing
             RefreshUI();
         }
 
+        private void OnEnable()
+        {
+            QuestManager.OnQuestUpdated += RefreshTutorialLock;
+            RefreshTutorialLock();
+        }
+
+        private void OnDisable() => QuestManager.OnQuestUpdated -= RefreshTutorialLock;
+
+        // UpgradeRope tutorial step: only the Rope slot works. Sell/buy tutorial step: none do.
+        private bool TutorialBlocked() =>
+            TutorialStep.BlocksShop(TutorialActionId.UpgradeRope) ||
+            (TutorialStep.IsActive(TutorialActionId.UpgradeRope) && (data == null || data.type != UpgradeType.Rope));
+
+        private void RefreshTutorialLock()
+        {
+            var button = GetComponentInChildren<Button>(true); // the upgrade button is a child of the slot
+            if (button != null) button.interactable = !TutorialBlocked();
+        }
+
         public void Upgrade()
         {
             if (upgradeManager == null || data == null)
+                return;
+
+            if (TutorialBlocked())
                 return;
 
             int level = upgradeManager.GetLevel(data);
