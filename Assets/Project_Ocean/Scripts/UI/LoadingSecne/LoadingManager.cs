@@ -22,6 +22,9 @@ namespace Game.Testing
         [Tooltip("The progress bar fills over this many seconds (never ahead of the real load).")]
         [SerializeField] private float minimumLoadingTime = 0.5f;
 
+        [Tooltip("Extra realtime seconds the screen stays up after the scene activates, so Start() and Animators (player land/ocean sprite) settle out of view.")]
+        [SerializeField] private float postLoadHold = 0.3f;
+
         // How fast the bar may move toward its target, in bar-lengths per second. Only smooths the
         // steps of the real load progress; the time-based fill is already linear.
         private const float FillSmoothing = 2f;
@@ -159,6 +162,12 @@ namespace Game.Testing
             {
                 yield return null;
             }
+
+            // Scene is active but its Start() and Animator updates haven't run yet — hiding now
+            // shows the player's land/ocean sprite swap. Let them run behind the screen first.
+            yield return null;
+            yield return null;
+            yield return new WaitForSecondsRealtime(postLoadHold);
 
             isLoading = false;
 
