@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: ScaredEnemyProfile
   m_EditorClassIdentifier: Game.Testing::Game.Testing.ScaredEnemyProfile
   fishId: scare
+  schoolMinFollowers: 3
+  schoolMaxFollowers: 5
   speed: 3.25
   viewDistance: 18
   viewAngle: 90
-  visionObstacleMask:
-    serializedVersion: 2
-    m_Bits: 512
   debugVision: 0
   wallLayer:
     serializedVersion: 2
@@ -34,5 +33,9 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+  contactDamage: 0
+  contactDamageCooldown: 1
+  autoReturnDelay: 60
+  tickFacingFromVelocity: 0
   alertNearbyAllies: 1
   groupAlertRadius: 3
