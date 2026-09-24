@@ -50,11 +50,15 @@ namespace Game.Testing
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
+            // Destroy is deferred to end of frame — without this, overlapping fish all take damage.
+            if (isHit) return;
+
             if (!player.GunHandler.IsPullBack)
             {
                 switch (collision.tag)
                 {
                     case "Enemy":
+                        isHit = true;
                         Enemy enemy = collision.GetComponent<Enemy>();
                         enemy.TakeDamage(attackDamage);
 

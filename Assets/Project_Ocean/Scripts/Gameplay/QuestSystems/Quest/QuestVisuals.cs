@@ -34,7 +34,8 @@ namespace Game.Testing
             InventoryManager.Instance != null ? InventoryManager.Instance.GetQuestItemCount(itemId) : 0;
 
         /// <summary>Delivery only — "{item name} {held}/{required}" (PerItem: one per requirement,
-        /// comma-joined; CombinedTotal: one entry against the shared Target Count), plus
+        /// comma-joined; CombinedTotal: one entry against the shared Target Count, name omitted when
+        /// several items count), plus
         /// " · {N} Money" appended when the step has RequiredMoney. Null for every other step
         /// type — QuestTrackerUI/ReviceQuestSlot fall back to their normal description text.</summary>
         public static string GetDeliveryStatusSuffix(Quest quest)
@@ -58,16 +59,12 @@ namespace Game.Testing
             }
             else
             {
+                // Multi-item: any mix counts, so naming one item would mislead — show the count only.
                 var ids = quest.TargetQuestItemIds;
-                string name = null;
-                if (ids != null)
-                    foreach (var idStr in ids)
-                        if (int.TryParse(idStr, out int id) && InventoryManager.Instance?.FindItemInDatabase(id) != null)
-                        {
-                            name = ItemNameOf(id);
-                            break;
-                        }
-                itemsPart = $"{name ?? "Item"} {quest.CurrentCount}/{quest.TargetCount}";
+                string count = $"{quest.CurrentCount}/{quest.TargetCount}";
+                itemsPart = ids != null && ids.Count == 1 && int.TryParse(ids[0], out int id)
+                    ? $"{ItemNameOf(id)} {count}"
+                    : count;
             }
 
             if (step.RequiredMoney <= 0)

@@ -9566,6 +9566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1383843509}
   - component: {fileID: 1383843508}
+  - component: {fileID: 1383843510}
   m_Layer: 0
   m_Name: EnemyKillTracker
   m_TagString: Untagged
@@ -9600,6 +9601,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2125888984}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1383843510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383843506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413d60871f4ec75498e57470d8726224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.OneTimePickupTracker
 --- !u!1 &1414124976
 GameObject:
   m_ObjectHideFlags: 0
@@ -10380,6 +10393,14 @@ PrefabInstance:
     - target: {fileID: 2732261189168787761, guid: 4b4afd324c833c643a4f417801636b52, type: 3}
       propertyPath: m_Name
       value: DevPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672569228737517609, guid: 4b4afd324c833c643a4f417801636b52, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4281479730
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672569228737517609, guid: 4b4afd324c833c643a4f417801636b52, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -14992,7 +15013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4916282410336610952, guid: 912e4c85f81883045b16575c1974d2e8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.6000977
+      value: 2.6001587
       objectReference: {fileID: 0}
     - target: {fileID: 4916282410336610952, guid: 912e4c85f81883045b16575c1974d2e8, type: 3}
       propertyPath: m_AnchoredPosition.y

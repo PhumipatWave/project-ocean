@@ -7,7 +7,10 @@ namespace Game.Testing
         // Speed × lifetime for the current upgrade level. Uses the same lifetime table the bullet
         // destroys itself with, so the laser and the real shot can never disagree.
         public override float MaxRange =>
-            moveSpeed * GetLifetime(UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet));
+            RangeAt(UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet));
+
+        /// <summary>Flight distance at any upgrade level — also read by UpgradeTooltip (on the prefab).</summary>
+        public float RangeAt(int level) => moveSpeed * GetLifetime(level);
 
         protected override void Awake()
         {
@@ -23,7 +26,8 @@ namespace Game.Testing
             Destroy(gameObject, GetLifetime(level));
         }
 
-        private float GetDamage(int level)
+        // Public so UpgradeTooltip shows the same table the bullet actually uses.
+        public static float GetDamage(int level)
         {
             switch (level)
             {
@@ -34,7 +38,7 @@ namespace Game.Testing
                     return 5f;
 
                 case 3:
-                    return 5f;
+                    return 10f;
 
                 case 4:
                     return 10f;
@@ -47,7 +51,7 @@ namespace Game.Testing
             }
         }
 
-        private float GetLifetime(int level)
+        private static float GetLifetime(int level)
         {
             switch (level)
             {

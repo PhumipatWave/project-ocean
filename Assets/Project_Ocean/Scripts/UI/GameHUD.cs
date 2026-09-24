@@ -156,6 +156,15 @@ namespace Game.Testing
             WireConfirmButtons();
         }
 
+        // Guided "Use MiniHub" step: the player must place it before leaving the ocean.
+        // Only these player buttons — rope break / death still return to land on their own.
+        private static bool BlockedByUseItemTutorial()
+        {
+            if (!TutorialStep.IsActive(TutorialActionId.UseItem)) return false;
+            TutorialGate.NotifyBlocked(); // pulses the "Use MiniHub item." prompt
+            return true;
+        }
+
         private void WireConfirmButtons()
         {
             var menuBtn = menuButton?.GetComponent<UnityEngine.UI.Button>();
@@ -163,10 +172,13 @@ namespace Game.Testing
             {
                 menuBtn.onClick.RemoveAllListeners();
                 menuBtn.onClick.AddListener(() =>
+                {
+                    if (BlockedByUseItemTutorial()) return;
                     ConfirmationDialog.Instance?.Show(
                         "Return to main menu?",
                         () => GameManager.Instance?.ToMainMenu()
-                    ));
+                    );
+                });
             }
 
             var landBtn = landButton?.GetComponent<UnityEngine.UI.Button>();
@@ -174,10 +186,13 @@ namespace Game.Testing
             {
                 landBtn.onClick.RemoveAllListeners();
                 landBtn.onClick.AddListener(() =>
+                {
+                    if (BlockedByUseItemTutorial()) return;
                     ConfirmationDialog.Instance?.Show(
                         "Return to land?",
                         () => GameManager.Instance?.ReturnToLand()
-                    ));
+                    );
+                });
             }
 
             if (pauseSaveButton != null)

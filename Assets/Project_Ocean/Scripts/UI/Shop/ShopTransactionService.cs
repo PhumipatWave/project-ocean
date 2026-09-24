@@ -12,6 +12,10 @@ namespace Game.Testing
             return (int)(item.ItemPrice * SellPriceMultiplier);
         }
 
+        // SellAll only clears Normal-type items; CanSell (Item's Shop Settings) blocks any sale.
+        private static bool IsSellAllItem(Item item) =>
+            item != null && item.CanSell && item.ItemType == ItemType.Normal;
+
         public int CalculateSellTotal(InventorySlot[] inventorySlots)
         {
             if (inventorySlots == null) return 0;
@@ -22,7 +26,7 @@ namespace Game.Testing
                 if (slot == null) continue;
 
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.GetItem() == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
+                if (itemUI == null || !IsSellAllItem(itemUI.GetItem())) continue;
 
                 total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
             }
@@ -36,6 +40,12 @@ namespace Game.Testing
 
             Draggableltem realItem = inventory.GetItemInSlot(slotIndex);
             if (realItem == null || realItem.GetItem() == null) return false;
+
+            if (!realItem.GetItem().CanSell)
+            {
+                NotificationManager.Notify("This item can't be sold.");
+                return false;
+            }
 
             playerMoney.AddMoney(GetSellPrice(realItem.GetItem()));
             RemoveOne(realItem);
@@ -54,7 +64,7 @@ namespace Game.Testing
                 if (slot == null) continue;
 
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.GetItem() == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
+                if (itemUI == null || !IsSellAllItem(itemUI.GetItem())) continue;
 
                 total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
                 Object.Destroy(itemUI.gameObject);
