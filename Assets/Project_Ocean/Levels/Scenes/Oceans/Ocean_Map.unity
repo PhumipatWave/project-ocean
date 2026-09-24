@@ -19742,6 +19742,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1070243054456207469, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -77.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070243054456207469, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2139445267168355760, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: enemyCount
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2516746549401683590, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.42
@@ -19781,6 +19793,30 @@ PrefabInstance:
     - target: {fileID: 2516746549401683590, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365988984929261893, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -41.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365988984929261893, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4039131946580381099, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: enemyCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110182318223637285, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: enemyCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110182318223637285, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: spawnRadius
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853424059954382881, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
+      propertyPath: spawnRadius
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7335175697500945866, guid: e5e3dc0e812119143ab58a223ebe9563, type: 3}
       propertyPath: m_Name
