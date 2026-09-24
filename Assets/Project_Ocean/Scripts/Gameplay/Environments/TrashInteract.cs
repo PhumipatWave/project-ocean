@@ -12,9 +12,6 @@ namespace Game.Testing
         [SerializeField] private int minMoney = 10;
         [SerializeField] private int maxMoney = 50;
 
-        [Header("Audio Settings")]
-        [SerializeField] private AudioSource audioSource;
-
         [Header("Item & Physics")]
         [SerializeField] private GameObject moneyPrefab;
         [SerializeField] private GameObject[] junkPrefabs;
@@ -74,11 +71,7 @@ namespace Game.Testing
 
             wasSearched = true;
 
-            if (audioSource != null)
-            {
-                audioSource.pitch = Random.Range(1.1f, 1.3f);
-                audioSource.Play();
-            }
+            AudioManager.Instance?.PlaySFX(SoundKeys.TrashClick, 1.1f, 1.3f);
 
             shakeCoroutine = StartCoroutine(ShakeEffect());
 
@@ -140,8 +133,7 @@ namespace Game.Testing
 
             transform.localPosition = originalPosition;
 
-            if (audioSource != null)
-                audioSource.Stop();
+            AudioManager.Instance?.StopSFX(SoundKeys.TrashClick);
         }
 
         void SpawnObject(GameObject prefab)

@@ -725,7 +725,8 @@ namespace Game.Testing
         // math as that snap) essentially never lands strictly ABOVE maxRopeLength — "> " here
         // was nearly unreachable. Reaching the limit (>=, within this tolerance of it) is the
         // real "broke the limit" moment — 1m instead of a hair's-width epsilon so it reliably
-        // triggers, not just on a razor-exact snap value.
+        // triggers, not just on a razor-exact snap value. The limit checked is
+        // min(maxRopeLength, HealthLimit), so damage-reduced range also starts the countdown.
         private const float RopeLimitEpsilon = 1f;
 
         private void CheckLimit()
@@ -735,7 +736,11 @@ namespace Game.Testing
             if (!enableBreachTimeout)
                 return;
 
-            if (CurrentLength < maxRopeLength - RopeLimitEpsilon)
+            // Fish damage lowers HealthLimit (not maxRopeLength), so the breach countdown
+            // must key off whichever is smaller. HealthLimit is 0 until PlayerHealth syncs it.
+            float limit = HealthLimit > 0f ? Mathf.Min(maxRopeLength, HealthLimit) : maxRopeLength;
+
+            if (CurrentLength < limit - RopeLimitEpsilon)
             {
                 if (limitRoutine != null)
                 {

@@ -327,43 +327,11 @@ namespace Game.Testing
                     continue;
                 }
 
-                bool justCompleted = q.AddProgress(1);
-
-                Debug.Log(
-                    $"Progress : {q.CurrentCount}/{q.TargetCount}"
-                );
-
-                OnQuestUpdated?.Invoke();
-
-                // =====================================================
-                // AUTO COMPLETE
-                // =====================================================
-
-                if (justCompleted && step.CompletionMode == QuestCompletionMode.AutoComplete)
-                {
-                    RemoveQuestItems(q);
-
-                    // Notification เดิม
-                    //NotificationManager.Notify($"Quest complete: {q.QuestName}");
-                    
-                    // แสดง Quest Complete UI + Reward
-                    if (QuestCompleteUI.Instance != null)
-                    {
-                        QuestCompleteUI.Instance.Show(q);
-                    }
-
-                    // เงินรางวัล
-                    if (step.RewardMoney > 0)
-                    {
-                        OnMoneyRewarded?.Invoke(step.RewardMoney);
-
-                        Debug.Log(
-                            $"[QuestManager] (AutoComplete) " +
-                            $"จ่ายเงินรางวัล: +{step.RewardMoney} บาท"
-                        );
-                    }
-                }
-
+                // Complete through CompleteProgress — the one place that advances the step, pays its
+                // reward, applies its feature changes and hands off to the next quest. An older inline
+                // copy of that logic used to run first: it finished the step itself, so CompleteProgress
+                // below then paid the reward a SECOND time (a hand-in quest paid again at turn-in), and
+                // AutoComplete quests never handed off to their next quest.
                 if (progress >= step.TargetCount)
                 {
                     CompleteProgress(q, step.TargetCount - step.CurrentCount);

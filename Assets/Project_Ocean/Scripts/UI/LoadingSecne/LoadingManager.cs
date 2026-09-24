@@ -19,7 +19,15 @@ namespace Game.Testing
         [SerializeField] private string oceanScene = "Ocean_Map";
 
         [Header("Settings")]
+        [Tooltip("The progress bar fills over this many seconds (never ahead of the real load).")]
         [SerializeField] private float minimumLoadingTime = 0.5f;
+
+        [Tooltip("Extra realtime seconds the screen stays up after the scene activates, so Start() and Animators (player land/ocean sprite) settle out of view.")]
+        [SerializeField] private float postLoadHold = 0.3f;
+
+        // How fast the bar may move toward its target, in bar-lengths per second. Only smooths the
+        // steps of the real load progress; the time-based fill is already linear.
+        private const float FillSmoothing = 2f;
 
         [SerializeField]
         private LoadingVisualController loadingVisualController;
@@ -63,6 +71,7 @@ namespace Game.Testing
             if (string.IsNullOrEmpty(sceneName))
             {
                 Debug.LogError("LoadingManager: Scene name is empty.");
+                HideLoading(); // LoadScene(name, type) shows the canvas first — don't leave it up
                 return;
             }
 
@@ -115,29 +124,36 @@ namespace Game.Testing
             AsyncOperation operation =
                 SceneManager.LoadSceneAsync(sceneName);
 
-            operation.allowSceneActivation = false;
-
-            while (operation.progress < 0.9f)
+            // Null when the scene isn't in Build Settings. Without this the coroutine threw here,
+            // leaving isLoading stuck true — every later load was silently ignored (soft-lock).
+            if (operation == null)
             {
-                float progress =
-                    Mathf.Clamp01(operation.progress / 0.9f);
-
-                if (progressBar != null)
-                    progressBar.value = progress;
-
-                yield return null;
+                Debug.LogError($"LoadingManager: cannot load scene '{sceneName}' (missing from Build Settings?).");
+                isLoading = false;
+                HideLoading();
+                yield break;
             }
 
-            if (progressBar != null)
-                progressBar.value = 1f;
+            operation.allowSceneActivation = false;
 
-            float elapsed = Time.unscaledTime - startTime;
-
-            if (elapsed < minimumLoadingTime)
+            // The bar fills across the loading wait time and reaches 100% exactly when the scene is
+            // ready AND the wait time has passed. Target = whichever is BEHIND: time keeps a fast load
+            // from jumping to full (the old bug: bar full instantly, then sat there for the wait),
+            // real progress keeps a slow load from showing more than is actually done.
+            float shown = 0f;
+            while (shown < 1f)
             {
-                yield return new WaitForSecondsRealtime(
-                    minimumLoadingTime - elapsed
-                );
+                float byTime = minimumLoadingTime > 0f
+                    ? Mathf.Clamp01((Time.unscaledTime - startTime) / minimumLoadingTime)
+                    : 1f;
+                float byLoad = Mathf.Clamp01(operation.progress / 0.9f); // 0.9 = "ready to activate"
+
+                shown = Mathf.MoveTowards(shown, Mathf.Min(byTime, byLoad), Time.unscaledDeltaTime * FillSmoothing);
+
+                if (progressBar != null)
+                    progressBar.value = shown;
+
+                yield return null;
             }
 
             operation.allowSceneActivation = true;
@@ -146,6 +162,12 @@ namespace Game.Testing
             {
                 yield return null;
             }
+
+            // Scene is active but its Start() and Animator updates haven't run yet — hiding now
+            // shows the player's land/ocean sprite swap. Let them run behind the screen first.
+            yield return null;
+            yield return null;
+            yield return new WaitForSecondsRealtime(postLoadHold);
 
             isLoading = false;
 
