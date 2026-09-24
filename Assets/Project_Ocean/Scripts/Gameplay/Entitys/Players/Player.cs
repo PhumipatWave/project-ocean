@@ -87,6 +87,7 @@ namespace Game.Testing
 
         [Header("Player Feedback VFX")]
         private PlayerFeedbackVFX playerFeedbackVFX;
+        private PlayerSprintVFX playerSprintVFX;
 
         [Header("Player Status")]
         private int faceDir = 1;
@@ -126,9 +127,7 @@ namespace Game.Testing
 
             base.Awake();
 
-            playerSpriteRenderer = playerSprite != null
-                ? playerSprite.GetComponentInChildren<SpriteRenderer>()
-                : null;
+            playerSprintVFX = GetComponentInChildren<PlayerSprintVFX>(true);
 
             if (playerSpriteRenderer != null)
                 playerOriginalColor = playerSpriteRenderer.color;
@@ -397,7 +396,7 @@ namespace Game.Testing
 
             if (!state)
             {
-                playerFeedbackVFX?.SetSprinting(false);
+                playerSprintVFX?.SetSprinting(false);
             }
         }
 
@@ -421,7 +420,7 @@ namespace Game.Testing
                 // held through the lock doesn't look like a fresh press-edge the instant
                 // the lock releases — e.g. holding W through dialogue would otherwise
                 // instantly satisfy a "press W A S D" tutorial step with no new key press.
-                playerFeedbackVFX?.SetSprinting(false);
+                playerSprintVFX?.SetSprinting(false);
                 wasMoving = dir != Vector2.zero;
                 return;
             }
@@ -430,7 +429,11 @@ namespace Game.Testing
             rb.linearVelocity = dir * speed;
 
             bool isMoving = rb.linearVelocity != Vector2.zero;
-            playerFeedbackVFX?.SetSprinting(isSprinting && isMoving);
+
+            bool shouldShowSprintVFX =
+                isLand && isSprinting && isMoving;
+
+            playerSprintVFX?.SetSprinting(shouldShowSprintVFX);
 
             // Edge-triggered: play once when movement starts, not every physics tick.
             if (isMoving && !wasMoving)
