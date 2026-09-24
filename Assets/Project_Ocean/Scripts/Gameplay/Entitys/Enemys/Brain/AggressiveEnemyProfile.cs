@@ -37,6 +37,15 @@ namespace Game.Testing
         [Tooltip("Speed boost applied during the attack dash.")]
         public float boostSpeed = 7f;
 
+        [Tooltip("Acceleration during the attack dash. Lower = slower wind-up to boostSpeed.")]
+        public float dashAcceleration = 200f;
+
+        [Tooltip("If enabled, the dash locks its direction at start and runs the full Dash Duration straight through the player. If disabled, the enemy stops at Attack Range and bites.")]
+        public bool dashThrough;
+
+        [Tooltip("Dash length in seconds (Dash Through only). Dash distance is about Boost Speed x Dash Duration.")]
+        public float dashDuration = 1.5f;
+
         [Tooltip("Distance within which the enemy can land an attack.")]
         public float attackRange = 1.5f;
 
@@ -45,6 +54,13 @@ namespace Game.Testing
 
         [Tooltip("Damage dealt per attack hit.")]
         public float attackDamage = 10f;
+
+        [Header("Reposition")]
+        [Tooltip("After an attack, the enemy swims to a random spot at least this far from the player before attacking again.")]
+        public float retreatMinDistance = 3f;
+
+        [Tooltip("Maximum distance from the player for the post-attack reposition spot.")]
+        public float retreatMaxDistance = 5f;
 
         [Header("Group Alert")]
         [Tooltip("Radius within which nearby allies are alerted when this enemy detects the player.")]

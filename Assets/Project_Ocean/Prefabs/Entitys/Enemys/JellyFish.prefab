@@ -349,7 +349,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2.25, y: 2.25, z: 2.25}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7943773655099654490}
@@ -538,8 +538,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1}
-  m_Size: {x: 2, y: 2.15}
+  m_Offset: {x: -0.015673518, y: 0.7009685}
+  m_Size: {x: 1.5402055, y: 1.6295056}
   m_Direction: 0
 --- !u!195 &834981589929089408
 NavMeshAgent:

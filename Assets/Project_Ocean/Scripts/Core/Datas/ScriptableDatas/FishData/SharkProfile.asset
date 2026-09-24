@@ -16,9 +16,6 @@ MonoBehaviour:
   speed: 6.25
   viewDistance: 25
   viewAngle: 90
-  visionObstacleMask:
-    serializedVersion: 2
-    m_Bits: 512
   debugVision: 1
   wallLayer:
     serializedVersion: 2
@@ -34,15 +31,24 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+  contactDamage: 0
+  contactDamageCooldown: 1
+  autoReturnDelay: 60
+  tickFacingFromVelocity: 0
   searchAfterLost: 1
   prepareBeforeAttack: 1
   canAttack: 1
   alertNearbyAllies: 0
   searchDuration: 6
   searchRadius: 25
-  prepareTime: 2.25
-  boostSpeed: 35
-  attackRange: 2.25
-  attackCooldown: 3
+  prepareTime: 3
+  boostSpeed: 15
+  dashAcceleration: 40
+  dashThrough: 1
+  dashDuration: 1.5
+  attackRange: 5
+  attackCooldown: 4
   attackDamage: 10.25
+  retreatMinDistance: 10
+  retreatMaxDistance: 16
   groupAlertRadius: 3
