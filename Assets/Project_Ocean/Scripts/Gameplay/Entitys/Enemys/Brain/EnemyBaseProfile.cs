@@ -8,9 +8,16 @@ namespace Game.Testing
     /// </summary>
     public abstract class EnemyBaseProfile : ScriptableObject
     {
-        [Header("Flock Identity")]
-        [Tooltip("Shared ID used to match leaders with members of the same fish species.")]
+        [Header("Identity")]
+        [Tooltip("Fish species ID (kills, quests, spawn lookups).")]
         public string fishId;
+
+        [Header("School")]
+        [Tooltip("Min followers EnemySpawner spawns with each of these fish (same prefab). Needs a Boid component on the prefab. 0 = no school.")]
+        [Min(0)] public int schoolMinFollowers;
+
+        [Tooltip("Max followers per school. 0 = no school.")]
+        [Min(0)] public int schoolMaxFollowers;
         
         [Header("Movement")]
         [Tooltip("Normal movement speed used while wandering or following.")]

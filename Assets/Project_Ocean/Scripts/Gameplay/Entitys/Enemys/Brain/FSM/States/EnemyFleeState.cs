@@ -33,6 +33,9 @@ namespace Game.Testing
             minFleeTimer = MinFleeDuration;
             enemyBrainContext.AlertUI?.ShowFleeWarning();
             PickFleeDestination();
+
+            // One member spooked (seen the player or hit) = the whole school flees.
+            enemyBrainContext.School?.AlertSchool();
         }
 
         public override void Tick(float deltaTime)

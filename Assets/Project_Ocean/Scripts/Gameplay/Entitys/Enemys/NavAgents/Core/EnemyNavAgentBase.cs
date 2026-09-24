@@ -29,11 +29,9 @@ namespace Game.Testing
         protected EnemyFacingController facingCtr { get; private set; }
 
         private IEnemyBrain enemyBrain;
-        private Boid boid;
         private bool deathHandled;
         private bool isDormant;
         private string spawnId;
-        private string flockIdOverride;
 
         public IEnemyBrain ActiveBrain => enemyBrain;
 
@@ -53,9 +51,6 @@ namespace Game.Testing
             EnemyKillTracker.Instance.RegisterKill(spawnId);
             Debug.Log($"[EnemyNavAgentBase] Kill registered: '{spawnId}'");
         }
-
-        /// Zone-scoped flock ID assigned by EnemySpawnManager — overrides the profile fishId for boid grouping.
-        public void SetFlockId(string id) => flockIdOverride = id;
 
         /// The fish type ID from the brain profile (e.g. "fishM").
         public string FishId => GetFishId();
@@ -103,13 +98,6 @@ namespace Game.Testing
             enemyBrain.Initialize(BuildBrainContext());
             OnBrainInitialized();
 
-            // Wire up Boid flocking — use zone-scoped flockId if assigned by SpawnManager
-            boid = GetComponent<Boid>();
-            if (boid != null)
-            {
-                boid.fishId = string.IsNullOrEmpty(flockIdOverride) ? GetFishId() : flockIdOverride;
-                boid.Initialize(navAgent, GetComponent<FlockManager>());
-            }
             enemy?.RegisterNavAgent(this);
         }
 
@@ -147,9 +135,6 @@ namespace Game.Testing
         {
             enemy = owner;
         }
-
-        public void PauseBoidSteering()  => boid?.PauseBoidSteering();
-        public void ResumeBoidSteering() => boid?.ResumeBoidSteering();
 
         protected virtual string GetFishId() => string.Empty;
 
@@ -230,8 +215,7 @@ namespace Game.Testing
                 Facing = facingCtr,
                 AlertUI = fishAlertUI,
                 Host = this,
-                Flock = GetComponent<FlockManager>(),
-                Leader = GetComponent<FlockLeader>()
+                School = GetComponent<Boid>()
             };
         }
 
@@ -295,7 +279,6 @@ namespace Game.Testing
         public void OnReturnToPool()
         {
             spawnId         = null;
-            flockIdOverride = null;
             deathHandled    = false;
             StopAllCoroutines();
             fishAlertUI?.HideAll();

@@ -6,15 +6,29 @@ namespace Game.Testing
     {
         private enum State { Moving, Pausing }
 
+        // Random first-move delay (randomness > 0) so enemies spawned together don't start in sync.
+        private const float MaxStartDelay = 1.5f;
+        private const float MinDriftFrequency = 0.25f;
+        private const float MaxDriftFrequency = 0.6f;
+
         private readonly LinearPatrolProfile profile;
         private EnemyBrainContext ctx;
         private Rigidbody2D rb;
+        private Collider2D bodyCollider;
 
         private State state = State.Moving;
         private float direction = 1f;
         private float pauseTimer;
         private Vector2 homePosition;
         private float lastContactDamageTime = float.MinValue;
+
+        // Current leg's values, re-rolled every leg when randomness > 0.
+        private float legSpeed;
+        private float legLength;
+        private float legPause;
+
+        private float driftPhase;
+        private float driftFrequency;
 
         public bool IsAttacking => false;
 
@@ -27,11 +41,25 @@ namespace Game.Testing
         {
             ctx = context;
             rb = context.Owner.GetComponent<Rigidbody2D>();
+            bodyCollider = FindBodyCollider(context.Owner);
             homePosition = context.Transform.position;
             direction = 1f;
             state = State.Moving;
             pauseTimer = 0f;
             lastContactDamageTime = float.MinValue;
+
+            RollLeg();
+
+            if (profile.randomness > 0f)
+            {
+                // Start paused for a random moment; the pause ends by flipping direction, so this is a random start direction too.
+                direction = Random.value < 0.5f ? 1f : -1f;
+                state = State.Pausing;
+                pauseTimer = Random.Range(0f, MaxStartDelay);
+            }
+
+            driftPhase = Random.Range(0f, Mathf.PI * 2f);
+            driftFrequency = Random.Range(MinDriftFrequency, MaxDriftFrequency);
 
             var hitbox = context.Owner.GetComponentInChildren<EnemyAttackHitbox>(true);
             hitbox?.Initialize(context.Owner, profile.attackDamage);
@@ -77,9 +105,14 @@ namespace Game.Testing
                 ? (IsWallAhead() || IsEdgeAhead())
                 : HasReachedLimit();
 
+            // Vertical patrol had no wall/ground check in FixedLength mode: turn around at ceilings and the sea floor.
+            if (profile.axis == PatrolAxis.Vertical && IsBlocked(new Vector2(0f, direction)))
+                shouldReverse = true;
+
             if (shouldReverse) { EnterPause(); return; }
 
             ApplyMovement(deltaTime);
+            ApplyDrift(deltaTime);
         }
 
         private void ApplyMovement(float deltaTime)
@@ -87,12 +120,28 @@ namespace Game.Testing
             if (profile.axis == PatrolAxis.Horizontal)
             {
                 if (rb != null)
-                    rb.linearVelocity = new Vector2(direction * profile.speed, rb.linearVelocity.y);
+                    rb.linearVelocity = new Vector2(direction * legSpeed, rb.linearVelocity.y);
             }
             else
             {
-                ctx.Transform.position += new Vector3(0f, direction * profile.speed * deltaTime, 0f);
+                ctx.Transform.position += new Vector3(0f, direction * legSpeed * deltaTime, 0f);
             }
+        }
+
+        // Side-to-side sway for vertical patrollers, each at its own rhythm. Skipped when a wall is that way.
+        private void ApplyDrift(float deltaTime)
+        {
+            if (profile.axis != PatrolAxis.Vertical || profile.driftAmplitude <= 0f)
+                return;
+
+            float previous = Mathf.Sin(driftPhase);
+            driftPhase += deltaTime * driftFrequency * Mathf.PI * 2f;
+            float dx = profile.driftAmplitude * (Mathf.Sin(driftPhase) - previous);
+
+            if (Mathf.Approximately(dx, 0f) || IsBlocked(new Vector2(Mathf.Sign(dx), 0f)))
+                return;
+
+            ctx.Transform.position += new Vector3(dx, 0f, 0f);
         }
 
         private bool HasReachedLimit()
@@ -101,7 +150,7 @@ namespace Game.Testing
             float dist = profile.axis == PatrolAxis.Horizontal
                 ? Mathf.Abs(pos.x - homePosition.x)
                 : Mathf.Abs(pos.y - homePosition.y);
-            return dist >= profile.moveLength;
+            return dist >= legLength;
         }
 
         private bool IsWallAhead()
@@ -123,6 +172,24 @@ namespace Game.Testing
             return Physics2D.Raycast(origin, Vector2.down, profile.groundCheckDistance, mask).collider == null;
         }
 
+        // Wall or ground within wallDetectDistance of the body's edge in an axis direction.
+        // Measured from the collider edge (not the pivot) so big sprites don't clip into walls.
+        private bool IsBlocked(Vector2 axisDirection)
+        {
+            Vector2 origin = ctx.Transform.position;
+            float edge = 0f;
+
+            if (bodyCollider != null)
+            {
+                Bounds bounds = bodyCollider.bounds;
+                origin = bounds.center;
+                edge = axisDirection.x != 0f ? bounds.extents.x : bounds.extents.y;
+            }
+
+            int mask = profile.wallLayer.value | profile.groundLayer.value;
+            return Physics2D.Raycast(origin, axisDirection, edge + profile.wallDetectDistance, mask).collider != null;
+        }
+
         private void HandlePause(float deltaTime)
         {
             if (rb != null && profile.axis == PatrolAxis.Horizontal)
@@ -133,6 +200,7 @@ namespace Game.Testing
             {
                 direction *= -1f;
                 homePosition = ctx.Transform.position; // reset origin for FixedLength
+                RollLeg();
                 state = State.Moving;
             }
         }
@@ -140,7 +208,28 @@ namespace Game.Testing
         private void EnterPause()
         {
             state = State.Pausing;
-            pauseTimer = profile.pauseDuration;
+            pauseTimer = legPause;
+        }
+
+        // randomness 0 keeps the exact profile values.
+        private void RollLeg()
+        {
+            legSpeed = profile.speed * Vary();
+            legLength = profile.moveLength * Vary();
+            legPause = profile.pauseDuration * Vary();
+        }
+
+        private float Vary() => 1f + Random.Range(-profile.randomness, profile.randomness);
+
+        private static Collider2D FindBodyCollider(Component owner)
+        {
+            foreach (var col in owner.GetComponents<Collider2D>())
+            {
+                if (!col.isTrigger)
+                    return col;
+            }
+
+            return null;
         }
 
         private void UpdateFacing()

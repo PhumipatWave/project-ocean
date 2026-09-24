@@ -16,9 +16,6 @@ MonoBehaviour:
   speed: 2.25
   viewDistance: 6
   viewAngle: 90
-  visionObstacleMask:
-    serializedVersion: 2
-    m_Bits: 512
   debugVision: 0
   wallLayer:
     serializedVersion: 2
@@ -40,9 +37,13 @@ MonoBehaviour:
   tickFacingFromVelocity: 0
   axis: 1
   movementMode: 0
-  moveSpeed: 2.25
   moveLength: 10
   pauseDuration: 0.4
-  wallDetectDistance: 0.3
+  randomness: 0.3
+  driftAmplitude: 0.5
   groundCheckOffset: 0.4
   groundCheckDistance: 0.6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackDamage: 10
