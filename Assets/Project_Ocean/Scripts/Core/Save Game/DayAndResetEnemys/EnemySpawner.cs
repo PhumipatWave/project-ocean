@@ -68,6 +68,9 @@ namespace Game.Testing
         [Tooltip("How often (seconds) to check player distance.")]
         [SerializeField] private float proximityCheckInterval = 0.4f;
 
+        // School followers spawn within this radius of their leader.
+        private const float SchoolSpawnRadius = 2f;
+
         private readonly List<GameObject> _spawnedEnemies = new();
         private bool _isActive;
 
@@ -151,7 +154,7 @@ namespace Game.Testing
                 var prefab = GameObjectSpawnManager.Instance?.GetEnemyPrefab(entry.enemyId);
                 if (prefab == null) continue;
 
-                if (!TryGetNavMeshPosition(NeedsGround(prefab), out Vector3 spawnPos))
+                if (!TryGetNavMeshPosition(transform.position, spawnRadius, NeedsGround(prefab), out Vector3 spawnPos))
                 {
                     Debug.LogWarning($"[EnemySpawner] '{name}' slot {i}: no valid position after {maxSpawnAttempts} attempts — skipped.");
                     continue;
@@ -161,18 +164,65 @@ namespace Game.Testing
                     ? ObjectPoolManager.Instance.Get(prefab, spawnPos, Quaternion.identity)
                     : Instantiate(prefab, spawnPos, Quaternion.identity);
 
-                var agent = go.GetComponent<EnemyNavAgentBase>();
-                if (agent != null)
-                {
+                if (go.TryGetComponent<EnemyNavAgentBase>(out var agent))
                     agent.SetSpawnId(spawnId);
-                    agent.SetFlockId($"{gameObject.name}_{agent.FishId}");
-                }
+
+                _spawnedEnemies.Add(go);
+                spawned++;
+
+                spawned += SpawnSchool(go, prefab, spawnId);
+            }
+
+            Debug.Log($"[EnemySpawner] '{name}' spawned {spawned} enemies ({enemyCount} slots).");
+        }
+
+        // Leader fish whose profile has schoolMaxFollowers > 0: spawn that many of the same prefab
+        // around it and link them. Followers don't use up spawner slots.
+        private int SpawnSchool(GameObject leader, GameObject prefab, string leaderSpawnId)
+        {
+            if (!leader.TryGetComponent<EnemyAgent>(out var leaderAgent))
+                return 0;
+
+            var profile = leaderAgent.BaseProfile;
+            if (profile == null || profile.schoolMaxFollowers <= 0)
+                return 0;
+
+            if (!leader.TryGetComponent<Boid>(out var leaderBoid))
+            {
+                Debug.LogWarning($"[EnemySpawner] '{prefab.name}' has school settings but no Boid component — spawned without a school.", leader);
+                return 0;
+            }
+
+            int count = UnityEngine.Random.Range(profile.schoolMinFollowers, profile.schoolMaxFollowers + 1);
+            int spawned = 0;
+
+            for (int k = 0; k < count; k++)
+            {
+                string followerId = $"{leaderSpawnId}_f{k}";
+
+                if (EnemyKillTracker.Instance != null && EnemyKillTracker.Instance.IsKilled(followerId))
+                    continue;
+
+                // Swimmers skip the ground snap so followers appear beside the leader, not on the floor below it.
+                bool needsGround = NeedsGround(prefab);
+                if (!TryGetNavMeshPosition(leader.transform.position, SchoolSpawnRadius, needsGround, out Vector3 pos, snapToGround: needsGround))
+                    continue;
+
+                var go = ObjectPoolManager.Instance != null
+                    ? ObjectPoolManager.Instance.Get(prefab, pos, Quaternion.identity)
+                    : Instantiate(prefab, pos, Quaternion.identity);
+
+                if (go.TryGetComponent<EnemyNavAgentBase>(out var followerAgent))
+                    followerAgent.SetSpawnId(followerId);
+
+                if (go.TryGetComponent<Boid>(out var followerBoid))
+                    leaderBoid.AddFollower(followerBoid);
 
                 _spawnedEnemies.Add(go);
                 spawned++;
             }
 
-            Debug.Log($"[EnemySpawner] '{name}' spawned {spawned}/{enemyCount} enemies.");
+            return spawned;
         }
 
         // A dynamic body with gravity walks/falls rather than swims (crab) — spawning it in open
@@ -183,12 +233,12 @@ namespace Game.Testing
             return rb != null && rb.bodyType == RigidbodyType2D.Dynamic && rb.gravityScale > 0f;
         }
 
-        private bool TryGetNavMeshPosition(bool requireGround, out Vector3 result)
+        private bool TryGetNavMeshPosition(Vector3 center, float radius, bool requireGround, out Vector3 result, bool snapToGround = true)
         {
             for (int attempt = 0; attempt < maxSpawnAttempts; attempt++)
             {
-                Vector2 offset    = UnityEngine.Random.insideUnitCircle * spawnRadius;
-                Vector3 candidate = transform.position + new Vector3(offset.x, offset.y, 0f);
+                Vector2 offset    = UnityEngine.Random.insideUnitCircle * radius;
+                Vector3 candidate = center + new Vector3(offset.x, offset.y, 0f);
 
                 if (!NavMesh.SamplePosition(candidate, out NavMeshHit navHit, navSampleDistance, NavMesh.AllAreas))
                     continue;
@@ -197,7 +247,7 @@ namespace Game.Testing
                 if (obstacleLayer.value != 0 && Physics2D.OverlapCircle(candidate, spawnClearanceRadius, obstacleLayer) != null)
                     continue;
 
-                if (groundLayer.value != 0)
+                if (snapToGround && groundLayer.value != 0)
                 {
                     Vector2 rayOrigin = (Vector2)candidate + Vector2.up * groundCheckUpOffset;
                     var groundHit = Physics2D.Raycast(rayOrigin, Vector2.down, groundCheckUpOffset + groundCheckDistance, groundLayer);
@@ -224,7 +274,7 @@ namespace Game.Testing
                 return true;
             }
 
-            result = transform.position;
+            result = center;
             return false;
         }
 

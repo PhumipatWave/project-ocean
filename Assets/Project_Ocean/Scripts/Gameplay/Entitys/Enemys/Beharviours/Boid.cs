@@ -1,153 +1,143 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Game.Testing
 {
     /// <summary>
-    /// Calculates boid flocking forces (separation, alignment, cohesion) and feeds
-    /// the result to the NavMeshAgent as a destination.  The NavAgent stays in full
-    /// control of actual movement — Boid only influences *where* it wants to go.
-    ///
-    /// Boid steering is automatically paused while the brain FSM is in any
-    /// non-Wander state (Follow / Flee / Attack), giving the brain full control.
+    /// School link for small fish. EnemySpawner spawns a leader and links 3-5 followers to it.
+    /// The leader wanders normally; each follower's Wander state swims to GetFollowTarget()
+    /// (leader + own offset + spacing from schoolmates). Any member fleeing makes the school flee.
     /// </summary>
-    public class Boid : MonoBehaviour
+    public class Boid : MonoBehaviour, IPoolable
     {
-        // ─────────────────────────────────────────────
-        //  Inspector
-        // ─────────────────────────────────────────────
-        [Header("Neighbourhood")]
-        public float neighborRadius    = 3f;
+        [Header("Formation")]
+        [Tooltip("Closest a follower's spot around the leader can be.")]
+        [SerializeField] private float followRadiusMin = 1f;
+
+        [Tooltip("Farthest a follower's spot around the leader can be.")]
+        [SerializeField] private float followRadiusMax = 2.5f;
+
+        [Tooltip("Followers closer than this to a schoolmate aim a little away from it.")]
         public float separationDistance = 1.5f;
 
-        [Header("Steering weights")]
-        public float coeffSeparation = 1.2f;
-        public float coeffAlignment  = 0.5f;
-        public float coeffCohesion   = 0.3f;
+        // Guards AlertSchool against re-entry: each alerted member's Flee state calls AlertSchool again.
+        private static bool isAlertingSchool;
 
-        [Header("Destination projection")]
-        [Tooltip("How far ahead of the fish the computed steering target is placed.")]
-        public float steeringLookAhead = 1.5f;
+        private readonly List<Boid> followers = new();
+        private Vector2 followOffset;
 
-        // ─────────────────────────────────────────────
-        //  Runtime (read by neighbours for alignment)
-        // ─────────────────────────────────────────────
-        // ─────────────────────────────────────────────
-        //  Flock identity
-        // ─────────────────────────────────────────────
-        /// <summary>Matches the fishId on EnemyBaseProfile. Written by EnemyNavAgentBase at Start.</summary>
-        [HideInInspector] public string fishId;
+        public Boid Leader { get; private set; }
+        public bool HasLeader => Leader != null;
 
-        /// <summary>The leader that claimed this boid. Null means unclaimed.</summary>
-        [HideInInspector] public FlockLeader assignedLeader;
-
-        
-[HideInInspector] public Vector2 velocity;
-
-        private NavMeshAgent navAgent;
-        private FlockManager myFlock;
-        private bool         boidPaused;
-
-        // ─────────────────────────────────────────────
-        //  Unity loop — auto-register with scene FlockManager
-        // ─────────────────────────────────────────────
-        private void Start()
+        public void AddFollower(Boid follower)
         {
-            FlockManager.Instance?.Register(this);
-        }   // true while FSM brain is in control
+            if (follower == null || follower == this || followers.Contains(follower))
+                return;
 
-        // ─────────────────────────────────────────────
-        //  Wiring — called by EnemyNavAgentBase.Start()
-        // ─────────────────────────────────────────────
-        /// <summary>Connect the boid to its agent and flock registry.</summary>
-        /// <summary>Swap flock membership when a FlockLeader claims this boid.</summary>
-        public void AssignToLeader(FlockLeader leader)
-        {
-            assignedLeader = leader;
-            myFlock        = leader.GroupFlock;
+            follower.Leader = this;
+            follower.followOffset = Random.insideUnitCircle.normalized * Random.Range(followRadiusMin, followRadiusMax);
+            followers.Add(follower);
         }
 
-        
-
-        public void Initialize(NavMeshAgent agent, FlockManager flock)
+        /// <summary>Leader position + this follower's spot, nudged away from schoolmates that are too close.</summary>
+        public Vector3 GetFollowTarget()
         {
-            navAgent = agent;
-            myFlock  = flock;
+            Vector2 self = transform.position;
+            Vector2 target = (Vector2)Leader.transform.position + followOffset;
+
+            foreach (var mate in Leader.followers)
+                target += SeparationFrom(mate, self);
+
+            target += SeparationFrom(Leader, self);
+
+            return new Vector3(target.x, target.y, transform.position.z);
         }
 
-        /// <summary>Pause boid steering (brain FSM takes over — Follow / Flee / Attack).</summary>
-        public void PauseBoidSteering()  => boidPaused = true;
-
-        /// <summary>Resume boid steering (FSM returned to Wander).</summary>
-        public void ResumeBoidSteering() => boidPaused = false;
-
-        public bool IsPaused => boidPaused;
-
-        // ─────────────────────────────────────────────
-        //  Unity loop
-        // ─────────────────────────────────────────────
-        private void Update()
+        /// <summary>Makes every other school member flee.</summary>
+        public void AlertSchool()
         {
-            // Keep velocity cache current so neighbours can read it even while paused.
-            if (navAgent != null)
-                velocity = navAgent.velocity;
+            if (isAlertingSchool)
+                return;
 
-            if (boidPaused)            return;
-            if (navAgent == null)      return;
-            if (!navAgent.isOnNavMesh) return;
-            if (myFlock == null)       return;
-
-            List<Boid> neighbors = myFlock.GetNeighbors(this);
-
-            Vector2 steer =
-                CalculateSeparation(neighbors) * coeffSeparation +
-                CalculateAlignment(neighbors)  * coeffAlignment  +
-                CalculateCohesion(neighbors)   * coeffCohesion;
-
-            // Convert the steering vector into a NavAgent destination.
-            Vector3 steerTarget = transform.position + (Vector3)(steer.normalized * steeringLookAhead);
-            navAgent.SetDestination(steerTarget);
-        }
-
-        // ─────────────────────────────────────────────
-        //  Boid forces
-        // ─────────────────────────────────────────────
-        private Vector2 CalculateSeparation(List<Boid> neighbors)
-        {
-            Vector2 move  = Vector2.zero;
-            int     count = 0;
-
-            foreach (var n in neighbors)
+            Boid leader = Leader != null ? Leader : this;
+            isAlertingSchool = true;
+            try
             {
-                float dist = Vector2.Distance(transform.position, n.transform.position);
-                if (dist < separationDistance && dist > 0.001f)
-                {
-                    move += (Vector2)(transform.position - n.transform.position).normalized / dist;
-                    count++;
-                }
+                Alert(leader);
+                foreach (var member in leader.followers.ToArray())
+                    Alert(member);
             }
-            return count > 0 ? move / count : Vector2.zero;
+            finally
+            {
+                isAlertingSchool = false;
+            }
         }
 
-        private Vector2 CalculateAlignment(List<Boid> neighbors)
+        private void Alert(Boid member)
         {
-            if (neighbors.Count == 0) return Vector2.zero;
+            if (member == null || member == this || !member.isActiveAndEnabled)
+                return;
 
-            Vector2 avg = Vector2.zero;
-            foreach (var n in neighbors) avg += n.velocity;
-            avg /= neighbors.Count;
-            return avg - velocity;
+            if (member.TryGetComponent<EnemyNavAgentBase>(out var agent))
+                (agent.ActiveBrain as IBrainHitReaction)?.OnHit();
         }
 
-        private Vector2 CalculateCohesion(List<Boid> neighbors)
+        private Vector2 SeparationFrom(Boid mate, Vector2 self)
         {
-            if (neighbors.Count == 0) return Vector2.zero;
+            if (mate == null || mate == this)
+                return Vector2.zero;
 
-            Vector2 avg = Vector2.zero;
-            foreach (var n in neighbors) avg += (Vector2)n.transform.position;
-            avg /= neighbors.Count;
-            return avg - (Vector2)transform.position;
+            Vector2 away = self - (Vector2)mate.transform.position;
+            float distance = away.magnitude;
+
+            if (distance >= separationDistance || distance < 0.001f)
+                return Vector2.zero;
+
+            return away / distance * (separationDistance - distance);
         }
+
+        // Caught, killed (EntityDeathHandler disables this) or returned to the pool: leave the school.
+        private void OnDisable()
+        {
+            if (Leader != null)
+            {
+                Leader.followers.Remove(this);
+                Leader = null;
+                return;
+            }
+
+            PromoteNewLeader();
+        }
+
+        // The first remaining follower takes over; the rest follow it with their existing spots.
+        private void PromoteNewLeader()
+        {
+            followers.RemoveAll(f => f == null || !f.isActiveAndEnabled);
+            if (followers.Count == 0)
+                return;
+
+            Boid newLeader = followers[0];
+            newLeader.Leader = null;
+
+            for (int i = 1; i < followers.Count; i++)
+            {
+                followers[i].Leader = newLeader;
+                newLeader.followers.Add(followers[i]);
+            }
+
+            followers.Clear();
+        }
+
+        // ── IPoolable ──
+
+        // Death disables this component; a reused fish must start enabled and unlinked.
+        public void OnGetFromPool()
+        {
+            Leader = null;
+            followers.Clear();
+            enabled = true;
+        }
+
+        public void OnReturnToPool() { }
     }
 }

@@ -938,50 +938,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &28808928
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 28808929}
-  - component: {fileID: 28808930}
-  m_Layer: 0
-  m_Name: FlockManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &28808929
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28808928}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &28808930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28808928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a0c85aa19986454abd75a5693425fdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.FlockManager
 --- !u!1 &30109148
 GameObject:
   m_ObjectHideFlags: 0
@@ -8277,17 +8233,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &453700871 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3769312427449725687, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
-  m_PrefabInstance: {fileID: 2101959573}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101959577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
 --- !u!1 &455265807
 GameObject:
   m_ObjectHideFlags: 0
@@ -278057,6 +278002,7 @@ GameObject:
   - component: {fileID: 1919519109}
   - component: {fileID: 1919519108}
   - component: {fileID: 1919519111}
+  - component: {fileID: 1919519112}
   m_Layer: 0
   m_Name: WaterShadow
   m_TagString: Untagged
@@ -278260,6 +278206,22 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 1
   m_MaskSource: 0
+--- !u!114 &1919519112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919519106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1923185631
 GameObject:
   m_ObjectHideFlags: 0
@@ -282112,9 +282074,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2101959579}
     - targetCorrespondingSourceObject: {fileID: 2966242172060711453, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2101959575}
@@ -282151,26 +282110,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4373255698068515926, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
   m_PrefabInstance: {fileID: 2101959573}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2101959577 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9199869032875626201, guid: 2d314e3b43db53843a7e640217f4e938, type: 3}
-  m_PrefabInstance: {fileID: 2101959573}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2101959579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101959577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 500036113664b5a49988736e968c5344, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.FlockLeader
-  enemyAgent: {fileID: 453700871}
-  claimRadius: 15
-  scanInterval: 3
 --- !u!1 &2104305374
 GameObject:
   m_ObjectHideFlags: 0
@@ -282867,47 +282806,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8637926083537455907}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
 --- !u!4 &8637926083537455904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3024418121135935058, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
   m_PrefabInstance: {fileID: 8637926083537455903}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8637926083537455905 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8532016973429987040, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
-  m_PrefabInstance: {fileID: 8637926083537455903}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8637926083537455906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9c482da12fb984fbe0a2bd1a49f49f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyAgent
---- !u!1 &8637926083537455906 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 908830399425127301, guid: 8ba3281555298584f92e4c7bebf89d68, type: 3}
-  m_PrefabInstance: {fileID: 8637926083537455903}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8637926083537455907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8637926083537455906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 500036113664b5a49988736e968c5344, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.FlockLeader
-  enemyAgent: {fileID: 8637926083537455905}
-  claimRadius: 15
-  scanInterval: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -282916,7 +282821,6 @@ SceneRoots:
   - {fileID: 568104605}
   - {fileID: 207151461}
   - {fileID: 1917117365}
-  - {fileID: 28808929}
   - {fileID: 1081000579}
   - {fileID: 1050528944}
   - {fileID: 1599863105}
