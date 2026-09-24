@@ -34,7 +34,7 @@ namespace Game.Testing
                     return 5f;
 
                 case 3:
-                    return 5f;
+                    return 10f;
 
                 case 4:
                     return 10f;

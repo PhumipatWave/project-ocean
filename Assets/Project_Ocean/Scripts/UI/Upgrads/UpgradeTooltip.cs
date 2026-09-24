@@ -165,9 +165,7 @@ namespace Game.Testing
             FollowTarget();
         }
 
-        private void UpdateValue(
-            UpgradeData data,
-            int currentLevel)
+        private void UpdateValue(UpgradeData data,int currentLevel)
         {
             if (valueText == null)
                 return;
@@ -188,14 +186,16 @@ namespace Game.Testing
 
                 case UpgradeType.Rope:
 
+                    // ความยาวเชือก
                     valueText.text =
-                        $"+{data.value:0} m";
+                        $"+{data.value:0} meter";
                     break;
 
                 case UpgradeType.NormalBullet:
 
+                    // ความเสียหายกระสุน
                     valueText.text =
-                        $"+{data.value:0}";
+                        $"+{data.value:0} Damage";
                     break;
 
                 default:
@@ -243,12 +243,12 @@ namespace Game.Testing
                 if (currentLevel >= unlock.unlockLevel)
                 {
                     text.text =
-                        $"🔓 {unlock.unlockName} Unlocked";
+                        $"Unlock {unlock.unlockName}";
                 }
                 else
                 {
                     text.text =
-                        $"🔒 {unlock.unlockName} • Level {unlock.unlockLevel}";
+                        $"Unlock {unlock.unlockName} • Level {unlock.unlockLevel}";
                 }
             }
         }
