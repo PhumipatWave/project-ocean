@@ -59,7 +59,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Press W A S D to move'
+    stepDescription: Press W A S D to move
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Press [E] to Talk with Hunter'
+    stepDescription: Press [E] to Talk with Hunter
     dialogue:
     - characterId: hunter
       type: 1
@@ -145,7 +145,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Interact to board the boat'
+    stepDescription: Interact to board the boat
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Press [Left Click] to fire gun to Fish.'
+    stepDescription: Press [Left Click] to fire gun to Fish.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -203,13 +203,13 @@ MonoBehaviour:
     - itemId: 
       count: 0
     deliveryCountMode: 0
-    consumeOnComplete: 1
+    consumeOnComplete: 0
     requiredMoney: 0
     requiredDaysToWait: 1
     requiredDivesThatDay: 1
-    targetCount: 9
+    targetCount: 3
     completionMode: 0
-    stepDescription: 'Collected fish'
+    stepDescription: Collected fish
     dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Bag is full. Press [I] to check inventory.'
+    stepDescription: Bag is full. Press [I] to check inventory.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Click [Back to land] to return to the surface.'
+    stepDescription: Click [Back to land] to return to the surface.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Go to the Fish Shop to sell your catch.'
+    stepDescription: Go to the Fish Shop to sell your catch.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -333,7 +333,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Click [Sell All] to sell all fishes in your inventory.'
+    stepDescription: Click [Sell All] to sell all fishes in your inventory.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Move out of shop.'
+    stepDescription: Move out of shop.
     dialogue:
     - characterId: shop
       type: 0
@@ -436,7 +436,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Return to your house to rest.'
+    stepDescription: Return to your house to rest.
     dialogue:
     - characterId: shop
       type: 0
@@ -472,7 +472,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: 'Sleep'
+    stepDescription: Sleep
     dialogue:
     - characterId: shop
       type: 0
