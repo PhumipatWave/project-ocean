@@ -11,8 +11,6 @@ namespace Game.Testing
         [SerializeField] private Transform warpDestination;
 
         [Header("Audio")]
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private AudioClip doorOpenSound;
 
         [Header("UI Reference")]
         [SerializeField] private CanvasGroup blackScreenGroup;
@@ -149,8 +147,7 @@ namespace Game.Testing
 
             isWarping = true;
 
-            if (audioSource != null && doorOpenSound != null)
-                audioSource.PlayOneShot(doorOpenSound);
+            AudioManager.Instance?.PlaySFX(SoundKeys.DoorOpen);
 
             if (blackScreenGroup != null)
             {

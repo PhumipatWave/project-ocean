@@ -232,7 +232,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerGunHandler
   player: {fileID: 839586600274386325}
-  shootSound: {fileID: 0}
   line: {fileID: 0}
   ropeData: {fileID: 11400000, guid: 5a5d372ad0fcbc143933f857427a59ca, type: 2}
   currentRopeLength: 0
@@ -432,7 +431,7 @@ MonoBehaviour:
     m_TrimEdge: 0.06
     m_FlipX: 0
     m_FlipY: 0
-    m_InitialTrim: 0.06
+    m_InitialTrim: 0
   m_CastingOption: 0
   m_PreviousTrimEdge: 0.06
   m_PreviousEdgeProcessing: 1
@@ -1267,7 +1266,6 @@ GameObject:
   - component: {fileID: 4982446044669505593}
   - component: {fileID: 8597528314756023812}
   - component: {fileID: 7315970702637260282}
-  - component: {fileID: -5444332486349790352}
   - component: {fileID: 8273112727178190213}
   - component: {fileID: 2838524825290089987}
   m_Layer: 8
@@ -1487,11 +1485,6 @@ MonoBehaviour:
   rb: {fileID: 6074467683018909699}
   entityHealth: {fileID: 3811799620726562632}
   input: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  audio: {fileID: 0}
-  playerHurtSound: {fileID: 8300000, guid: f00bb127129a08043982845c91d893f7, type: 3}
-  playerRopeSound: {fileID: 8300000, guid: 8d89e320fe9e320438fd0fe719074c4c, type: 3}
-  playerShootSound: {fileID: 8300000, guid: 34bf12988b672aa42803dfa25840372f, type: 3}
-  playerCollectItemSound: {fileID: 8300000, guid: 963ec4e29ce881448b161c4a676f08a3, type: 3}
   playerSprite: {fileID: 1845563972653589313}
   playerFlashDuration: 0.25
   landMoveSpeed: 5
@@ -1584,103 +1577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerMoney
   money: 150
---- !u!82 &-5444332486349790352
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747670493676788167}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &8273112727178190213
 MonoBehaviour:
   m_ObjectHideFlags: 0

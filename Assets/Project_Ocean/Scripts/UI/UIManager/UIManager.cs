@@ -38,7 +38,6 @@ namespace Game.Testing
 
         private UIType currentUI = UIType.None;
 
-        private float previousTimeScale = 1f;
         private bool uiManagerOwnsLock;
         private bool uiManagerOpenedLock; // false when someone else (e.g. a cutscene) already held it
         private int lastOpenFrame = -1;
@@ -459,12 +458,9 @@ namespace Game.Testing
 
         private void ApplyBlockingState()
         {
-            // Only save the real game timeScale once, when UIManager
-            // first takes ownership of the lock.
+            // Take ownership of the lock once, when UIManager first opens a panel.
             if (!uiManagerOwnsLock)
             {
-                previousTimeScale = Time.timeScale;
-
                 if (!PlayerUIState.IsLocked)
                 {
                     PlayerUIState.Open();
@@ -484,20 +480,17 @@ namespace Game.Testing
 
         private void RemoveBlockingState()
         {
+            // Only undo the pause if UIManager actually applied it — an unconditional reset
+            // would stomp aim slow-mo or another system's pause (e.g. a chest panel).
             if (uiManagerOwnsLock)
             {
                 if (uiManagerOpenedLock)
                     PlayerUIState.Close();
                 uiManagerOwnsLock = false;
                 uiManagerOpenedLock = false;
-            }
 
-            if (pauseGameWhenUIOpen)
-            {
-                Time.timeScale =
-                    previousTimeScale > 0f
-                        ? previousTimeScale
-                        : 1f;
+                if (pauseGameWhenUIOpen)
+                    Time.timeScale = 1f; // not a saved snapshot: it could be mid aim slow-mo
             }
 
             HideBackgroundDim();

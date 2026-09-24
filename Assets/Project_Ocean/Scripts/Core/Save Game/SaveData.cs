@@ -45,6 +45,10 @@ namespace Game.Testing
 
         // ── v6: feature locks ── (GameFeature enum names) — always wins over unlockedFeatures, see FeatureUnlockService
         public List<string> lockedFeatures = new();
+
+        // ── v7: gun (NormalBullet) upgrade level ── it was never saved before, so it reset to 0 on load.
+        // Absent in older saves (0), which is also the correct value for them — no migration needed.
+        public int normalBulletUpgradeLevel = 0;
     }
 
     [Serializable]
