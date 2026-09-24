@@ -5,11 +5,11 @@ using UnityEngine.UI;
 namespace Game.Testing
 {
     /// <summary>
-    /// Dev/Cheat Panel แบบไฟล์เดียว — ไม่แก้ PlayerHealth, OxygenRope, PlayerMoney, GameManager,
-    /// InventoryManager เลย ทำงานผ่าน public API ที่มีอยู่แล้วของทุกคลาสเท่านั้น
+    /// Dev/Cheat Panel — ทำงานผ่าน public API ของ PlayerHealth, OxygenRope, PlayerMoney, GameManager,
+    /// InventoryManager
     ///
     /// God Mode         -> เรียก PlayerHealth.Heal() เติมเต็มทุกเฟรม
-    /// Infinite Oxygen   -> ตั้ง OxygenRope.MaxRopeLength ให้สูงมากทุกเฟรม กัน breach/นับถอยหลัง
+    /// Infinite Oxygen   -> ตั้ง OxygenRope.IgnoreRopeLimit ทุกเฟรม ข้าม clamp ระยะ + breach/นับถอยหลัง (ไม่แตะ MaxRopeLength จึงไม่เซฟค่าผิด)
     /// Add Money         -> เรียก PlayerMoney.AddMoney() ตรงๆ
     /// Add Item          -> เรียก InventoryManager.Instance.AddItem(item) ตรงๆ ต่อปุ่มที่กด
     /// </summary>
@@ -53,9 +53,6 @@ namespace Game.Testing
         [SerializeField] private Button upgradeButton;
 
         [Header("Settings")]
-        [Tooltip("ค่าที่ใช้ตั้งเป็น MaxRopeLength ตอน Infinite Oxygen เปิดอยู่ ยิ่งสูงยิ่งชัวร์ว่าไม่มีวันเกินระยะ")]
-        [SerializeField] private float infiniteRopeLength = 999999f;
-
         [Tooltip("ค่าที่ใช้ Heal ทุกเฟรมตอน God Mode เปิดอยู่ (Heal() เดิมจะ clamp ไม่ให้เกิน Max Health เองอยู่แล้ว)")]
         [SerializeField] private float godModeHealAmount = 999999f;
 
@@ -96,23 +93,19 @@ namespace Game.Testing
             if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
                 TogglePanel();
 
-            if (!godModeOn && !infiniteOxygenOn) return;
-
             Player player = GameManager.CurPlayer;
             if (player == null) return;
+
+            // Set every frame (also when off) so switching the toggle off restores the limit.
+            OxygenRope oxygenTube = player.OxygenTube;
+            if (oxygenTube != null)
+                oxygenTube.IgnoreRopeLimit = infiniteOxygenOn;
 
             if (godModeOn)
             {
                 PlayerHealth health = player.GetComponent<PlayerHealth>();
                 // ใช้ Heal() ที่มีอยู่แล้ว — เติมเลือด/เชือกให้เต็มทุกเฟรมแทนการรับดาเมจจริง
                 health?.Heal(godModeHealAmount);
-            }
-
-            if (infiniteOxygenOn)
-            {
-                OxygenRope oxygenTube = player.OxygenTube;
-                if (oxygenTube != null)
-                    oxygenTube.MaxRopeLength = infiniteRopeLength;
             }
         }
 
