@@ -43,6 +43,10 @@ namespace Game.Testing
         #region Public API
         public float CurrentLength  { get; private set; }
         public float MaxRopeLength  { get => maxRopeLength; set => maxRopeLength = value; }
+
+        /// <summary>Dev cheat (Infinite Oxygen): skips the hard length clamp and the breach
+        /// countdown without touching maxRopeLength, so saves keep the real length.</summary>
+        public bool IgnoreRopeLimit { get; set; }
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
@@ -353,7 +357,7 @@ namespace Game.Testing
         // want to predict the limit in advance, but this method is what actually enforces it.
         private void EnforceRopeLimit()
         {
-            if (pins.Count == 0 || playerTransform == null)
+            if (IgnoreRopeLimit || pins.Count == 0 || playerTransform == null)
                 return;
 
             Vector2 anchor    = CurrentAnchor;
@@ -735,6 +739,18 @@ namespace Game.Testing
             // ติ๊ก enableBreachTimeout ใน Inspector เพื่อเปิดกลับมาใช้ตามเดิม โดยไม่ต้องแก้โค้ดส่วนนี้เลย
             if (!enableBreachTimeout)
                 return;
+
+            if (IgnoreRopeLimit)
+            {
+                // Cheat switched on mid-countdown: cancel it so the HUD timer clears.
+                if (limitRoutine != null)
+                {
+                    StopCoroutine(limitRoutine);
+                    limitRoutine = null;
+                    OnRopeBreachEnd?.Invoke();
+                }
+                return;
+            }
 
             // Fish damage lowers HealthLimit (not maxRopeLength), so the breach countdown
             // must key off whichever is smaller. HealthLimit is 0 until PlayerHealth syncs it.
