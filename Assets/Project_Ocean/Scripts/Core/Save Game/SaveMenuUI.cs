@@ -30,23 +30,6 @@ namespace Game.Testing
         /// <summary>ปุ่ม New Game — หา slot ว่างเอง แล้วเข้าเกมทันที</summary>
         public void NewGame()
         {
-            // Pressed again after playing a New Game: restart THAT slot (wipe + fresh) instead of taking
-            // another one — but only if this session began with New Game, so a loaded save is never wiped.
-            int reuse = SaveBridge.Instance != null ? SaveBridge.Instance.ReusableNewGameSlot : -1;
-            if (reuse >= 0 && reuse < slotCards.Length && SaveSystem.HasSave(reuse))
-            {
-                if (ConfirmationDialog.Instance != null)
-                {
-                    ConfirmationDialog.Instance.Show(
-                        "Start over? The save you just played will be erased and a new game will begin.",
-                        () => RestartSlot(reuse));
-                    return;
-                }
-
-                // No dialog available: never wipe silently — fall through to the normal "first empty slot".
-                Debug.LogWarning("[SaveMenuUI] No ConfirmationDialog — not wiping slot " + reuse + "; using the first empty slot instead.");
-            }
-
             int slot = FindFirstEmptySlot(maxSlots: slotCards.Length);
 
             // Every slot is taken: let the player pick one to replace (SelectSlot confirms before wiping).

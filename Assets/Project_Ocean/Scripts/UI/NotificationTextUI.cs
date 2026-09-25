@@ -12,10 +12,10 @@ namespace Game.Testing
     ///   until explicitly cleared, then fades out like a toast. Takes priority: while active, an
     ///   incoming toast is dropped rather than interrupting it.
     ///
-    /// If a toast arrives while one is already showing/fading, the trigger is ignored
-    /// (dropped) — the next one is only accepted once the current toast has fully
-    /// disappeared. This prevents spam-clicking a single action from queuing up a long
-    /// chain of toasts.
+    /// If a toast arrives while one is already showing/fading, a repeat of the same text is
+    /// ignored (spam-clicking one action never queues a chain). A DIFFERENT message waits in
+    /// a single pending slot (latest wins) and plays once the current toast is gone — so e.g.
+    /// the auto-save "Game Saved!" on landing no longer swallows a message raised right after.
     ///
     /// Put this on a UI GameObject with a CanvasGroup + TextMeshProUGUI, ideally
     /// on a persistent HUD canvas.
@@ -31,6 +31,8 @@ namespace Game.Testing
         private Coroutine _activeRoutine;
         private Coroutine _pulseRoutine;
         private bool _persistentActive;
+        private string _currentMessage;
+        private string _pendingMessage;
 
         /// <summary>True while a toast is visible or mid-fade. New toast triggers are ignored until this clears.</summary>
         private bool IsShowing => _activeRoutine != null;
@@ -75,6 +77,7 @@ namespace Game.Testing
 
             // A persistent message pre-empts any toast in flight — the guide prompt owns
             // the slot until cleared, not a timed fade.
+            _pendingMessage = null;
             if (_activeRoutine != null)
             {
                 StopCoroutine(_activeRoutine);
@@ -121,16 +124,21 @@ namespace Game.Testing
         private void HandleNotify(string message)
         {
             // Persistent (tutorial/guide) messages take priority — drop toasts while one
-            // is active rather than interrupting it. Also ignore spam triggers while a
-            // toast is already showing/fading — the next one is only accepted after the
-            // current one fully disappears.
-            if (_persistentActive || IsShowing) return;
+            // is active rather than interrupting it.
+            if (_persistentActive) return;
+
+            if (IsShowing)
+            {
+                if (message != _currentMessage) _pendingMessage = message;
+                return;
+            }
 
             _activeRoutine = StartCoroutine(ToastRoutine(message));
         }
 
         private IEnumerator ToastRoutine(string message)
         {
+            _currentMessage = message;
             if (messageText != null) messageText.text = message;
 
             // Fade in
@@ -157,6 +165,14 @@ namespace Game.Testing
             canvasGroup.alpha = 0f;
 
             _activeRoutine = null;
+            _currentMessage = null;
+
+            if (_pendingMessage != null)
+            {
+                var next = _pendingMessage;
+                _pendingMessage = null;
+                HandleNotify(next);
+            }
         }
     }
 }

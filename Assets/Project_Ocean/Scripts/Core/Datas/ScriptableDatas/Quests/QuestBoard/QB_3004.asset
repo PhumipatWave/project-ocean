@@ -12,26 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
   m_Name: QB_3004
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
-  category: 1
+  category: 0
   classification: 1
-  questId: 3004
+  questId: 3007
   status: 0
   nextQuestMode: 0
   nextQuestIds: 
   steps:
   - type: 0
-    targetEnemyId: fishM
+    targetEnemyId: fishS
     targetEnemyIds: []
     tutorialAction: 0
-    targetQuestItemId: 32001
+    targetQuestItemId: 31004
     deliverySource: 1
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 3
     completionMode: 0
-    stepDescription: 'Kill Fish Size M : 3'
+    stepDescription: 'Kill Fish Size S : 3'
     dialogue:
     - characterId: questboard
       type: 4
@@ -45,9 +48,11 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 150
+    rewardMoney: 50
     unlocksFeatures: 
-  questName: '[Quest04]'
+    locksFeatures: 
+  questName: '[Quest07]'
   questGiverNpcId: 

@@ -14,24 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 0
   classification: 1
-  questId: 3003
+  questId: 3006
   status: 0
   nextQuestMode: 0
   nextQuestIds: 
   steps:
   - type: 0
-    targetEnemyId: crab
+    targetEnemyId: fishS
     targetEnemyIds: []
     tutorialAction: 0
-    targetQuestItemId: 31001
+    targetQuestItemId: 31002
     deliverySource: 1
     targetQuestItemIds: []
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
-    targetCount: 6
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 3
     completionMode: 0
-    stepDescription: 'Kill Crab : 6'
+    stepDescription: 'Kill Fish Size S : 3'
     dialogue:
     - characterId: questboard
       type: 4
@@ -45,9 +48,11 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 
-    rewardMoney: 100
+    rewardMoney: 50
     unlocksFeatures: 
-  questName: '[Quest03]'
+    locksFeatures: 
+  questName: '[Quest06]'
   questGiverNpcId: 

@@ -54,6 +54,7 @@ namespace Game.Testing
         private Action onComplete;
         private bool isPlaying;
         private bool confirmingSkip;
+        private Rigidbody2D playerBody;
 
         private void Awake() => director = GetComponent<PlayableDirector>();
 
@@ -73,6 +74,17 @@ namespace Game.Testing
             director.stopped += HandleStopped;
 
             PlayerUIState.Open();
+
+            // The player's dynamic, interpolated Rigidbody2D writes the transform every physics
+            // step — it would drag the root back against a Timeline track animating it
+            // (PlayerPos). Take it out of the simulation for the cutscene; re-enabled in
+            // HandleStopped, where it picks up wherever the Timeline left the player.
+            playerBody = GameManager.CurPlayer != null ? GameManager.CurPlayer.RB : null;
+            if (playerBody != null)
+            {
+                playerBody.linearVelocity = Vector2.zero;
+                playerBody.simulated = false;
+            }
 
             var reader = GameManager.CurPlayer?.input;
             if (reader != null) reader.OnSkipCutscene += HandleSkipPressed;
@@ -148,7 +160,12 @@ namespace Game.Testing
             var slash = bindingKey.IndexOf('/');
             var npcId = slash < 0 ? bindingKey : bindingKey.Substring(0, slash);
 
-            var npc = NPCManager.Instance?.GetNpc(npcId);
+            // "Player" is reserved like "MainCamera" — the player isn't an NPC, so NPCManager
+            // never knows about it. Its root has no wrapper parent, so child paths
+            // (e.g. "player/Visual") resolve directly under it via the Find below.
+            Component npc = string.Equals(npcId, "Player", StringComparison.OrdinalIgnoreCase)
+                ? GameManager.CurPlayer
+                : NPCManager.Instance?.GetNpc(npcId);
             if (npc == null || slash < 0)
                 return npc;
 
@@ -213,6 +230,10 @@ namespace Game.Testing
                 ConfirmationDialog.Instance?.Cancel();
 
             CutsceneGate.IsPlaying = false;
+
+            if (playerBody != null)
+                playerBody.simulated = true;
+            playerBody = null;
 
             var reader = GameManager.CurPlayer?.input;
             if (reader != null) reader.OnSkipCutscene -= HandleSkipPressed;
