@@ -159,6 +159,16 @@ namespace Game.Testing
             selectedSlot = newValue;
         }
 
+        /// <summary>Signed count of a player-visible item change; save load and reset never raise it.</summary>
+        public static event System.Action<Item, int> OnItemDelta;
+
+        /// <summary>Public so ShopTransactionService, which edits slots directly, can report sales.</summary>
+        public void RaiseItemDelta(Item item, int delta)
+        {
+            if (item != null && delta != 0)
+                OnItemDelta?.Invoke(item, delta);
+        }
+
         public bool AddItem(Item item)
         {
             if (item == null) return false;
@@ -167,7 +177,10 @@ namespace Game.Testing
                 ? TryAddToBuildingSlots(item) : TryAddToPlayerSlots(item);
 
             if (itemAdded)
+            {
                 NotifyChanged();
+                RaiseItemDelta(item, 1);
+            }
             else
                 NotificationManager.Notify("Inventory is full");
 
@@ -253,6 +266,7 @@ namespace Game.Testing
             foundItem = itemInSlot.GetItem();
             RemoveOneItem(itemInSlot);
             NotifyChanged();
+            RaiseItemDelta(foundItem, -1);
             return true;
         }
 
@@ -310,7 +324,10 @@ namespace Game.Testing
         public void RemoveQuestItem(int itemId, int count = 1)
         {
             if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId, count))
+            {
                 NotifyChanged();
+                RaiseItemDelta(FindItemInDatabase(itemId), -count);
+            }
         }
 
         public void AddRewardItem(int itemId)
@@ -353,6 +370,7 @@ namespace Game.Testing
                     Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
                     Destroy(toRemove.gameObject);
                     NotifyChanged();
+                    RaiseItemDelta(toRemove.GetItem(), -toRemove.count);
                 }
             );
         }
@@ -382,6 +400,7 @@ namespace Game.Testing
 
                     Destroy(itemToDiscard.gameObject);
                     NotifyChanged();
+                    RaiseItemDelta(item, -itemToDiscard.count);
                 }
             );
         }
@@ -509,7 +528,12 @@ namespace Game.Testing
         {
             if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
             var draggable = buildingSlots[index]?.GetComponentInChildren<Draggableltem>();
-            if (draggable != null) RemoveOneItem(draggable);
+            if (draggable != null)
+            {
+                var item = draggable.GetItem();
+                RemoveOneItem(draggable);
+                if (item != null) RaiseItemDelta(item, -1);
+            }
             NotifyChanged();
             RefreshHintUI();
         }
