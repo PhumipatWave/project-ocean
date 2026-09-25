@@ -6,90 +6,41 @@ namespace Game.Testing
     {
         [SerializeField] private int money = 100;
 
-        /// <summary>Fires after every balance change (AddMoney/AddMoneySilent/Use) — QuestManager
-        /// listens to re-check Delivery steps gated on RequiredMoney.</summary>
+        /// <summary>New balance after any change — QuestManager re-checks RequiredMoney steps on it.</summary>
         public static event System.Action<int> OnMoneyChanged;
 
-        public int Money
-        {
-            get { return money; }
-        }
+        /// <summary>Signed amount of a player-visible change (gain or spend); never raised by save load.</summary>
+        public static event System.Action<int> OnMoneyDelta;
 
-        private void OnEnable()
-        {
-            // Quest Reward เพิ่มเงินแบบไม่เด้ง Notification
-            QuestManager.OnMoneyRewarded += AddMoneySilent;
-        }
+        public int Money => money;
+        public int CurrentMoney => money;
 
-        private void OnDisable()
-        {
-            QuestManager.OnMoneyRewarded -= AddMoneySilent;
-        }
-
-        // =========================================================
-        // ADD MONEY
-        // =========================================================
+        private void OnEnable() => QuestManager.OnMoneyRewarded += AddMoney;
+        private void OnDisable() => QuestManager.OnMoneyRewarded -= AddMoney;
 
         public void AddMoney(int amount)
         {
             money += amount;
-
-            Debug.Log("Money: " + money);
-
-            // การเพิ่มเงินทั่วไปยังสามารถแจ้งเตือนได้
-            if (amount > 0)
-            {
-                NotificationManager.Notify(
-                    $"+{amount} Money"
-                );
-            }
-
+            if (amount != 0) OnMoneyDelta?.Invoke(amount);
             OnMoneyChanged?.Invoke(money);
         }
 
-        // =========================================================
-        // ADD MONEY SILENT
-        // =========================================================
-
-        /// <summary>
-        /// เพิ่มเงินโดยไม่แสดง Notification
-        /// ใช้สำหรับ Quest Reward
-        /// และการโหลด Save
-        /// </summary>
-        public void AddMoneySilent(int amount)
+        /// <summary>Sets the balance with no notification — save load only.</summary>
+        public void SetMoneySilent(int amount)
         {
-            money += amount;
-
-            Debug.Log(
-                "Money (Silent): " + money
-            );
-
+            money = amount;
             OnMoneyChanged?.Invoke(money);
         }
-
-        // =========================================================
-        // USE MONEY
-        // =========================================================
 
         public bool Use(int amount)
         {
-            if (money >= amount)
-            {
-                money -= amount;
-                OnMoneyChanged?.Invoke(money);
-                return true;
-            }
+            if (money < amount)
+                return false;
 
-            return false;
-        }
-
-        // =========================================================
-        // CURRENT MONEY
-        // =========================================================
-
-        public int CurrentMoney
-        {
-            get { return money; }
+            money -= amount;
+            if (amount != 0) OnMoneyDelta?.Invoke(-amount);
+            OnMoneyChanged?.Invoke(money);
+            return true;
         }
     }
 }

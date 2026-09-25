@@ -2,22 +2,23 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    /// <summary>Shows the "Press Space to skip" text on this object only while a cutscene plays.</summary>
-    [RequireComponent(typeof(CanvasGroup))]
+    /// <summary>Shows the skip hint on the System channel for the whole cutscene.</summary>
     public class CutsceneSkipHint : MonoBehaviour
     {
-        private CanvasGroup group;
-
-        private void Awake() => group = GetComponent<CanvasGroup>();
+        [SerializeField] private string message = "Press [Space] to skip cutscene";
 
         private void OnEnable()
         {
-            CutsceneGate.OnPlayingChanged += SetVisible;
-            SetVisible(CutsceneGate.IsPlaying);
+            CutsceneGate.OnPlayingChanged += HandlePlayingChanged;
+            if (CutsceneGate.IsPlaying) HandlePlayingChanged(true);
         }
 
-        private void OnDisable() => CutsceneGate.OnPlayingChanged -= SetVisible;
+        private void OnDisable() => CutsceneGate.OnPlayingChanged -= HandlePlayingChanged;
 
-        private void SetVisible(bool visible) => group.alpha = visible ? 1f : 0f;
+        private void HandlePlayingChanged(bool playing)
+        {
+            if (playing) NotificationManager.Notify(message, NotificationChannel.System, null, sticky: true);
+            else NotificationManager.Clear(NotificationChannel.System);
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace Game.Testing
         [SerializeField] private float fadeDuration = 1f;
 
         [Header("Hideable HUD Content")]
-        [Tooltip("Assign a CanvasGroup on a CHILD that wraps only the toggleable HUD panels (day count, rope panel, menu/land buttons, weapon UI). Must NOT be an ancestor of NotificationTextUI/ConfirmationDialog, or they'll be hidden along with the HUD.")]
+        [Tooltip("Assign a CanvasGroup on a CHILD that wraps only the toggleable HUD panels (day count, rope panel, menu/land buttons, weapon UI). Must NOT be an ancestor of NotificationLayer/ConfirmationDialog, or they'll be hidden along with the HUD.")]
         [SerializeField] private CanvasGroup hudContentGroup;
 
         private OxygenRope rope;
@@ -52,7 +52,7 @@ namespace Game.Testing
             DontDestroyOnLoad(gameObject);
 
             if (hudContentGroup == null)
-                Debug.LogWarning("GameHUD: hudContentGroup is not assigned — HUD will not hide when land UI panels open. Assign a CanvasGroup on a child that wraps the toggleable HUD content (excluding NotificationTextUI/ConfirmationDialog).", this);
+                Debug.LogWarning("GameHUD: hudContentGroup is not assigned — HUD will not hide when land UI panels open. Assign a CanvasGroup on a child that wraps the toggleable HUD content (excluding NotificationLayer/ConfirmationDialog).", this);
         }
         private void OnEnable()
         {
@@ -107,7 +107,7 @@ namespace Game.Testing
             // A fresh scene load always starts with no land UI open — except the main menu,
             // which has no gameplay HUD to show at all (day count, rope panel, weapon UI,
             // menu/land buttons); leaving it visible there stacks it on top of the menu's own
-            // UI and blocks its raycasts. NotificationTextUI/TutorialPromptUI/ConfirmationDialog
+            // UI and blocks its raycasts. NotificationLayer/TutorialPromptUI/ConfirmationDialog
             // live outside hudContentGroup, so they're unaffected either way.
             // Still respects PlayerUIState.IsLocked — a scene load landing while something's
             // already locked (e.g. a Cutscene-type step that plays the instant the scene loads,
@@ -161,7 +161,7 @@ namespace Game.Testing
         private static bool BlockedByUseItemTutorial()
         {
             if (!TutorialStep.IsActive(TutorialActionId.UseItem)) return false;
-            TutorialGate.NotifyBlocked(); // pulses the "Use MiniHub item." prompt
+            TutorialGate.NotifyBlocked(); // notifies the tutorial system; shows the prompt
             return true;
         }
 

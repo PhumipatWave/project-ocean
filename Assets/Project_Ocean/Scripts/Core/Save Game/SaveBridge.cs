@@ -153,8 +153,7 @@ namespace Game.Testing
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
             {
-                playerMoney.Use(playerMoney.CurrentMoney);
-                playerMoney.AddMoneySilent(data.money);
+                playerMoney.SetMoneySilent(data.money);
             }
         }
 

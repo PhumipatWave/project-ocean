@@ -47,9 +47,11 @@ namespace Game.Testing
                 return false;
             }
 
-            playerMoney.AddMoney(GetSellPrice(realItem.GetItem()));
+            Item sold = realItem.GetItem();
+            playerMoney.AddMoney(GetSellPrice(sold));
             RemoveOne(realItem);
             inventory.NotifyChanged();
+            inventory.RaiseItemDelta(sold, -1);
             return true;
         }
 
@@ -58,7 +60,8 @@ namespace Game.Testing
             if (inventory == null || playerMoney == null) return false;
 
             int total = 0;
-            bool soldAny = false;
+            // One notification per item type, not per slot.
+            var soldCounts = new System.Collections.Generic.Dictionary<Item, int>();
             foreach (InventorySlot slot in inventory.InventorySlots)
             {
                 if (slot == null) continue;
@@ -66,15 +69,18 @@ namespace Game.Testing
                 Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
                 if (itemUI == null || !IsSellAllItem(itemUI.GetItem())) continue;
 
-                total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
+                Item item = itemUI.GetItem();
+                total += GetSellPrice(item) * itemUI.count;
+                soldCounts[item] = (soldCounts.TryGetValue(item, out int n) ? n : 0) + itemUI.count;
                 Object.Destroy(itemUI.gameObject);
-                soldAny = true;
             }
 
-            if (!soldAny) return false;
+            if (soldCounts.Count == 0) return false;
 
             playerMoney.AddMoney(total);
             inventory.NotifyChanged();
+            foreach (var pair in soldCounts)
+                inventory.RaiseItemDelta(pair.Key, -pair.Value);
 
             // SellAll destroys every sellable (Normal-type) item in this one pass, by
             // definition of what it does — reaching here already means "sold everything",
