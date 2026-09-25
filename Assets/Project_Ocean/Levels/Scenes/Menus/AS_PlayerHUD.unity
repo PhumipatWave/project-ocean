@@ -361,6 +361,7 @@ MonoBehaviour:
   cancelButton: {fileID: 2021419827}
   npcAvatarImage: {fileID: 0}
   targetImage: {fileID: 0}
+  questNamePunch: {fileID: 0}
 --- !u!114 &18172504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16612,6 +16613,10 @@ PrefabInstance:
       propertyPath: cancelButton
       value: 
       objectReference: {fileID: 2021419827}
+    - target: {fileID: 1489820444693017189, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
+      propertyPath: questNamePunch
+      value: 
+      objectReference: {fileID: 6609111703617218143}
     - target: {fileID: 1539927064418467146, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
       propertyPath: m_Name
       value: StatusUI
@@ -16700,8 +16705,30 @@ PrefabInstance:
     - {fileID: 8489459603795234966, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4404112099950429825, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6609111703617218143}
   m_SourcePrefab: {fileID: 100100000, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
+--- !u!1 &6609111703617218142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4404112099950429825, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
+  m_PrefabInstance: {fileID: 6609111703617218141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6609111703617218143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609111703617218142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eda6cace603bf248a4a8104c8fc174d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.PunchScale
+  peakScale: 1.5
+  duration: 0.45
 --- !u!1001 &7382225959707700065
 PrefabInstance:
   m_ObjectHideFlags: 0

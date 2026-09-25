@@ -74,6 +74,14 @@ namespace Game.Tests
         }
 
         [Test]
+        public void PunchScale_StartsAndEndsAtOne_PeaksInMiddle()
+        {
+            Assert.AreEqual(1f, PunchScale.Evaluate(0f, 1.2f), 1e-4f);
+            Assert.AreEqual(1.2f, PunchScale.Evaluate(0.5f, 1.2f), 1e-4f);
+            Assert.AreEqual(1f, PunchScale.Evaluate(1f, 1.2f), 1e-4f);
+        }
+
+        [Test]
         public void Format_AddsSignAndName()
         {
             Assert.AreEqual("+1 Tuna", ResourceNotificationPresenter.Format(1, "Tuna"));
