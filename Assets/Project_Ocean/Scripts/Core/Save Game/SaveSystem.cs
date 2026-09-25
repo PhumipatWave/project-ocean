@@ -67,7 +67,8 @@ namespace Game.Testing
             MigrateLegacyFileIfNeeded();
             try
             {
-                data.saveTime    = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                // Invariant: a Thai/other-calendar Windows locale would otherwise write e.g. year 2569.
+                data.saveTime    = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 data.saveVersion = SAVE_VERSION;
 
                 string json = JsonUtility.ToJson(data, prettyPrint: true);
@@ -202,6 +203,7 @@ namespace Game.Testing
         {
             MigrateLegacyFileIfNeeded();
             var result = new List<SaveSlotMeta>();
+            var writeTimes = new Dictionary<int, DateTime>();
 
             for (int slot = 0; slot < maxSlots; slot++)
             {
@@ -210,6 +212,7 @@ namespace Game.Testing
                 var data = Load(slot); // files are small; full deserialize is cheap
                 if (data == null) continue;
 
+                writeTimes[slot] = File.GetLastWriteTimeUtc(GetPath(slot));
                 result.Add(new SaveSlotMeta
                 {
                     slot       = slot,
@@ -220,8 +223,8 @@ namespace Game.Testing
                 });
             }
 
-            // Most recently saved first, matching Stardew's load list ordering.
-            result.Sort((a, b) => string.Compare(b.saveTime, a.saveTime, StringComparison.Ordinal));
+            // Most recent first. File time, not the saveTime text, which old saves wrote in the local calendar.
+            result.Sort((a, b) => writeTimes[b.slot].CompareTo(writeTimes[a.slot]));
             return result;
         }
     }

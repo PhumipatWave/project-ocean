@@ -71,13 +71,22 @@ namespace Game.Testing
         private void InitializeQuests()
         {
             activeQuestList.Clear();
+            var seenIds = new HashSet<int>();
 
             foreach (var data in allQuestTemplates)
             {
                 if (data == null)
                     continue;
 
-                activeQuestList.Add(new Quest(data));
+                var quest = new Quest(data);
+                // Save/load matches quests by id — a duplicate would load another quest's progress.
+                if (!seenIds.Add(quest.QuestID))
+                {
+                    Debug.LogError($"[QuestManager] Duplicate quest id {quest.QuestID} ('{data.name}') in All Quest Templates — skipped. Give each quest a unique id.", this);
+                    continue;
+                }
+
+                activeQuestList.Add(quest);
             }
 
             // A quest authored to start already InProgress (e.g. an intro tutorial) never

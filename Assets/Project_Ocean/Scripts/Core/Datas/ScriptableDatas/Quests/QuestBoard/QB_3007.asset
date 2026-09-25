@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
   category: 0
   classification: 1
-  questId: 3002
+  questId: 3007
   status: 0
   nextQuestMode: 0
   nextQuestIds: 
@@ -23,8 +23,8 @@ MonoBehaviour:
     targetEnemyId: fishS
     targetEnemyIds: []
     tutorialAction: 0
-    targetQuestItemId: 
-    deliverySource: 0
+    targetQuestItemId: 31003
+    deliverySource: 1
     targetQuestItemIds:
     - 31003
     targetQuestItemRequirements: []
@@ -55,5 +55,5 @@ MonoBehaviour:
     rewardMoney: 120
     unlocksFeatures: 
     locksFeatures: 
-  questName: '[Quest02]'
+  questName: '[Quest07]'
   questGiverNpcId: 

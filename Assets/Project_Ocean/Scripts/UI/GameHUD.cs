@@ -215,7 +215,7 @@ namespace Game.Testing
 
         private void Update()
         {
-            if (GameManager.Instance.GameState != GameState.Ocean)
+            if (GameManager.Instance == null || GameManager.Instance.GameState != GameState.Ocean)
             {
                 maxLengthPanel.SetActive(false);
                 return;

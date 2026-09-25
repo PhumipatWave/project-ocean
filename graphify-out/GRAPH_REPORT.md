@@ -1,7 +1,7 @@
 # Graph Report - project-ocean  (2026-09-25)
 
 ## Corpus Check
-- 273 files · ~360,190 words
+- 273 files · ~360,269 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 2571 file(s) not represented in the graph (top: .meta 1730, .asset 511, .prefab 134)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `29e76ab1`
+- Built from commit: `0ffec56a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
