@@ -90,12 +90,9 @@ namespace Game.Testing
             a == TutorialActionId.BreakRopeLimit || a == TutorialActionId.HitEnemy ||
             a == TutorialActionId.BackToLand     || a == TutorialActionId.UseItem;
 
-        /// <summary>Call when Blocks() returns true for a direct key press (Sleep/Dive/OpenInventory)
-        /// so the player gets a reason instead of the key silently doing nothing. Pulses
-        /// TutorialPromptUI's persistent banner rather than a Notify() toast — a toast is
-        /// silently dropped while a persistent message owns the notification slot, which is
-        /// always the case whenever Blocks() can return true.</summary>
-        public static void NotifyBlocked() => NotificationManager.PulsePersistent();
+        /// <summary>Call when Blocks() rejects a key press, so the player sees the current prompt again.</summary>
+        public static void NotifyBlocked() =>
+            NotificationManager.Notify(TutorialPromptUI.CurrentPrompt, NotificationChannel.Center);
     }
 
     /// <summary>

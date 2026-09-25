@@ -54,6 +54,10 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -5733732657163415684, guid: 7745acbd40f66074c84e22fd85a61eab, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -1491003723015994775, guid: 7745acbd40f66074c84e22fd85a61eab, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3540313704719255335, guid: 7745acbd40f66074c84e22fd85a61eab, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &8924707336479588120
@@ -74,3 +78,7 @@ MonoBehaviour:
     bindingKey: hunter
   - trackName: HunterSprite
     bindingKey: hunter/Visual
+  - trackName: PlayerPos
+    bindingKey: player
+  - trackName: PlayerSprite
+    bindingKey: player/Visual

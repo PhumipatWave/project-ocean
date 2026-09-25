@@ -15,9 +15,18 @@ namespace Game.Testing
         [SerializeField] private Image npcAvatarImage;
         [SerializeField] private Image targetImage;
 
+        [Header("Animation")]
+        [SerializeField] private PunchScale questNamePunch;
+
+        private int lastQuestId = -1;
+        private int lastStepIndex = -1;
+        // False until a quest state has been seen, so the first one shown doesn't pop.
+        private bool hasBaseline;
+
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
+            hasBaseline = false;
             Refresh();
         }
 
@@ -55,6 +64,9 @@ namespace Game.Testing
                 if (targetImage != null)
                     targetImage.enabled = false;
 
+                lastQuestId = -1;
+                lastStepIndex = -1;
+                hasBaseline = true;
                 return;
             }
 
@@ -76,6 +88,14 @@ namespace Game.Testing
 
                 questNameText.text = text;
             }
+
+            // Pop on a new step or newly tracked quest only — progress-text updates (0/5 → 1/5) stay still.
+            bool stepChanged = activeQuest.QuestID != lastQuestId || activeQuest.CurrentStepIndex != lastStepIndex;
+            lastQuestId = activeQuest.QuestID;
+            lastStepIndex = activeQuest.CurrentStepIndex;
+            if (stepChanged && hasBaseline && !LoadingManager.IsLoading && questNamePunch != null)
+                questNamePunch.Play();
+            hasBaseline = true;
 
             // =========================
             // ส่วนอื่น ๆ

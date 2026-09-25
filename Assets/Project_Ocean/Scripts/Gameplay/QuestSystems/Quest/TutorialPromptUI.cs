@@ -17,13 +17,13 @@ namespace Game.Testing
     /// that action — ESC/pause stays available) and clears it when the prompt hides.
     /// Hides itself under any OTHER blocking panel (dialogue, shop, menu) rather than
     /// showing over it, but never sets PlayerUIState's lock itself.
-    ///
-    /// Rendering is delegated to GameHUD's shared NotificationTextUI (via
-    /// NotificationManager.ShowPersistent/ClearPersistent) rather than a dedicated panel —
-    /// this is decision-logic only, no UI of its own.
+    /// Shows the prompt as a Center-channel toast; decision logic only, no UI of its own.
     /// </summary>
     public class TutorialPromptUI : MonoBehaviour
     {
+        /// <summary>Prompt text currently in effect, or null — re-shown when the player presses a blocked key.</summary>
+        public static string CurrentPrompt { get; private set; }
+
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
@@ -101,7 +101,12 @@ namespace Game.Testing
 
         private void Show(string text, Sprite image, TutorialActionId requiredAction)
         {
-            NotificationManager.ShowPersistent(text, image);
+            // Refresh runs on many events; only toast when the prompt actually changes.
+            if (text != CurrentPrompt)
+            {
+                CurrentPrompt = text;
+                NotificationManager.Notify(text, NotificationChannel.Center, image);
+            }
             TutorialGate.RequiredAction = requiredAction;
         }
 
@@ -111,7 +116,7 @@ namespace Game.Testing
                 Debug.Log($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
                     $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
 
-            NotificationManager.ClearPersistent();
+            CurrentPrompt = null;
             TutorialGate.RequiredAction = null;
         }
     }

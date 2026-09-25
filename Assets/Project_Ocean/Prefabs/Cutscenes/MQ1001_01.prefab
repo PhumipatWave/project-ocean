@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5560355171525542675}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56,6 +56,10 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 6680457321196006973, guid: 6f94fb7986787b8479cf1e844f2ea047, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -4059648473217001133, guid: 6f94fb7986787b8479cf1e844f2ea047, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 7654963305977158664, guid: 6f94fb7986787b8479cf1e844f2ea047, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1469057462802783828
@@ -78,3 +82,7 @@ MonoBehaviour:
     bindingKey: hunter/Visual
   - trackName: HunterFlip
     bindingKey: hunter/Visual
+  - trackName: PlayerPos
+    bindingKey: player
+  - trackName: PlayerSprite
+    bindingKey: player/Visual
