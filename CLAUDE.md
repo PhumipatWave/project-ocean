@@ -23,31 +23,40 @@ Platform:
 
 ## Scene Structure
 
+Scenes live in Assets/Project_Ocean/Levels/Scenes/.
+
 Bootstrap
 
-* Persistent systems
-* SaveSystem
-* AudioSystem
-* SceneLoader
+* Startup scene
+* Its manager hierarchy is an unused duplicate — do not edit managers here
 
-Land
+AS_PlayerHUD
+
+* Persistent managers that actually run (GameManager root, DontDestroyOnLoad)
+* Player HUD, NotificationTextUI, ConfirmationDialog
+
+MainMenuScene
+
+* Main menu, save slot UI (SaveMenuUI)
+* Settings
+
+IntroScene
+
+* Intro
+
+Land_Map
 
 * NPCs
 * Shops
 * Quests
 * Upgrade stations
 
-Ocean
+Ocean_Map
 
 * Fishing gameplay
 * Fish AI
 * Combat
 * Loot
-
-Menu
-
-* Main menu
-* Settings
 
 Use additive scene loading.
 
@@ -55,18 +64,27 @@ Use additive scene loading.
 
 ## Existing Managers
 
-Global:
+Global (persistent):
 
 * GameManager
-* SaveManager
+* SaveBridge + SaveSystem (save/load)
 * AudioManager
 * DayManager
+* QuestManager
+* CutsceneManager
+* LoadingManager
+* InventoryManager
+* UIManager
+* KeyBindManager
+* ObjectPoolManager
+* CameraShakeManager
+* NotificationManager (static event bus)
 
 Land:
 
 * ShopManager
 * UpgradeManager
-* QuestManager
+* NPCManager
 
 Avoid creating duplicate managers.
 
@@ -91,9 +109,19 @@ Keep classes focused on a single responsibility.
 
 ---
 
+## Comment Rules
+
+* Write short comments: 1 line, 2 max.
+* Comment WHY (non-obvious reason, bug it prevents), never WHAT the code does.
+* No comment on code whose name already explains it.
+* No history in comments ("used to", "earlier version", "Bug 1:") — git has that.
+* XML <summary> only on public API, 1 sentence.
+
+---
+
 ## Save System Rules
 
-Use SaveManager.
+Use SaveBridge (SaveSystem handles the files).
 
 Do not:
 

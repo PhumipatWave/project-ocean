@@ -37,6 +37,7 @@ namespace Game.Testing
             DayManager.OnDivedToday  += RefreshDiveUI;
             DayManager.OnDayAdvanced += RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
+            LoadingManager.OnLoadingFinished += HandleLoadingFinished;
         }
 
         private void OnDisable()
@@ -48,6 +49,7 @@ namespace Game.Testing
             DayManager.OnDivedToday  -= RefreshDiveUI;
             DayManager.OnDayAdvanced -= RefreshDiveUI;
             FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
+            LoadingManager.OnLoadingFinished -= HandleLoadingFinished;
         }
 
         // Dive/shop/upgrade/board/home panels would otherwise stack under a dialogue box. They
@@ -103,6 +105,11 @@ namespace Game.Testing
                 {
                     // Release the lock that InteractUI.Open() placed when E was pressed
                     PlayerUIState.Close();
+
+                    // Out of dives: tell the player to sleep instead of opening the dive confirm.
+                    if (NotifyIfOutOfDives())
+                        return;
+
                     ConfirmationDialog.Instance?.Show(
                         "Are you sure you want to dive?",
                         () => { InventoryManager.Instance?.CloseInventory(); GameManager.Instance?.StartDive(); }
@@ -154,6 +161,17 @@ namespace Game.Testing
             );
         }
 
+        // Returning to land (or loading a save) at 0 dives shows the notice unprompted.
+        private void HandleLoadingFinished() => NotifyIfOutOfDives();
+
+        private bool NotifyIfOutOfDives()
+        {
+            if (DayManager.Instance == null || DayManager.Instance.CanDive)
+                return false;
+            NotificationManager.Notify("You reach limit to dive today go to sleep");
+            return true;
+        }
+
         private void RefreshDiveUI()
         {
             var day = DayManager.Instance;
@@ -161,8 +179,6 @@ namespace Game.Testing
 
             if (divePerDayText != null)
                 divePerDayText.text = $"Remain {day.DivesRemaining}/{DayManager.MaxDivesPerDay} in Day";
-            if (startDiveButton != null)
-                startDiveButton.interactable = day.CanDive;
         }
 
         private void RefreshNextDayButton()

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: SharkProfile
   m_EditorClassIdentifier: Game.Testing::Game.Testing.AggressiveEnemyProfile
   fishId: shark
+  schoolMinFollowers: 0
+  schoolMaxFollowers: 0
   speed: 6.25
   viewDistance: 25
   viewAngle: 90
@@ -41,13 +43,13 @@ MonoBehaviour:
   alertNearbyAllies: 0
   searchDuration: 6
   searchRadius: 25
-  prepareTime: 3
+  prepareTime: 0.75
   boostSpeed: 15
   dashAcceleration: 40
   dashThrough: 1
   dashDuration: 1.5
   attackRange: 5
-  attackCooldown: 4
+  attackCooldown: 1.25
   attackDamage: 10.25
   retreatMinDistance: 10
   retreatMaxDistance: 16

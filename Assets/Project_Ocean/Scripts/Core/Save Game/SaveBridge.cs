@@ -20,15 +20,6 @@ namespace Game.Testing
         /// </summary>
         public int CurrentSlot { get; private set; } = 0;
 
-        /// <summary>The slot this session was started in with New Game; -1 once a save has been loaded
-        /// (Continue) or before any session. Lets the menu restart THAT slot when New Game is pressed
-        /// again, without ever wiping a save the player loaded.</summary>
-        public int NewGameSlot { get; private set; } = -1;
-
-        /// <summary>The slot a second New Game should restart: the New Game slot, as long as it is still
-        /// the active one. -1 = none, so the menu takes the first empty slot as usual.</summary>
-        public int ReusableNewGameSlot => NewGameSlot >= 0 && NewGameSlot == CurrentSlot ? NewGameSlot : -1;
-
         private SaveData _pendingData;
 
         // True once this play session has gone through SaveGame(slot)/LoadGame(slot) — the
@@ -162,8 +153,7 @@ namespace Game.Testing
             var playerMoney = player.GetComponent<PlayerMoney>();
             if (playerMoney != null)
             {
-                playerMoney.Use(playerMoney.CurrentMoney);
-                playerMoney.AddMoneySilent(data.money);
+                playerMoney.SetMoneySilent(data.money);
             }
         }
 
@@ -284,7 +274,6 @@ namespace Game.Testing
         public void BeginNewGameSession(int slot)
         {
             CurrentSlot = slot;
-            NewGameSlot = slot;
             _sessionStarted = true;
         }
 
@@ -340,7 +329,6 @@ namespace Game.Testing
             if (LoadingManager.IsLoading) return;
 
             CurrentSlot = slot;
-            NewGameSlot = -1; // this session now comes from a saved game, so New Game must never wipe it
             _sessionStarted = true;
 
             if (!SaveSystem.HasSave(slot))

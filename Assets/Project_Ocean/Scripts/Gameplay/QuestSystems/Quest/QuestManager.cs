@@ -71,13 +71,22 @@ namespace Game.Testing
         private void InitializeQuests()
         {
             activeQuestList.Clear();
+            var seenIds = new HashSet<int>();
 
             foreach (var data in allQuestTemplates)
             {
                 if (data == null)
                     continue;
 
-                activeQuestList.Add(new Quest(data));
+                var quest = new Quest(data);
+                // Save/load matches quests by id — a duplicate would load another quest's progress.
+                if (!seenIds.Add(quest.QuestID))
+                {
+                    Debug.LogError($"[QuestManager] Duplicate quest id {quest.QuestID} ('{data.name}') in All Quest Templates — skipped. Give each quest a unique id.", this);
+                    continue;
+                }
+
+                activeQuestList.Add(quest);
             }
 
             // A quest authored to start already InProgress (e.g. an intro tutorial) never
@@ -434,7 +443,6 @@ namespace Game.Testing
             else if (completedStep.IsComplete && completedStep.RewardMoney > 0)
             {
                 OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
-                NotificationManager.Notify($"+{completedStep.RewardMoney} Money");
             }
 
             EnsureQuestTracked();
@@ -491,11 +499,10 @@ namespace Game.Testing
             yield return new WaitForSeconds(StepDescriptionNotifyDelay);
             stepDescriptionRoutine = null;
 
-            // Re-read now, not at schedule time — the quest may have advanced again since.
-            // Skip guided steps — TutorialPromptUI already shows this same description on
-            // the dedicated persistent panel; toasting it too would show it twice at once.
+            // Re-read now: the quest may have advanced during the delay.
+            // Guided steps are shown by TutorialPromptUI; skip them to avoid a duplicate.
             if (!string.IsNullOrEmpty(q.StepDescription) && !q.IsGuidedSequence)
-                NotificationManager.Notify(q.StepDescription);
+                NotificationManager.Notify(q.StepDescription, NotificationChannel.Center);
         }
 
         /// <summary>
