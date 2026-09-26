@@ -1,16 +1,12 @@
 # UI/Inventory
 
-5 types · 584 LOC (non-blank) · depends on: [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×4, [UI/Items](UI_Items.md) ×3, [Core](Core.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI](UI.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Services](Core_Services.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
+4 types · 566 LOC (non-blank) · depends on: [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×4, [Core/Events](Core_Events.md) ×3, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Core](Core.md) ×3, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [UI](UI.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
 
 [← index](../README.md)
 
 ```mermaid
 classDiagram
   direction LR
-  class InventoryItemDatabase {
-    +InventoryItemDatabase(Item)
-    +FindById(int) Item
-  }
   class InventoryManager {
     <<MB>>
     +System.Action OnInventoryChanged$
@@ -57,7 +53,6 @@ classDiagram
     +OnPointerEnter(PointerEventData) void
     +OnPointerExit(PointerEventData) void
   }
-  InventoryManager --> InventoryItemDatabase : itemDatabase
   InventoryManager --> InventoryUIController : uiController
 ```
 
@@ -71,7 +66,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| InventoryItemDatabase | class | `InventoryItemDatabase.cs:3` | 18 |
 | InventoryManager | MB | `InventoryManager.cs:8` | 437 |
 | InventoryQuestService | static | `InventoryQuestService.cs:5` | 51 |
 | InventoryUIController | MB | `InventoryUIController.cs:5` | 57 |

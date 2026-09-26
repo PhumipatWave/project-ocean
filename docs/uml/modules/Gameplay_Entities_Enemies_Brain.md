@@ -1,6 +1,6 @@
 # Gameplay/Entities/Enemies/Brain
 
-8 types · 363 LOC (non-blank) · depends on: [Gameplay/Entities/Enemies/Brain/FSM/States](Gameplay_Entities_Enemies_Brain_FSM_States.md) ×6, [Core/Interfaces](Core_Interfaces.md) ×5, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×3, [Gameplay/Entities/Enemies/Brain/FSM](Gameplay_Entities_Enemies_Brain_FSM.md) ×2, [Gameplay/Entities/Enemies/PartBreak](Gameplay_Entities_Enemies_PartBreak.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
+8 types · 363 LOC (non-blank) · depends on: [Gameplay/Entities/Enemies/Brain/FSM/States](Gameplay_Entities_Enemies_Brain_FSM_States.md) ×6, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×5, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×3, [Gameplay/Entities/Enemies/Brain/FSM](Gameplay_Entities_Enemies_Brain_FSM.md) ×2, [Gameplay/Entities/Enemies/PartBreak](Gameplay_Entities_Enemies_PartBreak.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 
@@ -88,16 +88,16 @@ classDiagram
     +float groupAlertRadius
   }
   class IBrainAttack {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   class IBrainHitReaction {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   class IBrainVision {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   class IEnemyBrain {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   EnemyBaseProfile <|-- AggressiveEnemyProfile
   EnemyBaseProfile <|-- FriendlyEnemyProfile

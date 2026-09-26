@@ -1,6 +1,6 @@
 # Gameplay/Cutscenes
 
-6 types · 312 LOC (non-blank) · depends on: [Core](Core.md) ×4, [UI](UI.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [UI/UIManager](UI_UIManager.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [UI/Loading](UI_Loading.md) ×1, [UI/Notifications](UI_Notifications.md) ×1
+5 types · 304 LOC (non-blank) · depends on: [Core](Core.md) ×4, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [Core/Events](Core_Events.md) ×3, [UI](UI.md) ×2, [UI/UIManager](UI_UIManager.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [UI/Loading](UI_Loading.md) ×1
 
 [← index](../README.md)
 
@@ -16,11 +16,6 @@ classDiagram
     +string CutsceneId
     +Play(Action) void
     +AddOnComplete(Action) void
-  }
-  class CutsceneEvents {
-    <<static>>
-    +event Action~string~ OnCutsceneFinished$
-    +RaiseCutsceneFinished(string)$ void
   }
   class CutsceneGate {
     <<static>>
@@ -54,7 +49,6 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | Cutscene | MB | `Cutscene.cs:43` | 135 |
-| CutsceneEvents | static | `CutsceneEvents.cs:6` | 8 |
 | CutsceneGate | static | `CutsceneGate.cs:11` | 15 |
 | CutsceneManager | MB | `CutsceneManager.cs:21` | 132 |
 | CutsceneSkipHint | MB | `CutsceneSkipHint.cs:6` | 15 |

@@ -3,13 +3,6 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public enum LoadingType
-    {
-        Menu,
-        Land,
-        Ocean
-    }
-
     public class LoadingVisualController : MonoBehaviour
     {
         [System.Serializable]

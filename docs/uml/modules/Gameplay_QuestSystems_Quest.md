@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-37 types · 1829 LOC (non-blank) · depends on: [Core](Core.md) ×13, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×9, [UI](UI.md) ×7, [Gameplay/Environments](Gameplay_Environments.md) ×4, [UI/Loading](UI_Loading.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Core/Save](Core_Save.md) ×3, [UI/Notifications](UI_Notifications.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1, [UI/QuestCompleteUI](UI_QuestCompleteUI.md) ×1, [Core/Services](Core_Services.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [UI/Items](UI_Items.md) ×1
+34 types · 1790 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×13, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×8, [UI](UI.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×4, [UI/Loading](UI_Loading.md) ×3, [Core/Save](Core_Save.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/QuestCompleteUI](UI_QuestCompleteUI.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -22,11 +22,6 @@ classDiagram
     <<struct>>
     +string speakerId
     +string text
-  }
-  class ExploreEvents {
-    <<static>>
-    +event Action~string~ OnAreaReached$
-    +RaiseAreaReached(string)$ void
   }
   class PlayerInterior {
     <<enum>>
@@ -205,6 +200,13 @@ classDiagram
     +LoadSaveState(List~QuestSaveData~) void
     ... +11 more methods()
   }
+  class QuestNavigation {
+    <<static>>
+    +float CloseRangeMeters$
+    +InteractPosition(Transform)$ Vector3
+    +ResolveQuestTarget()$ Transform
+    +ResolveCompassTarget()$ Transform
+  }
   class ISaveParticipant {
     <<Core/Save>>
   }
@@ -250,13 +252,6 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
-  class QuestNavigation {
-    <<static>>
-    +float CloseRangeMeters$
-    +InteractPosition(Transform)$ Vector3
-    +ResolveQuestTarget()$ Transform
-    +ResolveCompassTarget()$ Transform
-  }
   class QuestTrackerUI {
     <<MB>>
     +OnClickCancelQuest() void
@@ -278,25 +273,6 @@ classDiagram
     <<MB>>
     +FindByTutorialAction(TutorialActionId)$ Transform
   }
-  class TutorialActionId {
-    <<enum>>
-    Move
-    Interact
-    BuyItem
-    SellItem
-    Dive
-    OpenQuestBoard
-    Sleep
-    MoveInHouse
-    MoveInShop
-    MoveInUpgradeShop
-    ... +10 more
-  }
-  class TutorialEvents {
-    <<static>>
-    +event Action~TutorialActionId~ OnActionPerformed$
-    +RaiseAction(TutorialActionId)$ void
-  }
   class TutorialGate {
     <<static>>
     +TutorialActionId RequiredAction$
@@ -317,9 +293,6 @@ classDiagram
     <<MB>>
   }
   ReviceQuestListUI --> ReviceQuestSlot : slotPrefab
-  TutorialActionMarker --> TutorialActionId : action
-  TutorialGate --> TutorialActionId : RequiredAction
-  TutorialUIMarker --> TutorialActionId : action
 ```
 
 ## Event subscriptions
@@ -356,7 +329,6 @@ classDiagram
 | DialogueLine | struct | `ExploreAreaTrigger.cs:44` | 1 |
 | DialogueType | enum | `QuestData.cs:39` | 9 |
 | ExploreAreaTrigger | MB | `ExploreAreaTrigger.cs:24` | 167 |
-| ExploreEvents | static | `ExploreEvents.cs:5` | 8 |
 | Line | struct | `PlayerSelfDialogueUI.cs:34` | 1 |
 | Mode | enum | `ExploreAreaTrigger.cs:25` | 5 |
 | NextQuestMode | enum | `QuestData.cs:31` | 6 |
@@ -381,10 +353,8 @@ classDiagram
 | ReviceQuestListUI | MB | `ReviceQuestListUI.cs:13` | 52 |
 | ReviceQuestSlot | MB | `ReviceQuestSlot.cs:7` | 28 |
 | TalkCompletionMode | enum | `QuestData.cs:64` | 5 |
-| TutorialActionId | enum | `TutorialEvents.cs:6` | 23 |
 | TutorialActionMarker | MB | `TutorialActionMarker.cs:13` | 42 |
-| TutorialEvents | static | `TutorialEvents.cs:36` | 8 |
-| TutorialGate | static | `TutorialEvents.cs:56` | 21 |
+| TutorialGate | static | `TutorialGate.cs:9` | 21 |
 | TutorialPromptUI | MB | `TutorialPromptUI.cs:22` | 78 |
-| TutorialStep | static | `TutorialEvents.cs:103` | 24 |
+| TutorialStep | static | `TutorialGate.cs:56` | 24 |
 | TutorialUIMarker | MB | `TutorialUIMarker.cs:14` | 22 |

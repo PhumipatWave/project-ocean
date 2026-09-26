@@ -1,6 +1,6 @@
 # Gameplay/Projectiles
 
-5 types · 226 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [Core](Core.md) ×2, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Core/Interfaces](Core_Interfaces.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1, [Core/Services](Core_Services.md) ×1, [UI/Upgrades](UI_Upgrades.md) ×1
+5 types · 226 LOC (non-blank) · depends on: [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×2, [Core/Events](Core_Events.md) ×2, [Core](Core.md) ×2, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×1, [UI/Interactions](UI_Interactions.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×1, [Core/Services](Core_Services.md) ×1
 
 [← index](../README.md)
 

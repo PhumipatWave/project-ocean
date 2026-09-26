@@ -1,6 +1,6 @@
 # Core/Save
 
-11 types · 685 LOC (non-blank) · depends on: [Core](Core.md) ×7, [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Core/Services](Core_Services.md) ×2, [UI/Loading](UI_Loading.md) ×2, [UI](UI.md) ×2, [UI/Loading/LoadingVisualController](UI_Loading_LoadingVisualController.md) ×1, [UI/Inventory](UI_Inventory.md) ×1, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+10 types · 674 LOC (non-blank) · depends on: [Core](Core.md) ×7, [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Core/Services](Core_Services.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [UI/Loading](UI_Loading.md) ×2, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [UI/Inventory](UI_Inventory.md) ×1, [UI](UI.md) ×1, [Core/Events](Core_Events.md) ×1
 
 [← index](../README.md)
 
@@ -85,13 +85,6 @@ classDiagram
     +RestoreBackup(int)$ bool
     +GetAllSlotMeta(int)$ List~SaveSlotMeta~
   }
-  class SceneLoadContext {
-    <<static>>
-    +bool IsLoading$
-    +Vector3 Position$
-    +BeginLoad(Vector3)$ void
-    +Clear()$ void
-  }
   SaveBridge --> SaveData : _pendingData
   SaveData --> ItemSaveData : inventoryItems
   SaveData --> QuestSaveData : quests
@@ -119,4 +112,3 @@ classDiagram
 | SaveSlotMeta | class | `SaveSystem.cs:14` | 8 |
 | SaveSlotUI | MB | `SaveSlotUI.cs:12` | 39 |
 | SaveSystem | static | `SaveSystem.cs:23` | 150 |
-| SceneLoadContext | static | `SceneLoadContext.cs:20` | 11 |

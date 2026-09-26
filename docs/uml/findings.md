@@ -63,24 +63,29 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Done when:** no typo folders, every MB/SO file name matches its class.
 
 ### Phase 2: put types in the right layer (medium risk, biggest win)
+**Status:** done 2026-09-26. Wrong-way links 111 → 61 (target < 55 missed; the rest is Phase 3, and 2 rows are enum-name false positives: `ItemType.Quest`, `UpgradeType.NormalBullet`).
+
+**Deviations:** `LoadingManager` stays in UI until Phase 3 (it holds `LoadingVisualController`). `TutorialGate`/`TutorialStep` stay in Gameplay (they call `TutorialPromptUI`/`QuestManager`). `PlayerFeedbackVFX` stays in UI (it is a screen-space vignette). Only `LoadingType`, `TutorialActionId`/`TutorialEvents` and `PlayerSprintVFX` moved from those groups.
+
 | Move | From → To |
 |---|---|
 | `Item`, `ItemType`, `UpgradeData`, `UpgradeType`, `InventoryItemDatabase` | UI → `Core/Datas` |
 | `NotificationManager`, `NotificationMessage`, `NotificationChannel` (bus only; views stay) | UI → `Core/Events` |
 | `TutorialActionId`, `TutorialEvents`, `CutsceneEvents`, `EnemyEvents`, `NpcEvents` (extract from `NPC.cs`), `ExploreEvents` | Gameplay → `Core/Events` |
-| `LoadingManager`, `LoadingType`, `SceneLoadContext` (loading visuals stay UI) | UI → `Core/Scenes` |
+| `LoadingType` (UI), `SceneLoadContext` (Core/Save); `LoadingManager` waits for Phase 3 | → `Core/Scenes` |
 | `IEnemyBrain`, `IEnemyState`, `IBrain*` | Core/Interfaces → `Gameplay/Entities/Enemies/Brain` |
 | Quest board UI (`QuestBoardUI`, `QuestSlot`, `QuestDetailPanel`, `QuestCategorySlot`, `QuestCategoryUIData`) | Core/Datas → `UI/Quest` |
-| `ItemDrop`, `PlayerFeedbackVFX`, `PlayerSprintVFX` (world objects) | UI → Gameplay |
+| `ItemDrop`, `PlayerSprintVFX` (world objects; `PlayerFeedbackVFX` stays UI) | UI → Gameplay |
 - **Done when:** wrong-way links roughly halved (target < 55). Only folder moves; no logic changes.
 
 ### Phase 3: cut remaining wrong-way links (medium risk)
 - `SaveBridge`: every saved system implements `ISaveParticipant` (add `PlayerHealth`, `PlayerMoney`, `InventoryManager`, `CutsceneManager`); `SaveBridge` loses the concrete calls.
-- `InventoryManager`: split into `Inventory` (slots, add/remove, save; Gameplay) + `InventoryView` (UI). `QuestManager`, `Player`, `EnemyLoot`, `UpgradeService`, `CheckPointItem` talk to `Inventory` only.
+- `InventoryManager`: split into `Inventory` (slots, add/remove, save; Gameplay) + `InventoryView` (UI). `QuestManager`, `Player`, `EnemyLoot`, `ItemDrop`, `UpgradeService`, `CheckPointItem` talk to `Inventory` only.
 - `UpgradeService`: raise `OnUpgradeApplied(UpgradeType, level)`. `OxygenRope`, `PlayerHealth`, `NormalBullet` apply their own effect.
 - `GameManager` → UI: replace `UIManager` / `NotificationManager` calls with events (`OnGameStateChanged`) the UI listens to.
-- Gameplay → UI helpers: `DamagePoint` popup driven by `EntityHealth.OnDamaged`; `DialogueSpeaker` / `InteractUI` called through events from `NPC`, `ExploreAreaTrigger`, `ChestInteract`.
+- Gameplay → UI helpers: `DamagePoint` popup driven by `EntityHealth.OnDamaged`; `DialogueSpeaker` / `InteractUI` / `QuestDetailPanel` called through events from `NPC`, `ExploreAreaTrigger`, `ChestInteract`.
 - `FeatureUnlockService` → `QuestManager`: subscribe to `OnQuestUpdated` instead of querying it.
+- `LoadingManager` → Core: talk to `LoadingVisualController` through an event or interface, then move it to `Core/Scenes`.
 - **Done when:** [metrics](metrics.md) shows 0 wrong-way links, and the largest cycle has none of Core in it.
 
 ### Phase 4: assemblies and namespaces (compile-time enforcement)

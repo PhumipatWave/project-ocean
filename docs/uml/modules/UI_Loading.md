@@ -1,6 +1,6 @@
 # UI/Loading
 
-3 types · 189 LOC (non-blank) · depends on: [UI/Loading/LoadingVisualController](UI_Loading_LoadingVisualController.md) ×2, [Core](Core.md) ×1
+3 types · 189 LOC (non-blank) · depends on: [Core](Core.md) ×1, [UI/Loading/LoadingVisualController](UI_Loading_LoadingVisualController.md) ×1, [Core/Scenes](Core_Scenes.md) ×1
 
 [← index](../README.md)
 

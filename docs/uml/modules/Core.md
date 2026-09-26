@@ -1,6 +1,6 @@
 # Core
 
-7 types · 252 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [UI](UI.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [UI/Loading/LoadingVisualController](UI_Loading_LoadingVisualController.md) ×1, [Core/Save](Core_Save.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [UI/UIManager](UI_UIManager.md) ×1, [Core/Services](Core_Services.md) ×1, [UI/Loading](UI_Loading.md) ×1
+7 types · 252 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×3, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI](UI.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [UI/UIManager](UI_UIManager.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Services](Core_Services.md) ×1, [UI/Loading](UI_Loading.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1
 
 [← index](../README.md)
 

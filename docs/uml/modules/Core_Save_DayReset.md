@@ -1,6 +1,6 @@
 # Core/Save/DayReset
 
-10 types · 572 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×4, [Core/Pool](Core_Pool.md) ×3, [Core](Core.md) ×3, [UI/Items](UI_Items.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Core/Services](Core_Services.md) ×2, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1
+10 types · 572 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×4, [Core](Core.md) ×3, [Core/Pool](Core_Pool.md) ×3, [Core/Events](Core_Events.md) ×2, [Core/Services](Core_Services.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×2, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1
 
 [← index](../README.md)
 

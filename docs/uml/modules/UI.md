@@ -1,6 +1,6 @@
 # UI
 
-17 types · 732 LOC (non-blank) · depends on: [Core](Core.md) ×12, [Core/Save](Core_Save.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [UI/Notifications](UI_Notifications.md) ×3, [Core/Inputs](Core_Inputs.md) ×2, [Core/Services](Core_Services.md) ×2, [Core/Datas](Core_Datas.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [UI/Upgrades](UI_Upgrades.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×1, [UI/UIMenuSetting](UI_UIMenuSetting.md) ×1, [UI/UIManager](UI_UIManager.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [UI/Inventory](UI_Inventory.md) ×1, [UI/Loading](UI_Loading.md) ×1
+16 types · 720 LOC (non-blank) · depends on: [Core](Core.md) ×12, [Core/Events](Core_Events.md) ×4, [Core/Save](Core_Save.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Core/Inputs](Core_Inputs.md) ×2, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Core/Services](Core_Services.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Core/Datas](Core_Datas.md) ×1, [UI/Upgrades](UI_Upgrades.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [UI/UIManager](UI_UIManager.md) ×1, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [UI/UIMenuSetting](UI_UIMenuSetting.md) ×1, [UI/Loading](UI_Loading.md) ×1, [UI/Inventory](UI_Inventory.md) ×1
 
 [← index](../README.md)
 
@@ -54,13 +54,6 @@ classDiagram
   class NextDayAnimationUI {
     <<MB>>
     +bool IsPlaying$
-  }
-  class NotificationManager {
-    <<static>>
-    +event Action~NotificationMessage~ OnNotify$
-    +event Action~NotificationChannel~ OnClear$
-    +Notify(string, NotificationChannel, Sprite, bool)$ void
-    +Clear(NotificationChannel)$ void
   }
   class NotificationUI {
     <<MB>>
@@ -117,7 +110,6 @@ classDiagram
 | LandUI | MB | `LandUI.cs:10` | 142 |
 | MainMenu | MB | `MainMenu.cs:6` | 11 |
 | NextDayAnimationUI | MB | `NextDayAnimationUI.cs:8` | 48 |
-| NotificationManager | static | `NotificationManager.cs:7` | 12 |
 | NotificationUI | MB | `NotificationUI.cs:6` | 12 |
 | PunchScale | MB | `PunchScale.cs:7` | 30 |
 | SaveNotificationUI | MB | `SaveNotificationUI.cs:6` | 7 |

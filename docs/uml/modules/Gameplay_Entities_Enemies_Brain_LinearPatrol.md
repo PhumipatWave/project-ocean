@@ -1,6 +1,6 @@
 # Gameplay/Entities/Enemies/Brain/LinearPatrol
 
-5 types · 218 LOC (non-blank) · depends on: [Core/Interfaces](Core_Interfaces.md) ×3, [Gameplay/Entities/Enemies/Brain](Gameplay_Entities_Enemies_Brain.md) ×2, [Gameplay/Entities/Enemies/PartBreak](Gameplay_Entities_Enemies_PartBreak.md) ×1
+5 types · 218 LOC (non-blank) · depends on: [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×3, [Gameplay/Entities/Enemies/Brain](Gameplay_Entities_Enemies_Brain.md) ×2, [Gameplay/Entities/Enemies/PartBreak](Gameplay_Entities_Enemies_PartBreak.md) ×1
 
 [← index](../README.md)
 
@@ -51,10 +51,10 @@ classDiagram
     <<Gameplay/Entities/Enemies/Brain>>
   }
   class IBrainHitReaction {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   class IEnemyBrain {
-    <<Core/Interfaces>>
+    <<Gameplay/Entities/Enemies/Brain/Interfaces>>
   }
   EnemyBaseProfile <|-- LinearPatrolProfile
   IBrainHitReaction <|.. LinearPatrolBrain

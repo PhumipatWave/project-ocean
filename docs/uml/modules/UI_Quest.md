@@ -1,6 +1,6 @@
-# Core/Datas/ScriptableDatas/Quests/QuestBoard
+# UI/Quest
 
-5 types · 408 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×14, [Core](Core.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1
+5 types · 408 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×10, [Core/Events](Core_Events.md) ×4, [Core](Core.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1
 
 [← index](../README.md)
 

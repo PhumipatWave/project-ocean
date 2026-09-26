@@ -1,6 +1,6 @@
 # Gameplay/InteractObjects
 
-7 types · 743 LOC (non-blank) · depends on: [Core](Core.md) ×4, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Inventory](UI_Inventory.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/Items](UI_Items.md) ×1, [Core/Pool](Core_Pool.md) ×1
+8 types · 794 LOC (non-blank) · depends on: [Core](Core.md) ×4, [Core/Pool](Core_Pool.md) ×3, [UI/Inventory](UI_Inventory.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Core/Services](Core_Services.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1
 
 [← index](../README.md)
 
@@ -34,6 +34,14 @@ classDiagram
     +CanExecute(Player)* bool
     +ExecuteItem(Player)* void
   }
+  class ItemDrop {
+    <<MB>>
+    +event System.Action OnCollected
+    +Setup(Item, ItemSpawner) void
+    +TryCollect() void
+    +OnGetFromPool() void
+    +OnReturnToPool() void
+  }
   class MiniHubItem {
     <<MB>>
   }
@@ -62,9 +70,12 @@ classDiagram
   class IPoolable {
     <<Core/Pool>>
   }
+  CollectableItemBase <|-- ItemDrop
   IItemEffect <|.. CheckPointItem
+  IPoolable <|.. ItemDrop
   IPoolable <|.. ShelleController
   ObjectWrapPoint --> WrapPoint : wrapPoints
+  ShelleController --> ItemDrop : itemDrop
 ```
 
 ## Event subscriptions
@@ -81,6 +92,7 @@ classDiagram
 | CheckPointItem | MB | `CheckPointItem.cs:10` | 91 |
 | CollectableItemBase | MB, abstract | `CollectableItemBase.cs:7` | 70 |
 | IItemEffect | interface | `IItemEffect.cs:3` | 7 |
+| ItemDrop | MB | `ItemDrop.cs:7` | 51 |
 | MiniHubItem | MB | `MiniHubItem.cs:5` | 10 |
 | ObjectWrapPoint | MB | `ObjectWrapPoint.cs:5` | 467 |
 | ShelleController | MB | `ShelleController.cs:6` | 98 |

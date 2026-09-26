@@ -1,6 +1,6 @@
 # Gameplay/Entities
 
-6 types · 303 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [UI/Interactions](UI_Interactions.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Core/Interfaces](Core_Interfaces.md) ×1
+6 types · 303 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [UI/Interactions](UI_Interactions.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×1
 
 [← index](../README.md)
 

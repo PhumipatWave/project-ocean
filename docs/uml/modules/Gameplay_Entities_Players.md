@@ -1,6 +1,6 @@
 # Gameplay/Entities/Players
 
-8 types · 925 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×9, [Core](Core.md) ×6, [UI/Items](UI_Items.md) ×4, [Gameplay/Entities](Gameplay_Entities.md) ×4, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×3, [Core/Services](Core_Services.md) ×3, [Core/Datas](Core_Datas.md) ×3, [UI/Inventory](UI_Inventory.md) ×2, [UI/Upgrades](UI_Upgrades.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×2, [UI/VFX](UI_VFX.md) ×2, [Gameplay/Projectiles](Gameplay_Projectiles.md) ×2, [Core/Save](Core_Save.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/MainCameras](Gameplay_MainCameras.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1
+9 types · 973 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×7, [Core](Core.md) ×6, [Core/Datas/Items](Core_Datas_Items.md) ×4, [Gameplay/Entities](Gameplay_Entities.md) ×4, [Core/Services](Core_Services.md) ×3, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×3, [Core/Datas](Core_Datas.md) ×3, [UI/Inventory](UI_Inventory.md) ×2, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×2, [Core/Events](Core_Events.md) ×2, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/Projectiles](Gameplay_Projectiles.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [UI/VFX](UI_VFX.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1, [Gameplay/MainCameras](Gameplay_MainCameras.md) ×1
 
 [← index](../README.md)
 
@@ -77,6 +77,11 @@ classDiagram
     +SetMoneySilent(int) void
     +Use(int) bool
   }
+  class PlayerSprintVFX {
+    <<MB>>
+    +SetDirection(Vector2) void
+    +SetSprinting(bool) void
+  }
   class PlayerStabAttack {
     <<MB>>
   }
@@ -93,6 +98,7 @@ classDiagram
   Entity <|-- Player
   EntityHealth <|-- PlayerHealth
   Player --> PlayerGunHandler : gunHandler
+  Player --> PlayerSprintVFX : playerSprintVFX
   PlayerGunHandler --> Player : player
 ```
 
@@ -117,5 +123,6 @@ classDiagram
 | PlayerGunHandler | MB | `PlayerGunHandler.cs:7` | 222 |
 | PlayerHealth | MB | `PlayerHealth.cs:5` | 64 |
 | PlayerMoney | MB | `PlayerMoney.cs:5` | 30 |
+| PlayerSprintVFX | MB | `PlayerSprintVFX.cs:3` | 48 |
 | PlayerStabAttack | MB | `PlayerStabAttack.cs:6` | 18 |
 | QuestCompass | MB | `QuestCompass.cs:20` | 25 |
