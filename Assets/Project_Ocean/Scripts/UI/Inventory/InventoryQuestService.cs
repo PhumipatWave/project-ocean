@@ -6,7 +6,7 @@ namespace Game.Testing
     {
         public static bool HasQuestItem(InventorySlot[] slots, int itemId)
         {
-            Draggableltem itemInSlot = FindItemById(slots, itemId);
+            DraggableItem itemInSlot = FindItemById(slots, itemId);
             return itemInSlot != null;
         }
 
@@ -20,7 +20,7 @@ namespace Game.Testing
             foreach (InventorySlot slot in slots)
             {
                 if (slot == null) continue;
-                Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+                DraggableItem item = slot.GetComponentInChildren<DraggableItem>();
                 if (item != null && item.GetItem() != null && item.GetItem().ItemID == itemId)
                     total += item.count;
             }
@@ -33,7 +33,7 @@ namespace Game.Testing
             foreach (InventorySlot slot in slots)
             {
                 if (slot == null || remaining <= 0) continue;
-                Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+                DraggableItem item = slot.GetComponentInChildren<DraggableItem>();
                 if (item == null || item.GetItem() == null || item.GetItem().ItemID != itemId) continue;
 
                 int take = Mathf.Min(item.count, remaining);
@@ -48,7 +48,7 @@ namespace Game.Testing
             return remaining == 0;
         }
 
-        private static Draggableltem FindItemById(InventorySlot[] slots, int itemId)
+        private static DraggableItem FindItemById(InventorySlot[] slots, int itemId)
         {
             if (slots == null) return null;
 
@@ -56,7 +56,7 @@ namespace Game.Testing
             {
                 if (slot == null) continue;
 
-                Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+                DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
                 if (itemInSlot != null && itemInSlot.GetItem() != null && itemInSlot.GetItem().ItemID == itemId)
                     return itemInSlot;
             }

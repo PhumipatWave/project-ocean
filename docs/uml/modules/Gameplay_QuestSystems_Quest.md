@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-37 types · 1829 LOC (non-blank) · depends on: [Core](Core.md) ×13, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×9, [UI](UI.md) ×7, [Gameplay/Environments](Gameplay_Environments.md) ×4, [UI/LoadingSecne](UI_LoadingSecne.md) ×3, [Core/Save Game](Core_Save_Game.md) ×3, [UI/Notifications](UI_Notifications.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Gameplay/Entitys/Players](Gameplay_Entitys_Players.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Core/Services](Core_Services.md) ×1, [UI/QuestCompleteUI](UI_QuestCompleteUI.md) ×1, [Core/Save Game/DayAndResetEnemys](Core_Save_Game_DayAndResetEnemys.md) ×1, [Gameplay/Entitys/Enemys](Gameplay_Entitys_Enemys.md) ×1, [Gameplay/Entitys/NPCs](Gameplay_Entitys_NPCs.md) ×1, [UI/Items](UI_Items.md) ×1
+37 types · 1829 LOC (non-blank) · depends on: [Core](Core.md) ×13, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×9, [UI](UI.md) ×7, [Gameplay/Environments](Gameplay_Environments.md) ×4, [UI/Loading](UI_Loading.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Core/Save](Core_Save.md) ×3, [UI/Notifications](UI_Notifications.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1, [UI/QuestCompleteUI](UI_QuestCompleteUI.md) ×1, [Core/Services](Core_Services.md) ×1, [Gameplay/Entities/Enemies](Gameplay_Entities_Enemies.md) ×1, [UI/Items](UI_Items.md) ×1
 
 [← index](../README.md)
 
@@ -206,7 +206,7 @@ classDiagram
     ... +11 more methods()
   }
   class ISaveParticipant {
-    <<Core/Save Game>>
+    <<Core/Save>>
   }
   ExploreAreaTrigger --> DialogueLine : dialogueLines
   ExploreAreaTrigger --> Mode : mode

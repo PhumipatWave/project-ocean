@@ -34,4 +34,4 @@ classDiagram
 |---|---|---|---|
 | AmmoType | enum | `BulletData.cs:5` | 7 |
 | BulletData | SO | `BulletData.cs:14` | 7 |
-| RopeStructureData | SO | `RopeData.cs:6` | 5 |
+| RopeStructureData | SO | `RopeStructureData.cs:6` | 5 |

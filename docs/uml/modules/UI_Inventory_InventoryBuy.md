@@ -12,9 +12,9 @@ classDiagram
     +Image image
     +Color selectedColor
     +Color notSelectedColor
-    +Draggableltem currentItem
+    +DraggableItem currentItem
     +bool isSelected
-    +SetItem(Draggableltem) void
+    +SetItem(DraggableItem) void
     +OnPointerClick(PointerEventData) void
     +Select() void
     +Deselect() void

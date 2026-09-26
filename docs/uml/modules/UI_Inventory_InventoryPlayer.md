@@ -7,7 +7,7 @@
 ```mermaid
 classDiagram
   direction LR
-  class Draggableltem {
+  class DraggableItem {
     <<MB>>
     +Image image
     +TMP_Text countText
@@ -41,5 +41,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| Draggableltem | MB | `Draggableltem.cs:8` | 43 |
+| DraggableItem | MB | `DraggableItem.cs:8` | 43 |
 | InventorySlot | MB | `InventorySlot.cs:8` | 62 |

@@ -347,11 +347,11 @@ namespace Game.Testing
             shopSlot.SetLocked(false);
             shopSlot.Deselect();
 
-            Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
+            DraggableItem realItem = realSlot.GetComponentInChildren<DraggableItem>();
             if (realItem == null) return;
 
             GameObject newItemGo   = Instantiate(inventoryItemPrefab, shopSlot.transform);
-            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
+            DraggableItem shopItem = newItemGo.GetComponent<DraggableItem>();
             shopItem.InitialiseItem(realItem.GetItem());
             shopItem.count   = realItem.count;
             shopItem.RefreshCount();
@@ -362,7 +362,7 @@ namespace Game.Testing
         {
             InventorySlot slot = GetSelectedSlot();
             if (slot == null) return null;
-            Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
+            DraggableItem item = slot.GetComponentInChildren<DraggableItem>();
             return item?.GetItem();
         }
 

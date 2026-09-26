@@ -1,6 +1,6 @@
 # UI/Interactions
 
-2 types · 116 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Core](Core.md) ×3, [UI](UI.md) ×1, [UI/LoadingSecne](UI_LoadingSecne.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+2 types · 116 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Core](Core.md) ×3, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI](UI.md) ×1, [UI/Loading](UI_Loading.md) ×1
 
 [← index](../README.md)
 

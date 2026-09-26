@@ -10,10 +10,10 @@ namespace Game.Testing
         public Color selectedColor    = Color.yellow;
         public Color notSelectedColor = Color.white;
 
-        public Draggableltem currentItem;
+        public DraggableItem currentItem;
         public bool isSelected;
 
-        public void SetItem(Draggableltem item)
+        public void SetItem(DraggableItem item)
         {
             currentItem = item;
         }

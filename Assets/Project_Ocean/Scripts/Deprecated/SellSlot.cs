@@ -10,7 +10,7 @@ namespace Game.Testing
             if (transform.childCount == 0)
             {
                 GameObject dropped = eventData.pointerDrag;
-                Draggableltem item = dropped.GetComponent<Draggableltem>();
+                DraggableItem item = dropped.GetComponent<DraggableItem>();
 
                 item.parentAfterDrag = transform;
             }

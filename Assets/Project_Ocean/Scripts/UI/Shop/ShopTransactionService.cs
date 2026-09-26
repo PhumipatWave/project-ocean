@@ -25,7 +25,7 @@ namespace Game.Testing
             {
                 if (slot == null) continue;
 
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
+                DraggableItem itemUI = slot.GetComponentInChildren<DraggableItem>();
                 if (itemUI == null || !IsSellAllItem(itemUI.GetItem())) continue;
 
                 total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
@@ -38,7 +38,7 @@ namespace Game.Testing
         {
             if (inventory == null || playerMoney == null) return false;
 
-            Draggableltem realItem = inventory.GetItemInSlot(slotIndex);
+            DraggableItem realItem = inventory.GetItemInSlot(slotIndex);
             if (realItem == null || realItem.GetItem() == null) return false;
 
             if (!realItem.GetItem().CanSell)
@@ -66,7 +66,7 @@ namespace Game.Testing
             {
                 if (slot == null) continue;
 
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
+                DraggableItem itemUI = slot.GetComponentInChildren<DraggableItem>();
                 if (itemUI == null || !IsSellAllItem(itemUI.GetItem())) continue;
 
                 Item item = itemUI.GetItem();
@@ -122,7 +122,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
             return false;
         }
 
-        private void RemoveOne(Draggableltem itemUI)
+        private void RemoveOne(DraggableItem itemUI)
         {
             itemUI.count--;
             if (itemUI.count <= 0)

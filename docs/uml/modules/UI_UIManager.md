@@ -1,6 +1,6 @@
 # UI/UIManager
 
-4 types · 399 LOC (non-blank) · depends on: [UI](UI.md) ×5, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Core](Core.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+4 types · 399 LOC (non-blank) · depends on: [UI](UI.md) ×5, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [Core](Core.md) ×1
 
 [← index](../README.md)
 

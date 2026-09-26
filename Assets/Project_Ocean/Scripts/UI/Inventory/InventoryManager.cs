@@ -198,7 +198,7 @@ namespace Game.Testing
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
-                Draggableltem itemInSlot = GetItemInSlot(i);
+                DraggableItem itemInSlot = GetItemInSlot(i);
                 if (itemInSlot != null &&
                     itemInSlot.GetItem().ItemType == checkType &&
                     itemInSlot.GetItem().ItemID == checkID)
@@ -248,7 +248,7 @@ namespace Game.Testing
 
         public Item GetSelectedItem()
         {
-            Draggableltem itemInSlot = GetItemInSlot(selectedSlot);
+            DraggableItem itemInSlot = GetItemInSlot(selectedSlot);
             return itemInSlot != null ? itemInSlot.GetItem() : null;
         }
 
@@ -260,7 +260,7 @@ namespace Game.Testing
             InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
             if (slot == null) return false;
 
-            Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
             if (itemInSlot == null || itemInSlot.GetItem().ItemType != checkType) return false;
 
             foundItem = itemInSlot.GetItem();
@@ -277,7 +277,7 @@ namespace Game.Testing
             InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
             if (slot == null) return null;
 
-            Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
             if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
                 return itemInSlot.GetItem();
 
@@ -352,7 +352,7 @@ namespace Game.Testing
         {
             if (!IsValidSlotIndex(selectedSlot)) return;
 
-            Draggableltem itemInSlot = GetItemInSlot(selectedSlot);
+            DraggableItem itemInSlot = GetItemInSlot(selectedSlot);
             if (itemInSlot == null)
             {
                 Debug.LogWarning("Selected slot has no item to remove.");
@@ -365,7 +365,7 @@ namespace Game.Testing
                 $"Discard {itemName}?",
                 () =>
                 {
-                    Draggableltem toRemove = GetItemInSlot(slotToRemove);
+                    DraggableItem toRemove = GetItemInSlot(slotToRemove);
                     if (toRemove == null) return;
                     Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
                     Destroy(toRemove.gameObject);
@@ -375,7 +375,7 @@ namespace Game.Testing
             );
         }
 
-        public void DiscardDraggedItem(Draggableltem itemToDiscard)
+        public void DiscardDraggedItem(DraggableItem itemToDiscard)
         {
             if (itemToDiscard == null)
                 return;
@@ -405,10 +405,10 @@ namespace Game.Testing
             );
         }
 
-        public Draggableltem GetItemInSlot(int slotIndex)
+        public DraggableItem GetItemInSlot(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex)) return null;
-            return inventorySlots[slotIndex].GetComponentInChildren<Draggableltem>();
+            return inventorySlots[slotIndex].GetComponentInChildren<DraggableItem>();
         }
 
         /// <summary>Destroys every held item and relocks any slot unlocked via upgrades —
@@ -470,7 +470,7 @@ namespace Game.Testing
         {
             if (slot == null) return false;
 
-            Draggableltem itemInSlot = slot.GetComponentInChildren<Draggableltem>();
+            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
             if (itemInSlot == null)
             {
                 SpawnNewItem(item, slot);
@@ -495,11 +495,11 @@ namespace Game.Testing
         private void SpawnNewItem(Item item, InventorySlot slot, int count = 1)
         {
             GameObject newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
-            Draggableltem inventoryItem = newItemGo.GetComponent<Draggableltem>();
+            DraggableItem inventoryItem = newItemGo.GetComponent<DraggableItem>();
             inventoryItem.InitialiseItem(item, count);
         }
 
-        private void RemoveOneItem(Draggableltem itemInSlot)
+        private void RemoveOneItem(DraggableItem itemInSlot)
         {
             itemInSlot.count--;
             if (itemInSlot.count <= 0)
@@ -527,7 +527,7 @@ namespace Game.Testing
         public void ClearBuildingSlot(int index)
         {
             if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
-            var draggable = buildingSlots[index]?.GetComponentInChildren<Draggableltem>();
+            var draggable = buildingSlots[index]?.GetComponentInChildren<DraggableItem>();
             if (draggable != null)
             {
                 var item = draggable.GetItem();
@@ -559,7 +559,7 @@ namespace Game.Testing
                     }
                     else
                     {
-                        var draggable = buildingSlots[i]?.GetComponentInChildren<Draggableltem>();
+                        var draggable = buildingSlots[i]?.GetComponentInChildren<DraggableItem>();
                         var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
                         string hint = effect?.ActionHint ?? string.Empty;
 

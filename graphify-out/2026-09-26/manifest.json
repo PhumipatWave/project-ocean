@@ -185,12 +185,6 @@
     "ast_hash": "1f389228a3ed06cae9d97af75752a724",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/Core/Datas/FishData.cs": {
-    "mtime": 1782313801.6077974,
-    "seen": 1790276289.4168205,
-    "ast_hash": "0fd22db3d0bb60d325a6d671b84904c9",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/Core/Datas/RopeData.cs": {
     "mtime": 1782313801.6189797,
     "seen": 1790276289.4168205,
@@ -261,12 +255,6 @@
     "mtime": 1788495253.7647183,
     "seen": 1790276289.4168205,
     "ast_hash": "f417cb01634b63fc68bf5bf95419b74f",
-    "semantic_hash": ""
-  },
-  "Assets/Project_Ocean/Scripts/Core/Inputs/KeyBind/KeyBind.cs": {
-    "mtime": 1788495253.7652462,
-    "seen": 1790276289.4168205,
-    "ast_hash": "b85399b2efab3dbf4b0b60ad4c975f9a",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Inputs/KeyBind/KeyBindManager.cs": {
@@ -377,12 +365,6 @@
     "ast_hash": "4c9460c9aae50a5ed548dc7478cce7cf",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/Core/Save Game/DayAndResetEnemys/EnemySpawnManager.cs": {
-    "mtime": 1789069136.9577515,
-    "seen": 1790276289.4168205,
-    "ast_hash": "7380f2968e972d5aac8aeba001cc341d",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/Core/Save Game/DayAndResetEnemys/EnemySpawner.cs": {
     "mtime": 1790283721.12945,
     "seen": 1790334147.0491374,
@@ -420,9 +402,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SaveBridge.cs": {
-    "mtime": 1790339020.249993,
-    "seen": 1790339113.1671345,
-    "ast_hash": "78e02a240d545a1e48d618e09127f577",
+    "mtime": 1790358355.9830272,
+    "seen": 1790430219.336945,
+    "ast_hash": "efcdfd5649063c7868b08fa4423381fe",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SaveData.cs": {
@@ -432,9 +414,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SaveMenuUI.cs": {
-    "mtime": 1790336044.8732753,
-    "seen": 1790336079.410371,
-    "ast_hash": "72c00041800f2e6272fcd4b5a557b7f2",
+    "mtime": 1790358355.9830272,
+    "seen": 1790430219.336945,
+    "ast_hash": "09a9a5095930171341ab29c175f9d419",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SaveSlotUI.cs": {
@@ -444,9 +426,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SaveSystem.cs": {
-    "mtime": 1790349737.7911785,
-    "seen": 1790349871.6981533,
-    "ast_hash": "e8ce9cd156fb2f51e7ded72226feab92",
+    "mtime": 1790358355.9840322,
+    "seen": 1790430219.336945,
+    "ast_hash": "b408b4967e36cfbd1f1ff7bb6bd92e1d",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Core/Save Game/SceneLoadContext.cs": {
@@ -504,8 +486,8 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/Cutscene.cs": {
-    "mtime": 1790334067.5903823,
-    "seen": 1790334147.0491374,
+    "mtime": 1790358355.9845357,
+    "seen": 1790430219.337445,
     "ast_hash": "d962e8a415d00c8e4de0699e2db33f5d",
     "semantic_hash": ""
   },
@@ -713,18 +695,6 @@
     "ast_hash": "c065bcab8267bc26b00b2ac87f75bda7",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Partbraked/EnemyHitbox.cs": {
-    "mtime": 1782313801.8537884,
-    "seen": 1790276289.4168205,
-    "ast_hash": "ecb257272fc412c0819f03fffedfcd34",
-    "semantic_hash": ""
-  },
-  "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Enemys/Partbraked/EnemyWoundSystem.cs": {
-    "mtime": 1782313801.8537884,
-    "seen": 1790276289.4168205,
-    "ast_hash": "98ca07ac70d13a56d65a20cae53edf6f",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Entity.cs": {
     "mtime": 1782313801.8537884,
     "seen": 1790276289.4168205,
@@ -767,12 +737,6 @@
     "ast_hash": "be80f159027012bfc90a095a847db43e",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/OxygenTube/MiniHub.cs": {
-    "mtime": 1782313801.8537884,
-    "seen": 1790276289.4168205,
-    "ast_hash": "e9c6c187ab68649307619c3314f2c96a",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/OxygenTube/OxygenRope.cs": {
     "mtime": 1790275537.5947423,
     "seen": 1790276289.4168205,
@@ -798,9 +762,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/PlayerMoney.cs": {
-    "mtime": 1790339020.186001,
-    "seen": 1790339113.1676342,
-    "ast_hash": "3e090afec51a3d7240166b7d3247fdac",
+    "mtime": 1790358355.9855375,
+    "seen": 1790430219.337445,
+    "ast_hash": "58e01003141b5cf2d927d6faabf01a56",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/Entitys/Players/PlayerStabAttack.cs": {
@@ -887,12 +851,6 @@
     "ast_hash": "b1e52122fbefa665566b95ef23b3124e",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/Gameplay/InteractObjects/WorldItemPickup.cs": {
-    "mtime": 1782490162.7981682,
-    "seen": 1790276289.4168205,
-    "ast_hash": "80cf8be9643c9670283f1a6ad4f1d0aa",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/Gameplay/MainCameras/CameraShakeManager.cs": {
     "mtime": 1782490162.8098118,
     "seen": 1790276289.4168205,
@@ -972,9 +930,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestManager.cs": {
-    "mtime": 1790349737.792177,
-    "seen": 1790349871.6981533,
-    "ast_hash": "fc6e1812093f707d28e4da67c250776f",
+    "mtime": 1790358355.9860375,
+    "seen": 1790430219.337445,
+    "ast_hash": "fee6a500ec14d37500711b32b4358e1d",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestNavigation.cs": {
@@ -984,8 +942,8 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/QuestTrackerUI.cs": {
-    "mtime": 1790348856.064465,
-    "seen": 1790348928.7913768,
+    "mtime": 1790358355.9865415,
+    "seen": 1790430219.337445,
     "ast_hash": "7855a55b27ef91a16feaa53165c7aca2",
     "semantic_hash": ""
   },
@@ -1014,21 +972,15 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/TutorialEvents.cs": {
-    "mtime": 1790338542.7259748,
-    "seen": 1790338623.127802,
+    "mtime": 1790358355.987048,
+    "seen": 1790430219.337445,
     "ast_hash": "8e4d1ca11cf4e63aeba4ec804f6c5cd6",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/QuestSystems/Quest/TutorialPromptUI.cs": {
-    "mtime": 1790338538.457107,
-    "seen": 1790338623.127802,
+    "mtime": 1790358355.9875414,
+    "seen": 1790430219.337445,
     "ast_hash": "1572fd5a8733abac2e680348b71f83b1",
-    "semantic_hash": ""
-  },
-  "Assets/Project_Ocean/Scripts/Gameplay/RopeSystems/IHookable.cs": {
-    "mtime": 1782313801.8691857,
-    "seen": 1790276289.4168205,
-    "ast_hash": "598c82951010e309ba2602b96ab83c51",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/RopeSystems/RopeSystemUtil.cs": {
@@ -1074,9 +1026,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/GameHUD.cs": {
-    "mtime": 1790349737.792177,
-    "seen": 1790349871.6981533,
-    "ast_hash": "cfa1fec20b23156b931aabb5f3a7105f",
+    "mtime": 1790358355.9880378,
+    "seen": 1790430219.337445,
+    "ast_hash": "9f111e8cdd2c37e724f37e1170aa4749",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Interactions/DamagePoint.cs": {
@@ -1116,8 +1068,8 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Inventory/InventoryManager.cs": {
-    "mtime": 1790341406.163707,
-    "seen": 1790341499.2085173,
+    "mtime": 1790358355.9885364,
+    "seen": 1790430219.337445,
     "ast_hash": "4cea1b3f58bf1cd83e72318f0c7de182",
     "semantic_hash": ""
   },
@@ -1145,12 +1097,6 @@
     "ast_hash": "e0f8538b02dfeed0cb4a2c766cd3fca3",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/UI/Inventory/SellSlot.cs": {
-    "mtime": 1782313801.9254358,
-    "seen": 1790276289.4168205,
-    "ast_hash": "a49757d5fedde1ef3ac442a63061be53",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/UI/Inventory/UISlotHoverHighlight.cs": {
     "mtime": 1782313801.9254358,
     "seen": 1790276289.4168205,
@@ -1163,12 +1109,6 @@
     "ast_hash": "4f66b1ffbf0189395281dd1d55ad1687",
     "semantic_hash": ""
   },
-  "Assets/Project_Ocean/Scripts/UI/Items/ItemUI.cs": {
-    "mtime": 1782313801.9264386,
-    "seen": 1790276289.4168205,
-    "ast_hash": "f62d83c3b98aae60fb1893f4907ad6ae",
-    "semantic_hash": ""
-  },
   "Assets/Project_Ocean/Scripts/UI/Items/Itemdrop.cs": {
     "mtime": 1790257206.142094,
     "seen": 1790276289.4168205,
@@ -1176,8 +1116,8 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/LandUI.cs": {
-    "mtime": 1790335531.1442084,
-    "seen": 1790335569.901973,
+    "mtime": 1790358355.9890358,
+    "seen": 1790430219.337445,
     "ast_hash": "5661de4de95b601b0513851342f27d01",
     "semantic_hash": ""
   },
@@ -1200,9 +1140,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/NotificationManager.cs": {
-    "mtime": 1790346800.8177774,
-    "seen": 1790346903.8665879,
-    "ast_hash": "d9591f1e528ed7fa683bc8d324d40c63",
+    "mtime": 1790358355.9895363,
+    "seen": 1790430219.337445,
+    "ast_hash": "34fa94af68a0829ed337f18c9187d471",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/NotificationUI.cs": {
@@ -1224,9 +1164,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/SaveNotificationUI.cs": {
-    "mtime": 1790338525.4921508,
-    "seen": 1790338623.127802,
-    "ast_hash": "62afd0a1f1c36416418b34c98bc5624e",
+    "mtime": 1790358355.996045,
+    "seen": 1790430219.337445,
+    "ast_hash": "21016d024c9588d05bda6edbb3ad1e0e",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Shop/ShopManager.cs": {
@@ -1236,8 +1176,8 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Shop/ShopTransactionService.cs": {
-    "mtime": 1790339043.613727,
-    "seen": 1790339113.1676342,
+    "mtime": 1790358355.996545,
+    "seen": 1790430219.337445,
     "ast_hash": "04acb408dfd668299ca82a78a1253622",
     "semantic_hash": ""
   },
@@ -1356,8 +1296,8 @@
     "semantic_hash": ""
   },
   "project-ocean.slnx": {
-    "mtime": 1790338482.491927,
-    "seen": 1790338623.127802,
+    "mtime": 1790358356.0912356,
+    "seen": 1790430219.337445,
     "ast_hash": "3097110162a55ab7a30e3b5258f1870b",
     "semantic_hash": ""
   },
@@ -1482,8 +1422,8 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1790336371.8632834,
-    "seen": 1790338623.127802,
+    "mtime": 1790358355.9990473,
+    "seen": 1790430219.3379447,
     "ast_hash": "e7f5e7d4fbc7c42e13895e0dd48c9da6",
     "semantic_hash": ""
   },
@@ -3630,9 +3570,9 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/Cutscenes/CutsceneSkipHint.cs": {
-    "mtime": 1790346800.87893,
-    "seen": 1790346903.8665879,
-    "ast_hash": "f83b3d111a30b84808b61d0401104ea3",
+    "mtime": 1790358355.985034,
+    "seen": 1790430219.337445,
+    "ast_hash": "8b88e4e14a7a61aae25cacc28c4769bf",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/Gameplay/Environments/RevealAfterTotalDives.cs": {
@@ -3858,81 +3798,531 @@
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/NotificationChannel.cs": {
-    "mtime": 1790338505.4850767,
-    "seen": 1790338623.127802,
-    "ast_hash": "a6756a8ed598cf94903dcd930ef5f1ff",
+    "mtime": 1790358355.9905374,
+    "seen": 1790430219.337445,
+    "ast_hash": "ada535b8a4417bd9af1d58264eefe504",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/NotificationMessage.cs": {
-    "mtime": 1790346800.8177774,
-    "seen": 1790346903.8665879,
-    "ast_hash": "8dffeca09d419d9ce0bb507479e3ffa7",
+    "mtime": 1790358355.9920354,
+    "seen": 1790430219.337445,
+    "ast_hash": "344aff965034a1115b4becc5d497426d",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/NotificationView.cs": {
-    "mtime": 1790346800.8177774,
-    "seen": 1790346903.8665879,
-    "ast_hash": "593ae1c3db500da9147456008a2e309a",
+    "mtime": 1790358355.9925375,
+    "seen": 1790430219.337445,
+    "ast_hash": "c08e68890fb50b731bbe430baf10f38a",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/ToastNotificationView.cs": {
-    "mtime": 1790346800.8187885,
-    "seen": 1790346903.8665879,
-    "ast_hash": "66f7fce1236bba83e7434761f50656da",
+    "mtime": 1790358355.9945433,
+    "seen": 1790430219.337445,
+    "ast_hash": "a28cc059eadcd722745a9f51e09cf632",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Tests/EditMode/NotificationTests.cs": {
-    "mtime": 1790348637.1719043,
-    "seen": 1790348928.7913768,
-    "ast_hash": "f3b7a4724bac605473ef3a09642418fd",
+    "mtime": 1790358355.9980438,
+    "seen": 1790430219.337445,
+    "ast_hash": "66300db5767e29c829384cf202d4a6a8",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-09-25-notification-channels.md": {
-    "mtime": 1790338189.5212793,
-    "seen": 1790338623.127802,
-    "ast_hash": "de81f4da7bb59b8f9e6d2ce2bb1e1d18",
+    "mtime": 1790358356.0000465,
+    "seen": 1790430219.3379447,
+    "ast_hash": "d99c8cc3bca3616bbae1dbaa03ce81b4",
     "semantic_hash": ""
   },
   "docs/superpowers/specs/2026-09-25-notification-channels-design.md": {
-    "mtime": 1790337791.7782464,
-    "seen": 1790338623.127802,
-    "ast_hash": "173ef9cf3210f7c9e1fe171628902bb5",
+    "mtime": 1790358356.0005467,
+    "seen": 1790430219.3379447,
+    "ast_hash": "82af33cd3571fca5f10e1ed40e138c90",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/ResourceNotificationPresenter.cs": {
-    "mtime": 1790339010.8035762,
-    "seen": 1790339113.1676342,
-    "ast_hash": "07686b6ec60123527df6ed9f8957645c",
+    "mtime": 1790358355.9930375,
+    "seen": 1790430219.337445,
+    "ast_hash": "f0149d2ab1edce39ffeb9670e01e1ef4",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/NotificationLine.cs": {
-    "mtime": 1790339449.0207624,
-    "seen": 1790339508.856822,
-    "ast_hash": "a69e4e2b7dc5ad14b9c0d7aeec3b550c",
+    "mtime": 1790358355.9915376,
+    "seen": 1790430219.337445,
+    "ast_hash": "13f900f32286cc7778de50ec45c9e51c",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/Notifications/StackNotificationView.cs": {
-    "mtime": 1790339453.936444,
-    "seen": 1790339508.856822,
-    "ast_hash": "0161d362a9db3c0ebc2af205c385d04e",
+    "mtime": 1790358355.9940405,
+    "seen": 1790430219.337445,
+    "ast_hash": "80d72f6998e8af8b803561efac045e57",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Arts/Sprites/Scene/Credit.png": {
-    "mtime": 1790346068.7301085,
-    "seen": 1790346903.8665879,
+    "mtime": 1790358355.7415664,
+    "seen": 1790430219.338445,
     "ast_hash": "298f3acf982fee3e2e6d5da4e6f0082a",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Arts/Sprites/Scene/GameMenu.png": {
-    "mtime": 1790346088.7473361,
-    "seen": 1790346903.8665879,
+    "mtime": 1790358355.746585,
+    "seen": 1790430219.338445,
     "ast_hash": "862b1ecc865fc46be455edd5a8809b28",
     "semantic_hash": ""
   },
   "Assets/Project_Ocean/Scripts/UI/PunchScale.cs": {
-    "mtime": 1790348637.0520432,
-    "seen": 1790348928.7913768,
-    "ast_hash": "2c26e3b43a73d4984a46f264aa1aa4e6",
+    "mtime": 1790358355.995544,
+    "seen": 1790430219.337445,
+    "ast_hash": "760d9fff535e44af7129e896a70461cd",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/EnemyHitbox.cs": {
+    "mtime": 1782313801.8537884,
+    "seen": 1790430219.337445,
+    "ast_hash": "ecb257272fc412c0819f03fffedfcd34",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/EnemySpawnManager.cs": {
+    "mtime": 1789069136.9577515,
+    "seen": 1790430219.337445,
+    "ast_hash": "7380f2968e972d5aac8aeba001cc341d",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/EnemyWoundSystem.cs": {
+    "mtime": 1782313801.8537884,
+    "seen": 1790430219.337445,
+    "ast_hash": "98ca07ac70d13a56d65a20cae53edf6f",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/FishData.cs": {
+    "mtime": 1782313801.6077974,
+    "seen": 1790430219.337445,
+    "ast_hash": "0fd22db3d0bb60d325a6d671b84904c9",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/IHookable.cs": {
+    "mtime": 1782313801.8691857,
+    "seen": 1790430219.337445,
+    "ast_hash": "598c82951010e309ba2602b96ab83c51",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/ItemUI.cs": {
+    "mtime": 1782313801.9264386,
+    "seen": 1790430219.337445,
+    "ast_hash": "f62d83c3b98aae60fb1893f4907ad6ae",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/KeyBind.cs": {
+    "mtime": 1788495253.7652462,
+    "seen": 1790430219.337445,
+    "ast_hash": "b85399b2efab3dbf4b0b60ad4c975f9a",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/MiniHub.cs": {
+    "mtime": 1782313801.8537884,
+    "seen": 1790430219.337445,
+    "ast_hash": "e9c6c187ab68649307619c3314f2c96a",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/SellSlot.cs": {
+    "mtime": 1782313801.9254358,
+    "seen": 1790430219.337445,
+    "ast_hash": "a49757d5fedde1ef3ac442a63061be53",
+    "semantic_hash": ""
+  },
+  "Assets/Project_Ocean/Scripts/Deprecated/WorldItemPickup.cs": {
+    "mtime": 1782490162.7981682,
+    "seen": 1790430219.337445,
+    "ast_hash": "80cf8be9643c9670283f1a6ad4f1d0aa",
+    "semantic_hash": ""
+  },
+  "tools/uml/gen_uml.py": {
+    "mtime": 1790430041.7003622,
+    "seen": 1790430219.337445,
+    "ast_hash": "5109f7e46c06dbe032673eda3ad09fc7",
+    "semantic_hash": ""
+  },
+  "tools/uml/test_gen_uml.py": {
+    "mtime": 1790429858.0591419,
+    "seen": 1790430219.337445,
+    "ast_hash": "69b36e89067dd1933931651fdeb3a1fe",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-09-26-uml-refresh-and-refactor-design.md": {
+    "mtime": 1790430183.8886178,
+    "seen": 1790430219.3379447,
+    "ast_hash": "99ab9d665a094a19a4379864e018722d",
+    "semantic_hash": ""
+  },
+  "docs/uml/00-overview.md": {
+    "mtime": 1790430185.3387756,
+    "seen": 1790430219.3379447,
+    "ast_hash": "f272a871b023ff63ee29f0df6c25dd95",
+    "semantic_hash": ""
+  },
+  "docs/uml/01-inheritance.md": {
+    "mtime": 1790430185.3392773,
+    "seen": 1790430219.3379447,
+    "ast_hash": "00dff9516e453a2a85f65ee2a47885f6",
+    "semantic_hash": ""
+  },
+  "docs/uml/02-events.md": {
+    "mtime": 1790430185.3397772,
+    "seen": 1790430219.3379447,
+    "ast_hash": "a66905f6f4926a6a029c4246aeb367de",
+    "semantic_hash": ""
+  },
+  "docs/uml/README.md": {
+    "mtime": 1790430185.3840642,
+    "seen": 1790430219.3379447,
+    "ast_hash": "41fd3149b529ead2ebd2cf5b11a4e69a",
+    "semantic_hash": ""
+  },
+  "docs/uml/findings.md": {
+    "mtime": 1790430183.7814546,
+    "seen": 1790430219.3379447,
+    "ast_hash": "1105a14fc78ce93f842ea1a6f757786a",
+    "semantic_hash": ""
+  },
+  "docs/uml/metrics.md": {
+    "mtime": 1790430185.380531,
+    "seen": 1790430219.3379447,
+    "ast_hash": "9633abff1e5d2803f2700072960978ba",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core.md": {
+    "mtime": 1790430185.269079,
+    "seen": 1790430219.3379447,
+    "ast_hash": "1a8db63d4a283ba32f7f771bb17c2e5e",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Datas.md": {
+    "mtime": 1790430185.269579,
+    "seen": 1790430219.3379447,
+    "ast_hash": "1cc9ef4be56cb65f826e92cc99624fe5",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md": {
+    "mtime": 1790430185.270079,
+    "seen": 1790430219.3379447,
+    "ast_hash": "b3aa7f51ae16b0325afb3c576652cd6f",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Datas_ScriptableDatas_Quests_QuestBoard.md": {
+    "mtime": 1790430185.2715826,
+    "seen": 1790430219.3379447,
+    "ast_hash": "9be011a57580e737d677759f32d423d7",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Inputs.md": {
+    "mtime": 1790430185.2715826,
+    "seen": 1790430219.3379447,
+    "ast_hash": "ab5b53fcb3d4b071123a4106981235f2",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Inputs_KeyBind.md": {
+    "mtime": 1790430185.2725844,
+    "seen": 1790430219.3379447,
+    "ast_hash": "ec329998f1f512adc7b1ec6b179a88c4",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Inputs_KeyBind_MovePlayerDirsction.md": {
+    "mtime": 1790430185.2725844,
+    "seen": 1790430219.3379447,
+    "ast_hash": "baeca5b363851d686a82fc5184b46c34",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Inputs_KeyBind_SaveKeyBind.md": {
+    "mtime": 1790430185.2725844,
+    "seen": 1790430219.3379447,
+    "ast_hash": "17a062a454228d43716b9b1d219ea121",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Inputs_KeyBind_UIKeyBind.md": {
+    "mtime": 1790430185.2740934,
+    "seen": 1790430219.3379447,
+    "ast_hash": "ca605d1f0532ba05d813579782705d75",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Interfaces.md": {
+    "mtime": 1790430185.2745945,
+    "seen": 1790430219.3379447,
+    "ast_hash": "4369a9a2beb5d2dc52bb2d00e43ac940",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Pool.md": {
+    "mtime": 1790430185.2745945,
+    "seen": 1790430219.3379447,
+    "ast_hash": "65b4c37d4b9b9fd26f62a04260675082",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Save_Game.md": {
+    "mtime": 1790430185.2770944,
+    "seen": 1790430219.3379447,
+    "ast_hash": "ceae9d0844d124f30d20f339fe595831",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Save_Game_DayAndResetEnemys.md": {
+    "mtime": 1790430185.279114,
+    "seen": 1790430219.3379447,
+    "ast_hash": "14e8c40bc97ced6828714aefbeae23ad",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_Services.md": {
+    "mtime": 1790430185.2796073,
+    "seen": 1790430219.3379447,
+    "ast_hash": "aaafd5bdb3ba82681c4b558d787c9e60",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Core_VideoManager.md": {
+    "mtime": 1790430185.2806156,
+    "seen": 1790430219.3379447,
+    "ast_hash": "cba36a0bc13ba6d6c63662a6923a6fb0",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Editor.md": {
+    "mtime": 1790430185.2816174,
+    "seen": 1790430219.3379447,
+    "ast_hash": "24f65719234a6fd57c6fe2ce897c6224",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_AudioSetting.md": {
+    "mtime": 1790430185.2821193,
+    "seen": 1790430219.3379447,
+    "ast_hash": "7f790f4cd916d1f60908de1e2509464f",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Cutscenes.md": {
+    "mtime": 1790430185.2836225,
+    "seen": 1790430219.3379447,
+    "ast_hash": "a7808d97aeb593eb949a8fb9f4ad7a50",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys.md": {
+    "mtime": 1790430185.2841241,
+    "seen": 1790430219.3379447,
+    "ast_hash": "8da6abaa88fb340919094b45a8b09872",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys.md": {
+    "mtime": 1790430185.2856238,
+    "seen": 1790430219.3379447,
+    "ast_hash": "7b0ac04f0af5d22994485ce7634c31cb",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Beharviours.md": {
+    "mtime": 1790430185.2866242,
+    "seen": 1790430219.3379447,
+    "ast_hash": "870e2400b856f8f27054250a56e19810",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Brain.md": {
+    "mtime": 1790430185.2891285,
+    "seen": 1790430219.3379447,
+    "ast_hash": "65f8e3909ca113721d7a6b41f8c2491d",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Brain_FSM.md": {
+    "mtime": 1790430185.2896361,
+    "seen": 1790430219.3379447,
+    "ast_hash": "d20228ce51972461ad5eba50040865c7",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Brain_FSM_States.md": {
+    "mtime": 1790430185.2926316,
+    "seen": 1790430219.3379447,
+    "ast_hash": "061702a87da81e069f02196e1f126118",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Brain_LinearPatrol.md": {
+    "mtime": 1790430185.2941353,
+    "seen": 1790430219.3379447,
+    "ast_hash": "103bc0b2f78b39ed9cda4d3542402b04",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_NavAgents.md": {
+    "mtime": 1790430185.2951355,
+    "seen": 1790430219.3379447,
+    "ast_hash": "3e932d3945d99f5903b517da1ab05a0e",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_NavAgents_Core.md": {
+    "mtime": 1790430185.296636,
+    "seen": 1790430219.3379447,
+    "ast_hash": "c816d2b689ee26ec3d41db9303e4f290",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Enemys_Partbraked.md": {
+    "mtime": 1790430185.296636,
+    "seen": 1790430219.3379447,
+    "ast_hash": "8c66fb25208cec4ebfc7107311b0e3ee",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_NPCs.md": {
+    "mtime": 1790430185.2981439,
+    "seen": 1790430219.3379447,
+    "ast_hash": "f6967c6b1349dd81f54585baf51b544a",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Players.md": {
+    "mtime": 1790430185.3016796,
+    "seen": 1790430219.3379447,
+    "ast_hash": "08ce51246eb8a8ee31c6888c3f156943",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Entitys_Players_OxygenTube.md": {
+    "mtime": 1790430185.302168,
+    "seen": 1790430219.3379447,
+    "ast_hash": "0f6738c70cd18bad59751ab183b334a8",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Environments.md": {
+    "mtime": 1790430185.3036733,
+    "seen": 1790430219.3379447,
+    "ast_hash": "cf58c8e2e6a3b3cf3361a6f97dd17e29",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_InteractObjects.md": {
+    "mtime": 1790430185.3046727,
+    "seen": 1790430219.3379447,
+    "ast_hash": "da125dbc3d584223a8a2743545d259d9",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_MainCameras.md": {
+    "mtime": 1790430185.3051717,
+    "seen": 1790430219.3379447,
+    "ast_hash": "92f84ea62597432f232d2bae06dabee7",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_Projectiles.md": {
+    "mtime": 1790430185.306173,
+    "seen": 1790430219.3379447,
+    "ast_hash": "0c554b5a30d05c0b35b0c105899a73b9",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_QuestSystems_Quest.md": {
+    "mtime": 1790430185.3136897,
+    "seen": 1790430219.3379447,
+    "ast_hash": "948a7d7d9f28cc668ecc45557409415d",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/Gameplay_RopeSystems.md": {
+    "mtime": 1790430185.3136897,
+    "seen": 1790430219.3379447,
+    "ast_hash": "2963517c10dbbfaf5ee07121c1e7247b",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI.md": {
+    "mtime": 1790430185.3172152,
+    "seen": 1790430219.3379447,
+    "ast_hash": "7a0c9226fa03c9e415bb18e849dcb457",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Interactions.md": {
+    "mtime": 1790430185.3182225,
+    "seen": 1790430219.3379447,
+    "ast_hash": "7b89e70a831eabed8e9334567ddcd9ba",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Inventory.md": {
+    "mtime": 1790430185.3192265,
+    "seen": 1790430219.3379447,
+    "ast_hash": "093e17da906bef2fc4a03dcb969d21cf",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Inventory_InventoryBin.md": {
+    "mtime": 1790430185.3202336,
+    "seen": 1790430219.3379447,
+    "ast_hash": "3b256dade597e763cd55f7ff6e59a537",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Inventory_InventoryBuy.md": {
+    "mtime": 1790430185.3207364,
+    "seen": 1790430219.3379447,
+    "ast_hash": "868d1853daf475c3529e57a2d3938f1c",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Inventory_InventoryPlayer.md": {
+    "mtime": 1790430185.3212364,
+    "seen": 1790430219.3379447,
+    "ast_hash": "8b3c4a5a4a6ee386a71509aca3eef8dd",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Items.md": {
+    "mtime": 1790430185.3222396,
+    "seen": 1790430219.3379447,
+    "ast_hash": "2a1b1977b8900b8ad9e87eff35cc5a94",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_LoadingSecne.md": {
+    "mtime": 1790430185.3227427,
+    "seen": 1790430219.3379447,
+    "ast_hash": "79117d69fe1f5202337db70ec2a1f59d",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_LoadingSecne_LoadingTextAnimation.md": {
+    "mtime": 1790430185.3227427,
+    "seen": 1790430219.3379447,
+    "ast_hash": "978742e47917c29dd601667649b65281",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_LoadingSecne_LoadingVisualController.md": {
+    "mtime": 1790430185.3232417,
+    "seen": 1790430219.3379447,
+    "ast_hash": "91e7c6d2e06d0b70482674ffd4118d5e",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Money.md": {
+    "mtime": 1790430185.3237417,
+    "seen": 1790430219.3379447,
+    "ast_hash": "ba503f91a8e67b6dd9dd2b6f8541c4a3",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Notifications.md": {
+    "mtime": 1790430185.3247423,
+    "seen": 1790430219.3379447,
+    "ast_hash": "5a11c68b34bcab5c79baaf86f685e1e8",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Ocean.md": {
+    "mtime": 1790430185.3252423,
+    "seen": 1790430219.3379447,
+    "ast_hash": "b950c81ee1be8c1135ae3f9fed1c4c93",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_QuestCompleteUI.md": {
+    "mtime": 1790430185.3257413,
+    "seen": 1790430219.3379447,
+    "ast_hash": "7417830d5c7e5e845611f39e82d43905",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Shop.md": {
+    "mtime": 1790430185.3272464,
+    "seen": 1790430219.3379447,
+    "ast_hash": "1cf21f5668298fab261dbec094081d07",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_UIManager.md": {
+    "mtime": 1790430185.3277457,
+    "seen": 1790430219.3379447,
+    "ast_hash": "15ea762abb88eea9f420fd62f6efaace",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_UIMenuSetting.md": {
+    "mtime": 1790430185.3287473,
+    "seen": 1790430219.3379447,
+    "ast_hash": "13272e15e62baa36cb61e8bc619cb9a4",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_Upgrads.md": {
+    "mtime": 1790430185.3297486,
+    "seen": 1790430219.3379447,
+    "ast_hash": "339515cf0ee74ca73db782ef0b397d14",
+    "semantic_hash": ""
+  },
+  "docs/uml/modules/UI_VFX.md": {
+    "mtime": 1790430185.3302488,
+    "seen": 1790430219.3379447,
+    "ast_hash": "423eaad98f28c2f9b06db345129662a8",
     "semantic_hash": ""
   }
 }

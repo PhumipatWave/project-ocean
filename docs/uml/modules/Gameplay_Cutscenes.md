@@ -1,6 +1,6 @@
 # Gameplay/Cutscenes
 
-6 types · 312 LOC (non-blank) · depends on: [Core](Core.md) ×4, [UI](UI.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/UIManager](UI_UIManager.md) ×1, [UI/LoadingSecne](UI_LoadingSecne.md) ×1, [UI/Notifications](UI_Notifications.md) ×1
+6 types · 312 LOC (non-blank) · depends on: [Core](Core.md) ×4, [UI](UI.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [UI/UIManager](UI_UIManager.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [UI/Loading](UI_Loading.md) ×1, [UI/Notifications](UI_Notifications.md) ×1
 
 [← index](../README.md)
 

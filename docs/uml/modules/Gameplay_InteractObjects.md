@@ -1,6 +1,6 @@
 # Gameplay/InteractObjects
 
-7 types · 743 LOC (non-blank) · depends on: [Core](Core.md) ×4, [Gameplay/Entitys/Players](Gameplay_Entitys_Players.md) ×2, [UI/Inventory](UI_Inventory.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/Items](UI_Items.md) ×1, [Core/Pool](Core_Pool.md) ×1
+7 types · 743 LOC (non-blank) · depends on: [Core](Core.md) ×4, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Inventory](UI_Inventory.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/Items](UI_Items.md) ×1, [Core/Pool](Core_Pool.md) ×1
 
 [← index](../README.md)
 

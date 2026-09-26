@@ -9,24 +9,24 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
 | QuestManager | 588 | 47 | 6 | 30 | Gameplay/QuestSystems/Quest |
-| OxygenRope | 536 | 25 | 33 | 7 | Gameplay/Entitys/Players/OxygenTube |
+| OxygenRope | 536 | 25 | 33 | 7 | Gameplay/Entities/Players/OxygenTube |
 | QuestStepDataDrawer | 528 | 10 | 2 | 6 | Editor |
 | ObjectWrapPoint | 467 | 27 | 7 | 1 | Gameplay/InteractObjects |
 | InventoryManager | 437 | 42 | 20 | 18 | UI/Inventory |
-| Player | 403 | 27 | 38 | 26 | Gameplay/Entitys/Players |
+| Player | 403 | 27 | 38 | 26 | Gameplay/Entities/Players |
 | UIManager | 362 | 34 | 11 | 6 | UI/UIManager |
 | KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
 | ShopManager | 299 | 37 | 18 | 13 | UI/Shop |
-| SaveBridge | 288 | 21 | 4 | 23 | Core/Save Game |
-| UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrads |
+| SaveBridge | 288 | 21 | 4 | 23 | Core/Save |
+| UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | QuestBoardUI | 249 | 15 | 18 | 10 | Core/Datas/ScriptableDatas/Quests/QuestBoard |
-| NPC | 238 | 20 | 20 | 17 | Gameplay/Entitys/NPCs |
-| EnemyNavAgentBase | 228 | 26 | 29 | 11 | Gameplay/Entitys/Enemys/NavAgents/Core |
-| EnemyFollowState | 223 | 11 | 16 | 9 | Gameplay/Entitys/Enemys/Brain/FSM/States |
-| PlayerGunHandler | 222 | 13 | 34 | 10 | Gameplay/Entitys/Players |
-| EnemySpawner | 209 | 12 | 17 | 10 | Core/Save Game/DayAndResetEnemys |
+| NPC | 238 | 20 | 20 | 17 | Gameplay/Entities/NPCs |
+| EnemyNavAgentBase | 228 | 26 | 29 | 11 | Gameplay/Entities/Enemies/NavAgents/Core |
+| EnemyFollowState | 223 | 11 | 16 | 9 | Gameplay/Entities/Enemies/Brain/FSM/States |
+| PlayerGunHandler | 222 | 13 | 34 | 10 | Gameplay/Entities/Players |
+| EnemySpawner | 209 | 12 | 17 | 10 | Core/Save/DayReset |
 | GameHUD | 186 | 15 | 16 | 18 | UI |
-| LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entitys/Enemys/Brain/LinearPatrol |
+| LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
 | ExploreAreaTrigger | 167 | 16 | 13 | 11 | Gameplay/QuestSystems/Quest |
 
 ## Most depended-on (fan-in)
@@ -34,9 +34,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | Used by | Examples |
 |---|---|---|
 | GameManager | 29 | Bullet, CheckPointItem, ChestInteract, Cutscene, DevPanel |
-| TutorialActionId | 27 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
+| TutorialActionId | 26 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
 | QuestManager | 20 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
-| InventoryManager | 17 | CheckPointItem, DevPanel, Draggableltem, EnemyLoot, InventorySlot |
+| InventoryManager | 17 | CheckPointItem, DevPanel, DraggableItem, EnemyLoot, InventorySlot |
 | Quest | 16 | CutsceneManager, ItemType, NPC, PlayerSelfDialogueUI, QuestBoardUI |
 | PlayerUIState | 16 | CollectableItemBase, ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel |
 | QuestType | 16 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
@@ -44,9 +44,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
 | TutorialEvents | 14 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
 | Player | 14 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
-| Item | 14 | DevItemButton, DevPanel, Draggableltem, EnemyLoot, GameObjectSpawnManager |
-| LoadingManager | 13 | CutsceneManager, GameBootstrap, GameManager, InteractUI, IntroPlayer |
+| Item | 14 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | GameFeature | 12 | CollectableItemBase, EnemySpawner, FeatureUnlockService, GameHUD, GameManager |
+| LoadingManager | 12 | CutsceneManager, GameManager, InteractUI, IntroPlayer, LandUI |
 | FeatureUnlockService | 11 | CollectableItemBase, EnemySpawner, GameHUD, GameManager, InteractUI |
 
 ## Most dependencies (fan-out)
@@ -77,7 +77,7 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 
 | File | Count |
 |---|---|
-| Gameplay/Entitys/Players/Player.cs | 4 |
+| Gameplay/Entities/Players/Player.cs | 4 |
 | Core/GameManager.cs | 2 |
 | Core/Inputs/KeyBind/UIKeyBind/MoveKeyBindUI.cs | 2 |
 | Gameplay/Environments/DoorInteract.cs | 2 |
@@ -86,50 +86,50 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | UI/Shop/ShopManager.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 139 in 41 files
+## `Debug.Log*` calls — 137 in 40 files
 
 | File | Count |
 |---|---|
-| Core/Save Game/SaveBridge.cs | 17 |
+| Core/Save/SaveBridge.cs | 17 |
 | Core/Inputs/KeyBind/KeyBindManager.cs | 13 |
-| Core/Save Game/SaveSystem.cs | 12 |
+| Core/Save/SaveSystem.cs | 12 |
 | UI/Inventory/InventoryManager.cs | 11 |
 | Gameplay/QuestSystems/Quest/QuestManager.cs | 10 |
-| Core/Save Game/DayAndResetEnemys/EnemySpawner.cs | 5 |
-| Core/Save Game/DayAndResetEnemys/GameObjectSpawnManager.cs | 5 |
-| Gameplay/Entitys/Players/Player.cs | 5 |
-| Core/Save Game/DayAndResetEnemys/ItemSpawner.cs | 4 |
+| Core/Save/DayReset/EnemySpawner.cs | 5 |
+| Core/Save/DayReset/GameObjectSpawnManager.cs | 5 |
+| Gameplay/Entities/Players/Player.cs | 5 |
+| Core/Save/DayReset/ItemSpawner.cs | 4 |
 | Gameplay/Cutscenes/Cutscene.cs | 4 |
-| Gameplay/Entitys/Players/DevPanel.cs | 4 |
-| UI/LoadingSecne/LoadingButton.cs | 4 |
+| Gameplay/Entities/Players/DevPanel.cs | 4 |
+| UI/Loading/LoadingButton.cs | 4 |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard/QuestDetailPanel.cs | 3 |
-| Gameplay/Entitys/Enemys/Brain/EnemyVision.cs | 3 |
-| UI/LoadingSecne/LoadingManager.cs | 3 |
+| Gameplay/Entities/Enemies/Brain/EnemyVision.cs | 3 |
+| UI/Loading/LoadingManager.cs | 3 |
 | UI/UIManager/UIManager.cs | 3 |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard/QuestBoardUI.cs | 2 |
 | Core/GameManager.cs | 2 |
-| Core/Save Game/DayAndResetEnemys/Interactable NextDay.cs | 2 |
-| Core/Save Game/SaveMenuUI.cs | 2 |
+| Core/Save/SaveMenuUI.cs | 2 |
 | Gameplay/AudioSetting/SoundChannel.cs | 2 |
-| Gameplay/Entitys/Enemys/Brain/FSM/EnemyFSM.cs | 2 |
-| Gameplay/Entitys/Enemys/NavAgents/Core/EnemyNavAgentBase.cs | 2 |
+| Gameplay/Entities/Enemies/Brain/FSM/EnemyFSM.cs | 2 |
+| Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 2 |
 | Gameplay/QuestSystems/Quest/ExploreAreaTrigger.cs | 2 |
-| Core/Save Game/DayAndResetEnemys/DayManager.cs | 1 |
+| Core/Save/DayReset/DayManager.cs | 1 |
+| Core/Services/UpgradeService.cs | 1 |
 
 ## Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 33 in 31 files
 
 | File | Count |
 |---|---|
-| Gameplay/Entitys/Players/OxygenTube/OxygenRope.cs | 2 |
-| Gameplay/Entitys/Players/Player.cs | 2 |
+| Gameplay/Entities/Players/OxygenTube/OxygenRope.cs | 2 |
+| Gameplay/Entities/Players/Player.cs | 2 |
 | Core/VideoManager/IntroPlayer.cs | 1 |
 | Gameplay/AudioSetting/AudioManager.cs | 1 |
-| Gameplay/Entitys/Enemys/Enemy.cs | 1 |
-| Gameplay/Entitys/Enemys/NavAgents/Core/EnemyNavAgentBase.cs | 1 |
-| Gameplay/Entitys/NPCs/NPC.cs | 1 |
-| Gameplay/Entitys/Players/DevPanel.cs | 1 |
-| Gameplay/Entitys/Players/PlayerGunHandler.cs | 1 |
-| Gameplay/Entitys/Players/QuestCompass.cs | 1 |
+| Gameplay/Entities/Enemies/Enemy.cs | 1 |
+| Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 1 |
+| Gameplay/Entities/NPCs/NPC.cs | 1 |
+| Gameplay/Entities/Players/DevPanel.cs | 1 |
+| Gameplay/Entities/Players/PlayerGunHandler.cs | 1 |
+| Gameplay/Entities/Players/QuestCompass.cs | 1 |
 | Gameplay/Environments/Bird.cs | 1 |
 | Gameplay/Environments/DoorInteract.cs | 1 |
 | Gameplay/InteractObjects/CollectableItemBase.cs | 1 |
@@ -144,24 +144,24 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | UI/GameHUD.cs | 1 |
 | UI/Interactions/InteractUI.cs | 1 |
 | UI/Inventory/InventoryManager.cs | 1 |
-| UI/LoadingSecne/LoadingTextAnimation/LoadingTextAnimation.cs | 1 |
+| UI/Loading/LoadingTextAnimation/LoadingTextAnimation.cs | 1 |
 
-## Layer violations — 113 type links
+## Layer violations — 111 type links
 
 Each row points the wrong way for Core ← Gameplay ← UI.
 
 | From module | To module | From type | To type |
 |---|---|---|---|
-| Core | Gameplay/Entitys/Players | GameManager | Player |
-| Core | Gameplay/Entitys/Players | PlayerRegistry | Player |
+| Core | Gameplay/Entities/Players | GameManager | Player |
+| Core | Gameplay/Entities/Players | PlayerRegistry | Player |
 | Core | Gameplay/QuestSystems/Quest | GameManager | TutorialActionId |
 | Core | Gameplay/QuestSystems/Quest | GameManager | TutorialEvents |
 | Core | Gameplay/QuestSystems/Quest | GameManager | TutorialGate |
 | Core | UI | GameManager | MainMenu |
 | Core | UI | GameManager | NotificationManager |
 | Core | UI | SceneNames | MainMenu |
-| Core | UI/LoadingSecne | GameManager | LoadingManager |
-| Core | UI/LoadingSecne/LoadingVisualController | GameManager | LoadingType |
+| Core | UI/Loading | GameManager | LoadingManager |
+| Core | UI/Loading/LoadingVisualController | GameManager | LoadingType |
 | Core | UI/UIManager | GameManager | UIManager |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard | Gameplay/Environments | QuestSlot | NPCManager |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard | Gameplay/QuestSystems/Quest | QuestBoardUI | Quest |
@@ -178,74 +178,72 @@ Each row points the wrong way for Core ← Gameplay ← UI.
 | Core/Datas/ScriptableDatas/Quests/QuestBoard | Gameplay/QuestSystems/Quest | QuestDetailPanel | TutorialEvents |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard | Gameplay/QuestSystems/Quest | QuestSlot | Quest |
 | Core/Datas/ScriptableDatas/Quests/QuestBoard | Gameplay/QuestSystems/Quest | QuestSlot | QuestVisuals |
-| Core/Inputs | Gameplay/Entitys/Players | InputReader | Player |
-| Core/Inputs/KeyBind | Gameplay/Entitys/Players | KeyBindManager | Player |
-| Core/Interfaces | Gameplay/Entitys/Enemys/Brain | IEnemyBrain | EnemyBrainContext |
-| Core/Interfaces | Gameplay/Entitys/Enemys/Brain | IEnemyState | EnemyBrainContext |
-| Core/Interfaces | Gameplay/Entitys/Enemys/Brain/FSM | IEnemyState | EnemyFSM |
-| Core/Interfaces | Gameplay/Entitys/Enemys/Brain/FSM | IEnemyState | EnemyStateTag |
-| Core/Save Game | Gameplay/Cutscenes | SaveBridge | CutsceneManager |
-| Core/Save Game | Gameplay/Entitys/Players | SaveBridge | PlayerHealth |
-| Core/Save Game | Gameplay/Entitys/Players | SaveBridge | PlayerMoney |
-| Core/Save Game | Gameplay/QuestSystems/Quest | EncryptionHelper | Mode |
-| Core/Save Game | Gameplay/QuestSystems/Quest | SaveBridge | QuestManager |
-| Core/Save Game | UI | SaveMenuUI | ConfirmationDialog |
-| Core/Save Game | UI | SaveMenuUI | NotificationManager |
-| Core/Save Game | UI/Inventory | SaveBridge | InventoryManager |
-| Core/Save Game | UI/Inventory/InventoryPlayer | SaveBridge | Draggableltem |
-| Core/Save Game | UI/LoadingSecne | SaveBridge | LoadingManager |
-| Core/Save Game | UI/LoadingSecne | SaveMenuUI | LoadingManager |
-| Core/Save Game | UI/LoadingSecne/LoadingVisualController | SaveBridge | LoadingType |
-| Core/Save Game/DayAndResetEnemys | Gameplay/Entitys/Enemys/Beharviours | EnemySpawner | Boid |
-| Core/Save Game/DayAndResetEnemys | Gameplay/Entitys/Enemys/NavAgents | EnemySpawner | EnemyAgent |
-| Core/Save Game/DayAndResetEnemys | Gameplay/Entitys/Enemys/NavAgents/Core | EnemySpawner | EnemyNavAgentBase |
-| Core/Save Game/DayAndResetEnemys | Gameplay/QuestSystems/Quest | DayManager | TutorialActionId |
-| Core/Save Game/DayAndResetEnemys | Gameplay/QuestSystems/Quest | DayManager | TutorialEvents |
-| Core/Save Game/DayAndResetEnemys | Gameplay/QuestSystems/Quest | InteractableNextDay | TutorialActionId |
-| Core/Save Game/DayAndResetEnemys | Gameplay/QuestSystems/Quest | InteractableNextDay | TutorialGate |
-| Core/Save Game/DayAndResetEnemys | UI/Items | GameObjectSpawnManager | Item |
-| Core/Save Game/DayAndResetEnemys | UI/Items | ItemSpawnEntry | Item |
-| Core/Save Game/DayAndResetEnemys | UI/Items | ItemSpawner | ItemDrop |
-| Core/Services | Gameplay/Entitys/Players | UpgradeService | PlayerHealth |
-| Core/Services | Gameplay/Entitys/Players | UpgradeService | PlayerMoney |
-| Core/Services | Gameplay/Entitys/Players/OxygenTube | UpgradeService | OxygenRope |
+| Core/Inputs | Gameplay/Entities/Players | InputReader | Player |
+| Core/Inputs/KeyBind | Gameplay/Entities/Players | KeyBindManager | Player |
+| Core/Interfaces | Gameplay/Entities/Enemies/Brain | IEnemyBrain | EnemyBrainContext |
+| Core/Interfaces | Gameplay/Entities/Enemies/Brain | IEnemyState | EnemyBrainContext |
+| Core/Interfaces | Gameplay/Entities/Enemies/Brain/FSM | IEnemyState | EnemyFSM |
+| Core/Interfaces | Gameplay/Entities/Enemies/Brain/FSM | IEnemyState | EnemyStateTag |
+| Core/Save | Gameplay/Cutscenes | SaveBridge | CutsceneManager |
+| Core/Save | Gameplay/Entities/Players | SaveBridge | PlayerHealth |
+| Core/Save | Gameplay/Entities/Players | SaveBridge | PlayerMoney |
+| Core/Save | Gameplay/QuestSystems/Quest | EncryptionHelper | Mode |
+| Core/Save | Gameplay/QuestSystems/Quest | SaveBridge | QuestManager |
+| Core/Save | UI | SaveMenuUI | ConfirmationDialog |
+| Core/Save | UI | SaveMenuUI | NotificationManager |
+| Core/Save | UI/Inventory | SaveBridge | InventoryManager |
+| Core/Save | UI/Inventory/InventoryPlayer | SaveBridge | DraggableItem |
+| Core/Save | UI/Loading | SaveBridge | LoadingManager |
+| Core/Save | UI/Loading | SaveMenuUI | LoadingManager |
+| Core/Save | UI/Loading/LoadingVisualController | SaveBridge | LoadingType |
+| Core/Save/DayReset | Gameplay/Entities/Enemies/Behaviours | EnemySpawner | Boid |
+| Core/Save/DayReset | Gameplay/Entities/Enemies/NavAgents | EnemySpawner | EnemyAgent |
+| Core/Save/DayReset | Gameplay/Entities/Enemies/NavAgents/Core | EnemySpawner | EnemyNavAgentBase |
+| Core/Save/DayReset | Gameplay/QuestSystems/Quest | DayManager | TutorialActionId |
+| Core/Save/DayReset | Gameplay/QuestSystems/Quest | DayManager | TutorialEvents |
+| Core/Save/DayReset | UI/Items | GameObjectSpawnManager | Item |
+| Core/Save/DayReset | UI/Items | ItemSpawnEntry | Item |
+| Core/Save/DayReset | UI/Items | ItemSpawner | ItemDrop |
+| Core/Services | Gameplay/Entities/Players | UpgradeService | PlayerHealth |
+| Core/Services | Gameplay/Entities/Players | UpgradeService | PlayerMoney |
+| Core/Services | Gameplay/Entities/Players/OxygenTube | UpgradeService | OxygenRope |
 | Core/Services | Gameplay/Projectiles | UpgradeService | NormalBullet |
 | Core/Services | Gameplay/QuestSystems/Quest | FeatureUnlockService | QuestManager |
 | Core/Services | Gameplay/QuestSystems/Quest | UpgradeService | TutorialActionId |
 | Core/Services | Gameplay/QuestSystems/Quest | UpgradeService | TutorialEvents |
 | Core/Services | UI | UpgradeService | NotificationManager |
 | Core/Services | UI/Inventory | UpgradeService | InventoryManager |
-| Core/Services | UI/Upgrads | UpgradeService | UpgradeData |
-| Core/Services | UI/Upgrads | UpgradeService | UpgradeType |
-| Core/VideoManager | UI/LoadingSecne | IntroPlayer | LoadingManager |
-| Core/VideoManager | UI/LoadingSecne/LoadingVisualController | IntroPlayer | LoadingType |
+| Core/Services | UI/Upgrades | UpgradeService | UpgradeData |
+| Core/Services | UI/Upgrades | UpgradeService | UpgradeType |
+| Core/VideoManager | UI/Loading | IntroPlayer | LoadingManager |
+| Core/VideoManager | UI/Loading/LoadingVisualController | IntroPlayer | LoadingType |
 | Gameplay/Cutscenes | UI | Cutscene | ConfirmationDialog |
 | Gameplay/Cutscenes | UI | CutsceneManager | MainMenu |
 | Gameplay/Cutscenes | UI | CutsceneSkipHint | NotificationManager |
-| Gameplay/Cutscenes | UI/LoadingSecne | CutsceneManager | LoadingManager |
+| Gameplay/Cutscenes | UI/Loading | CutsceneManager | LoadingManager |
 | Gameplay/Cutscenes | UI/Notifications | CutsceneSkipHint | NotificationChannel |
 | Gameplay/Cutscenes | UI/UIManager | Cutscene | UIManager |
-| Gameplay/Entitys | UI/Interactions | EntityDeathHandler | DamagePoint |
-| Gameplay/Entitys/Enemys | UI/Inventory | EnemyLoot | InventoryManager |
-| Gameplay/Entitys/Enemys | UI/Items | EnemyLoot | Item |
-| Gameplay/Entitys/NPCs | UI | NPC | DialogueSpeaker |
-| Gameplay/Entitys/NPCs | UI/Interactions | NPC | InteractUI |
-| Gameplay/Entitys/NPCs | UI/LoadingSecne | NPC | LoadingManager |
-| Gameplay/Entitys/Players | UI/Inventory | DevPanel | InventoryManager |
-| Gameplay/Entitys/Players | UI/Inventory | Player | InventoryManager |
-| Gameplay/Entitys/Players | UI/Items | DevItemButton | Item |
-| Gameplay/Entitys/Players | UI/Items | DevPanel | Item |
-| Gameplay/Entitys/Players | UI/Items | Player | Item |
-| Gameplay/Entitys/Players | UI/Items | Player | ItemType |
-| Gameplay/Entitys/Players | UI/Upgrads | DevPanel | UpgradeData |
-| Gameplay/Entitys/Players | UI/Upgrads | PlayerGunHandler | UpgradeType |
-| Gameplay/Entitys/Players | UI/VFX | Player | PlayerFeedbackVFX |
-| Gameplay/Entitys/Players | UI/VFX | Player | PlayerSprintVFX |
+| Gameplay/Entities | UI/Interactions | EntityDeathHandler | DamagePoint |
+| Gameplay/Entities/Enemies | UI/Inventory | EnemyLoot | InventoryManager |
+| Gameplay/Entities/Enemies | UI/Items | EnemyLoot | Item |
+| Gameplay/Entities/NPCs | UI | NPC | DialogueSpeaker |
+| Gameplay/Entities/NPCs | UI/Interactions | NPC | InteractUI |
+| Gameplay/Entities/NPCs | UI/Loading | NPC | LoadingManager |
+| Gameplay/Entities/Players | UI/Inventory | DevPanel | InventoryManager |
+| Gameplay/Entities/Players | UI/Inventory | Player | InventoryManager |
+| Gameplay/Entities/Players | UI/Items | DevItemButton | Item |
+| Gameplay/Entities/Players | UI/Items | DevPanel | Item |
+| Gameplay/Entities/Players | UI/Items | Player | Item |
+| Gameplay/Entities/Players | UI/Items | Player | ItemType |
+| Gameplay/Entities/Players | UI/Upgrades | DevPanel | UpgradeData |
+| Gameplay/Entities/Players | UI/Upgrades | PlayerGunHandler | UpgradeType |
+| Gameplay/Entities/Players | UI/VFX | Player | PlayerFeedbackVFX |
+| Gameplay/Entities/Players | UI/VFX | Player | PlayerSprintVFX |
 | Gameplay/Environments | UI/Interactions | ChestInteract | InteractUI |
 | Gameplay/InteractObjects | UI/Inventory | CheckPointItem | InventoryManager |
 | Gameplay/InteractObjects | UI/Items | ShelleController | ItemDrop |
 | Gameplay/Projectiles | UI/Interactions | Bullet | DamagePoint |
-| Gameplay/Projectiles | UI/Upgrads | NormalBullet | UpgradeType |
+| Gameplay/Projectiles | UI/Upgrades | NormalBullet | UpgradeType |
 | Gameplay/QuestSystems/Quest | UI | ExploreAreaTrigger | DialogueSpeaker |
 | Gameplay/QuestSystems/Quest | UI | PlayerSelfDialogueUI | DialogueSpeaker |
 | Gameplay/QuestSystems/Quest | UI | QuestManager | NotificationManager |
@@ -258,9 +256,9 @@ Each row points the wrong way for Core ← Gameplay ← UI.
 | Gameplay/QuestSystems/Quest | UI/Inventory | QuestVisuals | InventoryManager |
 | Gameplay/QuestSystems/Quest | UI/Inventory | TutorialPromptUI | InventoryManager |
 | Gameplay/QuestSystems/Quest | UI/Items | TutorialPromptUI | ItemType |
-| Gameplay/QuestSystems/Quest | UI/LoadingSecne | PlayerSelfDialogueUI | LoadingManager |
-| Gameplay/QuestSystems/Quest | UI/LoadingSecne | QuestTrackerUI | LoadingManager |
-| Gameplay/QuestSystems/Quest | UI/LoadingSecne | TutorialPromptUI | LoadingManager |
+| Gameplay/QuestSystems/Quest | UI/Loading | PlayerSelfDialogueUI | LoadingManager |
+| Gameplay/QuestSystems/Quest | UI/Loading | QuestTrackerUI | LoadingManager |
+| Gameplay/QuestSystems/Quest | UI/Loading | TutorialPromptUI | LoadingManager |
 | Gameplay/QuestSystems/Quest | UI/Notifications | QuestManager | NotificationChannel |
 | Gameplay/QuestSystems/Quest | UI/Notifications | TutorialGate | NotificationChannel |
 | Gameplay/QuestSystems/Quest | UI/Notifications | TutorialPromptUI | NotificationChannel |
@@ -272,12 +270,12 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 82 | AggressiveEnemyProfile, Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DialogueSpeaker, DialogueState, DoorInteract, Draggableltem, Enemy … +70 |
+| 82 | AggressiveEnemyProfile, Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DialogueSpeaker, DialogueState, DoorInteract, DraggableItem, Enemy … +70 |
 | 2 | ShopBuySlot, ShopManager |
 | 2 | LinearPatrolBrain, LinearPatrolProfile |
 | 2 | SaveMenuUI, SaveSlotUI |
 
-Modules in the largest cycle (32): Core, Core/Datas/ScriptableDatas/Quests/QuestBoard, Core/Inputs, Core/Inputs/KeyBind, Core/Interfaces, Core/Save Game/DayAndResetEnemys, Core/Services, Gameplay/Cutscenes, Gameplay/Entitys, Gameplay/Entitys/Enemys, Gameplay/Entitys/Enemys/Beharviours, Gameplay/Entitys/Enemys/Brain, Gameplay/Entitys/Enemys/Brain/FSM, Gameplay/Entitys/Enemys/Brain/FSM/States, Gameplay/Entitys/Enemys/NavAgents, Gameplay/Entitys/Enemys/NavAgents/Core, Gameplay/Entitys/Enemys/Partbraked, Gameplay/Entitys/NPCs, Gameplay/Entitys/Players, Gameplay/Entitys/Players/OxygenTube, Gameplay/Environments, Gameplay/InteractObjects, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, UI, UI/Interactions, UI/Inventory, UI/Inventory/InventoryPlayer, UI/Items, UI/QuestCompleteUI, UI/UIManager, UI/Upgrads
+Modules in the largest cycle (32): Core, Core/Datas/ScriptableDatas/Quests/QuestBoard, Core/Inputs, Core/Inputs/KeyBind, Core/Interfaces, Core/Save/DayReset, Core/Services, Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/FSM, Gameplay/Entities/Enemies/Brain/FSM/States, Gameplay/Entities/Enemies/NavAgents, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/Enemies/PartBreak, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Entities/Players/OxygenTube, Gameplay/Environments, Gameplay/InteractObjects, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, UI, UI/Interactions, UI/Inventory, UI/Inventory/InventoryPlayer, UI/Items, UI/QuestCompleteUI, UI/UIManager, UI/Upgrades
 
 ## Plain types with no code reference
 

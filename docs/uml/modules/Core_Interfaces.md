@@ -1,6 +1,6 @@
 # Core/Interfaces
 
-5 types · 30 LOC (non-blank) · depends on: [Gameplay/Entitys/Enemys/Brain](Gameplay_Entitys_Enemys_Brain.md) ×2, [Gameplay/Entitys/Enemys/Brain/FSM](Gameplay_Entitys_Enemys_Brain_FSM.md) ×2
+5 types · 30 LOC (non-blank) · depends on: [Gameplay/Entities/Enemies/Brain](Gameplay_Entities_Enemies_Brain.md) ×2, [Gameplay/Entities/Enemies/Brain/FSM](Gameplay_Entities_Enemies_Brain_FSM.md) ×2
 
 [← index](../README.md)
 

@@ -1,6 +1,6 @@
 # Core/Inputs/KeyBind/UIKeyBind
 
-3 types · 143 LOC (non-blank) · depends on: [Core/Inputs/KeyBind](Core_Inputs_KeyBind.md) ×3, [Core/Inputs/KeyBind/MovePlayerDirsction](Core_Inputs_KeyBind_MovePlayerDirsction.md) ×1
+3 types · 143 LOC (non-blank) · depends on: [Core/Inputs/KeyBind](Core_Inputs_KeyBind.md) ×3, [Core/Inputs/KeyBind/MoveDirection](Core_Inputs_KeyBind_MoveDirection.md) ×1
 
 [← index](../README.md)
 

@@ -38,7 +38,7 @@ namespace Game.Testing
         {
             GameObject newItemGo = Instantiate(shopItemPrefab, slot.transform);
 
-            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
+            DraggableItem shopItem = newItemGo.GetComponent<DraggableItem>();
             shopItem.InitialiseItem(item);
 
             // This is a catalog listing (one entry per purchasable item), not a real stack —

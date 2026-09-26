@@ -67,7 +67,7 @@ namespace Game.Testing
             GameObject dropped = eventData.pointerDrag;
             if (dropped == null) return;
 
-            Draggableltem draggableItem = dropped.GetComponent<Draggableltem>();
+            DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
             if (draggableItem == null) return;
 
             if (transform.childCount == 0)

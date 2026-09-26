@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-71 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
+69 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
 
 ```mermaid
 flowchart LR
@@ -22,7 +22,6 @@ flowchart LR
   GameObjectSpawnManager[GameObjectSpawnManager] -->|OnDayAdvanced, OnEnemyReset| DayManager[DayManager]
   InputReader[InputReader] -->|OnInitialized| KeyBindManager[KeyBindManager]
   InteractUI[InteractUI] -->|OnInteracted| InputReader[InputReader]
-  InteractableNextDay[InteractableNextDay] -->|OnDayAdvanced, OnDivedToday| DayManager[DayManager]
   InventoryManager[InventoryManager] -->|OnInventoryToggled| InputReader[InputReader]
   ItemSpawner[ItemSpawner] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
   KeyBindUI[KeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
@@ -74,8 +73,8 @@ flowchart LR
 |---|---|---|
 | CutsceneEvents | OnCutsceneFinished | QuestManager |
 | CutsceneGate | OnPlayingChanged | CutsceneSkipHint |
-| DayManager | OnDayAdvanced | GameHUD, GameObjectSpawnManager, InteractableNextDay, LandUI, NextDayAnimationUI, QuestManager, SaveBridge, TrashInteract |
-| DayManager | OnDivedToday | InteractableNextDay, LandUI, QuestManager |
+| DayManager | OnDayAdvanced | GameHUD, GameObjectSpawnManager, LandUI, NextDayAnimationUI, QuestManager, SaveBridge, TrashInteract |
+| DayManager | OnDivedToday | LandUI, QuestManager |
 | DayManager | OnEnemyReset | EnemyKillTracker, GameObjectSpawnManager |
 | DialogueState | OnChanged | LandUI |
 | EnemyEvents | OnEnemyKilled | QuestManager |

@@ -6,11 +6,11 @@
 
 | | Old PDF | Now |
 |---|---|---|
-| Script files (live, excl. `Deprecated/`) | 186 | 204 |
-| Types | 229 | 257 |
+| Script files (live, excl. `Deprecated/`) | 186 | 200 (after Phase 1) |
+| Types | 229 | 253 |
 | `static Instance` singletons | 22 | 23 (+ `LoadingManager`, `OneTimePickupTracker`; − `FlockManager`) |
 | Largest dependency cycle | 51 types / 21 modules | 82 types / 32 modules |
-| Wrong-way layer links | 64 | 113 |
+| Wrong-way layer links | 64 | 111 |
 
 **New systems:** Loading (`LoadingManager`, `BootstrapLoader`, `LoadingButton`, loading visuals), notification channels (`NotificationChannel`, `NotificationMessage`, `NotificationView` → `StackNotificationView` / `ToastNotificationView`, `ResourceNotificationPresenter`), audio channels (`SoundChannel`, `SoundKeys`, `AudioSliderBinder`), characters (`CharacterData`, `CharacterDatabase`, `DialogueSpeaker`, `DialogueState`), explore quests (`ExploreAreaTrigger`, `ExploreEvents`), `TutorialUIMarker`, `OneTimePickupTracker`, `RevealAfterTotalDives`, `CutsceneSkipHint`, VFX (`PlayerFeedbackVFX`, `PlayerSprintVFX`), `PunchScale`, `UIFadeBackground`.
 
@@ -36,15 +36,15 @@ Criteria: script GUID not referenced by any scene, prefab or asset (text seriali
 | `SellSlot.cs` | UI/Inventory | Not in any scene/prefab |
 | `ItemUI.cs` | UI/Items | Not in any scene/prefab |
 
-**Also unreferenced but kept (edited 2026-09-23, may be work in progress — your call):** `Interactable NextDay.cs`, `UI/LoadingSecne/GameBootstrap.cs`, `LandOpeningController.cs`, `LoadingUI.cs`.
+**Also unreferenced, moved to `Deprecated/` in Phase 1 by user decision:** `InteractableNextDay.cs` (was `Interactable NextDay.cs`), `GameBootstrap.cs`, `LandOpeningController.cs`, `LoadingUI.cs` (all three were in `UI/LoadingSecne`).
 
-**File name ≠ class name** (Unity cannot attach or load these reliably): `Interactable NextDay.cs` → `InteractableNextDay` (likely why it is in no scene), `Core/Datas/RopeData.cs` → `RopeStructureData` (SO), `UI/Items/Itemdrop.cs` → `ItemDrop` (case only).
+**File name ≠ class name** (Unity cannot attach or load these reliably): `Interactable NextDay.cs` → `InteractableNextDay` (likely why it is in no scene), `Core/Datas/RopeData.cs` → `RopeStructureData` (SO), `UI/Items/Itemdrop.cs` → `ItemDrop` (case only) — fixed in Phase 1.
 
 ## 3. Root causes
 
 1. **Domain code lives in UI folders.** `Item`, `ItemType`, `UpgradeData`, `UpgradeType`, `InventoryManager` (data + rules + view in one class), `ShopManager`, `NotificationManager` (a static event bus), `LoadingManager` (a global manager). Core and Gameplay must reach "up" to use them.
 2. **UI lives in Core.** `QuestBoardUI`, `QuestSlot`, `QuestDetailPanel`, `QuestCategorySlot` sit in `Core/Datas/ScriptableDatas/Quests/QuestBoard`.
-3. **Shared event types live in Gameplay.** `TutorialActionId` and `TutorialEvents` (Gameplay/QuestSystems) are raised by Core types (`GameManager`, `DayManager`, `UpgradeService`, `InteractableNextDay`).
+3. **Shared event types live in Gameplay.** `TutorialActionId` and `TutorialEvents` (Gameplay/QuestSystems) are raised by Core types (`GameManager`, `DayManager`, `UpgradeService`).
 4. **Enemy-only interfaces live in Core.** `IEnemyBrain`, `IEnemyState`, `IBrainAttack`, `IBrainVision`, `IBrainHitReaction` sit in `Core/Interfaces` but reference `EnemyBrainContext` and `EnemyFSM` in Gameplay.
 5. **Hubs pull concrete types instead of using existing seams.** `SaveBridge` (23 deps) calls `PlayerHealth`, `PlayerMoney`, `InventoryManager`, `QuestManager` directly, although `ISaveParticipant` already exists and 6 classes implement it. `UpgradeService` pokes `OxygenRope`, `NormalBullet`, `PlayerHealth`, `PlayerMoney`. `GameManager` calls `UIManager`, `Player`, `NotificationManager`.
 6. **Everything compiles in one assembly named `Game.Testing`** (192 files use `namespace Game.Testing`), so nothing stops a new wrong-way reference.
@@ -56,6 +56,7 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 **Rules for all phases:** move and rename only inside the Unity Editor or with the `.meta` file (GUIDs keep scene/prefab links). Managers stay in AS_PlayerHUD; do not edit the Bootstrap duplicates. No new managers.
 
 ### Phase 1: names (low risk)
+**Status:** done 2026-09-26.
 - Rename folders: `Entitys`→`Entities`, `Enemys`→`Enemies`, `Beharviours`→`Behaviours`, `Partbraked`→`PartBreak`, `Upgrads`→`Upgrades`, `LoadingSecne`→`Loading`, `MovePlayerDirsction`→`MoveDirection`, `DayAndResetEnemys`→`DayReset`, `Save Game`→`Save`.
 - Fix file/class mismatches listed in §2 (`Draggableltem` → `DraggableItem` too).
 - Decide the four "kept" unreferenced scripts.
@@ -99,7 +100,7 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 | `ShopManager`, `SaveBridge`, `Quest.cs` | 405 / 435 / 545 lines | after Phase 3; re-measure first |
 
 ### Phase 6: cleanup (low risk, any time after Phase 4)
-- 139 `Debug.Log*` calls in 41 files → one `[Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]` logger.
+- 137 `Debug.Log*` calls in 40 files → one `[Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]` logger.
 - 14 `Find*` calls in 8 files → a spawn-point registry (the `Player`/`GameManager` tag lookups) and serialized references.
 - 23 singletons → keep true globals (GameManager, SaveBridge, AudioManager, LoadingManager, ObjectPoolManager); expose the rest through events or serialized references as Phase 3 removes callers.
 - `public` fields on ScriptableObject profiles (`EnemyBaseProfile`, `Item`) → `[SerializeField] private` + read-only properties. Rename with `[FormerlySerializedAs]` to keep asset data.

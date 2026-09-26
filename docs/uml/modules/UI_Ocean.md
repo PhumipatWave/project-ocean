@@ -1,6 +1,6 @@
 # UI/Ocean
 
-1 types · 73 LOC (non-blank) · depends on: [Core](Core.md) ×2, [Gameplay/Entitys/Players/OxygenTube](Gameplay_Entitys_Players_OxygenTube.md) ×1
+1 types · 73 LOC (non-blank) · depends on: [Core](Core.md) ×2, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×1
 
 [← index](../README.md)
 
