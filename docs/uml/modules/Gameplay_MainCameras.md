@@ -1,0 +1,27 @@
+# Gameplay/MainCameras
+
+2 types · 40 LOC (non-blank) · depends on: [Core](Core.md) ×1
+
+[← index](../README.md)
+
+```mermaid
+classDiagram
+  direction LR
+  class CameraShakeManager {
+    <<MB>>
+    +CameraShakeManager Instance$
+    +SmallShake() void
+    +NormalShake() void
+    +HighShake() void
+  }
+  class PlayerCamera {
+    <<MB>>
+  }
+```
+
+## Files
+
+| Type | Kind | File | LOC |
+|---|---|---|---|
+| CameraShakeManager | MB | `CameraShakeManager.cs:6` | 17 |
+| PlayerCamera | MB | `PlayerCamera.cs:8` | 23 |
