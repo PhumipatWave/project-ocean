@@ -1,6 +1,6 @@
 # Editor
 
-3 types · 576 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×8, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+3 types · 576 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×6
 
 [← index](../README.md)
 

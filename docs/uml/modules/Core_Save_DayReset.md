@@ -1,6 +1,6 @@
 # Core/Save/DayReset
 
-10 types · 572 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×4, [Core](Core.md) ×3, [Core/Pool](Core_Pool.md) ×3, [Core/Events](Core_Events.md) ×2, [Core/Services](Core_Services.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×2, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1
+3 types · 107 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×6, [Core/Events](Core_Events.md) ×2
 
 [← index](../README.md)
 
@@ -25,6 +25,8 @@ classDiagram
     +SetTotalDives(int) void
     +TryRecordDive() bool
     +AdvanceDay() void
+    +Collect(SaveData) void
+    +Apply(SaveData) void
   }
   class EnemyKillTracker {
     <<MB>>
@@ -34,41 +36,6 @@ classDiagram
     +ResetAll() void
     +Collect(SaveData) void
     +Apply(SaveData) void
-  }
-  class ZoneSpawnEntry {
-    +string enemyId
-    +float weight
-  }
-  class EnemySpawner {
-    <<MB>>
-    +ResetZone() void
-  }
-  class EnemySpawnEntry {
-    +string id
-    +GameObject prefab
-  }
-  class ItemSpawnEntry {
-    +Item item
-  }
-  class GameObjectSpawnManager {
-    <<MB>>
-    +GameObjectSpawnManager Instance$
-    +GetEnemyPrefab(string) GameObject
-    +GetItem(int) Item
-    +GetItemAt(int) Item
-    +RegisterSpawner(EnemySpawner) void
-    +UnregisterSpawner(EnemySpawner) void
-    +RegisterItemSpawner(ItemSpawner) void
-    +UnregisterItemSpawner(ItemSpawner) void
-  }
-  class ZoneItemEntry {
-    +int itemIndex
-    +float weight
-  }
-  class ItemSpawner {
-    <<MB>>
-    +ResetSpawner() void
-    +OnItemCollected(GameObject) void
   }
   class OneTimePickupTracker {
     <<MB>>
@@ -82,14 +49,9 @@ classDiagram
   class ISaveParticipant {
     <<Core/Save>>
   }
-  EnemySpawner --> ZoneSpawnEntry : spawnEntries
-  GameObjectSpawnManager --> EnemySpawnEntry : allEnemies
-  GameObjectSpawnManager --> EnemySpawner : enemySpawners
-  GameObjectSpawnManager --> ItemSpawnEntry : allItems
-  GameObjectSpawnManager --> ItemSpawner : itemSpawners
+  ISaveParticipant <|.. DayManager
   ISaveParticipant <|.. EnemyKillTracker
   ISaveParticipant <|.. OneTimePickupTracker
-  ItemSpawner --> ZoneItemEntry : spawnEntries
 ```
 
 ## Event subscriptions
@@ -97,21 +59,11 @@ classDiagram
 | Subscriber | Publisher | Event |
 |---|---|---|
 | EnemyKillTracker | DayManager | OnEnemyReset |
-| GameObjectSpawnManager | DayManager | OnDayAdvanced |
-| GameObjectSpawnManager | DayManager | OnEnemyReset |
-| ItemSpawner | FeatureUnlockService | OnFeatureUnlocked |
 
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DayManager | MB | `DayManager.cs:6` | 46 |
+| DayManager | MB | `DayManager.cs:6` | 59 |
 | EnemyKillTracker | MB | `EnemyKillTracker.cs:10` | 28 |
-| EnemySpawnEntry | class | `GameObjectSpawnManager.cs:10` | 6 |
-| EnemySpawner | MB | `EnemySpawner.cs:21` | 209 |
-| GameObjectSpawnManager | MB | `GameObjectSpawnManager.cs:26` | 112 |
-| ItemSpawnEntry | class | `GameObjectSpawnManager.cs:18` | 5 |
-| ItemSpawner | MB | `ItemSpawner.cs:20` | 132 |
 | OneTimePickupTracker | MB | `OneTimePickupTracker.cs:9` | 20 |
-| ZoneItemEntry | class | `ItemSpawner.cs:8` | 7 |
-| ZoneSpawnEntry | class | `EnemySpawner.cs:10` | 7 |

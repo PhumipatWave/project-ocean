@@ -32,9 +32,9 @@ namespace Game.Testing
         public override void TryCollect()
         {
             if (!IsCollectable) return;
-            if (InventoryManager.Instance == null || ActiveItem == null) return;
+            if (Inventory.Current == null || ActiveItem == null) return;
 
-            bool added = InventoryManager.Instance.AddItem(ActiveItem);
+            bool added = Inventory.Current.AddItem(ActiveItem);
             if (!added) return; // inventory full — leave item in world
 
             AudioManager.Instance?.PlaySFX(SoundKeys.Collect);

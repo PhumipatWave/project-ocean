@@ -1,6 +1,6 @@
 # UI/UIManager
 
-4 types · 399 LOC (non-blank) · depends on: [UI](UI.md) ×5, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [Core](Core.md) ×1
+4 types · 405 LOC (non-blank) · depends on: [UI](UI.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [Core](Core.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
 
 [← index](../README.md)
 
@@ -52,11 +52,17 @@ classDiagram
   UIManager --> UIWindow : windows
 ```
 
+## Event subscriptions
+
+| Subscriber | Publisher | Event |
+|---|---|---|
+| UIManager | GameManager | OnReturningToMenu |
+
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| UIManager | MB | `UIManager.cs:21` | 362 |
+| UIManager | MB | `UIManager.cs:21` | 368 |
 | UIManager_UIType | enum | `UIManager.cs:24` | 10 |
 | UIWindow | MB | `UIWindow.cs:5` | 37 |
 | UIWindow_UIType | enum | `UIWindow.cs:6` | 9 |

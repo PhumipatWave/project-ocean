@@ -1,6 +1,6 @@
 # UI/QuestCompleteUI
 
-1 types · 98 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [UI](UI.md) ×1
+1 types · 104 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI](UI.md) ×1
 
 [← index](../README.md)
 
@@ -14,8 +14,14 @@ classDiagram
   }
 ```
 
+## Event subscriptions
+
+| Subscriber | Publisher | Event |
+|---|---|---|
+| QuestCompleteUI | QuestManager | OnQuestCompleted |
+
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| QuestCompleteUI | MB | `QuestCompleteUI.cs:7` | 98 |
+| QuestCompleteUI | MB | `QuestCompleteUI.cs:7` | 104 |

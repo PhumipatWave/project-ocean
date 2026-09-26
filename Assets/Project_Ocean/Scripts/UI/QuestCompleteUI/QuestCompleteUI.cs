@@ -33,6 +33,14 @@ namespace Game.Testing
 
             if (panel != null)
                 panel.SetActive(false);
+
+            QuestManager.OnQuestCompleted += Show;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                QuestManager.OnQuestCompleted -= Show;
         }
 
         public void Show(Quest quest)

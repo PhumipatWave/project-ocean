@@ -66,7 +66,7 @@ namespace Game.Testing
                     (enemy.Brain as IBrainHitReaction)?.OnHit();
                     TutorialEvents.RaiseAction(TutorialActionId.HitEnemy);
 
-                    var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
+                    var darmagePoint = collision.GetComponentInChildren<IDamagePopup>();
                     darmagePoint.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);

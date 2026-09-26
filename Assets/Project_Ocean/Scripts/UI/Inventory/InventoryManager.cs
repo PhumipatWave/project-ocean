@@ -5,9 +5,14 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class InventoryManager : MonoBehaviour
+    public class InventoryManager : MonoBehaviour, ISaveParticipant, IInventory
     {
-        public static System.Action OnInventoryChanged;
+        // Forwards to Inventory.OnChanged so gameplay listens without referencing this UI class.
+        public static System.Action OnInventoryChanged
+        {
+            get => Inventory.OnChanged;
+            set => Inventory.OnChanged = value;
+        }
         public static System.Action OnInventoryClosed;
 
         // Kept public so existing scene and button references do not break.
@@ -51,6 +56,7 @@ namespace Game.Testing
             }
 
             Instance = this;
+            Inventory.Register(this);
             // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
 
             uiController = GetComponent<InventoryUIController>();
@@ -61,8 +67,17 @@ namespace Game.Testing
             itemDatabase = new InventoryItemDatabase(allItems);
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Inventory.Unregister(this);
+        }
+
         private void OnEnable()
         {
+            UpgradeService.OnLevelGranted += HandleUpgradeGranted;
+            UpgradeService.OnLevelsLoaded += HandleUpgradesLoaded;
+
             if (inputReader != null)
             {
                 inputReader.OnInventoryToggled += HandleInventoryToggle;
@@ -73,6 +88,9 @@ namespace Game.Testing
 
         private void OnDisable()
         {
+            UpgradeService.OnLevelGranted -= HandleUpgradeGranted;
+            UpgradeService.OnLevelsLoaded -= HandleUpgradesLoaded;
+
             if (inputReader != null)
             {
                 inputReader.OnInventoryToggled -= HandleInventoryToggle;
@@ -309,6 +327,15 @@ namespace Game.Testing
             for (int i = 0; i < extraSlots; i++)
                 UnlockNextSlot();
         }
+
+        private void HandleUpgradeGranted(UpgradeData data)
+        {
+            if (data.type == UpgradeType.Inventory)
+                UnlockNextSlot();
+        }
+
+        private void HandleUpgradesLoaded() =>
+            SetUnlockedExtraSlots(UpgradeService.Instance.GetLevel(UpgradeType.Inventory));
 
 
         public bool HasQuestItem(int itemId)
@@ -592,5 +619,67 @@ namespace Game.Testing
         }
 
         public void RefreshBuildingHints() => RefreshHintUI();
+
+        public void Collect(SaveData data)
+        {
+            data.inventoryItems = new List<ItemSaveData>();
+            var slots = InventorySlots;
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var item = slots[i].GetComponentInChildren<DraggableItem>();
+                if (item?.GetItem() == null) continue;
+
+                data.inventoryItems.Add(new ItemSaveData
+                {
+                    slotIndex = i,
+                    itemID    = item.GetItem().ItemID.ToString(),
+                    count     = item.count,
+                });
+            }
+        }
+
+        public void Apply(SaveData data)
+        {
+            // Clear all existing items first
+            foreach (var slot in InventorySlots)
+            {
+                var existing = slot.GetComponentInChildren<DraggableItem>();
+                if (existing != null) Destroy(existing.gameObject);
+            }
+
+            foreach (var saved in data.inventoryItems)
+            {
+                if (!int.TryParse(saved.itemID, out int id))
+                {
+                    Debug.LogWarning($"[InventoryManager] Invalid itemID: '{saved.itemID}'");
+                    continue;
+                }
+
+                // Look up item from the allItems database — NOT from current inventory slots
+                var item = FindItemInDatabase(id);
+                if (item == null)
+                {
+                    // LogError (not LogWarning): this means the item was silently dropped
+                    // from the loaded inventory — a data-loss bug, not a minor issue.
+                    // Usually caused by the item's ScriptableObject missing from
+                    // InventoryManager's "Item Database -> All Items" list in the Inspector.
+                    Debug.LogError($"[InventoryManager] Item ID {id} not found in allItems database — " +
+                                    $"item was DROPPED from inventory on load! Add its ScriptableObject to " +
+                                    $"InventoryManager's Item Database list.");
+                    continue;
+                }
+
+                if (saved.slotIndex >= InventorySlots.Length)
+                {
+                    Debug.LogWarning($"[InventoryManager] slotIndex {saved.slotIndex} out of range");
+                    continue;
+                }
+
+                // Spawn with the saved stack count in one step — the item is born
+                // with the correct count and a single RefreshCount(), so the count
+                // label shows immediately regardless of load order.
+                SpawnItemAtSlot(item, saved.slotIndex, Mathf.Max(1, saved.count));
+            }
+        }
     }
 }

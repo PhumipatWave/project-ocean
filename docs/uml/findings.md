@@ -10,7 +10,7 @@
 | Types | 229 | 253 |
 | `static Instance` singletons | 22 | 23 (+ `LoadingManager`, `OneTimePickupTracker`; − `FlockManager`) |
 | Largest dependency cycle | 51 types / 21 modules | 82 types / 32 modules |
-| Wrong-way layer links | 64 | 111 |
+| Wrong-way layer links | 64 | 0 (after Phase 3; the metric no longer counts member names) |
 
 **New systems:** Loading (`LoadingManager`, `BootstrapLoader`, `LoadingButton`, loading visuals), notification channels (`NotificationChannel`, `NotificationMessage`, `NotificationView` → `StackNotificationView` / `ToastNotificationView`, `ResourceNotificationPresenter`), audio channels (`SoundChannel`, `SoundKeys`, `AudioSliderBinder`), characters (`CharacterData`, `CharacterDatabase`, `DialogueSpeaker`, `DialogueState`), explore quests (`ExploreAreaTrigger`, `ExploreEvents`), `TutorialUIMarker`, `OneTimePickupTracker`, `RevealAfterTotalDives`, `CutsceneSkipHint`, VFX (`PlayerFeedbackVFX`, `PlayerSprintVFX`), `PunchScale`, `UIFadeBackground`.
 
@@ -79,13 +79,13 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Done when:** wrong-way links roughly halved (target < 55). Only folder moves; no logic changes.
 
 ### Phase 3: cut remaining wrong-way links (medium risk)
-- `SaveBridge`: every saved system implements `ISaveParticipant` (add `PlayerHealth`, `PlayerMoney`, `InventoryManager`, `CutsceneManager`); `SaveBridge` loses the concrete calls.
-- `InventoryManager`: split into `Inventory` (slots, add/remove, save; Gameplay) + `InventoryView` (UI). `QuestManager`, `Player`, `EnemyLoot`, `ItemDrop`, `UpgradeService`, `CheckPointItem` talk to `Inventory` only.
-- `UpgradeService`: raise `OnUpgradeApplied(UpgradeType, level)`. `OxygenRope`, `PlayerHealth`, `NormalBullet` apply their own effect.
-- `GameManager` → UI: replace `UIManager` / `NotificationManager` calls with events (`OnGameStateChanged`) the UI listens to.
-- Gameplay → UI helpers: `DamagePoint` popup driven by `EntityHealth.OnDamaged`; `DialogueSpeaker` / `InteractUI` / `QuestDetailPanel` called through events from `NPC`, `ExploreAreaTrigger`, `ChestInteract`.
+**Progress:** 3a + 3b done 2026-09-26. Metric fixed (61 → 50 real), then 50 → 37: spawners → `Gameplay/Spawning`, `QuestTrackerUI` → `UI/Quest`, `LoadingManager` → `Core/Scenes` via `ILoadingVisual`. 3c-1 done: `GameManager` → `Gameplay/Game`, `SaveBridge` → `Gameplay/Save`, `UpgradeService`/`FeatureUnlockService` → `Gameplay/Services`, `PlayerRegistry` → `Gameplay/Entities/Players`, save menu UI → `UI/Save` (37 → 27). 3c-2 done: PlayerHealth, PlayerMoney, InventoryManager, DayManager save their own slice via ISaveParticipant (save content verified identical). 3d done: UpgradeService raises OnLevelGranted/OnLevelsLoaded; PlayerHealth and InventoryManager apply their own effects (26 links). 3f-1 done: GameState → Core, InteractUI → Gameplay/Interaction; QuestCompleteUI, UIManager, PlayerFeedbackVFX listen to gameplay events; DamagePoint via IDamagePopup (16 links). 3e done: gameplay uses IInventory/Inventory.Current instead of InventoryManager (6 links). 3f-2 done: NPC/ExploreAreaTrigger/PlayerSelfDialogueUI use IDialogueView (DialoguePanelView), NPC → IQuestOfferView, Cutscene → IModalPrompt (0 links).
+- `SaveBridge`: every saved system implements `ISaveParticipant` (add `PlayerHealth`, `PlayerMoney`, `InventoryManager`, `CutsceneManager`); `SaveBridge` loses the concrete calls. — done in 3c-2
+- `InventoryManager`: split into `Inventory` (slots, add/remove, save; Gameplay) + `InventoryView` (UI). `QuestManager`, `Player`, `EnemyLoot`, `ItemDrop`, `UpgradeService`, `CheckPointItem` talk to `Inventory` only. — done in 3e as an interface (IInventory); a full data/view split is still possible later if inventory grows.
+- `UpgradeService`: raise `OnUpgradeApplied(UpgradeType, level)`. `OxygenRope`, `PlayerHealth`, `NormalBullet` apply their own effect. — done in 3d (DevGrantNextLevel's InventoryManager check waits for 3e)
+- `GameManager` → UI: replace `UIManager` / `NotificationManager` calls with events (`OnGameStateChanged`) the UI listens to — done in 3f-1 (`OnReturningToMenu`).
+- Gameplay → UI helpers: `DamagePoint` popup driven by `EntityHealth.OnDamaged`; `DialogueSpeaker` / `InteractUI` / `QuestDetailPanel` called through events from `NPC`, `ExploreAreaTrigger`, `ChestInteract`. — done in 3f-1/3f-2
 - `FeatureUnlockService` → `QuestManager`: subscribe to `OnQuestUpdated` instead of querying it.
-- `LoadingManager` → Core: talk to `LoadingVisualController` through an event or interface, then move it to `Core/Scenes`.
 - **Done when:** [metrics](metrics.md) shows 0 wrong-way links, and the largest cycle has none of Core in it.
 
 ### Phase 4: assemblies and namespaces (compile-time enforcement)
@@ -114,6 +114,6 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.
-- **Static-parser blind spots:** the metrics miss `GetComponent<T>`, inspector wiring and `SendMessage`, and name collisions overcount (e.g. `SceneNames.MainMenu` const matches class `MainMenu`; the `Mode` enum matches `CipherMode.Mode` in `EncryptionHelper`). Confirm each move with the Unity compiler, not only the graph.
+- **Static-parser blind spots:** the metrics miss `GetComponent<T>`, inspector wiring and `SendMessage`, and name collisions overcount (e.g. a local variable named like a type still counts). Confirm each move with the Unity compiler, not only the graph.
 - **Save compatibility:** Phases 3 and 5 touch save code. Keep `SaveData` fields and `saveVersion` unchanged unless a migration is added.
 - **Live verification:** a green compile is not proof. Run the Play-mode smoke route after every phase.

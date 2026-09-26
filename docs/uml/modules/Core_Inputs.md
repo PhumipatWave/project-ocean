@@ -1,6 +1,6 @@
 # Core/Inputs
 
-1 types · 137 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Core/Inputs/KeyBind](Core_Inputs_KeyBind.md) ×1
+1 types · 137 LOC (non-blank) · depends on: [Core/Inputs/KeyBind](Core_Inputs_KeyBind.md) ×1
 
 [← index](../README.md)
 

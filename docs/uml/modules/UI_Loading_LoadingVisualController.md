@@ -1,6 +1,6 @@
 # UI/Loading/LoadingVisualController
 
-2 types · 34 LOC (non-blank) · depends on: [Core/Scenes](Core_Scenes.md) ×2
+2 types · 34 LOC (non-blank) · depends on: [Core/Scenes](Core_Scenes.md) ×3
 
 [← index](../README.md)
 
@@ -16,6 +16,10 @@ classDiagram
     +Sprite sprite
     +string stateName
   }
+  class ILoadingVisual {
+    <<Core/Scenes>>
+  }
+  ILoadingVisual <|.. LoadingVisualController
   LoadingVisualController --> LoadingProfile : profiles
 ```
 

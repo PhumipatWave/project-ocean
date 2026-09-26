@@ -35,7 +35,7 @@ namespace Game.Testing
 
             if (dropItem != null)
             {
-                bool added = InventoryManager.Instance?.AddItem(dropItem) ?? false;
+                bool added = Inventory.Current?.AddItem(dropItem) ?? false;
                 if (!added)
                 {
                     isCollected = false;

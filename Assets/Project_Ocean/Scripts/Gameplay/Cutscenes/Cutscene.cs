@@ -188,12 +188,12 @@ namespace Game.Testing
         // ponytail: bound to Space in the .inputactions but not in KeyAction, so no rebind UI slot — same as Teleport.
         private void HandleSkipPressed()
         {
-            if (!isPlaying || confirmingSkip || ConfirmationDialog.Instance == null ||
-                (UIManager.Instance != null && UIManager.Instance.IsUIOpen))
+            var prompt = ModalPrompt.Current;
+            if (!isPlaying || confirmingSkip || prompt == null || !prompt.CanShow)
                 return;
 
             confirmingSkip = true;
-            ConfirmationDialog.Instance.Show("Skip this cutscene?", Skip, () => confirmingSkip = false);
+            prompt.Show("Skip this cutscene?", Skip, () => confirmingSkip = false);
         }
 
         private void Skip()
@@ -227,7 +227,7 @@ namespace Game.Testing
             // Cutscene ended on its own while the skip dialog was still open — close it (Cancel
             // runs the callback above, resetting confirmingSkip) instead of leaving it over nothing.
             if (confirmingSkip)
-                ConfirmationDialog.Instance?.Cancel();
+                ModalPrompt.Current?.Cancel();
 
             CutsceneGate.IsPlaying = false;
 

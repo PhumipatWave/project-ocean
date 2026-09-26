@@ -2,10 +2,20 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class PlayerHealth : EntityHealth
+    public class PlayerHealth : EntityHealth, ISaveParticipant
     {
         private OxygenRope oxygenTube;
         private float originalMaxRopeLength;
+
+        private void OnEnable() => UpgradeService.OnLevelGranted += HandleLevelGranted;
+        private void OnDisable() => UpgradeService.OnLevelGranted -= HandleLevelGranted;
+
+        private void HandleLevelGranted(UpgradeData data)
+        {
+            if (data.type != UpgradeType.Rope || oxygenTube == null) return;
+            oxygenTube.IncreaseMaxLength(data.value);
+            IncreaseOriginalMaxLength(data.value);
+        }
 
         public void SetOxygenRope(OxygenRope tube)
         {
@@ -86,6 +96,20 @@ namespace Game.Testing
         {
             base.Heal(amount);
             oxygenTube?.SetHealthLimit(CurrentHealth);
+        }
+
+        public void Collect(SaveData data)
+        {
+            if (oxygenTube != null)
+                data.maxRopeLength = oxygenTube.MaxRopeLength;
+        }
+
+        // SetOriginalMaxLength syncs both the rope and this snapshot, so ResetToOriginal()
+        // after the next dive restores the saved upgraded max.
+        public void Apply(SaveData data)
+        {
+            if (oxygenTube != null)
+                SetOriginalMaxLength(data.maxRopeLength);
         }
     }
 }

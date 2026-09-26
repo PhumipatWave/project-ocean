@@ -7,7 +7,7 @@ namespace Game.Testing
 {
     /// Generic "Are you sure?" modal. Call Show() with a message and callbacks.
     /// Wire ConfirmButton.onClick → Confirm() and CancelButton.onClick → Cancel() in the Inspector.
-    public class ConfirmationDialog : MonoBehaviour
+    public class ConfirmationDialog : MonoBehaviour, IModalPrompt
     {
         public static ConfirmationDialog Instance { get; private set; }
 
@@ -29,8 +29,18 @@ namespace Game.Testing
                 return;
             }
             Instance = this;
+            ModalPrompt.Register(this);
             if (panel != null) BGPanel.SetActive(false);
             if (panel != null) panel.SetActive(false);
+        }
+
+        // A menu (pause, settings) owns the screen — don't stack the prompt over it.
+        public bool CanShow => UIManager.Instance == null || !UIManager.Instance.IsUIOpen;
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                ModalPrompt.Unregister(this);
         }
 
         /// Show the dialog with a message. onCancel is optional.

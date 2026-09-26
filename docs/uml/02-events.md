@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-69 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
+76 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
 
 ```mermaid
 flowchart LR
@@ -23,6 +23,7 @@ flowchart LR
   InputReader[InputReader] -->|OnInitialized| KeyBindManager[KeyBindManager]
   InteractUI[InteractUI] -->|OnInteracted| InputReader[InputReader]
   InventoryManager[InventoryManager] -->|OnInventoryToggled| InputReader[InputReader]
+  InventoryManager[InventoryManager] -->|OnLevelGranted, OnLevelsLoaded| UpgradeService[UpgradeService]
   ItemSpawner[ItemSpawner] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
   KeyBindUI[KeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
   LandUI[LandUI] -->|OnDayAdvanced, OnDivedToday| DayManager[DayManager]
@@ -35,14 +36,18 @@ flowchart LR
   NextDayAnimationUI[NextDayAnimationUI] -->|OnDayAdvanced| DayManager[DayManager]
   NotificationView[NotificationView] -->|OnClear, OnNotify| NotificationManager[NotificationManager]
   Player[Player] -->|OnAttacked, OnInteracted, OnSprinted, OnTeleport, OnUseItem| InputReader[InputReader]
+  PlayerFeedbackVFX[PlayerFeedbackVFX] -->|OnPlayerDamaged| Player[Player]
+  PlayerHealth[PlayerHealth] -->|OnLevelGranted| UpgradeService[UpgradeService]
   PlayerInteriorState[PlayerInteriorState] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
   PlayerMoney[PlayerMoney] -->|OnMoneyRewarded| QuestManager[QuestManager]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnInteracted| InputReader[InputReader]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   QuestBoardUI[QuestBoardUI] -->|OnQuestUpdated| QuestManager[QuestManager]
+  QuestCompleteUI[QuestCompleteUI] -->|OnQuestCompleted| QuestManager[QuestManager]
   QuestManager[QuestManager] -->|OnCutsceneFinished| CutsceneEvents[CutsceneEvents]
   QuestManager[QuestManager] -->|OnDayAdvanced, OnDivedToday| DayManager[DayManager]
+  QuestManager[QuestManager] -->|OnChanged| DialogueState[DialogueState]
   QuestManager[QuestManager] -->|OnEnemyKilled| EnemyEvents[EnemyEvents]
   QuestManager[QuestManager] -->|OnAreaReached| ExploreEvents[ExploreEvents]
   QuestManager[QuestManager] -->|OnNpcTalkedTo| NpcEvents[NpcEvents]
@@ -64,6 +69,7 @@ flowchart LR
   TutorialPromptUI[TutorialPromptUI] -->|OnLockChanged| PlayerUIState[PlayerUIState]
   TutorialPromptUI[TutorialPromptUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   TutorialUIMarker[TutorialUIMarker] -->|OnQuestUpdated| QuestManager[QuestManager]
+  UIManager[UIManager] -->|OnReturningToMenu| GameManager[GameManager]
   UpgradeSlot[UpgradeSlot] -->|OnQuestUpdated| QuestManager[QuestManager]
 ```
 
@@ -76,10 +82,11 @@ flowchart LR
 | DayManager | OnDayAdvanced | GameHUD, GameObjectSpawnManager, LandUI, NextDayAnimationUI, QuestManager, SaveBridge, TrashInteract |
 | DayManager | OnDivedToday | LandUI, QuestManager |
 | DayManager | OnEnemyReset | EnemyKillTracker, GameObjectSpawnManager |
-| DialogueState | OnChanged | LandUI |
+| DialogueState | OnChanged | LandUI, QuestManager |
 | EnemyEvents | OnEnemyKilled | QuestManager |
 | ExploreEvents | OnAreaReached | QuestManager |
 | FeatureUnlockService | OnFeatureUnlocked | ItemSpawner, LandUI |
+| GameManager | OnReturningToMenu | UIManager |
 | IEntityHealth | OnDamaged | Entity |
 | IEntityHealth | OnDied | Entity |
 | InputReader | OnAmmoSelected | AmmoWheel |
@@ -103,13 +110,17 @@ flowchart LR
 | NpcEvents | OnNpcTalkedTo | QuestManager |
 | OxygenRope | OnRopeBreachEnd | RopeBreakCountdownUI |
 | OxygenRope | OnRopeBreachStart | RopeBreakCountdownUI |
+| Player | OnPlayerDamaged | PlayerFeedbackVFX |
 | PlayerMoney | OnMoneyChanged | QuestManager |
 | PlayerMoney | OnMoneyDelta | ResourceNotificationPresenter |
 | PlayerUIState | OnLockChanged | GameHUD, TutorialPromptUI |
 | QuestManager | OnMoneyRewarded | PlayerMoney |
+| QuestManager | OnQuestCompleted | QuestCompleteUI |
 | QuestManager | OnQuestUpdated | CutsceneManager, DoorInteract, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialActionMarker, TutorialPromptUI, TutorialUIMarker, UpgradeSlot |
 | SaveBridge | OnSaved | SaveNotificationUI |
 | TutorialEvents | OnActionPerformed | PlayerInteriorState, QuestManager |
+| UpgradeService | OnLevelGranted | InventoryManager, PlayerHealth |
+| UpgradeService | OnLevelsLoaded | InventoryManager |
 
 ## Declared events with no `+=` subscriber found
 

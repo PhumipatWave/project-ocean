@@ -103,7 +103,7 @@ namespace Game.Testing
 
         private void ShowDeathDamagePoint()
         {
-            DamagePoint damagePoint = GetComponentInChildren<DamagePoint>();
+            IDamagePopup damagePoint = GetComponentInChildren<IDamagePopup>();
             if (damagePoint != null)
                 damagePoint.ShowDeath();
         }

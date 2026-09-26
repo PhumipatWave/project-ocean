@@ -1,6 +1,6 @@
 # UI/VFX
 
-1 types · 100 LOC (non-blank) · depends on: none
+1 types · 102 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 
@@ -14,8 +14,14 @@ classDiagram
   }
 ```
 
+## Event subscriptions
+
+| Subscriber | Publisher | Event |
+|---|---|---|
+| PlayerFeedbackVFX | Player | OnPlayerDamaged |
+
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| PlayerFeedbackVFX | MB | `PlayerFeedbackVFX.cs:7` | 100 |
+| PlayerFeedbackVFX | MB | `PlayerFeedbackVFX.cs:7` | 102 |

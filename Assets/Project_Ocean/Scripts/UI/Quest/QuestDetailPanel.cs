@@ -5,7 +5,7 @@ using System;
 
 namespace Game.Testing
 {
-    public class QuestDetailPanel : MonoBehaviour
+    public class QuestDetailPanel : MonoBehaviour, IQuestOfferView
     {
         [Header("Text Fields")]
         [SerializeField] private TextMeshProUGUI titleText;

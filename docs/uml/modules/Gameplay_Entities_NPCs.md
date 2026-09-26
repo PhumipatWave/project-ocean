@@ -1,6 +1,6 @@
 # Gameplay/Entities/NPCs
 
-1 types · 238 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×7, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×2, [Core](Core.md) ×2, [Gameplay/Environments](Gameplay_Environments.md) ×1, [UI/Interactions](UI_Interactions.md) ×1, [Core/Events](Core_Events.md) ×1, [UI/Loading](UI_Loading.md) ×1, [UI/Quest](UI_Quest.md) ×1, [UI](UI.md) ×1
+1 types · 243 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×7, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [Core](Core.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Events](Core_Events.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1
 
 [← index](../README.md)
 
@@ -27,4 +27,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| NPC | MB | `NPC.cs:7` | 238 |
+| NPC | MB | `NPC.cs:5` | 243 |

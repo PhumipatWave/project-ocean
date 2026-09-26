@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Game.Testing
 {
-    public class LoadingVisualController : MonoBehaviour
+    public class LoadingVisualController : MonoBehaviour, ILoadingVisual
     {
         [System.Serializable]
         public class LoadingProfile

@@ -15,7 +15,7 @@ namespace Game.Testing
         {
             if (string.IsNullOrEmpty(questItemId)) return null;
             if (!int.TryParse(questItemId, out int id)) return null;
-            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
+            return Inventory.Current?.FindItemInDatabase(id)?.ItemVisual;
         }
 
         /// <summary>The shared "show it if we have art, hide it otherwise" pattern every quest
@@ -28,10 +28,10 @@ namespace Game.Testing
         }
 
         private static string ItemNameOf(int itemId) =>
-            InventoryManager.Instance?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
+            Inventory.Current?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
 
         private static int HeldCountOf(int itemId) =>
-            InventoryManager.Instance != null ? InventoryManager.Instance.GetQuestItemCount(itemId) : 0;
+            Inventory.Current != null ? Inventory.Current.GetQuestItemCount(itemId) : 0;
 
         /// <summary>Delivery only — "{item name} {held}/{required}" (PerItem: one per requirement,
         /// comma-joined; CombinedTotal: one entry against the shared Target Count, name omitted when

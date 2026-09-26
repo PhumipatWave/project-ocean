@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Testing
 {
@@ -19,7 +17,7 @@ namespace Game.Testing
     /// E shows them one at a time first (same plain-sequential model as PlayerSelfDialogueUI),
     /// and the area is only marked reached once the player has pressed through the last line —
     /// same "resolve only after they've actually read it" timing NPC/self-dialogue use. No
-    /// dialogue authored (or no dialoguePanel assigned) skips straight to reached, unchanged.
+    /// dialogue authored (or no dialogueView assigned) skips straight to reached, unchanged.
     /// </summary>
     public class ExploreAreaTrigger : MonoBehaviour
     {
@@ -36,11 +34,18 @@ namespace Game.Testing
         [SerializeField] private Mode mode;
 
         [Header("Dialogue (Interact only, optional)")]
-        [Tooltip("Leave unassigned to skip dialogue entirely — Interact then marks the area reached immediately, same as before.")]
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI dialogueNameText;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private Image dialogueAvatarImage;
+        [Tooltip("DialoguePanelView on the dialogue panel (an IDialogueView).")]
+        [SerializeField] private MonoBehaviour dialogueView;
+
+        // Unity null check first: a destroyed view must read as missing.
+        private IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+
+        // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
+        private void OnValidate()
+        {
+            if (dialogueView != null && !(dialogueView is IDialogueView))
+                dialogueView = dialogueView.GetComponent<IDialogueView>() as MonoBehaviour;
+        }
 
         private struct DialogueLine { public string speakerId; public string text; }
         private readonly List<DialogueLine> dialogueLines = new();
@@ -115,7 +120,7 @@ namespace Game.Testing
             }
 
             var step = FindCurrentStep();
-            if (dialoguePanel != null && step != null && step.DialogueEntries.Count > 0)
+            if (View?.Panel != null && step != null && step.DialogueEntries.Count > 0)
             {
                 OpenDialogue(step);
                 return;
@@ -153,15 +158,15 @@ namespace Game.Testing
 
             isShowingDialogue = true;
             ShowCurrentLine();
-            dialoguePanel.SetActive(true);
-            DialogueState.Show(dialoguePanel);
+            View?.SetOpen(true);
+            DialogueState.Show(View?.Panel);
         }
 
         private void ShowCurrentLine()
         {
             var line = dialogueLines[dialogueIndex];
-            DialogueSpeaker.Apply(dialogueNameText, dialogueAvatarImage, line.speakerId);
-            if (dialogueText != null) dialogueText.text = line.text;
+            View?.SetSpeaker(line.speakerId);
+            View?.SetText(line.text);
         }
 
         private void AdvanceDialogue()
@@ -181,9 +186,10 @@ namespace Game.Testing
         private void CloseDialogue()
         {
             isShowingDialogue = false;
-            if (dialoguePanel == null) return;
-            dialoguePanel.SetActive(false);
-            DialogueState.Hide(dialoguePanel);
+            var view = View;
+            if (view == null || view.Panel == null) return;
+            view.SetOpen(false);
+            DialogueState.Hide(view.Panel);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

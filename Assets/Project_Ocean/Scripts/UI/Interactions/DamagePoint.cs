@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class DamagePoint : MonoBehaviour
+    public class DamagePoint : MonoBehaviour, IDamagePopup
     {
         [SerializeField] private TextMeshProUGUI damagePointText;
 

@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-34 types · 1790 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×13, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×8, [UI](UI.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×4, [UI/Loading](UI_Loading.md) ×3, [Core/Save](Core_Save.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Interactions](UI_Interactions.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/QuestCompleteUI](UI_QuestCompleteUI.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Services](Core_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+33 types · 1709 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×9, [Gameplay/Game](Gameplay_Game.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Core/Save](Core_Save.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -185,6 +185,7 @@ classDiagram
     <<MB>>
     +QuestManager Instance$
     +event Action OnQuestUpdated$
+    +event Action~Quest~ OnQuestCompleted$
     +event Action~int~ OnMoneyRewarded$
     +ResetToDefault() void
     +CompleteAutoDialogue(Quest) void
@@ -252,10 +253,6 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
-  class QuestTrackerUI {
-    <<MB>>
-    +OnClickCancelQuest() void
-  }
   class QuestVisuals {
     <<static>>
     +GetItemSprite(string)$ Sprite
@@ -307,12 +304,12 @@ classDiagram
 | QuestManager | CutsceneEvents | OnCutsceneFinished |
 | QuestManager | DayManager | OnDayAdvanced |
 | QuestManager | DayManager | OnDivedToday |
+| QuestManager | DialogueState | OnChanged |
 | QuestManager | EnemyEvents | OnEnemyKilled |
 | QuestManager | ExploreEvents | OnAreaReached |
 | QuestManager | NpcEvents | OnNpcTalkedTo |
 | QuestManager | PlayerMoney | OnMoneyChanged |
 | QuestManager | TutorialEvents | OnActionPerformed |
-| QuestTrackerUI | QuestManager | OnQuestUpdated |
 | ReviceQuestListUI | QuestManager | OnQuestUpdated |
 | TutorialActionMarker | QuestManager | OnQuestUpdated |
 | TutorialPromptUI | LoadingManager | OnLoadingFinished |
@@ -326,15 +323,15 @@ classDiagram
 |---|---|---|---|
 | DeliveryCountMode | enum | `QuestData.cs:53` | 5 |
 | DeliverySource | enum | `Quest.cs:27` | 5 |
-| DialogueLine | struct | `ExploreAreaTrigger.cs:44` | 1 |
+| DialogueLine | struct | `ExploreAreaTrigger.cs:49` | 1 |
 | DialogueType | enum | `QuestData.cs:39` | 9 |
-| ExploreAreaTrigger | MB | `ExploreAreaTrigger.cs:24` | 167 |
-| Line | struct | `PlayerSelfDialogueUI.cs:34` | 1 |
-| Mode | enum | `ExploreAreaTrigger.cs:25` | 5 |
+| ExploreAreaTrigger | MB | `ExploreAreaTrigger.cs:22` | 171 |
+| Line | struct | `PlayerSelfDialogueUI.cs:40` | 1 |
+| Mode | enum | `ExploreAreaTrigger.cs:23` | 5 |
 | NextQuestMode | enum | `QuestData.cs:31` | 6 |
 | PlayerInterior | enum | `PlayerInteriorState.cs:3` | 1 |
 | PlayerInteriorState | static | `PlayerInteriorState.cs:11` | 36 |
-| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:23` | 125 |
+| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 128 |
 | Quest | class | `Quest.cs:291` | 163 |
 | QuestCategory | enum | `QuestData.cs:13` | 8 |
 | QuestClassification | enum | `QuestData.cs:23` | 6 |
@@ -342,12 +339,11 @@ classDiagram
 | QuestData | SO | `QuestData.cs:177` | 19 |
 | QuestDialogueLine | class | `QuestData.cs:88` | 10 |
 | QuestItemRequirement | class | `QuestData.cs:74` | 7 |
-| QuestManager | MB | `QuestManager.cs:7` | 588 |
+| QuestManager | MB | `QuestManager.cs:7` | 585 |
 | QuestNavigation | static | `QuestNavigation.cs:8` | 39 |
 | QuestStatus | enum | `Quest.cs:33` | 8 |
 | QuestStep | class | `Quest.cs:47` | 117 |
 | QuestStepData | class | `QuestData.cs:107` | 47 |
-| QuestTrackerUI | MB | `QuestTrackerUI.cs:7` | 85 |
 | QuestType | enum | `Quest.cs:7` | 9 |
 | QuestVisuals | static | `QuestVisuals.cs:10` | 53 |
 | ReviceQuestListUI | MB | `ReviceQuestListUI.cs:13` | 52 |

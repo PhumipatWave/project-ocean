@@ -1,6 +1,6 @@
 # Gameplay/Entities/Players/OxygenTube
 
-3 types · 536 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×2, [Core](Core.md) ×2, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1
+3 types · 536 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [Core](Core.md) ×1, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1
 
 [← index](../README.md)
 

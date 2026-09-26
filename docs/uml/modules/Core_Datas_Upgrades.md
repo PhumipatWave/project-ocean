@@ -1,6 +1,6 @@
 # Core/Datas/Upgrades
 
-3 types · 31 LOC (non-blank) · depends on: [Gameplay/Projectiles](Gameplay_Projectiles.md) ×1
+3 types · 31 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 

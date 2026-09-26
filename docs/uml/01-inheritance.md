@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-51 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
+65 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
 
 ```mermaid
 classDiagram
@@ -23,6 +23,18 @@ classDiagram
   class CollectableItemBase {
     <<MB>>
     <<abstract>>
+  }
+  class ConfirmationDialog {
+    <<MB>>
+  }
+  class DamagePoint {
+    <<MB>>
+  }
+  class DayManager {
+    <<MB>>
+  }
+  class DialoguePanelView {
+    <<MB>>
   }
   class Enemy {
     <<MB>>
@@ -94,6 +106,12 @@ classDiagram
   class IBrainVision {
     <<interface>>
   }
+  class IDamagePopup {
+    <<interface>>
+  }
+  class IDialogueView {
+    <<interface>>
+  }
   class IEnemyBrain {
     <<interface>>
   }
@@ -103,14 +121,29 @@ classDiagram
   class IEntityHealth {
     <<interface>>
   }
+  class IInventory {
+    <<interface>>
+  }
   class IItemEffect {
+    <<interface>>
+  }
+  class ILoadingVisual {
+    <<interface>>
+  }
+  class IModalPrompt {
     <<interface>>
   }
   class IPoolable {
     <<interface>>
   }
+  class IQuestOfferView {
+    <<interface>>
+  }
   class ISaveParticipant {
     <<interface>>
+  }
+  class InventoryManager {
+    <<MB>>
   }
   class ItemDrop {
     <<MB>>
@@ -119,6 +152,9 @@ classDiagram
   }
   class LinearPatrolProfile {
     <<SO>>
+  }
+  class LoadingVisualController {
+    <<MB>>
   }
   class NormalBullet {
     <<MB>>
@@ -134,6 +170,12 @@ classDiagram
     <<MB>>
   }
   class PlayerHealth {
+    <<MB>>
+  }
+  class PlayerMoney {
+    <<MB>>
+  }
+  class QuestDetailPanel {
     <<MB>>
   }
   class QuestManager {
@@ -159,6 +201,10 @@ classDiagram
   EnemyBaseProfile <|-- AggressiveEnemyProfile
   IPoolable <|.. Boid
   IItemEffect <|.. CheckPointItem
+  IModalPrompt <|.. ConfirmationDialog
+  IDamagePopup <|.. DamagePoint
+  ISaveParticipant <|.. DayManager
+  IDialogueView <|.. DialoguePanelView
   Entity <|-- Enemy
   EnemyNavAgentBase <|-- EnemyAgent
   EnemyStateBase <|-- EnemyAttackState
@@ -183,15 +229,21 @@ classDiagram
   EnemyBaseProfile <|-- FriendlyEnemyProfile
   Bullet <|-- GranadeBullet
   Bullet <|-- GrapplingHookBullet
+  ISaveParticipant <|.. InventoryManager
+  IInventory <|.. InventoryManager
   CollectableItemBase <|-- ItemDrop
   IPoolable <|.. ItemDrop
   IEnemyBrain <|.. LinearPatrolBrain
   IBrainHitReaction <|.. LinearPatrolBrain
   EnemyBaseProfile <|-- LinearPatrolProfile
+  ILoadingVisual <|.. LoadingVisualController
   Bullet <|-- NormalBullet
   ISaveParticipant <|.. OneTimePickupTracker
   Entity <|-- Player
   EntityHealth <|-- PlayerHealth
+  ISaveParticipant <|.. PlayerHealth
+  ISaveParticipant <|.. PlayerMoney
+  IQuestOfferView <|.. QuestDetailPanel
   ISaveParticipant <|.. QuestManager
   EnemyBaseProfile <|-- ScaredEnemyProfile
   IPoolable <|.. ShelleController

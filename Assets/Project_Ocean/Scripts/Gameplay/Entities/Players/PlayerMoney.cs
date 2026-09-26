@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Testing
 {
-    public class PlayerMoney : MonoBehaviour
+    public class PlayerMoney : MonoBehaviour, ISaveParticipant
     {
         [SerializeField] private int money = 100;
 
@@ -42,5 +42,9 @@ namespace Game.Testing
             OnMoneyChanged?.Invoke(money);
             return true;
         }
+
+        public void Collect(SaveData data) => data.money = CurrentMoney;
+
+        public void Apply(SaveData data) => SetMoneySilent(data.money);
     }
 }

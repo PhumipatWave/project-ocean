@@ -11,6 +11,9 @@ namespace Game.Testing
 {
     public class Player : Entity
     {
+        /// <summary>Raised when the player takes damage (visual feedback moment).</summary>
+        public static event System.Action OnPlayerDamaged;
+
         [Header("Player Component")]
         public InputReader input;
 
@@ -32,15 +35,15 @@ namespace Game.Testing
         public void RegisterCheckpoint(CheckPointItem cp)
         {
             checkpoints.Add(cp);
-            InventoryManager.Instance?.RefreshBuildingHints();
+            Inventory.Current?.RefreshBuildingHints();
         }
 
         public void UnregisterCheckpoint(CheckPointItem cp)
         {
             checkpoints.Remove(cp);
             if (cp.SourceSlotIndex >= 0)
-                InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
-            InventoryManager.Instance?.RefreshBuildingHints();
+                Inventory.Current?.ClearBuildingSlot(cp.SourceSlotIndex);
+            Inventory.Current?.RefreshBuildingHints();
         }
 
         public void ClearAllCheckpoints()
@@ -55,11 +58,11 @@ namespace Game.Testing
                 if (cp == null) continue;
                 oxygenTube?.DetachFromCheckpoint(cp.transform.position);
                 if (cp.SourceSlotIndex >= 0)
-                    InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+                    Inventory.Current?.ClearBuildingSlot(cp.SourceSlotIndex);
                 Destroy(cp.gameObject);
             }
             checkpoints.Clear();
-            InventoryManager.Instance?.RefreshBuildingHints();
+            Inventory.Current?.RefreshBuildingHints();
         }
 
         /// Returns true if the player can place a new checkpoint from the given building slot index.
@@ -86,7 +89,6 @@ namespace Game.Testing
         private Coroutine playerFlashCoroutine;
 
         [Header("Player Feedback VFX")]
-        private PlayerFeedbackVFX playerFeedbackVFX;
         private PlayerSprintVFX playerSprintVFX;
 
         [Header("Player Status")]
@@ -147,8 +149,6 @@ namespace Game.Testing
 
         private void Start()
         {
-            FindPlayerFeedbackVFX();
-
             //input.OnAimed += Aim;
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
@@ -177,8 +177,6 @@ namespace Game.Testing
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             PlayerUIState.Reset();
-
-            FindPlayerFeedbackVFX();
 
             if (scene.name == "Land_Map")
             {
@@ -214,9 +212,9 @@ namespace Game.Testing
                 }
                 foreach (var cp in checkpoints)
                     if (cp != null && cp.SourceSlotIndex >= 0)
-                        InventoryManager.Instance?.ClearBuildingSlot(cp.SourceSlotIndex);
+                        Inventory.Current?.ClearBuildingSlot(cp.SourceSlotIndex);
                 checkpoints.Clear();
-                InventoryManager.Instance?.RefreshBuildingHints();
+                Inventory.Current?.RefreshBuildingHints();
             }
             else if (scene.name == "Ocean_Map")
             {
@@ -272,7 +270,7 @@ namespace Game.Testing
 
         private void UseItem(ItemType type)
         {
-            var prefab = InventoryManager.Instance.PeekItem(type);
+            var prefab = Inventory.Current.PeekItem(type);
             if (prefab != null)
             {
                 var effect = prefab.ItemPrefab?.GetComponent<IItemEffect>();
@@ -292,7 +290,7 @@ namespace Game.Testing
             }
 
             Item itemData;
-            bool success = InventoryManager.Instance.ConsumeItem(type, out itemData);
+            bool success = Inventory.Current.ConsumeItem(type, out itemData);
 
             if (!success)
             {
@@ -485,7 +483,7 @@ namespace Game.Testing
 
         protected override void OnDamagedVisual()
         {
-            playerFeedbackVFX?.PlayDamageVFX();
+            OnPlayerDamaged?.Invoke();
 
             if (playerSpriteRenderer == null)
                 return;
@@ -510,10 +508,6 @@ namespace Game.Testing
             entityDeathHandler?.HandleDeath();
         }
 
-        private void FindPlayerFeedbackVFX()
-        {
-            playerFeedbackVFX = FindFirstObjectByType<PlayerFeedbackVFX>();
-        }
         #endregion
 
         #region PlayerAnimation

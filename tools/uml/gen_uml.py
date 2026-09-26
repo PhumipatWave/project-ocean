@@ -293,8 +293,11 @@ def resolve(types):
                 for ident in IDENT.findall(mb.type):
                     if ident in names and ident != t.name and ident not in t.assoc:
                         t.assoc[ident] = mb.name
-        used = set(IDENT.findall(t.body)) & names
-        t.deps = used - {t.name} - set(t.assoc) - {t.base_class} - set(t.interfaces)
+        # `X.Member` names, enum values and own member names are not type uses (e.g. SceneNames.MainMenu).
+        own = {mb.name for mb in t.members}
+        code = re.sub(r"\.\s*[A-Z]\w*", ".", t.body)
+        used = set() if t.kind == "enum" else set(IDENT.findall(code)) & names
+        t.deps = used - {t.name} - set(t.assoc) - {t.base_class} - set(t.interfaces) - own
         for m in re.finditer(r"([\w.]+?)\.(\w+)\s*\+=", t.body):
             chain, ev = m.group(1).split("."), m.group(2)
             if ev not in events:

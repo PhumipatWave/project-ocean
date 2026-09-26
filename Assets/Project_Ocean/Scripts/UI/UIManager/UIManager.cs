@@ -76,6 +76,14 @@ namespace Game.Testing
             {
                 PlayerUIState.Reset();
             }
+
+            GameManager.OnReturningToMenu += CloseAll;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                GameManager.OnReturningToMenu -= CloseAll;
         }
 
         private void Start()

@@ -52,8 +52,8 @@ namespace Game.Testing
             bool shouldPause = TutorialStep.IsActive(TutorialActionId.UseItem)
                 && GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean
                 && !LoadingManager.IsLoading
-                && InventoryManager.Instance != null
-                && InventoryManager.Instance.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
+                && Inventory.Current != null
+                && Inventory.Current.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
 
             if (shouldPause)
             {

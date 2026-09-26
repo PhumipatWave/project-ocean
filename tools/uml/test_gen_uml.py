@@ -74,6 +74,39 @@ class ParserTest(unittest.TestCase):
         self.assertEqual("Dictionary~int, ListArray~", g.mm("Dictionary<int, List[]>"))
 
 
+SAMPLE_NAMES = '''
+namespace Game.Testing
+{
+    public enum Kind { Quest, Other }
+    public static class Names { public const string Quest = "q"; }
+    public class Quest { }
+    public class User { void F() { var s = Names.Quest; var k = Kind.Quest; } }
+    public class Real { void F() { var q = new Quest(); } }
+}
+'''
+
+
+class DependencyFalsePositiveTest(unittest.TestCase):
+    def setUp(self):
+        code = g.strip_code(SAMPLE_NAMES)
+        types = g.parse_types(code, g.SRC / "Test" / "Names.cs")
+        for t in types:
+            g.parse_members(t)
+        self.by_name, _ = g.resolve(types)
+
+    def test_enum_values_are_not_dependencies(self):
+        self.assertEqual(set(), self.by_name["Kind"].deps)
+
+    def test_own_member_name_is_not_a_dependency(self):
+        self.assertNotIn("Quest", self.by_name["Names"].deps)
+
+    def test_member_access_is_not_a_dependency(self):
+        self.assertEqual({"Names", "Kind"}, self.by_name["User"].deps)
+
+    def test_real_type_use_still_counts(self):
+        self.assertEqual({"Quest"}, self.by_name["Real"].deps)
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, str(Path(__file__).parent))

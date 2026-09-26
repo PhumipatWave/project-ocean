@@ -27,6 +27,9 @@ namespace Game.Testing
             SetAlpha(sprintVignette, 0f);
         }
 
+        private void OnEnable() => Player.OnPlayerDamaged += PlayDamageVFX;
+        private void OnDisable() => Player.OnPlayerDamaged -= PlayDamageVFX;
+
         // ==========================================
         // DAMAGE
         // ==========================================

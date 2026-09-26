@@ -8,6 +8,8 @@ namespace Game.Testing
     {
         public static QuestManager Instance { get; private set; }
         public static event Action OnQuestUpdated;
+        /// <summary>Raised when a quest (or an auto-complete step) finishes and the complete popup should show.</summary>
+        public static event Action<Quest> OnQuestCompleted;
 
         [Header("All Available Quests in Game")]
         [SerializeField] private List<QuestData> allQuestTemplates;
@@ -38,7 +40,7 @@ namespace Game.Testing
             NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
             ExploreEvents.OnAreaReached += HandleAreaReached;
-            InventoryManager.OnInventoryChanged += HandleInventoryChanged;
+            Inventory.OnChanged += HandleInventoryChanged;
             PlayerMoney.OnMoneyChanged += HandleMoneyChanged;
             DayManager.OnDayAdvanced += HandleDayOrDiveChanged;
             DayManager.OnDivedToday += HandleDayOrDiveChanged;
@@ -51,7 +53,7 @@ namespace Game.Testing
             NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
             CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
             ExploreEvents.OnAreaReached -= HandleAreaReached;
-            InventoryManager.OnInventoryChanged -= HandleInventoryChanged;
+            Inventory.OnChanged -= HandleInventoryChanged;
             PlayerMoney.OnMoneyChanged -= HandleMoneyChanged;
             DayManager.OnDayAdvanced -= HandleDayOrDiveChanged;
             DayManager.OnDivedToday -= HandleDayOrDiveChanged;
@@ -294,7 +296,7 @@ namespace Game.Testing
         /// </summary>
         private void HandleInventoryChanged()
         {
-            if (InventoryManager.Instance == null)
+            if (Inventory.Current == null)
                 return;
 
             // PerItem progress only counts fully-met requirements, so picking up 3 of 5 leaves
@@ -365,7 +367,7 @@ namespace Game.Testing
         }
 
         private static int HeldCountOf(string itemIdStr) =>
-            int.TryParse(itemIdStr, out int id) ? InventoryManager.Instance.GetQuestItemCount(id) : 0;
+            int.TryParse(itemIdStr, out int id) ? Inventory.Current.GetQuestItemCount(id) : 0;
 
         /// <summary>
         /// Routes an event to every InProgress quest whose current checkpoint is of the
@@ -430,8 +432,7 @@ namespace Game.Testing
             {
                 if (completedStep.CompletionMode == QuestCompletionMode.AutoComplete)
                 {
-                    if (QuestCompleteUI.Instance != null)
-                        QuestCompleteUI.Instance.Show(q);
+                    OnQuestCompleted?.Invoke(q);
 
                     if (completedStep.RewardMoney > 0)
                         OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
@@ -798,7 +799,7 @@ namespace Game.Testing
         /// </summary>
         private void RemoveQuestItems(QuestStep step)
         {
-            if (InventoryManager.Instance == null || step == null) return;
+            if (Inventory.Current == null || step == null) return;
 
             if (step.Type == QuestType.Delivery)
             {
@@ -814,7 +815,7 @@ namespace Game.Testing
                 {
                     if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
                     if (!int.TryParse(step.TargetQuestItemId, out int lootItemId)) return;
-                    InventoryManager.Instance.RemoveQuestItem(lootItemId, step.TargetCount);
+                    Inventory.Current.RemoveQuestItem(lootItemId, step.TargetCount);
                     return;
                 }
 
@@ -825,7 +826,7 @@ namespace Game.Testing
 
                     foreach (var req in requirements)
                         if (!string.IsNullOrEmpty(req.itemId) && int.TryParse(req.itemId, out int reqItemId))
-                            InventoryManager.Instance.RemoveQuestItem(reqItemId, req.count);
+                            Inventory.Current.RemoveQuestItem(reqItemId, req.count);
                 }
                 else
                 {
@@ -838,10 +839,10 @@ namespace Game.Testing
                         if (remaining <= 0) break;
                         if (string.IsNullOrEmpty(idStr) || !int.TryParse(idStr, out int listItemId)) continue;
 
-                        int take = Mathf.Min(InventoryManager.Instance.GetQuestItemCount(listItemId), remaining);
+                        int take = Mathf.Min(Inventory.Current.GetQuestItemCount(listItemId), remaining);
                         if (take <= 0) continue;
 
-                        InventoryManager.Instance.RemoveQuestItem(listItemId, take);
+                        Inventory.Current.RemoveQuestItem(listItemId, take);
                         remaining -= take;
                     }
                 }
@@ -850,7 +851,7 @@ namespace Game.Testing
 
             if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
             if (!int.TryParse(step.TargetQuestItemId, out int itemId)) return;
-            InventoryManager.Instance.RemoveQuestItem(itemId, step.TargetCount);
+            Inventory.Current.RemoveQuestItem(itemId, step.TargetCount);
         }
 
         /// <summary>
@@ -875,10 +876,7 @@ namespace Game.Testing
             //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
             
             // แสดง Quest Complete UI + Reward
-            if (QuestCompleteUI.Instance != null)
-            {
-                QuestCompleteUI.Instance.Show(quest);
-            }
+            OnQuestCompleted?.Invoke(quest);
 
             var finalStepReward = quest.CurrentStep.RewardMoney;
             if (finalStepReward > 0)

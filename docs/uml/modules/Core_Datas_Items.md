@@ -1,6 +1,6 @@
 # Core/Datas/Items
 
-3 types · 50 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1
+3 types · 50 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 

@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Game.Testing
 {
-    public class DayManager : MonoBehaviour
+    public class DayManager : MonoBehaviour, ISaveParticipant
     {
         public static DayManager Instance { get; private set; }
 
@@ -85,6 +85,22 @@ namespace Game.Testing
             OnEnemyReset?.Invoke();
             OnDayAdvanced?.Invoke();
             TutorialEvents.RaiseAction(TutorialActionId.Sleep);
+        }
+
+        public void Collect(SaveData data)
+        {
+            data.currentDay    = CurrentDay;
+            data.hasDivedToday = HasDivedToday;
+            data.divesToday    = DivesToday;
+            data.totalDives    = TotalDives;
+        }
+
+        public void Apply(SaveData data)
+        {
+            SetDay(data.currentDay);
+            // Saves from before divesToday existed only carry the bool — count that as one dive.
+            SetDivesToday(data.divesToday > 0 ? data.divesToday : (data.hasDivedToday ? 1 : 0));
+            SetTotalDives(data.totalDives);
         }
     }
 }

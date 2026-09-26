@@ -38,7 +38,7 @@ namespace Game.Testing
 
         public bool CanExecute(Player player)
         {
-            int slot = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
+            int slot = Inventory.Current?.ActiveBuildingSlotIndex ?? -1;
             return player.CanPlaceCheckpointFromSlot(slot);
         }
         public bool KeepInInventory => true;      // slot visual stays until checkpoint is used (T key)
@@ -61,7 +61,7 @@ namespace Game.Testing
             Player player = GameManager.CurPlayer;
             if (player == null) return;
 
-            SourceSlotIndex = InventoryManager.Instance?.ActiveBuildingSlotIndex ?? -1;
+            SourceSlotIndex = Inventory.Current?.ActiveBuildingSlotIndex ?? -1;
             player.RegisterCheckpoint(this);
             player.OxygenTube.AttachToCheckpoint(transform.position);
         }

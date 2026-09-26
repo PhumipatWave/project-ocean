@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 namespace Game.Testing
 {
@@ -19,7 +17,8 @@ namespace Game.Testing
         [Header("Quest Settings")]
         [Tooltip("Leave empty for an NPC with no quest — falls back to plain dialogue.")]
         [SerializeField] private QuestData targetQuest;
-        [SerializeField] private QuestDetailPanel questDetailPanel;
+        // Typed as MonoBehaviour (an IQuestOfferView) so gameplay doesn't reference the UI class; same name keeps the reference.
+        [SerializeField] private MonoBehaviour questDetailPanel;
 
         // A Main quest's Talk step targeting this NPC (from ANY active quest) counts even
         // if this NPC has no targetQuest of its own — see ResolveActiveQuest.
@@ -28,10 +27,20 @@ namespace Game.Testing
             (QuestManager.Instance != null && QuestManager.Instance.GetMainQuestTalkQuest(npcId) != null);
 
         [Header("Dialogue UI")]
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI npcNameText;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private Image npcAvatarImage;
+        [Tooltip("DialoguePanelView on the dialogue panel (an IDialogueView).")]
+        [SerializeField] private MonoBehaviour dialogueView;
+
+        // Unity null check first: a destroyed view must read as missing.
+        private IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+
+        // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
+        private void OnValidate()
+        {
+            if (dialogueView != null && !(dialogueView is IDialogueView))
+                dialogueView = dialogueView.GetComponent<IDialogueView>() as MonoBehaviour;
+            if (questDetailPanel != null && !(questDetailPanel is IQuestOfferView))
+                questDetailPanel = questDetailPanel.GetComponent<IQuestOfferView>() as MonoBehaviour;
+        }
 
         [Header("Quest Marker")]
         [Tooltip("Shown while this NPC is the target of the active quest's current Talk step (and, for a not-yet-accepted quest, only once its prerequisite is unlocked — same gate as StartDialogue).")]
@@ -71,8 +80,7 @@ namespace Game.Testing
             if (interactUI != null && interactUI.gameObject != gameObject)
                 interactUI.PlayerExited += HandlePlayerExited;
 
-            if (dialoguePanel != null)
-                dialoguePanel.SetActive(false);
+            View?.SetOpen(false);
 
             RefreshMarker();
         }
@@ -149,7 +157,7 @@ namespace Game.Testing
 
         private void ToggleDialogue()
         {
-            bool wasOpen = dialoguePanel != null && dialoguePanel.activeSelf;
+            bool wasOpen = View != null && View.IsOpen;
 
             if (!wasOpen)
                 OpenDialogue();
@@ -165,13 +173,12 @@ namespace Game.Testing
 
         private void OpenDialogue()
         {
-            if (dialoguePanel == null)
+            if (View == null || View.Panel == null)
                 return;
 
-            if (dialogueText != null)
-                dialogueText.text = npcDialogue;
+            View.SetText(npcDialogue);
 
-            DialogueSpeaker.Apply(npcNameText, npcAvatarImage, npcId, npcName, npcPortrait);
+            View.SetSpeaker(npcId, npcName, npcPortrait);
             SetDialoguePanel(true);
             isUIOpen = true;
         }
@@ -179,10 +186,11 @@ namespace Game.Testing
         // Also reports to DialogueState so other land UI (shop, board...) hides while it shows.
         private void SetDialoguePanel(bool show)
         {
-            if (dialoguePanel == null) return;
-            dialoguePanel.SetActive(show);
-            if (show) DialogueState.Show(dialoguePanel);
-            else DialogueState.Hide(dialoguePanel);
+            var view = View;
+            if (view == null || view.Panel == null) return;
+            view.SetOpen(show);
+            if (show) DialogueState.Show(view.Panel);
+            else DialogueState.Hide(view.Panel);
         }
 
         private void QuestInteract()
@@ -214,34 +222,34 @@ namespace Game.Testing
             // Show THIS physical NPC's own identity, not the quest's — several NPCs can
             // share one targetQuest (e.g. different Talk steps of the same quest), and
             // each should be labeled as themselves when the player talks to them.
-            DialogueSpeaker.Apply(npcNameText, npcAvatarImage, npcId, npcName, npcPortrait);
+            View?.SetSpeaker(npcId, npcName, npcPortrait);
 
             ShowDialogueText();
         }
 
         private void ShowDialogueText()
         {
-            if (dialogueText == null)
+            if (View == null)
                 return;
 
             switch (npcQuest.Status)
             {
                 case QuestStatus.New:
-                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Offer, currentDialogueIndex);
+                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Offer, currentDialogueIndex));
                     break;
                 case QuestStatus.InProgress:
-                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.InProgress);
+                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.InProgress));
                     break;
                 // Must show the Finish line here, not fall through blank — the player is
                 // about to turn the quest in, not still working toward it.
                 case QuestStatus.ReadyToTurnIn:
-                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish);
+                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish));
                     break;
                 case QuestStatus.Finish:
-                    dialogueText.text = npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish);
+                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish));
                     break;
                 case QuestStatus.Reject:
-                    dialogueText.text = "?";
+                    View.SetText("?");
                     break;
             }
         }
@@ -266,7 +274,7 @@ namespace Game.Testing
                 currentDialogueIndex++;
                 var offerLines = npcQuest.CurrentStep.GetLines(npcId, DialogueType.Offer);
                 if (currentDialogueIndex < offerLines.Length)
-                    dialogueText.text = offerLines[currentDialogueIndex];
+                    View?.SetText(offerLines[currentDialogueIndex]);
                 else
                 {
                     // Player has now read this NPC's full greeting — other quests' Talk
@@ -279,7 +287,7 @@ namespace Game.Testing
                     PlayCutsceneIfAny(DialogueType.Offer);
 
                     if (questDetailPanel != null)
-                        questDetailPanel.ShowPanel(npcQuest, null);
+                        (questDetailPanel as IQuestOfferView)?.ShowPanel(npcQuest, null);
                 }
             }
             // Must be handled explicitly, not left to fall into the generic else branch below —
@@ -340,7 +348,7 @@ namespace Game.Testing
             CloseDialogue();
 
             if (HasQuest && questDetailPanel != null)
-                questDetailPanel.HidePanel();
+                (questDetailPanel as IQuestOfferView)?.HidePanel();
         }
     }
 }

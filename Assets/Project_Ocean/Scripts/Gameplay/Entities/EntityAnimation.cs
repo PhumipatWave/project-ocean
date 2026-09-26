@@ -6,6 +6,9 @@ namespace Game.Testing
     {
         [SerializeField] private Animator anim;
 
+        private readonly System.Collections.Generic.HashSet<int> parameterHashes = new System.Collections.Generic.HashSet<int>();
+        private RuntimeAnimatorController cachedController;
+
         private void Awake()
         {
             if (anim == null)
@@ -22,27 +25,42 @@ namespace Game.Testing
                 anim = GetComponentInChildren<Animator>();
         }
 
+        // Enemy controllers don't share one parameter set (jellyfish has none, crab uses isAttack_01),
+        // so skip missing ones instead of letting Animator log an error every frame.
+        private bool HasParameter(int hash)
+        {
+            if (anim == null || !anim.isInitialized) return false;
+            if (anim.runtimeAnimatorController != cachedController)
+            {
+                cachedController = anim.runtimeAnimatorController;
+                parameterHashes.Clear();
+                foreach (var p in anim.parameters)
+                    parameterHashes.Add(p.nameHash);
+            }
+            return parameterHashes.Contains(hash);
+        }
+
         public void PlayAnim(int hash)
         {
-            if (anim == null) return;
+            if (!HasParameter(hash)) return;
             anim.SetTrigger(hash);
         }
 
         public void PlayAnim(int hash, int value)
         {
-            if (anim == null) return;
+            if (!HasParameter(hash)) return;
             anim.SetInteger(hash, value);
         }
 
         public void PlayAnim(int hash, float value)
         {
-            if (anim == null) return;
+            if (!HasParameter(hash)) return;
             anim.SetFloat(hash, value);
         }
 
         public void PlayAnim(int hash, bool value)
         {
-            if (anim == null) return;
+            if (!HasParameter(hash)) return;
             anim.SetBool(hash, value);
         }
     }

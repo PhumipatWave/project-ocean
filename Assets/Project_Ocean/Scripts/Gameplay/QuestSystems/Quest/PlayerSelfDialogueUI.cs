@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game.Core;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Testing
 {
@@ -27,10 +25,18 @@ namespace Game.Testing
         [Tooltip("Shown when a line's Character Id is blank or unknown to the CharacterDatabase.")]
         [SerializeField] private string displayName = "You";
 
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI npcNameText;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private Image npcAvatarImage;
+        [Tooltip("DialoguePanelView on the dialogue panel (an IDialogueView).")]
+        [SerializeField] private MonoBehaviour dialogueView;
+
+        // Unity null check first: a destroyed view must read as missing.
+        private IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+
+        // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
+        private void OnValidate()
+        {
+            if (dialogueView != null && !(dialogueView is IDialogueView))
+                dialogueView = dialogueView.GetComponent<IDialogueView>() as MonoBehaviour;
+        }
 
         private struct Line { public string speakerId; public string text; }
 
@@ -68,7 +74,7 @@ namespace Game.Testing
         // Refresh() could race Awake ordering and miss it. Start() is guaranteed to run
         // after every object's Awake/OnEnable, so QuestManager.Instance is ready here —
         // same fix TutorialPromptUI already uses for the identical race. One frame further:
-        // every NPC's own Start() resets the SAME shared dialoguePanel to hidden as a safety
+        // every NPC's own Start() resets the SAME shared dialogue panel to hidden as a safety
         // default, and Start() order between sibling GameObjects isn't guaranteed — waiting a
         // frame guarantees every NPC's reset has already run before we open the panel.
         private void Start() => StartCoroutine(RefreshNextFrame());
@@ -131,8 +137,8 @@ namespace Game.Testing
                 lines.Add(new Line { speakerId = null, text = "" });
 
             ShowCurrentLine();
-            if (dialoguePanel != null) dialoguePanel.SetActive(true);
-            DialogueState.Show(dialoguePanel);
+            View?.SetOpen(true);
+            DialogueState.Show(View?.Panel);
 
             PlayerUIState.Open();
 
@@ -143,9 +149,8 @@ namespace Game.Testing
         private void ShowCurrentLine()
         {
             var line = lines[lineIndex];
-            DialogueSpeaker.Apply(npcNameText, npcAvatarImage,
-                string.IsNullOrEmpty(line.speakerId) ? PlayerId : line.speakerId, displayName);
-            if (dialogueText != null) dialogueText.text = line.text;
+            View?.SetSpeaker(string.IsNullOrEmpty(line.speakerId) ? PlayerId : line.speakerId, displayName);
+            View?.SetText(line.text);
         }
 
         private void Hide()
@@ -155,8 +160,8 @@ namespace Game.Testing
             lastHideFrame = Time.frameCount;
             activeQuest = null;
 
-            if (dialoguePanel != null) dialoguePanel.SetActive(false);
-            DialogueState.Hide(dialoguePanel);
+            View?.SetOpen(false);
+            DialogueState.Hide(View?.Panel);
 
             var reader = GameManager.CurPlayer?.input;
             if (reader != null) reader.OnInteracted -= HandleInteract;

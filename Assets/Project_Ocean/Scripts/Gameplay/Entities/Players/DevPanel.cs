@@ -11,7 +11,7 @@ namespace Game.Testing
     /// God Mode         -> เรียก PlayerHealth.Heal() เติมเต็มทุกเฟรม
     /// Infinite Oxygen   -> ตั้ง OxygenRope.IgnoreRopeLimit ทุกเฟรม ข้าม clamp ระยะ + breach/นับถอยหลัง (ไม่แตะ MaxRopeLength จึงไม่เซฟค่าผิด)
     /// Add Money         -> เรียก PlayerMoney.AddMoney() ตรงๆ
-    /// Add Item          -> เรียก InventoryManager.Instance.AddItem(item) ตรงๆ ต่อปุ่มที่กด
+    /// Add Item          -> เรียก Inventory.Current.AddItem(item) ตรงๆ ต่อปุ่มที่กด
     /// </summary>
     public class DevPanel : MonoBehaviour
     {
@@ -155,12 +155,12 @@ namespace Game.Testing
         // Filled on open, not Start: InventoryManager may not exist yet when this panel starts.
         private void FillItemDropdown()
         {
-            if (itemDropdown == null || InventoryManager.Instance?.AllItems == null)
+            if (itemDropdown == null || Inventory.Current?.AllItems == null)
                 return;
 
             dropdownItems.Clear();
             var options = new System.Collections.Generic.List<string>();
-            foreach (Item item in InventoryManager.Instance.AllItems)
+            foreach (Item item in Inventory.Current.AllItems)
             {
                 if (item == null) continue;
                 dropdownItems.Add(item);
@@ -208,9 +208,9 @@ namespace Game.Testing
             if (item == null)
                 return;
 
-            if (InventoryManager.Instance == null)
+            if (Inventory.Current == null)
             {
-                Debug.LogWarning("[DevPanel] ไม่พบ InventoryManager.Instance");
+                Debug.LogWarning("[DevPanel] ไม่พบ Inventory.Current");
                 return;
             }
 
@@ -218,7 +218,7 @@ namespace Game.Testing
             // (มันจัดการ full-inventory notification และ NotifyChanged() ให้เองอยู่แล้วในทุกครั้งที่เรียก)
             int toGive = Mathf.Max(1, amount);
             for (int i = 0; i < toGive; i++)
-                InventoryManager.Instance.AddItem(item);
+                Inventory.Current.AddItem(item);
         }
     }
 }
