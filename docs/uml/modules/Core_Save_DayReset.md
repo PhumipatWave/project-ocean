@@ -1,6 +1,6 @@
 # Core/Save/DayReset
 
-3 types · 107 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×6, [Core/Events](Core_Events.md) ×2
+3 types · 107 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×6, [Core/Events](Core_Events.md) ×2, [Core](Core.md) ×1
 
 [← index](../README.md)
 

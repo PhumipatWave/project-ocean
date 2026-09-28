@@ -83,7 +83,7 @@ namespace Game.Gameplay
 
         protected override void OnDeathHandler()
         {
-            Debug.Log($"Enemy Killed : {enemyId}");
+            GameLog.Info($"Enemy Killed : {enemyId}");
 
             entityAnimation?.PlayAnim(AnimHash.IsDeath, true);
 

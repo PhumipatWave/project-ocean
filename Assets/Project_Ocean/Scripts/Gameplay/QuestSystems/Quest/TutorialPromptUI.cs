@@ -114,7 +114,7 @@ namespace Game.Gameplay
         private void Hide()
         {
             if (TutorialGate.RequiredAction.HasValue)
-                Debug.Log($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
+                GameLog.Info($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
                     $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
 
             CurrentPrompt = null;

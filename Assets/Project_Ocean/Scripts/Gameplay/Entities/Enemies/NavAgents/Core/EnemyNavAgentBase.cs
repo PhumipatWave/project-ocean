@@ -50,7 +50,7 @@ namespace Game.Gameplay
                 return;
             }
             EnemyKillTracker.Instance.RegisterKill(spawnId);
-            Debug.Log($"[EnemyNavAgentBase] Kill registered: '{spawnId}'");
+            GameLog.Info($"[EnemyNavAgentBase] Kill registered: '{spawnId}'");
         }
 
         /// The fish type ID from the brain profile (e.g. "fishM").

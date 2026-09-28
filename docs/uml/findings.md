@@ -98,23 +98,25 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Done when:** the project compiles with the three assemblies, and a wrong-way `using` fails to compile.
 
 ### Phase 5: split large classes (one class per PR)
+**Status:** done 2026-09-29.
 | Class | Size now | Split into |
 |---|---|---|
 | `QuestManager` | **done 2026-09-29:** 955 → 586 lines | `QuestProgressTracker` (step evaluation, 9 event subscriptions) · `QuestStepEffects` (money check, feature changes, item consumption) · `QuestSaveMapper` (save adapter); registry, lifecycle and tracking stay in `QuestManager` |
 | `OxygenRope` | **done 2026-09-29:** 785 → 558 lines | `VerletRope` (segment physics) · `RopeCornerFinder` (wrap-corner geometry). Breach countdown (~50 lines, coroutine) and drawing (16 lines) stay: splitting them needs a new component or a timer rewrite for no real gain |
 | `Player` | **done 2026-09-29:** 551 → 506 lines (~70 of them disabled checkpoint code) | `PlayerItemUse` (item use; the MiniHub path). Checkpoint item is unused in the game, so its code is disabled with `#if ENABLE_CHECKPOINT_ITEM` (Player, `CheckPointItem`, `InventoryManager` "T" hint, `OxygenRope` checkpoint pins) instead of extracted |
 | `UIManager` | **reviewed 2026-09-29, not split:** one job (window stack + input lock/timescale + Esc); size is formatting and 16 one-line wrappers | 4 unused wrappers → Phase 6 |
-| `ObjectWrapPoint` | 608 lines, 27 methods | review first; only 1 dep, may be fine as is |
-| `ShopManager`, `SaveBridge`, `Quest.cs` | 405 / 435 / 545 lines | after Phase 3; re-measure first |
+| `ObjectWrapPoint` | **done 2026-09-29:** 613 → 239 lines | not split (one job); deleted ~370 lines of unused boundary-path API (only `GetActivePoints` is called, by `RopeCornerFinder`) |
+| `ShopManager`, `SaveBridge`, `Quest.cs` | **reviewed 2026-09-29:** 407 / 307 / 546 lines | `SaveBridge` already slimmed by Phase 3c. `ShopManager` is one job, not split (buy/sell rules living in a UI script is a CLAUDE.md view/logic issue, left for later). `Quest.cs` → `QuestStep` moved to `QuestStep.cs` (Quest.cs now 298 lines) |
 
 ### Phase 6: cleanup (low risk, any time after Phase 4)
-- 137 `Debug.Log*` calls in 40 files → one `[Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]` logger.
-- 14 `Find*` calls in 8 files → a spawn-point registry (the `Player`/`GameManager` tag lookups) and serialized references.
+**Status:** done 2026-09-29.
+- **Done 2026-09-29 (6b):** info logs → `Game.Core.GameLog.Info` (`[Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]`, `[HideInCallstack]`): 51 live `Debug.Log` calls in 19 files. Verified: info strings are absent from a release player compile and present in a development one. The 88 `LogWarning`/`LogError` calls stay in release on purpose (they reach the player's `Player.log`). (Roadmap's "137" counted all three kinds.)
+- **Done 2026-09-29 (6c):** `Find*` calls (13 live, incl. 2 `FindWithTag` the roadmap missed). Replaced: `MoveKeyBindUI` ×2 → `KeyBindManager.Instance`; `DoorInteract` `FindWithTag("Player")` → `GameManager.CurPlayer`; the 5 spawn/rope tag strings → `Core/Tags.cs` constants (tag lookup kept: it's how a persistent object finds a point in a newly loaded scene). Removed: `ShopManager`'s `GameObject.Find("AMM_WP1..4")` ammo-HUD update — it always resolved NULL (HUD inactive on Land) and served an unused feature (Ammo1–4 items are sold nowhere). Kept with reason: `NPCManager` (Awake-order race fix), `UIManager` (additive-load fallback), `PlayerCamera`/`DoorInteract` Cinemachine camera lookup (cross-scene, one-time). Not changed: `Player` and `GameManager` both move the player to the spawn point on scene load (duplicate responsibility; merging needs handler-order reasoning).
 - 23 singletons → keep true globals (GameManager, SaveBridge, AudioManager, LoadingManager, ObjectPoolManager); expose the rest through events or serialized references as Phase 3 removes callers.
-- `public` fields on ScriptableObject profiles (`EnemyBaseProfile`, `Item`) → `[SerializeField] private` + read-only properties. Rename with `[FormerlySerializedAs]` to keep asset data.
+- **Done 2026-09-29 (6d):** `Item`'s 10 public fields → `[SerializeField, FormerlySerializedAs("<old>")] private` fields + read-only properties with the old names (0 call sites changed). Verified: a value snapshot of all 24 Item assets is identical before/after; no `.asset` file changed. `EnemyBaseProfile` **skipped**: no code writes its fields, and its camelCase names would force 55 call-site renames + 4 subclasses + 5 assets for a guard against writes nobody makes. Revisit if runtime tuning code appears.
 - Route bullets, drops and inventory rows through the existing `ObjectPoolManager` where profiling shows spawn cost.
-- Dead code found in Phase 5c: `UIManager.ToggleSettingMenu`/`ToggleSettingPause`/`ToggleInventory`/`ToggleQuest` (0 code and scene callers); `Player.Aim()` (its `OnAimed` subscription is commented out), `Player.Interact()` (only logs), the `Alpha1` "Test Input" in `Player.Update`.
-- **Bug (pre-existing):** `Player.playerSpriteRenderer` is never assigned, so the player hit flash never shows (`OnDamagedVisual` returns early). Found in the Phase 5c live check.
+- **Done 2026-09-29 (6a):** dead code found in Phase 5c removed: `UIManager.ToggleSettingMenu`/`ToggleSettingPause`/`ToggleInventory`/`ToggleQuest` (0 code and scene callers); `Player.Aim()` (its `OnAimed` subscription is commented out), `Player.Interact()` (only logs), the `Alpha1` "Test Input" in `Player.Update`.
+- **Fixed 2026-09-29 (6a):** `Player.playerSpriteRenderer` was never assigned, so the player hit flash never showed. `Awake` now takes it from `playerSprite` (verified live: red for the flash duration, then back to white).
 
 ## 5. Risks
 

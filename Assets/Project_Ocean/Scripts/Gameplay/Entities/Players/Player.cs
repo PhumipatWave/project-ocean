@@ -133,6 +133,9 @@ namespace Game.Gameplay
 
             playerSprintVFX = GetComponentInChildren<PlayerSprintVFX>(true);
 
+            if (playerSprite != null)
+                playerSpriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
+
             if (playerSpriteRenderer != null)
                 playerOriginalColor = playerSpriteRenderer.color;
 
@@ -151,10 +154,8 @@ namespace Game.Gameplay
 
         private void Start()
         {
-            //input.OnAimed += Aim;
             input.OnAttacked += Attack;
             input.OnSprinted += Sprint;
-            input.OnInteracted += Interact;
             input.OnUseItem += HandleUseItem;
 #if ENABLE_CHECKPOINT_ITEM
             input.OnTeleport += HandleTeleport;
@@ -191,7 +192,7 @@ namespace Game.Gameplay
                 }
                 else
                 {
-                    transform.position = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform.position;
+                    transform.position = GameObject.FindGameObjectWithTag(Tags.PlayerSpawnPoint).transform.position;
                 }
 
                 // Reset rope max length back to full health on returning to land
@@ -224,7 +225,7 @@ namespace Game.Gameplay
             }
             else if (scene.name == "Ocean_Map")
             {
-                Transform spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint").transform;
+                Transform spawnPoint = GameObject.FindGameObjectWithTag(Tags.PlayerSpawnPoint).transform;
 
                 if (SceneLoadContext.IsLoading)
                 {
@@ -241,7 +242,7 @@ namespace Game.Gameplay
                 entityAnimation?.PlayAnim(AnimHash.IsLand, isLand);
 
                 // Rope anchor is separate from player spawn; falls back to spawn point if scene has none.
-                var ropeAnchor = GameObject.FindGameObjectWithTag("OxygenTubePoint");
+                var ropeAnchor = GameObject.FindGameObjectWithTag(Tags.OxygenTubePoint);
                 oxygenTube.SetStartPoint(ropeAnchor != null ? ropeAnchor.transform.position : spawnPoint.position);
             }
         }
@@ -250,17 +251,6 @@ namespace Game.Gameplay
         {
             gunHandler.Aimming(ref faceDir, input.MousePos);
             AimAnim();
-
-            // Test Input
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                gunHandler.currentAmmoType = AmmoType.Normal;
-            }
-            /*else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                gunHandler.currentAmmoType = AmmoType.GrapplingHook;
-            }*/
-
         }
 
         // Movement is re-applied every physics step (not only when the input value changes).
@@ -275,34 +265,6 @@ namespace Game.Gameplay
         }
 
         #region PlayerInputAction
-        private void Aim(bool isAim)
-        {
-            // Bug 2: block aim entirely when any UI (e.g. inventory) is open
-            // Bug 4: block aim when canAttack is false or on land
-            if (isAim && (!gunHandler.CanAttack || isLand || PlayerUIState.IsLocked)) return;
-
-            // Released while a UI is open (e.g. Pause opened mid-aim): just drop the aim state.
-            // UIManager owns Time.timeScale while locked — writing it here would un-pause the game.
-            if (!isAim && PlayerUIState.IsLocked)
-            {
-                gunHandler.IsAimming = false;
-                return;
-            }
-
-            gunHandler.IsAimming = isAim;
-
-            if (isAim)
-            {
-                // Bug 1: zero velocity so holding a move key doesn't keep the player moving while aiming
-                rb.linearVelocity = Vector2.zero;
-                Time.timeScale = focusTime;
-            }
-            else
-            {
-                Time.timeScale = originTime;
-            }
-        }
-
         private void Attack(bool isAttack)
         {
             if (isAttack)
@@ -394,7 +356,7 @@ namespace Game.Gameplay
                     AudioManager.Instance?.PlaySFX(SoundKeys.RopeMove);
 
                 if (TutorialGate.RequiredAction == TutorialActionId.Move)
-                    Debug.Log($"[Player] Raising Move tutorial action — dir={dir}, wasMoving was false this frame");
+                    GameLog.Info($"[Player] Raising Move tutorial action — dir={dir}, wasMoving was false this frame");
                 TutorialEvents.RaiseAction(TutorialActionId.Move);
             }
             wasMoving = isMoving;
@@ -404,13 +366,6 @@ namespace Game.Gameplay
         }
 
 
-        private void Interact(bool isInteract)
-        {
-            if (isInteract)
-            {
-                Debug.Log("Interact");
-            }
-        }
 
         private void HandleUseItem()
         {

@@ -51,7 +51,7 @@ namespace Game.Core
                 try
                 {
                     File.Move(LegacyPath, GetPath(0));
-                    Debug.Log("[SaveSystem] Migrated legacy gamesave.json → slot 0");
+                    GameLog.Info("[SaveSystem] Migrated legacy gamesave.json → slot 0");
                 }
                 catch (Exception e)
                 {
@@ -74,7 +74,7 @@ namespace Game.Core
                 string json = JsonUtility.ToJson(data, prettyPrint: true);
                 string enc  = EncryptionHelper.Encrypt(json);
                 File.WriteAllText(GetPath(slot), enc);
-                Debug.Log($"[SaveSystem] Saved slot {slot} → {GetPath(slot)}");
+                GameLog.Info($"[SaveSystem] Saved slot {slot} → {GetPath(slot)}");
             }
             catch (Exception e)
             {
@@ -113,7 +113,7 @@ namespace Game.Core
                 // Migrate older saves up to the current version.
                 if (data.saveVersion < SAVE_VERSION)
                 {
-                    Debug.Log($"[SaveSystem] Migrating slot {slot}: file={data.saveVersion} → current={SAVE_VERSION}");
+                    GameLog.Info($"[SaveSystem] Migrating slot {slot}: file={data.saveVersion} → current={SAVE_VERSION}");
                     Migrate(data);
                 }
 
@@ -171,7 +171,7 @@ namespace Game.Core
             }
 
             File.Delete(path);
-            Debug.Log($"[SaveSystem] Save deleted (slot {slot})");
+            GameLog.Info($"[SaveSystem] Save deleted (slot {slot})");
         }
 
         /// <summary>Attempts to restore a save slot from its backup.</summary>
@@ -184,7 +184,7 @@ namespace Game.Core
             try
             {
                 File.Copy(backup, path, overwrite: true);
-                Debug.Log($"[SaveSystem] Backup restored (slot {slot})");
+                GameLog.Info($"[SaveSystem] Backup restored (slot {slot})");
                 return true;
             }
             catch (Exception e)

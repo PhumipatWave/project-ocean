@@ -174,7 +174,7 @@ namespace Game.Gameplay
                 spawned += SpawnSchool(go, prefab, spawnId);
             }
 
-            Debug.Log($"[EnemySpawner] '{name}' spawned {spawned} enemies ({enemyCount} slots).");
+            GameLog.Info($"[EnemySpawner] '{name}' spawned {spawned} enemies ({enemyCount} slots).");
         }
 
         // Leader fish whose profile has schoolMaxFollowers > 0: spawn that many of the same prefab

@@ -1,6 +1,6 @@
 # Gameplay/Interaction
 
-1 types · 90 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Core](Core.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+1 types · 90 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Core](Core.md) ×2, [Core/Scenes](Core_Scenes.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 

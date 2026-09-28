@@ -63,7 +63,7 @@ namespace Game.Gameplay
                         Enemy enemy = collision.GetComponent<Enemy>();
                         enemy.TakeDamage(attackDamage);
 
-                        Debug.Log($"Grappling Hook Fire : {collision.name}");
+                        GameLog.Info($"Grappling Hook Fire : {collision.name}");
 
                         player.GunHandler.CanAttack = true;
                         RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
@@ -73,7 +73,7 @@ namespace Game.Gameplay
 
                         /*if (!enemy.IsDeath)
                         {
-                            Debug.Log($"Grappling Hook Fire : {collision.name}");
+                            GameLog.Info($"Grappling Hook Fire : {collision.name}");
 
                             player.GunHandler.CanAttack = true;
                             RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
@@ -83,7 +83,7 @@ namespace Game.Gameplay
                         }
                         else
                         {
-                            Debug.Log($"Grappling hook fire death enemy");
+                            GameLog.Info($"Grappling hook fire death enemy");
                             StartCoroutine(HookFishRoutine(collision.gameObject));
                         }*/
 
@@ -166,7 +166,7 @@ namespace Game.Gameplay
             attachedToObject = true;
             player.GunHandler.IsHooked = true;
 
-            Debug.Log($"Grappling hook return to fire point");
+            GameLog.Info($"Grappling hook return to fire point");
             while (!IsReachingTargetPoint(player.GunHandler.FirePoint.transform.position, transform.position, 2f))
             {
                 Vector2 backwardDir = (player.GunHandler.FirePoint.transform.position - transform.position).normalized;
@@ -175,7 +175,7 @@ namespace Game.Gameplay
                 yield return null;
             }
 
-            Debug.Log($"Instaniate fish bullet");
+            GameLog.Info($"Instaniate fish bullet");
             var obj = Instantiate(target, player.GunHandler.FirePoint.transform.position, player.GunHandler.GunSprite.transform.rotation);
 
             Destroy(target.gameObject);

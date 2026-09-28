@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-36 types · 1740 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×9, [Gameplay/Game](Gameplay_Game.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+36 types · 1740 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×11, [Gameplay/Game](Gameplay_Game.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -66,25 +66,6 @@ classDiagram
     Finish
     ReadyToTurnIn
     Reject
-  }
-  class QuestStep {
-    +QuestType Type
-    +string TargetEnemyId
-    +List~string~ TargetEnemyIds
-    +TutorialActionId TutorialAction
-    +string TargetQuestItemId
-    +List~string~ TargetQuestItemIds
-    +List~QuestItemRequirement~ TargetQuestItemRequirements
-    +DeliveryCountMode DeliveryCountMode
-    +DeliverySource DeliverySource
-    +bool ConsumeOnComplete
-    ... +31 more fields
-    +MarkNpcTalkedTo(string) bool
-    +ComputeDeliveryProgress(Func~string, int~) int
-    +SetDialogue(List~QuestDialogueLine~) void
-    +GetLines(string, DialogueType) string
-    +GetLine(string, DialogueType, int) string
-    +GetCutsceneId(string, DialogueType) string
   }
   class Quest {
     +int QuestID
@@ -208,6 +189,13 @@ classDiagram
     +ResolveQuestTarget()$ Transform
     +ResolveCompassTarget()$ Transform
   }
+  class QuestProgressTracker {
+    +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
+    +Subscribe() void
+    +Unsubscribe() void
+    +CheckDayOrDive() void
+    +CheckInventory() void
+  }
   class ISaveParticipant {
     <<Core/Save>>
   }
@@ -222,7 +210,6 @@ classDiagram
   Quest --> QuestClassification : classification
   Quest --> QuestItemRequirement : TargetQuestItemRequirements
   Quest --> QuestStatus : status
-  Quest --> QuestStep : steps
   QuestData --> NextQuestMode : nextQuestMode
   QuestData --> QuestCategory : category
   QuestData --> QuestClassification : classification
@@ -231,14 +218,8 @@ classDiagram
   QuestDialogueLine --> DialogueType : type
   QuestManager --> Quest : activeQuestList
   QuestManager --> QuestData : allQuestTemplates
-  QuestStep --> DeliveryCountMode : DeliveryCountMode
-  QuestStep --> DeliverySource : DeliverySource
-  QuestStep --> DialogueType : dialogue
-  QuestStep --> QuestCompletionMode : CompletionMode
-  QuestStep --> QuestDialogueLine : orderedDialogue
-  QuestStep --> QuestItemRequirement : TargetQuestItemRequirements
-  QuestStep --> QuestType : Type
-  QuestStep --> TalkCompletionMode : TalkCompletionMode
+  QuestManager --> QuestProgressTracker : progress
+  QuestProgressTracker --> Quest : quests
   QuestStepData --> DeliveryCountMode : deliveryCountMode
   QuestStepData --> DeliverySource : deliverySource
   QuestStepData --> QuestCompletionMode : completionMode
@@ -253,17 +234,29 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
-  class QuestProgressTracker {
-    +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
-    +Subscribe() void
-    +Unsubscribe() void
-    +CheckDayOrDive() void
-    +CheckInventory() void
-  }
   class QuestSaveMapper {
     <<static>>
     +ToSaveData(IEnumerable~Quest~)$ List~QuestSaveData~
     +Apply(List~QuestSaveData~, Func~int, Quest~)$ void
+  }
+  class QuestStep {
+    +QuestType Type
+    +string TargetEnemyId
+    +List~string~ TargetEnemyIds
+    +TutorialActionId TutorialAction
+    +string TargetQuestItemId
+    +List~string~ TargetQuestItemIds
+    +List~QuestItemRequirement~ TargetQuestItemRequirements
+    +DeliveryCountMode DeliveryCountMode
+    +DeliverySource DeliverySource
+    +bool ConsumeOnComplete
+    ... +31 more fields
+    +MarkNpcTalkedTo(string) bool
+    +ComputeDeliveryProgress(Func~string, int~) int
+    +SetDialogue(List~QuestDialogueLine~) void
+    +GetLines(string, DialogueType) string
+    +GetLine(string, DialogueType, int) string
+    +GetCutsceneId(string, DialogueType) string
   }
   class QuestStepEffects {
     <<static>>
@@ -351,7 +344,7 @@ classDiagram
 | PlayerInterior | enum | `PlayerInteriorState.cs:5` | 1 |
 | PlayerInteriorState | static | `PlayerInteriorState.cs:13` | 36 |
 | PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 128 |
-| Quest | class | `Quest.cs:292` | 163 |
+| Quest | class | `Quest.cs:44` | 163 |
 | QuestCategory | enum | `QuestData.cs:14` | 8 |
 | QuestClassification | enum | `QuestData.cs:24` | 6 |
 | QuestCompletionMode | enum | `QuestData.cs:7` | 5 |
@@ -363,7 +356,7 @@ classDiagram
 | QuestProgressTracker | class | `QuestProgressTracker.cs:8` | 179 |
 | QuestSaveMapper | static | `QuestSaveMapper.cs:8` | 32 |
 | QuestStatus | enum | `Quest.cs:34` | 8 |
-| QuestStep | class | `Quest.cs:48` | 117 |
+| QuestStep | class | `QuestStep.cs:13` | 117 |
 | QuestStepData | class | `QuestData.cs:108` | 47 |
 | QuestStepEffects | static | `QuestStepEffects.cs:7` | 71 |
 | QuestType | enum | `Quest.cs:8` | 9 |

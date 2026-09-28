@@ -80,7 +80,7 @@ namespace Game.Gameplay
             // quest) so it's tracked from the very start.
             EnsureQuestTracked();
 
-            Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
+            GameLog.Info($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Game.Gameplay
                 if (q.Classification == QuestClassification.MainQuest)
                 {
                     trackedQuestId = q.QuestID;
-                    Debug.Log($"[QuestManager] Now tracking Main Quest: {q.QuestName}");
+                    GameLog.Info($"[QuestManager] Now tracking Main Quest: {q.QuestName}");
                     return;
                 }
 
@@ -113,7 +113,7 @@ namespace Game.Gameplay
 
             trackedQuestId = fallback?.QuestID ?? -1;
             if (fallback != null)
-                Debug.Log($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
+                GameLog.Info($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
         }
 
         /// <summary>Completes a Talk or Cutscene step authored with Auto Display Dialogue — it
@@ -421,7 +421,7 @@ namespace Game.Gameplay
                 progress.CheckDayOrDive();
             }
 
-            Debug.Log($"Accepted Quest: {quest.QuestName}");
+            GameLog.Info($"Accepted Quest: {quest.QuestName}");
 
             return true;
         }
@@ -514,7 +514,7 @@ namespace Game.Gameplay
             if (finalStepReward > 0)
             {
                 OnMoneyRewarded?.Invoke(finalStepReward);
-                Debug.Log($"[QuestManager] Completing quests: +{finalStepReward} $");
+                GameLog.Info($"[QuestManager] Completing quests: +{finalStepReward} $");
             }
 
             HandleNextQuest(quest);
@@ -577,7 +577,7 @@ namespace Game.Gameplay
 
             OnQuestUpdated?.Invoke();
 
-            Debug.Log(
+            GameLog.Info(
                 $"Tracking Quest: {quest.QuestName}"
             );
 

@@ -1,6 +1,6 @@
 # Core/Datas/Items
 
-3 types · 50 LOC (non-blank) · depends on: none
+3 types · 60 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -35,7 +35,7 @@ classDiagram
     CheckpointItem
   }
   InventoryItemDatabase --> Item : allItems
-  Item --> ItemType : ItemType
+  Item --> ItemType : itemType
 ```
 
 ## Files
@@ -43,5 +43,5 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | InventoryItemDatabase | class | `InventoryItemDatabase.cs:3` | 18 |
-| Item | SO | `Item.cs:6` | 22 |
-| ItemType | enum | `Item.cs:36` | 10 |
+| Item | SO | `Item.cs:7` | 32 |
+| ItemType | enum | `Item.cs:48` | 10 |

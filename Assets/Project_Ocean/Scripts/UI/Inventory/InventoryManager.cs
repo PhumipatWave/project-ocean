@@ -314,7 +314,7 @@ namespace Game.UI
                 return;
             }
 
-            Debug.Log("UnLocked Slot Full!!!");
+            GameLog.Info("UnLocked Slot Full!!!");
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace Game.UI
 
         public void AddRewardItem(int itemId)
         {
-            Debug.Log("QuestManager reward item id: " + itemId);
+            GameLog.Info("QuestManager reward item id: " + itemId);
 
             Item rewardItem = FindItemInDatabase(itemId);
             if (rewardItem == null)
@@ -371,7 +371,7 @@ namespace Game.UI
 
             bool isAdded = AddItem(rewardItem);
             if (isAdded)
-                Debug.Log($"[Quest Reward] Player received reward item: {rewardItem.ItemName}");
+                GameLog.Info($"[Quest Reward] Player received reward item: {rewardItem.ItemName}");
             else
                 Debug.LogWarning("Inventory is full. Could not add quest reward item.");
         }
@@ -395,7 +395,7 @@ namespace Game.UI
                 {
                     DraggableItem toRemove = GetItemInSlot(slotToRemove);
                     if (toRemove == null) return;
-                    Debug.Log($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
+                    GameLog.Info($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
                     Destroy(toRemove.gameObject);
                     NotifyChanged();
                     RaiseItemDelta(toRemove.GetItem(), -toRemove.count);
@@ -422,7 +422,7 @@ namespace Game.UI
                     if (itemToDiscard == null)
                         return;
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[Inventory] Discard dragged item: {itemName}"
                     );
 
@@ -474,7 +474,7 @@ namespace Game.UI
                     return true;
             }
 
-            Debug.Log("No space for building item!");
+            GameLog.Info("No space for building item!");
             return false;
         }
 
@@ -510,7 +510,7 @@ namespace Game.UI
             if (itemInSlot.count >= item.MaxStackable)
             {
                 if (!allowDifferentItem)
-                    Debug.Log("Full of this building item!");
+                    GameLog.Info("Full of this building item!");
 
                 return false;
             }

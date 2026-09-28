@@ -19,13 +19,13 @@ namespace Game.Core
 
         private void Awake()
         {
-            keyBindManager = FindFirstObjectByType<KeyBindManager>();
+            keyBindManager = KeyBindManager.Instance;
         }
 
         private void OnEnable()
         {
             if (keyBindManager == null)
-                keyBindManager = FindFirstObjectByType<KeyBindManager>();
+                keyBindManager = KeyBindManager.Instance;
 
             KeyBindManager.OnBindingsChanged += UpdateUI;
 

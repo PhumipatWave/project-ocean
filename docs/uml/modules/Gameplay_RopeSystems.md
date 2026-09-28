@@ -1,6 +1,6 @@
 # Gameplay/RopeSystems
 
-1 types · 49 LOC (non-blank) · depends on: none
+1 types · 49 LOC (non-blank) · depends on: [Core](Core.md) ×1
 
 [← index](../README.md)
 

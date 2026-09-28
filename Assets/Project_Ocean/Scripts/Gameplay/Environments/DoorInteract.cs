@@ -143,7 +143,7 @@ namespace Game.Gameplay
 
         IEnumerator WarpSequence()
         {
-            var player = GameObject.FindWithTag("Player");
+            var player = GameManager.CurPlayer != null ? GameManager.CurPlayer.gameObject : null;
             if (player == null) yield break;
 
             isWarping = true;

@@ -121,7 +121,7 @@ namespace Game.Gameplay
                     p.Apply(data);
 
                 SceneLoadContext.Clear();
-                Debug.Log("[SaveBridge] Post-load data applied!");
+                GameLog.Info("[SaveBridge] Post-load data applied!");
             }
             catch (System.Exception e)
             {
@@ -223,7 +223,7 @@ namespace Game.Gameplay
             try
             {
                 SaveSystem.Save(data, slot);
-                Debug.Log($"[SaveBridge] Game saved to slot {slot}!");
+                GameLog.Info($"[SaveBridge] Game saved to slot {slot}!");
                 OnSaved?.Invoke();
             }
             catch (System.Exception e)
@@ -248,7 +248,7 @@ namespace Game.Gameplay
             if (!SaveSystem.HasSave(slot))
             {
                 if (SaveSystem.RestoreBackup(slot))
-                    Debug.Log($"[SaveBridge] Restored slot {slot} from backup, retrying load...");
+                    GameLog.Info($"[SaveBridge] Restored slot {slot} from backup, retrying load...");
                 else
                 {
                     Debug.LogWarning($"[SaveBridge] No save file found for slot {slot}");
@@ -283,7 +283,7 @@ namespace Game.Gameplay
             }
             else
                 SceneManager.LoadScene(data.currentScene);
-            Debug.Log($"[SaveBridge] Loading scene for slot {slot}...");
+            GameLog.Info($"[SaveBridge] Loading scene for slot {slot}...");
         }
 
         /// <summary>For a save/load menu: metadata for every occupied slot.</summary>

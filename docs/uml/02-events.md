@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-76 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
+75 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
 
 ```mermaid
 flowchart LR
@@ -35,7 +35,7 @@ flowchart LR
   NPC[NPC] -->|OnQuestUpdated| QuestManager[QuestManager]
   NextDayAnimationUI[NextDayAnimationUI] -->|OnDayAdvanced| DayManager[DayManager]
   NotificationView[NotificationView] -->|OnClear, OnNotify| NotificationManager[NotificationManager]
-  Player[Player] -->|OnAttacked, OnInteracted, OnSprinted, OnTeleport, OnUseItem| InputReader[InputReader]
+  Player[Player] -->|OnAttacked, OnSprinted, OnTeleport, OnUseItem| InputReader[InputReader]
   PlayerFeedbackVFX[PlayerFeedbackVFX] -->|OnPlayerDamaged| Player[Player]
   PlayerHealth[PlayerHealth] -->|OnLevelGranted| UpgradeService[UpgradeService]
   PlayerInteriorState[PlayerInteriorState] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
@@ -91,7 +91,7 @@ flowchart LR
 | IEntityHealth | OnDied | Entity |
 | InputReader | OnAmmoSelected | AmmoWheel |
 | InputReader | OnAttacked | Player |
-| InputReader | OnInteracted | CollectableItemBase, InteractUI, Player, PlayerSelfDialogueUI |
+| InputReader | OnInteracted | CollectableItemBase, InteractUI, PlayerSelfDialogueUI |
 | InputReader | OnInventoryToggled | InventoryManager |
 | InputReader | OnMenuToggled | GameHUD |
 | InputReader | OnSkipCutscene | Cutscene |

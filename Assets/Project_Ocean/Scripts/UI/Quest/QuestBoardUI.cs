@@ -225,7 +225,7 @@ namespace Game.UI
             questsInCurrentCategory =
                 QuestManager.Instance.GetQuestsByCategory(currentCategory);
 
-            Debug.Log(
+            GameLog.Info(
                 $"[QuestBoardUI] Category = {currentCategory}, " +
                 $"Quest Count = {questsInCurrentCategory.Count}"
             );

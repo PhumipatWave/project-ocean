@@ -28,7 +28,7 @@ namespace Game.Gameplay
             {
                 wasInDetectRadius = inRadius;
                 if (profile.debugVision)
-                    Debug.Log(inRadius
+                    GameLog.Info(inRadius
                         ? $"[Enemy] Player entered view distance ({dist:0.00})"
                         : $"[Enemy] Player left view distance ({dist:0.00})", context.Host);
             }
@@ -65,7 +65,7 @@ namespace Game.Gameplay
             couldSeeLastTick = canSee;
 
             if (profile.debugVision)
-                Debug.Log(canSee ? "[Enemy] Can see player." : "[Enemy] Cannot see player.", context.Host);
+                GameLog.Info(canSee ? "[Enemy] Can see player." : "[Enemy] Cannot see player.", context.Host);
         }
     }
 }

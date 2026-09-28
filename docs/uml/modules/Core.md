@@ -1,6 +1,6 @@
 # Core
 
-5 types · 108 LOC (non-blank) · depends on: none
+7 types · 119 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -29,6 +29,10 @@ classDiagram
     EnemySpawnLevel1
     ... +7 more
   }
+  class GameLog {
+    <<static>>
+    +Info(object, UnityEngine.Object)$ void
+  }
   class GameState {
     <<enum>>
     Land
@@ -53,6 +57,11 @@ classDiagram
     +string MainMenu$
     +string Intro$
   }
+  class Tags {
+    <<static>>
+    +string PlayerSpawnPoint$
+    +string OxygenTubePoint$
+  }
 ```
 
 ## Files
@@ -61,6 +70,8 @@ classDiagram
 |---|---|---|---|
 | DialogueState | static | `DialogueState.cs:13` | 36 |
 | GameFeature | enum | `GameFeature.cs:7` | 20 |
+| GameLog | static | `GameLog.cs:6` | 6 |
 | GameState | enum | `GameState.cs:3` | 6 |
 | PlayerUIState | static | `PlayerUIState.cs:12` | 39 |
 | SceneNames | static | `SceneNames.cs:7` | 7 |
+| Tags | static | `Tags.cs:4` | 5 |

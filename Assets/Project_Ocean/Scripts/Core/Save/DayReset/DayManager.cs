@@ -79,7 +79,7 @@ namespace Game.Core
         {
             CurrentDay++;
             DivesToday = 0;
-            Debug.Log($"[DayManager] Day {CurrentDay} begins");
+            GameLog.Info($"[DayManager] Day {CurrentDay} begins");
 
             onNewDay?.Invoke(CurrentDay);
             OnEnemyReset?.Invoke();

@@ -14,7 +14,7 @@ namespace Game.Gameplay
                 var effect = prefab.ItemPrefab?.GetComponent<IItemEffect>();
                 if (effect != null && !effect.CanExecute(player))
                 {
-                    Debug.Log($"[Player] Item use blocked by CanExecute: {type}");
+                    GameLog.Info($"[Player] Item use blocked by CanExecute: {type}");
                     return;
                 }
 
@@ -32,7 +32,7 @@ namespace Game.Gameplay
 
             if (!success)
             {
-                Debug.Log("No item : " + type);
+                GameLog.Info("No item : " + type);
                 return;
             }
 

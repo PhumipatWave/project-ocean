@@ -377,22 +377,12 @@ namespace Game.UI
             Open(UIType.SettingMenu);
         }
 
-        public void ToggleSettingMenu()
-        {
-            Toggle(UIType.SettingMenu);
-        }
-
         /// <summary>
         /// Opens SettingPanel from the in-game Pause Menu.
         /// </summary>
         public void OpenSettingPause()
         {
             Open(UIType.SettingPause);
-        }
-
-        public void ToggleSettingPause()
-        {
-            Toggle(UIType.SettingPause);
         }
 
         /// <summary>
@@ -414,11 +404,6 @@ namespace Game.UI
             Open(UIType.Inventory);
         }
 
-        public void ToggleInventory()
-        {
-            Toggle(UIType.Inventory);
-        }
-
         // =========================================================
         // QUEST
         // =========================================================
@@ -426,11 +411,6 @@ namespace Game.UI
         public void OpenQuest()
         {
             Open(UIType.Quest);
-        }
-
-        public void ToggleQuest()
-        {
-            Toggle(UIType.Quest);
         }
 
         // =========================================================
@@ -565,7 +545,7 @@ namespace Game.UI
         {
             if (debugLogs)
             {
-                Debug.Log($"[UIManager] {message}");
+                GameLog.Info($"[UIManager] {message}");
             }
         }
 

@@ -24,7 +24,7 @@ namespace Game.UI
         {
             if (currentItem == null || currentItem.GetItem() == null)
             {
-                Debug.Log("Empty slot clicked");
+                GameLog.Info("Empty slot clicked");
                 return;
             }
 

@@ -8,24 +8,24 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
-| InventoryManager | 539 | 47 | 20 | 26 | UI/Inventory |
+| InventoryManager | 539 | 47 | 20 | 27 | UI/Inventory |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
-| ObjectWrapPoint | 467 | 27 | 7 | 1 | Gameplay/InteractObjects |
 | OxygenRope | 370 | 14 | 31 | 8 | Gameplay/Entities/Players/OxygenTube |
-| UIManager | 368 | 35 | 11 | 8 | UI/UIManager |
-| Player | 362 | 21 | 35 | 24 | Gameplay/Entities/Players |
-| KeyBindManager | 339 | 12 | 4 | 4 | Core/Inputs/KeyBind |
-| QuestManager | 334 | 34 | 7 | 17 | Gameplay/QuestSystems/Quest |
-| ShopManager | 299 | 37 | 18 | 13 | UI/Shop |
+| UIManager | 352 | 31 | 11 | 9 | UI/UIManager |
+| KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
+| QuestManager | 334 | 34 | 7 | 18 | Gameplay/QuestSystems/Quest |
+| Player | 333 | 19 | 35 | 25 | Gameplay/Entities/Players |
+| ShopManager | 285 | 36 | 17 | 13 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
-| QuestBoardUI | 249 | 15 | 18 | 10 | UI/Quest |
+| QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
 | NPC | 243 | 21 | 18 | 17 | Gameplay/Entities/NPCs |
-| EnemyNavAgentBase | 228 | 26 | 29 | 11 | Gameplay/Entities/Enemies/NavAgents/Core |
+| EnemyNavAgentBase | 228 | 26 | 29 | 12 | Gameplay/Entities/Enemies/NavAgents/Core |
 | EnemyFollowState | 223 | 11 | 16 | 9 | Gameplay/Entities/Enemies/Brain/FSM/States |
 | PlayerGunHandler | 222 | 13 | 34 | 8 | Gameplay/Entities/Players |
-| EnemySpawner | 209 | 12 | 17 | 10 | Gameplay/Spawning |
-| SaveBridge | 192 | 15 | 4 | 21 | Gameplay/Save |
+| EnemySpawner | 209 | 12 | 17 | 11 | Gameplay/Spawning |
+| SaveBridge | 192 | 15 | 4 | 22 | Gameplay/Save |
 | GameHUD | 186 | 15 | 16 | 17 | UI |
+| ObjectWrapPoint | 182 | 10 | 7 | 1 | Gameplay/InteractObjects |
 | LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
 | QuestProgressTracker | 179 | 12 | 3 | 18 | Gameplay/QuestSystems/Quest |
 
@@ -36,6 +36,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | GameManager | 29 | Bullet, CheckPointItem, ChestInteract, Cutscene, DevPanel |
 | TutorialActionId | 27 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
 | QuestManager | 21 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
+| GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
 | QuestType | 18 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
 | Quest | 16 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
 | PlayerUIState | 16 | CollectableItemBase, ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel |
@@ -47,74 +48,71 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Player | 13 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
 | SaveData | 12 | DayManager, EnemyKillTracker, FeatureUnlockService, ISaveParticipant, InventoryManager |
 | PlayerMoney | 12 | ChestInteract, DevPanel, MoneyUI, QuestProgressTracker, QuestStepEffects |
-| GameFeature | 12 | CollectableItemBase, EnemySpawner, FeatureUnlockService, GameHUD, GameManager |
 
 ## Most dependencies (fan-out)
 
 | Type | Depends on |
 |---|---|
-| InventoryManager | 26 |
-| Player | 24 |
-| SaveBridge | 21 |
+| InventoryManager | 27 |
+| Player | 25 |
+| SaveBridge | 22 |
 | EnemyBrain | 19 |
+| QuestManager | 18 |
 | QuestProgressTracker | 18 |
 | NPC | 17 |
-| QuestManager | 17 |
 | GameHUD | 17 |
+| GameManager | 15 |
+| TutorialPromptUI | 15 |
 | EnemyWanderState | 14 |
-| GameManager | 14 |
-| TutorialPromptUI | 14 |
 | PlayerSelfDialogueUI | 13 |
 | ShopManager | 13 |
-| InteractUI | 12 |
-| Quest | 12 |
+| Enemy | 12 |
+| EnemyNavAgentBase | 12 |
 
 ## Static `Instance` singletons (23)
 
 AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManager, EnemyKillTracker, FeatureUnlockService, GameManager, GameObjectSpawnManager, InventoryManager, KeyBindManager, LoadingManager, NPCManager, ObjectPoolManager, OneTimePickupTracker, QuestCompleteUI, QuestManager, SaveBridge, ShopInventoryBuy, ShopManager, UIManager, UpgradeService, UpgradeTooltip
 
-## Scene searches (`Find*`) — 13 in 8 files
+## Scene searches (`Find*`) — 9 in 6 files
 
 | File | Count |
 |---|---|
 | Gameplay/Entities/Players/Player.cs | 3 |
-| Core/Inputs/KeyBind/UIKeyBind/MoveKeyBindUI.cs | 2 |
-| Gameplay/Environments/DoorInteract.cs | 2 |
 | Gameplay/Game/GameManager.cs | 2 |
+| Gameplay/Environments/DoorInteract.cs | 1 |
 | Gameplay/Environments/NPCManager.cs | 1 |
 | Gameplay/MainCameras/PlayerCamera.cs | 1 |
-| UI/Shop/ShopManager.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 134 in 40 files
+## `Debug.Log*` calls — 87 in 33 files
 
 | File | Count |
 |---|---|
-| UI/Inventory/InventoryManager.cs | 15 |
-| Core/Inputs/KeyBind/KeyBindManager.cs | 13 |
-| Core/Save/SaveSystem.cs | 12 |
-| Gameplay/Save/SaveBridge.cs | 11 |
-| Gameplay/QuestSystems/Quest/QuestManager.cs | 10 |
-| Gameplay/Spawning/EnemySpawner.cs | 5 |
+| UI/Inventory/InventoryManager.cs | 8 |
+| Core/Save/SaveSystem.cs | 7 |
+| Gameplay/Save/SaveBridge.cs | 7 |
+| Core/Inputs/KeyBind/KeyBindManager.cs | 6 |
 | Gameplay/Spawning/GameObjectSpawnManager.cs | 5 |
 | Gameplay/Cutscenes/Cutscene.cs | 4 |
 | Gameplay/Entities/Players/DevPanel.cs | 4 |
+| Gameplay/QuestSystems/Quest/QuestManager.cs | 4 |
+| Gameplay/Spawning/EnemySpawner.cs | 4 |
 | Gameplay/Spawning/ItemSpawner.cs | 4 |
 | UI/Loading/LoadingButton.cs | 4 |
 | Core/Scenes/LoadingManager.cs | 3 |
-| Gameplay/Entities/Enemies/Brain/EnemyVision.cs | 3 |
-| Gameplay/Entities/Players/PlayerItemUse.cs | 3 |
-| UI/Quest/QuestDetailPanel.cs | 3 |
-| UI/UIManager/UIManager.cs | 3 |
 | Gameplay/AudioSetting/SoundChannel.cs | 2 |
 | Gameplay/Entities/Enemies/Brain/FSM/EnemyFSM.cs | 2 |
-| Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 2 |
-| Gameplay/Entities/Players/Player.cs | 2 |
 | Gameplay/Game/GameManager.cs | 2 |
 | Gameplay/QuestSystems/Quest/ExploreAreaTrigger.cs | 2 |
-| UI/Quest/QuestBoardUI.cs | 2 |
 | UI/Save/SaveMenuUI.cs | 2 |
-| Core/Save/DayReset/DayManager.cs | 1 |
+| UI/UIManager/UIManager.cs | 2 |
+| Core/GameLog.cs | 1 |
+| Core/VideoManager/IntroPlayer.cs | 1 |
+| Gameplay/Cutscenes/CutsceneManager.cs | 1 |
+| Gameplay/Entities/Enemies/Brain/EnemyBrain.cs | 1 |
+| Gameplay/Entities/Enemies/Brain/EnemyVision.cs | 1 |
+| Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 1 |
+| Gameplay/Entities/Enemies/NavAgents/EnemyAgent.cs | 1 |
 
 ## Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 33 in 31 files
 

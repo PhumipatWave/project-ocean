@@ -59,7 +59,7 @@ namespace Game.Gameplay
             line.positionCount = 2;
             line.enabled = false;
 
-            Debug.Log("Clear Rope");
+            GameLog.Info("Clear Rope");
         }
         #endregion
 

@@ -68,13 +68,13 @@ namespace Game.UI
 
             if (success)
             {
-                Debug.Log("Accept Quest");
+                GameLog.Info("Accept Quest");
                 TutorialEvents.RaiseAction(TutorialActionId.AcceptQuest);
                 NotifyAndClose();
             }
             else
             {
-                Debug.Log("You already have an active quest.");
+                GameLog.Info("You already have an active quest.");
             }
         }
 
@@ -83,7 +83,7 @@ namespace Game.UI
             if (currentQuest == null)
                 return;
 
-            Debug.Log($"Close Quest Panel : {currentQuest.QuestName}");
+            GameLog.Info($"Close Quest Panel : {currentQuest.QuestName}");
 
             HidePanel();
         }

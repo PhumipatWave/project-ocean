@@ -56,7 +56,7 @@ namespace Game.Gameplay
         {
             var spawnPos = playerSpawnPoint != null
                 ? playerSpawnPoint.position
-                : (GameObject.FindWithTag("PlayerSpawnPoint")?.transform.position ?? Vector3.zero);
+                : (GameObject.FindWithTag(Tags.PlayerSpawnPoint)?.transform.position ?? Vector3.zero);
             PlayerRegistry.Register(Instantiate(playerPrefab, spawnPos, Quaternion.identity));
         }
 
@@ -101,7 +101,7 @@ namespace Game.Gameplay
             // Normal scene transition — find the spawn point in the newly loaded scene.
             if (scene.name == SceneNames.Land || scene.name == SceneNames.Ocean)
             {
-                var spawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+                var spawnObj = GameObject.FindGameObjectWithTag(Tags.PlayerSpawnPoint);
                 if (spawnObj != null)
                     MovePlayerTo(spawnObj.transform.position);
                 else

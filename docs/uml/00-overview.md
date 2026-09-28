@@ -13,10 +13,10 @@ flowchart TB
   Editor["Editor<br/>3 types"]
   UI["UI<br/>61 types"]
   Gameplay["Gameplay<br/>153 types"]
-  Core["Core<br/>52 types"]
+  Core["Core<br/>54 types"]
   Editor -->|6| Gameplay
-  Gameplay -->|157| Core
-  UI -->|79| Core
+  Gameplay -->|169| Core
+  UI -->|84| Core
   UI -->|67| Gameplay
 ```
 
@@ -46,8 +46,8 @@ flowchart LR
     M_UI_Quest["UI/Quest<br/>6 types · 493 LOC"]
     M_UI_QuestCompleteUI["UI/QuestCompleteUI<br/>1 types · 104 LOC"]
     M_UI_Save["UI/Save<br/>2 types · 141 LOC"]
-    M_UI_Shop["UI/Shop<br/>2 types · 403 LOC"]
-    M_UI_UIManager["UI/UIManager<br/>4 types · 405 LOC"]
+    M_UI_Shop["UI/Shop<br/>2 types · 389 LOC"]
+    M_UI_UIManager["UI/UIManager<br/>4 types · 389 LOC"]
     M_UI_UIMenuSetting["UI/UIMenuSetting<br/>3 types · 137 LOC"]
     M_UI_Upgrades["UI/Upgrades<br/>3 types · 415 LOC"]
     M_UI_VFX["UI/VFX<br/>1 types · 102 LOC"]
@@ -68,11 +68,11 @@ flowchart LR
     M_Gameplay_Entities_Enemies_NavAgents_Core["Gameplay/Entities/Enemies/NavAgents/Core<br/>5 types · 464 LOC"]
     M_Gameplay_Entities_Enemies_PartBreak["Gameplay/Entities/Enemies/PartBreak<br/>1 types · 19 LOC"]
     M_Gameplay_Entities_NPCs["Gameplay/Entities/NPCs<br/>1 types · 243 LOC"]
-    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>11 types · 1018 LOC"]
+    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>11 types · 989 LOC"]
     M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>6 types · 581 LOC"]
     M_Gameplay_Environments["Gameplay/Environments<br/>7 types · 480 LOC"]
     M_Gameplay_Game["Gameplay/Game<br/>1 types · 127 LOC"]
-    M_Gameplay_InteractObjects["Gameplay/InteractObjects<br/>8 types · 794 LOC"]
+    M_Gameplay_InteractObjects["Gameplay/InteractObjects<br/>8 types · 509 LOC"]
     M_Gameplay_Interaction["Gameplay/Interaction<br/>1 types · 90 LOC"]
     M_Gameplay_Inventory["Gameplay/Inventory<br/>2 types · 24 LOC"]
     M_Gameplay_MainCameras["Gameplay/MainCameras<br/>2 types · 40 LOC"]
@@ -84,9 +84,9 @@ flowchart LR
     M_Gameplay_Spawning["Gameplay/Spawning<br/>7 types · 478 LOC"]
   end
   subgraph L_Core["Core layer"]
-    M_Core["Core<br/>5 types · 108 LOC"]
+    M_Core["Core<br/>7 types · 119 LOC"]
     M_Core_Datas["Core/Datas<br/>3 types · 19 LOC"]
-    M_Core_Datas_Items["Core/Datas/Items<br/>3 types · 50 LOC"]
+    M_Core_Datas_Items["Core/Datas/Items<br/>3 types · 60 LOC"]
     M_Core_Datas_ScriptableDatas_Characters["Core/Datas/ScriptableDatas/Characters<br/>2 types · 27 LOC"]
     M_Core_Datas_Upgrades["Core/Datas/Upgrades<br/>3 types · 31 LOC"]
     M_Core_Events["Core/Events<br/>9 types · 96 LOC"]
@@ -102,6 +102,7 @@ flowchart LR
     M_Core_VideoManager["Core/VideoManager<br/>1 types · 70 LOC"]
   end
   M_Core_Inputs_KeyBind_UIKeyBind -->|3| M_Core_Inputs_KeyBind
+  M_Core_Save -->|3| M_Core
   M_Core_Save_DayReset -->|6| M_Core_Save
   M_Editor -->|6| M_Gameplay_QuestSystems_Quest
   M_Gameplay_Cutscenes -->|3| M_Core
@@ -117,8 +118,7 @@ flowchart LR
   M_Gameplay_Entities_Enemies_Brain_LinearPatrol -->|3| M_Gameplay_Entities_Enemies_Brain_Interfaces
   M_Gameplay_Entities_Enemies_NavAgents -->|3| M_Gameplay_Entities_Enemies_Brain
   M_Gameplay_Entities_NPCs -->|7| M_Gameplay_QuestSystems_Quest
-  M_Gameplay_Entities_Players -->|3| M_Core
-  M_Gameplay_Entities_Players -->|3| M_Core_Datas
+  M_Gameplay_Entities_Players -->|6| M_Core
   M_Gameplay_Entities_Players -->|5| M_Core_Datas_Items
   M_Gameplay_Entities_Players -->|4| M_Core_Datas_Upgrades
   M_Gameplay_Entities_Players -->|4| M_Core_Events
@@ -131,12 +131,12 @@ flowchart LR
   M_Gameplay_Entities_Players -->|4| M_Gameplay_Services
   M_Gameplay_Environments -->|4| M_Gameplay_AudioSetting
   M_Gameplay_Environments -->|4| M_Gameplay_QuestSystems_Quest
-  M_Gameplay_Game -->|3| M_Core
+  M_Gameplay_Game -->|4| M_Core
   M_Gameplay_Game -->|3| M_Core_Events
   M_Gameplay_Game -->|3| M_Core_Scenes
   M_Gameplay_InteractObjects -->|3| M_Core_Pool
   M_Gameplay_Interaction -->|3| M_Core_Events
-  M_Gameplay_QuestSystems_Quest -->|9| M_Core
+  M_Gameplay_QuestSystems_Quest -->|11| M_Core
   M_Gameplay_QuestSystems_Quest -->|23| M_Core_Events
   M_Gameplay_QuestSystems_Quest -->|4| M_Core_Save
   M_Gameplay_QuestSystems_Quest -->|3| M_Gameplay_Cutscenes
@@ -150,18 +150,21 @@ flowchart LR
   M_Gameplay_Save -->|3| M_Gameplay_Entities_Players
   M_Gameplay_Services -->|3| M_Core_Events
   M_Gameplay_Services -->|4| M_Core_Save
+  M_Gameplay_Spawning -->|3| M_Core
   M_Gameplay_Spawning -->|3| M_Core_Pool
   M_Gameplay_Spawning -->|3| M_Core_Save_DayReset
   M_UI -->|10| M_Core
   M_UI -->|4| M_Core_Events
   M_UI -->|3| M_Core_Save_DayReset
   M_UI -->|3| M_Gameplay_Save
+  M_UI_Inventory -->|3| M_Core
   M_UI_Inventory -->|3| M_Core_Datas_Items
   M_UI_Inventory -->|3| M_Core_Events
   M_UI_Inventory -->|3| M_Core_Save
   M_UI_Inventory -->|4| M_UI_Inventory_InventoryPlayer
   M_UI_Loading_LoadingVisualController -->|3| M_Core_Scenes
   M_UI_Notifications -->|8| M_Core_Events
+  M_UI_Quest -->|3| M_Core
   M_UI_Quest -->|4| M_Core_Events
   M_UI_Quest -->|13| M_Gameplay_QuestSystems_Quest
   M_UI_Shop -->|3| M_Core_Datas_Items
@@ -176,20 +179,20 @@ flowchart LR
 | Module | Types | LOC | Diagram |
 |---|---|---|---|
 | Gameplay/QuestSystems/Quest | 36 | 1740 | [open](modules/Gameplay_QuestSystems_Quest.md) |
-| Gameplay/Entities/Players | 11 | 1018 | [open](modules/Gameplay_Entities_Players.md) |
-| Gameplay/InteractObjects | 8 | 794 | [open](modules/Gameplay_InteractObjects.md) |
+| Gameplay/Entities/Players | 11 | 989 | [open](modules/Gameplay_Entities_Players.md) |
 | UI | 16 | 727 | [open](modules/UI.md) |
 | Gameplay/Entities/Enemies/Brain/FSM/States | 6 | 712 | [open](modules/Gameplay_Entities_Enemies_Brain_FSM_States.md) |
 | UI/Inventory | 4 | 668 | [open](modules/UI_Inventory.md) |
 | Gameplay/Entities/Players/OxygenTube | 6 | 581 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | Editor | 3 | 576 | [open](modules/Editor.md) |
+| Gameplay/InteractObjects | 8 | 509 | [open](modules/Gameplay_InteractObjects.md) |
 | UI/Quest | 6 | 493 | [open](modules/UI_Quest.md) |
 | Gameplay/Environments | 7 | 480 | [open](modules/Gameplay_Environments.md) |
 | Gameplay/Spawning | 7 | 478 | [open](modules/Gameplay_Spawning.md) |
 | Gameplay/Entities/Enemies/NavAgents/Core | 5 | 464 | [open](modules/Gameplay_Entities_Enemies_NavAgents_Core.md) |
 | UI/Upgrades | 3 | 415 | [open](modules/UI_Upgrades.md) |
-| UI/UIManager | 4 | 405 | [open](modules/UI_UIManager.md) |
-| UI/Shop | 2 | 403 | [open](modules/UI_Shop.md) |
+| UI/Shop | 2 | 389 | [open](modules/UI_Shop.md) |
+| UI/UIManager | 4 | 389 | [open](modules/UI_UIManager.md) |
 | Gameplay/Entities/Enemies/Brain | 8 | 363 | [open](modules/Gameplay_Entities_Enemies_Brain.md) |
 | Core/Inputs/KeyBind | 2 | 350 | [open](modules/Core_Inputs_KeyBind.md) |
 | Gameplay/Entities | 7 | 322 | [open](modules/Gameplay_Entities.md) |
@@ -211,7 +214,7 @@ flowchart LR
 | Core/Inputs | 1 | 137 | [open](modules/Core_Inputs.md) |
 | UI/UIMenuSetting | 3 | 137 | [open](modules/UI_UIMenuSetting.md) |
 | Gameplay/Game | 1 | 127 | [open](modules/Gameplay_Game.md) |
-| Core | 5 | 108 | [open](modules/Core.md) |
+| Core | 7 | 119 | [open](modules/Core.md) |
 | Core/Save/DayReset | 3 | 107 | [open](modules/Core_Save_DayReset.md) |
 | UI/Inventory/InventoryPlayer | 2 | 105 | [open](modules/UI_Inventory_InventoryPlayer.md) |
 | UI/QuestCompleteUI | 1 | 104 | [open](modules/UI_QuestCompleteUI.md) |
@@ -223,8 +226,8 @@ flowchart LR
 | UI/Ocean | 1 | 73 | [open](modules/UI_Ocean.md) |
 | Core/VideoManager | 1 | 70 | [open](modules/Core_VideoManager.md) |
 | UI/Inventory/InventoryBuy | 2 | 70 | [open](modules/UI_Inventory_InventoryBuy.md) |
+| Core/Datas/Items | 3 | 60 | [open](modules/Core_Datas_Items.md) |
 | UI/Inventory/InventoryBin | 1 | 56 | [open](modules/UI_Inventory_InventoryBin.md) |
-| Core/Datas/Items | 3 | 50 | [open](modules/Core_Datas_Items.md) |
 | Gameplay/RopeSystems | 1 | 49 | [open](modules/Gameplay_RopeSystems.md) |
 | UI/Loading | 2 | 46 | [open](modules/UI_Loading.md) |
 | UI/Money | 1 | 41 | [open](modules/UI_Money.md) |

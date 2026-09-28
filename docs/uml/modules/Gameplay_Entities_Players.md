@@ -1,6 +1,6 @@
 # Gameplay/Entities/Players
 
-11 types · 1018 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×6, [Core/Datas/Items](Core_Datas_Items.md) ×5, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×4, [Gameplay/Services](Gameplay_Services.md) ×4, [Gameplay/Entities](Gameplay_Entities.md) ×4, [Core/Events](Core_Events.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Game](Gameplay_Game.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×3, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×3, [Core](Core.md) ×3, [Core/Datas](Core_Datas.md) ×3, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [Gameplay/Projectiles](Gameplay_Projectiles.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1, [Gameplay/MainCameras](Gameplay_MainCameras.md) ×1
+11 types · 989 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×6, [Core](Core.md) ×6, [Core/Datas/Items](Core_Datas_Items.md) ×5, [Gameplay/Services](Gameplay_Services.md) ×4, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×4, [Core/Events](Core_Events.md) ×4, [Gameplay/Entities](Gameplay_Entities.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Entities/Players/OxygenTube](Gameplay_Entities_Players_OxygenTube.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×3, [Gameplay/Game](Gameplay_Game.md) ×3, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×2, [Core/Datas](Core_Datas.md) ×2, [Core/Scenes](Core_Scenes.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/RopeSystems](Gameplay_RopeSystems.md) ×1, [Gameplay/MainCameras](Gameplay_MainCameras.md) ×1, [Gameplay/Projectiles](Gameplay_Projectiles.md) ×1
 
 [← index](../README.md)
 
@@ -127,7 +127,6 @@ classDiagram
 | Subscriber | Publisher | Event |
 |---|---|---|
 | Player | InputReader | OnAttacked |
-| Player | InputReader | OnInteracted |
 | Player | InputReader | OnSprinted |
 | Player | InputReader | OnTeleport |
 | Player | InputReader | OnUseItem |
@@ -140,7 +139,7 @@ classDiagram
 |---|---|---|---|
 | DevItemButton | struct | `DevPanel.cs:19` | 6 |
 | DevPanel | MB | `DevPanel.cs:17` | 163 |
-| Player | MB | `Player.cs:12` | 362 |
+| Player | MB | `Player.cs:12` | 333 |
 | PlayerGunHandler | MB | `PlayerGunHandler.cs:8` | 222 |
 | PlayerHealth | MB | `PlayerHealth.cs:6` | 82 |
 | PlayerItemUse | static | `PlayerItemUse.cs:7` | 48 |

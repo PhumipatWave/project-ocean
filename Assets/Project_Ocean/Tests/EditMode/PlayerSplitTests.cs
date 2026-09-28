@@ -59,9 +59,11 @@ namespace Game.Tests
         private Item BuildingItem(GameObject prefab)
         {
             var item = ScriptableObject.CreateInstance<Item>();
-            item.ItemType = ItemType.Building;
-            item.ItemName = "TestHub";
-            item.ItemPrefab = prefab;
+            var so = new UnityEditor.SerializedObject(item);
+            so.FindProperty("itemType").enumValueIndex = (int)ItemType.Building;
+            so.FindProperty("itemName").stringValue = "TestHub";
+            so.FindProperty("itemPrefab").objectReferenceValue = prefab;
+            so.ApplyModifiedPropertiesWithoutUndo();
             created.Add(item);
             return item;
         }

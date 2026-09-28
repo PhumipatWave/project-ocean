@@ -170,7 +170,7 @@ namespace Game.Core
 
                     OnBindingsChanged?.Invoke();
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] {action} → {newBindingPath}"
                     );
                 })
@@ -313,7 +313,7 @@ namespace Game.Core
 
                     OnBindingsChanged?.Invoke();
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] Move {direction} → {newBindingPath}"
                     );
 
@@ -330,7 +330,7 @@ namespace Game.Core
 
                     onComplete?.Invoke("", false);
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] Move {direction} rebind cancelled."
                     );
                 })
@@ -378,7 +378,7 @@ namespace Game.Core
                 json
             );
 
-            Debug.Log(
+            GameLog.Info(
                 $"[KeyBind] Saved: {SavePath}"
             );
         }
@@ -387,7 +387,7 @@ namespace Game.Core
         {
             if (!File.Exists(SavePath))
             {
-                Debug.Log(
+                GameLog.Info(
                     "[KeyBind] No saved bindings found. Using defaults."
                 );
 
@@ -435,7 +435,7 @@ namespace Game.Core
                 }
             }
 
-            Debug.Log("[KeyBind] Bindings loaded.");
+            GameLog.Info("[KeyBind] Bindings loaded.");
         }
 
         public void ResetAllToDefault()
@@ -457,7 +457,7 @@ namespace Game.Core
 
             OnBindingsChanged?.Invoke();
 
-            Debug.Log(
+            GameLog.Info(
                 "[KeyBind] All bindings reset to default."
             );
         }
