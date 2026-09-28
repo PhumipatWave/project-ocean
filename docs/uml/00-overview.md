@@ -12,10 +12,10 @@ Label = distinct type-to-type links.
 flowchart TB
   Editor["Editor<br/>3 types"]
   UI["UI<br/>61 types"]
-  Gameplay["Gameplay<br/>152 types"]
+  Gameplay["Gameplay<br/>153 types"]
   Core["Core<br/>52 types"]
   Editor -->|6| Gameplay
-  Gameplay -->|154| Core
+  Gameplay -->|157| Core
   UI -->|79| Core
   UI -->|67| Gameplay
 ```
@@ -33,7 +33,7 @@ flowchart LR
     M_UI["UI<br/>16 types · 727 LOC"]
     M_UI_Dialogue["UI/Dialogue<br/>1 types · 19 LOC"]
     M_UI_Interactions["UI/Interactions<br/>1 types · 26 LOC"]
-    M_UI_Inventory["UI/Inventory<br/>4 types · 666 LOC"]
+    M_UI_Inventory["UI/Inventory<br/>4 types · 668 LOC"]
     M_UI_Inventory_InventoryBin["UI/Inventory/InventoryBin<br/>1 types · 56 LOC"]
     M_UI_Inventory_InventoryBuy["UI/Inventory/InventoryBuy<br/>2 types · 70 LOC"]
     M_UI_Inventory_InventoryPlayer["UI/Inventory/InventoryPlayer<br/>2 types · 105 LOC"]
@@ -68,8 +68,8 @@ flowchart LR
     M_Gameplay_Entities_Enemies_NavAgents_Core["Gameplay/Entities/Enemies/NavAgents/Core<br/>5 types · 464 LOC"]
     M_Gameplay_Entities_Enemies_PartBreak["Gameplay/Entities/Enemies/PartBreak<br/>1 types · 19 LOC"]
     M_Gameplay_Entities_NPCs["Gameplay/Entities/NPCs<br/>1 types · 243 LOC"]
-    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>10 types · 1005 LOC"]
-    M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>6 types · 575 LOC"]
+    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>11 types · 1018 LOC"]
+    M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>6 types · 581 LOC"]
     M_Gameplay_Environments["Gameplay/Environments<br/>7 types · 480 LOC"]
     M_Gameplay_Game["Gameplay/Game<br/>1 types · 127 LOC"]
     M_Gameplay_InteractObjects["Gameplay/InteractObjects<br/>8 types · 794 LOC"]
@@ -119,12 +119,14 @@ flowchart LR
   M_Gameplay_Entities_NPCs -->|7| M_Gameplay_QuestSystems_Quest
   M_Gameplay_Entities_Players -->|3| M_Core
   M_Gameplay_Entities_Players -->|3| M_Core_Datas
-  M_Gameplay_Entities_Players -->|4| M_Core_Datas_Items
+  M_Gameplay_Entities_Players -->|5| M_Core_Datas_Items
   M_Gameplay_Entities_Players -->|4| M_Core_Datas_Upgrades
+  M_Gameplay_Entities_Players -->|4| M_Core_Events
   M_Gameplay_Entities_Players -->|4| M_Core_Save
   M_Gameplay_Entities_Players -->|4| M_Gameplay_Entities
   M_Gameplay_Entities_Players -->|3| M_Gameplay_Entities_Players_OxygenTube
   M_Gameplay_Entities_Players -->|3| M_Gameplay_Game
+  M_Gameplay_Entities_Players -->|3| M_Gameplay_Inventory
   M_Gameplay_Entities_Players -->|6| M_Gameplay_QuestSystems_Quest
   M_Gameplay_Entities_Players -->|4| M_Gameplay_Services
   M_Gameplay_Environments -->|4| M_Gameplay_AudioSetting
@@ -174,13 +176,13 @@ flowchart LR
 | Module | Types | LOC | Diagram |
 |---|---|---|---|
 | Gameplay/QuestSystems/Quest | 36 | 1740 | [open](modules/Gameplay_QuestSystems_Quest.md) |
-| Gameplay/Entities/Players | 10 | 1005 | [open](modules/Gameplay_Entities_Players.md) |
+| Gameplay/Entities/Players | 11 | 1018 | [open](modules/Gameplay_Entities_Players.md) |
 | Gameplay/InteractObjects | 8 | 794 | [open](modules/Gameplay_InteractObjects.md) |
 | UI | 16 | 727 | [open](modules/UI.md) |
 | Gameplay/Entities/Enemies/Brain/FSM/States | 6 | 712 | [open](modules/Gameplay_Entities_Enemies_Brain_FSM_States.md) |
-| UI/Inventory | 4 | 666 | [open](modules/UI_Inventory.md) |
+| UI/Inventory | 4 | 668 | [open](modules/UI_Inventory.md) |
+| Gameplay/Entities/Players/OxygenTube | 6 | 581 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | Editor | 3 | 576 | [open](modules/Editor.md) |
-| Gameplay/Entities/Players/OxygenTube | 6 | 575 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | UI/Quest | 6 | 493 | [open](modules/UI_Quest.md) |
 | Gameplay/Environments | 7 | 480 | [open](modules/Gameplay_Environments.md) |
 | Gameplay/Spawning | 7 | 478 | [open](modules/Gameplay_Spawning.md) |

@@ -102,8 +102,8 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 |---|---|---|
 | `QuestManager` | **done 2026-09-29:** 955 → 586 lines | `QuestProgressTracker` (step evaluation, 9 event subscriptions) · `QuestStepEffects` (money check, feature changes, item consumption) · `QuestSaveMapper` (save adapter); registry, lifecycle and tracking stay in `QuestManager` |
 | `OxygenRope` | **done 2026-09-29:** 785 → 558 lines | `VerletRope` (segment physics) · `RopeCornerFinder` (wrap-corner geometry). Breach countdown (~50 lines, coroutine) and drawing (16 lines) stay: splitting them needs a new component or a timer rewrite for no real gain |
-| `Player` | 557 lines, 38 fields, 26 deps | movement · interaction · checkpoints · item use (Entity stays base) |
-| `UIManager` | 570 lines, 34 methods | window registry · input/escape handling |
+| `Player` | **done 2026-09-29:** 551 → 506 lines (~70 of them disabled checkpoint code) | `PlayerItemUse` (item use; the MiniHub path). Checkpoint item is unused in the game, so its code is disabled with `#if ENABLE_CHECKPOINT_ITEM` (Player, `CheckPointItem`, `InventoryManager` "T" hint, `OxygenRope` checkpoint pins) instead of extracted |
+| `UIManager` | **reviewed 2026-09-29, not split:** one job (window stack + input lock/timescale + Esc); size is formatting and 16 one-line wrappers | 4 unused wrappers → Phase 6 |
 | `ObjectWrapPoint` | 608 lines, 27 methods | review first; only 1 dep, may be fine as is |
 | `ShopManager`, `SaveBridge`, `Quest.cs` | 405 / 435 / 545 lines | after Phase 3; re-measure first |
 
@@ -113,6 +113,8 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - 23 singletons → keep true globals (GameManager, SaveBridge, AudioManager, LoadingManager, ObjectPoolManager); expose the rest through events or serialized references as Phase 3 removes callers.
 - `public` fields on ScriptableObject profiles (`EnemyBaseProfile`, `Item`) → `[SerializeField] private` + read-only properties. Rename with `[FormerlySerializedAs]` to keep asset data.
 - Route bullets, drops and inventory rows through the existing `ObjectPoolManager` where profiling shows spawn cost.
+- Dead code found in Phase 5c: `UIManager.ToggleSettingMenu`/`ToggleSettingPause`/`ToggleInventory`/`ToggleQuest` (0 code and scene callers); `Player.Aim()` (its `OnAimed` subscription is commented out), `Player.Interact()` (only logs), the `Alpha1` "Test Input" in `Player.Update`.
+- **Bug (pre-existing):** `Player.playerSpriteRenderer` is never assigned, so the player hit flash never shows (`OnDamagedVisual` returns early). Found in the Phase 5c live check.
 
 ## 5. Risks
 

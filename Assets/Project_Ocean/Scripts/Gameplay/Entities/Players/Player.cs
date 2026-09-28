@@ -26,6 +26,7 @@ namespace Game.Gameplay
         private OxygenRope oxygenTube;
         public OxygenRope OxygenTube { get { return oxygenTube; } }
 
+#if ENABLE_CHECKPOINT_ITEM // checkpoint item is unused in the game (only MiniHub is); add the define to re-enable
         private readonly List<CheckPointItem> checkpoints = new();
         private Coroutine _activePullCoroutine;
         public int CheckpointCount => checkpoints.Count;
@@ -74,6 +75,7 @@ namespace Game.Gameplay
                 if (cp != null && cp.SourceSlotIndex == slotIndex) return false;
             return true;
         }
+#endif
 
         public Rigidbody2D RB { get { return rb; } }
 
@@ -154,7 +156,9 @@ namespace Game.Gameplay
             input.OnSprinted += Sprint;
             input.OnInteracted += Interact;
             input.OnUseItem += HandleUseItem;
+#if ENABLE_CHECKPOINT_ITEM
             input.OnTeleport += HandleTeleport;
+#endif
 
             // Game always starts on land; sceneLoaded for Land_Map fires before the player
             // exists, so we set the initial land state here instead of relying on that event.
@@ -204,6 +208,7 @@ namespace Game.Gameplay
                 Time.timeScale = originTime;
                 rb.linearVelocity = Vector2.zero;
 
+#if ENABLE_CHECKPOINT_ITEM
                 // Cancel any in-flight checkpoint pull and clear all checkpoint state
                 if (_activePullCoroutine != null)
                 {
@@ -215,6 +220,7 @@ namespace Game.Gameplay
                         Inventory.Current?.ClearBuildingSlot(cp.SourceSlotIndex);
                 checkpoints.Clear();
                 Inventory.Current?.RefreshBuildingHints();
+#endif
             }
             else if (scene.name == "Ocean_Map")
             {
@@ -266,61 +272,6 @@ namespace Game.Gameplay
         private void FixedUpdate()
         {
             ApplyMovement(input.MovePos);
-        }
-
-        private void UseItem(ItemType type)
-        {
-            var prefab = Inventory.Current.PeekItem(type);
-            if (prefab != null)
-            {
-                var effect = prefab.ItemPrefab?.GetComponent<IItemEffect>();
-                if (effect != null && !effect.CanExecute(this))
-                {
-                    Debug.Log($"[Player] Item use blocked by CanExecute: {type}");
-                    return;
-                }
-
-                // KeepInInventory: execute without consuming — item cleared later by UnregisterCheckpoint
-                if (effect != null && effect.KeepInInventory)
-                {
-                    effect.ExecuteItem(this);
-                    TutorialEvents.RaiseAction(TutorialActionId.UseItem);
-                    return;
-                }
-            }
-
-            Item itemData;
-            bool success = Inventory.Current.ConsumeItem(type, out itemData);
-
-            if (!success)
-            {
-                Debug.Log("No item : " + type);
-                return;
-            }
-
-            ExecuteItem(itemData);
-            TutorialEvents.RaiseAction(TutorialActionId.UseItem);
-        }
-
-        private void ExecuteItem(Item item)
-        {
-            if (item.ItemPrefab == null)
-            {
-                Debug.LogWarning($"[Player] Item '{item.ItemName}' has no prefab assigned.");
-                return;
-            }
-
-            var effect = item.ItemPrefab.GetComponent<IItemEffect>();
-            if (effect != null)
-            {
-                // IItemEffect handles all spawn/teleport logic itself
-                effect.ExecuteItem(this);
-            }
-            else
-            {
-                // Fallback: plain building item with no special behavior
-                Instantiate(item.ItemPrefab, transform.position, Quaternion.identity);
-            }
         }
 
         #region PlayerInputAction
@@ -465,14 +416,16 @@ namespace Game.Gameplay
         {
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.UseItem)) return;
             if (GameManager.Instance.GameState == GameState.Ocean)
-                UseItem(ItemType.Building);
+                PlayerItemUse.Use(this, ItemType.Building);
         }
 
+#if ENABLE_CHECKPOINT_ITEM
         private void HandleTeleport()
         {
             if (GameManager.Instance.GameState == GameState.Ocean && LastCheckpoint != null)
                 LastCheckpoint.PullPlayerHere(this);
         }
+#endif
 
 
 
@@ -524,12 +477,14 @@ namespace Game.Gameplay
         #endregion
 
         #region PlayerUtils
+#if ENABLE_CHECKPOINT_ITEM
         // Bug 3: lets CheckPointItem start a pull coroutine that can be cancelled on scene transition
         public void StartPull(IEnumerator routine)
         {
             if (_activePullCoroutine != null) StopCoroutine(_activePullCoroutine);
             _activePullCoroutine = StartCoroutine(routine);
         }
+#endif
 
         private void FlipSprite()
         {

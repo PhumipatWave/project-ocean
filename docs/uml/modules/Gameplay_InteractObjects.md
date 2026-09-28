@@ -1,6 +1,6 @@
 # Gameplay/InteractObjects
 
-8 types · 794 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×2, [Core](Core.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1
+8 types · 794 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×2, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Core](Core.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -89,7 +89,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| CheckPointItem | MB | `CheckPointItem.cs:11` | 91 |
+| CheckPointItem | MB | `CheckPointItem.cs:13` | 91 |
 | CollectableItemBase | MB, abstract | `CollectableItemBase.cs:7` | 70 |
 | IItemEffect | interface | `IItemEffect.cs:5` | 7 |
 | ItemDrop | MB | `ItemDrop.cs:7` | 51 |

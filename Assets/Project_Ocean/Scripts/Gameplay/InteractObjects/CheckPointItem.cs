@@ -1,3 +1,5 @@
+// Checkpoint item is unused in the game (only MiniHub is). Add ENABLE_CHECKPOINT_ITEM to Scripting Define Symbols to re-enable.
+#if ENABLE_CHECKPOINT_ITEM
 using System.Collections;
 using UnityEngine;
 using Game.Core;
@@ -130,3 +132,4 @@ namespace Game.Gameplay
         #endregion
     }
 }
+#endif

@@ -1,6 +1,6 @@
 # UI/Money
 
-1 types · 41 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1
+1 types · 41 LOC (non-blank) · depends on: [Gameplay/Game](Gameplay_Game.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 

@@ -50,7 +50,9 @@ namespace Game.Gameplay
         public bool IgnoreRopeLimit { get; set; }
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
+#if ENABLE_CHECKPOINT_ITEM
         public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
+#endif
 
         /// <summary>Current health-based rope length, synced from PlayerHealth. Display-only —
         /// does not clamp movement (see PlayerHealth.TakeDamage).</summary>
@@ -246,6 +248,7 @@ namespace Game.Gameplay
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
 
+#if ENABLE_CHECKPOINT_ITEM
         /// Add a manual pin at worldPos (checkpoint placed by the player).
         /// Rope runs: start → [...wraps...] → checkpoint → player.
         public void AttachToCheckpoint(Vector2 worldPos)
@@ -255,6 +258,7 @@ namespace Game.Gameplay
             wrapCooldown   = wrapCooldownFrames;
             unwrapCooldown = wrapCooldownFrames;
         }
+#endif
 
         /// Tie the rope in at worldPos without moving or clearing the original start point —
         /// the old start stays exactly where it is and the rope keeps its current shape
@@ -271,6 +275,7 @@ namespace Game.Gameplay
         }
 
 
+#if ENABLE_CHECKPOINT_ITEM
         /// Remove the checkpoint pin at worldPos and all pins added after it.
         /// Supports multiple checkpoints — finds the matching one by position.
         public void DetachFromCheckpoint(Vector2 worldPos)
@@ -288,6 +293,7 @@ namespace Game.Gameplay
                 return;
             }
         }
+#endif
         #endregion
 
         #region Simulation

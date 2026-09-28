@@ -8,12 +8,12 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
-| InventoryManager | 537 | 47 | 20 | 26 | UI/Inventory |
+| InventoryManager | 539 | 47 | 20 | 26 | UI/Inventory |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
 | ObjectWrapPoint | 467 | 27 | 7 | 1 | Gameplay/InteractObjects |
-| Player | 397 | 26 | 37 | 25 | Gameplay/Entities/Players |
+| OxygenRope | 370 | 14 | 31 | 8 | Gameplay/Entities/Players/OxygenTube |
 | UIManager | 368 | 35 | 11 | 8 | UI/UIManager |
-| OxygenRope | 364 | 17 | 33 | 8 | Gameplay/Entities/Players/OxygenTube |
+| Player | 362 | 21 | 35 | 24 | Gameplay/Entities/Players |
 | KeyBindManager | 339 | 12 | 4 | 4 | Core/Inputs/KeyBind |
 | QuestManager | 334 | 34 | 7 | 17 | Gameplay/QuestSystems/Quest |
 | ShopManager | 299 | 37 | 18 | 13 | UI/Shop |
@@ -34,18 +34,18 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | Used by | Examples |
 |---|---|---|
 | GameManager | 29 | Bullet, CheckPointItem, ChestInteract, Cutscene, DevPanel |
-| TutorialActionId | 26 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
+| TutorialActionId | 27 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
 | QuestManager | 21 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
 | QuestType | 18 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
 | Quest | 16 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
 | PlayerUIState | 16 | CollectableItemBase, ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel |
 | Item | 15 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
+| TutorialEvents | 15 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, InteractUI, InventoryManager, LandUI |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
-| TutorialEvents | 14 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
-| Inventory | 14 | CheckPointItem, DevPanel, EnemyLoot, InventoryManager, ItemDrop |
+| Inventory | 15 | CheckPointItem, DevPanel, EnemyLoot, InventoryManager, ItemDrop |
+| Player | 13 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
 | SaveData | 12 | DayManager, EnemyKillTracker, FeatureUnlockService, ISaveParticipant, InventoryManager |
-| Player | 12 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
 | PlayerMoney | 12 | ChestInteract, DevPanel, MoneyUI, QuestProgressTracker, QuestStepEffects |
 | GameFeature | 12 | CollectableItemBase, EnemySpawner, FeatureUnlockService, GameHUD, GameManager |
 
@@ -54,7 +54,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | Depends on |
 |---|---|
 | InventoryManager | 26 |
-| Player | 25 |
+| Player | 24 |
 | SaveBridge | 21 |
 | EnemyBrain | 19 |
 | QuestProgressTracker | 18 |
@@ -86,7 +86,7 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | UI/Shop/ShopManager.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 134 in 39 files
+## `Debug.Log*` calls — 134 in 40 files
 
 | File | Count |
 |---|---|
@@ -95,7 +95,6 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Core/Save/SaveSystem.cs | 12 |
 | Gameplay/Save/SaveBridge.cs | 11 |
 | Gameplay/QuestSystems/Quest/QuestManager.cs | 10 |
-| Gameplay/Entities/Players/Player.cs | 5 |
 | Gameplay/Spawning/EnemySpawner.cs | 5 |
 | Gameplay/Spawning/GameObjectSpawnManager.cs | 5 |
 | Gameplay/Cutscenes/Cutscene.cs | 4 |
@@ -104,17 +103,18 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | UI/Loading/LoadingButton.cs | 4 |
 | Core/Scenes/LoadingManager.cs | 3 |
 | Gameplay/Entities/Enemies/Brain/EnemyVision.cs | 3 |
+| Gameplay/Entities/Players/PlayerItemUse.cs | 3 |
 | UI/Quest/QuestDetailPanel.cs | 3 |
 | UI/UIManager/UIManager.cs | 3 |
 | Gameplay/AudioSetting/SoundChannel.cs | 2 |
 | Gameplay/Entities/Enemies/Brain/FSM/EnemyFSM.cs | 2 |
 | Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 2 |
+| Gameplay/Entities/Players/Player.cs | 2 |
 | Gameplay/Game/GameManager.cs | 2 |
 | Gameplay/QuestSystems/Quest/ExploreAreaTrigger.cs | 2 |
 | UI/Quest/QuestBoardUI.cs | 2 |
 | UI/Save/SaveMenuUI.cs | 2 |
 | Core/Save/DayReset/DayManager.cs | 1 |
-| Core/VideoManager/IntroPlayer.cs | 1 |
 
 ## Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 33 in 31 files
 
@@ -159,7 +159,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 36 | Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +24 |
+| 37 | Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +25 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
 | 4 | DraggableItem, InventoryManager, InventoryQuestService, InventorySlot |

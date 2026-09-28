@@ -591,9 +591,11 @@ namespace Game.UI
                         var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
                         string hint = effect?.ActionHint ?? string.Empty;
 
+#if ENABLE_CHECKPOINT_ITEM
                         // Show "T" in the active slot while any checkpoint is placed in the world
                         if (string.IsNullOrEmpty(hint) && GameManager.CurPlayer?.CheckpointCount > 0)
                             hint = "T";
+#endif
 
                         bool show = !string.IsNullOrEmpty(hint);
                         buildingSlotKeyPanels[i].SetActive(show);
