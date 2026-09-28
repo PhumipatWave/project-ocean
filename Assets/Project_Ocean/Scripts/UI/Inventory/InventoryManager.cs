@@ -636,6 +636,20 @@ namespace Game.Testing
                     count     = item.count,
                 });
             }
+
+            data.buildingItems = new List<ItemSaveData>();
+            if (buildingSlots == null) return;
+            for (int i = 0; i < buildingSlots.Count; i++)
+            {
+                var item = buildingSlots[i] != null ? buildingSlots[i].GetComponentInChildren<DraggableItem>() : null;
+                if (item?.GetItem() == null) continue;
+                data.buildingItems.Add(new ItemSaveData
+                {
+                    slotIndex = i,
+                    itemID    = item.GetItem().ItemID.ToString(),
+                    count     = item.count,
+                });
+            }
         }
 
         public void Apply(SaveData data)
@@ -680,6 +694,29 @@ namespace Game.Testing
                 // label shows immediately regardless of load order.
                 SpawnItemAtSlot(item, saved.slotIndex, Mathf.Max(1, saved.count));
             }
+
+            if (buildingSlots == null) return;
+            foreach (var slot in buildingSlots)
+            {
+                var existing = slot != null ? slot.GetComponentInChildren<DraggableItem>() : null;
+                if (existing != null) Destroy(existing.gameObject);
+            }
+
+            // Null on saves written before building slots were saved (JsonUtility keeps the initializer, but guard anyway).
+            if (data.buildingItems == null) return;
+            foreach (var saved in data.buildingItems)
+            {
+                if (!int.TryParse(saved.itemID, out int id)) continue;
+                var item = FindItemInDatabase(id);
+                if (item == null)
+                {
+                    Debug.LogError($"[InventoryManager] Building item ID {id} not found in allItems database — dropped on load.");
+                    continue;
+                }
+                if (saved.slotIndex < 0 || saved.slotIndex >= buildingSlots.Count || buildingSlots[saved.slotIndex] == null) continue;
+                SpawnNewItem(item, buildingSlots[saved.slotIndex], Mathf.Max(1, saved.count));
+            }
+            RefreshBuildingHints();
         }
     }
 }

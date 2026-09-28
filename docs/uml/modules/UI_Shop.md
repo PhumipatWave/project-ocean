@@ -1,6 +1,6 @@
 # UI/Shop
 
-2 types · 403 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×4, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI/Inventory](UI_Inventory.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1, [UI](UI.md) ×1
+2 types · 403 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×4, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [UI/Inventory](UI_Inventory.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1, [UI](UI.md) ×1
 
 [← index](../README.md)
 

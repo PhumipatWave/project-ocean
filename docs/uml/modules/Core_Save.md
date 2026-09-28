@@ -1,6 +1,6 @@
 # Core/Save
 
-7 types · 245 LOC (non-blank) · depends on: [Core](Core.md) ×2
+7 types · 246 LOC (non-blank) · depends on: [Core](Core.md) ×2
 
 [← index](../README.md)
 
@@ -28,7 +28,7 @@ classDiagram
     +bool miniHubAvailable
     +float maxRopeLength
     +float reduceMaxRopeLength
-    ... +16 more fields
+    ... +17 more fields
   }
   class ItemSaveData {
     +int slotIndex
@@ -69,8 +69,8 @@ classDiagram
 |---|---|---|---|
 | EncryptionHelper | static | `EncryptionHelper.cs:8` | 41 |
 | ISaveParticipant | interface | `ISaveParticipant.cs:9` | 5 |
-| ItemSaveData | class | `SaveData.cs:59` | 6 |
-| QuestSaveData | class | `SaveData.cs:67` | 8 |
-| SaveData | class | `SaveData.cs:7` | 27 |
+| ItemSaveData | class | `SaveData.cs:61` | 6 |
+| QuestSaveData | class | `SaveData.cs:69` | 8 |
+| SaveData | class | `SaveData.cs:7` | 28 |
 | SaveSlotMeta | class | `SaveSystem.cs:14` | 8 |
 | SaveSystem | static | `SaveSystem.cs:23` | 150 |

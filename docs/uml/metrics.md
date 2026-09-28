@@ -9,9 +9,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
 | QuestManager | 585 | 47 | 6 | 29 | Gameplay/QuestSystems/Quest |
+| InventoryManager | 537 | 47 | 20 | 26 | UI/Inventory |
 | OxygenRope | 536 | 25 | 33 | 7 | Gameplay/Entities/Players/OxygenTube |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
-| InventoryManager | 504 | 47 | 20 | 26 | UI/Inventory |
 | ObjectWrapPoint | 467 | 27 | 7 | 1 | Gameplay/InteractObjects |
 | Player | 397 | 26 | 37 | 25 | Gameplay/Entities/Players |
 | UIManager | 368 | 35 | 11 | 8 | UI/UIManager |
@@ -86,11 +86,11 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | UI/Shop/ShopManager.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 133 in 39 files
+## `Debug.Log*` calls — 134 in 39 files
 
 | File | Count |
 |---|---|
-| UI/Inventory/InventoryManager.cs | 14 |
+| UI/Inventory/InventoryManager.cs | 15 |
 | Core/Inputs/KeyBind/KeyBindManager.cs | 13 |
 | Core/Save/SaveSystem.cs | 12 |
 | Gameplay/Save/SaveBridge.cs | 11 |

@@ -21,6 +21,8 @@ namespace Game.Testing
         public int money = 100;
 
         public List<ItemSaveData> inventoryItems = new();
+        // Mini Hub (building) slot items; slotIndex = index into InventoryManager's building slots.
+        public List<ItemSaveData> buildingItems = new();
 
         public int   inventoryUpgradeLevel = 1;
         public int   damageUpgradeLevel    = 1;   // dead field (damage upgrade dropped) — kept for save compat

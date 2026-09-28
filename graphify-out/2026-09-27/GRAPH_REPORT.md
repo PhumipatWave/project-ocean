@@ -1,7 +1,7 @@
 # Graph Report - project-ocean  (2026-09-27)
 
 ## Corpus Check
-- 378 files · ~398,366 words
+- 378 files · ~398,367 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 2601 file(s) not represented in the graph (top: .meta 1760, .asset 511, .prefab 134)
 

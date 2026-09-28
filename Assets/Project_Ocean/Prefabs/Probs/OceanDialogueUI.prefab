@@ -205,10 +205,67 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7406282426617760581, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7365039501736302857}
   m_SourcePrefab: {fileID: 100100000, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+--- !u!1 &3427903396077850595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7406282426617760581, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+  m_PrefabInstance: {fileID: 5285604571296973990}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7365039501736302857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3427903396077850595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3fce2d7c66b1e247b1109a0b8bed681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.DialoguePanelView
+  panel: {fileID: 3427903396077850595}
+  nameText: {fileID: 8961660484935890372}
+  bodyText: {fileID: 5395842671134899091}
+  avatar: {fileID: 5526981006992383097}
 --- !u!224 &3971789399055597989 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9098568878543947011, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
   m_PrefabInstance: {fileID: 5285604571296973990}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5395842671134899091 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 269053829347393333, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+  m_PrefabInstance: {fileID: 5285604571296973990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &5526981006992383097 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 426147253137889503, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+  m_PrefabInstance: {fileID: 5285604571296973990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &8961660484935890372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3820191442850312546, guid: bb38d313589f8fe4fbf25f36b88a9d74, type: 3}
+  m_PrefabInstance: {fileID: 5285604571296973990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI

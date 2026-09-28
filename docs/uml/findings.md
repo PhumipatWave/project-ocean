@@ -38,6 +38,8 @@ Criteria: script GUID not referenced by any scene, prefab or asset (text seriali
 
 **Also unreferenced, moved to `Deprecated/` in Phase 1 by user decision:** `InteractableNextDay.cs` (was `Interactable NextDay.cs`), `GameBootstrap.cs`, `LandOpeningController.cs`, `LoadingUI.cs` (all three were in `UI/LoadingSecne`).
 
+**Bugs fixed 2026-09-27:** Mini Hub building slot now saved (SaveData.buildingItems); NPC quest offer uses its own LandUI/NpcQuestOfferPanel (was hidden inside the closed QuestBoardPanel); Ocean_Map explore trigger "Area" now has a dialogue panel (MQ_1002 step 13 line was skipped).
+
 **File name ≠ class name** (Unity cannot attach or load these reliably): `Interactable NextDay.cs` → `InteractableNextDay` (likely why it is in no scene), `Core/Datas/RopeData.cs` → `RopeStructureData` (SO), `UI/Items/Itemdrop.cs` → `ItemDrop` (case only) — fixed in Phase 1.
 
 ## 3. Root causes

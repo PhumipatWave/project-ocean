@@ -33,7 +33,7 @@ flowchart LR
     M_UI["UI<br/>16 types · 727 LOC"]
     M_UI_Dialogue["UI/Dialogue<br/>1 types · 19 LOC"]
     M_UI_Interactions["UI/Interactions<br/>1 types · 26 LOC"]
-    M_UI_Inventory["UI/Inventory<br/>4 types · 633 LOC"]
+    M_UI_Inventory["UI/Inventory<br/>4 types · 666 LOC"]
     M_UI_Inventory_InventoryBin["UI/Inventory/InventoryBin<br/>1 types · 56 LOC"]
     M_UI_Inventory_InventoryBuy["UI/Inventory/InventoryBuy<br/>2 types · 70 LOC"]
     M_UI_Inventory_InventoryPlayer["UI/Inventory/InventoryPlayer<br/>2 types · 105 LOC"]
@@ -96,7 +96,7 @@ flowchart LR
     M_Core_Inputs_KeyBind_SaveKeyBind["Core/Inputs/KeyBind/SaveKeyBind<br/>3 types · 28 LOC"]
     M_Core_Inputs_KeyBind_UIKeyBind["Core/Inputs/KeyBind/UIKeyBind<br/>3 types · 143 LOC"]
     M_Core_Pool["Core/Pool<br/>2 types · 76 LOC"]
-    M_Core_Save["Core/Save<br/>7 types · 245 LOC"]
+    M_Core_Save["Core/Save<br/>7 types · 246 LOC"]
     M_Core_Save_DayReset["Core/Save/DayReset<br/>3 types · 107 LOC"]
     M_Core_Scenes["Core/Scenes<br/>4 types · 169 LOC"]
     M_Core_VideoManager["Core/VideoManager<br/>1 types · 70 LOC"]
@@ -177,7 +177,7 @@ flowchart LR
 | Gameplay/InteractObjects | 8 | 794 | [open](modules/Gameplay_InteractObjects.md) |
 | UI | 16 | 727 | [open](modules/UI.md) |
 | Gameplay/Entities/Enemies/Brain/FSM/States | 6 | 712 | [open](modules/Gameplay_Entities_Enemies_Brain_FSM_States.md) |
-| UI/Inventory | 4 | 633 | [open](modules/UI_Inventory.md) |
+| UI/Inventory | 4 | 666 | [open](modules/UI_Inventory.md) |
 | Editor | 3 | 576 | [open](modules/Editor.md) |
 | Gameplay/Entities/Players/OxygenTube | 3 | 536 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | UI/Quest | 6 | 493 | [open](modules/UI_Quest.md) |
@@ -191,7 +191,7 @@ flowchart LR
 | Core/Inputs/KeyBind | 2 | 350 | [open](modules/Core_Inputs_KeyBind.md) |
 | Gameplay/Entities | 7 | 322 | [open](modules/Gameplay_Entities.md) |
 | Gameplay/Cutscenes | 5 | 304 | [open](modules/Gameplay_Cutscenes.md) |
-| Core/Save | 7 | 245 | [open](modules/Core_Save.md) |
+| Core/Save | 7 | 246 | [open](modules/Core_Save.md) |
 | Gameplay/Entities/NPCs | 1 | 243 | [open](modules/Gameplay_Entities_NPCs.md) |
 | Gameplay/AudioSetting | 7 | 241 | [open](modules/Gameplay_AudioSetting.md) |
 | Gameplay/Projectiles | 5 | 226 | [open](modules/Gameplay_Projectiles.md) |
