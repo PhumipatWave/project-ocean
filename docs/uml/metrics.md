@@ -14,7 +14,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | UIManager | 352 | 31 | 11 | 9 | UI/UIManager |
 | KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
 | QuestManager | 334 | 34 | 7 | 18 | Gameplay/QuestSystems/Quest |
-| Player | 333 | 19 | 35 | 25 | Gameplay/Entities/Players |
+| Player | 333 | 19 | 35 | 24 | Gameplay/Entities/Players |
 | ShopManager | 285 | 36 | 17 | 13 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
@@ -25,7 +25,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | EnemySpawner | 209 | 12 | 17 | 11 | Gameplay/Spawning |
 | SaveBridge | 192 | 15 | 4 | 22 | Gameplay/Save |
 | GameHUD | 186 | 15 | 16 | 17 | UI |
-| ObjectWrapPoint | 182 | 10 | 7 | 1 | Gameplay/InteractObjects |
+| ObjectWrapPoint | 182 | 10 | 7 | 1 | Gameplay/Entities/Players/OxygenTube |
 | LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
 | QuestProgressTracker | 179 | 12 | 3 | 18 | Gameplay/QuestSystems/Quest |
 
@@ -33,7 +33,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | Used by | Examples |
 |---|---|---|
-| GameManager | 29 | Bullet, CheckPointItem, ChestInteract, Cutscene, DevPanel |
+| GameManager | 28 | Bullet, ChestInteract, Cutscene, DevPanel, DoorInteract |
 | TutorialActionId | 27 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
 | QuestManager | 21 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
 | GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
@@ -44,9 +44,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | TutorialEvents | 15 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, InteractUI, InventoryManager, LandUI |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
-| Inventory | 15 | CheckPointItem, DevPanel, EnemyLoot, InventoryManager, ItemDrop |
-| Player | 13 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
+| Inventory | 14 | DevPanel, EnemyLoot, InventoryManager, ItemDrop, Player |
 | SaveData | 12 | DayManager, EnemyKillTracker, FeatureUnlockService, ISaveParticipant, InventoryManager |
+| Player | 12 | AmmoWheel, Bullet, DevPanel, Enemy, EnemyBrainContext |
 | PlayerMoney | 12 | ChestInteract, DevPanel, MoneyUI, QuestProgressTracker, QuestStepEffects |
 
 ## Most dependencies (fan-out)
@@ -54,7 +54,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | Depends on |
 |---|---|
 | InventoryManager | 27 |
-| Player | 25 |
+| Player | 24 |
 | SaveBridge | 22 |
 | EnemyBrain | 19 |
 | QuestManager | 18 |
@@ -131,7 +131,7 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Gameplay/Environments/Bird.cs | 1 |
 | Gameplay/Environments/DoorInteract.cs | 1 |
 | Gameplay/Interaction/InteractUI.cs | 1 |
-| Gameplay/InteractObjects/CollectableItemBase.cs | 1 |
+| Gameplay/Items/Pickups/CollectableItemBase.cs | 1 |
 | Gameplay/Projectiles/Bullet.cs | 1 |
 | Gameplay/Projectiles/GrapplingHookBullet.cs | 1 |
 | Gameplay/QuestSystems/Quest/ExploreAreaTrigger.cs | 1 |
@@ -157,7 +157,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 37 | Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +25 |
+| 36 | Boid, Bullet, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity, EntityDeathHandler … +24 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
 | 4 | DraggableItem, InventoryManager, InventoryQuestService, InventorySlot |
@@ -168,7 +168,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | 2 | LinearPatrolBrain, LinearPatrolProfile |
 | 2 | SaveMenuUI, SaveSlotUI |
 
-Modules in the largest cycle (17): Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/Interfaces, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Entities/Players/OxygenTube, Gameplay/Environments, Gameplay/Game, Gameplay/InteractObjects, Gameplay/Interaction, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, Gameplay/Services
+Modules in the largest cycle (18): Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/Interfaces, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Entities/Players/OxygenTube, Gameplay/Environments, Gameplay/Game, Gameplay/Interaction, Gameplay/Items, Gameplay/Items/Pickups, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, Gameplay/Services
 
 ## Plain types with no code reference
 

@@ -26,7 +26,7 @@ namespace Game.Gameplay
         private OxygenRope oxygenTube;
         public OxygenRope OxygenTube { get { return oxygenTube; } }
 
-#if ENABLE_CHECKPOINT_ITEM // checkpoint item is unused in the game (only MiniHub is); add the define to re-enable
+#if ENABLE_CHECKPOINT_ITEM // unused checkpoint item; re-enable: move Deprecated/CheckpointItem/CheckPointItem.cs back + add the define
         private readonly List<CheckPointItem> checkpoints = new();
         private Coroutine _activePullCoroutine;
         public int CheckpointCount => checkpoints.Count;

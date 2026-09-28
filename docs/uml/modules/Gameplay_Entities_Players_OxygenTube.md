@@ -1,12 +1,22 @@
 # Gameplay/Entities/Players/OxygenTube
 
-6 types · 581 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×2, [Core](Core.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1, [Gameplay/InteractObjects](Gameplay_InteractObjects.md) ×1
+8 types · 763 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [Core](Core.md) ×1
 
 [← index](../README.md)
 
 ```mermaid
 classDiagram
   direction LR
+  class ObjectWrapPoint {
+    <<MB>>
+    +GeneratePoints() void
+  }
+  class WrapPoint {
+    +bool enabled
+    +Vector2 position
+    +int pathIndex
+    +WrapPoint(Vector2, int)
+  }
   class OxygenRope {
     <<MB>>
     +float MaxRopeLength
@@ -58,6 +68,7 @@ classDiagram
     +Seg(Vector2)
     +Pin(Vector2) void
   }
+  ObjectWrapPoint --> WrapPoint : wrapPoints
   OxygenRope --> Settings : SimSettings
   OxygenRope --> VerletRope : rope
   OxygenRope --> WrapPin : pins
@@ -68,9 +79,11 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
+| ObjectWrapPoint | MB | `ObjectWrapPoint.cs:8` | 182 |
 | OxygenRope | MB | `OxygenRope.cs:8` | 370 |
 | RopeCornerFinder | static | `RopeCornerFinder.cs:7` | 72 |
 | Seg | struct | `VerletRope.cs:17` | 6 |
 | Settings | struct | `VerletRope.cs:9` | 7 |
 | VerletRope | class | `VerletRope.cs:7` | 139 |
 | WrapPin | struct | `OxygenRope.cs:115` | 7 |
+| WrapPoint | class | `ObjectWrapPoint.cs:10` | 11 |

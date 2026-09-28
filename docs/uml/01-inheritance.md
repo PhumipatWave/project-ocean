@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-65 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
+63 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
 
 ```mermaid
 classDiagram
@@ -16,9 +16,6 @@ classDiagram
   class Bullet {
     <<MB>>
     <<abstract>>
-  }
-  class CheckPointItem {
-    <<MB>>
   }
   class CollectableItemBase {
     <<MB>>
@@ -124,9 +121,6 @@ classDiagram
   class IInventory {
     <<interface>>
   }
-  class IItemEffect {
-    <<interface>>
-  }
   class ILoadingVisual {
     <<interface>>
   }
@@ -200,7 +194,6 @@ classDiagram
   }
   EnemyBaseProfile <|-- AggressiveEnemyProfile
   IPoolable <|.. Boid
-  IItemEffect <|.. CheckPointItem
   IModalPrompt <|.. ConfirmationDialog
   IDamagePopup <|.. DamagePoint
   ISaveParticipant <|.. DayManager
