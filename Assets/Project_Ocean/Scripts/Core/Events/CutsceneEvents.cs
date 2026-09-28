@@ -1,6 +1,6 @@
 using System;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>Raised whenever a Cutscene finishes playing. Payload = its cutsceneId.</summary>
     public static class CutsceneEvents

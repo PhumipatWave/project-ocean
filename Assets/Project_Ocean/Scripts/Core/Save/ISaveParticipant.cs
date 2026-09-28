@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Implemented by any system that owns a slice of the save file.

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class QuestManager : MonoBehaviour, ISaveParticipant
     {

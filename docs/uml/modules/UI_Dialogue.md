@@ -25,4 +25,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DialoguePanelView | MB | `DialoguePanelView.cs:8` | 19 |
+| DialoguePanelView | MB | `DialoguePanelView.cs:10` | 19 |

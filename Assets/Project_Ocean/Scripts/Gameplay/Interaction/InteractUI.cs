@@ -2,7 +2,7 @@ using Game.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Shows/hides an interact icon when the player enters the trigger zone.

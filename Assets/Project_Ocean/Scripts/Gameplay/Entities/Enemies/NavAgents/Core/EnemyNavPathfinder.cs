@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// NavMesh path checks, wall clearance, and wander point sampling for enemies.

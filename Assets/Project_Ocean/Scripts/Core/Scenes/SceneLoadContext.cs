@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Shared handshake for "we are loading from a save file" that must survive a

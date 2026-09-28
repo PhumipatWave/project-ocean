@@ -33,5 +33,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| ShopBuySlot | MB | `ShopBuySlot.cs:7` | 35 |
-| ShopInventoryBuy | MB | `ShopInventoryBuy.cs:5` | 35 |
+| ShopBuySlot | MB | `ShopBuySlot.cs:9` | 35 |
+| ShopInventoryBuy | MB | `ShopInventoryBuy.cs:7` | 35 |

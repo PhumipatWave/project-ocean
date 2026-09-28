@@ -1,4 +1,6 @@
-namespace Game.Testing
+using Game.Core;
+
+namespace Game.Gameplay
 {
     public enum PlayerInterior { None, House, Shop, UpgradeShop }
 

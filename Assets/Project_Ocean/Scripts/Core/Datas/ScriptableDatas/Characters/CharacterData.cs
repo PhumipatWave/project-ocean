@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Who a dialogue line's characterId refers to — display name and portrait, keyed by id in

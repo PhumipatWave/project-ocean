@@ -17,4 +17,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| IntroPlayer | MB | `IntroPlayer.cs:13` | 70 |
+| IntroPlayer | MB | `IntroPlayer.cs:15` | 70 |

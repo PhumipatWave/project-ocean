@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// Binds all Land-scene buttons to global singleton managers at runtime,
     /// avoiding cross-scene Inspector references that break on scene reload.

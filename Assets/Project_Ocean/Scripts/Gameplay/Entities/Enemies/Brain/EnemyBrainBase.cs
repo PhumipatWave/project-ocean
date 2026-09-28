@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public abstract class EnemyBrainBase : IEnemyBrain
     {

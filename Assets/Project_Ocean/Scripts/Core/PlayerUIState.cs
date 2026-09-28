@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Lightweight counter that tracks how many land UI panels are currently open.

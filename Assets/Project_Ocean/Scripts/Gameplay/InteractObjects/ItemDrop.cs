@@ -2,7 +2,7 @@ using System.Collections;
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class ItemDrop : CollectableItemBase, IPoolable
     {

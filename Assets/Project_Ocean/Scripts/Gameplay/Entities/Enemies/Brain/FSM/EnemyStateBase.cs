@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Convenience base for all concrete enemy states.

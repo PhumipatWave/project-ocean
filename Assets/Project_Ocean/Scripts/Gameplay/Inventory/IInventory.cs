@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>The inventory operations gameplay needs; implemented by the UI InventoryManager.</summary>
     public interface IInventory

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Dev/Cheat Panel — ทำงานผ่าน public API ของ PlayerHealth, OxygenRope, PlayerMoney, GameManager,

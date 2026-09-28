@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// Counts pickups from ItemSpawners marked oneTimeOnly, keyed by spawner name.
     /// Unlike EnemyKillTracker it never resets on day change — only on New Game — so a

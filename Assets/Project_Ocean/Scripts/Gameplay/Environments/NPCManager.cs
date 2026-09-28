@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Registry of all currently-loaded NPC instances, keyed by npcId. NPCs

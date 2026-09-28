@@ -5,8 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class GameHUD : MonoBehaviour
     {

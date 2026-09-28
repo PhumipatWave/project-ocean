@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     public enum GameState
     {

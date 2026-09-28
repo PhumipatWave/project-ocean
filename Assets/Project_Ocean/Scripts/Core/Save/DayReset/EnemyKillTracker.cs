@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// Tracks which ocean enemy spawn points were cleared this day.
     /// Persists across ocean→land transitions so killed enemies don't respawn mid-day.

@@ -91,6 +91,7 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Done when:** [metrics](metrics.md) shows 0 wrong-way links, and the largest cycle has none of Core in it.
 
 ### Phase 4: assemblies and namespaces (compile-time enforcement)
+**Status:** done 2026-09-29. Assemblies Game.Core ← Game.Gameplay ← Game.UI (+ editor-only Game.Editor, Game.Deprecated); namespaces match folders; a Core→Gameplay reference fails to compile (probe verified). No hidden layer violations surfaced; only fix was `QuestDataEditor : UnityEditor.Editor` (the `Game.Editor` namespace shadowed `Editor`).
 - asmdefs `Game.Core` ← `Game.Gameplay` ← `Game.UI`, plus `Game.Editor` (Editor-only). Merge today's `Core/Inputs/Game.Core.asmdef` into the new Core one first (`InputReader` → `Player` and `KeyBindManager` → `Player` must be gone by then). `Deprecated/` gets its own asmdef or is deleted.
 - Rename `namespace Game.Testing` → `Game.Core` / `Game.Gameplay` / `Game.UI`. Safe for scenes and prefabs because Unity links scripts by GUID. Checked: no `[SerializeReference]` or type-by-string lookups in live code.
 - Update `Tests/EditMode/Game.Tests.EditMode.asmdef` references.

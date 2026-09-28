@@ -22,4 +22,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DamagePoint | MB | `DamagePoint.cs:7` | 26 |
+| DamagePoint | MB | `DamagePoint.cs:9` | 26 |

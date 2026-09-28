@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using Game.Core;
 using TMPro;
 using UnityEngine;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class InventoryManager : MonoBehaviour, ISaveParticipant, IInventory
     {

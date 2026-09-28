@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// School link for small fish. EnemySpawner spawns a leader and links 3-5 followers to it.

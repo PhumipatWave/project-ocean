@@ -24,4 +24,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| QuestCompleteUI | MB | `QuestCompleteUI.cs:7` | 104 |
+| QuestCompleteUI | MB | `QuestCompleteUI.cs:9` | 104 |

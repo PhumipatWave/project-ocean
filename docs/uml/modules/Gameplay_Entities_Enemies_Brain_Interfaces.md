@@ -43,8 +43,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| IBrainAttack | interface | `IBrainAttack.cs:3` | 4 |
-| IBrainHitReaction | interface | `IBrainHitReaction.cs:5` | 5 |
-| IBrainVision | interface | `IBrainVision.cs:10` | 6 |
-| IEnemyBrain | interface | `IEnemyBrain.cs:5` | 8 |
-| IEnemyState | interface | `IEnemyState.cs:8` | 7 |
+| IBrainAttack | interface | `IBrainAttack.cs:5` | 4 |
+| IBrainHitReaction | interface | `IBrainHitReaction.cs:6` | 5 |
+| IBrainVision | interface | `IBrainVision.cs:11` | 6 |
+| IEnemyBrain | interface | `IEnemyBrain.cs:6` | 8 |
+| IEnemyState | interface | `IEnemyState.cs:9` | 7 |

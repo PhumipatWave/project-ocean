@@ -1,4 +1,6 @@
-namespace Game.Testing
+using Game.Core;
+
+namespace Game.Gameplay
 {
     /// <summary>Access point to the live inventory for gameplay code, without referencing the UI class.</summary>
     public static class Inventory

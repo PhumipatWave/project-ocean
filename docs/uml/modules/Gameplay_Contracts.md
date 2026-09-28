@@ -39,7 +39,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| IDialogueView | interface | `IDialogueView.cs:6` | 8 |
-| IModalPrompt | interface | `IModalPrompt.cs:4` | 6 |
-| IQuestOfferView | interface | `IQuestOfferView.cs:4` | 5 |
-| ModalPrompt | static | `IModalPrompt.cs:12` | 9 |
+| IDialogueView | interface | `IDialogueView.cs:7` | 8 |
+| IModalPrompt | interface | `IModalPrompt.cs:6` | 6 |
+| IQuestOfferView | interface | `IQuestOfferView.cs:6` | 5 |
+| ModalPrompt | static | `IModalPrompt.cs:14` | 9 |

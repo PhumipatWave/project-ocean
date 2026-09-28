@@ -1,44 +1,49 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-public class SettingTabManager : MonoBehaviour
+namespace Game.UI
 {
-    [Header("Pages")]
-    [SerializeField] private GameObject generalSetting;
-    [SerializeField] private GameObject keyBindPanel;
-
-    [Header("Buttons")]
-    [SerializeField] private Button settingButton;
-    [SerializeField] private Button controlsButton;
-
-    [Header("Button Colors")]
-    [SerializeField] private Color activeColor = new Color(1f, 0.65f, 0.1f);
-    [SerializeField] private Color inactiveColor = new Color(0.25f, 0.25f, 0.25f);
-
-    private void Start()
+    public class SettingTabManager : MonoBehaviour
     {
-        OpenSetting();
-    }
+        [Header("Pages")]
+        [SerializeField] private GameObject generalSetting;
+        [SerializeField] private GameObject keyBindPanel;
 
-    public void OpenSetting()
-    {
-        generalSetting.SetActive(true);
-        keyBindPanel.SetActive(false);
+        [Header("Buttons")]
+        [SerializeField] private Button settingButton;
+        [SerializeField] private Button controlsButton;
 
-        SetButtonColors(settingButton, controlsButton);
-    }
+        [Header("Button Colors")]
+        [SerializeField] private Color activeColor = new Color(1f, 0.65f, 0.1f);
+        [SerializeField] private Color inactiveColor = new Color(0.25f, 0.25f, 0.25f);
 
-    public void OpenControls()
-    {
-        generalSetting.SetActive(false);
-        keyBindPanel.SetActive(true);
+        private void Start()
+        {
+            OpenSetting();
+        }
 
-        SetButtonColors(controlsButton, settingButton);
-    }
+        public void OpenSetting()
+        {
+            generalSetting.SetActive(true);
+            keyBindPanel.SetActive(false);
 
-    private void SetButtonColors(Button activeButton, Button inactiveButton)
-    {
-        activeButton.image.color = activeColor;
-        inactiveButton.image.color = inactiveColor;
+            SetButtonColors(settingButton, controlsButton);
+        }
+
+        public void OpenControls()
+        {
+            generalSetting.SetActive(false);
+            keyBindPanel.SetActive(true);
+
+            SetButtonColors(controlsButton, settingButton);
+        }
+
+        private void SetButtonColors(Button activeButton, Button inactiveButton)
+        {
+            activeButton.image.color = activeColor;
+            inactiveButton.image.color = inactiveColor;
+        }
     }
 }

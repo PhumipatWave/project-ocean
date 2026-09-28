@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// Placed in the ocean by the player (F key, Building item). Max 3 active at once.
     /// Pins the rope at this position — rope runs:

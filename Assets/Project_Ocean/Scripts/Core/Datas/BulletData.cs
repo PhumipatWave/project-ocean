@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     public enum AmmoType
     {

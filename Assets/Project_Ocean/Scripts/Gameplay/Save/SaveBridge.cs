@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class SaveBridge : MonoBehaviour
     {

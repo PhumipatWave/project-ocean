@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>Static notification bus — callers pick a channel, views listen for theirs.</summary>
     public static class NotificationManager

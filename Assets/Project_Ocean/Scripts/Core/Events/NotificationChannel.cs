@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>Screen area a notification shows in.</summary>
     // Serialized as int on views in AS_PlayerHUD — only append new values.

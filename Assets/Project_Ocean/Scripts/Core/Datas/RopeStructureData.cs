@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     [CreateAssetMenu(fileName = "RopeData", menuName = "Data/RopeData")]
     public class RopeStructureData : ScriptableObject

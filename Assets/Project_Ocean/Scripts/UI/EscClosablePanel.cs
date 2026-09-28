@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// <summary>
     /// Attach to a Land UI panel that an InteractUI's onInteract reveals (SetActive(true)) and whose

@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>A dialogue panel gameplay can open, label and fill without referencing UI types.</summary>
     public interface IDialogueView

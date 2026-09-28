@@ -36,6 +36,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| SettingMenuButton | MB | `SettingMenuButton.cs:5` | 12 |
-| SettingTabManager | MB | `SettingTabManager.cs:4` | 33 |
-| UISettingManager | MB | `UISettingManager.cs:5` | 92 |
+| SettingMenuButton | MB | `SettingMenuButton.cs:7` | 12 |
+| SettingTabManager | MB | `SettingTabManager.cs:8` | 33 |
+| UISettingManager | MB | `UISettingManager.cs:7` | 92 |

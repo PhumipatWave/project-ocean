@@ -1,8 +1,10 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class QuestCompleteUI : MonoBehaviour
     {

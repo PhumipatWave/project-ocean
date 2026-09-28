@@ -69,8 +69,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| LinearPatrolBrain | class | `LinearPatrolBrain.cs:5` | 179 |
-| LinearPatrolProfile | SO | `LinearPatrolProfile.cs:16` | 30 |
-| PatrolAxis | enum | `LinearPatrolProfile.cs:5` | 5 |
-| PatrolMovementMode | enum | `LinearPatrolProfile.cs:10` | 4 |
-| State | enum | `LinearPatrolBrain.cs:6` | 1 |
+| LinearPatrolBrain | class | `LinearPatrolBrain.cs:6` | 179 |
+| LinearPatrolProfile | SO | `LinearPatrolProfile.cs:17` | 30 |
+| PatrolAxis | enum | `LinearPatrolProfile.cs:6` | 5 |
+| PatrolMovementMode | enum | `LinearPatrolProfile.cs:11` | 4 |
+| State | enum | `LinearPatrolBrain.cs:7` | 1 |

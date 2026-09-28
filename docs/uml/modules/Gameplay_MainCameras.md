@@ -23,5 +23,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| CameraShakeManager | MB | `CameraShakeManager.cs:6` | 17 |
-| PlayerCamera | MB | `PlayerCamera.cs:8` | 23 |
+| CameraShakeManager | MB | `CameraShakeManager.cs:7` | 17 |
+| PlayerCamera | MB | `PlayerCamera.cs:9` | 23 |

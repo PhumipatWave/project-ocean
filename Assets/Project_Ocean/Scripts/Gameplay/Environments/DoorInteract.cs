@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class DoorInteract : MonoBehaviour
     {

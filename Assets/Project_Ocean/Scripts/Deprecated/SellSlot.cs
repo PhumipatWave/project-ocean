@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Deprecated
 {
     public class SellSlot : MonoBehaviour, IDropHandler
     {

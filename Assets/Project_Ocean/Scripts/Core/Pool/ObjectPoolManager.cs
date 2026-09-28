@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Game.Testing
+namespace Game.Core
 {
     public class ObjectPoolManager : MonoBehaviour
     {

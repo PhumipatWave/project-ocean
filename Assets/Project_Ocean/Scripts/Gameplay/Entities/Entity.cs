@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public abstract class Entity : MonoBehaviour
     {

@@ -1,4 +1,6 @@
-using Game.Testing;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 using NUnit.Framework;
 
 namespace Game.Tests

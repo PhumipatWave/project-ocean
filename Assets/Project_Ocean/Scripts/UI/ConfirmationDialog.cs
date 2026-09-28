@@ -2,8 +2,10 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// Generic "Are you sure?" modal. Call Show() with a message and callbacks.
     /// Wire ConfirmButton.onClick → Confirm() and CancelButton.onClick → Cancel() in the Inspector.

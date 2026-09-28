@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Single source of truth for upgrade levels.

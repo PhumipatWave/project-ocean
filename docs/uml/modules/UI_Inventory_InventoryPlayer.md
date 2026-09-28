@@ -41,5 +41,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DraggableItem | MB | `DraggableItem.cs:8` | 43 |
-| InventorySlot | MB | `InventorySlot.cs:8` | 62 |
+| DraggableItem | MB | `DraggableItem.cs:10` | 43 |
+| InventorySlot | MB | `InventorySlot.cs:10` | 62 |

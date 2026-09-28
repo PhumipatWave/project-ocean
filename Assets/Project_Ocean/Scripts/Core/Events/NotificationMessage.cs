@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>One notification: what to show, where, and an optional icon.</summary>
     public class NotificationMessage

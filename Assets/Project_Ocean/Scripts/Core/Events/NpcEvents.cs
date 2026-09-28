@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>Raised whenever the player interacts with an NPC. Payload = that NPC's npcId.</summary>
     public static class NpcEvents

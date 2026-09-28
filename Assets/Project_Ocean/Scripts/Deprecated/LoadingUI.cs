@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
 
-namespace Game.Testing
+namespace Game.Deprecated
 {
     public class LoadingUI : MonoBehaviour
     {

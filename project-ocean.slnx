@@ -32,9 +32,10 @@
   <Project Path="Unity.InferenceEngine.Tokenization.csproj" />
   <Project Path="Unity.VisualScripting.Core.csproj" />
   <Project Path="Unity.AI.Assistant.Editor.csproj" />
-  <Project Path="Game.Testing.csproj" />
   <Project Path="Game.Core.csproj" />
+  <Project Path="Game.UI.csproj" />
   <Project Path="Unity.InferenceEngine.Editor.csproj" />
+  <Project Path="Game.Gameplay.csproj" />
   <Project Path="Unity.AI.Pbr.csproj" />
   <Project Path="Unity.Cinemachine.csproj" />
   <Project Path="Unity.Burst.CodeGen.csproj" />
@@ -45,6 +46,7 @@
   <Project Path="Unity.AI.ModelSelector.csproj" />
   <Project Path="Unity.AI.Animate.csproj" />
   <Project Path="Unity.AI.Assistant.Tools.Editor.csproj" />
+  <Project Path="Game.Deprecated.csproj" />
   <Project Path="glTFast.Export.csproj" />
   <Project Path="Unity.AppUI.Navigation.Editor.csproj" />
   <Project Path="PsdPlugin.csproj" />
@@ -116,6 +118,7 @@
   <Project Path="Unity.CollabProxy.Editor.csproj" />
   <Project Path="Unity.2D.Common.Runtime.csproj" />
   <Project Path="Unity.Behavior.Editor.csproj" />
+  <Project Path="Game.Editor.csproj" />
   <Project Path="Unity.Behavior.Serialization.Editor.csproj" />
   <Project Path="Unity.AI.Assistant.Bridge.Editor.csproj" />
   <Project Path="Unity.AI.Generators.Sdk.csproj" />

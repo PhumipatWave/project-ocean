@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     [RequireComponent(typeof(Animator))]
     public class SimpleAnimLoop : MonoBehaviour

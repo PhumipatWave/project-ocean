@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Game.Testing
+namespace Game.Core
 {
     public class DayManager : MonoBehaviour, ISaveParticipant
     {

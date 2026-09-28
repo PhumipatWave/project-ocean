@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Lightweight per-slot info for populating a save-list UI (Stardew-style)

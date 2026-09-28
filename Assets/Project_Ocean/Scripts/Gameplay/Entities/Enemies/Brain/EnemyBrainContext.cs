@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Shared references passed from the nav host into every enemy brain.

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     [Serializable]
     public class ZoneSpawnEntry

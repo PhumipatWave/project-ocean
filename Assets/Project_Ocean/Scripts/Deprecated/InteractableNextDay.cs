@@ -1,8 +1,10 @@
 using Game.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Deprecated
 {
     // Raw-key handling (E press → TrySleep) is delegated to an InteractUI on the same
     // GameObject, wired to call TrySleep() — same shared PlayerUIState "floor" lock every

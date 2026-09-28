@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// <summary>Turns money and item changes into Resource-channel notifications.</summary>
     public class ResourceNotificationPresenter : MonoBehaviour

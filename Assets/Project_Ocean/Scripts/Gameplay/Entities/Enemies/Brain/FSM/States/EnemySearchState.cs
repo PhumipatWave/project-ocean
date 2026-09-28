@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Shared search state used by enemies that investigate the last known player position.

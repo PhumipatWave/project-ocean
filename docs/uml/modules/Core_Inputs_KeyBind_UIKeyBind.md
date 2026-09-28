@@ -34,4 +34,4 @@ classDiagram
 |---|---|---|---|
 | KeyBindErrorUI | MB | `KeyBindErrorUI.cs:7` | 26 |
 | KeyBindUI | MB | `KeyBindUI.cs:8` | 58 |
-| MoveKeyBindUI | MB | `MoveKeyBindUI.cs:6` | 59 |
+| MoveKeyBindUI | MB | `MoveKeyBindUI.cs:8` | 59 |

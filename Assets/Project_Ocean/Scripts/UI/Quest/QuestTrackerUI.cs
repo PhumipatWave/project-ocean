@@ -1,8 +1,10 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class QuestTrackerUI : MonoBehaviour
     {

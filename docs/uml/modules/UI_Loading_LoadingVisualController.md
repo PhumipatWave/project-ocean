@@ -27,5 +27,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| LoadingProfile | class | `LoadingVisualController.cs:8` | 7 |
-| LoadingVisualController | MB | `LoadingVisualController.cs:6` | 34 |
+| LoadingProfile | class | `LoadingVisualController.cs:10` | 7 |
+| LoadingVisualController | MB | `LoadingVisualController.cs:8` | 34 |

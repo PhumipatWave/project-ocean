@@ -1,6 +1,7 @@
 using System;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Set while any Cutscene is playing (see Cutscene.Play/HandleStopped) — other systems

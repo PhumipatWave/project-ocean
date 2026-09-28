@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Game.Testing
+namespace Game.Core
 {
     [Serializable]
     public class SaveData

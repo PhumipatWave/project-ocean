@@ -2,8 +2,9 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class PlayerCamera : MonoBehaviour
     {

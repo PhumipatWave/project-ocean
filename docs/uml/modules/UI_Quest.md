@@ -1,6 +1,6 @@
 # UI/Quest
 
-6 types · 493 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×13, [Core/Events](Core_Events.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×2, [Core](Core.md) ×1, [Gameplay/Contracts](Gameplay_Contracts.md) ×1, [UI](UI.md) ×1, [Core/Scenes](Core_Scenes.md) ×1
+6 types · 493 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×13, [Core/Events](Core_Events.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×2, [Core](Core.md) ×1, [Gameplay/Contracts](Gameplay_Contracts.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [UI](UI.md) ×1
 
 [← index](../README.md)
 
@@ -56,9 +56,9 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| QuestBoardUI | MB | `QuestBoardUI.cs:8` | 249 |
-| QuestCategorySlot | MB | `QuestCategorySlot.cs:8` | 28 |
-| QuestCategoryUIData | class | `QuestBoardUI.cs:53` | 4 |
-| QuestDetailPanel | MB | `QuestDetailPanel.cs:8` | 70 |
-| QuestSlot | MB | `QuestSlot.cs:9` | 61 |
-| QuestTrackerUI | MB | `QuestTrackerUI.cs:7` | 85 |
+| QuestBoardUI | MB | `QuestBoardUI.cs:10` | 249 |
+| QuestCategorySlot | MB | `QuestCategorySlot.cs:10` | 28 |
+| QuestCategoryUIData | class | `QuestBoardUI.cs:55` | 4 |
+| QuestDetailPanel | MB | `QuestDetailPanel.cs:10` | 70 |
+| QuestSlot | MB | `QuestSlot.cs:11` | 61 |
+| QuestTrackerUI | MB | `QuestTrackerUI.cs:9` | 85 |

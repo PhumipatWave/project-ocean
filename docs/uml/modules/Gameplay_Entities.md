@@ -1,6 +1,6 @@
 # Gameplay/Entities
 
-7 types · 322 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×1
+7 types · 322 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1
 
 [← index](../README.md)
 
@@ -111,10 +111,10 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| AnimHash | static | `AnimHash.cs:10` | 11 |
-| Entity | MB, abstract | `Entity.cs:6` | 78 |
-| EntityAnimation | MB | `EntityAnimation.cs:5` | 50 |
-| EntityDeathHandler | MB | `EntityDeathHandler.cs:6` | 93 |
-| EntityHealth | MB | `EntityHealth.cs:8` | 74 |
-| IDamagePopup | interface | `IDamagePopup.cs:4` | 5 |
-| IEntityHealth | interface | `IEntityHealth.cs:5` | 11 |
+| AnimHash | static | `AnimHash.cs:11` | 11 |
+| Entity | MB, abstract | `Entity.cs:7` | 78 |
+| EntityAnimation | MB | `EntityAnimation.cs:6` | 50 |
+| EntityDeathHandler | MB | `EntityDeathHandler.cs:7` | 93 |
+| EntityHealth | MB | `EntityHealth.cs:9` | 74 |
+| IDamagePopup | interface | `IDamagePopup.cs:6` | 5 |
+| IEntityHealth | interface | `IEntityHealth.cs:6` | 11 |

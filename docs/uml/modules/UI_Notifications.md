@@ -1,6 +1,6 @@
 # UI/Notifications
 
-5 types · 180 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×8, [UI/Inventory](UI_Inventory.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+5 types · 180 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×8, [UI/Inventory](UI_Inventory.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 
@@ -52,8 +52,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| NotificationLine | MB | `NotificationLine.cs:10` | 32 |
-| NotificationView | MB, abstract | `NotificationView.cs:6` | 26 |
-| ResourceNotificationPresenter | MB | `ResourceNotificationPresenter.cs:6` | 25 |
-| StackNotificationView | MB | `StackNotificationView.cs:6` | 22 |
-| ToastNotificationView | MB | `ToastNotificationView.cs:9` | 75 |
+| NotificationLine | MB | `NotificationLine.cs:12` | 32 |
+| NotificationView | MB, abstract | `NotificationView.cs:8` | 26 |
+| ResourceNotificationPresenter | MB | `ResourceNotificationPresenter.cs:8` | 25 |
+| StackNotificationView | MB | `StackNotificationView.cs:8` | 22 |
+| ToastNotificationView | MB | `ToastNotificationView.cs:11` | 75 |

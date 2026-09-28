@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Single source of truth for which gate-able systems (see GameFeature) are unlocked.

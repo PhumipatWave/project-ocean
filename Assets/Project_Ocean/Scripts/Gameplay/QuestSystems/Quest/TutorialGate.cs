@@ -1,4 +1,6 @@
-namespace Game.Testing
+using Game.Core;
+
+namespace Game.Gameplay
 {
     /// <summary>
     /// While a Tutorial/Talk checkpoint is active, restricts the player to only the

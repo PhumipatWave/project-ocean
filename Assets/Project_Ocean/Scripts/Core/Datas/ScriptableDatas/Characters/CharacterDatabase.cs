@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>One list of every CharacterData; assigned once on NPCManager.</summary>
     [CreateAssetMenu(fileName = "CharacterDatabase", menuName = "Scriptable Objects/Character Database")]

@@ -1,6 +1,6 @@
 using System;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>Fixed set of teachable player actions a Tutorial/Talk quest step can require.</summary>
     public enum TutorialActionId

@@ -35,5 +35,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| IInventory | interface | `IInventory.cs:6` | 14 |
-| Inventory | static | `Inventory.cs:4` | 10 |
+| IInventory | interface | `IInventory.cs:7` | 14 |
+| Inventory | static | `Inventory.cs:6` | 10 |

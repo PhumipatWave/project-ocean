@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class UpgradeTooltip : MonoBehaviour
     {

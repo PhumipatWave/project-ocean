@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// A gate-able system, unlocked by completing a quest step whose

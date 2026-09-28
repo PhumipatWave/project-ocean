@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// A marker arrow drawn on a Land UI panel (dive, shop, board, home, upgrade) — shown only while

@@ -1,6 +1,6 @@
 # UI/UIManager
 
-4 types · 405 LOC (non-blank) · depends on: [UI](UI.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [Core](Core.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1
+4 types · 405 LOC (non-blank) · depends on: [UI](UI.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Core](Core.md) ×1, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1
 
 [← index](../README.md)
 
@@ -62,7 +62,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| UIManager | MB | `UIManager.cs:21` | 368 |
-| UIManager_UIType | enum | `UIManager.cs:24` | 10 |
-| UIWindow | MB | `UIWindow.cs:5` | 37 |
-| UIWindow_UIType | enum | `UIWindow.cs:6` | 9 |
+| UIManager | MB | `UIManager.cs:23` | 368 |
+| UIManager_UIType | enum | `UIManager.cs:26` | 10 |
+| UIWindow | MB | `UIWindow.cs:7` | 37 |
+| UIWindow_UIType | enum | `UIWindow.cs:8` | 9 |

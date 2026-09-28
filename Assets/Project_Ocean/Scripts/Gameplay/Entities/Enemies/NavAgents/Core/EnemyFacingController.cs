@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Handles 2D sprite flip (on visual child) and body rotation for nav-mesh enemies.

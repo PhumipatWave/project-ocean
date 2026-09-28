@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     [RequireComponent(typeof(Button))]
     public class QuestCategorySlot : MonoBehaviour

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// One track's binding, resolved at play time rather than wired in the Inspector — this

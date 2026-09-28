@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class Player : Entity
     {

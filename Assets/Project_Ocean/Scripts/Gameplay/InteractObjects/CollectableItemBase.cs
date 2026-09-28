@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public abstract class CollectableItemBase : MonoBehaviour
     {

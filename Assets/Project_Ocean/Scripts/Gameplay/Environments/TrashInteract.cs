@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class TrashInteract : MonoBehaviour
     {

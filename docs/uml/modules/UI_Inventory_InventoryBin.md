@@ -19,4 +19,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| TrashBin | MB | `TrashBin.cs:7` | 56 |
+| TrashBin | MB | `TrashBin.cs:9` | 56 |

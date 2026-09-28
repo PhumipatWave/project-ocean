@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Shared sprite lookups/application for the quest UI panels (QuestSlot, QuestDetailPanel,
@@ -70,8 +71,8 @@ namespace Game.Testing
             if (step.RequiredMoney <= 0)
                 return itemsPart;
 
-            var money = Game.Testing.GameManager.CurPlayer != null
-                ? Game.Testing.GameManager.CurPlayer.GetComponent<PlayerMoney>()
+            var money = Game.Gameplay.GameManager.CurPlayer != null
+                ? Game.Gameplay.GameManager.CurPlayer.GetComponent<PlayerMoney>()
                 : null;
             int currentMoney = money != null ? money.CurrentMoney : 0;
             return $"{itemsPart} · {Mathf.Min(currentMoney, step.RequiredMoney)}/{step.RequiredMoney} Money";

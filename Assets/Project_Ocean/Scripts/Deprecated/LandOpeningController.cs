@@ -1,7 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Deprecated
 {
     public class LandOpeningController : MonoBehaviour
     {

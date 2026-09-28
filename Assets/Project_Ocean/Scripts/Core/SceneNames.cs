@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Central place for all scene name strings.

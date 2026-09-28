@@ -1,6 +1,6 @@
 using System;
 
-namespace Game.Testing
+namespace Game.Core
 {
     public static class ExploreEvents
     {

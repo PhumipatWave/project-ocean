@@ -3,8 +3,9 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// Populates the accepted-quests scroll view (GameHUD/PlayerHUDPanel/QuestUI/ReviceQuestScrollView)
     /// with one ReviceQuestSlot per quest the player currently has accepted (InProgress or ReadyToTurnIn)

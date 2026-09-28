@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     // Raw-key handling (E press) is delegated to an InteractUI on the same GameObject, wired
     // to call Interact() — same shared PlayerUIState "floor" lock every other interactable

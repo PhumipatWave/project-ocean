@@ -1,6 +1,7 @@
 using System;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public interface IEntityHealth
     {

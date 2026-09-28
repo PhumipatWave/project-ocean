@@ -23,5 +23,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| BootstrapLoader | MB | `BootstrapLoader.cs:6` | 7 |
-| LoadingButton | MB | `LoadingButton.cs:5` | 39 |
+| BootstrapLoader | MB | `BootstrapLoader.cs:8` | 7 |
+| LoadingButton | MB | `LoadingButton.cs:7` | 39 |

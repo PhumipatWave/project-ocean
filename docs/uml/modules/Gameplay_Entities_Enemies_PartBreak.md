@@ -17,4 +17,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| EnemyAttackHitbox | MB | `EnemyAttackHitbox.cs:5` | 19 |
+| EnemyAttackHitbox | MB | `EnemyAttackHitbox.cs:6` | 19 |

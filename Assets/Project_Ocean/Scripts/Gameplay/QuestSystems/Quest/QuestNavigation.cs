@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>Shared tuning for the quest-objective navigation arrows (QuestCompass on the
     /// player, and the per-objective Marker on NPC/DoorInteract/TutorialActionMarker) so the

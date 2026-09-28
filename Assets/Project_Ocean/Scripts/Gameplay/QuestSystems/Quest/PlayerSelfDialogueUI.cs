@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>
     /// Drives the shared NPC dialogue panel for a Talk or Cutscene step authored with Auto

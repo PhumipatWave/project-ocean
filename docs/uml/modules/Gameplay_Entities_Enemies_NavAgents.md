@@ -41,6 +41,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| CharacterFacing2D | static | `CharacterFacing2D.cs:8` | 33 |
-| EnemyAgent | MB | `EnemyAgent.cs:5` | 28 |
-| FishAlertUI | MB | `FishAlertUI.cs:6` | 101 |
+| CharacterFacing2D | static | `CharacterFacing2D.cs:9` | 33 |
+| EnemyAgent | MB | `EnemyAgent.cs:6` | 28 |
+| FishAlertUI | MB | `FishAlertUI.cs:7` | 101 |

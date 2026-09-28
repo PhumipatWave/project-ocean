@@ -1,8 +1,11 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Editor
 {
     /// <summary>
     /// Groups QuestData's flat fields into labeled foldout sections instead of one long
@@ -13,7 +16,7 @@ namespace Game.Testing
     /// the first step in practice (a quest is never New once past step 0).
     /// </summary>
     [CustomEditor(typeof(QuestData))]
-    public class QuestDataEditor : Editor
+    public class QuestDataEditor : UnityEditor.Editor
     {
         private bool showIdentity = true;
         private bool showSteps = true;

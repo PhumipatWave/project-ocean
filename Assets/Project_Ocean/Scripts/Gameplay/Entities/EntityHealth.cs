@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class EntityHealth : MonoBehaviour, IEntityHealth, IPoolable
     {

@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class ReviceQuestSlot : MonoBehaviour
     {

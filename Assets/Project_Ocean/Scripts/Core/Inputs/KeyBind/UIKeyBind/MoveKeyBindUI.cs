@@ -3,80 +3,83 @@ using UnityEngine;
 using UnityEngine.UI;
 using Game.Core;
 
-public class MoveKeyBindUI : MonoBehaviour
+namespace Game.Core
 {
-    [Header("Move Direction")]
-    [SerializeField] private MoveDirection direction;
-
-    [Header("UI")]
-    [SerializeField] private TMP_Text keyText;
-    [SerializeField] private KeyBindErrorUI errorUI;
-    [SerializeField] private Button rebindButton;
-
-    private KeyBindManager keyBindManager;
-
-    private void Awake()
+    public class MoveKeyBindUI : MonoBehaviour
     {
-        keyBindManager = FindFirstObjectByType<KeyBindManager>();
-    }
+        [Header("Move Direction")]
+        [SerializeField] private MoveDirection direction;
 
-    private void OnEnable()
-    {
-        if (keyBindManager == null)
-            keyBindManager = FindFirstObjectByType<KeyBindManager>();
+        [Header("UI")]
+        [SerializeField] private TMP_Text keyText;
+        [SerializeField] private KeyBindErrorUI errorUI;
+        [SerializeField] private Button rebindButton;
 
-        KeyBindManager.OnBindingsChanged += UpdateUI;
+        private KeyBindManager keyBindManager;
 
-        if (rebindButton != null)
-            rebindButton.onClick.AddListener(StartRebind);
-
-        UpdateUI();
-    }
-
-    private void OnDisable()
-    {
-        KeyBindManager.OnBindingsChanged -= UpdateUI;
-
-        if (rebindButton != null)
-            rebindButton.onClick.RemoveListener(StartRebind);
-    }
-
-    private void StartRebind()
-    {
-        if (keyBindManager == null)
-            return;
-
-        keyText.text = "Press Key...";
-
-        if (rebindButton != null)
-            rebindButton.interactable = false;
-
-        keyBindManager.RebindMove(
-            direction,
-            OnRebindComplete
-        );
-    }
-
-    private void OnRebindComplete(string bindingPath,bool success)
-    {
-        UpdateUI();
-
-        if (!success && !string.IsNullOrEmpty(bindingPath))
+        private void Awake()
         {
-            if (errorUI != null)
-                errorUI.Show("Key already assigned!");
+            keyBindManager = FindFirstObjectByType<KeyBindManager>();
         }
 
-        if (rebindButton != null)
-            rebindButton.interactable = true;
-    }
+        private void OnEnable()
+        {
+            if (keyBindManager == null)
+                keyBindManager = FindFirstObjectByType<KeyBindManager>();
 
-    private void UpdateUI()
-    {
-        if (keyBindManager == null || keyText == null)
-            return;
+            KeyBindManager.OnBindingsChanged += UpdateUI;
 
-        keyText.text =
-            keyBindManager.GetMoveBindingDisplayString(direction);
+            if (rebindButton != null)
+                rebindButton.onClick.AddListener(StartRebind);
+
+            UpdateUI();
+        }
+
+        private void OnDisable()
+        {
+            KeyBindManager.OnBindingsChanged -= UpdateUI;
+
+            if (rebindButton != null)
+                rebindButton.onClick.RemoveListener(StartRebind);
+        }
+
+        private void StartRebind()
+        {
+            if (keyBindManager == null)
+                return;
+
+            keyText.text = "Press Key...";
+
+            if (rebindButton != null)
+                rebindButton.interactable = false;
+
+            keyBindManager.RebindMove(
+                direction,
+                OnRebindComplete
+            );
+        }
+
+        private void OnRebindComplete(string bindingPath,bool success)
+        {
+            UpdateUI();
+
+            if (!success && !string.IsNullOrEmpty(bindingPath))
+            {
+                if (errorUI != null)
+                    errorUI.Show("Key already assigned!");
+            }
+
+            if (rebindButton != null)
+                rebindButton.interactable = true;
+        }
+
+        private void UpdateUI()
+        {
+            if (keyBindManager == null || keyText == null)
+                return;
+
+            keyText.text =
+                keyBindManager.GetMoveBindingDisplayString(direction);
+        }
     }
 }

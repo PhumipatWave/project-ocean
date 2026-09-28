@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     public static class EncryptionHelper
     {

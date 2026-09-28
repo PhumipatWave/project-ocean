@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
     /// <summary>
     /// Which dialogue boxes are on screen right now. NPC and PlayerSelfDialogueUI report their

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Editor
 {
     /// <summary>
     /// Shows the right target field for the step's type: the TutorialActionId dropdown
@@ -76,8 +79,8 @@ namespace Game.Testing
             private FieldVisibility(QuestType type, DeliverySource deliverySource, bool autoDisplayDialogue)
             {
                 bool isDelivery = type == QuestType.Delivery;
-                bool isEnemyKills = isDelivery && deliverySource == Game.Testing.DeliverySource.EnemyKills;
-                bool isInventoryHeld = isDelivery && deliverySource == Game.Testing.DeliverySource.InventoryHeld;
+                bool isEnemyKills = isDelivery && deliverySource == Game.Gameplay.DeliverySource.EnemyKills;
+                bool isInventoryHeld = isDelivery && deliverySource == Game.Gameplay.DeliverySource.InventoryHeld;
                 bool isTalkNonAuto = type == QuestType.Talk && !autoDisplayDialogue;
                 bool isWaitingQuest = type == QuestType.WaitingQuest;
 

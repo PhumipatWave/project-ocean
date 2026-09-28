@@ -60,6 +60,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| EnemyFSM | class | `EnemyFSM.cs:6` | 50 |
-| EnemyStateBase | abstract | `EnemyStateBase.cs:9` | 82 |
-| EnemyStateTag | enum | `EnemyStateTag.cs:9` | 11 |
+| EnemyFSM | class | `EnemyFSM.cs:7` | 50 |
+| EnemyStateBase | abstract | `EnemyStateBase.cs:10` | 82 |
+| EnemyStateTag | enum | `EnemyStateTag.cs:10` | 11 |

@@ -24,4 +24,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| PlayerFeedbackVFX | MB | `PlayerFeedbackVFX.cs:7` | 102 |
+| PlayerFeedbackVFX | MB | `PlayerFeedbackVFX.cs:9` | 102 |

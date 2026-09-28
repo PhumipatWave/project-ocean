@@ -66,10 +66,10 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| AudioChannel | enum | `AudioManager.cs:5` | 6 |
-| AudioManager | MB | `AudioManager.cs:42` | 150 |
-| AudioSliderBinder | MB | `AudioSliderBinder.cs:10` | 19 |
-| SceneSound | class | `AudioManager.cs:15` | 7 |
-| SoundChannel | MB | `SoundChannel.cs:11` | 25 |
-| SoundKeys | static | `SoundKeys.cs:6` | 15 |
-| VolumeSliderUI | MB | `VolumeSliderUI.cs:5` | 19 |
+| AudioChannel | enum | `AudioManager.cs:8` | 6 |
+| AudioManager | MB | `AudioManager.cs:45` | 150 |
+| AudioSliderBinder | MB | `AudioSliderBinder.cs:13` | 19 |
+| SceneSound | class | `AudioManager.cs:18` | 7 |
+| SoundChannel | MB | `SoundChannel.cs:14` | 25 |
+| SoundKeys | static | `SoundKeys.cs:10` | 15 |
+| VolumeSliderUI | MB | `VolumeSliderUI.cs:8` | 19 |

@@ -16,4 +16,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| LoadingTextAnimation | MB | `LoadingTextAnimation.cs:6` | 19 |
+| LoadingTextAnimation | MB | `LoadingTextAnimation.cs:8` | 19 |

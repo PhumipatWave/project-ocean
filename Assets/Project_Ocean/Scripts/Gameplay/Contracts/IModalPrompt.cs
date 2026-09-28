@@ -1,4 +1,6 @@
-namespace Game.Testing
+using Game.Core;
+
+namespace Game.Gameplay
 {
     /// <summary>A yes/no prompt gameplay can raise; CanShow is false while a menu owns the screen.</summary>
     public interface IModalPrompt
