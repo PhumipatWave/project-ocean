@@ -20,6 +20,8 @@ namespace Game.Gameplay
         // The runtime list of quests, already converted from data and ready to use.
         private List<Quest> activeQuestList = new List<Quest>();
 
+        private QuestProgressTracker progress;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -32,33 +34,14 @@ namespace Game.Gameplay
             DontDestroyOnLoad(gameObject);
 
             InitializeQuests();
+            progress = new QuestProgressTracker(activeQuestList, CompleteProgress, RaiseQuestUpdated);
         }
 
-        private void OnEnable()
-        {
-            EnemyEvents.OnEnemyKilled += HandleEnemyKilled;
-            TutorialEvents.OnActionPerformed += HandleTutorialAction;
-            NpcEvents.OnNpcTalkedTo += HandleNpcTalk;
-            CutsceneEvents.OnCutsceneFinished += HandleCutsceneFinished;
-            ExploreEvents.OnAreaReached += HandleAreaReached;
-            Inventory.OnChanged += HandleInventoryChanged;
-            PlayerMoney.OnMoneyChanged += HandleMoneyChanged;
-            DayManager.OnDayAdvanced += HandleDayOrDiveChanged;
-            DayManager.OnDivedToday += HandleDayOrDiveChanged;
-        }
+        private void OnEnable() => progress?.Subscribe();   // null on a duplicate destroyed in Awake
 
-        private void OnDisable()
-        {
-            EnemyEvents.OnEnemyKilled -= HandleEnemyKilled;
-            TutorialEvents.OnActionPerformed -= HandleTutorialAction;
-            NpcEvents.OnNpcTalkedTo -= HandleNpcTalk;
-            CutsceneEvents.OnCutsceneFinished -= HandleCutsceneFinished;
-            ExploreEvents.OnAreaReached -= HandleAreaReached;
-            Inventory.OnChanged -= HandleInventoryChanged;
-            PlayerMoney.OnMoneyChanged -= HandleMoneyChanged;
-            DayManager.OnDayAdvanced -= HandleDayOrDiveChanged;
-            DayManager.OnDivedToday -= HandleDayOrDiveChanged;
-        }
+        private void OnDisable() => progress?.Unsubscribe();
+
+        private static void RaiseQuestUpdated() => OnQuestUpdated?.Invoke();
 
         /// <summary>Rebuilds every quest from scratch, as if the game had just started —
         /// called by SaveBridge.ResetForNewGame() so "New Game" doesn't inherit a previous
@@ -100,10 +83,6 @@ namespace Game.Gameplay
             Debug.Log($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
-        // =========================================================
-        // ENEMY KILLED
-        // =========================================================
-
         /// <summary>
         /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
         /// active Main quest wins if there is one — so it "stays all the time," auto-tracked
@@ -137,131 +116,6 @@ namespace Game.Gameplay
                 Debug.Log($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
         }
 
-        // Not routed through TryProgress — a kill that would complete the step still has to
-        // hold back one short of completion when RequiredMoney isn't paid yet (see
-        // MoneyRequirementMet/HandleMoneyChanged), which a plain type+match predicate can't express.
-        private void HandleEnemyKilled(string enemyId)
-        {
-            if (string.IsNullOrEmpty(enemyId)) return;
-
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress) continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Delivery ||
-                    step.DeliverySource != DeliverySource.EnemyKills ||
-                    step.TargetEnemyIds == null || !step.TargetEnemyIds.Contains(enemyId))
-                    continue;
-
-                if (step.CurrentCount + 1 >= step.TargetCount && !MoneyRequirementMet(step))
-                {
-                    step.MoneyPending = true;
-                    if (step.CurrentCount != step.TargetCount - 1)
-                    {
-                        step.CurrentCount = step.TargetCount - 1;
-                        OnQuestUpdated?.Invoke();
-                    }
-                    continue;
-                }
-
-                CompleteProgress(q);
-            }
-        }
-
-        /// <summary>Delivery only — true if the step has no RequiredMoney, or the player can
-        /// currently afford it. See QuestStep.RequiredMoney.</summary>
-        private static bool MoneyRequirementMet(QuestStep step)
-        {
-            if (step.RequiredMoney <= 0) return true;
-
-            var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
-            return money != null && money.CurrentMoney >= step.RequiredMoney;
-        }
-
-        /// <summary>Finalizes any Delivery step that was held back solely on RequiredMoney
-        /// (see QuestStep.MoneyPending) now that the balance can cover it. Also pokes
-        /// OnQuestUpdated unconditionally — QuestVisuals.GetDeliveryStatusSuffix shows the
-        /// player's live balance against RequiredMoney, so the tracker needs to redraw on
-        /// every money change even when no step actually completes.</summary>
-        private void HandleMoneyChanged(int _)
-        {
-            OnQuestUpdated?.Invoke();
-
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress) continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Delivery || !step.MoneyPending) continue;
-                if (!MoneyRequirementMet(step)) continue;
-
-                step.MoneyPending = false;
-                CompleteProgress(q, step.TargetCount - step.CurrentCount);
-            }
-        }
-
-        /// <summary>WaitingQuest only — records the day this step became current, once. Safe to
-        /// call repeatedly (AcceptQuest/CompleteProgress/LoadSaveState all call it) — a no-op once
-        /// DayStepBecameCurrent is already set, since a step only becomes current once.</summary>
-        private static void StampWaitingQuestStart(QuestStep step)
-        {
-            if (step != null && step.Type == QuestType.WaitingQuest &&
-                step.DayStepBecameCurrent < 0 && DayManager.Instance != null)
-                step.DayStepBecameCurrent = DayManager.Instance.CurrentDay;
-        }
-
-        /// <summary>
-        /// Not routed through TryProgress — WaitingQuest is a live state condition (day count +
-        /// today's dive count), not a one-shot event match, same reasoning as Delivery's
-        /// HandleInventoryChanged. Re-checks every InProgress quest on every day-advance or dive.
-        /// </summary>
-        private void HandleDayOrDiveChanged()
-        {
-            if (DayManager.Instance == null) return;
-
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress) continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.WaitingQuest) continue;
-
-                StampWaitingQuestStart(step);
-
-                bool dayReady = DayManager.Instance.CurrentDay >= step.DayStepBecameCurrent + step.RequiredDaysToWait;
-                bool diveReady = DayManager.Instance.DivesToday >= step.RequiredDivesThatDay;
-                if (dayReady && diveReady)
-                    CompleteProgress(q);
-            }
-        }
-
-        private void HandleTutorialAction(TutorialActionId actionId) =>
-            TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
-
-        // Not routed through the generic TryProgress — All mode needs per-NPC dedup (talking
-        // to the same one twice must not double-count) that a plain type+match predicate can't
-        // express, so this owns its own loop over activeQuestList instead.
-        private void HandleNpcTalk(string npcId)
-        {
-            if (string.IsNullOrEmpty(npcId)) return;
-
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress) continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId))
-                    continue;
-
-                // Already talked to this one — no further progress, no re-triggered rewards.
-                if (step.TalkCompletionMode == TalkCompletionMode.All && !step.MarkNpcTalkedTo(npcId))
-                    continue;
-
-                CompleteProgress(q);
-            }
-        }
-
         /// <summary>Completes a Talk or Cutscene step authored with Auto Display Dialogue — it
         /// has no NPC id for NpcEvents.RaiseNpcTalkedTo to match on, so PlayerSelfDialogueUI
         /// calls this directly.</summary>
@@ -273,133 +127,13 @@ namespace Game.Gameplay
                 CompleteProgress(q);
         }
 
-        private void HandleAreaReached(string areaId)
-        {
-            if (!string.IsNullOrEmpty(areaId))
-                TryProgress(QuestType.ExploreArea, step => step.EffectiveAreaId == areaId);
-        }
-
-        private void HandleCutsceneFinished(string cutsceneId)
-        {
-            if (!string.IsNullOrEmpty(cutsceneId))
-                TryProgress(QuestType.Cutscene, step => step.EffectiveCutsceneId == cutsceneId);
-        }
-
-        /// <summary>
-        /// Delivery has no single discrete "did the thing" event like every other step type —
-        /// it's satisfied by whatever the player is currently holding, which can go up or down
-        /// as they pick up/drop/sell items. So instead of TryProgress's one-shot event match,
-        /// this re-checks live inventory against the current step's requirements on every
-        /// change. Below the requirement, it just updates CurrentCount for display (no reward
-        /// side effects — see CompleteProgress's doc). At/above it, routes the completing delta
-        /// through the normal CompleteProgress pipeline so Delivery pays out/advances exactly
-        /// like every other type.
-        /// </summary>
-        private void HandleInventoryChanged()
-        {
-            if (Inventory.Current == null)
-                return;
-
-            // PerItem progress only counts fully-met requirements, so picking up 3 of 5 leaves
-            // CurrentCount unchanged and nothing below fires — but the tracker text shows live
-            // held counts (QuestVisuals), so it must still redraw.
-            bool perItemDisplayStale = false;
-
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress)
-                    continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Delivery ||
-                    step.DeliverySource != DeliverySource.InventoryHeld || step.IsComplete)
-                    continue;
-
-                if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
-                    perItemDisplayStale = true;
-
-                int progress = step.ComputeDeliveryProgress(HeldCountOf);
-
-                // Items are ready but RequiredMoney hasn't been paid yet — hold one short of
-                // completion (AddProgress refuses to act on an already-complete step) and flag
-                // it; HandleMoneyChanged finalizes once the player can afford it.
-                if (progress >= step.TargetCount && !MoneyRequirementMet(step))
-                {
-                    step.MoneyPending = true;
-                    int capped = step.TargetCount - 1;
-                    if (step.CurrentCount != capped)
-                    {
-                        step.CurrentCount = capped;
-                        OnQuestUpdated?.Invoke();
-                    }
-                    continue;
-                }
-                step.MoneyPending = false;
-
-                if (progress == step.CurrentCount)
-                    continue;
-
-                // Player dropped/sold some — keep the displayed count live.
-                if (progress < step.CurrentCount)
-                {
-                    step.CurrentCount = progress;
-                    OnQuestUpdated?.Invoke();
-                    continue;
-                }
-
-                // Complete through CompleteProgress — the one place that advances the step, pays its
-                // reward, applies its feature changes and hands off to the next quest. An older inline
-                // copy of that logic used to run first: it finished the step itself, so CompleteProgress
-                // below then paid the reward a SECOND time (a hand-in quest paid again at turn-in), and
-                // AutoComplete quests never handed off to their next quest.
-                if (progress >= step.TargetCount)
-                {
-                    CompleteProgress(q, step.TargetCount - step.CurrentCount);
-                }
-                else
-                {
-                    step.CurrentCount = progress;
-                    OnQuestUpdated?.Invoke();
-                }
-            }
-
-            if (perItemDisplayStale)
-                OnQuestUpdated?.Invoke();
-        }
-
-        private static int HeldCountOf(string itemIdStr) =>
-            int.TryParse(itemIdStr, out int id) ? Inventory.Current.GetQuestItemCount(id) : 0;
-
-        /// <summary>
-        /// Routes an event to every InProgress quest whose current checkpoint is of the
-        /// given type and whose target matches. Shared by HandleEnemyKilled/HandleTutorialAction/
-        /// HandleNpcTalk — they differ only in which step type and which field they match on.
-        /// </summary>
-        private void TryProgress(QuestType type, Func<QuestStep, bool> targetMatches)
-        {
-            foreach (var q in activeQuestList)
-            {
-                if (q.Status != QuestStatus.InProgress)
-                    continue;
-
-                var step = q.CurrentStep;
-                if (step == null || step.Type != type)
-                    continue;
-
-                if (!targetMatches(step))
-                    continue;
-
-                CompleteProgress(q);
-            }
-        }
-
         /// <summary>
         /// Each checkpoint pays its own reward the moment IT completes — not just the
         /// quest's final step — so a quest can pay out incrementally per checkpoint.
         /// Exception: a final step set to ReadyToHandIn pays nothing here — its reward
         /// waits for TurnInQuest, same as before, so it isn't paid twice. amount is 1 for
         /// every discrete-event step type (one kill, one talk, ...); Delivery's live
-        /// inventory check passes whatever delta finishes it — see HandleInventoryChanged,
+        /// inventory check passes whatever delta finishes it — see QuestProgressTracker.CheckInventory,
         /// which never calls this for a delta that DOESN'T finish the step, since the
         /// partial-progress branch below would otherwise pay reward money mid-collection.
         /// </summary>
@@ -415,13 +149,13 @@ namespace Game.Gameplay
             // q.CurrentStep, so TryProgress stops routing further matching events to it.
             if (completedStep.IsComplete)
             {
-                ApplyStepFeatureChanges(completedStep);
+                QuestStepEffects.ApplyFeatureChanges(completedStep);
 
                 // Consume per step, not per quest — a mid-quest Delivery step (e.g. MQ_1003's
                 // "Find materials") used to never take its items. A final ReadyToHandIn step
                 // consumes in TurnInQuest instead.
                 if (!(justCompleted && completedStep.CompletionMode != QuestCompletionMode.AutoComplete))
-                    RemoveQuestItems(completedStep);
+                    QuestStepEffects.RemoveQuestItems(completedStep);
             }
 
             // Moved on to a new checkpoint (as opposed to just ticking progress on the
@@ -453,30 +187,17 @@ namespace Game.Gameplay
             // it's an InventoryHeld Delivery step, the player may already be holding enough
             // (e.g. it was an EnemyKills bounty's own loot, collected before this checkpoint
             // was even reached). Inventory hasn't changed, so nothing would otherwise trigger
-            // HandleInventoryChanged.
+            // QuestProgressTracker.CheckInventory.
             if (q.CurrentStep?.Type == QuestType.Delivery && q.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
-                HandleInventoryChanged();
+                progress.CheckInventory();
 
             // Same idea for WaitingQuest — stamp its start day now, and check right away in
             // case DayManager already satisfies it (e.g. RequiredDaysToWait is 0).
             if (q.CurrentStep?.Type == QuestType.WaitingQuest)
             {
-                StampWaitingQuestStart(q.CurrentStep);
-                HandleDayOrDiveChanged();
+                QuestStepEffects.StampWaitingStart(q.CurrentStep);
+                progress.CheckDayOrDive();
             }
-        }
-
-        // Locks always win over unlocks (see FeatureUnlockService.IsUnlocked) — order here
-        // doesn't matter, but unlocking first reads naturally as "grant, then restrict".
-        private static void ApplyStepFeatureChanges(QuestStep step)
-        {
-            if (step.UnlocksFeatures != null)
-                foreach (var feature in step.UnlocksFeatures)
-                    FeatureUnlockService.Instance.Unlock(feature);
-
-            if (step.LocksFeatures != null)
-                foreach (var feature in step.LocksFeatures)
-                    FeatureUnlockService.Instance.Lock(feature);
         }
 
         private const float StepDescriptionNotifyDelay = 1.5f;
@@ -593,17 +314,7 @@ namespace Game.Gameplay
         /// <summary>Collects the mutable runtime state (id, status, kill progress) of each quest.</summary>
         public List<QuestSaveData> GetSaveState()
         {
-            var list = new List<QuestSaveData>();
-            foreach (var q in activeQuestList)
-                list.Add(new QuestSaveData
-                {
-                    questId         = q.QuestID,
-                    status          = (int)q.Status,
-                    currentCount    = q.CurrentCount,
-                    currentStepIndex = q.CurrentStepIndex,
-                    dayStepBecameCurrent = q.CurrentStep?.DayStepBecameCurrent ?? -1,
-                });
-            return list;
+            return QuestSaveMapper.ToSaveData(activeQuestList);
         }
 
         public List<Quest> GetCompletedQuests()
@@ -622,34 +333,21 @@ namespace Game.Gameplay
             if (saved == null)
                 return;
 
-            foreach (var s in saved)
-            {
-                var quest = GetQuestById(s.questId);
-
-                if (quest != null)
-                {
-                    quest.Status           = (QuestStatus)s.status;
-                    quest.CurrentStepIndex = s.currentStepIndex; // set before CurrentCount — CurrentCount targets the step at this index
-                    quest.CurrentCount     = s.currentCount;
-
-                    if (quest.CurrentStep != null && s.dayStepBecameCurrent >= 0)
-                        quest.CurrentStep.DayStepBecameCurrent = s.dayStepBecameCurrent;
-                }
-            }
+            QuestSaveMapper.Apply(saved, GetQuestById);
 
             EnsureQuestTracked();
 
             OnQuestUpdated?.Invoke();
 
             // A resumed save could land mid-Delivery-step already satisfied (or the player
-            // adjusted their inventory between sessions) — HandleInventoryChanged re-checks
+            // adjusted their inventory between sessions) — QuestProgressTracker.CheckInventory re-checks
             // every InProgress quest itself, so one call covers all of them.
-            HandleInventoryChanged();
+            progress.CheckInventory();
 
             // Same idea for WaitingQuest — old saves (or a step reached for the first time
-            // this session) have no dayStepBecameCurrent yet; StampWaitingQuestStart inside
+            // this session) have no dayStepBecameCurrent yet; QuestStepEffects.StampWaitingStart inside
             // it fills that in from the live day as a reasonable fallback.
-            HandleDayOrDiveChanged();
+            progress.CheckDayOrDive();
         }
 
         // =========================================================
@@ -715,12 +413,12 @@ namespace Game.Gameplay
             // First step could already be a satisfied InventoryHeld Delivery (items collected
             // before ever accepting) — nothing else would trigger a check for that.
             if (quest.CurrentStep?.Type == QuestType.Delivery && quest.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
-                HandleInventoryChanged();
+                progress.CheckInventory();
 
             if (quest.CurrentStep?.Type == QuestType.WaitingQuest)
             {
-                StampWaitingQuestStart(quest.CurrentStep);
-                HandleDayOrDiveChanged();
+                QuestStepEffects.StampWaitingStart(quest.CurrentStep);
+                progress.CheckDayOrDive();
             }
 
             Debug.Log($"Accepted Quest: {quest.QuestName}");
@@ -789,73 +487,6 @@ namespace Game.Gameplay
         public static event Action<int> OnMoneyRewarded;
 
         /// <summary>
-        /// Removes the item(s) the given step consumes — called when that step completes (or at
-        /// turn-in for a final ReadyToHandIn step). Delivery steps skip entirely when
-        /// ConsumeOnComplete is off. InventoryHeld removes according to its count mode: PerItem
-        /// takes each requirement's own count from TargetQuestItemRequirements; CombinedTotal has
-        /// no per-item counts to go by (its ids are the plain TargetQuestItemIds list), so it
-        /// takes greedily in list order until the shared Target Count is consumed. EnemyKills
-        /// (and every non-Delivery type) keeps the single-item field (e.g. a kill bounty's
-        /// hand-in loot item) — always consumed, no ConsumeOnComplete toggle for those.
-        /// </summary>
-        private void RemoveQuestItems(QuestStep step)
-        {
-            if (Inventory.Current == null || step == null) return;
-
-            if (step.Type == QuestType.Delivery)
-            {
-                if (!step.ConsumeOnComplete) return;
-
-                if (step.RequiredMoney > 0)
-                {
-                    var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
-                    money?.Use(step.RequiredMoney);
-                }
-
-                if (step.DeliverySource == DeliverySource.EnemyKills)
-                {
-                    if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
-                    if (!int.TryParse(step.TargetQuestItemId, out int lootItemId)) return;
-                    Inventory.Current.RemoveQuestItem(lootItemId, step.TargetCount);
-                    return;
-                }
-
-                if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
-                {
-                    var requirements = step.TargetQuestItemRequirements;
-                    if (requirements == null) return;
-
-                    foreach (var req in requirements)
-                        if (!string.IsNullOrEmpty(req.itemId) && int.TryParse(req.itemId, out int reqItemId))
-                            Inventory.Current.RemoveQuestItem(reqItemId, req.count);
-                }
-                else
-                {
-                    var itemIds = step.TargetQuestItemIds;
-                    if (itemIds == null) return;
-
-                    int remaining = step.TargetCount;
-                    foreach (var idStr in itemIds)
-                    {
-                        if (remaining <= 0) break;
-                        if (string.IsNullOrEmpty(idStr) || !int.TryParse(idStr, out int listItemId)) continue;
-
-                        int take = Mathf.Min(Inventory.Current.GetQuestItemCount(listItemId), remaining);
-                        if (take <= 0) continue;
-
-                        Inventory.Current.RemoveQuestItem(listItemId, take);
-                        remaining -= take;
-                    }
-                }
-                return;
-            }
-
-            if (string.IsNullOrEmpty(step.TargetQuestItemId)) return;
-            if (!int.TryParse(step.TargetQuestItemId, out int itemId)) return;
-            Inventory.Current.RemoveQuestItem(itemId, step.TargetCount);
-        }
-
-        /// <summary>
         /// Called by the NPC when the player clicks Turn In. Quest must be ReadyToTurnIn —
         /// any other state returns false with a warning.
         /// </summary>
@@ -871,7 +502,7 @@ namespace Game.Gameplay
 
             quest.Status = QuestStatus.Finish;
 
-            RemoveQuestItems(quest.CurrentStep);
+            QuestStepEffects.RemoveQuestItems(quest.CurrentStep);
 
             // Notification เดิม
             //NotificationManager.Notify($"Quest complete: {quest.QuestName}");

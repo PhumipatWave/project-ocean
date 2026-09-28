@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-33 types · 1709 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×9, [Gameplay/Game](Gameplay_Game.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×3, [Core/Save](Core_Save.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+36 types · 1740 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×9, [Gameplay/Game](Gameplay_Game.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -253,6 +253,25 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
+  class QuestProgressTracker {
+    +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
+    +Subscribe() void
+    +Unsubscribe() void
+    +CheckDayOrDive() void
+    +CheckInventory() void
+  }
+  class QuestSaveMapper {
+    <<static>>
+    +ToSaveData(IEnumerable~Quest~)$ List~QuestSaveData~
+    +Apply(List~QuestSaveData~, Func~int, Quest~)$ void
+  }
+  class QuestStepEffects {
+    <<static>>
+    +MoneyRequirementMet(QuestStep)$ bool
+    +StampWaitingStart(QuestStep)$ void
+    +ApplyFeatureChanges(QuestStep)$ void
+    +RemoveQuestItems(QuestStep)$ void
+  }
   class QuestVisuals {
     <<static>>
     +GetItemSprite(string)$ Sprite
@@ -301,15 +320,15 @@ classDiagram
 | PlayerSelfDialogueUI | InputReader | OnInteracted |
 | PlayerSelfDialogueUI | LoadingManager | OnLoadingFinished |
 | PlayerSelfDialogueUI | QuestManager | OnQuestUpdated |
-| QuestManager | CutsceneEvents | OnCutsceneFinished |
-| QuestManager | DayManager | OnDayAdvanced |
-| QuestManager | DayManager | OnDivedToday |
-| QuestManager | DialogueState | OnChanged |
-| QuestManager | EnemyEvents | OnEnemyKilled |
-| QuestManager | ExploreEvents | OnAreaReached |
-| QuestManager | NpcEvents | OnNpcTalkedTo |
-| QuestManager | PlayerMoney | OnMoneyChanged |
-| QuestManager | TutorialEvents | OnActionPerformed |
+| QuestProgressTracker | CutsceneEvents | OnCutsceneFinished |
+| QuestProgressTracker | DayManager | OnDayAdvanced |
+| QuestProgressTracker | DayManager | OnDivedToday |
+| QuestProgressTracker | DialogueState | OnChanged |
+| QuestProgressTracker | EnemyEvents | OnEnemyKilled |
+| QuestProgressTracker | ExploreEvents | OnAreaReached |
+| QuestProgressTracker | NpcEvents | OnNpcTalkedTo |
+| QuestProgressTracker | PlayerMoney | OnMoneyChanged |
+| QuestProgressTracker | TutorialEvents | OnActionPerformed |
 | ReviceQuestListUI | QuestManager | OnQuestUpdated |
 | TutorialActionMarker | QuestManager | OnQuestUpdated |
 | TutorialPromptUI | LoadingManager | OnLoadingFinished |
@@ -339,11 +358,14 @@ classDiagram
 | QuestData | SO | `QuestData.cs:178` | 19 |
 | QuestDialogueLine | class | `QuestData.cs:89` | 10 |
 | QuestItemRequirement | class | `QuestData.cs:75` | 7 |
-| QuestManager | MB | `QuestManager.cs:8` | 585 |
+| QuestManager | MB | `QuestManager.cs:8` | 334 |
 | QuestNavigation | static | `QuestNavigation.cs:9` | 39 |
+| QuestProgressTracker | class | `QuestProgressTracker.cs:8` | 179 |
+| QuestSaveMapper | static | `QuestSaveMapper.cs:8` | 32 |
 | QuestStatus | enum | `Quest.cs:34` | 8 |
 | QuestStep | class | `Quest.cs:48` | 117 |
 | QuestStepData | class | `QuestData.cs:108` | 47 |
+| QuestStepEffects | static | `QuestStepEffects.cs:7` | 71 |
 | QuestType | enum | `Quest.cs:8` | 9 |
 | QuestVisuals | static | `QuestVisuals.cs:11` | 53 |
 | ReviceQuestListUI | MB | `ReviceQuestListUI.cs:14` | 52 |

@@ -12,10 +12,10 @@ Label = distinct type-to-type links.
 flowchart TB
   Editor["Editor<br/>3 types"]
   UI["UI<br/>61 types"]
-  Gameplay["Gameplay<br/>146 types"]
+  Gameplay["Gameplay<br/>149 types"]
   Core["Core<br/>52 types"]
   Editor -->|6| Gameplay
-  Gameplay -->|152| Core
+  Gameplay -->|154| Core
   UI -->|79| Core
   UI -->|67| Gameplay
 ```
@@ -77,7 +77,7 @@ flowchart LR
     M_Gameplay_Inventory["Gameplay/Inventory<br/>2 types · 24 LOC"]
     M_Gameplay_MainCameras["Gameplay/MainCameras<br/>2 types · 40 LOC"]
     M_Gameplay_Projectiles["Gameplay/Projectiles<br/>5 types · 226 LOC"]
-    M_Gameplay_QuestSystems_Quest["Gameplay/QuestSystems/Quest<br/>33 types · 1709 LOC"]
+    M_Gameplay_QuestSystems_Quest["Gameplay/QuestSystems/Quest<br/>36 types · 1740 LOC"]
     M_Gameplay_RopeSystems["Gameplay/RopeSystems<br/>1 types · 49 LOC"]
     M_Gameplay_Save["Gameplay/Save<br/>1 types · 192 LOC"]
     M_Gameplay_Services["Gameplay/Services<br/>2 types · 146 LOC"]
@@ -136,11 +136,12 @@ flowchart LR
   M_Gameplay_Interaction -->|3| M_Core_Events
   M_Gameplay_QuestSystems_Quest -->|9| M_Core
   M_Gameplay_QuestSystems_Quest -->|23| M_Core_Events
-  M_Gameplay_QuestSystems_Quest -->|3| M_Core_Save
+  M_Gameplay_QuestSystems_Quest -->|4| M_Core_Save
   M_Gameplay_QuestSystems_Quest -->|3| M_Gameplay_Cutscenes
+  M_Gameplay_QuestSystems_Quest -->|3| M_Gameplay_Entities_Players
   M_Gameplay_QuestSystems_Quest -->|3| M_Gameplay_Environments
   M_Gameplay_QuestSystems_Quest -->|4| M_Gameplay_Game
-  M_Gameplay_QuestSystems_Quest -->|3| M_Gameplay_Inventory
+  M_Gameplay_QuestSystems_Quest -->|4| M_Gameplay_Inventory
   M_Gameplay_Save -->|5| M_Core_Save
   M_Gameplay_Save -->|3| M_Core_Save_DayReset
   M_Gameplay_Save -->|3| M_Core_Scenes
@@ -172,7 +173,7 @@ flowchart LR
 
 | Module | Types | LOC | Diagram |
 |---|---|---|---|
-| Gameplay/QuestSystems/Quest | 33 | 1709 | [open](modules/Gameplay_QuestSystems_Quest.md) |
+| Gameplay/QuestSystems/Quest | 36 | 1740 | [open](modules/Gameplay_QuestSystems_Quest.md) |
 | Gameplay/Entities/Players | 10 | 1005 | [open](modules/Gameplay_Entities_Players.md) |
 | Gameplay/InteractObjects | 8 | 794 | [open](modules/Gameplay_InteractObjects.md) |
 | UI | 16 | 727 | [open](modules/UI.md) |

@@ -100,7 +100,7 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 ### Phase 5: split large classes (one class per PR)
 | Class | Size now | Split into |
 |---|---|---|
-| `QuestManager` | 956 lines, 47 methods, 30 deps | quest state/registry · step evaluation (listens to Tutorial/Enemy/Npc/Explore events) · rewards · save adapter |
+| `QuestManager` | **done 2026-09-29:** 955 → 586 lines | `QuestProgressTracker` (step evaluation, 9 event subscriptions) · `QuestStepEffects` (money check, feature changes, item consumption) · `QuestSaveMapper` (save adapter); registry, lifecycle and tracking stay in `QuestManager` |
 | `OxygenRope` | 784 lines, 33 fields | rope simulation · rendering · breach countdown |
 | `Player` | 557 lines, 38 fields, 26 deps | movement · interaction · checkpoints · item use (Entity stays base) |
 | `UIManager` | 570 lines, 34 methods | window registry · input/escape handling |

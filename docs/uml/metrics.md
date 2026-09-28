@@ -8,7 +8,6 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
-| QuestManager | 585 | 47 | 6 | 29 | Gameplay/QuestSystems/Quest |
 | InventoryManager | 537 | 47 | 20 | 26 | UI/Inventory |
 | OxygenRope | 536 | 25 | 33 | 7 | Gameplay/Entities/Players/OxygenTube |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
@@ -16,6 +15,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Player | 397 | 26 | 37 | 25 | Gameplay/Entities/Players |
 | UIManager | 368 | 35 | 11 | 8 | UI/UIManager |
 | KeyBindManager | 339 | 12 | 4 | 4 | Core/Inputs/KeyBind |
+| QuestManager | 334 | 34 | 7 | 17 | Gameplay/QuestSystems/Quest |
 | ShopManager | 299 | 37 | 18 | 13 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | QuestBoardUI | 249 | 15 | 18 | 10 | UI/Quest |
@@ -27,7 +27,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | SaveBridge | 192 | 15 | 4 | 21 | Gameplay/Save |
 | GameHUD | 186 | 15 | 16 | 17 | UI |
 | LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
-| ExploreAreaTrigger | 171 | 17 | 11 | 11 | Gameplay/QuestSystems/Quest |
+| QuestProgressTracker | 179 | 12 | 3 | 18 | Gameplay/QuestSystems/Quest |
 
 ## Most depended-on (fan-in)
 
@@ -36,29 +36,30 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | GameManager | 29 | Bullet, CheckPointItem, ChestInteract, Cutscene, DevPanel |
 | TutorialActionId | 26 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
 | QuestManager | 21 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
-| QuestType | 16 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
+| QuestType | 18 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
+| Quest | 16 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
 | PlayerUIState | 16 | CollectableItemBase, ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel |
 | Item | 15 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, InteractUI, InventoryManager, LandUI |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
 | TutorialEvents | 14 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
-| Quest | 14 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
-| Inventory | 13 | CheckPointItem, DevPanel, EnemyLoot, InventoryManager, ItemDrop |
+| Inventory | 14 | CheckPointItem, DevPanel, EnemyLoot, InventoryManager, ItemDrop |
 | SaveData | 12 | DayManager, EnemyKillTracker, FeatureUnlockService, ISaveParticipant, InventoryManager |
 | Player | 12 | AmmoWheel, Bullet, CheckPointItem, DevPanel, Enemy |
+| PlayerMoney | 12 | ChestInteract, DevPanel, MoneyUI, QuestProgressTracker, QuestStepEffects |
 | GameFeature | 12 | CollectableItemBase, EnemySpawner, FeatureUnlockService, GameHUD, GameManager |
-| LoadingManager | 11 | CutsceneManager, GameManager, InteractUI, LandUI, LoadingButton |
 
 ## Most dependencies (fan-out)
 
 | Type | Depends on |
 |---|---|
-| QuestManager | 29 |
 | InventoryManager | 26 |
 | Player | 25 |
 | SaveBridge | 21 |
 | EnemyBrain | 19 |
+| QuestProgressTracker | 18 |
 | NPC | 17 |
+| QuestManager | 17 |
 | GameHUD | 17 |
 | EnemyWanderState | 14 |
 | GameManager | 14 |
@@ -67,7 +68,6 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | ShopManager | 13 |
 | InteractUI | 12 |
 | Quest | 12 |
-| Enemy | 11 |
 
 ## Static `Instance` singletons (23)
 
@@ -159,7 +159,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 34 | Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +22 |
+| 36 | Boid, Bullet, CheckPointItem, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +24 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
 | 4 | DraggableItem, InventoryManager, InventoryQuestService, InventorySlot |
