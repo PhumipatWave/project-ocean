@@ -12,7 +12,7 @@ Label = distinct type-to-type links.
 flowchart TB
   Editor["Editor<br/>3 types"]
   UI["UI<br/>61 types"]
-  Gameplay["Gameplay<br/>149 types"]
+  Gameplay["Gameplay<br/>152 types"]
   Core["Core<br/>52 types"]
   Editor -->|6| Gameplay
   Gameplay -->|154| Core
@@ -69,7 +69,7 @@ flowchart LR
     M_Gameplay_Entities_Enemies_PartBreak["Gameplay/Entities/Enemies/PartBreak<br/>1 types · 19 LOC"]
     M_Gameplay_Entities_NPCs["Gameplay/Entities/NPCs<br/>1 types · 243 LOC"]
     M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>10 types · 1005 LOC"]
-    M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>3 types · 536 LOC"]
+    M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>6 types · 575 LOC"]
     M_Gameplay_Environments["Gameplay/Environments<br/>7 types · 480 LOC"]
     M_Gameplay_Game["Gameplay/Game<br/>1 types · 127 LOC"]
     M_Gameplay_InteractObjects["Gameplay/InteractObjects<br/>8 types · 794 LOC"]
@@ -180,7 +180,7 @@ flowchart LR
 | Gameplay/Entities/Enemies/Brain/FSM/States | 6 | 712 | [open](modules/Gameplay_Entities_Enemies_Brain_FSM_States.md) |
 | UI/Inventory | 4 | 666 | [open](modules/UI_Inventory.md) |
 | Editor | 3 | 576 | [open](modules/Editor.md) |
-| Gameplay/Entities/Players/OxygenTube | 3 | 536 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
+| Gameplay/Entities/Players/OxygenTube | 6 | 575 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | UI/Quest | 6 | 493 | [open](modules/UI_Quest.md) |
 | Gameplay/Environments | 7 | 480 | [open](modules/Gameplay_Environments.md) |
 | Gameplay/Spawning | 7 | 478 | [open](modules/Gameplay_Spawning.md) |

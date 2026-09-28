@@ -101,7 +101,7 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 | Class | Size now | Split into |
 |---|---|---|
 | `QuestManager` | **done 2026-09-29:** 955 → 586 lines | `QuestProgressTracker` (step evaluation, 9 event subscriptions) · `QuestStepEffects` (money check, feature changes, item consumption) · `QuestSaveMapper` (save adapter); registry, lifecycle and tracking stay in `QuestManager` |
-| `OxygenRope` | 784 lines, 33 fields | rope simulation · rendering · breach countdown |
+| `OxygenRope` | **done 2026-09-29:** 785 → 558 lines | `VerletRope` (segment physics) · `RopeCornerFinder` (wrap-corner geometry). Breach countdown (~50 lines, coroutine) and drawing (16 lines) stay: splitting them needs a new component or a timer rewrite for no real gain |
 | `Player` | 557 lines, 38 fields, 26 deps | movement · interaction · checkpoints · item use (Entity stays base) |
 | `UIManager` | 570 lines, 34 methods | window registry · input/escape handling |
 | `ObjectWrapPoint` | 608 lines, 27 methods | review first; only 1 dep, may be fine as is |

@@ -9,11 +9,11 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
 | InventoryManager | 537 | 47 | 20 | 26 | UI/Inventory |
-| OxygenRope | 536 | 25 | 33 | 7 | Gameplay/Entities/Players/OxygenTube |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
 | ObjectWrapPoint | 467 | 27 | 7 | 1 | Gameplay/InteractObjects |
 | Player | 397 | 26 | 37 | 25 | Gameplay/Entities/Players |
 | UIManager | 368 | 35 | 11 | 8 | UI/UIManager |
+| OxygenRope | 364 | 17 | 33 | 8 | Gameplay/Entities/Players/OxygenTube |
 | KeyBindManager | 339 | 12 | 4 | 4 | Core/Inputs/KeyBind |
 | QuestManager | 334 | 34 | 7 | 17 | Gameplay/QuestSystems/Quest |
 | ShopManager | 299 | 37 | 18 | 13 | UI/Shop |

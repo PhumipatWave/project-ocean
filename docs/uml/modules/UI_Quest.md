@@ -1,6 +1,6 @@
 # UI/Quest
 
-6 types · 493 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×13, [Core/Events](Core_Events.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×2, [Core](Core.md) ×1, [Gameplay/Contracts](Gameplay_Contracts.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [UI](UI.md) ×1
+6 types · 493 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×13, [Core/Events](Core_Events.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×2, [Core](Core.md) ×1, [Gameplay/Contracts](Gameplay_Contracts.md) ×1, [UI](UI.md) ×1, [Core/Scenes](Core_Scenes.md) ×1
 
 [← index](../README.md)
 
