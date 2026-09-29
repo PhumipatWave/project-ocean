@@ -106,7 +106,7 @@ namespace Game.Gameplay
             if (!targeted)
                 return false;
 
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             return player != null &&
                 Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(transform)) <= QuestNavigation.CloseRangeMeters;
         }

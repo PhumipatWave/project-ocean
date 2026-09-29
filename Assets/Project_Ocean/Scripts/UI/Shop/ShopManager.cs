@@ -132,14 +132,11 @@ namespace Game.UI
         {
             ClearShopInventoryMirror();
 
-            if (InventoryManager.Instance == null) return;
-            InventorySlot[] realPlayerSlots = InventoryManager.Instance.InventorySlots;
+            var inventory = InventoryManager.Instance;
+            if (inventory == null) return;
 
-            for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                if (i >= realPlayerSlots.Length) break;
-                MirrorInventorySlot(realPlayerSlots[i], shopInventorySlots[i]);
-            }
+            for (int i = 0; i < shopInventorySlots.Length && i < inventory.PlayerSlotCount; i++)
+                MirrorInventorySlot(inventory.GetStack(i), inventory.IsSlotUnlocked(i), shopInventorySlots[i]);
 
             UpdateClickedItemPriceDisplay();
         }
@@ -192,7 +189,7 @@ namespace Game.UI
         public int CalculateTotal()
         {
             if (InventoryManager.Instance == null) return 0;
-            return transactionService.CalculateSellTotal(InventoryManager.Instance.InventorySlots);
+            return transactionService.CalculateSellTotal(InventoryManager.Instance);
         }
 
         public void Sell()
@@ -208,8 +205,7 @@ namespace Game.UI
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex))
-                Invoke(nameof(RefreshShopInventory), 0.02f);
+            transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex);
 
             StartCoroutine(SellRoutine());
         }
@@ -226,8 +222,7 @@ namespace Game.UI
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellAll(InventoryManager.Instance, playerMoney))
-                Invoke(nameof(RefreshShopInventory), 0.05f);
+            transactionService.SellAll(InventoryManager.Instance, playerMoney);
 
             StartCoroutine(SellRoutine());
         }
@@ -324,32 +319,26 @@ namespace Game.UI
             }
         }
 
-        private void MirrorInventorySlot(InventorySlot realSlot, InventorySlot shopSlot)
+        private void MirrorInventorySlot(ItemStack stack, bool unlocked, InventorySlot shopSlot)
         {
-            if (realSlot == null || shopSlot == null) return;
+            if (shopSlot == null) return;
 
-            if (!realSlot.isUnlocked) { shopSlot.SetLocked(true); return; }
+            if (!unlocked) { shopSlot.SetLocked(true); return; }
 
             shopSlot.SetLocked(false);
             shopSlot.Deselect();
+            if (stack.IsEmpty) return;
 
-            DraggableItem realItem = realSlot.GetComponentInChildren<DraggableItem>();
-            if (realItem == null) return;
-
-            GameObject newItemGo   = Instantiate(inventoryItemPrefab, shopSlot.transform);
-            DraggableItem shopItem = newItemGo.GetComponent<DraggableItem>();
-            shopItem.InitialiseItem(realItem.GetItem());
-            shopItem.count   = realItem.count;
-            shopItem.RefreshCount();
+            DraggableItem shopItem = Instantiate(inventoryItemPrefab, shopSlot.transform).GetComponent<DraggableItem>();
+            shopItem.InitialiseItem(stack.Item, stack.Count);
             shopItem.enabled = false;
         }
 
         private Item GetSelectedSellItem()
         {
             InventorySlot slot = GetSelectedSlot();
-            if (slot == null) return null;
-            DraggableItem item = slot.GetComponentInChildren<DraggableItem>();
-            return item?.GetItem();
+            if (slot == null || InventoryManager.Instance == null) return null;
+            return InventoryManager.Instance.GetStack(GetShopSlotIndex(slot)).Item;
         }
 
         private Item GetSelectedBuyItem()
@@ -384,8 +373,8 @@ namespace Game.UI
 
         private PlayerMoney GetPlayerMoney()
         {
-            if (GameManager.CurPlayer == null) return null;
-            return GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            if (PlayerRegistry.Local == null) return null;
+            return PlayerRegistry.Local.GetComponent<PlayerMoney>();
         }
     }
 }

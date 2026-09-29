@@ -1,6 +1,6 @@
 # Core/Inputs/KeyBind
 
-2 types · 350 LOC (non-blank) · depends on: [Core/Inputs/KeyBind/SaveKeyBind](Core_Inputs_KeyBind_SaveKeyBind.md) ×2, [Core/Inputs/KeyBind/MoveDirection](Core_Inputs_KeyBind_MoveDirection.md) ×1, [Core](Core.md) ×1
+2 types · 350 LOC (non-blank) · depends on: [Core/Inputs/KeyBind/SaveKeyBind](Core_Inputs_KeyBind_SaveKeyBind.md) ×2, [Core](Core.md) ×1, [Core/Inputs/KeyBind/MoveDirection](Core_Inputs_KeyBind_MoveDirection.md) ×1
 
 [← index](../README.md)
 

@@ -60,9 +60,9 @@ namespace Game.Gameplay
             int level = GetLevel(data.type);
             if (level >= data.maxLevel) return false;
 
-            if (GameManager.CurPlayer == null) return false;
+            if (PlayerRegistry.Local == null) return false;
 
-            var money = GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            var money = PlayerRegistry.Local.GetComponent<PlayerMoney>();
             if (money == null) return false;
 
             int price = GetPrice(data);
@@ -98,7 +98,7 @@ namespace Game.Gameplay
             if (GetLevel(data.type) >= data.maxLevel) { failReason = "already at max level"; return false; }
 
             if (data.type == UpgradeType.Rope &&
-                (GameManager.CurPlayer == null || GameManager.CurPlayer.GetComponentInChildren<OxygenRope>() == null))
+                (PlayerRegistry.Local == null || PlayerRegistry.Local.GetComponentInChildren<OxygenRope>() == null))
             { failReason = "no player / oxygen rope in this scene yet"; return false; }
 
             if (data.type == UpgradeType.Inventory && Inventory.Current == null)

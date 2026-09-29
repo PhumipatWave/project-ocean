@@ -142,7 +142,7 @@ namespace Game.Gameplay
 
             PlayerUIState.Open();
 
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader != null) reader.OnInteracted += HandleInteract;
         }
 
@@ -163,7 +163,7 @@ namespace Game.Gameplay
             View?.SetOpen(false);
             DialogueState.Hide(View?.Panel);
 
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader != null) reader.OnInteracted -= HandleInteract;
 
             PlayerUIState.Close();

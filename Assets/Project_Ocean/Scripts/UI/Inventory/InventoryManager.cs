@@ -6,6 +6,7 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
+    /// <summary>Inventory entry point and view: owns the InventoryModel and draws it into the slot UI.</summary>
     public class InventoryManager : MonoBehaviour, ISaveParticipant, IInventory
     {
         // Forwards to Inventory.OnChanged so gameplay listens without referencing this UI class.
@@ -16,6 +17,9 @@ namespace Game.UI
         }
         public static System.Action OnInventoryClosed;
 
+        /// <summary>Signed count of a player-visible item change; save load and reset never raise it.</summary>
+        public static event System.Action<Item, int> OnItemDelta;
+
         // Kept public so existing scene and button references do not break.
         public GameObject InventoryMenu;
 
@@ -23,14 +27,13 @@ namespace Game.UI
         [SerializeField] private InventorySlot[] inventorySlots;
         [SerializeField] private int firstUnlockedSlotCount = 3;
         [SerializeField] private List<InventorySlot> buildingSlots;
-        public InventorySlot[] InventorySlots => inventorySlots;
 
         [Header("Item View")]
         [SerializeField] private GameObject InventoryItemPrefab;
 
         [Header("Item Database")]
         [SerializeField] private Item[] allItems;
-        public System.Collections.Generic.IReadOnlyList<Item> AllItems => allItems;
+        public IReadOnlyList<Item> AllItems => allItems;
 
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
@@ -44,9 +47,12 @@ namespace Game.UI
         private int activeBuildingSlotIndex = 0;
         private InventoryUIController uiController;
         private InventoryItemDatabase itemDatabase;
+        private InventoryModel model;
+        private InventorySlot[] slotViews; // same indices as the model: player slots, then building slots
 
         public static InventoryManager Instance { get; private set; }
         public int ActiveBuildingSlotIndex => activeBuildingSlotIndex;
+        public int PlayerSlotCount => model.PlayerSlotCount;
 
         private void Awake()
         {
@@ -57,7 +63,6 @@ namespace Game.UI
             }
 
             Instance = this;
-            Inventory.Register(this);
             // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
 
             uiController = GetComponent<InventoryUIController>();
@@ -66,12 +71,28 @@ namespace Game.UI
 
             uiController.Initialize(InventoryMenu);
             itemDatabase = new InventoryItemDatabase(allItems);
+            CreateModel();
+            Inventory.Register(this);
+        }
+
+        private void CreateModel()
+        {
+            int buildingCount = buildingSlots != null ? buildingSlots.Count : 0;
+            model = new InventoryModel(inventorySlots.Length, buildingCount);
+            slotViews = new InventorySlot[model.SlotCount];
+            inventorySlots.CopyTo(slotViews, 0);
+            for (int i = 0; i < buildingCount; i++)
+                slotViews[model.BuildingSlot(i)] = buildingSlots[i];
+
+            model.Changed += HandleModelChanged;
+            model.ItemDelta += (item, delta) => OnItemDelta?.Invoke(item, delta);
         }
 
         private void OnDestroy()
         {
-            if (Instance == this)
-                Inventory.Unregister(this);
+            if (Instance != this) return;
+            Inventory.Unregister(this);
+            Instance = null;
         }
 
         private void OnEnable()
@@ -80,11 +101,7 @@ namespace Game.UI
             UpgradeService.OnLevelsLoaded += HandleUpgradesLoaded;
 
             if (inputReader != null)
-            {
                 inputReader.OnInventoryToggled += HandleInventoryToggle;
-                // Switch item disabled: only 1 building slot now, nothing to cycle.
-                //inputReader.OnAmmoSelected += HandleCycleBuildingSlot;
-            }
         }
 
         private void OnDisable()
@@ -93,33 +110,13 @@ namespace Game.UI
             UpgradeService.OnLevelsLoaded -= HandleUpgradesLoaded;
 
             if (inputReader != null)
-            {
                 inputReader.OnInventoryToggled -= HandleInventoryToggle;
-                //inputReader.OnAmmoSelected -= HandleCycleBuildingSlot;
-            }
-        }
-
-        private void HandleInventoryToggle(bool pressed)
-        {
-            if (!pressed) return;
-            // Always allow closing, even though the inventory itself holds the UI lock.
-            if (uiController.IsOpen) { HideAndDeselect(); return; }
-            if (PlayerUIState.IsLocked) return;
-            // TutorialGate never blocks OpenInventory (see TutorialGate.Blocks) — checking your
-            // bag is read-only and can't derail a guided step, so it's always allowed here.
-            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
-            {
-                NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");
-                return;
-            }
-            OpenInventory();
         }
 
         private void Start()
         {
             SelectSlot(0);
-            LockStartingSlots();
-            //SelectBuildingSlot(0);
+            model.ResetLocks(firstUnlockedSlotCount);
         }
 
         private void Update()
@@ -132,14 +129,22 @@ namespace Game.UI
             }
         }
 
-        // Switch item disabled: only 1 building slot now. Re-enable with the OnAmmoSelected
-        // subscription in OnEnable/OnDisable if more building slots come back.
-        /*private void HandleCycleBuildingSlot(bool pressed)
+        // ── Open / close / select ─────────────────────────────
+
+        private void HandleInventoryToggle(bool pressed)
         {
             if (!pressed) return;
-            if (buildingSlots != null && buildingSlots.Count > 1)
-                CycleBuildingSlot();
-        }*/
+            // Always allow closing, even though the inventory itself holds the UI lock.
+            if (uiController.IsOpen) { HideAndDeselect(); return; }
+            if (PlayerUIState.IsLocked) return;
+            // TutorialGate never blocks OpenInventory: checking the bag can't derail a guided step.
+            if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.Inventory))
+            {
+                NotificationManager.Notify("Locked — progress the main quest to unlock the inventory.");
+                return;
+            }
+            OpenInventory();
+        }
 
         public void OpenInventory()
         {
@@ -148,20 +153,14 @@ namespace Game.UI
             TutorialEvents.RaiseAction(TutorialActionId.OpenInventory);
         }
 
-        public void CloseInventory()
-        {
-            HideAndDeselect();
-        }
+        public void CloseInventory() => HideAndDeselect();
 
-        public void CloseInventoryViaButton()
-        {
-            HideAndDeselect();
-        }
+        public void CloseInventoryViaButton() => HideAndDeselect();
 
         private void HideAndDeselect()
         {
             uiController.HideInventory();
-            if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length && inventorySlots[selectedSlot] != null)
+            if (IsValidSlotIndex(selectedSlot))
                 inventorySlots[selectedSlot].Deselect();
             selectedSlot = -1;
             OnInventoryClosed?.Invoke();
@@ -171,85 +170,39 @@ namespace Game.UI
         {
             if (!IsValidSlotIndex(newValue)) return;
 
-            if (selectedSlot >= 0 && selectedSlot < inventorySlots.Length)
+            if (IsValidSlotIndex(selectedSlot))
                 inventorySlots[selectedSlot].Deselect();
 
             inventorySlots[newValue].Select();
             selectedSlot = newValue;
         }
 
-        /// <summary>Signed count of a player-visible item change; save load and reset never raise it.</summary>
-        public static event System.Action<Item, int> OnItemDelta;
-
-        /// <summary>Public so ShopTransactionService, which edits slots directly, can report sales.</summary>
-        public void RaiseItemDelta(Item item, int delta)
-        {
-            if (item != null && delta != 0)
-                OnItemDelta?.Invoke(item, delta);
-        }
+        // ── Contents (IInventory + shop API) ──────────────────
 
         public bool AddItem(Item item)
         {
             if (item == null) return false;
+            if (model.Add(item)) return true;
 
-            bool itemAdded = item.ItemType == ItemType.Building
-                ? TryAddToBuildingSlots(item) : TryAddToPlayerSlots(item);
-
-            if (itemAdded)
-            {
-                NotifyChanged();
-                RaiseItemDelta(item, 1);
-            }
-            else
-                NotificationManager.Notify("Inventory is full");
-
-            return itemAdded;
-        }
-
-        public void AddSlot(InventorySlot newSlot)
-        {
-            System.Array.Resize(ref inventorySlots, inventorySlots.Length + 1);
-            inventorySlots[inventorySlots.Length - 1] = newSlot;
-            NotifyChanged();
-        }
-
-        public Item FindItem(ItemType checkType, int checkID)
-        {
-            for (int i = 0; i < inventorySlots.Length; i++)
-            {
-                DraggableItem itemInSlot = GetItemInSlot(i);
-                if (itemInSlot != null &&
-                    itemInSlot.GetItem().ItemType == checkType &&
-                    itemInSlot.GetItem().ItemID == checkID)
-                {
-                    return itemInSlot.GetItem();
-                }
-            }
-
-            return null;
+            NotificationManager.Notify("Inventory is full");
+            return false;
         }
 
         public Item FindItemInDatabase(int id)
         {
-            if (itemDatabase == null)
-                itemDatabase = new InventoryItemDatabase(allItems);
-
             Item found = itemDatabase.FindById(id);
             if (found != null) return found;
 
-            // Fallback: InventoryManager.allItems and GameObjectSpawnManager.allItems
-            // are two separate Inspector lists that must be kept in sync manually.
-            // If an item is missing from THIS list (but exists in the spawn manager's),
-            // it would otherwise be silently dropped on load. Use the spawn manager's
-            // database as a safety net and warn loudly so the desync gets fixed at the source.
+            // allItems here and in GameObjectSpawnManager are separate Inspector lists; fall back
+            // so a desynced item isn't dropped on load, and log loudly so the list gets fixed.
             if (GameObjectSpawnManager.Instance != null)
             {
                 Item fallback = GameObjectSpawnManager.Instance.GetItem(id);
                 if (fallback != null)
                 {
                     Debug.LogError($"[InventoryManager] Item ID {id} ('{fallback.ItemName}') is missing from " +
-                                    $"InventoryManager.allItems but exists in GameObjectSpawnManager — add it to " +
-                                    $"the InventoryManager 'Item Database' list in the Inspector to fix this properly.");
+                                   $"InventoryManager.allItems but exists in GameObjectSpawnManager — add it to " +
+                                   $"the InventoryManager 'Item Database' list in the Inspector to fix this properly.");
                     return fallback;
                 }
             }
@@ -257,74 +210,70 @@ namespace Game.UI
             return null;
         }
 
-        public void SpawnItemAtSlot(Item item, int slotIndex, int count = 1)
-        {
-            if (!IsValidSlotIndex(slotIndex) || item == null) return;
+        /// <summary>What a slot holds; player slots are 0..PlayerSlotCount-1 and building slots follow.</summary>
+        public ItemStack GetStack(int slot) => model.Get(slot);
 
-            SpawnNewItem(item, inventorySlots[slotIndex], count);
-            NotifyChanged();
+        public bool IsSlotUnlocked(int slot) => model.IsUnlocked(slot);
+
+        /// <summary>Slot index of a slot transform, or -1 when it isn't an inventory slot (e.g. a shop slot).</summary>
+        public int IndexOfSlot(Transform slotTransform)
+        {
+            for (int i = 0; i < slotViews.Length; i++)
+                if (slotViews[i] != null && slotViews[i].transform == slotTransform) return i;
+            return -1;
         }
 
-        public Item GetSelectedItem()
-        {
-            DraggableItem itemInSlot = GetItemInSlot(selectedSlot);
-            return itemInSlot != null ? itemInSlot.GetItem() : null;
-        }
+        /// <summary>Removes one item from a slot and returns it, or null when the slot is empty.</summary>
+        public Item RemoveOneAt(int slot) => model.RemoveOne(slot);
+
+        /// <summary>Empties every player slot whose item matches; returns the removed count per item.</summary>
+        public Dictionary<Item, int> RemoveAllWhere(System.Predicate<Item> match) => model.RemoveAllWhere(match);
 
         public bool ConsumeItem(ItemType checkType, out Item foundItem)
         {
-            foundItem = null;
-            if (buildingSlots == null || buildingSlots.Count == 0) return false;
-
-            InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
-            if (slot == null) return false;
-
-            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
-            if (itemInSlot == null || itemInSlot.GetItem().ItemType != checkType) return false;
-
-            foundItem = itemInSlot.GetItem();
-            RemoveOneItem(itemInSlot);
-            NotifyChanged();
-            RaiseItemDelta(foundItem, -1);
+            foundItem = PeekItem(checkType);
+            if (foundItem == null) return false;
+            model.RemoveOne(ActiveBuildingSlot());
             return true;
         }
 
         public Item PeekItem(ItemType checkType)
         {
-            if (buildingSlots == null || buildingSlots.Count == 0) return null;
-
-            InventorySlot slot = buildingSlots[activeBuildingSlotIndex];
-            if (slot == null) return null;
-
-            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
-            if (itemInSlot != null && itemInSlot.GetItem().ItemType == checkType)
-                return itemInSlot.GetItem();
-
-            return null;
+            if (model.BuildingSlotCount == 0) return null;
+            ItemStack stack = model.Get(ActiveBuildingSlot());
+            return !stack.IsEmpty && stack.Item.ItemType == checkType ? stack.Item : null;
         }
+
+        public int GetQuestItemCount(int itemId) => model.CountOf(itemId);
+
+        public void RemoveQuestItem(int itemId, int count = 1) => model.Remove(itemId, count);
+
+        public void ClearBuildingSlot(int index)
+        {
+            if (index < 0 || index >= model.BuildingSlotCount) return;
+            model.RemoveOne(model.BuildingSlot(index));
+            RefreshHintUI();
+        }
+
+        /// <summary>Destroys every held item and relocks upgrade slots, so a new game starts clean.</summary>
+        public void ResetToDefault()
+        {
+            model.ClearItems();
+            model.ResetLocks(firstUnlockedSlotCount);
+        }
+
+        // ── Slot unlocks ──────────────────────────────────────
 
         public void UnlockNextSlot()
         {
-            for (int i = 0; i < inventorySlots.Length; i++)
-            {
-                if (inventorySlots[i] == null || inventorySlots[i].isUnlocked) continue;
-
-                inventorySlots[i].SetLocked(false);
-                NotifyChanged();
-                return;
-            }
-
-            GameLog.Info("UnLocked Slot Full!!!");
+            if (!model.UnlockNext())
+                GameLog.Info("UnLocked Slot Full!!!");
         }
 
-        /// <summary>
-        /// Idempotent restore used by save loading: locks slots back to the
-        /// new-game state, then unlocks <paramref name="extraSlots"/> additional slots.
-        /// Safe to call mid-session (won't over-unlock on repeated loads).
-        /// </summary>
+        /// <summary>Idempotent restore for save loading: new-game locks, then unlocks extraSlots more.</summary>
         public void SetUnlockedExtraSlots(int extraSlots)
         {
-            LockStartingSlots();
+            model.ResetLocks(firstUnlockedSlotCount);
             for (int i = 0; i < extraSlots; i++)
                 UnlockNextSlot();
         }
@@ -338,233 +287,92 @@ namespace Game.UI
         private void HandleUpgradesLoaded() =>
             SetUnlockedExtraSlots(UpgradeService.Instance.GetLevel(UpgradeType.Inventory));
 
+        // ── Drag, drop, discard ───────────────────────────────
 
-        public bool HasQuestItem(int itemId)
+        /// <summary>Called by DraggableItem when a drag ends; moves the stack if it landed on a free slot.</summary>
+        public void HandleItemDropped(Transform fromSlot, Transform toSlot)
         {
-            return InventoryQuestService.HasQuestItem(inventorySlots, itemId);
-        }
-
-        public int GetQuestItemCount(int itemId)
-        {
-            return InventoryQuestService.GetQuestItemCount(inventorySlots, itemId);
-        }
-
-        public void RemoveQuestItem(int itemId, int count = 1)
-        {
-            if (InventoryQuestService.RemoveQuestItem(inventorySlots, itemId, count))
-            {
-                NotifyChanged();
-                RaiseItemDelta(FindItemInDatabase(itemId), -count);
-            }
-        }
-
-        public void AddRewardItem(int itemId)
-        {
-            GameLog.Info("QuestManager reward item id: " + itemId);
-
-            Item rewardItem = FindItemInDatabase(itemId);
-            if (rewardItem == null)
-            {
-                Debug.LogError($"Item ID '{itemId}' was not found in InventoryManager allItems database.");
-                return;
-            }
-
-            bool isAdded = AddItem(rewardItem);
-            if (isAdded)
-                GameLog.Info($"[Quest Reward] Player received reward item: {rewardItem.ItemName}");
-            else
-                Debug.LogWarning("Inventory is full. Could not add quest reward item.");
+            // A refused move leaves the dragged view in the wrong place; re-render puts it back.
+            if (!model.Move(IndexOfSlot(fromSlot), IndexOfSlot(toSlot)))
+                Render();
         }
 
         public void RemoveSelectedItem()
         {
             if (!IsValidSlotIndex(selectedSlot)) return;
 
-            DraggableItem itemInSlot = GetItemInSlot(selectedSlot);
-            if (itemInSlot == null)
+            Item item = model.Get(selectedSlot).Item;
+            if (item == null)
             {
                 Debug.LogWarning("Selected slot has no item to remove.");
                 return;
             }
 
-            string itemName = itemInSlot.GetItem().ItemName;
-            int slotToRemove = selectedSlot;
-            ConfirmationDialog.Instance?.Show(
-                $"Discard {itemName}?",
-                () =>
-                {
-                    DraggableItem toRemove = GetItemInSlot(slotToRemove);
-                    if (toRemove == null) return;
-                    GameLog.Info($"[Inventory] Remove item {toRemove.GetItem().ItemName} from slot {slotToRemove}");
-                    Destroy(toRemove.gameObject);
-                    NotifyChanged();
-                    RaiseItemDelta(toRemove.GetItem(), -toRemove.count);
-                }
-            );
+            int slot = selectedSlot;
+            ConfirmationDialog.Instance?.Show($"Discard {item.ItemName}?", () => DiscardStack(slot, item));
         }
 
         public void DiscardDraggedItem(DraggableItem itemToDiscard)
         {
-            if (itemToDiscard == null)
-                return;
+            if (itemToDiscard == null || itemToDiscard.GetItem() == null) return;
+
+            // The bin doesn't re-parent, so parentAfterDrag is still the slot the drag started in.
+            int slot = IndexOfSlot(itemToDiscard.parentAfterDrag);
+            if (slot < 0) return;
 
             Item item = itemToDiscard.GetItem();
-
-            if (item == null)
-                return;
-
-            string itemName = item.ItemName;
-
-            ConfirmationDialog.Instance?.Show(
-                $"Discard {itemName}?",
-                () =>
-                {
-                    if (itemToDiscard == null)
-                        return;
-
-                    GameLog.Info(
-                        $"[Inventory] Discard dragged item: {itemName}"
-                    );
-
-                    Destroy(itemToDiscard.gameObject);
-                    NotifyChanged();
-                    RaiseItemDelta(item, -itemToDiscard.count);
-                }
-            );
+            ConfirmationDialog.Instance?.Show($"Discard {item.ItemName}?", () => DiscardStack(slot, item));
         }
 
-        public DraggableItem GetItemInSlot(int slotIndex)
+        // The dialog waits for the player; only discard if the slot still holds what they confirmed.
+        private void DiscardStack(int slot, Item item)
         {
-            if (!IsValidSlotIndex(slotIndex)) return null;
-            return inventorySlots[slotIndex].GetComponentInChildren<DraggableItem>();
+            if (model.Get(slot).Item != item) return;
+            GameLog.Info($"[Inventory] Discard {item.ItemName} from slot {slot}");
+            model.RemoveStack(slot);
         }
 
-        /// <summary>Destroys every held item and relocks any slot unlocked via upgrades —
-        /// called by SaveBridge.ResetForNewGame() so a fresh game doesn't inherit a previous
-        /// playthrough's items/unlocked slots.</summary>
-        public void ResetToDefault()
+        // ── View ──────────────────────────────────────────────
+
+        private void HandleModelChanged()
         {
-            for (int i = 0; i < inventorySlots.Length; i++)
+            Render();
+            OnInventoryChanged?.Invoke();
+        }
+
+        private void Render()
+        {
+            for (int i = 0; i < slotViews.Length; i++)
             {
-                var item = GetItemInSlot(i);
-                if (item != null)
-                    Destroy(item.gameObject);
-            }
+                InventorySlot view = slotViews[i];
+                if (view == null) continue;
 
-            LockStartingSlots();
-        }
+                // Building slots are always unlocked in the model; leave their scene setting alone.
+                if (i < model.PlayerSlotCount && view.isUnlocked != model.IsUnlocked(i))
+                    view.SetLocked(!model.IsUnlocked(i));
 
-        private void LockStartingSlots()
-        {
-            for (int i = 0; i < inventorySlots.Length; i++)
-            {
-                if (inventorySlots[i] == null) continue;
-
-                if (i >= firstUnlockedSlotCount && !IsBuildingSlot(i))
-                    inventorySlots[i].SetLocked(true);
+                RenderSlot(view, model.Get(i));
             }
         }
 
-        private bool TryAddToBuildingSlots(Item item)
+        private void RenderSlot(InventorySlot view, ItemStack stack)
         {
-            if (buildingSlots == null) return false;
-            foreach (InventorySlot slot in buildingSlots)
+            DraggableItem shown = null;
+            foreach (DraggableItem child in view.GetComponentsInChildren<DraggableItem>(true))
             {
-                if (TryAddToSlot(item, slot, false))
-                    return true;
+                if (shown == null && !stack.IsEmpty) { shown = child; continue; }
+                // Detach first: Destroy is deferred and a same-frame render must not find it again.
+                child.transform.SetParent(null, false);
+                Destroy(child.gameObject);
             }
 
-            GameLog.Info("No space for building item!");
-            return false;
+            if (stack.IsEmpty) return;
+            if (shown == null)
+                shown = Instantiate(InventoryItemPrefab, view.transform).GetComponent<DraggableItem>();
+            shown.InitialiseItem(stack.Item, stack.Count);
         }
 
-        private bool TryAddToPlayerSlots(Item item)
-        {
-            for (int i = 0; i < inventorySlots.Length; i++)
-            {
-                if (IsBuildingSlot(i)) continue;
-
-                InventorySlot slot = inventorySlots[i];
-                if (slot == null || !slot.isUnlocked) continue;
-
-                if (TryAddToSlot(item, slot, true))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private bool TryAddToSlot(Item item, InventorySlot slot, bool allowDifferentItem)
-        {
-            if (slot == null) return false;
-
-            DraggableItem itemInSlot = slot.GetComponentInChildren<DraggableItem>();
-            if (itemInSlot == null)
-            {
-                SpawnNewItem(item, slot);
-                return true;
-            }
-
-            if (itemInSlot.GetItem() != item) return false;
-
-            if (itemInSlot.count >= item.MaxStackable)
-            {
-                if (!allowDifferentItem)
-                    GameLog.Info("Full of this building item!");
-
-                return false;
-            }
-
-            itemInSlot.count++;
-            itemInSlot.RefreshCount();
-            return true;
-        }
-
-        private void SpawnNewItem(Item item, InventorySlot slot, int count = 1)
-        {
-            GameObject newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
-            DraggableItem inventoryItem = newItemGo.GetComponent<DraggableItem>();
-            inventoryItem.InitialiseItem(item, count);
-        }
-
-        private void RemoveOneItem(DraggableItem itemInSlot)
-        {
-            itemInSlot.count--;
-            if (itemInSlot.count <= 0)
-                Destroy(itemInSlot.gameObject);
-            else
-                itemInSlot.RefreshCount();
-        }
-
-        /*private void SelectBuildingSlot(int index)
-        {
-            if (buildingSlots == null || buildingSlots.Count == 0) return;
-            if (buildingSlots[activeBuildingSlotIndex] != null)
-                buildingSlots[activeBuildingSlotIndex].Deselect();
-            activeBuildingSlotIndex = index;
-            if (buildingSlots[activeBuildingSlotIndex] != null)
-                buildingSlots[activeBuildingSlotIndex].Select();
-            RefreshHintUI();
-        }
-
-        private void CycleBuildingSlot()
-        {
-            SelectBuildingSlot((activeBuildingSlotIndex + 1) % buildingSlots.Count);
-        }*/
-
-        public void ClearBuildingSlot(int index)
-        {
-            if (buildingSlots == null || index < 0 || index >= buildingSlots.Count) return;
-            var draggable = buildingSlots[index]?.GetComponentInChildren<DraggableItem>();
-            if (draggable != null)
-            {
-                var item = draggable.GetItem();
-                RemoveOneItem(draggable);
-                if (item != null) RaiseItemDelta(item, -1);
-            }
-            NotifyChanged();
-            RefreshHintUI();
-        }
+        public void RefreshBuildingHints() => RefreshHintUI();
 
         private void RefreshHintUI()
         {
@@ -574,151 +382,53 @@ namespace Game.UI
             {
                 bool isActive = i == activeBuildingSlotIndex;
 
-                // F key panel — visible only on the active slot
                 if (buildingSlotUsePanels != null && i < buildingSlotUsePanels.Count && buildingSlotUsePanels[i] != null)
                     buildingSlotUsePanels[i].SetActive(isActive);
 
-                // Special action key panel — visible only on active slot AND only if item has ActionHint
-                if (buildingSlotKeyPanels != null && i < buildingSlotKeyPanels.Count && buildingSlotKeyPanels[i] != null)
+                if (buildingSlotKeyPanels == null || i >= buildingSlotKeyPanels.Count || buildingSlotKeyPanels[i] == null)
+                    continue;
+
+                if (!isActive)
                 {
-                    if (!isActive)
-                    {
-                        buildingSlotKeyPanels[i].SetActive(false);
-                    }
-                    else
-                    {
-                        var draggable = buildingSlots[i]?.GetComponentInChildren<DraggableItem>();
-                        var effect = draggable?.GetItem()?.ItemPrefab?.GetComponent<IItemEffect>();
-                        string hint = effect?.ActionHint ?? string.Empty;
+                    buildingSlotKeyPanels[i].SetActive(false);
+                    continue;
+                }
+
+                Item item = model.Get(model.BuildingSlot(i)).Item;
+                var effect = item != null && item.ItemPrefab != null ? item.ItemPrefab.GetComponent<IItemEffect>() : null;
+                string hint = effect?.ActionHint ?? string.Empty;
 
 #if ENABLE_CHECKPOINT_ITEM
-                        // Show "T" in the active slot while any checkpoint is placed in the world
-                        if (string.IsNullOrEmpty(hint) && GameManager.CurPlayer?.CheckpointCount > 0)
-                            hint = "T";
+                // Show "T" in the active slot while any checkpoint is placed in the world
+                if (string.IsNullOrEmpty(hint) && PlayerRegistry.Local?.CheckpointCount > 0)
+                    hint = "T";
 #endif
 
-                        bool show = !string.IsNullOrEmpty(hint);
-                        buildingSlotKeyPanels[i].SetActive(show);
-                        if (show && buildingSlotKeyTexts != null && i < buildingSlotKeyTexts.Count && buildingSlotKeyTexts[i] != null)
-                            buildingSlotKeyTexts[i].text = hint;
-                    }
-                }
+                bool show = !string.IsNullOrEmpty(hint);
+                buildingSlotKeyPanels[i].SetActive(show);
+                if (show && buildingSlotKeyTexts != null && i < buildingSlotKeyTexts.Count && buildingSlotKeyTexts[i] != null)
+                    buildingSlotKeyTexts[i].text = hint;
             }
         }
 
-        private bool IsBuildingSlot(int slotIndex)
-        {
-            return buildingSlots != null && buildingSlots.Contains(inventorySlots[slotIndex]);
-        }
+        private int ActiveBuildingSlot() => model.BuildingSlot(activeBuildingSlotIndex);
 
-        private bool IsValidSlotIndex(int slotIndex)
-        {
-            return inventorySlots != null && slotIndex >= 0 && slotIndex < inventorySlots.Length && inventorySlots[slotIndex] != null;
-        }
+        private bool IsValidSlotIndex(int slotIndex) =>
+            slotIndex >= 0 && slotIndex < inventorySlots.Length && inventorySlots[slotIndex] != null;
 
-        public void NotifyChanged()
-        {
-            OnInventoryChanged?.Invoke();
-        }
-
-        public void RefreshBuildingHints() => RefreshHintUI();
+        // ── Save ──────────────────────────────────────────────
 
         public void Collect(SaveData data)
         {
-            data.inventoryItems = new List<ItemSaveData>();
-            var slots = InventorySlots;
-            for (int i = 0; i < slots.Length; i++)
-            {
-                var item = slots[i].GetComponentInChildren<DraggableItem>();
-                if (item?.GetItem() == null) continue;
-
-                data.inventoryItems.Add(new ItemSaveData
-                {
-                    slotIndex = i,
-                    itemID    = item.GetItem().ItemID.ToString(),
-                    count     = item.count,
-                });
-            }
-
-            data.buildingItems = new List<ItemSaveData>();
-            if (buildingSlots == null) return;
-            for (int i = 0; i < buildingSlots.Count; i++)
-            {
-                var item = buildingSlots[i] != null ? buildingSlots[i].GetComponentInChildren<DraggableItem>() : null;
-                if (item?.GetItem() == null) continue;
-                data.buildingItems.Add(new ItemSaveData
-                {
-                    slotIndex = i,
-                    itemID    = item.GetItem().ItemID.ToString(),
-                    count     = item.count,
-                });
-            }
+            data.inventoryItems = InventorySaveMapper.ToSave(model.PlayerStacks());
+            data.buildingItems  = InventorySaveMapper.ToSave(model.BuildingStacks());
         }
 
         public void Apply(SaveData data)
         {
-            // Clear all existing items first
-            foreach (var slot in InventorySlots)
-            {
-                var existing = slot.GetComponentInChildren<DraggableItem>();
-                if (existing != null) Destroy(existing.gameObject);
-            }
-
-            foreach (var saved in data.inventoryItems)
-            {
-                if (!int.TryParse(saved.itemID, out int id))
-                {
-                    Debug.LogWarning($"[InventoryManager] Invalid itemID: '{saved.itemID}'");
-                    continue;
-                }
-
-                // Look up item from the allItems database — NOT from current inventory slots
-                var item = FindItemInDatabase(id);
-                if (item == null)
-                {
-                    // LogError (not LogWarning): this means the item was silently dropped
-                    // from the loaded inventory — a data-loss bug, not a minor issue.
-                    // Usually caused by the item's ScriptableObject missing from
-                    // InventoryManager's "Item Database -> All Items" list in the Inspector.
-                    Debug.LogError($"[InventoryManager] Item ID {id} not found in allItems database — " +
-                                    $"item was DROPPED from inventory on load! Add its ScriptableObject to " +
-                                    $"InventoryManager's Item Database list.");
-                    continue;
-                }
-
-                if (saved.slotIndex >= InventorySlots.Length)
-                {
-                    Debug.LogWarning($"[InventoryManager] slotIndex {saved.slotIndex} out of range");
-                    continue;
-                }
-
-                // Spawn with the saved stack count in one step — the item is born
-                // with the correct count and a single RefreshCount(), so the count
-                // label shows immediately regardless of load order.
-                SpawnItemAtSlot(item, saved.slotIndex, Mathf.Max(1, saved.count));
-            }
-
-            if (buildingSlots == null) return;
-            foreach (var slot in buildingSlots)
-            {
-                var existing = slot != null ? slot.GetComponentInChildren<DraggableItem>() : null;
-                if (existing != null) Destroy(existing.gameObject);
-            }
-
-            // Null on saves written before building slots were saved (JsonUtility keeps the initializer, but guard anyway).
-            if (data.buildingItems == null) return;
-            foreach (var saved in data.buildingItems)
-            {
-                if (!int.TryParse(saved.itemID, out int id)) continue;
-                var item = FindItemInDatabase(id);
-                if (item == null)
-                {
-                    Debug.LogError($"[InventoryManager] Building item ID {id} not found in allItems database — dropped on load.");
-                    continue;
-                }
-                if (saved.slotIndex < 0 || saved.slotIndex >= buildingSlots.Count || buildingSlots[saved.slotIndex] == null) continue;
-                SpawnNewItem(item, buildingSlots[saved.slotIndex], Mathf.Max(1, saved.count));
-            }
+            model.Load(
+                InventorySaveMapper.FromSave(data.inventoryItems, model.PlayerSlotCount, FindItemInDatabase, "Inventory"),
+                InventorySaveMapper.FromSave(data.buildingItems, model.BuildingSlotCount, FindItemInDatabase, "Building"));
             RefreshBuildingHints();
         }
     }

@@ -1,6 +1,6 @@
 # Core
 
-7 types · 119 LOC (non-blank) · depends on: none
+8 types · 123 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -33,6 +33,10 @@ classDiagram
     <<static>>
     +Info(object, UnityEngine.Object)$ void
   }
+  class GameSession {
+    <<static>>
+    +GameState State$
+  }
   class GameState {
     <<enum>>
     Land
@@ -62,6 +66,7 @@ classDiagram
     +string PlayerSpawnPoint$
     +string OxygenTubePoint$
   }
+  GameSession --> GameState : State
 ```
 
 ## Files
@@ -71,6 +76,7 @@ classDiagram
 | DialogueState | static | `DialogueState.cs:13` | 36 |
 | GameFeature | enum | `GameFeature.cs:7` | 20 |
 | GameLog | static | `GameLog.cs:6` | 6 |
+| GameSession | static | `GameSession.cs:4` | 4 |
 | GameState | enum | `GameState.cs:3` | 6 |
 | PlayerUIState | static | `PlayerUIState.cs:12` | 39 |
 | SceneNames | static | `SceneNames.cs:7` | 7 |

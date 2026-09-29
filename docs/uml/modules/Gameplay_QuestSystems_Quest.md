@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-36 types · 1740 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×23, [Core](Core.md) ×11, [Gameplay/Game](Gameplay_Game.md) ×4, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+36 types · 1739 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×24, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -167,7 +167,6 @@ classDiagram
     +QuestManager Instance$
     +event Action OnQuestUpdated$
     +event Action~Quest~ OnQuestCompleted$
-    +event Action~int~ OnMoneyRewarded$
     +ResetToDefault() void
     +CompleteAutoDialogue(Quest) void
     +IsUnlocked(Quest) bool
@@ -351,7 +350,7 @@ classDiagram
 | QuestData | SO | `QuestData.cs:178` | 19 |
 | QuestDialogueLine | class | `QuestData.cs:89` | 10 |
 | QuestItemRequirement | class | `QuestData.cs:75` | 7 |
-| QuestManager | MB | `QuestManager.cs:8` | 334 |
+| QuestManager | MB | `QuestManager.cs:8` | 333 |
 | QuestNavigation | static | `QuestNavigation.cs:9` | 39 |
 | QuestProgressTracker | class | `QuestProgressTracker.cs:8` | 179 |
 | QuestSaveMapper | static | `QuestSaveMapper.cs:8` | 32 |

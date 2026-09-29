@@ -1,6 +1,6 @@
 # UI/Inventory/InventoryPlayer
 
-2 types · 105 LOC (non-blank) · depends on: [UI/Inventory](UI_Inventory.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1
+2 types · 100 LOC (non-blank) · depends on: [UI/Inventory](UI_Inventory.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1
 
 [← index](../README.md)
 
@@ -12,7 +12,7 @@ classDiagram
     +Image image
     +TMP_Text countText
     +Transform parentAfterDrag
-    +int count
+    +int Count
     +InitialiseItem(Item, int) void
     +RefreshCount() void
     +OnBeginDrag(PointerEventData) void
@@ -41,5 +41,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DraggableItem | MB | `DraggableItem.cs:10` | 43 |
-| InventorySlot | MB | `InventorySlot.cs:10` | 62 |
+| DraggableItem | MB | `DraggableItem.cs:10` | 45 |
+| InventorySlot | MB | `InventorySlot.cs:10` | 55 |

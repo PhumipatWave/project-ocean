@@ -13,14 +13,7 @@ namespace Game.Gameplay
         [SerializeField] private Transform playerSpawnPoint;
         public Transform PlayerSpawnPoint => playerSpawnPoint;
 
-        /// <summary>
-        /// The local player. Backed by PlayerRegistry — use PlayerRegistry.Local directly
-        /// in new code. This property exists for backwards compatibility with existing callers.
-        /// </summary>
-        public static Player CurPlayer => PlayerRegistry.Local;
-
-        private GameState gameState;
-        public GameState GameState { get { return gameState; } set { gameState = value; } }
+        public GameState GameState { get => GameSession.State; set => GameSession.State = value; }
 
         [SerializeField] private bool miniHubAvaliable;
         public bool MiniHubAvaliable { get { return miniHubAvaliable; } set { miniHubAvaliable = value; } }
@@ -40,14 +33,22 @@ namespace Game.Gameplay
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            GameFlowEvents.OnReturnToLandRequested += ReturnToLand;
 
             // Lock game fps to 60
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
-            gameState = SceneManager.GetActiveScene().name == SceneNames.MainMenu
+            GameSession.State = SceneManager.GetActiveScene().name == SceneNames.MainMenu
                 ? GameState.Menu
                 : GameState.Land;
+        }
+
+        // A duplicate destroyed in Awake never subscribed, so only the live instance unsubscribes.
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                GameFlowEvents.OnReturnToLandRequested -= ReturnToLand;
         }
 
         /// <summary>Instantiates the player prefab once, the first time a gameplay scene loads
@@ -67,21 +68,21 @@ namespace Game.Gameplay
         {
             if (scene.name == SceneNames.MainMenu)
             {
-                gameState = GameState.Menu;
+                GameSession.State = GameState.Menu;
                 return;
             }
 
             // StartDive/ReturnToLand also set this explicitly after their own LoadScene call,
             // but "Start Game" (MainMenu -> Land) never went through either — set it here too
-            // so gameState is always correct regardless of which path loaded the scene.
+            // so GameSession.State is always correct regardless of which path loaded the scene.
             if (scene.name == SceneNames.Land)
-                gameState = GameState.Land;
+                GameSession.State = GameState.Land;
             else if (scene.name == SceneNames.Ocean)
-                gameState = GameState.Ocean;
+                GameSession.State = GameState.Ocean;
 
             // First time a gameplay scene loads (normal "Start Game" always lands on Land;
             // Ocean too, for a save loaded straight into a dive) — the player doesn't exist yet.
-            if ((scene.name == SceneNames.Land || scene.name == SceneNames.Ocean) && CurPlayer == null)
+            if ((scene.name == SceneNames.Land || scene.name == SceneNames.Ocean) && PlayerRegistry.Local == null)
                 SpawnPlayer();
 
             // Reads only SceneLoadContext — no reference to SaveBridge, so the
@@ -112,24 +113,25 @@ namespace Game.Gameplay
         /// <summary>Teleports the player to a position and resets their velocity.</summary>
         private void MovePlayerTo(Vector3 position)
         {
-            if (CurPlayer == null)
+            var player = PlayerRegistry.Local;
+            if (player == null)
             {
-                Debug.LogWarning("[GameManager] MovePlayerTo: CurPlayer is null");
+                Debug.LogWarning("[GameManager] MovePlayerTo: no local player");
                 return;
             }
 
-            var rb = CurPlayer.GetComponent<Rigidbody2D>();
+            var rb = player.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
                 rb.linearVelocity  = Vector2.zero;
                 rb.angularVelocity = 0f;
                 rb.bodyType        = RigidbodyType2D.Kinematic;
-                CurPlayer.transform.position = position;
+                player.transform.position = position;
                 rb.bodyType        = RigidbodyType2D.Dynamic;
             }
             else
             {
-                CurPlayer.transform.position = position;
+                player.transform.position = position;
             }
         }
 
@@ -143,7 +145,7 @@ namespace Game.Gameplay
             // freezing everything that loads next (including a fresh New Game).
             OnReturningToMenu?.Invoke();
             LoadWithLoadingScreen(SceneNames.MainMenu, LoadingType.Menu);
-            gameState = GameState.Menu;
+            GameSession.State = GameState.Menu;
         }
 
         public void StartDive()
@@ -170,17 +172,17 @@ namespace Game.Gameplay
 
             TutorialEvents.RaiseAction(TutorialActionId.Dive);
             LoadWithLoadingScreen(SceneNames.Ocean, LoadingType.Ocean);
-            gameState = GameState.Ocean;
+            GameSession.State = GameState.Ocean;
         }
 
         public void ReturnToLand()
         {
-            if (LoadingManager.IsLoading) return; // already transitioning: don't re-raise BackToLand or flip gameState
+            if (LoadingManager.IsLoading) return; // already transitioning: don't re-raise BackToLand or flip GameSession.State
 
-            CurPlayer.OxygenTube.ResetRope();
+            PlayerRegistry.Local.OxygenTube.ResetRope();
             TutorialEvents.RaiseAction(TutorialActionId.BackToLand);
             LoadWithLoadingScreen(SceneNames.Land, LoadingType.Land);
-            gameState = GameState.Land;
+            GameSession.State = GameState.Land;
         }
 
         private static void LoadWithLoadingScreen(string sceneName, LoadingType loadingType)

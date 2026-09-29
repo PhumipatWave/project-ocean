@@ -83,7 +83,7 @@ namespace Game.Gameplay
             {
                 SetCurrentHealth(0f);
                 oxygenTube?.ResetRope();
-                GameManager.Instance.ReturnToLand();
+                GameFlowEvents.RequestReturnToLand();
                 return;
             }
 

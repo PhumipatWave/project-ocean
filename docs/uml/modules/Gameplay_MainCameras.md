@@ -1,6 +1,6 @@
 # Gameplay/MainCameras
 
-2 types · 40 LOC (non-blank) · depends on: [Gameplay/Game](Gameplay_Game.md) ×1
+2 types · 40 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 

@@ -62,7 +62,7 @@ namespace Game.Gameplay
 
         private void Start()
         {
-            Player player = GameManager.CurPlayer;
+            Player player = PlayerRegistry.Local;
             if (player == null) return;
 
             SourceSlotIndex = Inventory.Current?.ActiveBuildingSlotIndex ?? -1;

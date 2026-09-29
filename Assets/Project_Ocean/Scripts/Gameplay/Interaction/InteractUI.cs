@@ -69,7 +69,7 @@ namespace Game.Gameplay
         private void Subscribe()
         {
             if (_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader == null) return;
             reader.OnInteracted += HandleInteract;
             _subscribed = true;
@@ -78,7 +78,7 @@ namespace Game.Gameplay
         private void Unsubscribe()
         {
             if (!_subscribed) return;
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader != null) reader.OnInteracted -= HandleInteract;
             _subscribed = false;
         }

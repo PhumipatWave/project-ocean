@@ -16,7 +16,7 @@ namespace Game.Gameplay
         protected override void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameManager.CurPlayer;
+            player = PlayerRegistry.Local;
 
             int level = UpgradeService.Instance.GetLevel(
                 UpgradeType.NormalBullet

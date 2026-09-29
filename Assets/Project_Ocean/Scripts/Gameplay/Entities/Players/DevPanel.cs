@@ -6,8 +6,8 @@ using Game.Core;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Dev/Cheat Panel — ทำงานผ่าน public API ของ PlayerHealth, OxygenRope, PlayerMoney, GameManager,
-    /// InventoryManager
+    /// Dev/Cheat Panel — ทำงานผ่าน public API ของ PlayerHealth, OxygenRope, PlayerMoney,
+    /// Inventory
     ///
     /// God Mode         -> เรียก PlayerHealth.Heal() เติมเต็มทุกเฟรม
     /// Infinite Oxygen   -> ตั้ง OxygenRope.IgnoreRopeLimit ทุกเฟรม ข้าม clamp ระยะ + breach/นับถอยหลัง (ไม่แตะ MaxRopeLength จึงไม่เซฟค่าผิด)
@@ -94,7 +94,7 @@ namespace Game.Gameplay
             if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
                 TogglePanel();
 
-            Player player = GameManager.CurPlayer;
+            Player player = PlayerRegistry.Local;
             if (player == null) return;
 
             // Set every frame (also when off) so switching the toggle off restores the limit.
@@ -186,11 +186,11 @@ namespace Game.Gameplay
 
         private void GiveMoney()
         {
-            PlayerMoney money = GameManager.CurPlayer?.GetComponent<PlayerMoney>();
+            PlayerMoney money = PlayerRegistry.Local?.GetComponent<PlayerMoney>();
             if (money != null)
                 money.AddMoney(addMoneyAmount);
             else
-                Debug.LogWarning("[DevPanel] ไม่พบ PlayerMoney บน CurPlayer");
+                Debug.LogWarning("[DevPanel] ไม่พบ PlayerMoney บน PlayerRegistry.Local");
         }
 
         private void SkipStep()
@@ -216,7 +216,7 @@ namespace Game.Gameplay
             }
 
             // AddItem() เดิมเพิ่มทีละ 1 ชิ้น — เรียกซ้ำตามจำนวนที่ตั้งไว้
-            // (มันจัดการ full-inventory notification และ NotifyChanged() ให้เองอยู่แล้วในทุกครั้งที่เรียก)
+            // (มันจัดการ full-inventory notification และ inventory-changed event ให้เองอยู่แล้วในทุกครั้งที่เรียก)
             int toGive = Mathf.Max(1, amount);
             for (int i = 0; i < toGive; i++)
                 Inventory.Current.AddItem(item);

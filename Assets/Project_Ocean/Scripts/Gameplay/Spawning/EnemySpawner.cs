@@ -117,7 +117,7 @@ namespace Game.Gameplay
             if (_isActive) return;
             if (!FeatureUnlockService.Instance.IsUnlocked(LevelFeatures[requiredLevel - 1])) return;
 
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player == null) return;
 
             float sqrDist = ((Vector2)(player.transform.position - transform.position)).sqrMagnitude;

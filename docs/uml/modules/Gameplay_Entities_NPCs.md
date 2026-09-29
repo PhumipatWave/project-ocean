@@ -1,6 +1,6 @@
 # Gameplay/Entities/NPCs
 
-1 types · 243 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×7, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Core/Events](Core_Events.md) ×1, [Core](Core.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [Core/Scenes](Core_Scenes.md) ×1
+1 types · 243 LOC (non-blank) · depends on: [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×7, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Events](Core_Events.md) ×1, [Core](Core.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Environments](Gameplay_Environments.md) ×1, [Core/Scenes](Core_Scenes.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 

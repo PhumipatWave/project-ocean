@@ -22,7 +22,7 @@ namespace Game.Gameplay
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player == null) return;
 
             if (playerCam == null)

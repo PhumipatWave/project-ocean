@@ -25,7 +25,7 @@ namespace Game.Gameplay
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameManager.CurPlayer;
+            player = PlayerRegistry.Local;
         }
 
         protected virtual void Start()

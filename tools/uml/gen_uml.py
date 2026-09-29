@@ -663,7 +663,9 @@ def page_readme(types, modules, files):
              "- [Inheritance & interfaces](01-inheritance.md)",
              "- [Event flow](02-events.md)",
              "- [Metrics](metrics.md)",
-             "- [Findings & refactor analysis](findings.md) (hand-written)", "",
+             "- [Findings & refactor analysis](findings.md) (hand-written)",
+             "- **draw.io:** [drawio/project-structure.drawio](drawio/project-structure.drawio) — whole project, every class "
+             "with all members, one page per area (open in draw.io desktop, app.diagrams.net or the VS Code draw.io extension)", "",
              "## Modules", ""]
     for layer in sorted({m.split("/")[0] for m in modules}, key=lambda l: LAYER_RANK.get(l, 9)):
         lines.append(f"**{layer}**: " + " · ".join(f"[{m}]({md_link_module(m)})" for m in sorted(modules) if m.split("/")[0] == layer))
@@ -696,6 +698,8 @@ def main():
     page_events(types, by_name)
     page_metrics(types, by_name, files, pairs)
     page_readme(types, modules, files)
+    import gen_drawio  # local: gen_drawio imports this module
+    gen_drawio.write(types, by_name, modules, pairs)
     if dupes:
         print("warning: duplicate type names (first wins):", ", ".join(sorted(dupes)))
     print(f"{len(files)} files, {len(types)} types, {len(modules)} modules -> {OUT}")

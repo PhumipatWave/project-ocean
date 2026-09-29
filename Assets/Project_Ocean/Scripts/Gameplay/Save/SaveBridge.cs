@@ -35,7 +35,7 @@ namespace Game.Gameplay
         private List<ISaveParticipant> BuildParticipants()
         {
             var list = new List<ISaveParticipant>();
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player != null)
             {
                 var health = player.GetComponent<PlayerHealth>();
@@ -148,11 +148,11 @@ namespace Game.Gameplay
         /// </summary>
         public void ResetForNewGame()
         {
-            if (GameManager.CurPlayer != null)
+            if (PlayerRegistry.Local != null)
             {
                 // Destroy() is deferred to end of frame — unregister now so nothing later in this
                 // frame (SaveGame, ResetToDefault below) still reads the previous run's player.
-                var oldPlayer = GameManager.CurPlayer;
+                var oldPlayer = PlayerRegistry.Local;
                 PlayerRegistry.Unregister(oldPlayer);
                 Destroy(oldPlayer.gameObject);
             }
@@ -294,7 +294,7 @@ namespace Game.Gameplay
 
         private void CollectPosition(SaveData data)
         {
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player == null) return;
 
             var pos   = player.transform.position;

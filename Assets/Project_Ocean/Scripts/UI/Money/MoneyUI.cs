@@ -31,10 +31,10 @@ namespace Game.UI
 
         private void FindPlayerMoney()
         {
-            if (GameManager.CurPlayer != null)
+            if (PlayerRegistry.Local != null)
             {
                 playerMoney =
-                    GameManager.CurPlayer.GetComponent<PlayerMoney>();
+                    PlayerRegistry.Local.GetComponent<PlayerMoney>();
             }
         }
 

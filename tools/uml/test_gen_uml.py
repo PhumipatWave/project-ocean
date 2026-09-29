@@ -107,6 +107,43 @@ class DependencyFalsePositiveTest(unittest.TestCase):
         self.assertEqual({"Quest"}, self.by_name["Real"].deps)
 
 
+class DrawioTest(unittest.TestCase):
+    def setUp(self):
+        import xml.etree.ElementTree as ET
+        from collections import defaultdict
+        import gen_drawio
+        code = g.strip_code(SAMPLE)
+        types = g.parse_types(code, g.SRC / "Gameplay" / "Entities" / "Players" / "Sample.cs")
+        for t in types:
+            g.parse_members(t)
+        by_name, _ = g.resolve(types)
+        modules = defaultdict(list)
+        for t in types:
+            modules[t.module].append(t)
+        self.root = ET.fromstring(gen_drawio.build(types, by_name, modules, g.module_graph(types, by_name)))
+        self.cells = self.root.findall(".//mxCell")
+
+    def label_of(self, cid):
+        return next(c.get("value") for c in self.cells if c.get("id") == cid)
+
+    def test_every_type_is_a_box_with_private_members(self):
+        values = " ".join(c.get("value") or "" for c in self.cells)
+        for name in ("IHealth", "Entity", "Player", "Inventory", "Mode"):
+            self.assertIn(f"<b>{name}", values)
+        self.assertIn("- hp: float", values)          # private member shown ("Everything" detail)
+
+    def test_inheritance_and_implements_edges(self):
+        edges = [(self.label_of(c.get("source")), self.label_of(c.get("target")), c.get("style"))
+                 for c in self.cells if c.get("edge") == "1"]
+        self.assertTrue(any("<b>Player" in s and "<b>Entity" in t and "endArrow=block" in st and "dashed" not in st
+                            for s, t, st in edges))
+        self.assertTrue(any("<b>Entity" in s and "<b>IHealth" in t and "dashed=1" in st for s, t, st in edges))
+
+    def test_page_names(self):
+        names = [d.get("name") for d in self.root.findall("diagram")]
+        self.assertEqual(["Overview", "Gameplay – Player & Entities"], names)
+
+
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, str(Path(__file__).parent))

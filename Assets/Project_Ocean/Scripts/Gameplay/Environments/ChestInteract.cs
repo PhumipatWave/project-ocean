@@ -78,7 +78,7 @@ namespace Game.Gameplay
         }
 
         /// Wire the on-screen interact button's onClick here — same path as pressing E.
-        public void PressInteract() => GameManager.CurPlayer?.input?.TriggerInteract();
+        public void PressInteract() => PlayerRegistry.Local?.input?.TriggerInteract();
 
         void OpenUI()
         {

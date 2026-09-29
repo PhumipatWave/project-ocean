@@ -7,7 +7,7 @@ namespace Game.Gameplay
     {
         [SerializeField] private int money = 100;
 
-        /// <summary>New balance after any change — QuestManager re-checks RequiredMoney steps on it.</summary>
+        /// <summary>New balance after any change; QuestProgressTracker re-checks RequiredMoney steps on it.</summary>
         public static event System.Action<int> OnMoneyChanged;
 
         /// <summary>Signed amount of a player-visible change (gain or spend); never raised by save load.</summary>
@@ -16,8 +16,8 @@ namespace Game.Gameplay
         public int Money => money;
         public int CurrentMoney => money;
 
-        private void OnEnable() => QuestManager.OnMoneyRewarded += AddMoney;
-        private void OnDisable() => QuestManager.OnMoneyRewarded -= AddMoney;
+        private void OnEnable() => RewardEvents.OnMoneyRewarded += AddMoney;
+        private void OnDisable() => RewardEvents.OnMoneyRewarded -= AddMoney;
 
         public void AddMoney(int amount)
         {

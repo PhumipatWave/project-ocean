@@ -502,7 +502,7 @@ namespace Game.Gameplay
         }
 
         private bool InOcean() =>
-            GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean;
+            GameSession.State == GameState.Ocean;
 
         // EnforceRopeLimit() already hard-clamps the player to exactly maxRopeLength every
         // frame before this runs, so CurrentLength (summed from Verlet segments, not the same
@@ -557,7 +557,7 @@ namespace Game.Gameplay
         {
             yield return new WaitForSeconds(breakLimitTimer);
             ResetRope();
-            GameManager.Instance.ReturnToLand();
+            GameFlowEvents.RequestReturnToLand();
         }
         #endregion
     }

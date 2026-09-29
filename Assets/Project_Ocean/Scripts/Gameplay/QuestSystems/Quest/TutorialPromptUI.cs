@@ -51,7 +51,7 @@ namespace Game.Gameplay
         private void LateUpdate()
         {
             bool shouldPause = TutorialStep.IsActive(TutorialActionId.UseItem)
-                && GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean
+                && GameSession.State == GameState.Ocean
                 && !LoadingManager.IsLoading
                 && Inventory.Current != null
                 && Inventory.Current.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)

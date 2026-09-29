@@ -1,6 +1,6 @@
 # Gameplay/Items/Placeables
 
-1 types · 10 LOC (non-blank) · depends on: [Gameplay/Game](Gameplay_Game.md) ×1
+1 types · 10 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1
 
 [← index](../README.md)
 

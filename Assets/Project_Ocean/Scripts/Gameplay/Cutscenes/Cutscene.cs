@@ -79,14 +79,14 @@ namespace Game.Gameplay
             // step — it would drag the root back against a Timeline track animating it
             // (PlayerPos). Take it out of the simulation for the cutscene; re-enabled in
             // HandleStopped, where it picks up wherever the Timeline left the player.
-            playerBody = GameManager.CurPlayer != null ? GameManager.CurPlayer.RB : null;
+            playerBody = PlayerRegistry.Local != null ? PlayerRegistry.Local.RB : null;
             if (playerBody != null)
             {
                 playerBody.linearVelocity = Vector2.zero;
                 playerBody.simulated = false;
             }
 
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader != null) reader.OnSkipCutscene += HandleSkipPressed;
         }
 
@@ -164,7 +164,7 @@ namespace Game.Gameplay
             // never knows about it. Its root has no wrapper parent, so child paths
             // (e.g. "player/Visual") resolve directly under it via the Find below.
             Component npc = string.Equals(npcId, "Player", StringComparison.OrdinalIgnoreCase)
-                ? GameManager.CurPlayer
+                ? PlayerRegistry.Local
                 : NPCManager.Instance?.GetNpc(npcId);
             if (npc == null || slash < 0)
                 return npc;
@@ -235,7 +235,7 @@ namespace Game.Gameplay
                 playerBody.simulated = true;
             playerBody = null;
 
-            var reader = GameManager.CurPlayer?.input;
+            var reader = PlayerRegistry.Local?.input;
             if (reader != null) reader.OnSkipCutscene -= HandleSkipPressed;
 
             PlayerUIState.Close();

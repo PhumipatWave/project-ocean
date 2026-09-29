@@ -43,7 +43,7 @@ namespace Game.Gameplay
                 }
             }
 
-            if (GameManager.CurPlayer != null)
+            if (PlayerRegistry.Local != null)
                 AudioManager.Instance?.PlaySFX(SoundKeys.Collect);
 
             var root = enemy != null ? enemy.gameObject : gameObject;

@@ -11,7 +11,7 @@ private void Start()
             GameManager.Instance.MiniHubAvaliable = true;
             GameManager.Instance.MiniHubLocation = transform;
 
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             player?.OxygenTube.AttachToHub(transform.position);
         }
     }

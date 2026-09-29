@@ -1,6 +1,6 @@
 # Project Ocean — UML
 
-Source: `Assets/Project_Ocean/Scripts` · 221 files · 270 types · 19417 non-blank lines · 126 MonoBehaviours · 13 ScriptableObjects · 15 interfaces · 30 enums
+Source: `Assets/Project_Ocean/Scripts` · 226 files · 275 types · 19317 non-blank lines · 126 MonoBehaviours · 13 ScriptableObjects · 15 interfaces · 30 enums
 
 Regenerate after any script change: `python tools/uml/gen_uml.py` (self-test: `python tools/uml/test_gen_uml.py`).
 
@@ -11,6 +11,7 @@ Regenerate after any script change: `python tools/uml/gen_uml.py` (self-test: `p
 - [Event flow](02-events.md)
 - [Metrics](metrics.md)
 - [Findings & refactor analysis](findings.md) (hand-written)
+- **draw.io:** [drawio/project-structure.drawio](drawio/project-structure.drawio) — whole project, every class with all members, one page per area (open in draw.io desktop, app.diagrams.net or the VS Code draw.io extension)
 
 ## Modules
 

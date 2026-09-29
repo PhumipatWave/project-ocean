@@ -1,6 +1,6 @@
 # Gameplay/Spawning
 
-7 types · 478 LOC (non-blank) · depends on: [Core](Core.md) ×3, [Core/Pool](Core_Pool.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×2, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Items/Pickups](Gameplay_Items_Pickups.md) ×1
+7 types · 478 LOC (non-blank) · depends on: [Core/Save/DayReset](Core_Save_DayReset.md) ×3, [Core](Core.md) ×3, [Core/Pool](Core_Pool.md) ×3, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/NavAgents](Gameplay_Entities_Enemies_NavAgents.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1, [Gameplay/Items/Pickups](Gameplay_Items_Pickups.md) ×1
 
 [← index](../README.md)
 

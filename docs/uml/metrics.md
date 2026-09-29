@@ -8,15 +8,15 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | LOC | Methods | Fields | Deps (fan-out) | Module |
 |---|---|---|---|---|---|
-| InventoryManager | 539 | 47 | 20 | 27 | UI/Inventory |
 | QuestStepDataDrawer | 528 | 10 | 2 | 5 | Editor |
-| OxygenRope | 370 | 14 | 31 | 8 | Gameplay/Entities/Players/OxygenTube |
+| OxygenRope | 370 | 14 | 31 | 9 | Gameplay/Entities/Players/OxygenTube |
 | UIManager | 352 | 31 | 11 | 9 | UI/UIManager |
 | KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
-| QuestManager | 334 | 34 | 7 | 18 | Gameplay/QuestSystems/Quest |
 | Player | 333 | 19 | 35 | 24 | Gameplay/Entities/Players |
-| ShopManager | 285 | 36 | 17 | 13 | UI/Shop |
+| QuestManager | 333 | 34 | 7 | 19 | Gameplay/QuestSystems/Quest |
+| InventoryManager | 315 | 43 | 22 | 28 | UI/Inventory |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
+| ShopManager | 275 | 36 | 17 | 14 | UI/Shop |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
 | NPC | 243 | 21 | 18 | 17 | Gameplay/Entities/NPCs |
 | EnemyNavAgentBase | 228 | 26 | 29 | 12 | Gameplay/Entities/Enemies/NavAgents/Core |
@@ -24,7 +24,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | PlayerGunHandler | 222 | 13 | 34 | 8 | Gameplay/Entities/Players |
 | EnemySpawner | 209 | 12 | 17 | 11 | Gameplay/Spawning |
 | SaveBridge | 192 | 15 | 4 | 22 | Gameplay/Save |
-| GameHUD | 186 | 15 | 16 | 17 | UI |
+| GameHUD | 186 | 15 | 16 | 19 | UI |
 | ObjectWrapPoint | 182 | 10 | 7 | 1 | Gameplay/Entities/Players/OxygenTube |
 | LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
 | QuestProgressTracker | 179 | 12 | 3 | 18 | Gameplay/QuestSystems/Quest |
@@ -33,14 +33,14 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | Used by | Examples |
 |---|---|---|
-| GameManager | 28 | Bullet, ChestInteract, Cutscene, DevPanel, DoorInteract |
 | TutorialActionId | 27 | Bullet, DayManager, DoorInteract, GameHUD, GameManager |
-| QuestManager | 21 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
+| PlayerRegistry | 24 | Bullet, ChestInteract, Cutscene, DevPanel, DoorInteract |
+| QuestManager | 20 | CutsceneManager, DevPanel, DoorInteract, ExploreAreaTrigger, FeatureUnlockService |
 | GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
+| Item | 18 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | QuestType | 18 | DoorInteract, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
 | Quest | 16 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
 | PlayerUIState | 16 | CollectableItemBase, ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel |
-| Item | 15 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | TutorialEvents | 15 | Bullet, DayManager, DoorInteract, GameManager, InteractUI |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, InteractUI, InventoryManager, LandUI |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
@@ -53,19 +53,19 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | Depends on |
 |---|---|
-| InventoryManager | 27 |
+| InventoryManager | 28 |
 | Player | 24 |
 | SaveBridge | 22 |
 | EnemyBrain | 19 |
-| QuestManager | 18 |
+| QuestManager | 19 |
+| GameHUD | 19 |
 | QuestProgressTracker | 18 |
 | NPC | 17 |
-| GameHUD | 17 |
-| GameManager | 15 |
+| GameManager | 17 |
 | TutorialPromptUI | 15 |
 | EnemyWanderState | 14 |
+| ShopManager | 14 |
 | PlayerSelfDialogueUI | 13 |
-| ShopManager | 13 |
 | Enemy | 12 |
 | EnemyNavAgentBase | 12 |
 
@@ -84,11 +84,10 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Gameplay/MainCameras/PlayerCamera.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 87 in 33 files
+## `Debug.Log*` calls — 84 in 34 files
 
 | File | Count |
 |---|---|
-| UI/Inventory/InventoryManager.cs | 8 |
 | Core/Save/SaveSystem.cs | 7 |
 | Gameplay/Save/SaveBridge.cs | 7 |
 | Core/Inputs/KeyBind/KeyBindManager.cs | 6 |
@@ -100,10 +99,12 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Gameplay/Spawning/ItemSpawner.cs | 4 |
 | UI/Loading/LoadingButton.cs | 4 |
 | Core/Scenes/LoadingManager.cs | 3 |
+| Gameplay/Inventory/InventorySaveMapper.cs | 3 |
 | Gameplay/AudioSetting/SoundChannel.cs | 2 |
 | Gameplay/Entities/Enemies/Brain/FSM/EnemyFSM.cs | 2 |
 | Gameplay/Game/GameManager.cs | 2 |
 | Gameplay/QuestSystems/Quest/ExploreAreaTrigger.cs | 2 |
+| UI/Inventory/InventoryManager.cs | 2 |
 | UI/Save/SaveMenuUI.cs | 2 |
 | UI/UIManager/UIManager.cs | 2 |
 | Core/GameLog.cs | 1 |
@@ -112,7 +113,6 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Gameplay/Entities/Enemies/Brain/EnemyBrain.cs | 1 |
 | Gameplay/Entities/Enemies/Brain/EnemyVision.cs | 1 |
 | Gameplay/Entities/Enemies/NavAgents/Core/EnemyNavAgentBase.cs | 1 |
-| Gameplay/Entities/Enemies/NavAgents/EnemyAgent.cs | 1 |
 
 ## Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 33 in 31 files
 
@@ -157,10 +157,10 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 36 | Boid, Bullet, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity, EntityDeathHandler … +24 |
+| 33 | Boid, Bullet, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity, EntityDeathHandler … +21 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
-| 4 | DraggableItem, InventoryManager, InventoryQuestService, InventorySlot |
+| 3 | DraggableItem, InventoryManager, InventorySlot |
 | 2 | EnemyFSM, IEnemyState |
 | 2 | EnemySearchState, EnemyStateBase |
 | 2 | UIManager, UIWindow |
@@ -168,7 +168,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | 2 | LinearPatrolBrain, LinearPatrolProfile |
 | 2 | SaveMenuUI, SaveSlotUI |
 
-Modules in the largest cycle (18): Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/Interfaces, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Entities/Players/OxygenTube, Gameplay/Environments, Gameplay/Game, Gameplay/Interaction, Gameplay/Items, Gameplay/Items/Pickups, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, Gameplay/Services
+Modules in the largest cycle (16): Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/Interfaces, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Environments, Gameplay/Interaction, Gameplay/Items, Gameplay/Items/Pickups, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, Gameplay/Services
 
 ## Plain types with no code reference
 

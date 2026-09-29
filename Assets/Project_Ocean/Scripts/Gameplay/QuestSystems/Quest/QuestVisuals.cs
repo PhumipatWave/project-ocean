@@ -71,8 +71,8 @@ namespace Game.Gameplay
             if (step.RequiredMoney <= 0)
                 return itemsPart;
 
-            var money = Game.Gameplay.GameManager.CurPlayer != null
-                ? Game.Gameplay.GameManager.CurPlayer.GetComponent<PlayerMoney>()
+            var money = Game.Gameplay.PlayerRegistry.Local != null
+                ? Game.Gameplay.PlayerRegistry.Local.GetComponent<PlayerMoney>()
                 : null;
             int currentMoney = money != null ? money.CurrentMoney : 0;
             return $"{itemsPart} · {Mathf.Min(currentMoney, step.RequiredMoney)}/{step.RequiredMoney} Money";

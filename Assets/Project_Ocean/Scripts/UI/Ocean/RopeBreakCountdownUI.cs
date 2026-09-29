@@ -66,7 +66,7 @@ namespace Game.UI
 
         private void HandleBreachStart(float duration)
         {
-            if (GameManager.Instance == null || GameManager.Instance.GameState != GameState.Ocean)
+            if (GameSession.State != GameState.Ocean)
                 return;
 
             if (countdownRoutine != null)

@@ -12,7 +12,7 @@ namespace Game.Gameplay
         {
             if (step.RequiredMoney <= 0) return true;
 
-            var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
+            var money = PlayerRegistry.Local != null ? PlayerRegistry.Local.GetComponent<PlayerMoney>() : null;
             return money != null && money.CurrentMoney >= step.RequiredMoney;
         }
 
@@ -59,7 +59,7 @@ namespace Game.Gameplay
 
                 if (step.RequiredMoney > 0)
                 {
-                    var money = GameManager.CurPlayer != null ? GameManager.CurPlayer.GetComponent<PlayerMoney>() : null;
+                    var money = PlayerRegistry.Local != null ? PlayerRegistry.Local.GetComponent<PlayerMoney>() : null;
                     money?.Use(step.RequiredMoney);
                 }
 

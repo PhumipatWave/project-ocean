@@ -116,7 +116,7 @@ namespace Game.Gameplay
             if (!questWantsThis && !isCurrentExit)
                 return false;
 
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             return player != null &&
                 Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(transform)) <= QuestNavigation.CloseRangeMeters;
         }
@@ -143,7 +143,7 @@ namespace Game.Gameplay
 
         IEnumerator WarpSequence()
         {
-            var player = GameManager.CurPlayer != null ? GameManager.CurPlayer.gameObject : null;
+            var player = PlayerRegistry.Local != null ? PlayerRegistry.Local.gameObject : null;
             if (player == null) yield break;
 
             isWarping = true;

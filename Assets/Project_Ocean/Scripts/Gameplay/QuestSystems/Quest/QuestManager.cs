@@ -170,7 +170,7 @@ namespace Game.Gameplay
                     OnQuestCompleted?.Invoke(q);
 
                     if (completedStep.RewardMoney > 0)
-                        OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
+                        RewardEvents.RaiseMoneyRewarded(completedStep.RewardMoney);
 
                     HandleNextQuest(q);
                 }
@@ -178,7 +178,7 @@ namespace Game.Gameplay
             }
             else if (completedStep.IsComplete && completedStep.RewardMoney > 0)
             {
-                OnMoneyRewarded?.Invoke(completedStep.RewardMoney);
+                RewardEvents.RaiseMoneyRewarded(completedStep.RewardMoney);
             }
 
             EnsureQuestTracked();
@@ -484,8 +484,6 @@ namespace Game.Gameplay
 
         public Quest GetCurrentActiveQuest() => activeQuestList.Find(IsActive);
 
-        public static event Action<int> OnMoneyRewarded;
-
         /// <summary>
         /// Called by the NPC when the player clicks Turn In. Quest must be ReadyToTurnIn —
         /// any other state returns false with a warning.
@@ -513,7 +511,7 @@ namespace Game.Gameplay
             var finalStepReward = quest.CurrentStep.RewardMoney;
             if (finalStepReward > 0)
             {
-                OnMoneyRewarded?.Invoke(finalStepReward);
+                RewardEvents.RaiseMoneyRewarded(finalStepReward);
                 GameLog.Info($"[QuestManager] Completing quests: +{finalStepReward} $");
             }
 

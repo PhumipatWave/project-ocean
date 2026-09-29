@@ -150,7 +150,7 @@ namespace Game.UI
             // First boot: this HUD scene loads additively AFTER MainMenuScene's sceneLoaded fired,
             // so OnSceneLoaded never hid the gameplay HUD behind the main menu. Do it here too.
             bool inMenu = SceneManager.GetActiveScene().name == SceneNames.MainMenu
-                          || (GameManager.Instance != null && GameManager.Instance.GameState == GameState.Menu);
+                          || GameSession.State == GameState.Menu;
             SetHudVisible(!inMenu && !PlayerUIState.IsLocked);
 
             RefreshDayText();
@@ -216,7 +216,7 @@ namespace Game.UI
 
         private void Update()
         {
-            if (GameManager.Instance == null || GameManager.Instance.GameState != GameState.Ocean)
+            if (GameSession.State != GameState.Ocean)
             {
                 maxLengthPanel.SetActive(false);
                 return;
@@ -225,7 +225,7 @@ namespace Game.UI
             maxLengthPanel.SetActive(true);
             RefreshLandButton();
 
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player == null) return;
 
             if (rope == null) // cached: was a GetComponentInChildren every frame

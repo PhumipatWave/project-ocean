@@ -14,14 +14,15 @@ namespace Game.UI
         public TMP_Text countText;
         
         [HideInInspector] public Transform parentAfterDrag;
+        private Transform slotBeforeDrag;
         [SerializeField] private Item item;
-        [HideInInspector] public int count = 1;
+        public int Count { get; private set; } = 1;
         
         public void InitialiseItem(Item newItem, int newCount = 1)
         {
             item = newItem;
             image.sprite = newItem.ItemVisual;
-            count = Mathf.Max(1, newCount);
+            Count = Mathf.Max(1, newCount);
             RefreshCount();
 
         }// InitialiseItem ===// InitialiseItem === 
@@ -29,13 +30,14 @@ namespace Game.UI
         public void RefreshCount()
         {
             int max = item != null ? item.MaxStackable : 1;
-            countText.text = $"{count}/{max}";
+            countText.text = $"{Count}/{max}";
             bool textActive = max > 1; // single-stack items have nothing to show
             countText.gameObject.SetActive(textActive);
         }
         
         public void OnBeginDrag(PointerEventData eventData)
         {
+            slotBeforeDrag = transform.parent;
             parentAfterDrag = transform.parent;
             transform.SetParent(transform.root, true);
             transform.SetAsLastSibling();
@@ -53,7 +55,7 @@ namespace Game.UI
             transform.localScale = Vector3.one;
             transform.localPosition = Vector3.zero;
             image.raycastTarget = true;
-            InventoryManager.OnInventoryChanged?.Invoke();
+            InventoryManager.Instance?.HandleItemDropped(slotBeforeDrag, parentAfterDrag);
         }
 
         public Item GetItem() => item;

@@ -352,7 +352,7 @@ namespace Game.Gameplay
             // Edge-triggered: play once when movement starts, not every physics tick.
             if (isMoving && !wasMoving)
             {
-                if (GameManager.Instance.GameState == GameState.Ocean)
+                if (GameSession.State == GameState.Ocean)
                     AudioManager.Instance?.PlaySFX(SoundKeys.RopeMove);
 
                 if (TutorialGate.RequiredAction == TutorialActionId.Move)
@@ -370,14 +370,14 @@ namespace Game.Gameplay
         private void HandleUseItem()
         {
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.UseItem)) return;
-            if (GameManager.Instance.GameState == GameState.Ocean)
+            if (GameSession.State == GameState.Ocean)
                 PlayerItemUse.Use(this, ItemType.Building);
         }
 
 #if ENABLE_CHECKPOINT_ITEM
         private void HandleTeleport()
         {
-            if (GameManager.Instance.GameState == GameState.Ocean && LastCheckpoint != null)
+            if (GameSession.State == GameState.Ocean && LastCheckpoint != null)
                 LastCheckpoint.PullPlayerHere(this);
         }
 #endif

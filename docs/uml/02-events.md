@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-75 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
+78 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
 
 ```mermaid
 flowchart LR
@@ -19,10 +19,12 @@ flowchart LR
   GameHUD[GameHUD] -->|OnDayAdvanced| DayManager[DayManager]
   GameHUD[GameHUD] -->|OnMenuToggled| InputReader[InputReader]
   GameHUD[GameHUD] -->|OnLockChanged| PlayerUIState[PlayerUIState]
+  GameManager[GameManager] -->|OnReturnToLandRequested| GameFlowEvents[GameFlowEvents]
   GameObjectSpawnManager[GameObjectSpawnManager] -->|OnDayAdvanced, OnEnemyReset| DayManager[DayManager]
   InputReader[InputReader] -->|OnInitialized| KeyBindManager[KeyBindManager]
   InteractUI[InteractUI] -->|OnInteracted| InputReader[InputReader]
   InventoryManager[InventoryManager] -->|OnInventoryToggled| InputReader[InputReader]
+  InventoryManager[InventoryManager] -->|Changed, ItemDelta| InventoryModel[InventoryModel]
   InventoryManager[InventoryManager] -->|OnLevelGranted, OnLevelsLoaded| UpgradeService[UpgradeService]
   ItemSpawner[ItemSpawner] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
   KeyBindUI[KeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
@@ -39,7 +41,7 @@ flowchart LR
   PlayerFeedbackVFX[PlayerFeedbackVFX] -->|OnPlayerDamaged| Player[Player]
   PlayerHealth[PlayerHealth] -->|OnLevelGranted| UpgradeService[UpgradeService]
   PlayerInteriorState[PlayerInteriorState] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
-  PlayerMoney[PlayerMoney] -->|OnMoneyRewarded| QuestManager[QuestManager]
+  PlayerMoney[PlayerMoney] -->|OnMoneyRewarded| RewardEvents[RewardEvents]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnInteracted| InputReader[InputReader]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnQuestUpdated| QuestManager[QuestManager]
@@ -86,6 +88,7 @@ flowchart LR
 | EnemyEvents | OnEnemyKilled | QuestProgressTracker |
 | ExploreEvents | OnAreaReached | QuestProgressTracker |
 | FeatureUnlockService | OnFeatureUnlocked | ItemSpawner, LandUI |
+| GameFlowEvents | OnReturnToLandRequested | GameManager |
 | GameManager | OnReturningToMenu | UIManager |
 | IEntityHealth | OnDamaged | Entity |
 | IEntityHealth | OnDied | Entity |
@@ -100,6 +103,8 @@ flowchart LR
 | InputReader | OnUseItem | Player |
 | InteractUI | PlayerExited | NPC |
 | InventoryManager | OnItemDelta | ResourceNotificationPresenter |
+| InventoryModel | Changed | InventoryManager |
+| InventoryModel | ItemDelta | InventoryManager |
 | InventorySlot | OnShopSlotClicked | ShopManager |
 | ItemDrop | OnCollected | ShelleController |
 | KeyBindManager | OnBindingsChanged | KeyBindUI, MoveKeyBindUI |
@@ -114,9 +119,9 @@ flowchart LR
 | PlayerMoney | OnMoneyChanged | QuestProgressTracker |
 | PlayerMoney | OnMoneyDelta | ResourceNotificationPresenter |
 | PlayerUIState | OnLockChanged | GameHUD, TutorialPromptUI |
-| QuestManager | OnMoneyRewarded | PlayerMoney |
 | QuestManager | OnQuestCompleted | QuestCompleteUI |
 | QuestManager | OnQuestUpdated | CutsceneManager, DoorInteract, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialActionMarker, TutorialPromptUI, TutorialUIMarker, UpgradeSlot |
+| RewardEvents | OnMoneyRewarded | PlayerMoney |
 | SaveBridge | OnSaved | SaveNotificationUI |
 | TutorialEvents | OnActionPerformed | PlayerInteriorState, QuestProgressTracker |
 | UpgradeService | OnLevelGranted | InventoryManager, PlayerHealth |

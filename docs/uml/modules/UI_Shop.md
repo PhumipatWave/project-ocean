@@ -1,6 +1,6 @@
 # UI/Shop
 
-2 types · 389 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×4, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI/Inventory](UI_Inventory.md) ×2, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Gameplay/Game](Gameplay_Game.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1, [UI](UI.md) ×1
+2 types · 354 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [UI/Inventory](UI_Inventory.md) ×2, [UI](UI.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1
 
 [← index](../README.md)
 
@@ -26,7 +26,8 @@ classDiagram
   }
   class ShopTransactionService {
     +GetSellPrice(Item) int
-    +CalculateSellTotal(InventorySlot) int
+    +SellValue(ItemStack) int
+    +CalculateSellTotal(InventoryManager) int
     +SellSingle(InventoryManager, PlayerMoney, int) bool
     +SellAll(InventoryManager, PlayerMoney) bool
     +BuyItem(InventoryManager, PlayerMoney, Item, int) bool
@@ -45,5 +46,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| ShopManager | MB | `ShopManager.cs:10` | 285 |
-| ShopTransactionService | class | `ShopTransactionService.cs:7` | 104 |
+| ShopManager | MB | `ShopManager.cs:10` | 275 |
+| ShopTransactionService | class | `ShopTransactionService.cs:7` | 79 |
