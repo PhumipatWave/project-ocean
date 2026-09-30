@@ -21,6 +21,7 @@ LINE_H, HEAD_H, CHAR_W = 15, 40, 6.4
 MIN_W, MAX_W, MAX_TYPE = 170, 700, 44
 COL_GAP, BOX_GAP, CONT_PAD, CONT_HEAD = 40, 30, 20, 30
 ROW_LIMIT, CONT_GAP = 4200, 80
+ALL_ROW_LIMIT = 9000
 
 PAGES = ["Core", "Gameplay – Player & Entities", "Gameplay – Enemies", "Gameplay – Quests",
          "Gameplay – Items, Spawning & Combat", "Gameplay – Systems", "UI", "Editor"]
@@ -177,10 +178,10 @@ def measure_container(ts):
     return CONT_PAD * 2 + sum(widths) + COL_GAP * (ncols - 1), CONT_HEAD + CONT_PAD + max(heights)
 
 
-def feature_page(idx, name, mods, by_name):
+def feature_page(idx, name, mods, by_name, row_limit=ROW_LIMIT):
     page = Page(name, idx)
     sizes = [(m, *measure_container(ts)) for m, ts in sorted(mods.items())]
-    pos = pack_rows(sizes, ROW_LIMIT)
+    pos = pack_rows(sizes, row_limit)
     cell_ids = {}
     bottom = 0
     for m, w, h in sizes:
@@ -192,7 +193,7 @@ def feature_page(idx, name, mods, by_name):
                        if n not in cell_ids and n in by_name})
     if external:
         ext_w = 260
-        cols = max(1, min(8, ROW_LIMIT // (ext_w + 30)))
+        cols = max(1, min(8, row_limit // (ext_w + 30)))
         rows = math.ceil(len(external) / cols)
         cont = page.vertex("external", "External (defined on another page)",
                            CONT_STYLE.format(fill="#fafafa"), 0, bottom + CONT_GAP,
@@ -274,7 +275,9 @@ def build(types, by_name, modules, pairs):
     grouped = defaultdict(dict)
     for m, ts in modules.items():
         grouped[page_of(m)][m] = ts
-    pages = [overview_page(types, modules, pairs)]
+    # Every module on one page, wider rows since it holds the whole project.
+    pages = [overview_page(types, modules, pairs),
+             feature_page(len(PAGES) + 1, "All Scripts", dict(modules), by_name, row_limit=ALL_ROW_LIMIT)]
     for i, name in enumerate(PAGES, 1):
         if grouped.get(name):
             pages.append(feature_page(i, name, grouped[name], by_name))

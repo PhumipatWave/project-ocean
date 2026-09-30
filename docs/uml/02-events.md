@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-78 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
+74 `+=` subscriptions. Arrow = subscriber → publisher, label = event. UnityEvent/AddListener not included.
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,6 @@ flowchart LR
   CutsceneManager[CutsceneManager] -->|OnQuestUpdated| QuestManager[QuestManager]
   CutsceneSkipHint[CutsceneSkipHint] -->|OnPlayingChanged| CutsceneGate[CutsceneGate]
   DoorQuestMarker[DoorQuestMarker] -->|Warped| DoorInteract[DoorInteract]
-  DoorQuestMarker[DoorQuestMarker] -->|OnQuestUpdated| QuestManager[QuestManager]
   EnemyKillTracker[EnemyKillTracker] -->|OnEnemyReset| DayManager[DayManager]
   Entity[Entity] -->|OnDamaged, OnDied| IEntityHealth[IEntityHealth]
   ExploreAreaTrigger[ExploreAreaTrigger] -->|OnQuestUpdated| QuestManager[QuestManager]
@@ -26,27 +25,27 @@ flowchart LR
   InventoryManager[InventoryManager] -->|Changed, ItemDelta| InventoryModel[InventoryModel]
   InventoryManager[InventoryManager] -->|OnLevelGranted, OnLevelsLoaded| UpgradeService[UpgradeService]
   ItemSpawner[ItemSpawner] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
-  KeyBindUI[KeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
   LandUI[LandUI] -->|OnDayAdvanced, OnDivedToday| DayManager[DayManager]
   LandUI[LandUI] -->|OnChanged| DialogueState[DialogueState]
   LandUI[LandUI] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
   LandUI[LandUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
-  MoveKeyBindUI[MoveKeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
   NPC[NPC] -->|PlayerExited| Interactable[Interactable]
   NPC[NPC] -->|OnQuestUpdated| QuestManager[QuestManager]
   NextDayAnimationUI[NextDayAnimationUI] -->|OnDayAdvanced| DayManager[DayManager]
   NotificationView[NotificationView] -->|OnClear, OnNotify| NotificationManager[NotificationManager]
-  Player[Player] -->|OnAttacked, OnSprinted, OnTeleport, OnUseItem| InputReader[InputReader]
+  Player[Player] -->|OnAttacked, OnUseItem| InputReader[InputReader]
   PlayerFeedbackVFX[PlayerFeedbackVFX] -->|OnPlayerDamaged| Player[Player]
   PlayerHealth[PlayerHealth] -->|OnLevelGranted| UpgradeService[UpgradeService]
   PlayerInteractor[PlayerInteractor] -->|OnInteracted| InputReader[InputReader]
   PlayerInteriorState[PlayerInteriorState] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
   PlayerMoney[PlayerMoney] -->|OnMoneyRewarded| RewardEvents[RewardEvents]
+  PlayerMovement[PlayerMovement] -->|OnSprinted| InputReader[InputReader]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnInteracted| InputReader[InputReader]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   QuestBoardUI[QuestBoardUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   QuestCompleteUI[QuestCompleteUI] -->|OnQuestCompleted| QuestManager[QuestManager]
+  QuestMarkerBase[QuestMarkerBase] -->|OnQuestUpdated| QuestManager[QuestManager]
   QuestProgressTracker[QuestProgressTracker] -->|OnCutsceneFinished| CutsceneEvents[CutsceneEvents]
   QuestProgressTracker[QuestProgressTracker] -->|OnDayAdvanced, OnDivedToday| DayManager[DayManager]
   QuestProgressTracker[QuestProgressTracker] -->|OnChanged| DialogueState[DialogueState]
@@ -56,6 +55,7 @@ flowchart LR
   QuestProgressTracker[QuestProgressTracker] -->|OnMoneyChanged| PlayerMoney[PlayerMoney]
   QuestProgressTracker[QuestProgressTracker] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
   QuestTrackerUI[QuestTrackerUI] -->|OnQuestUpdated| QuestManager[QuestManager]
+  RebindButtonBase[RebindButtonBase] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
   ResourceNotificationPresenter[ResourceNotificationPresenter] -->|OnItemDelta| InventoryManager[InventoryManager]
   ResourceNotificationPresenter[ResourceNotificationPresenter] -->|OnMoneyDelta| PlayerMoney[PlayerMoney]
   ReviceQuestListUI[ReviceQuestListUI] -->|OnQuestUpdated| QuestManager[QuestManager]
@@ -66,11 +66,9 @@ flowchart LR
   ShopManager[ShopManager] -->|OnShopSlotClicked| InventorySlot[InventorySlot]
   ShopManager[ShopManager] -->|OnQuestUpdated| QuestManager[QuestManager]
   TrashInteract[TrashInteract] -->|OnDayAdvanced| DayManager[DayManager]
-  TutorialActionMarker[TutorialActionMarker] -->|OnQuestUpdated| QuestManager[QuestManager]
   TutorialPromptUI[TutorialPromptUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   TutorialPromptUI[TutorialPromptUI] -->|OnLockChanged| PlayerUIState[PlayerUIState]
   TutorialPromptUI[TutorialPromptUI] -->|OnQuestUpdated| QuestManager[QuestManager]
-  TutorialUIMarker[TutorialUIMarker] -->|OnQuestUpdated| QuestManager[QuestManager]
   UIManager[UIManager] -->|OnReturningToMenu| GameManager[GameManager]
   UpgradeSlot[UpgradeSlot] -->|OnQuestUpdated| QuestManager[QuestManager]
 ```
@@ -99,8 +97,7 @@ flowchart LR
 | InputReader | OnInventoryToggled | InventoryManager |
 | InputReader | OnMenuToggled | GameHUD |
 | InputReader | OnSkipCutscene | Cutscene |
-| InputReader | OnSprinted | Player |
-| InputReader | OnTeleport | Player |
+| InputReader | OnSprinted | PlayerMovement |
 | InputReader | OnUseItem | Player |
 | Interactable | PlayerExited | NPC |
 | InventoryManager | OnItemDelta | ResourceNotificationPresenter |
@@ -108,7 +105,7 @@ flowchart LR
 | InventoryModel | ItemDelta | InventoryManager |
 | InventorySlot | OnShopSlotClicked | ShopManager |
 | ItemDrop | OnCollected | ShelleController |
-| KeyBindManager | OnBindingsChanged | KeyBindUI, MoveKeyBindUI |
+| KeyBindManager | OnBindingsChanged | RebindButtonBase |
 | KeyBindManager | OnInitialized | InputReader |
 | LoadingManager | OnLoadingFinished | CutsceneManager, LandUI, PlayerSelfDialogueUI, TutorialPromptUI |
 | NotificationManager | OnClear | NotificationView |
@@ -121,7 +118,7 @@ flowchart LR
 | PlayerMoney | OnMoneyDelta | ResourceNotificationPresenter |
 | PlayerUIState | OnLockChanged | GameHUD, TutorialPromptUI |
 | QuestManager | OnQuestCompleted | QuestCompleteUI |
-| QuestManager | OnQuestUpdated | CutsceneManager, DoorQuestMarker, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialActionMarker, TutorialPromptUI, TutorialUIMarker, UpgradeSlot |
+| QuestManager | OnQuestUpdated | CutsceneManager, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestMarkerBase, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialPromptUI, UpgradeSlot |
 | RewardEvents | OnMoneyRewarded | PlayerMoney |
 | SaveBridge | OnSaved | SaveNotificationUI |
 | TutorialEvents | OnActionPerformed | PlayerInteriorState, QuestProgressTracker |
@@ -132,4 +129,4 @@ flowchart LR
 
 May be wired via lambdas on another name, inspector, or genuinely unused.
 
-EntityHealth.OnDamaged, EntityHealth.OnDied, FeatureUnlockService.OnFeatureLocked, InputReader.OnAimed, InputReader.OnMoved
+EntityHealth.OnDamaged, EntityHealth.OnDied, FeatureUnlockService.OnFeatureLocked, InputReader.OnAimed, InputReader.OnMoved, InputReader.OnTeleport

@@ -1,6 +1,6 @@
 # Gameplay/AudioSetting
 
-7 types · 241 LOC (non-blank) · depends on: none
+7 types · 226 LOC (non-blank) · depends on: [Core](Core.md) ×1
 
 [← index](../README.md)
 
@@ -21,7 +21,6 @@ classDiagram
   }
   class AudioManager {
     <<MB>>
-    +AudioManager Instance$
     +PlayBGM(string) void
     +StopBGM() void
     +PlayAmbience(string) void
@@ -57,9 +56,13 @@ classDiagram
   class VolumeSliderUI {
     <<MB>>
   }
+  class Singleton {
+    <<Core>>
+  }
   AudioManager --> SceneSound : scenes
   AudioManager --> SoundChannel : master
   AudioSliderBinder --> AudioChannel : channel
+  Singleton <|-- AudioManager
 ```
 
 ## Files
@@ -67,7 +70,7 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | AudioChannel | enum | `AudioManager.cs:8` | 6 |
-| AudioManager | MB | `AudioManager.cs:45` | 150 |
+| AudioManager | MB | `AudioManager.cs:45` | 135 |
 | AudioSliderBinder | MB | `AudioSliderBinder.cs:13` | 19 |
 | SceneSound | class | `AudioManager.cs:18` | 7 |
 | SoundChannel | MB | `SoundChannel.cs:14` | 25 |

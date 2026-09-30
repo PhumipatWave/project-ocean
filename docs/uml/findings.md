@@ -169,6 +169,16 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - 10d: `PlayerMoney.Current`; quest money checks/charges no longer go through `PlayerRegistry`.
 - **Note (pre-existing, harmless):** on Unity 6 `NavMeshAgent.ResetPath()` clears `isStopped`, so a dead enemy's agent reads `isStopped == false`; it has no path, zero velocity and a disabled host, so it doesn't move.
 
+### Phase 11: split god classes and share repeated code
+**Status:** done 2026-10-01. EditMode 67/67, compile clean, each step tested live in Play mode. No scene edits; the only prefab edit is two new components on `Player.prefab`.
+- 11a `Player` (425 -> 95 lines): `PlayerMovement` (speeds, sprint, facing, move tutorial), `PlayerSceneMode` (land/ocean switch on scene load); attack input moved into `PlayerGunHandler`. Dead checkpoint code removed. `Player` now unsubscribes from `InputReader` on destroy.
+- 11b `NPC` (355 -> 197 lines): plain classes `NpcQuestMarker` and `NpcQuestConversation`; `markerUI` stays on `NPC`, so no prefab changes.
+- 11c Markers: abstract `QuestMarkerBase` (`ShouldShow`, `SetVisible`, `PollEveryFrame`) for `TutorialActionMarker`, `DoorQuestMarker`, `TutorialUIMarker`; `QuestNavigation.CurrentTutorialAction()` / `IsPlayerNear()` replace three copies each.
+- 11d Key rebind: abstract `RebindButtonBase` for `KeyBindUI` and `MoveKeyBindUI`. Both now refresh on enable, and a cancelled rebind shows no error. `StartRebind` calls back when the action is missing, so the button can't stay disabled.
+- 11e Spawners: `IWeightedEntry` + `WeightedPicker` replace the copied `PickEntry()` in `EnemySpawner` and `ItemSpawner`.
+- 11f `Singleton<T>` (Core) for 18 managers: first wins, `Instance` cleared on destroy, `DontDestroyOnLoad` only on a root. This removed the 4 "DontDestroyOnLoad only works for root GameObjects" warnings. `ShopManager`, `ShopInventoryBuy`, `UpgradeTooltip` keep their newest-copy-wins behaviour on purpose.
+- **Open:** normal-key rebinds have no Esc cancel (move keys do).
+
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.

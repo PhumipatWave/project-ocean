@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-35 types · 1710 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×22, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×5, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
+36 types · 1717 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×22, [Core](Core.md) ×13, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×5, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 
@@ -163,9 +163,10 @@ classDiagram
   }
   class QuestManager {
     <<MB>>
-    +QuestManager Instance$
     +event Action OnQuestUpdated$
     +event Action~Quest~ OnQuestCompleted$
+    #bool Persistent
+    #Awake() void
     +ResetToDefault() void
     +CompleteAutoDialogue(Quest) void
     +IsUnlocked(Quest) bool
@@ -177,25 +178,33 @@ classDiagram
     +GetMainQuestTalkQuest(string) Quest
     +GetSaveState() List~QuestSaveData~
     +GetCompletedQuests() List~Quest~
-    +LoadSaveState(List~QuestSaveData~) void
-    ... +11 more methods()
+    ... +12 more methods()
+  }
+  class QuestMarkerBase {
+    <<MB>>
+    <<abstract>>
+    #GameObject markerUI
+    #bool PollEveryFrame
+    #OnEnable() void
+    #OnDisable() void
+    #Refresh() void
+    #ShouldShow()* bool
+    #SetVisible(bool) void
   }
   class QuestNavigation {
     <<static>>
     +float CloseRangeMeters$
     +InteractPosition(Transform)$ Vector3
+    +CurrentTutorialAction()$ TutorialActionId
+    +IsPlayerNear(Transform)$ bool
     +ResolveQuestTarget()$ Transform
     +ResolveCompassTarget()$ Transform
   }
-  class QuestProgressTracker {
-    +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
-    +Subscribe() void
-    +Unsubscribe() void
-    +CheckDayOrDive() void
-    +CheckInventory() void
-  }
   class ISaveParticipant {
     <<Core/Save>>
+  }
+  class Singleton {
+    <<Core>>
   }
   ExploreAreaTrigger --> DialogueLine : dialogueLines
   ExploreAreaTrigger --> Mode : mode
@@ -216,8 +225,6 @@ classDiagram
   QuestDialogueLine --> DialogueType : type
   QuestManager --> Quest : activeQuestList
   QuestManager --> QuestData : allQuestTemplates
-  QuestManager --> QuestProgressTracker : progress
-  QuestProgressTracker --> Quest : quests
   QuestStepData --> DeliveryCountMode : deliveryCountMode
   QuestStepData --> DeliverySource : deliverySource
   QuestStepData --> QuestCompletionMode : completionMode
@@ -225,6 +232,7 @@ classDiagram
   QuestStepData --> QuestItemRequirement : targetQuestItemRequirements
   QuestStepData --> QuestType : type
   QuestStepData --> TalkCompletionMode : talkCompletionMode
+  Singleton <|-- QuestManager
 ```
 
 ## part 2
@@ -232,6 +240,13 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
+  class QuestProgressTracker {
+    +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
+    +Subscribe() void
+    +Unsubscribe() void
+    +CheckDayOrDive() void
+    +CheckInventory() void
+  }
   class QuestSaveMapper {
     <<static>>
     +ToSaveData(IEnumerable~Quest~)$ List~QuestSaveData~
@@ -279,6 +294,9 @@ classDiagram
   class TutorialActionMarker {
     <<MB>>
     +FindByTutorialAction(TutorialActionId)$ Transform
+    #OnEnable() void
+    #OnDisable() void
+    #ShouldShow() bool
   }
   class TutorialPromptUI {
     <<MB>>
@@ -290,7 +308,15 @@ classDiagram
   }
   class TutorialUIMarker {
     <<MB>>
+    #bool PollEveryFrame
+    #ShouldShow() bool
+    #SetVisible(bool) void
   }
+  class QuestMarkerBase {
+    <<Gameplay/QuestSystems/Quest>>
+  }
+  QuestMarkerBase <|-- TutorialActionMarker
+  QuestMarkerBase <|-- TutorialUIMarker
   ReviceQuestListUI --> ReviceQuestSlot : slotPrefab
 ```
 
@@ -303,6 +329,7 @@ classDiagram
 | PlayerSelfDialogueUI | InputReader | OnInteracted |
 | PlayerSelfDialogueUI | LoadingManager | OnLoadingFinished |
 | PlayerSelfDialogueUI | QuestManager | OnQuestUpdated |
+| QuestMarkerBase | QuestManager | OnQuestUpdated |
 | QuestProgressTracker | CutsceneEvents | OnCutsceneFinished |
 | QuestProgressTracker | DayManager | OnDayAdvanced |
 | QuestProgressTracker | DayManager | OnDivedToday |
@@ -313,11 +340,9 @@ classDiagram
 | QuestProgressTracker | PlayerMoney | OnMoneyChanged |
 | QuestProgressTracker | TutorialEvents | OnActionPerformed |
 | ReviceQuestListUI | QuestManager | OnQuestUpdated |
-| TutorialActionMarker | QuestManager | OnQuestUpdated |
 | TutorialPromptUI | LoadingManager | OnLoadingFinished |
 | TutorialPromptUI | PlayerUIState | OnLockChanged |
 | TutorialPromptUI | QuestManager | OnQuestUpdated |
-| TutorialUIMarker | QuestManager | OnQuestUpdated |
 
 ## Files
 
@@ -341,8 +366,9 @@ classDiagram
 | QuestData | SO | `QuestData.cs:178` | 19 |
 | QuestDialogueLine | class | `QuestData.cs:89` | 10 |
 | QuestItemRequirement | class | `QuestData.cs:75` | 7 |
-| QuestManager | MB | `QuestManager.cs:8` | 333 |
-| QuestNavigation | static | `QuestNavigation.cs:9` | 39 |
+| QuestManager | MB | `QuestManager.cs:8` | 328 |
+| QuestMarkerBase | MB, abstract | `QuestMarkerBase.cs:6` | 23 |
+| QuestNavigation | static | `QuestNavigation.cs:9` | 49 |
 | QuestProgressTracker | class | `QuestProgressTracker.cs:8` | 179 |
 | QuestSaveMapper | static | `QuestSaveMapper.cs:8` | 32 |
 | QuestStatus | enum | `Quest.cs:34` | 8 |
@@ -354,7 +380,7 @@ classDiagram
 | ReviceQuestListUI | MB | `ReviceQuestListUI.cs:14` | 52 |
 | ReviceQuestSlot | MB | `ReviceQuestSlot.cs:8` | 28 |
 | TalkCompletionMode | enum | `QuestData.cs:65` | 5 |
-| TutorialActionMarker | MB | `TutorialActionMarker.cs:14` | 42 |
+| TutorialActionMarker | MB | `TutorialActionMarker.cs:8` | 29 |
 | TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 77 |
 | TutorialStep | static | `TutorialStep.cs:10` | 24 |
-| TutorialUIMarker | MB | `TutorialUIMarker.cs:15` | 22 |
+| TutorialUIMarker | MB | `TutorialUIMarker.cs:9` | 14 |

@@ -1,6 +1,6 @@
 # UI/Inventory
 
-4 types · 415 LOC (non-blank) · depends on: [Gameplay/Inventory](Gameplay_Inventory.md) ×5, [Core](Core.md) ×3, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Core/Events](Core_Events.md) ×3, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×3, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×2, [Core/Save](Core_Save.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Items](Gameplay_Items.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1, [UI](UI.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
+4 types · 411 LOC (non-blank) · depends on: [Gameplay/Inventory](Gameplay_Inventory.md) ×5, [Core](Core.md) ×4, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Core/Events](Core_Events.md) ×3, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×3, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×2, [Core/Save](Core_Save.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Items](Gameplay_Items.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1, [UI](UI.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
 
 [← index](../README.md)
 
@@ -14,9 +14,11 @@ classDiagram
     +event System.Action~Item, int~ OnItemDelta$
     +GameObject InventoryMenu
     +IReadOnlyList~Item~ AllItems
-    +InventoryManager Instance$
     +int ActiveBuildingSlotIndex
     +int PlayerSlotCount
+    #bool DestroyGameObjectOnDuplicate
+    #Awake() void
+    #OnDestroy() void
     +OpenInventory() void
     +CloseInventory() void
     +CloseInventoryViaButton() void
@@ -27,9 +29,7 @@ classDiagram
     +IsSlotUnlocked(int) bool
     +IndexOfSlot(Transform) int
     +RemoveOneAt(int) Item
-    +RemoveAllWhere(System.Predicate~Item~) Dictionary~Item, int~
-    +ConsumeItem(ItemType, out Item) bool
-    ... +13 more methods()
+    ... +15 more methods()
   }
   class InventoryUIController {
     <<MB>>
@@ -57,9 +57,13 @@ classDiagram
   class ISaveParticipant {
     <<Core/Save>>
   }
+  class Singleton {
+    <<Core>>
+  }
   IInventory <|.. InventoryManager
   ISaveParticipant <|.. InventoryManager
   InventoryManager --> InventoryUIController : uiController
+  Singleton <|-- InventoryManager
 ```
 
 ## Event subscriptions
@@ -76,7 +80,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| InventoryManager | MB | `InventoryManager.cs:10` | 319 |
+| InventoryManager | MB | `InventoryManager.cs:10` | 315 |
 | InventoryUIController | MB | `InventoryUIController.cs:7` | 57 |
 | SlotBuilder | static | `SlotBuilder.cs:6` | 18 |
 | UISlotHoverHighlight | MB | `UISlotHoverHighlight.cs:9` | 21 |

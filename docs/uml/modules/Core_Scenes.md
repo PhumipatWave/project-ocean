@@ -1,6 +1,6 @@
 # Core/Scenes
 
-4 types · 169 LOC (non-blank) · depends on: none
+4 types · 159 LOC (non-blank) · depends on: [Core](Core.md) ×1
 
 [← index](../README.md)
 
@@ -13,9 +13,9 @@ classDiagram
   }
   class LoadingManager {
     <<MB>>
-    +LoadingManager Instance$
     +bool IsLoading$
     +event System.Action OnLoadingFinished$
+    #bool Persistent
     +Block(object)$ void
     +Unblock(object)$ void
     +LoadScene(string) void
@@ -38,6 +38,10 @@ classDiagram
     +BeginLoad(Vector3)$ void
     +Clear()$ void
   }
+  class Singleton {
+    <<Core>>
+  }
+  Singleton <|-- LoadingManager
 ```
 
 ## Files
@@ -45,6 +49,6 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | ILoadingVisual | interface | `ILoadingVisual.cs:4` | 4 |
-| LoadingManager | MB | `LoadingManager.cs:9` | 148 |
+| LoadingManager | MB | `LoadingManager.cs:9` | 138 |
 | LoadingType | enum | `LoadingType.cs:3` | 6 |
 | SceneLoadContext | static | `SceneLoadContext.cs:20` | 11 |

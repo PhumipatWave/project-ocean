@@ -1,6 +1,6 @@
 # Gameplay/Environments
 
-8 types · 403 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×4, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Gameplay/Interaction](Gameplay_Interaction.md) ×3, [Core/Events](Core_Events.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/ScriptableDatas/Characters](Core_Datas_ScriptableDatas_Characters.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1
+8 types · 385 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×5, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×4, [Gameplay/Interaction](Gameplay_Interaction.md) ×3, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×3, [Core/Events](Core_Events.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core](Core.md) ×1, [Core/Datas/ScriptableDatas/Characters](Core_Datas_ScriptableDatas_Characters.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1
 
 [← index](../README.md)
 
@@ -25,10 +25,14 @@ classDiagram
     +TutorialActionId TutorialAction
     +FindByTutorialAction(TutorialActionId)$ Transform
     +FindNearestExitAction(Vector3, float)$ TutorialActionId
+    #OnEnable() void
+    #OnDisable() void
+    #ShouldShow() bool
   }
   class NPCManager {
     <<MB>>
-    +NPCManager Instance$
+    #bool Persistent
+    #Awake() void
     +Register(NPC) void
     +Unregister(NPC) void
     +GetNpc(string) NPC
@@ -51,10 +55,18 @@ classDiagram
   class Interactable {
     <<Gameplay/Interaction>>
   }
+  class QuestMarkerBase {
+    <<Gameplay/QuestSystems/Quest>>
+  }
+  class Singleton {
+    <<Core>>
+  }
   DoorQuestMarker --> DoorInteract : door
   Interactable <|-- ChestInteract
   Interactable <|-- DoorInteract
   Interactable <|-- TrashInteract
+  QuestMarkerBase <|-- DoorQuestMarker
+  Singleton <|-- NPCManager
 ```
 
 ## Event subscriptions
@@ -62,7 +74,6 @@ classDiagram
 | Subscriber | Publisher | Event |
 |---|---|---|
 | DoorQuestMarker | DoorInteract | Warped |
-| DoorQuestMarker | QuestManager | OnQuestUpdated |
 | TrashInteract | DayManager | OnDayAdvanced |
 
 ## Files
@@ -72,8 +83,8 @@ classDiagram
 | Bird | MB | `Bird.cs:6` | 32 |
 | ChestInteract | MB | `ChestInteract.cs:8` | 53 |
 | DoorInteract | MB | `DoorInteract.cs:8` | 44 |
-| DoorQuestMarker | MB | `DoorQuestMarker.cs:9` | 76 |
-| NPCManager | MB | `NPCManager.cs:17` | 44 |
+| DoorQuestMarker | MB | `DoorQuestMarker.cs:9` | 63 |
+| NPCManager | MB | `NPCManager.cs:17` | 39 |
 | RevealAfterTotalDives | MB | `RevealAfterTotalDives.cs:11` | 9 |
 | SimpleAnimLoop | MB | `SimpleAnimLoop.cs:8` | 36 |
 | TrashInteract | MB | `TrashInteract.cs:7` | 109 |

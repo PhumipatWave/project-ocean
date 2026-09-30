@@ -1,6 +1,6 @@
 # Core/Pool
 
-2 types · 76 LOC (non-blank) · depends on: none
+2 types · 71 LOC (non-blank) · depends on: [Core](Core.md) ×1
 
 [← index](../README.md)
 
@@ -14,11 +14,15 @@ classDiagram
   }
   class ObjectPoolManager {
     <<MB>>
-    +ObjectPoolManager Instance$
+    #bool DestroyGameObjectOnDuplicate
     +Prewarm(GameObject, int) void
     +Get(GameObject, Vector3, Quaternion) GameObject
     +Return(GameObject) void
   }
+  class Singleton {
+    <<Core>>
+  }
+  Singleton <|-- ObjectPoolManager
 ```
 
 ## Files
@@ -26,4 +30,4 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | IPoolable | interface | `IPoolable.cs:5` | 5 |
-| ObjectPoolManager | MB | `ObjectPoolManager.cs:7` | 71 |
+| ObjectPoolManager | MB | `ObjectPoolManager.cs:7` | 66 |

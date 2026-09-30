@@ -1,17 +1,17 @@
 # Graph Report - project-ocean  (2026-10-01)
 
 ## Corpus Check
-- 443 files · ~427,586 words
+- 444 files · ~431,637 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 2658 file(s) not represented in the graph (top: .meta 1812, .asset 511, .prefab 135)
 
 ## Summary
-- 5008 nodes · 10184 edges · 270 communities (240 shown, 30 thin omitted)
-- Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 1242 edges (avg confidence: 0.92)
+- 5016 nodes · 10581 edges · 248 communities (221 shown, 27 thin omitted)
+- Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 1555 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f2317feb`
+- Built from commit: `2dbabda6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,16 +19,16 @@
 - project-ocean.slnx
 - Game.Core
 - UIManager
-- .GetAction
+- README.md
 - OxygenRope
 - manifest.json
 - dependencies
 - EnemyNavAgentBase
 - InputReader
-- ObjectPoolManager
+- AdditiveSceneSetupWindow
 - Player
 - ExploreAreaTrigger
-- AdditiveSceneConfig
+- UI.md
 - system_collections_generic
 - ObjectWrapPoint
 - Enemy
@@ -40,10 +40,10 @@
 - Game.UI
 - Quest
 - TutorialActionId
-- Phase 7a: decouple the GameManager hub and player-side upward links
+- UIWindow
 - QuestStep
 - com.unity.modules.imgui
-- LoadingType
+- LoadingManager
 - com.unity.2d.common
 - gen_uml.py
 - com.unity.modules.animation
@@ -58,35 +58,35 @@
 - What You Must Do When Invoked
 - com.unity.render-pipelines.core
 - HierarchyCategory
-- UpgradeService
+- UpgradeData
 - GameFeature
 - EnemyBrainContext
 - TrashInteract
 - dependencies
 - com.unity.test-framework
 - LinearPatrolBrain
-- README.md
-- QuestData.cs
+- 03-all-scripts.md
+- Gameplay (131 files)
 - EnemySpawner
 - GameObjectSpawnManager
 - CallbackContext
-- LoadingManager
+- QuestSlot
 - MonoBehaviour
-- UpgradeSlot
-- DayManager
+- LinearPatrolProfile
+- NotificationMessage
 - com.unity.modules.physics
 - EnemyFacingController
 - Gameplay_Entities_Enemies.md
-- UI.md
+- Gameplay_QuestSystems_Quest.md
 - Entity
 - EntityHealth
-- .FromSave
+- ItemSaveData
 - Player
 - EnemyKillTracker
 - ComponentInspectorPopup
 - ComponentMinimap
 - .DrawCategory
-- NotificationMessage
+- ToastNotificationView
 - PlayerSelfDialogueUI
 - com.unity.editorcoroutines
 - ItemSpawner
@@ -99,7 +99,7 @@
 - RopeBreakCountdownUI
 - com.unity.2d.tilemap
 - com.unity.dt.app-ui
-- DraggableItem
+- UI (58 files)
 - EnemyNavPathfinder
 - QuestManager
 - QuestBoardUI
@@ -116,34 +116,34 @@
 - AmmoWheel
 - UIActions
 - InventoryModel
-- QuestSlot
-- unityengine
+- QuestVisuals
+- unityeditor
 - gen_drawio.py
 - HierarchyDataCache
 - DamagePoint
-- NextDayAnimationUI
-- SaveMenuUI
+- PunchScale
+- SlotBuilderTests
 - DevPanel
-- Phase 3: cut remaining wrong-way links (medium risk)
+- ItemDrop
 - IInventory
 - com.unity.nuget.newtonsoft-json
 - com.unity.ext.nunit
-- ReadmeReaderEditor
+- CollectableItemBase
 - QuestNavigation
 - .UnregisterCallbacks
 - Phase 8: one Interactable hierarchy
-- unityengine_scenemanagement
-- NPCManager
+- Gameplay_Entities.md
+- EnemyAgent
 - .Pick
 - ConfirmationDialog
 - LandUI
 - UNITY PROJECT AI GUIDE
-- TutorialGate
+- QuestTrackerUI
 - com.unity.modules.ai
 - UNITY PROJECT AI GUIDE
 - HierarchyPlus — Installation Guide
 - MotionBendTracking
-- .Close
+- PlayerUIState
 - FishAlertUI
 - ScriptNamingTests
 - EnemyStateBase
@@ -153,7 +153,7 @@
 - LoadingUI
 - GrapplingHookBullet
 - CategoryColorMap
-- ButtonHoverScale
+- Phase 11: split god classes and share repeated code
 - AudioManager
 - EnemyHitbox
 - Bird
@@ -162,7 +162,6 @@
 - HierarchyPlusCore
 - MissingScriptDetector
 - Parallax
-- RecordingInventory
 - QuestMarkerBase
 - PlayerFeedbackVFX
 - parse_types
@@ -170,30 +169,28 @@
 - TipPanelUI
 - CategoryIconMap
 - QuestDetailPanel
-- PlayerMoney
-- DialogueState
+- MoneyUI
 - InteractableNextDay
 - .TryOpenScript
 - KeyAction
 - PlayerMovement
-- Gameplay_Entities_Players.md
+- Gameplay_Services.md
 - SimpleAnimLoop
-- AdditiveSceneSetupWindow
+- NotificationUI
 - graphify reference: query, path, explain
-- MoveDirection
+- .GetAction
 - .Awake
 - .BeginReach
 - SwimState
-- Refactor Phase 10: Break the 36-Type Gameplay Cycle — Implementation Plan
+- draw.io Project Structure Diagram — Implementation Plan
 - IntroPlayer
 - RopeSplitTests
 - Notification Channels Implementation Plan
 - KeyBindManager
 - SettingTabManager
-- .Render
 - RebindButtonBase
 - Notification Channels — Design
-- UIWindow
+- UIType
 - TrashBin
 - .Notify
 - graphify reference: add a URL and watch a folder
@@ -203,39 +200,31 @@
 - graphify reference: GitHub clone and cross-repo merge
 - graphify reference: transcribe video and audio
 - Metrics
-- Gameplay/QuestSystems/Quest
 - .claude/CLAUDE.md
 - extraction-spec.md
 - IDialogueView
-- 1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)
+- NotificationView
 - EntityDeathHandler
 - PlayerSprintVFX
 - TutorialUIMarker
 - SaveData
 - UML refresh & refactor roadmap: design
 - PlayerInteriorState
-- UpgradeTooltip
-- TutorialPromptUI
+- UpgradeSlot
 - .Pick
 - QuestCategory
-- SaveBridge
-- IEnemyBrain
 - LandOpeningController
 - Risks
-- EnemyFleeState
 - VolumeSliderUI
-- Refactor Phase 3c-1: Move Gameplay Orchestrators Out of Core — Implementation Plan
 - Cutscene
 - guid_snapshot.py
 - ReviceQuestListUI
 - Game.Tests
-- ComponentTooltipWindow
 - 00-overview.md
 - .HandleBulletHit
-- 3. Root causes
+- Core (51 files)
 - LoadingButton
 - .AttachRope
-- UpgradeData
 - .Shooting
 - Package assembly GUIDs (resolved from Library/PackageCache)
 - QuestStatus
@@ -244,19 +233,16 @@
 - Refactor Phase 5b: Split OxygenRope — Implementation Plan
 - EnemyWanderState
 - InteractUI
-- SceneLoadContext
 - Core.md
-- AsmdefInstaller
 - ResourceNotificationPresenter
 - Task 1: Stop counting member names as type references
 - ParserTest
-- QuestSaveData
 - GameManager
 - UISettingManager
 - .RaiseMoneyRewarded_PassesAmount
-- UI_Inventory.md
+- Gameplay_Entities_Players.md
 - UIFadeBackground
-- QuestCompleteUI
+- Singleton
 - Page
 - DrawioTest
 - DoorQuestMarker
@@ -264,44 +250,34 @@
 - UIType
 - com.h8man.2d.navmeshplus
 - KeyBindResetAllButton
-- DocsInstaller
-- UpgradeManager
-- .LogWarning
-- GameFlowEvents
+- PlayerSplitTests
 - MoveKeyBindUI
-- EnemyVision
-- UISlotHoverHighlight
-- KeyBindErrorUI
-- CharacterFacing2D
+- .HasLineOfSightRay
 - EntityAnimation
-- Singleton
-- PlayerCamera
+- 1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)
+- Phase 6: cleanup (low risk, any time after Phase 4)
 - NormalBullet
-- AdditiveSceneLoader
 - CutsceneSkipHint
-- TutorialActionMarker
-- SellSlot
-- ViewContractTests
 
 ## God Nodes (most connected - your core abstractions)
 1. `Game.Core` - 261 edges
 2. `Game.Gameplay` - 218 edges
-3. `InventoryManager` - 110 edges
-4. `Item` - 87 edges
-5. `Game.UI` - 81 edges
-6. `FishMotion` - 68 edges
-7. `ShopManager` - 66 edges
-8. `OxygenRope` - 64 edges
-9. `QuestManager` - 62 edges
-10. `EnemyNavAgentBase` - 59 edges
+3. `Gameplay (131 files)` - 167 edges
+4. `InventoryManager` - 111 edges
+5. `Item` - 88 edges
+6. `Game.UI` - 81 edges
+7. `FishMotion` - 68 edges
+8. `ShopManager` - 68 edges
+9. `OxygenRope` - 65 edges
+10. `QuestManager` - 63 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Bus — `NotificationManager` (existing static class, `UI/NotificationManager.cs`)` --references--> `NotificationManager`  [INFERRED]
   docs/superpowers/specs/2026-09-25-notification-channels-design.md → Assets/Project_Ocean/Scripts/Core/Events/NotificationManager.cs
+- `Behaviour changes (accepted)` --references--> `PlayerUIState`  [INFERRED]
+  docs/superpowers/plans/2026-09-30-refactor-phase8-interactables.md → Assets/Project_Ocean/Scripts/Core/PlayerUIState.cs
 - `5. Risks` --references--> `SaveData`  [INFERRED]
   docs/uml/findings.md → Assets/Project_Ocean/Scripts/Core/Save/SaveData.cs
-- `Task 3: LoadingManager to Core behind ILoadingVisual` --references--> `LoadingManager`  [INFERRED]
-  docs/superpowers/plans/2026-09-26-refactor-phase3ab-metrics-loading.md → Assets/Project_Ocean/Scripts/Core/Scenes/LoadingManager.cs
 - `Moves (Unity `AssetDatabase.MoveAsset`, so GUIDs and prefab/scene links are kept)` --references--> `RopeCornerFinder`  [INFERRED]
   docs/superpowers/plans/2026-09-29-cleanup-phase6e-items-folder.md → Assets/Project_Ocean/Scripts/Gameplay/Entities/Players/OxygenTube/RopeCornerFinder.cs
 - `Next plan` --references--> `InventoryModel`  [INFERRED]
@@ -310,7 +286,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (270 total, 30 thin omitted)
+## Communities (248 total, 27 thin omitted)
 
 ### Community 0 - "project-ocean.slnx"
 Cohesion: 0.03
@@ -318,15 +294,15 @@ Nodes (74): Assembly-CSharp, Assembly-CSharp-Editor, Game.Deprecated, Game.Edito
 
 ### Community 1 - "Game.Core"
 Cohesion: 0.05
-Nodes (7): Tags, AnimHash, Game.Core, Game.Gameplay, system_collections, Unity.Cinemachine, unityengine_ai
+Nodes (10): Game.Core, Game.Gameplay, system_collections, Unity.Cinemachine, unityengine, unityengine_ai, unityengine_audio, unityengine_events (+2 more)
 
 ### Community 2 - "UIManager"
-Cohesion: 0.14
-Nodes (6): Dictionary, UIManager, CurrentUI, IsUIOpen, Persistent, UIType
+Cohesion: 0.18
+Nodes (5): Dictionary, UIManager, CurrentUI, IsUIOpen, Persistent
 
-### Community 3 - ".GetAction"
-Cohesion: 0.30
-Nodes (5): Action, InputAction, List, KeyBindingData, KeyBindSettings
+### Community 3 - "README.md"
+Cohesion: 0.10
+Nodes (14): Inheritance & interfaces, Declared events with no `+=` subscriber found, Event catalogue, Event flow, Files, Gameplay/Entities/Players/OxygenTube, Event subscriptions, Files (+6 more)
 
 ### Community 4 - "OxygenRope"
 Cohesion: 0.09
@@ -341,48 +317,48 @@ Cohesion: 0.03
 Nodes (61): dependencies, com.coplaydev.unity-mcp, com.h8man.2d.navmeshplus, com.unity.2d.animation, com.unity.2d.aseprite, com.unity.2d.psdimporter, com.unity.2d.sprite, com.unity.2d.spriteshape (+53 more)
 
 ### Community 7 - "EnemyNavAgentBase"
-Cohesion: 0.09
-Nodes (14): FacingTurnMode, EnemyNavAgentBase, ActiveBrain, AutoReturnDelay, defaultFacingTurnMode, enemy, facingCtr, FishId (+6 more)
+Cohesion: 0.07
+Nodes (18): Transform, IEnemyBrain, IsAttacking, FacingTurnMode, NavMeshAgent, EnemyNavAgentBase, ActiveBrain, AutoReturnDelay (+10 more)
 
 ### Community 8 - "InputReader"
-Cohesion: 0.05
-Nodes (30): SceneAsset, ReadmeReader, SwimConfig, BulletData, RopeStructureData, Sprite, CharacterData, Dictionary (+22 more)
+Cohesion: 0.10
+Nodes (10): CallbackContext, Func, InputSystem_Actions, Vector2, InputReader, InputActions, MousePos, MovePos (+2 more)
 
-### Community 9 - "ObjectPoolManager"
-Cohesion: 0.21
-Nodes (8): IPoolable, Dictionary, GameObject, Quaternion, Queue, Vector3, ObjectPoolManager, DestroyGameObjectOnDuplicate
+### Community 9 - "AdditiveSceneSetupWindow"
+Cohesion: 0.05
+Nodes (31): AdditiveSceneEntry, Component, GUIStyle, Vector2, ComponentTooltipWindow, IsVisible, IPoolable, Dictionary (+23 more)
 
 ### Community 10 - "Player"
-Cohesion: 0.11
-Nodes (15): GameObject, Rigidbody2D, Player, DashSpeed, FaceDir, GunHandler, Movement, OxygenTube (+7 more)
+Cohesion: 0.09
+Nodes (22): NotificationManager, GameObject, Rigidbody2D, Player, DashSpeed, FaceDir, GunHandler, Movement (+14 more)
 
 ### Community 11 - "ExploreAreaTrigger"
-Cohesion: 0.11
-Nodes (9): ExploreEvents, Collider2D, List, Transform, DialogueLine, ExploreAreaTrigger, View, DialogueLine (+1 more)
+Cohesion: 0.08
+Nodes (16): GameObject, HashSet, Transform, DialogueState, BlocksInteraction, IsShowing, Collider2D, List (+8 more)
 
-### Community 12 - "AdditiveSceneConfig"
-Cohesion: 0.20
-Nodes (10): AdditiveSceneEntry, AdditiveSceneConfig, AdditiveSceneEntry, List, SceneRule, AdditiveSceneAutoLoader, Scene, SceneAsset (+2 more)
+### Community 12 - "UI.md"
+Cohesion: 0.10
+Nodes (15): Core/Datas, Files, Files, UI/Dialogue, Event subscriptions, Files, Event subscriptions, Files (+7 more)
 
 ### Community 13 - "system_collections_generic"
 Cohesion: 0.04
-Nodes (13): Vector3, FishConstant, CutsceneGate, IsPlaying, FishAlive, system, system_collections_generic, system_security_cryptography (+5 more)
+Nodes (12): Vector3, FishConstant, FishAlive, system, system_collections_generic, system_linq, system_security_cryptography, system_text (+4 more)
 
 ### Community 14 - "ObjectWrapPoint"
 Cohesion: 0.15
 Nodes (15): BoxCollider2D, Collider2D, IEnumerable, List, Vector2, ObjectWrapPoint, WrapPoint, CompositeCollider2D (+7 more)
 
 ### Community 15 - "Enemy"
-Cohesion: 0.09
-Nodes (13): Collision2D, IEnumerator, Enemy, Brain, EnemyId, IsAttacking, Player, SleepDistanceSqr (+5 more)
+Cohesion: 0.08
+Nodes (15): Collision2D, Enemy, Brain, EnemyId, IsAttacking, Player, SleepDistanceSqr, EnemyLoot (+7 more)
 
 ### Community 16 - "packages-lock.json"
 Cohesion: 0.05
 Nodes (41): com.unity.2d.sprite, com.unity.2d.tilemap, com.unity.modules.ai, com.unity.modules.androidjni, com.unity.modules.animation, com.unity.modules.audio, com.unity.modules.director, com.unity.modules.imageconversion (+33 more)
 
 ### Community 17 - "Refactor Phase 5a: Split QuestManager — Implementation Plan"
-Cohesion: 0.16
-Nodes (9): Action, Func, List, Quest, QuestProgressTracker, QuestSaveMapper, QuestStepEffects, Refactor Phase 5a: Split QuestManager — Implementation Plan (+1 more)
+Cohesion: 0.14
+Nodes (10): Action, Func, List, Quest, QuestProgressTracker, QuestSaveMapper, QuestStepEffects, Refactor Phase 5a: Split QuestManager — Implementation Plan (+2 more)
 
 ### Community 18 - "com.unity.mathematics"
 Cohesion: 0.07
@@ -390,47 +366,47 @@ Nodes (35): dependencies, dependencies, depth, source, url, version, dependencie
 
 ### Community 19 - "EnemyBrain"
 Cohesion: 0.08
-Nodes (19): LayerMask, EnemyBaseProfile, RequiresNavMesh, Transform, Vector3, EnemyBrain, AttackRange, IsAttacking (+11 more)
+Nodes (19): AggressiveEnemyProfile, detectDistance, LayerMask, EnemyBaseProfile, RequiresNavMesh, Transform, Vector3, EnemyBrain (+11 more)
 
 ### Community 20 - "ShopManager"
-Cohesion: 0.05
-Nodes (30): SceneNames, TutorialStep, Color, Image, PointerEventData, InventorySlot, Transform, SlotBuilder (+22 more)
+Cohesion: 0.07
+Nodes (16): Color, Image, InventorySlot, Transform, Button, GameObject, IEnumerator, Image (+8 more)
 
 ### Community 21 - "Game.UI"
 Cohesion: 0.05
 Nodes (6): IHookable, Game.UI, Game.Deprecated, tmpro, unityengine_eventsystems, unityengine_ui
 
 ### Community 22 - "Quest"
-Cohesion: 0.08
-Nodes (24): IEnumerable, List, Quest, Category, Classification, CurrentCount, CurrentStep, CurrentStepIndex (+16 more)
+Cohesion: 0.07
+Nodes (25): IEnumerable, List, Quest, Category, Classification, CurrentCount, CurrentStep, CurrentStepIndex (+17 more)
 
 ### Community 23 - "TutorialActionId"
-Cohesion: 0.10
-Nodes (21): TutorialActionId, AcceptQuest, BackToLand, BreakRopeLimit, BuyItem, Dive, HitEnemy, Interact (+13 more)
+Cohesion: 0.05
+Nodes (39): TutorialActionId, AcceptQuest, BackToLand, BreakRopeLimit, BuyItem, Dive, HitEnemy, Interact (+31 more)
 
-### Community 24 - "Phase 7a: decouple the GameManager hub and player-side upward links"
-Cohesion: 0.14
-Nodes (16): RewardEvents, GameSession, State, GameState, Land, Menu, Ocean, MiniHubItem (+8 more)
+### Community 24 - "UIWindow"
+Cohesion: 0.26
+Nodes (3): UIWindow, Type, UIType
 
 ### Community 25 - "QuestStep"
-Cohesion: 0.07
-Nodes (31): DialogueType, Accept, Finish, InProgress, NotFinish, Offer, Reject, QuestDialogueLine (+23 more)
+Cohesion: 0.06
+Nodes (30): DialogueType, Accept, Finish, InProgress, NotFinish, Offer, Reject, characterId (+22 more)
 
 ### Community 26 - "com.unity.modules.imgui"
 Cohesion: 0.09
 Nodes (23): dependencies, depth, source, url, version, dependencies, depth, source (+15 more)
 
-### Community 27 - "LoadingType"
-Cohesion: 0.10
-Nodes (19): ILoadingVisual, LoadingType, Land, Menu, Ocean, Mode, Interact, TriggerZone (+11 more)
+### Community 27 - "LoadingManager"
+Cohesion: 0.07
+Nodes (27): ILoadingVisual, GameObject, HashSet, IEnumerator, MonoBehaviour, Slider, LoadingManager, IsLoading (+19 more)
 
 ### Community 28 - "com.unity.2d.common"
 Cohesion: 0.06
 Nodes (34): dependencies, depth, source, url, version, dependencies, depth, source (+26 more)
 
 ### Community 29 - "gen_uml.py"
-Cohesion: 0.17
-Nodes (21): draw.io Project Structure Diagram — Implementation Plan, class_block(), class_diagram(), edges_of(), main(), md_link_module(), mm(), module_graph() (+13 more)
+Cohesion: 0.19
+Nodes (21): class_block(), class_diagram(), edges_of(), main(), md_link_module(), mm(), module_graph(), nid() (+13 more)
 
 ### Community 30 - "com.unity.modules.animation"
 Cohesion: 0.07
@@ -449,8 +425,8 @@ Cohesion: 0.11
 Nodes (10): Button, CanvasGroup, GameObject, IEnumerator, Image, LoadSceneMode, Scene, TextMeshProUGUI (+2 more)
 
 ### Community 34 - "CutsceneManager"
-Cohesion: 0.13
-Nodes (11): CutsceneEvents, Action, Dictionary, GameObject, IEnumerator, List, LoadSceneMode, Quest (+3 more)
+Cohesion: 0.14
+Nodes (10): Action, Dictionary, GameObject, IEnumerator, List, LoadSceneMode, Quest, Scene (+2 more)
 
 ### Community 35 - "PlayerGunHandler"
 Cohesion: 0.10
@@ -461,12 +437,12 @@ Cohesion: 0.08
 Nodes (27): dependencies, depth, source, version, dependencies, depth, source, version (+19 more)
 
 ### Community 37 - "PlayerHealth"
-Cohesion: 0.11
-Nodes (8): PlayerHealth, IsInvincible, GameObject, SetUp, TearDown, Test, PlayerInvincibilityTests, Global Constraints
+Cohesion: 0.09
+Nodes (10): PlayerHealth, IsInvincible, Test, GameFlowEventsTests, GameObject, SetUp, TearDown, Test (+2 more)
 
 ### Community 38 - "NPC"
-Cohesion: 0.08
-Nodes (17): Collider2D, GameObject, Quest, Sprite, NPC, HasQuest, NpcId, NpcName (+9 more)
+Cohesion: 0.06
+Nodes (21): Collider2D, GameObject, Quest, Sprite, NPC, HasQuest, NpcId, NpcName (+13 more)
 
 ### Community 39 - "What You Must Do When Invoked"
 Cohesion: 0.08
@@ -480,9 +456,9 @@ Nodes (25): depth, source, version, dependencies, depth, source, version, depend
 Cohesion: 0.09
 Nodes (20): DevelopmentStatus, Complete, Deprecated, New, None, Problem, Review, WorkInProgress (+12 more)
 
-### Community 42 - "UpgradeService"
-Cohesion: 0.22
-Nodes (8): Dictionary, UpgradeService, Instance, File map (paths relative to `Assets/Project_Ocean/Scripts/`), Refactor Phase 3d: UpgradeService Raises Events, Receivers Apply Their Own Effect — Implementation Plan, Task 1: Event tests (red), Task 2: Raise events, move effects to receivers, Task 3: Verify live, then docs
+### Community 42 - "UpgradeData"
+Cohesion: 0.09
+Nodes (22): List, UpgradeData, UpgradeType, Inventory, NormalBullet, Rope, Dictionary, UpgradeService (+14 more)
 
 ### Community 43 - "GameFeature"
 Cohesion: 0.09
@@ -505,16 +481,16 @@ Cohesion: 0.09
 Nodes (23): dependencies, dependencies, depth, source, url, version, dependencies, depth (+15 more)
 
 ### Community 48 - "LinearPatrolBrain"
+Cohesion: 0.11
+Nodes (11): IBrainHitReaction, Collider2D, Component, Rigidbody2D, Transform, Vector2, LinearPatrolBrain, IsAttacking (+3 more)
+
+### Community 49 - "03-all-scripts.md"
+Cohesion: 0.09
+Nodes (15): Core/Datas/ScriptableDatas/Characters, Files, Core/VideoManager, Files, Files, Gameplay/MainCameras, Files, UI/Loading/LoadingTextAnimation (+7 more)
+
+### Community 50 - "Gameplay (131 files)"
 Cohesion: 0.07
-Nodes (20): IBrainHitReaction, Collider2D, Component, Rigidbody2D, Transform, Vector2, LinearPatrolBrain, IsAttacking (+12 more)
-
-### Community 49 - "README.md"
-Cohesion: 0.06
-Nodes (21): Inheritance & interfaces, Declared events with no `+=` subscriber found, Event catalogue, Event flow, Core/Datas/ScriptableDatas/Characters, Files, Core/VideoManager, Files (+13 more)
-
-### Community 50 - "QuestData.cs"
-Cohesion: 0.08
-Nodes (31): NextQuestMode, QuestType, Cutscene, Delivery, ExploreArea, Talk, Tutorial, WaitingQuest (+23 more)
+Nodes (41): SoundKeys, CutsceneGate, IsPlaying, AnimHash, IBrainAttack, AttackRange, DeliverySource, EnemyKills (+33 more)
 
 ### Community 51 - "EnemySpawner"
 Cohesion: 0.13
@@ -528,53 +504,53 @@ Nodes (6): Dictionary, GameObject, List, EnemySpawnEntry, GameObjectSpawnManager
 Cohesion: 0.17
 Nodes (3): CallbackContext, IPlayerActions, IUIActions
 
-### Community 54 - "LoadingManager"
-Cohesion: 0.16
-Nodes (8): GameObject, HashSet, IEnumerator, MonoBehaviour, Slider, LoadingManager, IsLoading, Persistent
+### Community 54 - "QuestSlot"
+Cohesion: 0.24
+Nodes (8): Action, Button, Image, Quest, Sprite, TextMeshProUGUI, TMP_Text, QuestSlot
 
 ### Community 55 - "MonoBehaviour"
-Cohesion: 0.08
-Nodes (14): Vector3, WaterShadowWiggle, ItemUI, GameObject, QuestCompass, RevealAfterTotalDives, TMP_Text, LoadingTextAnimation (+6 more)
+Cohesion: 0.11
+Nodes (10): Vector3, WaterShadowWiggle, ItemUI, RevealAfterTotalDives, TMP_Text, LoadingTextAnimation, MainMenu, UILock (+2 more)
 
-### Community 56 - "UpgradeSlot"
-Cohesion: 0.18
-Nodes (7): Button, Color, Image, PointerEventData, RectTransform, TMP_Text, UpgradeSlot
+### Community 56 - "LinearPatrolProfile"
+Cohesion: 0.20
+Nodes (9): LayerMask, LinearPatrolProfile, RequiresNavMesh, PatrolAxis, Horizontal, Vertical, PatrolMovementMode, FixedLength (+1 more)
 
-### Community 57 - "DayManager"
-Cohesion: 0.18
-Nodes (8): UnityEvent, DayManager, CanDive, CurrentDay, DivesRemaining, DivesToday, HasDivedToday, TotalDives
+### Community 57 - "NotificationMessage"
+Cohesion: 0.25
+Nodes (6): Sprite, NotificationMessage, Channel, Icon, Sticky, Text
 
 ### Community 58 - "com.unity.modules.physics"
 Cohesion: 0.10
 Nodes (21): dependencies, depth, source, version, dependencies, depth, source, version (+13 more)
 
 ### Community 59 - "EnemyFacingController"
-Cohesion: 0.16
-Nodes (9): FacingTurnMode, Transform, Vector2, Vector3, EnemyFacingController, FacingRight, FacingTurnMode, SmoothTime (+1 more)
+Cohesion: 0.12
+Nodes (12): SpriteRenderer, Transform, CharacterFacing2D, FacingTurnMode, Transform, Vector2, Vector3, EnemyFacingController (+4 more)
 
 ### Community 60 - "Gameplay_Entities_Enemies.md"
-Cohesion: 0.07
-Nodes (30): Core/Pool, Files, Files, Gameplay/AudioSetting, Files, Gameplay/Entities/Enemies/Behaviours, Files, Files (+22 more)
-
-### Community 61 - "UI.md"
 Cohesion: 0.08
-Nodes (31): Core/Events, Files, Core/Scenes, Files, Editor, Files, Files, Gameplay/Contracts (+23 more)
+Nodes (25): Core/Pool, Files, Files, Gameplay/Entities/Enemies/Behaviours, Files, Files, Gameplay/Entities/Enemies/Brain/FSM, Files (+17 more)
+
+### Community 61 - "Gameplay_QuestSystems_Quest.md"
+Cohesion: 0.08
+Nodes (29): Core/Events, Files, Core/Inputs, Event subscriptions, Files, Editor, Files, Files (+21 more)
 
 ### Community 62 - "Entity"
-Cohesion: 0.14
-Nodes (5): Rigidbody2D, Entity, CurrentHealth, IsDead, MaxHealth
+Cohesion: 0.11
+Nodes (9): Rigidbody2D, Entity, CurrentHealth, IsDead, MaxHealth, GameObject, IEnumerator, PlayerStabAttack (+1 more)
 
 ### Community 63 - "EntityHealth"
 Cohesion: 0.10
 Nodes (12): Color, Coroutine, IEnumerator, SpriteRenderer, EntityHealth, CurrentHealth, IsDead, MaxHealth (+4 more)
 
-### Community 64 - ".FromSave"
-Cohesion: 0.11
-Nodes (12): ItemSaveData, Func, IReadOnlyList, List, TearDown, TearDown, Test, InventorySaveMapperTests (+4 more)
+### Community 64 - "ItemSaveData"
+Cohesion: 0.08
+Nodes (22): ItemSaveData, Func, IReadOnlyList, List, InventorySaveMapper, SlotBuilder, TearDown, TearDown (+14 more)
 
 ### Community 65 - "Player"
-Cohesion: 0.10
-Nodes (17): IEnumerator, LineRenderer, Rigidbody2D, CheckPointItem, ActionHint, KeepInInventory, SourceSlotIndex, Player (+9 more)
+Cohesion: 0.11
+Nodes (15): IEnumerator, LineRenderer, Rigidbody2D, CheckPointItem, ActionHint, KeepInInventory, SourceSlotIndex, Player (+7 more)
 
 ### Community 66 - "EnemyKillTracker"
 Cohesion: 0.20
@@ -592,9 +568,9 @@ Nodes (10): Component, Dictionary, GameObject, HashSet, List, Rect, Texture2D, T
 Cohesion: 0.18
 Nodes (11): GameObject, GUIStyle, Rect, HierarchyPlusDrawer, BadgeStyle, IconStyle, Color, DevelopmentStatus (+3 more)
 
-### Community 70 - "NotificationMessage"
-Cohesion: 0.14
-Nodes (12): Sprite, NotificationMessage, Channel, Icon, Sticky, Text, CanvasGroup, Coroutine (+4 more)
+### Community 70 - "ToastNotificationView"
+Cohesion: 0.18
+Nodes (6): CanvasGroup, Coroutine, IEnumerator, Image, TextMeshProUGUI, ToastNotificationView
 
 ### Community 71 - "PlayerSelfDialogueUI"
 Cohesion: 0.20
@@ -613,8 +589,8 @@ Cohesion: 0.23
 Nodes (5): Vector2, Vector3, WrapPin, Global Constraints, Refactor Phase 5c: Split Player — Implementation Plan
 
 ### Community 76 - "InventoryManager"
-Cohesion: 0.07
-Nodes (28): InventorySaveMapper, Action, GameObject, IReadOnlyList, List, TextMeshProUGUI, Transform, InventoryManager (+20 more)
+Cohesion: 0.06
+Nodes (31): Action, GameObject, IReadOnlyList, List, TextMeshProUGUI, Transform, InventoryManager, ActiveBuildingSlotIndex (+23 more)
 
 ### Community 77 - "ReachPoint"
 Cohesion: 0.16
@@ -625,8 +601,8 @@ Cohesion: 0.12
 Nodes (15): PlayerActions, @Aim, @Attack, enabled, @Interact, @Inventory, @ItemConsume, @Menu (+7 more)
 
 ### Community 79 - "ChestInteract"
-Cohesion: 0.13
-Nodes (13): Collider2D, HashSet, MonoBehaviour, Sprite, ChestInteract, Popup, CanvasGroup, IEnumerator (+5 more)
+Cohesion: 0.24
+Nodes (6): Collider2D, HashSet, MonoBehaviour, Sprite, ChestInteract, Popup
 
 ### Community 80 - "RopeBreakCountdownUI"
 Cohesion: 0.18
@@ -640,9 +616,9 @@ Nodes (27): dependencies, depth, source, url, version, dependencies, depth, depe
 Cohesion: 0.12
 Nodes (16): dependencies, depth, source, url, version, dependencies, depth, source (+8 more)
 
-### Community 83 - "DraggableItem"
-Cohesion: 0.09
-Nodes (17): Color, Image, PointerEventData, ShopBuySlot, GameObject, ShopInventoryBuy, Instance, Image (+9 more)
+### Community 83 - "UI (58 files)"
+Cohesion: 0.07
+Nodes (20): Color, Image, PointerEventData, ShopBuySlot, GameObject, ShopInventoryBuy, Instance, Image (+12 more)
 
 ### Community 84 - "EnemyNavPathfinder"
 Cohesion: 0.18
@@ -650,7 +626,7 @@ Nodes (11): Action, Func, Vector3, EnemySearchState, SearchOrigin, StateTag, Lay
 
 ### Community 85 - "QuestManager"
 Cohesion: 0.11
-Nodes (9): Coroutine, IEnumerator, List, Quest, QuestManager, Persistent, Risks, Task 2: Extract (+1 more)
+Nodes (8): Coroutine, IEnumerator, List, Quest, QuestManager, Persistent, Risks, Task 2: Extract
 
 ### Community 86 - "QuestBoardUI"
 Cohesion: 0.14
@@ -661,16 +637,16 @@ Cohesion: 0.14
 Nodes (10): Collider2D, GameObject, IEnumerator, Rigidbody2D, SpriteRenderer, Vector2, Bullet, MaxRange (+2 more)
 
 ### Community 88 - "Boid"
-Cohesion: 0.17
-Nodes (6): List, Vector2, Vector3, Boid, HasLeader, Leader
+Cohesion: 0.15
+Nodes (7): List, Vector2, Vector3, Boid, HasLeader, Leader, 10a: `EntityDeathHandler` stops knowing enemies (was deferred 9c)
 
 ### Community 89 - "com.unity.modules.uielements"
 Cohesion: 0.13
 Nodes (15): dependencies, depth, source, url, version, depth, source, version (+7 more)
 
 ### Community 90 - "QuestStepDataDrawer"
-Cohesion: 0.17
-Nodes (16): characterId, Dictionary, GUIContent, List, Rect, SerializedProperty, FieldVisibility, QuestStepDataDrawer (+8 more)
+Cohesion: 0.11
+Nodes (21): GUIStyle, SceneAsset, ReadmeReaderEditor, SerializedProperty, QuestDataEditor, characterId, Dictionary, GUIContent (+13 more)
 
 ### Community 91 - "Interactable"
 Cohesion: 0.10
@@ -685,8 +661,8 @@ Cohesion: 0.03
 Nodes (74): Game.Core, Game.Testing, glTFast.dots, glTFast.Editor, glTFast.Newtonsoft, HierarchyPlus.Editor, HierarchyPlus.Runtime, MCPForUnity.Editor (+66 more)
 
 ### Community 94 - "EnemyFollowState"
-Cohesion: 0.14
-Nodes (9): AggressiveEnemyProfile, detectDistance, LayerMask, Vector2, Vector2, Vector3, EnemyFollowState, LastKnownPlayerPosition (+1 more)
+Cohesion: 0.18
+Nodes (6): EnemyVision, Vector2, Vector3, EnemyFollowState, LastKnownPlayerPosition, StateTag
 
 ### Community 95 - "EnemyBrainBase"
 Cohesion: 0.24
@@ -708,13 +684,13 @@ Nodes (8): UIActions, @Cancel, @Click, enabled, @MiddleClick, @RightClick, @Scro
 Cohesion: 0.15
 Nodes (11): InventoryModel, BuildingSlotCount, PlayerSlotCount, SlotCount, ItemStack, IsEmpty, Test, InventoryModelTests (+3 more)
 
-### Community 100 - "QuestSlot"
-Cohesion: 0.07
-Nodes (21): Image, Quest, Sprite, QuestVisuals, Quest, Coroutine, IEnumerator, Vector3 (+13 more)
+### Community 100 - "QuestVisuals"
+Cohesion: 0.22
+Nodes (5): Image, Quest, Sprite, QuestVisuals, Quest
 
-### Community 101 - "unityengine"
-Cohesion: 0.07
-Nodes (10): DenysAlmaral, HierarchyPlus.Editor, Game.Editor, system_io, unityeditor, unityeditor_scenemanagement, unityeditorinternal, unityengine (+2 more)
+### Community 101 - "unityeditor"
+Cohesion: 0.08
+Nodes (11): MenuItem, AsmdefInstaller, MenuItem, DocsInstaller, DenysAlmaral, HierarchyPlus.Editor, Game.Editor, system_io (+3 more)
 
 ### Community 102 - "gen_drawio.py"
 Cohesion: 0.17
@@ -728,24 +704,24 @@ Nodes (7): DevelopmentStatusTag, Dictionary, GameObject, Cache, HierarchyDataCac
 Cohesion: 0.17
 Nodes (7): IDamagePopup, IEnumerator, TextMeshProUGUI, DamagePoint, Test, GameplayUiEventTests, Refactor Phase 3f-1: Gameplay Stops Calling UI Directly — Implementation Plan
 
-### Community 105 - "NextDayAnimationUI"
-Cohesion: 0.20
-Nodes (6): Animator, CanvasGroup, Coroutine, IEnumerator, NextDayAnimationUI, IsPlaying
+### Community 105 - "PunchScale"
+Cohesion: 0.28
+Nodes (4): Coroutine, IEnumerator, Vector3, PunchScale
 
-### Community 106 - "SaveMenuUI"
-Cohesion: 0.21
-Nodes (6): GameObject, SaveMenuUI, Button, GameObject, TMP_Text, SaveSlotUI
+### Community 106 - "SlotBuilderTests"
+Cohesion: 0.25
+Nodes (5): GameObject, SetUp, TearDown, Test, SlotBuilderTests
 
 ### Community 107 - "DevPanel"
 Cohesion: 0.16
 Nodes (8): Button, GameObject, List, DevItemButton, DevPanel, DevItemButton, TMP_Dropdown, Toggle
 
-### Community 108 - "Phase 3: cut remaining wrong-way links (medium risk)"
-Cohesion: 0.10
-Nodes (13): EnemyLoot, CanInteract, IsFeatureUnlocked, CollectableItemBase, CanInteract, IsCollectable, IsFeatureUnlocked, TakesPlayerLock (+5 more)
+### Community 108 - "ItemDrop"
+Cohesion: 0.29
+Nodes (3): IEnumerator, ItemDrop, ActiveItem
 
 ### Community 109 - "IInventory"
-Cohesion: 0.06
+Cohesion: 0.07
 Nodes (20): IReadOnlyList, IInventory, ActiveBuildingSlotIndex, AllItems, Action, Inventory, Current, GameObject (+12 more)
 
 ### Community 110 - "com.unity.nuget.newtonsoft-json"
@@ -756,29 +732,33 @@ Nodes (18): dependencies, depth, hash, source, version, dependencies, depth, sou
 Cohesion: 0.17
 Nodes (12): dependencies, depth, source, version, dependencies, depth, source, url (+4 more)
 
-### Community 112 - "ReadmeReaderEditor"
-Cohesion: 0.22
-Nodes (6): GUIStyle, SceneAsset, ReadmeReaderEditor, SerializedProperty, QuestDataEditor, Editor
+### Community 112 - "CollectableItemBase"
+Cohesion: 0.33
+Nodes (5): CollectableItemBase, CanInteract, IsCollectable, IsFeatureUnlocked, TakesPlayerLock
 
 ### Community 113 - "QuestNavigation"
-Cohesion: 0.26
-Nodes (5): Vector3, Collider2D, Transform, Vector3, QuestNavigation
+Cohesion: 0.19
+Nodes (8): GameObject, QuestCompass, Transform, Vector3, Collider2D, Transform, Vector3, QuestNavigation
 
 ### Community 115 - "Phase 8: one Interactable hierarchy"
 Cohesion: 0.19
 Nodes (10): Sprite, IInteractPopupView, IsOpen, GameObject, Image, Sprite, TMP_Text, InteractPopupView (+2 more)
 
-### Community 117 - "NPCManager"
-Cohesion: 0.25
-Nodes (4): Dictionary, Sprite, NPCManager, Persistent
+### Community 116 - "Gameplay_Entities.md"
+Cohesion: 0.29
+Nodes (5): Event subscriptions, Files, Gameplay/Entities, Files, UI/Interactions
+
+### Community 117 - "EnemyAgent"
+Cohesion: 0.33
+Nodes (4): EnemyAgent, AutoReturnDelay, BaseProfile, requiresNavMesh
 
 ### Community 118 - ".Pick"
 Cohesion: 0.25
 Nodes (9): IReadOnlyList, IWeightedEntry, Weight, WeightedPicker, Test, Entry, Weight, WeightedPickerTests (+1 more)
 
 ### Community 119 - "ConfirmationDialog"
-Cohesion: 0.09
-Nodes (15): Action, IModalPrompt, CanShow, ModalPrompt, Current, Action, Button, GameObject (+7 more)
+Cohesion: 0.12
+Nodes (16): Action, IModalPrompt, CanShow, ModalPrompt, Current, IQuestOfferView, Action, Button (+8 more)
 
 ### Community 120 - "LandUI"
 Cohesion: 0.14
@@ -788,9 +768,9 @@ Nodes (9): alpha, Button, CanvasGroup, Dictionary, interactable, TMP_Text, LandU
 Cohesion: 0.17
 Nodes (11): AI Workflow, Architecture Rules, Comment Rules, Existing Managers, Git Rules, graphify, Project Overview, Save System Rules (+3 more)
 
-### Community 122 - "TutorialGate"
+### Community 122 - "QuestTrackerUI"
 Cohesion: 0.33
-Nodes (3): TutorialGate, IsRestricting, 10b: `TutorialGate` becomes a Core type
+Nodes (4): GameObject, Image, TextMeshProUGUI, QuestTrackerUI
 
 ### Community 123 - "com.unity.modules.ai"
 Cohesion: 0.18
@@ -808,9 +788,9 @@ Nodes (9): 1. Copy the Package, 2. Install Assembly Definitions, 3. Verify, 4. T
 Cohesion: 0.27
 Nodes (7): Queue, Vector3, MotionBendTracking, Capacity, Count, MotionData, MotionData
 
-### Community 127 - ".Close"
-Cohesion: 0.16
-Nodes (7): Action, PlayerUIState, IsLocked, ResetCount, EscClosablePanel, Behaviour changes (accepted), Stack
+### Community 127 - "PlayerUIState"
+Cohesion: 0.09
+Nodes (12): Action, PlayerUIState, IsLocked, ResetCount, EscClosablePanel, Animator, CanvasGroup, Coroutine (+4 more)
 
 ### Community 128 - "FishAlertUI"
 Cohesion: 0.23
@@ -821,8 +801,8 @@ Cohesion: 0.24
 Nodes (9): Test, ScriptNamingTests, File map, Global Constraints, Refactor Phase 1: Names Implementation Plan, Task 1: Safety net (GUID snapshot + naming test), Task 2: Fix file/class name mismatches, Task 3: Rename typo folders (+1 more)
 
 ### Community 130 - "EnemyStateBase"
-Cohesion: 0.16
-Nodes (6): EnemyStateBase, enemyBrainContext, enemyFSM, StateTag, EnemyPrepareAttackState, StateTag
+Cohesion: 0.12
+Nodes (9): LayerMask, Vector2, EnemyStateBase, enemyBrainContext, enemyFSM, StateTag, Vector2, EnemyFleeState (+1 more)
 
 ### Community 131 - "VerletRope"
 Cohesion: 0.21
@@ -833,8 +813,8 @@ Cohesion: 0.23
 Nodes (4): Animator, Coroutine, IEnumerator, ShelleController
 
 ### Community 133 - ".Info"
-Cohesion: 0.20
-Nodes (7): Object, EncryptionHelper, List, SaveSystem, LegacyPath, Conditional, HideInCallstack
+Cohesion: 0.10
+Nodes (15): Object, EncryptionHelper, List, SaveSlotMeta, SaveSystem, LegacyPath, List, GameObject (+7 more)
 
 ### Community 134 - "LoadingUI"
 Cohesion: 0.15
@@ -848,9 +828,9 @@ Nodes (6): Collider2D, IEnumerator, Transform, Vector2, GrapplingHookBullet, Att
 Cohesion: 0.42
 Nodes (5): Color, Dictionary, HierarchyCategory, Texture2D, CategoryColorMap
 
-### Community 138 - "ButtonHoverScale"
-Cohesion: 0.29
-Nodes (4): PointerEventData, TMP_Text, Vector3, ButtonHoverScale
+### Community 138 - "Phase 11: split god classes and share repeated code"
+Cohesion: 0.40
+Nodes (3): Action, KeyBindUI, Phase 11: split god classes and share repeated code
 
 ### Community 139 - "AudioManager"
 Cohesion: 0.08
@@ -866,7 +846,7 @@ Nodes (3): SpriteRenderer, Transform, Bird
 
 ### Community 142 - "Item"
 Cohesion: 0.04
-Nodes (39): InventoryItemDatabase, GameObject, Sprite, Item, CanBuy, CanSell, ItemDescription, ItemID (+31 more)
+Nodes (37): GameObject, Sprite, Item, CanBuy, CanSell, ItemDescription, ItemID, ItemName (+29 more)
 
 ### Community 143 - "graphify reference: extra exports and benchmark"
 Cohesion: 0.22
@@ -884,13 +864,9 @@ Nodes (6): Dictionary, GameObject, GUIContent, Rect, MissingScriptDetector, Warn
 Cohesion: 0.25
 Nodes (5): SpriteRenderer, Transform, Vector2, Vector3, Parallax
 
-### Community 147 - "RecordingInventory"
-Cohesion: 0.14
-Nodes (8): Dictionary, IReadOnlyList, List, RecordingInventory, ActiveBuildingSlotIndex, AllItems, count, id
-
 ### Community 148 - "QuestMarkerBase"
-Cohesion: 0.29
-Nodes (3): GameObject, QuestMarkerBase, PollEveryFrame
+Cohesion: 0.15
+Nodes (6): GameObject, QuestMarkerBase, PollEveryFrame, List, Transform, TutorialActionMarker
 
 ### Community 149 - "PlayerFeedbackVFX"
 Cohesion: 0.26
@@ -901,8 +877,8 @@ Cohesion: 0.14
 Nodes (12): load(), match_brace(), Member, member_headers(), parse_members(), parse_types(), Find type declarations in code; returns list of TypeInfo (nested types…, Yield top-level member declaration headers of a type body. (+4 more)
 
 ### Community 151 - "QuestSplitTests"
-Cohesion: 0.40
-Nodes (4): Test, QuestSplitTests, Task 1: Tests first, RecordingInventory
+Cohesion: 0.17
+Nodes (10): QuestSaveData, Func, IEnumerable, List, Quest, Test, QuestSplitTests, Global Constraints (+2 more)
 
 ### Community 152 - "TipPanelUI"
 Cohesion: 0.43
@@ -913,16 +889,8 @@ Cohesion: 0.48
 Nodes (4): Dictionary, HierarchyCategory, Texture2D, CategoryIconMap
 
 ### Community 155 - "QuestDetailPanel"
-Cohesion: 0.16
-Nodes (9): Action, Quest, IQuestOfferView, Action, Button, Image, Quest, TextMeshProUGUI (+1 more)
-
-### Community 156 - "PlayerMoney"
 Cohesion: 0.17
-Nodes (6): PlayerMoney, Current, CurrentMoney, Money, TMP_Text, MoneyUI
-
-### Community 157 - "DialogueState"
-Cohesion: 0.15
-Nodes (9): GameObject, HashSet, Transform, DialogueState, BlocksInteraction, IsShowing, NpcEvents, Task 4: Verify live, docs (+1 more)
+Nodes (8): Action, Quest, Action, Button, Image, Quest, TextMeshProUGUI, QuestDetailPanel
 
 ### Community 158 - "InteractableNextDay"
 Cohesion: 0.22
@@ -937,36 +905,28 @@ Cohesion: 0.18
 Nodes (11): KeyAction, Aim, Attack, Interact, Inventory, Move, Sprint, SwitchItem (+3 more)
 
 ### Community 161 - "PlayerMovement"
-Cohesion: 0.11
+Cohesion: 0.09
 Nodes (11): Rigidbody2D, Vector2, PlayerMovement, DashSpeed, FaceDir, IsLand, MoveSpeed, SprintSpeed (+3 more)
 
-### Community 162 - "Gameplay_Entities_Players.md"
-Cohesion: 0.06
-Nodes (26): Core/Datas, Files, Core/Datas/Upgrades, Files, Event subscriptions, Files, Gameplay/Entities, Event subscriptions (+18 more)
+### Community 162 - "Gameplay_Services.md"
+Cohesion: 0.15
+Nodes (11): Core/Datas/Upgrades, Files, Files, Gameplay/Projectiles, Files, Gameplay/RopeSystems, Files, Gameplay/Services (+3 more)
 
 ### Community 163 - "SimpleAnimLoop"
 Cohesion: 0.47
 Nodes (3): Animator, IEnumerator, SimpleAnimLoop
 
-### Community 164 - "AdditiveSceneSetupWindow"
-Cohesion: 0.26
-Nodes (4): AdditiveSceneSetupWindow, List, MenuItem, Vector2
-
 ### Community 165 - "graphify reference: query, path, explain"
 Cohesion: 0.33
 Nodes (5): For /graphify explain, For /graphify path, graphify reference: query, path, explain, Step 0 — Constrained query expansion (REQUIRED before traversal), Step 1 — Traversal
 
-### Community 166 - "MoveDirection"
-Cohesion: 0.25
-Nodes (6): MoveDirection, Down, Left, Right, Up, Phase 1: names (low risk)
+### Community 166 - ".GetAction"
+Cohesion: 0.20
+Nodes (8): Action, InputAction, MoveDirection, Down, Left, Right, Up, Phase 1: names (low risk)
 
 ### Community 169 - "SwimState"
 Cohesion: 0.40
 Nodes (5): SwimState, Biting, Reaching, Stopped, Swimming
-
-### Community 170 - "Refactor Phase 10: Break the 36-Type Gameplay Cycle — Implementation Plan"
-Cohesion: 0.19
-Nodes (10): PlayerRegistry, Local, 10a: `EntityDeathHandler` stops knowing enemies (was deferred 9c), 10c: the self-dialogue "blocks interaction" flag moves to Core, 10d: quest money checks stop going through `PlayerRegistry`, Global constraints, Not in this phase, Refactor Phase 10: Break the 36-Type Gameplay Cycle — Implementation Plan (+2 more)
 
 ### Community 171 - "IntroPlayer"
 Cohesion: 0.31
@@ -977,36 +937,32 @@ Cohesion: 0.21
 Nodes (8): BoxCollider2D, GameObject, Settings, TearDown, Test, Vector2, RopeSplitTests, Task 1: Tests and a baseline
 
 ### Community 173 - "Notification Channels Implementation Plan"
-Cohesion: 0.12
-Nodes (10): Transform, StackNotificationView, SaveNotificationUI, File map, Global Constraints, Notification Channels Implementation Plan, Task 1: Channel bus and toast view, Task 3: Stack view and line (+2 more)
+Cohesion: 0.22
+Nodes (9): Transform, StackNotificationView, File map, Global Constraints, Notification Channels Implementation Plan, Task 1: Channel bus and toast view, Task 3: Stack view and line, Task 4: Prefabs and scene setup (+1 more)
 
 ### Community 174 - "KeyBindManager"
-Cohesion: 0.20
-Nodes (8): InputSystem_Actions, KeyBindManager, Actions, Persistent, SavePath, Action, KeyBindUI, Phase 4: assemblies and namespaces (compile-time enforcement)
+Cohesion: 0.24
+Nodes (8): InputSystem_Actions, KeyBindManager, Actions, Persistent, SavePath, List, KeyBindingData, KeyBindSettings
 
 ### Community 175 - "SettingTabManager"
 Cohesion: 0.39
 Nodes (4): Button, Color, GameObject, SettingTabManager
 
-### Community 176 - ".Render"
-Cohesion: 0.20
-Nodes (7): IEnumerator, Global Constraints, Next plan, Refactor Phase 7c: Pure `InventoryModel` Owns the Inventory, InventoryManager Only Draws It — Implementation Plan, Success criteria (all must hold at the end), Task 3: Verify live, measure, docs, Why this design (2026-09-30)
-
 ### Community 177 - "RebindButtonBase"
-Cohesion: 0.25
-Nodes (4): Action, Button, TMP_Text, RebindButtonBase
+Cohesion: 0.15
+Nodes (8): Coroutine, IEnumerator, TMP_Text, KeyBindErrorUI, Action, Button, TMP_Text, RebindButtonBase
 
 ### Community 178 - "Notification Channels — Design"
-Cohesion: 0.15
-Nodes (12): Bus — `NotificationManager` (existing static class, `UI/NotificationManager.cs`), Classes, Data, Data flow, Decisions, Edge cases, Files, Notification Channels — Design (+4 more)
+Cohesion: 0.22
+Nodes (8): Data flow, Decisions, Edge cases, Files, Notification Channels — Design, Out of scope, Scene and prefabs, Testing
 
-### Community 179 - "UIWindow"
-Cohesion: 0.18
-Nodes (9): UIType, Inventory, MainMenu, PauseMenu, Quest, SettingMenu, SettingPause, UIWindow (+1 more)
+### Community 179 - "UIType"
+Cohesion: 0.29
+Nodes (7): UIType, Inventory, MainMenu, PauseMenu, Quest, SettingMenu, SettingPause
 
 ### Community 180 - "TrashBin"
-Cohesion: 0.27
-Nodes (6): Image, PointerEventData, Sprite, Vector3, TrashBin, IPointerExitHandler
+Cohesion: 0.20
+Nodes (8): PointerEventData, SellSlot, Image, PointerEventData, Sprite, Vector3, TrashBin, IDropHandler
 
 ### Community 181 - ".Notify"
 Cohesion: 0.22
@@ -1026,23 +982,19 @@ Nodes (3): For --cluster-only, For --update (incremental re-extraction), graphif
 
 ### Community 188 - "Metrics"
 Cohesion: 0.18
-Nodes (11): `Debug.Log*` calls — 85 in 35 files, Dependency cycles (type level), Largest types, Layer violations — 0 type links, Metrics, Most depended-on (fan-in), Most dependencies (fan-out), Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 32 in 30 files (+3 more)
-
-### Community 189 - "Gameplay/QuestSystems/Quest"
-Cohesion: 0.40
-Nodes (5): Event subscriptions, Files, Gameplay/QuestSystems/Quest, part 1, part 2
+Nodes (11): `Debug.Log*` calls — 85 in 35 files, Dependency cycles (type level), Largest types, Layer violations — 0 type links, Metrics, Most depended-on (fan-in), Most dependencies (fan-out), Per-frame methods (`Update`/`FixedUpdate`/`LateUpdate`) — 31 in 30 files (+3 more)
 
 ### Community 192 - "IDialogueView"
 Cohesion: 0.08
 Nodes (17): GameObject, Sprite, IDialogueView, IsOpen, Panel, GameObject, Image, Sprite (+9 more)
 
-### Community 193 - "1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)"
-Cohesion: 0.19
-Nodes (8): NotificationChannel, Center, General, Resource, System, SoundKeys, NotificationView, 1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)
+### Community 193 - "NotificationView"
+Cohesion: 0.18
+Nodes (10): NotificationChannel, Center, General, Resource, System, NotificationView, Bus — `NotificationManager` (existing static class, `UI/NotificationManager.cs`), Classes (+2 more)
 
 ### Community 194 - "EntityDeathHandler"
-Cohesion: 0.16
-Nodes (8): Color, Rigidbody2D, SpriteRenderer, EntityDeathHandler, GameObject, IEnumerator, PlayerStabAttack, Phase 9: Entity cleanup (small scope)
+Cohesion: 0.29
+Nodes (4): Color, Rigidbody2D, SpriteRenderer, EntityDeathHandler
 
 ### Community 195 - "PlayerSprintVFX"
 Cohesion: 0.31
@@ -1053,8 +1005,8 @@ Cohesion: 0.40
 Nodes (3): TutorialUIMarker, PollEveryFrame, Graphic
 
 ### Community 197 - "SaveData"
-Cohesion: 0.13
-Nodes (14): ISaveParticipant, List, SaveData, Test, SaveDataCompatTests, GameObject, TearDown, Test (+6 more)
+Cohesion: 0.05
+Nodes (38): UnityEvent, DayManager, CanDive, CurrentDay, DivesRemaining, DivesToday, HasDivedToday, TotalDives (+30 more)
 
 ### Community 198 - "UML refresh & refactor roadmap: design"
 Cohesion: 0.29
@@ -1064,9 +1016,9 @@ Nodes (6): Decisions (agreed with the user), Deliverables, Goal, Next, UML refre
 Cohesion: 0.22
 Nodes (8): PlayerInterior, House, None, Shop, UpgradeShop, PlayerInteriorState, Current, CurrentExitAction
 
-### Community 200 - "UpgradeTooltip"
-Cohesion: 0.20
-Nodes (9): CanvasGroup, GameObject, List, RectTransform, TMP_Text, Transform, UpgradeTooltip, Canvas (+1 more)
+### Community 200 - "UpgradeSlot"
+Cohesion: 0.05
+Nodes (27): PointerEventData, TMP_Text, Vector3, ButtonHoverScale, Color, Image, PointerEventData, UISlotHoverHighlight (+19 more)
 
 ### Community 202 - ".Pick"
 Cohesion: 0.47
@@ -1076,14 +1028,6 @@ Nodes (5): Test, Vector2, InteractionTargetingTests, Target, Target
 Cohesion: 0.18
 Nodes (10): QuestCategory, Explore, FishL, FishM, FishS, Trash, QuestCategoryUIData, Action (+2 more)
 
-### Community 204 - "SaveBridge"
-Cohesion: 0.13
-Nodes (14): SaveSlotMeta, IEnumerator, List, LoadSceneMode, Scene, SaveBridge, CurrentSlot, DestroyGameObjectOnDuplicate (+6 more)
-
-### Community 205 - "IEnemyBrain"
-Cohesion: 0.20
-Nodes (4): Transform, IEnemyBrain, IsAttacking, NavMeshAgent
-
 ### Community 206 - "LandOpeningController"
 Cohesion: 0.36
 Nodes (4): Animator, GameObject, IEnumerator, LandOpeningController
@@ -1092,17 +1036,9 @@ Nodes (4): Animator, GameObject, IEnumerator, LandOpeningController
 Cohesion: 0.20
 Nodes (9): GameLog, Test, GameLogTests, ConditionalAttribute, Risks, Task 1: Logger and test, Task 2: Replace, Task 3: Prove the stripping (+1 more)
 
-### Community 208 - "EnemyFleeState"
-Cohesion: 0.36
-Nodes (3): Vector2, EnemyFleeState, StateTag
-
 ### Community 209 - "VolumeSliderUI"
 Cohesion: 0.40
 Nodes (3): Slider, TMP_Text, VolumeSliderUI
-
-### Community 210 - "Refactor Phase 3c-1: Move Gameplay Orchestrators Out of Core — Implementation Plan"
-Cohesion: 0.40
-Nodes (4): Global Constraints, Moves (paths relative to `Assets/Project_Ocean/Scripts/`), Refactor Phase 3c-1: Move Gameplay Orchestrators Out of Core — Implementation Plan, Task 1: Move the orchestrators and save UI
 
 ### Community 211 - "Cutscene"
 Cohesion: 0.18
@@ -1118,31 +1054,23 @@ Nodes (7): TextMeshProUGUI, Transform, ReviceQuestListUI, CanvasGroup, Image, Te
 
 ### Community 214 - "Game.Tests"
 Cohesion: 0.15
-Nodes (5): Game.Tests, nunit_framework, system_linq, system_text_regularexpressions, unityengine_testtools
-
-### Community 215 - "ComponentTooltipWindow"
-Cohesion: 0.22
-Nodes (6): Component, GUIStyle, Vector2, ComponentTooltipWindow, IsVisible, EditorWindow
+Nodes (4): Game.Tests, nunit_framework, system_text_regularexpressions, unityengine_testtools
 
 ### Community 216 - "00-overview.md"
-Cohesion: 0.10
-Nodes (18): Layer dependencies, Module dependencies, Module table, Overview — layers & modules, Core/Inputs, Event subscriptions, Files, Core/Inputs/KeyBind (+10 more)
+Cohesion: 0.11
+Nodes (15): Layer dependencies, Module dependencies, Module table, Overview — layers & modules, Core/Inputs/KeyBind, Files, Core/Inputs/KeyBind/MoveDirection, Files (+7 more)
 
 ### Community 217 - ".HandleBulletHit"
-Cohesion: 0.18
-Nodes (5): Collider2D, Collision2D, GameObject, Transform, Vector2
+Cohesion: 0.13
+Nodes (6): IEnumerator, Collider2D, Collision2D, GameObject, Transform, Vector2
 
-### Community 218 - "3. Root causes"
-Cohesion: 0.08
-Nodes (28): ItemType, Ammo, Building, CheckpointItem, Consumable, KeyItem, Normal, Quest (+20 more)
+### Community 218 - "Core (51 files)"
+Cohesion: 0.07
+Nodes (27): InventoryItemDatabase, ItemType, Ammo, Building, CheckpointItem, Consumable, KeyItem, Normal (+19 more)
 
 ### Community 220 - ".AttachRope"
 Cohesion: 0.32
 Nodes (5): GameObject, GameObject, LineRenderer, Rigidbody2D, RopeSystemUtil
-
-### Community 221 - "UpgradeData"
-Cohesion: 0.21
-Nodes (6): List, UpgradeData, SetUp, TearDown, Test, UpgradeServiceEventTests
 
 ### Community 222 - ".Shooting"
 Cohesion: 0.29
@@ -1153,7 +1081,7 @@ Cohesion: 0.29
 Nodes (6): Global Constraints, Package assembly GUIDs (resolved from Library/PackageCache), Refactor Phase 4: Assemblies and Namespaces — Implementation Plan, Task 1: Split into assemblies (namespaces unchanged), Task 2: Rename namespaces per folder, Task 3: Verify live, measure, docs
 
 ### Community 224 - "QuestStatus"
-Cohesion: 0.29
+Cohesion: 0.33
 Nodes (6): QuestStatus, Finish, InProgress, New, ReadyToTurnIn, Reject
 
 ### Community 225 - "EnemyAttackState"
@@ -1161,8 +1089,8 @@ Cohesion: 0.33
 Nodes (3): EnemyAttackState, IsAttacking, StateTag
 
 ### Community 226 - "NotificationLine"
-Cohesion: 0.33
-Nodes (6): CanvasGroup, IEnumerator, Image, TextMeshProUGUI, NotificationLine, Scene and prefabs
+Cohesion: 0.39
+Nodes (5): CanvasGroup, IEnumerator, Image, TextMeshProUGUI, NotificationLine
 
 ### Community 227 - "Refactor Phase 5b: Split OxygenRope — Implementation Plan"
 Cohesion: 0.23
@@ -1173,40 +1101,36 @@ Cohesion: 0.27
 Nodes (3): Vector3, EnemyWanderState, StateTag
 
 ### Community 229 - "InteractUI"
-Cohesion: 0.13
-Nodes (15): Func, IEnumerable, Vector2, InteractionTargeting, UnityEvent, InteractUI, Global Constraints, Task 1: GameState to Core, InteractUI to Gameplay (+7 more)
-
-### Community 230 - "SceneLoadContext"
-Cohesion: 0.40
-Nodes (4): Vector3, SceneLoadContext, IsLoading, Position
+Cohesion: 0.09
+Nodes (21): Func, IEnumerable, Vector2, InteractionTargeting, UnityEvent, InteractUI, Test, ViewContractTests (+13 more)
 
 ### Community 231 - "Core.md"
-Cohesion: 0.09
-Nodes (22): Core, Files, Core/Save, Core/Save/DayReset, Event subscriptions, Files, Files, Files (+14 more)
+Cohesion: 0.11
+Nodes (19): Core, Files, Core/Save, Core/Save/DayReset, Event subscriptions, Files, Files, Core/Scenes (+11 more)
 
-### Community 236 - "QuestSaveData"
-Cohesion: 0.27
-Nodes (6): QuestSaveData, Func, IEnumerable, List, Quest, Global Constraints
+### Community 233 - "ResourceNotificationPresenter"
+Cohesion: 0.32
+Nodes (3): Sprite, ResourceNotificationPresenter, Presenter
 
 ### Community 237 - "GameManager"
-Cohesion: 0.11
-Nodes (12): GameState, LoadSceneMode, Rigidbody2D, Scene, Transform, Vector3, GameManager, GameState (+4 more)
+Cohesion: 0.07
+Nodes (30): GameFlowEvents, RewardEvents, GameSession, State, GameState, Land, Menu, Ocean (+22 more)
 
 ### Community 238 - "UISettingManager"
 Cohesion: 0.39
 Nodes (3): GameObject, UISettingManager, IsOpen
 
-### Community 240 - "UI_Inventory.md"
-Cohesion: 0.08
-Nodes (24): Core/Datas/Items, Files, Files, Gameplay/Inventory, Files, Gameplay/Items, Event subscriptions, Files (+16 more)
+### Community 240 - "Gameplay_Entities_Players.md"
+Cohesion: 0.07
+Nodes (29): Core/Datas/Items, Files, Files, Gameplay/AudioSetting, Event subscriptions, Files, Gameplay/Entities/Players, Files (+21 more)
 
-### Community 242 - "QuestCompleteUI"
-Cohesion: 0.31
-Nodes (6): Coroutine, GameObject, IEnumerator, Quest, TextMeshProUGUI, QuestCompleteUI
+### Community 242 - "Singleton"
+Cohesion: 0.08
+Nodes (13): Singleton, DestroyGameObjectOnDuplicate, Instance, IsDuplicate, Persistent, CameraShakeManager, Coroutine, GameObject (+5 more)
 
 ### Community 247 - "DoorQuestMarker"
-Cohesion: 0.20
-Nodes (4): List, Transform, DoorQuestMarker, TutorialAction
+Cohesion: 0.24
+Nodes (7): CanvasGroup, IEnumerator, Transform, DoorInteract, List, DoorQuestMarker, TutorialAction
 
 ### Community 248 - "GameSessionTests"
 Cohesion: 0.29
@@ -1220,77 +1144,53 @@ Nodes (8): UIType, Inventory, MainMenu, None, PauseMenu, Quest, SettingMenu, Set
 Cohesion: 0.33
 Nodes (6): dependencies, depth, hash, source, version, com.h8man.2d.navmeshplus
 
-### Community 255 - "GameFlowEvents"
-Cohesion: 0.25
-Nodes (4): GameFlowEvents, Test, GameFlowEventsTests, Task 5: Verify live, measure, docs
+### Community 255 - "PlayerSplitTests"
+Cohesion: 0.14
+Nodes (10): PlayerItemUse, GameObject, List, Object, SetUp, TearDown, Test, PlayerSplitTests (+2 more)
 
 ### Community 256 - "MoveKeyBindUI"
 Cohesion: 0.25
 Nodes (6): Action, MoveKeyBindUI, Global Constraints, Task 1: Code changes, Task 2: Verify live, Task 3: Docs
 
-### Community 257 - "EnemyVision"
-Cohesion: 0.29
-Nodes (5): EnemyVision, LayerMask, Transform, Vector2, EnemyVisionHelper
-
-### Community 258 - "UISlotHoverHighlight"
-Cohesion: 0.29
-Nodes (5): Color, Image, PointerEventData, UISlotHoverHighlight, IPointerEnterHandler
-
-### Community 259 - "KeyBindErrorUI"
-Cohesion: 0.33
-Nodes (4): Coroutine, IEnumerator, TMP_Text, KeyBindErrorUI
-
-### Community 260 - "CharacterFacing2D"
-Cohesion: 0.43
-Nodes (3): SpriteRenderer, Transform, CharacterFacing2D
+### Community 257 - ".HasLineOfSightRay"
+Cohesion: 0.40
+Nodes (4): LayerMask, Transform, Vector2, EnemyVisionHelper
 
 ### Community 261 - "EntityAnimation"
 Cohesion: 0.38
 Nodes (4): Animator, HashSet, EntityAnimation, RuntimeAnimatorController
 
-### Community 262 - "Singleton"
-Cohesion: 0.11
-Nodes (10): List, OneTimePickupTracker, DestroyGameObjectOnDuplicate, Singleton, DestroyGameObjectOnDuplicate, Instance, IsDuplicate, Persistent (+2 more)
+### Community 262 - "1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)"
+Cohesion: 0.08
+Nodes (23): SceneAsset, ReadmeReader, SwimConfig, BulletData, RopeStructureData, Sprite, CharacterData, Dictionary (+15 more)
 
-### Community 263 - "PlayerCamera"
-Cohesion: 0.33
-Nodes (4): LoadSceneMode, Scene, PlayerCamera, CinemachineCamera
+### Community 263 - "Phase 6: cleanup (low risk, any time after Phase 4)"
+Cohesion: 0.20
+Nodes (7): LoadSceneMode, Scene, PlayerCamera, CinemachineCamera, Cleanup Phase 6b: Editor/Dev-only Info Logging — Implementation Plan, Global Constraints, Phase 6: cleanup (low risk, any time after Phase 4)
 
 ### Community 264 - "NormalBullet"
 Cohesion: 0.43
 Nodes (3): Rigidbody2D, NormalBullet, MaxRange
 
-### Community 265 - "AdditiveSceneLoader"
-Cohesion: 0.33
-Nodes (3): AdditiveSceneLoader, LoadSceneMode, Scene
-
-### Community 267 - "TutorialActionMarker"
-Cohesion: 0.40
-Nodes (3): List, Transform, TutorialActionMarker
-
-### Community 268 - "SellSlot"
-Cohesion: 0.50
-Nodes (3): PointerEventData, SellSlot, IDropHandler
-
 ## Knowledge Gaps
-- **1153 isolated node(s):** `IsVisible`, `IconStyle`, `BadgeStyle`, `WarningContent`, `None` (+1148 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1986 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **30 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1151 isolated node(s):** `IsVisible`, `IconStyle`, `BadgeStyle`, `WarningContent`, `None` (+1146 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1984 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Findings & refactor roadmap` connect `InputReader` to `Phase 3: cut remaining wrong-way links (medium risk)`, `README.md`, `3. Root causes`, `1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)`?**
+- **Why does `Gameplay (131 files)` connect `Gameplay (131 files)` to `OxygenRope`, `EnemyNavAgentBase`, `Player`, `ExploreAreaTrigger`, `ObjectWrapPoint`, `Enemy`, `Refactor Phase 5a: Split QuestManager — Implementation Plan`, `EnemyBrain`, `Quest`, `TutorialActionId`, `QuestStep`, `LoadingManager`, `CutsceneManager`, `PlayerGunHandler`, `PlayerHealth`, `NPC`, `UpgradeData`, `GameFeature`, `EnemyBrainContext`, `TrashInteract`, `LinearPatrolBrain`, `EnemySpawner`, `GameObjectSpawnManager`, `MonoBehaviour`, `LinearPatrolProfile`, `EnemyFacingController`, `Entity`, `EntityHealth`, `ItemSaveData`, `Player`, `PlayerSelfDialogueUI`, `ItemSpawner`, `Refactor Phase 5c: Split Player — Implementation Plan`, `ChestInteract`, `EnemyNavPathfinder`, `QuestManager`, `Bullet`, `Boid`, `QuestStepDataDrawer`, `Interactable`, `EnemyFollowState`, `EnemyBrainBase`, `InventoryModel`, `QuestVisuals`, `DamagePoint`, `DevPanel`, `ItemDrop`, `IInventory`, `CollectableItemBase`, `QuestNavigation`, `Phase 8: one Interactable hierarchy`, `EnemyAgent`, `.Pick`, `ConfirmationDialog`, `FishAlertUI`, `EnemyStateBase`, `VerletRope`, `ShelleController`, `GrapplingHookBullet`, `AudioManager`, `Bird`, `QuestMarkerBase`, `PlayerMovement`, `SimpleAnimLoop`, `IDialogueView`, `EntityDeathHandler`, `PlayerSprintVFX`, `TutorialUIMarker`, `SaveData`, `PlayerInteriorState`, `QuestCategory`, `VolumeSliderUI`, `Cutscene`, `ReviceQuestListUI`, `.AttachRope`, `QuestStatus`, `EnemyAttackState`, `Refactor Phase 5b: Split OxygenRope — Implementation Plan`, `EnemyWanderState`, `InteractUI`, `GameManager`, `Singleton`, `DoorQuestMarker`, `PlayerSplitTests`, `.HasLineOfSightRay`, `EntityAnimation`, `Phase 6: cleanup (low risk, any time after Phase 4)`, `NormalBullet`, `CutsceneSkipHint`?**
+  _High betweenness centrality (0.228) - this node is a cross-community bridge._
+- **Why does `All scripts` connect `QuestStepDataDrawer` to `03-all-scripts.md`, `Core (51 files)`, `UI (58 files)`, `Gameplay (131 files)`?**
   _High betweenness centrality (0.087) - this node is a cross-community bridge._
-- **Why does `Game.Core` connect `Game.Core` to `ObjectPoolManager`, `system_collections_generic`, `Item`, `ShopManager`, `Game.UI`, `Phase 7a: decouple the GameManager hub and player-side upward links`, `LoadingType`, `DialogueState`, `MoveDirection`, `GameFeature`, `QuestData.cs`, `1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)`, `SaveData`, `PlayerInteriorState`, `unityengine_inputsystem`, `Risks`, `Game.Tests`, `3. Root causes`, `unityengine`, `unityengine_scenemanagement`, `ConfirmationDialog`, `TutorialGate`, `GameFlowEvents`?**
-  _High betweenness centrality (0.074) - this node is a cross-community bridge._
-- **Why does `3. Root causes` connect `3. Root causes` to `UIManager`, `OxygenRope`, `NormalBullet`, `InputReader`, `Player`, `Item`, `EnemyBrain`, `ShopManager`, `TutorialActionId`, `QuestDetailPanel`, `PlayerMoney`, `PlayerHealth`, `UpgradeService`, `EnemyBrainContext`, `LinearPatrolBrain`, `LoadingManager`, `DayManager`, `SaveData`, `QuestCategory`, `SaveBridge`, `IEnemyBrain`, `InventoryManager`, `QuestManager`, `QuestBoardUI`, `UpgradeData`, `QuestSlot`, `GameManager`?**
-  _High betweenness centrality (0.073) - this node is a cross-community bridge._
-- **Are the 40 inferred relationships involving `InventoryManager` (e.g. with `Notification Channels Implementation Plan` and `Task 2: Money and item delta events + presenter`) actually correct?**
-  _`InventoryManager` has 40 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `Game.Core` connect `Game.Core` to `NotificationView`, `unityeditor`, `.GetAction`, `SaveData`, `PlayerInteriorState`, `AdditiveSceneSetupWindow`, `unityengine_inputsystem`, `GameFeature`, `GameManager`, `system_collections_generic`, `Risks`, `Gameplay (131 files)`, `ConfirmationDialog`, `Game.UI`, `Game.Tests`, `TutorialActionId`, `Core (51 files)`, `LoadingManager`?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **Are the 166 inferred relationships involving `Gameplay (131 files)` (e.g. with `AudioChannel` and `AudioManager`) actually correct?**
+  _`Gameplay (131 files)` has 166 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 41 inferred relationships involving `InventoryManager` (e.g. with `Notification Channels Implementation Plan` and `Task 2: Money and item delta events + presenter`) actually correct?**
+  _`InventoryManager` has 41 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `IsVisible`, `IconStyle`, `BadgeStyle` to the rest of the system?**
-  _1153 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1151 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `project-ocean.slnx` be split into smaller, more focused modules?**
   _Cohesion score 0.02666666666666667 - nodes in this community are weakly interconnected._
-- **Should `Game.Core` be split into smaller, more focused modules?**
-  _Cohesion score 0.05070028011204482 - nodes in this community are weakly interconnected._

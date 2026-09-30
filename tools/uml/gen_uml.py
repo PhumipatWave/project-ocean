@@ -649,6 +649,31 @@ def page_metrics(types, by_name, files, pairs):
     return sccs
 
 
+def page_all_scripts(types, files):
+    by_file = defaultdict(list)
+    for t in types:
+        by_file[t.file].append(t)
+    lines = ["# All scripts", "", "[← index](README.md)", "",
+             f"Every script in `Assets/Project_Ocean/Scripts` on one page: {len(files)} files, {len(types)} types. "
+             "Click a module for its class diagram. The draw.io file has the matching **All Scripts** page.", ""]
+    by_layer = defaultdict(list)
+    for f in files:
+        mod = str(f.parent.relative_to(SRC)).replace("\\", "/") if f.parent != SRC else "(root)"
+        by_layer[mod.split("/")[0]].append((mod, f))
+    for layer in sorted(by_layer, key=lambda l: LAYER_RANK.get(l, 9)):
+        rows = sorted(by_layer[layer])
+        lines += [f"## {layer} ({len(rows)} files)", "",
+                  "| Script | Module | Types | Extends / implements | LOC |", "|---|---|---|---|---|"]
+        for mod, f in rows:
+            ts = by_file.get(f, [])
+            names = "<br>".join(f"`{t.name}`" + (f" {'/'.join(t.stereo[:2])}" if t.stereo else "") for t in ts) or "—"
+            bases = "<br>".join(", ".join(([t.base_class] if t.base_class else []) + t.interfaces) or "—" for t in ts) or "—"
+            loc = sum(1 for l in files[f][0].splitlines() if l.strip())
+            lines.append(f"| {f.name} | [{mod}]({md_link_module(mod)}) | {names} | {bases} | {loc} |")
+        lines.append("")
+    (OUT / "03-all-scripts.md").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+
+
 def page_readme(types, modules, files):
     loc = sum(sum(1 for l in raw.splitlines() if l.strip()) for raw, _ in files.values())
     mb = sum(1 for t in types if "MB" in t.stereo)
@@ -662,10 +687,11 @@ def page_readme(types, modules, files):
              "- [Overview — layers & modules](00-overview.md)",
              "- [Inheritance & interfaces](01-inheritance.md)",
              "- [Event flow](02-events.md)",
+             "- [All scripts — every file on one page](03-all-scripts.md)",
              "- [Metrics](metrics.md)",
              "- [Findings & refactor analysis](findings.md) (hand-written)",
              "- **draw.io:** [drawio/project-structure.drawio](drawio/project-structure.drawio) — whole project, every class "
-             "with all members, one page per area (open in draw.io desktop, app.diagrams.net or the VS Code draw.io extension)", "",
+             "with all members: an All Scripts page plus one page per area (open in draw.io desktop, app.diagrams.net or the VS Code draw.io extension)", "",
              "## Modules", ""]
     for layer in sorted({m.split("/")[0] for m in modules}, key=lambda l: LAYER_RANK.get(l, 9)):
         lines.append(f"**{layer}**: " + " · ".join(f"[{m}]({md_link_module(m)})" for m in sorted(modules) if m.split("/")[0] == layer))
@@ -696,6 +722,7 @@ def main():
     page_overview(types, by_name, modules, pairs)
     page_inheritance(types, by_name)
     page_events(types, by_name)
+    page_all_scripts(types, files)
     page_metrics(types, by_name, files, pairs)
     page_readme(types, modules, files)
     import gen_drawio  # local: gen_drawio imports this module

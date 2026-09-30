@@ -1,6 +1,6 @@
 # Core
 
-8 types · 132 LOC (non-blank) · depends on: none
+9 types · 157 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -63,6 +63,16 @@ classDiagram
     +string MainMenu$
     +string Intro$
   }
+  class Singleton {
+    <<MB>>
+    <<abstract>>
+    +T Instance$
+    #bool IsDuplicate
+    #bool Persistent
+    #bool DestroyGameObjectOnDuplicate
+    #Awake() void
+    #OnDestroy() void
+  }
   class Tags {
     <<static>>
     +string PlayerSpawnPoint$
@@ -82,4 +92,5 @@ classDiagram
 | GameState | enum | `GameState.cs:3` | 6 |
 | PlayerUIState | static | `PlayerUIState.cs:12` | 39 |
 | SceneNames | static | `SceneNames.cs:7` | 7 |
+| Singleton | MB, abstract | `Singleton.cs:6` | 25 |
 | Tags | static | `Tags.cs:4` | 5 |

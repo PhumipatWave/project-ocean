@@ -141,7 +141,7 @@ class DrawioTest(unittest.TestCase):
 
     def test_page_names(self):
         names = [d.get("name") for d in self.root.findall("diagram")]
-        self.assertEqual(["Overview", "Gameplay – Player & Entities"], names)
+        self.assertEqual(["Overview", "All Scripts", "Gameplay – Player & Entities"], names)
 
 
 if __name__ == "__main__":

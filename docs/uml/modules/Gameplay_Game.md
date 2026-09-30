@@ -1,6 +1,6 @@
 # Gameplay/Game
 
-1 types · 128 LOC (non-blank) · depends on: [Core](Core.md) ×5, [Core/Events](Core_Events.md) ×5, [Core/Scenes](Core_Scenes.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
+1 types · 124 LOC (non-blank) · depends on: [Core](Core.md) ×6, [Core/Events](Core_Events.md) ×5, [Core/Scenes](Core_Scenes.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 
@@ -12,11 +12,17 @@ classDiagram
     +event System.Action OnReturningToMenu$
     +Transform PlayerSpawnPoint
     +GameState GameState
-    +GameManager Instance$
+    #bool Persistent
+    #Awake() void
+    #OnDestroy() void
     +ToMainMenu() void
     +StartDive() void
     +ReturnToLand() void
   }
+  class Singleton {
+    <<Core>>
+  }
+  Singleton <|-- GameManager
 ```
 
 ## Event subscriptions
@@ -29,4 +35,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| GameManager | MB | `GameManager.cs:7` | 128 |
+| GameManager | MB | `GameManager.cs:7` | 124 |

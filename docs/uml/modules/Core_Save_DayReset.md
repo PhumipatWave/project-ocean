@@ -1,6 +1,6 @@
 # Core/Save/DayReset
 
-3 types · 107 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×6, [Core/Events](Core_Events.md) ×2, [Core](Core.md) ×1
+3 types · 91 LOC (non-blank) · depends on: [Core/Save](Core_Save.md) ×6, [Core](Core.md) ×4, [Core/Events](Core_Events.md) ×2
 
 [← index](../README.md)
 
@@ -9,7 +9,6 @@ classDiagram
   direction LR
   class DayManager {
     <<MB>>
-    +DayManager Instance$
     +int CurrentDay
     +int MaxDivesPerDay$
     +int DivesToday
@@ -19,7 +18,8 @@ classDiagram
     +bool HasDivedToday
     +UnityEvent~int~ onNewDay
     +event System.Action OnEnemyReset$
-    ... +2 more fields
+    +event System.Action OnDayAdvanced$
+    ... +1 more fields
     +SetDay(int) void
     +SetDivesToday(int) void
     +SetTotalDives(int) void
@@ -30,7 +30,7 @@ classDiagram
   }
   class EnemyKillTracker {
     <<MB>>
-    +EnemyKillTracker Instance$
+    #bool DestroyGameObjectOnDuplicate
     +RegisterKill(string) void
     +IsKilled(string) bool
     +ResetAll() void
@@ -39,7 +39,7 @@ classDiagram
   }
   class OneTimePickupTracker {
     <<MB>>
-    +OneTimePickupTracker Instance$
+    #bool DestroyGameObjectOnDuplicate
     +RegisterPickup(string) void
     +CountFor(string) int
     +ResetAll() void
@@ -49,9 +49,15 @@ classDiagram
   class ISaveParticipant {
     <<Core/Save>>
   }
+  class Singleton {
+    <<Core>>
+  }
   ISaveParticipant <|.. DayManager
   ISaveParticipant <|.. EnemyKillTracker
   ISaveParticipant <|.. OneTimePickupTracker
+  Singleton <|-- DayManager
+  Singleton <|-- EnemyKillTracker
+  Singleton <|-- OneTimePickupTracker
 ```
 
 ## Event subscriptions
@@ -64,6 +70,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DayManager | MB | `DayManager.cs:6` | 59 |
-| EnemyKillTracker | MB | `EnemyKillTracker.cs:10` | 28 |
-| OneTimePickupTracker | MB | `OneTimePickupTracker.cs:9` | 20 |
+| DayManager | MB | `DayManager.cs:6` | 53 |
+| EnemyKillTracker | MB | `EnemyKillTracker.cs:10` | 23 |
+| OneTimePickupTracker | MB | `OneTimePickupTracker.cs:9` | 15 |

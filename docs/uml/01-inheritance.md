@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-70 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
+93 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
 
 ```mermaid
 classDiagram
@@ -10,12 +10,18 @@ classDiagram
   class AggressiveEnemyProfile {
     <<SO>>
   }
+  class AudioManager {
+    <<MB>>
+  }
   class Boid {
     <<MB>>
   }
   class Bullet {
     <<MB>>
     <<abstract>>
+  }
+  class CameraShakeManager {
+    <<MB>>
   }
   class ChestInteract {
     <<MB>>
@@ -25,6 +31,9 @@ classDiagram
     <<MB>>
   }
   class ConfirmationDialog {
+    <<MB>>
+  }
+  class CutsceneManager {
     <<MB>>
   }
   class DamagePoint {
@@ -37,6 +46,9 @@ classDiagram
     <<MB>>
   }
   class DoorInteract {
+    <<MB>>
+  }
+  class DoorQuestMarker {
     <<MB>>
   }
   class Enemy {
@@ -94,6 +106,12 @@ classDiagram
   class FriendlyEnemyProfile {
     <<SO>>
   }
+  class GameManager {
+    <<MB>>
+  }
+  class GameObjectSpawnManager {
+    <<MB>>
+  }
   class GranadeBullet {
     <<MB>>
   }
@@ -145,6 +163,9 @@ classDiagram
   class ISaveParticipant {
     <<interface>>
   }
+  class IWeightedEntry {
+    <<interface>>
+  }
   class InteractPopupView {
     <<MB>>
   }
@@ -161,12 +182,27 @@ classDiagram
   class ItemDrop {
     <<MB>>
   }
+  class KeyBindManager {
+    <<MB>>
+  }
+  class KeyBindUI {
+    <<MB>>
+  }
   class LinearPatrolBrain {
   }
   class LinearPatrolProfile {
     <<SO>>
   }
+  class LoadingManager {
+    <<MB>>
+  }
   class LoadingVisualController {
+    <<MB>>
+  }
+  class MoveKeyBindUI {
+    <<MB>>
+  }
+  class NPCManager {
     <<MB>>
   }
   class NormalBullet {
@@ -175,6 +211,9 @@ classDiagram
   class NotificationView {
     <<MB>>
     <<abstract>>
+  }
+  class ObjectPoolManager {
+    <<MB>>
   }
   class OneTimePickupTracker {
     <<MB>>
@@ -188,10 +227,24 @@ classDiagram
   class PlayerMoney {
     <<MB>>
   }
+  class QuestCompleteUI {
+    <<MB>>
+  }
   class QuestDetailPanel {
     <<MB>>
   }
   class QuestManager {
+    <<MB>>
+  }
+  class QuestMarkerBase {
+    <<MB>>
+    <<abstract>>
+  }
+  class RebindButtonBase {
+    <<MB>>
+    <<abstract>>
+  }
+  class SaveBridge {
     <<MB>>
   }
   class ScaredEnemyProfile {
@@ -199,6 +252,10 @@ classDiagram
   }
   class ShelleController {
     <<MB>>
+  }
+  class Singleton {
+    <<MB>>
+    <<abstract>>
   }
   class StackNotificationView {
     <<MB>>
@@ -212,17 +269,36 @@ classDiagram
   class TrashInteract {
     <<MB>>
   }
+  class TutorialActionMarker {
+    <<MB>>
+  }
+  class TutorialUIMarker {
+    <<MB>>
+  }
+  class UIManager {
+    <<MB>>
+  }
   class UpgradeService {
   }
+  class ZoneItemEntry {
+  }
+  class ZoneSpawnEntry {
+  }
   EnemyBaseProfile <|-- AggressiveEnemyProfile
+  Singleton <|-- AudioManager
   IPoolable <|.. Boid
+  Singleton <|-- CameraShakeManager
   Interactable <|-- ChestInteract
   Interactable <|-- CollectableItemBase
+  Singleton <|-- ConfirmationDialog
   IModalPrompt <|.. ConfirmationDialog
+  Singleton <|-- CutsceneManager
   IDamagePopup <|.. DamagePoint
+  Singleton <|-- DayManager
   ISaveParticipant <|.. DayManager
   IDialogueView <|.. DialoguePanelView
   Interactable <|-- DoorInteract
+  QuestMarkerBase <|-- DoorQuestMarker
   Entity <|-- Enemy
   EnemyNavAgentBase <|-- EnemyAgent
   EnemyStateBase <|-- EnemyAttackState
@@ -233,6 +309,7 @@ classDiagram
   IEnemyBrain <|.. EnemyBrainBase
   EnemyStateBase <|-- EnemyFleeState
   EnemyStateBase <|-- EnemyFollowState
+  Singleton <|-- EnemyKillTracker
   ISaveParticipant <|.. EnemyKillTracker
   CollectableItemBase <|-- EnemyLoot
   IPoolable <|.. EnemyNavAgentBase
@@ -245,31 +322,49 @@ classDiagram
   IPoolable <|.. EntityHealth
   ISaveParticipant <|.. FeatureUnlockService
   EnemyBaseProfile <|-- FriendlyEnemyProfile
+  Singleton <|-- GameManager
+  Singleton <|-- GameObjectSpawnManager
   Bullet <|-- GranadeBullet
   Bullet <|-- GrapplingHookBullet
   IInteractPopupView <|.. InteractPopupView
   Interactable <|-- InteractUI
+  Singleton <|-- InventoryManager
   ISaveParticipant <|.. InventoryManager
   IInventory <|.. InventoryManager
   CollectableItemBase <|-- ItemDrop
   IPoolable <|.. ItemDrop
+  Singleton <|-- KeyBindManager
+  RebindButtonBase <|-- KeyBindUI
   IEnemyBrain <|.. LinearPatrolBrain
   IBrainHitReaction <|.. LinearPatrolBrain
   EnemyBaseProfile <|-- LinearPatrolProfile
+  Singleton <|-- LoadingManager
   ILoadingVisual <|.. LoadingVisualController
+  RebindButtonBase <|-- MoveKeyBindUI
+  Singleton <|-- NPCManager
   Bullet <|-- NormalBullet
+  Singleton <|-- ObjectPoolManager
+  Singleton <|-- OneTimePickupTracker
   ISaveParticipant <|.. OneTimePickupTracker
   Entity <|-- Player
   EntityHealth <|-- PlayerHealth
   ISaveParticipant <|.. PlayerHealth
   ISaveParticipant <|.. PlayerMoney
+  Singleton <|-- QuestCompleteUI
   IQuestOfferView <|.. QuestDetailPanel
+  Singleton <|-- QuestManager
   ISaveParticipant <|.. QuestManager
+  Singleton <|-- SaveBridge
   EnemyBaseProfile <|-- ScaredEnemyProfile
   IPoolable <|.. ShelleController
   NotificationView <|-- StackNotificationView
   NotificationView <|-- ToastNotificationView
   Bullet <|-- TranquilizerBullet
   Interactable <|-- TrashInteract
+  QuestMarkerBase <|-- TutorialActionMarker
+  QuestMarkerBase <|-- TutorialUIMarker
+  Singleton <|-- UIManager
   ISaveParticipant <|.. UpgradeService
+  IWeightedEntry <|.. ZoneItemEntry
+  IWeightedEntry <|.. ZoneSpawnEntry
 ```
