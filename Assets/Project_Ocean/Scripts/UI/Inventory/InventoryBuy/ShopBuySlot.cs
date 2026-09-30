@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class ShopBuySlot : MonoBehaviour, IPointerClickHandler
     {
@@ -10,10 +12,10 @@ namespace Game.Testing
         public Color selectedColor    = Color.yellow;
         public Color notSelectedColor = Color.white;
 
-        public Draggableltem currentItem;
+        public DraggableItem currentItem;
         public bool isSelected;
 
-        public void SetItem(Draggableltem item)
+        public void SetItem(DraggableItem item)
         {
             currentItem = item;
         }
@@ -22,7 +24,7 @@ namespace Game.Testing
         {
             if (currentItem == null || currentItem.GetItem() == null)
             {
-                Debug.Log("Empty slot clicked");
+                GameLog.Info("Empty slot clicked");
                 return;
             }
 

@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class GrapplingHookBullet : Bullet
     {
@@ -59,10 +60,9 @@ namespace Game.Testing
                 {
                     case "Enemy":
                         isHit = true;
-                        Enemy enemy = collision.GetComponent<Enemy>();
-                        enemy.TakeDamage(attackDamage);
+                        collision.GetComponent<Entity>()?.TakeDamage(attackDamage);
 
-                        Debug.Log($"Grappling Hook Fire : {collision.name}");
+                        GameLog.Info($"Grappling Hook Fire : {collision.name}");
 
                         player.GunHandler.CanAttack = true;
                         RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
@@ -72,7 +72,7 @@ namespace Game.Testing
 
                         /*if (!enemy.IsDeath)
                         {
-                            Debug.Log($"Grappling Hook Fire : {collision.name}");
+                            GameLog.Info($"Grappling Hook Fire : {collision.name}");
 
                             player.GunHandler.CanAttack = true;
                             RopeSystemUtil.ClearNormalRope(player.GunHandler.Line);
@@ -82,7 +82,7 @@ namespace Game.Testing
                         }
                         else
                         {
-                            Debug.Log($"Grappling hook fire death enemy");
+                            GameLog.Info($"Grappling hook fire death enemy");
                             StartCoroutine(HookFishRoutine(collision.gameObject));
                         }*/
 
@@ -131,9 +131,7 @@ namespace Game.Testing
             while (!isDashReachingTarget)
             {
                 Vector2 playerPos = player.transform.position;
-                // Never dash past the current (possibly-upgraded) max rope length —
-                // otherwise EnforceRopeLimit pins the player at the boundary while this
-                // loop keeps waiting to reach the out-of-range hitPos, hanging forever.
+                // Clamp to the rope limit: the player is pinned there, so a target beyond it would never be reached.
                 Vector2 target = player.OxygenTube != null ? player.OxygenTube.ClampToRopeLimit(hitPos) : hitPos;
                 Vector2 dir = (target - playerPos).normalized;
 
@@ -165,7 +163,7 @@ namespace Game.Testing
             attachedToObject = true;
             player.GunHandler.IsHooked = true;
 
-            Debug.Log($"Grappling hook return to fire point");
+            GameLog.Info($"Grappling hook return to fire point");
             while (!IsReachingTargetPoint(player.GunHandler.FirePoint.transform.position, transform.position, 2f))
             {
                 Vector2 backwardDir = (player.GunHandler.FirePoint.transform.position - transform.position).normalized;
@@ -174,7 +172,7 @@ namespace Game.Testing
                 yield return null;
             }
 
-            Debug.Log($"Instaniate fish bullet");
+            GameLog.Info($"Instaniate fish bullet");
             var obj = Instantiate(target, player.GunHandler.FirePoint.transform.position, player.GunHandler.GunSprite.transform.rotation);
 
             Destroy(target.gameObject);

@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class UIFadeBackground : MonoBehaviour
     {
@@ -26,7 +28,7 @@ namespace Game.Testing
 
             targetAlpha = 0f;
 
-            // ไม่ให้แผ่นดำบล็อกปุ่ม
+            // The dim overlay must not block clicks on the buttons above it.
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
         }

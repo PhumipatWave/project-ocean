@@ -1,43 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    /// <summary>
-    /// Registry of all currently-loaded NPC instances, keyed by npcId. NPCs
-    /// self-register/unregister (OnEnable/OnDisable) rather than being scanned via
-    /// FindObjectsOfType, so the registry stays correct across additive scene loads
-    /// and unloads (e.g. Land_Map loading/unloading).
-    ///
-    /// Lets other systems (quest board/tracker UI) resolve an NPC's name/avatar from
-    /// just its id, instead of duplicating that data onto the quest itself — quest data
-    /// only ever stores npcId; this is what "syncs" it.
-    /// </summary>
-    public class NPCManager : MonoBehaviour
+    /// <summary>Loaded NPCs by npcId; quests store only the id and look up the name and portrait here.</summary>
+    public class NPCManager : Singleton<NPCManager>
     {
-        public static NPCManager Instance { get; private set; }
 
         [Tooltip("Name/portrait per characterId, independent of which scene's NPCs are loaded. Anything it doesn't cover falls back to the loaded NPC's own fields.")]
         [SerializeField] private CharacterDatabase characterDatabase;
 
         private readonly Dictionary<string, NPC> npcsById = new();
 
-        private void Awake()
+        protected override bool Persistent => true;
+
+        protected override void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+            base.Awake();
+            if (IsDuplicate) return;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            // Awake/OnEnable order between sibling scene objects isn't guaranteed — an NPC
-            // already in the scene when this Awake runs may have already tried (and silently
-            // no-op'd) to register itself before Instance existed here. Confirmed this was
-            // actually happening (registry stayed empty at runtime) while wiring Cutscene's
-            // NPC-binding lookup — same fix already applied to CutsceneManager.
+            // NPCs already in the scene may have tried to register before Instance existed.
             foreach (var npc in FindObjectsByType<NPC>(FindObjectsSortMode.None))
                 Register(npc);
         }

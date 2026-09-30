@@ -1,4 +1,4 @@
-namespace Game.Testing
+namespace Game.Core
 {
     /// Implement on any MonoBehaviour component that needs to reset state
     /// when taken from or returned to the ObjectPoolManager.

@@ -1,0 +1,96 @@
+# Core
+
+9 types · 157 LOC (non-blank) · depends on: none
+
+[← index](../README.md)
+
+```mermaid
+classDiagram
+  direction LR
+  class DialogueState {
+    <<static>>
+    +event Action OnChanged$
+    +bool IsShowing$
+    +bool BlocksInteraction$
+    +Show(GameObject)$ void
+    +Hide(GameObject)$ void
+    +SetSelfDialogueShowing(bool)$ void
+    +ContainsShowingPanel(Transform)$ bool
+  }
+  class GameFeature {
+    <<enum>>
+    Interact
+    Shop
+    Upgrade
+    Ocean
+    Inventory
+    Combat
+    EnemySpawn
+    Trash
+    QuestBoard
+    EnemySpawnLevel1
+    ... +7 more
+  }
+  class GameLog {
+    <<static>>
+    +Info(object, UnityEngine.Object)$ void
+  }
+  class GameSession {
+    <<static>>
+    +GameState State$
+  }
+  class GameState {
+    <<enum>>
+    Land
+    Ocean
+    Menu
+  }
+  class PlayerUIState {
+    <<static>>
+    +bool IsLocked$
+    +int ResetCount$
+    +event Action~bool~ OnLockChanged$
+    +Open()$ void
+    +Close()$ void
+    +SetCloser(Action)$ void
+    +CloseCurrent()$ void
+    +Reset()$ void
+  }
+  class SceneNames {
+    <<static>>
+    +string Land$
+    +string Ocean$
+    +string MainMenu$
+    +string Intro$
+  }
+  class Singleton {
+    <<MB>>
+    <<abstract>>
+    +T Instance$
+    #bool IsDuplicate
+    #bool Persistent
+    #bool DestroyGameObjectOnDuplicate
+    #Awake() void
+    #OnDestroy() void
+  }
+  class Tags {
+    <<static>>
+    +string PlayerSpawnPoint$
+    +string OxygenTubePoint$
+  }
+  GameSession --> GameState : State
+```
+
+## Files
+
+| Type | Kind | File | LOC |
+|---|---|---|---|
+| DialogueState | static | `DialogueState.cs:9` | 45 |
+| GameFeature | enum | `GameFeature.cs:4` | 20 |
+| GameLog | static | `GameLog.cs:6` | 6 |
+| GameSession | static | `GameSession.cs:4` | 4 |
+| GameState | enum | `GameState.cs:3` | 6 |
+| PlayerUIState | static | `PlayerUIState.cs:8` | 39 |
+| SceneNames | static | `SceneNames.cs:4` | 7 |
+| Singleton | MB, abstract | `Singleton.cs:6` | 25 |
+| Tags | static | `Tags.cs:4` | 5 |

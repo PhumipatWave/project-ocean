@@ -1,46 +1,38 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    /// <summary>
-    /// Completes a QuestType.ExploreArea step whose Area Id matches this one — either by the
-    /// player interacting with this object (Interact) or by walking into its trigger collider
-    /// (TriggerZone). Raises ExploreEvents.OnAreaReached; QuestManager only progresses a quest
-    /// whose CURRENT step is that area, so reaching it before the step is active does nothing.
-    ///
-    /// Deliberately unguided — no compass arrow (QuestNavigation.ResolveQuestTarget skips
-    /// ExploreArea) and no close-range marker of its own. Finding the area is the point of an
-    /// "explore" step; navigating the player straight to it would defeat that.
-    ///
-    /// Interact mode only: if the currently-matching step has dialogue lines authored, pressing
-    /// E shows them one at a time first (same plain-sequential model as PlayerSelfDialogueUI),
-    /// and the area is only marked reached once the player has pressed through the last line —
-    /// same "resolve only after they've actually read it" timing NPC/self-dialogue use. No
-    /// dialogue authored (or no dialoguePanel assigned) skips straight to reached, unchanged.
-    /// </summary>
+    /// <summary>Completes a matching ExploreArea step when the player interacts with or walks into this area.</summary>
+    // No compass or marker on purpose. In Interact mode, the step's dialogue lines play first, one per press.
     public class ExploreAreaTrigger : MonoBehaviour
     {
         public enum Mode
         {
-            Interact,     // Player presses E on this object (needs an InteractUI on the same GameObject).
+            Interact,     // Player presses E on this object (needs an EventInteractable on the same GameObject).
             TriggerZone,  // Player walks into this object's trigger Collider2D (tag Player).
         }
 
         [Tooltip("Matches an ExploreArea quest step's Area Id.")]
         [SerializeField] private string areaId;
 
-        [Tooltip("Interact: player presses E on this object (needs an InteractUI on the same GameObject). TriggerZone: player walks into this object's trigger Collider2D.")]
+        [Tooltip("Interact: player presses E on this object (needs an EventInteractable on the same GameObject). TriggerZone: player walks into this object's trigger Collider2D.")]
         [SerializeField] private Mode mode;
 
         [Header("Dialogue (Interact only, optional)")]
-        [Tooltip("Leave unassigned to skip dialogue entirely — Interact then marks the area reached immediately, same as before.")]
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI dialogueNameText;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private Image dialogueAvatarImage;
+        [Tooltip("DialoguePanelView on the dialogue panel (an IDialogueView).")]
+        [SerializeField] private MonoBehaviour dialogueView;
+
+        // Unity null check first: a destroyed view must read as missing.
+        private IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+
+        // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
+        private void OnValidate()
+        {
+            if (dialogueView != null && !(dialogueView is IDialogueView))
+                dialogueView = dialogueView.GetComponent<IDialogueView>() as MonoBehaviour;
+        }
 
         private struct DialogueLine { public string speakerId; public string text; }
         private readonly List<DialogueLine> dialogueLines = new();
@@ -60,7 +52,7 @@ namespace Game.Testing
             return null;
         }
 
-        private InteractUI interactUI;
+        private EventInteractable interactZone;
         private bool playerInside;
         private bool recheck;
 
@@ -68,11 +60,11 @@ namespace Game.Testing
         {
             if (mode == Mode.Interact)
             {
-                interactUI = GetComponent<InteractUI>();
-                if (interactUI != null)
-                    interactUI.onInteract.AddListener(HandleInteract);
+                interactZone = GetComponent<EventInteractable>();
+                if (interactZone != null)
+                    interactZone.onInteract.AddListener(HandleInteract);
                 else
-                    Debug.LogWarning($"[ExploreAreaTrigger] '{name}' is Interact mode but has no InteractUI on it.", this);
+                    Debug.LogWarning($"[ExploreAreaTrigger] '{name}' is Interact mode but has no EventInteractable on it.", this);
             }
             else
             {
@@ -84,8 +76,8 @@ namespace Game.Testing
 
         private void OnDestroy()
         {
-            if (interactUI != null)
-                interactUI.onInteract.RemoveListener(HandleInteract);
+            if (interactZone != null)
+                interactZone.onInteract.RemoveListener(HandleInteract);
         }
 
         private void OnEnable()
@@ -102,10 +94,7 @@ namespace Game.Testing
             if (isShowingDialogue) CloseDialogue();
         }
 
-        // InteractUI has already taken the player lock for this press. A matching step with
-        // dialogue authored shows/advances it instead of reporting immediately — the lock stays
-        // held (InteractUI still treats further presses here as ours) until the last line closes
-        // it. No dialogue (or none authored for the current step) reports immediately, unchanged.
+        // The interact zone already holds the player lock; it stays held until the last dialogue line closes.
         private void HandleInteract()
         {
             if (isShowingDialogue)
@@ -115,19 +104,17 @@ namespace Game.Testing
             }
 
             var step = FindCurrentStep();
-            if (dialoguePanel != null && step != null && step.DialogueEntries.Count > 0)
+            if (View?.Panel != null && step != null && step.DialogueEntries.Count > 0)
             {
                 OpenDialogue(step);
                 return;
             }
 
-            interactUI.ReleasePlayerLock();
+            interactZone.ReleasePlayerLock();
             Raise();
         }
 
-        /// <summary>The InProgress quest (if any) whose current step is THIS area — same match
-        /// QuestManager.HandleAreaReached uses, so the dialogue shown is always whichever step
-        /// Raise() below would actually complete.</summary>
+        /// <summary>The InProgress step for this area, matched the same way QuestManager does.</summary>
         private QuestStep FindCurrentStep()
         {
             if (string.IsNullOrEmpty(areaId) || QuestManager.Instance == null)
@@ -153,15 +140,15 @@ namespace Game.Testing
 
             isShowingDialogue = true;
             ShowCurrentLine();
-            dialoguePanel.SetActive(true);
-            DialogueState.Show(dialoguePanel);
+            View?.SetOpen(true);
+            DialogueState.Show(View?.Panel);
         }
 
         private void ShowCurrentLine()
         {
             var line = dialogueLines[dialogueIndex];
-            DialogueSpeaker.Apply(dialogueNameText, dialogueAvatarImage, line.speakerId);
-            if (dialogueText != null) dialogueText.text = line.text;
+            View?.SetSpeaker(line.speakerId);
+            View?.SetText(line.text);
         }
 
         private void AdvanceDialogue()
@@ -174,16 +161,17 @@ namespace Game.Testing
             }
 
             CloseDialogue();
-            interactUI.ReleasePlayerLock();
+            interactZone.ReleasePlayerLock();
             Raise();
         }
 
         private void CloseDialogue()
         {
             isShowingDialogue = false;
-            if (dialoguePanel == null) return;
-            dialoguePanel.SetActive(false);
-            DialogueState.Hide(dialoguePanel);
+            var view = View;
+            if (view == null || view.Panel == null) return;
+            view.SetOpen(false);
+            DialogueState.Hide(view.Panel);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -198,9 +186,7 @@ namespace Game.Testing
         {
             if (!other.CompareTag("Player")) return;
 
-            // Walking away mid-conversation closes it (the InteractUI on this same object
-            // releases the player lock itself via its own OnTriggerExit2D) — don't leave the
-            // panel stuck open with no lock holding it.
+            // Walking away closes the dialogue; the interact zone releases the lock itself.
             if (mode == Mode.Interact)
             {
                 if (isShowingDialogue) CloseDialogue();
@@ -210,9 +196,8 @@ namespace Game.Testing
             playerInside = false;
         }
 
-        // A step can become current while the player is already standing inside (Enter won't
-        // fire again). Only flag it here — raising straight from OnQuestUpdated would re-enter
-        // QuestManager while it is still iterating its quest list.
+        // The player may already stand inside when the step starts. Only flag it: raising now would re-enter
+        // QuestManager while it is still looping over its quests.
         private void HandleQuestUpdated()
         {
             if (playerInside) recheck = true;

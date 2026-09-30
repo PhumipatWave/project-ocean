@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
@@ -33,17 +35,11 @@ namespace Game.Testing
                 return;
             }
 
-            if (InventoryManager.Instance != null)
-            {
-                for (int i = 0; i < InventoryManager.Instance.InventorySlots.Length; i++)
-                {
-                    if (InventoryManager.Instance.InventorySlots[i] == this)
-                    {
-                        InventoryManager.Instance.SelectSlot(i);
-                        break;
-                    }
-                }
-            }
+            var inventory = InventoryManager.Instance;
+            if (inventory == null) return;
+
+            int index = inventory.IndexOfSlot(transform);
+            if (index >= 0) inventory.SelectSlot(index);
         }
 
         public void Select()
@@ -62,12 +58,13 @@ namespace Game.Testing
 
         public void OnDrop(PointerEventData eventData)
         {
-            if (!isUnlocked) return;
+            // Shop slots only mirror the inventory; accepting a drop would strand the view there.
+            if (!isUnlocked || isShopSlot) return;
 
             GameObject dropped = eventData.pointerDrag;
             if (dropped == null) return;
 
-            Draggableltem draggableItem = dropped.GetComponent<Draggableltem>();
+            DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
             if (draggableItem == null) return;
 
             if (transform.childCount == 0)

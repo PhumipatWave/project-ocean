@@ -1,86 +1,86 @@
-using Game.Testing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Game.Core;
+using Game.Gameplay;
 
-public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace Game.UI
 {
-    [Header("Hover Scale")]
-    [SerializeField] private float hoverScale = 1.1f;
-    [SerializeField] private float speed = 10f;
-
-    [Header("Button Text")]
-    [SerializeField] private TMP_Text buttonText;
-
-    [Header("Text")]
-    [SerializeField] private string hoverText = "Upgrade";
-
-    private Vector3 originalScale;
-    private Vector3 targetScale;
-
-    private void Awake()
+    public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        originalScale = transform.localScale;
+        [Header("Hover Scale")]
+        [SerializeField] private float hoverScale = 1.1f;
+        [SerializeField] private float speed = 10f;
 
-        // เริ่มต้นด้วยขนาดปกติ
-        ResetButton();
-    }
+        [Header("Button Text")]
+        [SerializeField] private TMP_Text buttonText;
 
-    private void OnEnable()
-    {
-        // ทุกครั้งที่ UI เปิดใหม่
-        ResetButton();
+        [Header("Text")]
+        [SerializeField] private string hoverText = "Upgrade";
 
-        // ถ้าเป็นปุ่มราคา ให้กลับไปแสดงราคาปกติ
-        RefreshPrice();
-    }
+        private Vector3 originalScale;
+        private Vector3 targetScale;
 
-    private void Update()
-    {
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
-            targetScale,
-            Time.unscaledDeltaTime * speed
-        );
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        targetScale = originalScale * hoverScale;
-
-        if (buttonText != null)
+        private void Awake()
         {
-            buttonText.text = hoverText;
+            originalScale = transform.localScale;
+
+            ResetButton();
         }
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        ResetButton();
-        RefreshPrice();
-    }
+        private void OnEnable()
+        {
+            // A panel closed mid-hover would otherwise reopen with the button still enlarged.
+            ResetButton();
 
-    /// <summary>
-    /// รีเซ็ตขนาดปุ่มกลับเป็นขนาดปกติทันที
-    /// </summary>
-    public void ResetButton()
-    {
-        targetScale = originalScale;
-        transform.localScale = originalScale;
-    }
+            RefreshPrice();
+        }
 
-    public void RefreshPrice()
-    {
-        if (buttonText == null)
-            return;
+        private void Update()
+        {
+            transform.localScale = Vector3.Lerp(
+                transform.localScale,
+                targetScale,
+                Time.unscaledDeltaTime * speed
+            );
+        }
 
-        UpgradeSlot upgradeSlot =
-            GetComponentInParent<UpgradeSlot>();
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            targetScale = originalScale * hoverScale;
 
-        if (upgradeSlot == null)
-            return;
+            if (buttonText != null)
+            {
+                buttonText.text = hoverText;
+            }
+        }
 
-        buttonText.text =
-            upgradeSlot.GetCurrentPriceText();
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            ResetButton();
+            RefreshPrice();
+        }
+
+        /// <summary>Snaps the button back to its normal size.</summary>
+        public void ResetButton()
+        {
+            targetScale = originalScale;
+            transform.localScale = originalScale;
+        }
+
+        public void RefreshPrice()
+        {
+            if (buttonText == null)
+                return;
+
+            UpgradeSlot upgradeSlot =
+                GetComponentInParent<UpgradeSlot>();
+
+            if (upgradeSlot == null)
+                return;
+
+            buttonText.text =
+                upgradeSlot.GetCurrentPriceText();
+        }
     }
 }

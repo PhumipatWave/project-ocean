@@ -2,14 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
-    /// <summary>
-    /// Which dialogue boxes are on screen right now. NPC and PlayerSelfDialogueUI report their
-    /// panel here; UI that shouldn't stack under a dialogue (see LandUI) listens to OnChanged
-    /// and hides itself while IsShowing. Tracks panels, not a counter, so a panel that gets
-    /// destroyed mid-dialogue (scene unload) can't leave the state stuck on.
-    /// </summary>
+    /// <summary>Which dialogue panels are showing, so other Land UI can hide under them.</summary>
+    // Tracks panels, not a count, so a panel destroyed mid-dialogue can't leave it stuck on.
     public static class DialogueState
     {
         private static readonly HashSet<GameObject> panels = new();
@@ -43,6 +39,20 @@ namespace Game.Testing
         {
             if (panel != null && panels.Remove(panel))
                 OnChanged?.Invoke();
+        }
+
+        private static bool selfDialogueShowing;
+        private static int selfDialogueHideFrame = -1;
+
+        /// <summary>True while an auto-display (self) dialogue is up, and for the rest of the frame it
+        /// closes on — the press that closed it must not also start a shop/door/pickup.</summary>
+        public static bool BlocksInteraction => selfDialogueShowing || Time.frameCount <= selfDialogueHideFrame;
+
+        public static void SetSelfDialogueShowing(bool showing)
+        {
+            if (!showing)
+                selfDialogueHideFrame = Time.frameCount;
+            selfDialogueShowing = showing;
         }
 
         /// <summary>True if <paramref name="root"/> is, or contains, a showing dialogue panel.</summary>

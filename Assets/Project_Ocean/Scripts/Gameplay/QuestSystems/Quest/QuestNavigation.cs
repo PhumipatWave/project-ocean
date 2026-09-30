@@ -1,46 +1,40 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    /// <summary>Shared tuning for the quest-objective navigation arrows (QuestCompass on the
-    /// player, and the per-objective Marker on NPC/DoorInteract/TutorialActionMarker) so the
-    /// "close enough to switch" distance can't drift between them.</summary>
+    /// <summary>Shared quest-target lookups and distances for QuestCompass and the objective markers.</summary>
     public static class QuestNavigation
     {
         public const float CloseRangeMeters = 5f;
 
-        // ponytail: proximity heuristic — a target within this distance of an interior's exit door
-        // is inside that interior (interiors are stacked far from the town, so outdoor targets
-        // are never this close). Explicit per-target interior field if layouts ever overlap.
-        private const float InteriorRadiusMeters = 40f;
+        // ponytail: anything within this distance of an interior exit door is inside it (interiors sit far from town);
+        // add an explicit interior field per target if layouts ever overlap.
+        internal const float InteriorRadiusMeters = 40f;
 
-        /// <summary>
-        /// The point proximity should actually be measured against for this object — its
-        /// Collider2D's bounds center if it has one (on itself or a child), else its own
-        /// transform. A GameObject's interact trigger is often offset well away from its own
-        /// pivot (e.g. PlayerShip's BoxCollider2D sits ~6 units from its transform; an NPC's
-        /// Visual/Talk children sit ~116 units from the NPC root), so measuring raw
-        /// transform.position can put the "close enough" threshold, or the compass arrow,
-        /// nowhere near where the player actually stands to interact.
-        /// </summary>
+        /// <summary>Where to measure distance to: the object's collider center, since triggers sit far from the pivot.</summary>
         public static Vector3 InteractPosition(Transform t)
         {
             var collider = t.GetComponentInChildren<Collider2D>();
             return collider != null ? (Vector3)collider.bounds.center : t.position;
         }
 
-        /// <summary>
-        /// What the tracked quest's current step actually wants right now — the NPC for a
-        /// Talk step, the relevant door for a Tutorial step that requires walking through one,
-        /// or a TutorialActionMarker-tagged object for any other Tutorial action with one
-        /// registered. Null if the current step has no resolvable position (every other
-        /// quest/step type, including ExploreArea — deliberately unguided, see
-        /// ExploreAreaTrigger's class doc, so the player has to actually search rather than
-        /// follow a compass to it). Shared by QuestCompass (what to point the player's own
-        /// arrow at) and DoorInteract (an exit door's "always show while indoors" fallback must
-        /// yield to this when it names something more specific, e.g. a shop counter inside the
-        /// same building — see DoorInteract.ShouldShowMarker).
-        /// </summary>
+        /// <summary>The tracked quest's current Tutorial action, or null if its step isn't a Tutorial step.</summary>
+        public static TutorialActionId? CurrentTutorialAction()
+        {
+            var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
+            return step != null && step.Type == QuestType.Tutorial ? step.TutorialAction : (TutorialActionId?)null;
+        }
+
+        /// <summary>True when the local player is within CloseRangeMeters of this object's interact point.</summary>
+        public static bool IsPlayerNear(Transform t)
+        {
+            var player = PlayerRegistry.Local;
+            return player != null && Vector3.Distance(player.transform.position, InteractPosition(t)) <= CloseRangeMeters;
+        }
+
+        /// <summary>The tracked step's target: the Talk NPC, the door, or the object for its Tutorial action; null otherwise.</summary>
+        // ExploreArea stays unguided on purpose: finding the area is the point of the step.
         public static Transform ResolveQuestTarget()
         {
             var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
@@ -53,32 +47,26 @@ namespace Game.Testing
             if (step.Type == QuestType.Tutorial)
             {
                 if (IsMoveDoorAction(step.TutorialAction))
-                    return DoorInteract.FindByTutorialAction(step.TutorialAction);
+                    return DoorQuestMarker.FindByTutorialAction(step.TutorialAction);
                 return TutorialActionMarker.FindByTutorialAction(step.TutorialAction);
             }
 
             return null;
         }
 
-        /// <summary>
-        /// What the compass should actually aim at: ResolveQuestTarget(), except that while the
-        /// player is outdoors a target inside a building (NPC, counter, bed...) is replaced by
-        /// that building's entrance door. Interiors sit far from the town, so aiming at the raw
-        /// target points the arrow across the map in the wrong direction. Null if the entrance
-        /// can't be found — hiding the arrow beats pointing the wrong way.
-        /// </summary>
+        /// <summary>The compass target: outdoors, a target inside a building becomes that building's entrance door.</summary>
         public static Transform ResolveCompassTarget()
         {
             var target = ResolveQuestTarget();
             if (target == null || PlayerInteriorState.Current != PlayerInterior.None)
                 return target;
 
-            var exit = DoorInteract.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
+            var exit = DoorQuestMarker.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
             if (exit == null)
                 return target;
 
             var entry = PlayerInteriorState.EntryActionFor(exit.Value);
-            return entry != null ? DoorInteract.FindByTutorialAction(entry.Value) : null;
+            return entry != null ? DoorQuestMarker.FindByTutorialAction(entry.Value) : null;
         }
 
         private static bool IsMoveDoorAction(TutorialActionId action) => action is
