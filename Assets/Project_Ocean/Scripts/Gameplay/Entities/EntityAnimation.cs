@@ -16,16 +16,6 @@ namespace Game.Gameplay
                 anim = GetComponentInChildren<Animator>();
         }
 
-        /// <summary>Override the auto-discovered animator (called by ApplyLegacySerializedValues).</summary>
-        public void Configure(Animator animator)
-        {
-            if (animator != null)
-                anim = animator;
-
-            if (anim == null)
-                anim = GetComponentInChildren<Animator>();
-        }
-
         // Enemy controllers don't share one parameter set (jellyfish has none, crab uses isAttack_01),
         // so skip missing ones instead of letting Animator log an error every frame.
         private bool HasParameter(int hash)

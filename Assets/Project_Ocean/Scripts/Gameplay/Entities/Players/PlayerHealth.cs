@@ -5,8 +5,14 @@ namespace Game.Gameplay
 {
     public class PlayerHealth : EntityHealth, ISaveParticipant
     {
+        [Tooltip("Seconds of invincibility after taking a hit (scaled time, so aim slow-mo stretches it).")]
+        [SerializeField, Min(0f)] private float invincibleDuration = 0.75f;
+
         private OxygenRope oxygenTube;
         private float originalMaxRopeLength;
+        private float invincibleUntil;
+
+        public bool IsInvincible => Time.time < invincibleUntil;
 
         private void OnEnable() => UpgradeService.OnLevelGranted += HandleLevelGranted;
         private void OnDisable() => UpgradeService.OnLevelGranted -= HandleLevelGranted;
@@ -35,6 +41,7 @@ namespace Game.Gameplay
             }
 
             base.Initialize();
+            invincibleUntil = 0f;
             oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
@@ -75,7 +82,7 @@ namespace Game.Gameplay
         // player back to land instead of killing them.
         public override void TakeDamage(float amount)
         {
-            if (IsDead) return;
+            if (IsDead || IsInvincible) return;
 
             float remaining = CurrentHealth - amount;
 
@@ -88,6 +95,7 @@ namespace Game.Gameplay
             }
 
             SetCurrentHealth(remaining);
+            invincibleUntil = Time.time + invincibleDuration;
             oxygenTube?.SetHealthLimit(remaining);
             FlashHitColor();
             RaiseOnDamaged();

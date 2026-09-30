@@ -154,6 +154,13 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Accepted behaviour notes:** overlapping zones go to the closest target (was: first entered); pickups are also blocked during cutscenes and loading. Chest opened state stays an unsaved static set (user decision).
 - **Open, pre-existing:** `BaseCollectableItem.prefab` has a 60 s pool-return delay and stays collectable during it, so it can be collected again.
 
+### Phase 9: Entity cleanup (small scope)
+**Status:** done 2026-09-30. Entities + projectiles: 16 lines added, 92 removed. EditMode 61/61, compile clean. Live: bullet hit (15 -> 10, red flash), kill (red, tag `Items`, nav off), bullet on an `Enemy`-tagged object without `Entity` (no crash), player hit (only `Visual` flashes, restores).
+- Bullets damage any `Entity` (null-safe) and no longer call `OnHit` themselves; `Enemy.OnDamagedHandler` already does, so a hit reacted twice, and a killing shot poked a dead brain.
+- One player hit flash: `PlayerHealth.flashTarget` = `Visual` (0.25 s); Player's own flash coroutine removed. Before, `EntityHealth` also flashed the first child sprite, which was the `Navigation` arrow.
+- Dead code removed: `Enemy.ApplyLegacySerializedValues` (never-assigned fields; it only forced red, which every prefab already uses), the two `Configure` methods it called, Player's never-reached death override (`Entity.OnDeathHandler` is now virtual). `PlayerStabAttack` kept, marked unused.
+- **Deferred:** a generic `EntityDeathHandler` (enemy nav/brain shutdown still lives in it) until a third entity type appears; flipping stays per type (Player rotates, enemies scale).
+
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.

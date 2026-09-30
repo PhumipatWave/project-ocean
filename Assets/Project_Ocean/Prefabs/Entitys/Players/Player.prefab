@@ -1489,7 +1489,6 @@ MonoBehaviour:
   entityHealth: {fileID: 3811799620726562632}
   input: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
   playerSprite: {fileID: 1845563972653589313}
-  playerFlashDuration: 0.25
   landMoveSpeed: 5
   landDashSpeed: 25
   landSprintSpeed: 12
@@ -1538,7 +1537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PlayerHealth
   hitColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.15
+  flashDuration: 0.25
+  flashTarget: {fileID: 1086155692845509329}
 --- !u!114 &4982446044669505593
 MonoBehaviour:
   m_ObjectHideFlags: 0

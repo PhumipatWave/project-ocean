@@ -37,13 +37,6 @@ namespace Game.Gameplay
         }
         #endregion
 
-        public void Configure(Rigidbody2D rigidbody2D, SpriteRenderer spriteRenderer, Color deathColor)
-        {
-            if (rigidbody2D != null)   rb           = rigidbody2D;
-            if (spriteRenderer != null) entitySprite = spriteRenderer;
-            deathSpriteColor = deathColor;
-        }
-
         /// <summary>
         /// Shared death path — used by Player and any entity without a brain.
         /// Stops movement, applies death color, shows damage point.

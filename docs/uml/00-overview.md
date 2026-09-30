@@ -56,8 +56,8 @@ flowchart LR
     M_Gameplay_AudioSetting["Gameplay/AudioSetting<br/>7 types · 241 LOC"]
     M_Gameplay_Contracts["Gameplay/Contracts<br/>5 types · 34 LOC"]
     M_Gameplay_Cutscenes["Gameplay/Cutscenes<br/>5 types · 304 LOC"]
-    M_Gameplay_Entities["Gameplay/Entities<br/>7 types · 322 LOC"]
-    M_Gameplay_Entities_Enemies["Gameplay/Entities/Enemies<br/>2 types · 166 LOC"]
+    M_Gameplay_Entities["Gameplay/Entities<br/>7 types · 310 LOC"]
+    M_Gameplay_Entities_Enemies["Gameplay/Entities/Enemies<br/>2 types · 148 LOC"]
     M_Gameplay_Entities_Enemies_Behaviours["Gameplay/Entities/Enemies/Behaviours<br/>1 types · 97 LOC"]
     M_Gameplay_Entities_Enemies_Brain["Gameplay/Entities/Enemies/Brain<br/>8 types · 363 LOC"]
     M_Gameplay_Entities_Enemies_Brain_FSM["Gameplay/Entities/Enemies/Brain/FSM<br/>3 types · 143 LOC"]
@@ -68,7 +68,7 @@ flowchart LR
     M_Gameplay_Entities_Enemies_NavAgents_Core["Gameplay/Entities/Enemies/NavAgents/Core<br/>5 types · 464 LOC"]
     M_Gameplay_Entities_Enemies_PartBreak["Gameplay/Entities/Enemies/PartBreak<br/>1 types · 19 LOC"]
     M_Gameplay_Entities_NPCs["Gameplay/Entities/NPCs<br/>1 types · 243 LOC"]
-    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>10 types · 941 LOC"]
+    M_Gameplay_Entities_Players["Gameplay/Entities/Players<br/>10 types · 913 LOC"]
     M_Gameplay_Entities_Players_OxygenTube["Gameplay/Entities/Players/OxygenTube<br/>8 types · 763 LOC"]
     M_Gameplay_Environments["Gameplay/Environments<br/>8 types · 403 LOC"]
     M_Gameplay_Game["Gameplay/Game<br/>1 types · 128 LOC"]
@@ -78,7 +78,7 @@ flowchart LR
     M_Gameplay_Items_Pickups["Gameplay/Items/Pickups<br/>3 types · 157 LOC"]
     M_Gameplay_Items_Placeables["Gameplay/Items/Placeables<br/>1 types · 4 LOC"]
     M_Gameplay_MainCameras["Gameplay/MainCameras<br/>2 types · 40 LOC"]
-    M_Gameplay_Projectiles["Gameplay/Projectiles<br/>5 types · 226 LOC"]
+    M_Gameplay_Projectiles["Gameplay/Projectiles<br/>5 types · 222 LOC"]
     M_Gameplay_QuestSystems_Quest["Gameplay/QuestSystems/Quest<br/>36 types · 1739 LOC"]
     M_Gameplay_RopeSystems["Gameplay/RopeSystems<br/>1 types · 49 LOC"]
     M_Gameplay_Save["Gameplay/Save<br/>1 types · 188 LOC"]
@@ -142,6 +142,7 @@ flowchart LR
   M_Gameplay_Interaction -->|3| M_Gameplay_Entities_Players
   M_Gameplay_Inventory -->|6| M_Core_Datas_Items
   M_Gameplay_Items_Pickups -->|3| M_Core_Pool
+  M_Gameplay_Projectiles -->|3| M_Gameplay_Entities
   M_Gameplay_Projectiles -->|3| M_Gameplay_Entities_Players
   M_Gameplay_QuestSystems_Quest -->|12| M_Core
   M_Gameplay_QuestSystems_Quest -->|24| M_Core_Events
@@ -187,7 +188,7 @@ flowchart LR
 | Module | Types | LOC | Diagram |
 |---|---|---|---|
 | Gameplay/QuestSystems/Quest | 36 | 1739 | [open](modules/Gameplay_QuestSystems_Quest.md) |
-| Gameplay/Entities/Players | 10 | 941 | [open](modules/Gameplay_Entities_Players.md) |
+| Gameplay/Entities/Players | 10 | 913 | [open](modules/Gameplay_Entities_Players.md) |
 | Gameplay/Entities/Players/OxygenTube | 8 | 763 | [open](modules/Gameplay_Entities_Players_OxygenTube.md) |
 | UI | 17 | 756 | [open](modules/UI.md) |
 | Gameplay/Entities/Enemies/Brain/FSM/States | 6 | 712 | [open](modules/Gameplay_Entities_Enemies_Brain_FSM_States.md) |
@@ -202,20 +203,20 @@ flowchart LR
 | UI/Shop | 2 | 366 | [open](modules/UI_Shop.md) |
 | Gameplay/Entities/Enemies/Brain | 8 | 363 | [open](modules/Gameplay_Entities_Enemies_Brain.md) |
 | Core/Inputs/KeyBind | 2 | 350 | [open](modules/Core_Inputs_KeyBind.md) |
-| Gameplay/Entities | 7 | 322 | [open](modules/Gameplay_Entities.md) |
+| Gameplay/Entities | 7 | 310 | [open](modules/Gameplay_Entities.md) |
 | Gameplay/Cutscenes | 5 | 304 | [open](modules/Gameplay_Cutscenes.md) |
 | Core/Save | 7 | 246 | [open](modules/Core_Save.md) |
 | Gameplay/Entities/NPCs | 1 | 243 | [open](modules/Gameplay_Entities_NPCs.md) |
 | Gameplay/AudioSetting | 7 | 241 | [open](modules/Gameplay_AudioSetting.md) |
-| Gameplay/Projectiles | 5 | 226 | [open](modules/Gameplay_Projectiles.md) |
 | Gameplay/Inventory | 5 | 223 | [open](modules/Gameplay_Inventory.md) |
+| Gameplay/Projectiles | 5 | 222 | [open](modules/Gameplay_Projectiles.md) |
 | Gameplay/Entities/Enemies/Brain/LinearPatrol | 5 | 218 | [open](modules/Gameplay_Entities_Enemies_Brain_LinearPatrol.md) |
 | Gameplay/Save | 1 | 188 | [open](modules/Gameplay_Save.md) |
 | UI/Notifications | 5 | 180 | [open](modules/UI_Notifications.md) |
 | Core/Scenes | 4 | 169 | [open](modules/Core_Scenes.md) |
-| Gameplay/Entities/Enemies | 2 | 166 | [open](modules/Gameplay_Entities_Enemies.md) |
 | Gameplay/Entities/Enemies/NavAgents | 3 | 162 | [open](modules/Gameplay_Entities_Enemies_NavAgents.md) |
 | Gameplay/Items/Pickups | 3 | 157 | [open](modules/Gameplay_Items_Pickups.md) |
+| Gameplay/Entities/Enemies | 2 | 148 | [open](modules/Gameplay_Entities_Enemies.md) |
 | Gameplay/Interaction | 4 | 147 | [open](modules/Gameplay_Interaction.md) |
 | Gameplay/Services | 2 | 146 | [open](modules/Gameplay_Services.md) |
 | Core/Inputs/KeyBind/UIKeyBind | 3 | 143 | [open](modules/Core_Inputs_KeyBind_UIKeyBind.md) |

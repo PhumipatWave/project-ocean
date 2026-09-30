@@ -12,9 +12,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | OxygenRope | 370 | 14 | 31 | 9 | Gameplay/Entities/Players/OxygenTube |
 | UIManager | 352 | 31 | 11 | 9 | UI/UIManager |
 | KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
-| Player | 333 | 19 | 35 | 24 | Gameplay/Entities/Players |
 | QuestManager | 333 | 34 | 7 | 19 | Gameplay/QuestSystems/Quest |
 | InventoryManager | 319 | 43 | 25 | 29 | UI/Inventory |
+| Player | 305 | 17 | 31 | 24 | Gameplay/Entities/Players |
 | ShopManager | 287 | 37 | 19 | 15 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |

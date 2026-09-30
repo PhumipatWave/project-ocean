@@ -13,10 +13,10 @@ namespace Game.Gameplay
 
         [Header("Hit Flash")]
         [SerializeField] private Color hitColor = new Color(0f, 0.1f, 0.5f);
-        public Color HitColor => hitColor;
-
 
         [SerializeField] private float flashDuration = 0.15f;
+        [Tooltip("Sprite that flashes on hit. Empty = first child SpriteRenderer.")]
+        [SerializeField] private SpriteRenderer flashTarget;
 
         private SpriteRenderer spriteRenderer;
         private Color originalColor;
@@ -95,7 +95,7 @@ namespace Game.Gameplay
 
         private void Awake()
         {
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            spriteRenderer = flashTarget != null ? flashTarget : GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
                 originalColor = spriteRenderer.color;
         }

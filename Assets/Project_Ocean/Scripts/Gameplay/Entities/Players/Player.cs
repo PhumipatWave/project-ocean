@@ -84,12 +84,6 @@ namespace Game.Gameplay
         public GameObject PlayerSprite { get { return playerSprite; } }
 
 
-        [Header("Hit Flash")]
-        [SerializeField] private float playerFlashDuration = 0.15f;
-        private SpriteRenderer playerSpriteRenderer;
-        private Color playerOriginalColor;
-        private Coroutine playerFlashCoroutine;
-
         [Header("Player Feedback VFX")]
         private PlayerSprintVFX playerSprintVFX;
 
@@ -132,12 +126,6 @@ namespace Game.Gameplay
             base.Awake();
 
             playerSprintVFX = GetComponentInChildren<PlayerSprintVFX>(true);
-
-            if (playerSprite != null)
-                playerSpriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
-
-            if (playerSpriteRenderer != null)
-                playerOriginalColor = playerSpriteRenderer.color;
 
             gunHandler = GetComponentInChildren<PlayerGunHandler>();
 
@@ -207,7 +195,7 @@ namespace Game.Gameplay
                 gunHandler.IsAimming = false;
                 gunHandler.CanAttack = true;
                 Time.timeScale = originTime;
-                rb.linearVelocity = Vector2.zero;
+                StopMovement();
 
 #if ENABLE_CHECKPOINT_ITEM
                 // Cancel any in-flight checkpoint pull and clear all checkpoint state
@@ -274,7 +262,7 @@ namespace Game.Gameplay
                 isAttacked = true;
                 gunHandler.IsAimming = true;
 
-                rb.linearVelocity = Vector2.zero;
+                StopMovement();
                 Time.timeScale = focusTime;
             }
             else
@@ -326,7 +314,7 @@ namespace Game.Gameplay
 
             if (gunHandler.IsAimming || PlayerUIState.IsLocked)
             {
-                rb.linearVelocity = Vector2.zero;
+                StopMovement();
                 // Track the raw held-input state (not hardcoded false) so a key already
                 // held through the lock doesn't look like a fresh press-edge the instant
                 // the lock releases — e.g. holding W through dialogue would otherwise
@@ -389,32 +377,8 @@ namespace Game.Gameplay
             AudioManager.Instance?.PlaySFX(SoundKeys.Hurt);
         }
 
-        protected override void OnDamagedVisual()
-        {
-            OnPlayerDamaged?.Invoke();
-
-            if (playerSpriteRenderer == null)
-                return;
-
-            if (playerFlashCoroutine != null)
-                StopCoroutine(playerFlashCoroutine);
-
-            playerFlashCoroutine = StartCoroutine(PlayerHitFlashRoutine());
-        }
-
-        private IEnumerator PlayerHitFlashRoutine()
-        {
-            playerSpriteRenderer.color = entityHealth.HitColor;
-            yield return new WaitForSeconds(playerFlashDuration);
-            playerSpriteRenderer.color = playerOriginalColor;
-            playerFlashCoroutine = null;
-        }
-
-
-        protected override void OnDeathHandler()
-        {
-            entityDeathHandler?.HandleDeath();
-        }
+        // The flash itself runs in PlayerHealth (its flashTarget is the Visual sprite).
+        protected override void OnDamagedVisual() => OnPlayerDamaged?.Invoke();
 
         #endregion
 

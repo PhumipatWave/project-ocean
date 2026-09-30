@@ -4,6 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
+    // Unused for now: nothing starts Stab(). Kept (and still on the Player prefab) for a future melee attack.
     public class PlayerStabAttack : MonoBehaviour
     {
         [Header("Hitbox")]

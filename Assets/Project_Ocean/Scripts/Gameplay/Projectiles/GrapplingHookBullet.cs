@@ -60,8 +60,7 @@ namespace Game.Gameplay
                 {
                     case "Enemy":
                         isHit = true;
-                        Enemy enemy = collision.GetComponent<Enemy>();
-                        enemy.TakeDamage(attackDamage);
+                        collision.GetComponent<Entity>()?.TakeDamage(attackDamage);
 
                         GameLog.Info($"Grappling Hook Fire : {collision.name}");
 

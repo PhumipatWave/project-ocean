@@ -62,13 +62,11 @@ namespace Game.Gameplay
                     break;
 
                 case "Enemy":
-                    Enemy enemy = collision.GetComponent<Enemy>();
-                    enemy.TakeDamage(attackDamage);
-                    (enemy.Brain as IBrainHitReaction)?.OnHit();
+                    // The brain's hit reaction runs from Enemy.OnDamagedHandler.
+                    collision.GetComponent<Entity>()?.TakeDamage(attackDamage);
                     TutorialEvents.RaiseAction(TutorialActionId.HitEnemy);
 
-                    var darmagePoint = collision.GetComponentInChildren<IDamagePopup>();
-                    darmagePoint.ShowDamagePoint(attackDamage.ToString());
+                    collision.GetComponentInChildren<IDamagePopup>()?.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
 

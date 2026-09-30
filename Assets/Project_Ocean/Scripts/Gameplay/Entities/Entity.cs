@@ -20,7 +20,7 @@ namespace Game.Gameplay
         public bool IsDead => healthSource != null && healthSource.IsDead;
 
         protected abstract void OnDamagedHandler();
-        protected abstract void OnDeathHandler();
+        protected virtual void OnDeathHandler() { }
         protected virtual void OnDamagedVisual() { }
 
         protected virtual IEntityHealth ProvideHealthSource()

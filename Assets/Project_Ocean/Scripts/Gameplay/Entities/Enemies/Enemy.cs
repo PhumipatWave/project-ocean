@@ -26,9 +26,6 @@ namespace Game.Gameplay
         public string EnemyId => enemyId;
 
         [SerializeField] private float maxHealth = 100f;
-        private SpriteRenderer visual;
-        private Animator anim;
-        private Color deathSpriteColor = Color.red;
 
         private Player player;
         public Player Player => player;
@@ -41,8 +38,8 @@ namespace Game.Gameplay
         protected override void Awake()
         {
             base.Awake();
-            CacheEnemyComponents();
-            ApplyLegacySerializedValues();
+            if (loot == null) loot = GetComponent<EnemyLoot>();
+            (healthSource as EntityHealth)?.Configure(maxHealth);
             InitializeNavHost();
             InitializeState();
             SleepDistanceSqr   = sleepDistance   > 0f ? sleepDistance   * sleepDistance   : float.MaxValue;
@@ -53,11 +50,6 @@ namespace Game.Gameplay
         {
             if (despawnDistance > 0f)
                 StartCoroutine(DespawnCheckRoutine());
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
         }
 
         private void Update()
@@ -133,12 +125,6 @@ namespace Game.Gameplay
             brain = agent.ActiveBrain;
         }
 
-        private void CacheEnemyComponents()
-        {
-            if (loot == null) loot = GetComponent<EnemyLoot>();
-            if (navAgentHost == null) navAgentHost = GetComponent<EnemyNavAgentBase>();
-        }
-
         private void InitializeNavHost()
         {
             if (navAgentHost == null) navAgentHost = GetComponent<EnemyNavAgentBase>();
@@ -149,13 +135,6 @@ namespace Game.Gameplay
         {
             player = PlayerRegistry.Local;
             healthSource?.Initialize();
-        }
-
-        private void ApplyLegacySerializedValues()
-        {
-            (healthSource as EntityHealth)?.Configure(maxHealth);
-            entityAnimation?.Configure(anim);
-            entityDeathHandler?.Configure(rb, visual, deathSpriteColor);
         }
     }
 }
