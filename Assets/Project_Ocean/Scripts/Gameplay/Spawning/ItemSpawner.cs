@@ -6,13 +6,15 @@ using Game.Core;
 namespace Game.Gameplay
 {
     [Serializable]
-    public class ZoneItemEntry
+    public class ZoneItemEntry : IWeightedEntry
     {
         [Tooltip("Index in GameObjectSpawnManager.allItems list (0 = first entry, 1 = second, etc.).")]
         public int itemIndex;
 
         [Tooltip("Relative spawn chance for this zone. Higher = more likely to be picked.")]
         [Min(0f)] public float weight = 1f;
+
+        public float Weight => weight;
     }
 
     /// Place one ItemSpawner in the scene per zone.
@@ -159,26 +161,7 @@ namespace Game.Gameplay
             return result;
         }
 
-        private ZoneItemEntry PickEntry()
-        {
-            float totalWeight = 0f;
-            foreach (var e in spawnEntries)
-                if (e != null) totalWeight += e.weight;
-
-            if (totalWeight <= 0f) return null;
-
-            float roll       = UnityEngine.Random.Range(0f, totalWeight);
-            float cumulative = 0f;
-
-            foreach (var e in spawnEntries)
-            {
-                if (e == null) continue;
-                cumulative += e.weight;
-                if (roll <= cumulative) return e;
-            }
-
-            return spawnEntries[^1];
-        }
+        private ZoneItemEntry PickEntry() => WeightedPicker.Pick(spawnEntries);
 
         private void OnDrawGizmosSelected()
         {

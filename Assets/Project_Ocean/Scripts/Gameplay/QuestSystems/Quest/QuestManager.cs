@@ -5,9 +5,8 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    public class QuestManager : MonoBehaviour, ISaveParticipant
+    public class QuestManager : Singleton<QuestManager>, ISaveParticipant
     {
-        public static QuestManager Instance { get; private set; }
         public static event Action OnQuestUpdated;
         /// <summary>Raised when a quest (or an auto-complete step) finishes and the complete popup should show.</summary>
         public static event Action<Quest> OnQuestCompleted;
@@ -22,16 +21,12 @@ namespace Game.Gameplay
 
         private QuestProgressTracker progress;
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             InitializeQuests();
             progress = new QuestProgressTracker(activeQuestList, CompleteProgress, RaiseQuestUpdated);

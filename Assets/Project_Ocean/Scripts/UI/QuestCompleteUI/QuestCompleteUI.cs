@@ -6,9 +6,8 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
-    public class QuestCompleteUI : MonoBehaviour
+    public class QuestCompleteUI : Singleton<QuestCompleteUI>
     {
-        public static QuestCompleteUI Instance { get; private set; }
 
         [Header("UI")]
         [SerializeField] private GameObject panel;
@@ -23,15 +22,10 @@ namespace Game.UI
 
         private Coroutine hideCoroutine;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            base.Awake();
+            if (IsDuplicate) return;
 
             if (panel != null)
                 panel.SetActive(false);
@@ -39,10 +33,11 @@ namespace Game.UI
             QuestManager.OnQuestCompleted += Show;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (Instance == this)
                 QuestManager.OnQuestCompleted -= Show;
+            base.OnDestroy();
         }
 
         public void Show(Quest quest)

@@ -5,9 +5,8 @@ using UnityEngine.InputSystem;
 
 namespace Game.Core
 {
-    public class KeyBindManager : MonoBehaviour
+    public class KeyBindManager : Singleton<KeyBindManager>
     {
-        public static KeyBindManager Instance { get; private set; }
 
         public static event Action OnInitialized;
 
@@ -19,16 +18,12 @@ namespace Game.Core
 
         private string SavePath => Path.Combine(Application.persistentDataPath,"keybinds.json");
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             inputActions = new InputSystem_Actions();
 
@@ -37,13 +32,11 @@ namespace Game.Core
             OnInitialized?.Invoke();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (Instance != this)
-                return;
-
-            inputActions?.Dispose();
-            Instance = null;
+            if (Instance == this)
+                inputActions?.Dispose();
+            base.OnDestroy();
         }
 
         public bool IsBindingUsed(string bindingPath,KeyAction excludeAction,int excludeBindingIndex = -1)
@@ -119,6 +112,7 @@ namespace Game.Core
                     $"[KeyBind] Action not found: {action}"
                 );
 
+                onComplete?.Invoke("", false);
                 return;
             }
 

@@ -3,9 +3,8 @@ using UnityEngine.Events;
 
 namespace Game.Core
 {
-    public class DayManager : MonoBehaviour, ISaveParticipant
+    public class DayManager : Singleton<DayManager>, ISaveParticipant
     {
-        public static DayManager Instance { get; private set; }
 
         public int CurrentDay { get; private set; } = 1;
 
@@ -43,12 +42,6 @@ namespace Game.Core
         /// <summary>Fired whenever today's dive count changes — gates the sleep interaction and the dive panel text.</summary>
         public static event System.Action OnDivedToday;
 
-        void Awake()
-        {
-            if (Instance != null) { Destroy(gameObject); return; }
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
-        }
 
         /// Called by SaveBridge after a save is loaded.
         public void SetDay(int day) => CurrentDay = Mathf.Max(1, day);

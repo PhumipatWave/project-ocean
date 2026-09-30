@@ -6,9 +6,8 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    public class SaveBridge : MonoBehaviour
+    public class SaveBridge : Singleton<SaveBridge>
     {
-        public static SaveBridge Instance { get; private set; }
 
         /// Fired after a successful save so UI can show a "Game Saved" toast.
         public static event System.Action OnSaved;
@@ -54,12 +53,8 @@ namespace Game.Gameplay
             return list;
         }
 
-        void Awake()
-        {
-            if (Instance != null) { Destroy(this); return; }
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
-        }
+        // Shares its GameObject; persistence comes from the GameManager root.
+        protected override bool DestroyGameObjectOnDuplicate => false;
 
         private void OnEnable()
         {

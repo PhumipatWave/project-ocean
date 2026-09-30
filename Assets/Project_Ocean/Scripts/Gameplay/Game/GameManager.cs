@@ -4,7 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : Singleton<GameManager>
     {
         /// <summary>Raised just before returning to the main menu, so persistent UI can close.</summary>
         public static event System.Action OnReturningToMenu;
@@ -15,18 +15,14 @@ namespace Game.Gameplay
 
         public GameState GameState { get => GameSession.State; set => GameSession.State = value; }
 
-        public static GameManager Instance { get; private set; }
 
-        private void Awake()
+        // The persistent root: its children (most managers) survive scene loads through it.
+        protected override bool Persistent => true;
+
+        protected override void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(this.gameObject);
-                return;
-            }
-
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            base.Awake();
+            if (IsDuplicate) return;
             GameFlowEvents.OnReturnToLandRequested += ReturnToLand;
 
             // Lock game fps to 60
@@ -39,10 +35,11 @@ namespace Game.Gameplay
         }
 
         // A duplicate destroyed in Awake never subscribed, so only the live instance unsubscribes.
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (Instance == this)
                 GameFlowEvents.OnReturnToLandRequested -= ReturnToLand;
+            base.OnDestroy();
         }
 
         /// <summary>Instantiates the player prefab once, the first time a gameplay scene loads

@@ -42,9 +42,8 @@ namespace Game.Gameplay
     ///
     /// Volumes (0..1) are stored in PlayerPrefs and pushed to the mixer's exposed parameters.
     /// </summary>
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : Singleton<AudioManager>
     {
-        public static AudioManager Instance { get; private set; }
 
         [SerializeField] private AudioMixer mixer;
         [SerializeField] private SoundChannel master;
@@ -65,17 +64,6 @@ namespace Game.Gameplay
         private AudioSource music;
         private AudioSource ambience;
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
-        }
 
         private void OnEnable()  => SceneManager.sceneLoaded += OnSceneLoaded;
         private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -104,11 +92,6 @@ namespace Game.Gameplay
             }
         }
 
-        private void OnDestroy()
-        {
-            if (Instance == this)
-                Instance = null;
-        }
 
         // -------------------- Music & ambience (BGM channel) -------------------- //
 

@@ -14,25 +14,20 @@ namespace Game.Gameplay
     /// just its id, instead of duplicating that data onto the quest itself — quest data
     /// only ever stores npcId; this is what "syncs" it.
     /// </summary>
-    public class NPCManager : MonoBehaviour
+    public class NPCManager : Singleton<NPCManager>
     {
-        public static NPCManager Instance { get; private set; }
 
         [Tooltip("Name/portrait per characterId, independent of which scene's NPCs are loaded. Anything it doesn't cover falls back to the loaded NPC's own fields.")]
         [SerializeField] private CharacterDatabase characterDatabase;
 
         private readonly Dictionary<string, NPC> npcsById = new();
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             // Awake/OnEnable order between sibling scene objects isn't guaranteed — an NPC
             // already in the scene when this Awake runs may have already tried (and silently

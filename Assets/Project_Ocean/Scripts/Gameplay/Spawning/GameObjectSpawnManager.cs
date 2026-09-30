@@ -24,9 +24,8 @@ namespace Game.Gameplay
 
     // ── Manager ───────────────────────────────────────────────────────────────
 
-    public class GameObjectSpawnManager : MonoBehaviour
+    public class GameObjectSpawnManager : Singleton<GameObjectSpawnManager>
     {
-        public static GameObjectSpawnManager Instance { get; private set; }
 
         [Header("Enemy Prefabs")]
         [Tooltip("Every enemy type in the game. Assign a unique string ID to each entry.")]
@@ -45,10 +44,10 @@ namespace Game.Gameplay
         private List<EnemySpawner> enemySpawners = new();
         private List<ItemSpawner> itemSpawners = new();
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null) { Destroy(gameObject); return; }
-            Instance = this;
+            base.Awake();
+            if (IsDuplicate) return;
             BuildLookups();
         }
 

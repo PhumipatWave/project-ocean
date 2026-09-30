@@ -9,9 +9,8 @@ namespace Game.UI
 {
     /// Generic "Are you sure?" modal. Call Show() with a message and callbacks.
     /// Wire ConfirmButton.onClick → Confirm() and CancelButton.onClick → Cancel() in the Inspector.
-    public class ConfirmationDialog : MonoBehaviour, IModalPrompt
+    public class ConfirmationDialog : Singleton<ConfirmationDialog>, IModalPrompt
     {
-        public static ConfirmationDialog Instance { get; private set; }
 
         [SerializeField] private GameObject BGPanel;
         [SerializeField] private GameObject panel;
@@ -23,14 +22,10 @@ namespace Game.UI
         private Action _onCancel;
         private bool _isShowing;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
+            base.Awake();
+            if (IsDuplicate) return;
             ModalPrompt.Register(this);
             if (panel != null) BGPanel.SetActive(false);
             if (panel != null) panel.SetActive(false);
@@ -39,10 +34,11 @@ namespace Game.UI
         // A menu (pause, settings) owns the screen — don't stack the prompt over it.
         public bool CanShow => UIManager.Instance == null || !UIManager.Instance.IsUIOpen;
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (Instance == this)
                 ModalPrompt.Unregister(this);
+            base.OnDestroy();
         }
 
         /// Show the dialog with a message. onCancel is optional.

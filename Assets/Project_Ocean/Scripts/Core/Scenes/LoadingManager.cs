@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 namespace Game.Core
 {
-    public class LoadingManager : MonoBehaviour
+    public class LoadingManager : Singleton<LoadingManager>
     {
-        public static LoadingManager Instance { get; private set; }
 
         [Header("Loading UI")]
         [SerializeField] private GameObject loadingCanvas;
@@ -61,17 +60,7 @@ namespace Game.Core
         /// <summary>Fired after the loading screen hides.</summary>
         public static event System.Action OnLoadingFinished;
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        protected override bool Persistent => true;
 
         private void Start()
         {

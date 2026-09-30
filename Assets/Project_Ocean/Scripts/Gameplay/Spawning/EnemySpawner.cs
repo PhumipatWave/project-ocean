@@ -8,13 +8,15 @@ using Game.Core;
 namespace Game.Gameplay
 {
     [Serializable]
-    public class ZoneSpawnEntry
+    public class ZoneSpawnEntry : IWeightedEntry
     {
         [Tooltip("Must match an ID in EnemySpawnManager.allEnemyEntries.")]
         public string enemyId;
 
         [Tooltip("Relative spawn chance for this zone. Higher = more likely to be picked.")]
         [Min(0f)] public float weight = 1f;
+
+        public float Weight => weight;
     }
 
     /// Place one EnemySpawner per zone in the Ocean scene.
@@ -279,26 +281,7 @@ namespace Game.Gameplay
             return false;
         }
 
-        private ZoneSpawnEntry PickEntry()
-        {
-            float totalWeight = 0f;
-            foreach (var e in spawnEntries)
-                if (e != null) totalWeight += e.weight;
-
-            if (totalWeight <= 0f) return null;
-
-            float roll       = UnityEngine.Random.Range(0f, totalWeight);
-            float cumulative = 0f;
-
-            foreach (var e in spawnEntries)
-            {
-                if (e == null) continue;
-                cumulative += e.weight;
-                if (roll <= cumulative) return e;
-            }
-
-            return spawnEntries[^1];
-        }
+        private ZoneSpawnEntry PickEntry() => WeightedPicker.Pick(spawnEntries);
 
         private void OnDrawGizmosSelected()
         {

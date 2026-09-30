@@ -4,9 +4,8 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Core
 {
-    public class ObjectPoolManager : MonoBehaviour
+    public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-        public static ObjectPoolManager Instance { get; private set; }
 
         // prefab instanceID → queue of inactive instances
         private readonly Dictionary<int, Queue<GameObject>> pools = new();
@@ -17,12 +16,8 @@ namespace Game.Core
         // prefab instanceID → prefab reference (for creating new instances)
         private readonly Dictionary<int, GameObject> prefabById = new();
 
-        private void Awake()
-        {
-            if (Instance != null) { Destroy(this); return; }
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
-        }
+        // Shares its GameObject; persistence comes from the GameManager root.
+        protected override bool DestroyGameObjectOnDuplicate => false;
 
         /// Pre-creates <count> instances of <prefab> and stores them in the pool.
         public void Prewarm(GameObject prefab, int count)

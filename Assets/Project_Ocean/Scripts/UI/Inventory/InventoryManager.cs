@@ -7,7 +7,7 @@ using Game.Gameplay;
 namespace Game.UI
 {
     /// <summary>Inventory entry point and view: owns the InventoryModel and draws it into the slot UI.</summary>
-    public class InventoryManager : MonoBehaviour, ISaveParticipant, IInventory
+    public class InventoryManager : Singleton<InventoryManager>, ISaveParticipant, IInventory
     {
         // Forwards to Inventory.OnChanged so gameplay listens without referencing this UI class.
         public static System.Action OnInventoryChanged
@@ -55,20 +55,16 @@ namespace Game.UI
         private InventoryModel model;
         private InventorySlot[] slotViews; // same indices as the model: player slots, then building slots
 
-        public static InventoryManager Instance { get; private set; }
         public int ActiveBuildingSlotIndex => activeBuildingSlotIndex;
         public int PlayerSlotCount => model.PlayerSlotCount;
 
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                Destroy(this);
-                return;
-            }
+        // Shares its GameObject; persistence comes from the GameManager root.
+        protected override bool DestroyGameObjectOnDuplicate => false;
 
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             uiController = GetComponent<InventoryUIController>();
             if (uiController == null)
@@ -94,11 +90,11 @@ namespace Game.UI
             model.ItemDelta += (item, delta) => OnItemDelta?.Invoke(item, delta);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (Instance != this) return;
-            Inventory.Unregister(this);
-            Instance = null;
+            if (Instance == this)
+                Inventory.Unregister(this);
+            base.OnDestroy();
         }
 
         private void OnEnable()

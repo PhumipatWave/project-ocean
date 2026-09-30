@@ -19,9 +19,8 @@ namespace Game.Gameplay
     /// Cutscene-type step has no dialogue to hang off of — it plays the moment it becomes
     /// the current step and completes itself via CutsceneEvents when done.
     /// </summary>
-    public class CutsceneManager : MonoBehaviour
+    public class CutsceneManager : Singleton<CutsceneManager>
     {
-        public static CutsceneManager Instance { get; private set; }
 
         [Tooltip("Every cutscene prefab in the project — each needs a Cutscene component with a unique Cutscene Id.")]
         [SerializeField] private List<GameObject> cutscenePrefabs = new();
@@ -53,16 +52,12 @@ namespace Game.Gameplay
         // would close the cutscene's OWN lock instead and show the HUD mid-cutscene.
         private int startLockResetCount;
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             foreach (var prefab in cutscenePrefabs)
             {

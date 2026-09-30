@@ -7,18 +7,13 @@ namespace Game.Core
     /// Persists across ocean→land transitions so killed enemies don't respawn mid-day.
     /// Resets automatically when the player advances to the next day.
     /// Place this on the same persistent GameObject as GameManager / SaveBridge.
-    public class EnemyKillTracker : MonoBehaviour, ISaveParticipant
+    public class EnemyKillTracker : Singleton<EnemyKillTracker>, ISaveParticipant
     {
-        public static EnemyKillTracker Instance { get; private set; }
 
         private readonly HashSet<string> killedSpawnIds = new();
 
-        void Awake()
-        {
-            if (Instance != null) { Destroy(this); return; }
-            Instance = this;
-            // Persistence is handled by the parent GameManager root's DontDestroyOnLoad.
-        }
+        // Shares its GameObject; persistence comes from the GameManager root.
+        protected override bool DestroyGameObjectOnDuplicate => false;
 
         private void OnEnable()  => DayManager.OnEnemyReset += ResetAll;
         private void OnDisable() => DayManager.OnEnemyReset -= ResetAll;

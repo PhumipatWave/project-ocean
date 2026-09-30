@@ -20,9 +20,8 @@ namespace Game.UI
     /// Inventory
     /// Quest
     /// </summary>
-    public class UIManager : MonoBehaviour
+    public class UIManager : Singleton<UIManager>
     {
-        public static UIManager Instance { get; private set; }
 
         public enum UIType
         {
@@ -61,16 +60,12 @@ namespace Game.UI
         // UNITY
         // =========================================================
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             // Do not reset PlayerUIState here if another persistent
             // UI system may already own it.
@@ -82,10 +77,11 @@ namespace Game.UI
             GameManager.OnReturningToMenu += CloseAll;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             if (Instance == this)
                 GameManager.OnReturningToMenu -= CloseAll;
+            base.OnDestroy();
         }
 
         private void Start()
