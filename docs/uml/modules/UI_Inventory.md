@@ -1,6 +1,6 @@
 # UI/Inventory
 
-3 types · 393 LOC (non-blank) · depends on: [Gameplay/Inventory](Gameplay_Inventory.md) ×5, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Core](Core.md) ×3, [Core/Events](Core_Events.md) ×3, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Save](Core_Save.md) ×2, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/Items](Gameplay_Items.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1, [UI](UI.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
+4 types · 415 LOC (non-blank) · depends on: [Gameplay/Inventory](Gameplay_Inventory.md) ×5, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Core/Events](Core_Events.md) ×3, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×3, [Core](Core.md) ×3, [Core/Datas/Upgrades](Core_Datas_Upgrades.md) ×2, [Gameplay/Services](Gameplay_Services.md) ×2, [Core/Save](Core_Save.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Gameplay/Spawning](Gameplay_Spawning.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [UI](UI.md) ×1, [Gameplay/Items](Gameplay_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [UI/UIManager](UI_UIManager.md) ×1
 
 [← index](../README.md)
 
@@ -39,6 +39,10 @@ classDiagram
     +ShowInventory() void
     +HideInventory() void
   }
+  class SlotBuilder {
+    <<static>>
+    +Build(InventorySlot, Transform, int, string)$ InventorySlot
+  }
   class UISlotHoverHighlight {
     <<MB>>
     +Image targetImage
@@ -72,6 +76,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| InventoryManager | MB | `InventoryManager.cs:10` | 315 |
+| InventoryManager | MB | `InventoryManager.cs:10` | 319 |
 | InventoryUIController | MB | `InventoryUIController.cs:7` | 57 |
+| SlotBuilder | static | `SlotBuilder.cs:6` | 18 |
 | UISlotHoverHighlight | MB | `UISlotHoverHighlight.cs:9` | 21 |

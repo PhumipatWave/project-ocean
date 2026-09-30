@@ -24,9 +24,14 @@ namespace Game.UI
         public GameObject InventoryMenu;
 
         [Header("Inventory Slots")]
-        [SerializeField] private InventorySlot[] inventorySlots;
+        [SerializeField] private InventorySlot slotPrefab;
+        [SerializeField] private Transform slotContainer;
+        // Saves store slot indices: going below an old save's highest index drops those items on load.
+        [SerializeField, Min(1)] private int playerSlotCount = 14;
         [SerializeField] private int firstUnlockedSlotCount = 3;
         [SerializeField] private List<InventorySlot> buildingSlots;
+
+        private InventorySlot[] inventorySlots;
 
         [Header("Item View")]
         [SerializeField] private GameObject InventoryItemPrefab;
@@ -77,6 +82,7 @@ namespace Game.UI
 
         private void CreateModel()
         {
+            inventorySlots = SlotBuilder.Build(slotPrefab, slotContainer, playerSlotCount, "Slot_Items");
             int buildingCount = buildingSlots != null ? buildingSlots.Count : 0;
             model = new InventoryModel(inventorySlots.Length, buildingCount);
             slotViews = new InventorySlot[model.SlotCount];

@@ -11,7 +11,7 @@ Label = distinct type-to-type links.
 ```mermaid
 flowchart TB
   Editor["Editor<br/>3 types"]
-  UI["UI<br/>60 types"]
+  UI["UI<br/>61 types"]
   Gameplay["Gameplay<br/>155 types"]
   Core["Core<br/>57 types"]
   Editor -->|6| Gameplay
@@ -33,7 +33,7 @@ flowchart LR
     M_UI["UI<br/>16 types · 727 LOC"]
     M_UI_Dialogue["UI/Dialogue<br/>1 types · 19 LOC"]
     M_UI_Interactions["UI/Interactions<br/>1 types · 26 LOC"]
-    M_UI_Inventory["UI/Inventory<br/>3 types · 393 LOC"]
+    M_UI_Inventory["UI/Inventory<br/>4 types · 415 LOC"]
     M_UI_Inventory_InventoryBin["UI/Inventory/InventoryBin<br/>1 types · 56 LOC"]
     M_UI_Inventory_InventoryBuy["UI/Inventory/InventoryBuy<br/>2 types · 70 LOC"]
     M_UI_Inventory_InventoryPlayer["UI/Inventory/InventoryPlayer<br/>2 types · 100 LOC"]
@@ -46,7 +46,7 @@ flowchart LR
     M_UI_Quest["UI/Quest<br/>6 types · 493 LOC"]
     M_UI_QuestCompleteUI["UI/QuestCompleteUI<br/>1 types · 104 LOC"]
     M_UI_Save["UI/Save<br/>2 types · 141 LOC"]
-    M_UI_Shop["UI/Shop<br/>2 types · 354 LOC"]
+    M_UI_Shop["UI/Shop<br/>2 types · 366 LOC"]
     M_UI_UIManager["UI/UIManager<br/>4 types · 389 LOC"]
     M_UI_UIMenuSetting["UI/UIMenuSetting<br/>3 types · 137 LOC"]
     M_UI_Upgrades["UI/Upgrades<br/>3 types · 415 LOC"]
@@ -165,6 +165,7 @@ flowchart LR
   M_UI_Inventory -->|3| M_Core_Datas_Items
   M_UI_Inventory -->|3| M_Core_Events
   M_UI_Inventory -->|5| M_Gameplay_Inventory
+  M_UI_Inventory -->|3| M_UI_Inventory_InventoryPlayer
   M_UI_Loading_LoadingVisualController -->|3| M_Core_Scenes
   M_UI_Notifications -->|8| M_Core_Events
   M_UI_Quest -->|3| M_Core
@@ -173,6 +174,7 @@ flowchart LR
   M_UI_Shop -->|3| M_Core_Datas_Items
   M_UI_Shop -->|5| M_Core_Events
   M_UI_Shop -->|3| M_Gameplay_Entities_Players
+  M_UI_Shop -->|3| M_UI_Inventory
   M_UI_UIManager -->|3| M_UI
   M_UI_Upgrades -->|6| M_Core_Datas_Upgrades
 ```
@@ -191,11 +193,11 @@ flowchart LR
 | Gameplay/Environments | 7 | 480 | [open](modules/Gameplay_Environments.md) |
 | Gameplay/Spawning | 7 | 478 | [open](modules/Gameplay_Spawning.md) |
 | Gameplay/Entities/Enemies/NavAgents/Core | 5 | 464 | [open](modules/Gameplay_Entities_Enemies_NavAgents_Core.md) |
+| UI/Inventory | 4 | 415 | [open](modules/UI_Inventory.md) |
 | UI/Upgrades | 3 | 415 | [open](modules/UI_Upgrades.md) |
-| UI/Inventory | 3 | 393 | [open](modules/UI_Inventory.md) |
 | UI/UIManager | 4 | 389 | [open](modules/UI_UIManager.md) |
+| UI/Shop | 2 | 366 | [open](modules/UI_Shop.md) |
 | Gameplay/Entities/Enemies/Brain | 8 | 363 | [open](modules/Gameplay_Entities_Enemies_Brain.md) |
-| UI/Shop | 2 | 354 | [open](modules/UI_Shop.md) |
 | Core/Inputs/KeyBind | 2 | 350 | [open](modules/Core_Inputs_KeyBind.md) |
 | Gameplay/Entities | 7 | 322 | [open](modules/Gameplay_Entities.md) |
 | Gameplay/Cutscenes | 5 | 304 | [open](modules/Gameplay_Cutscenes.md) |

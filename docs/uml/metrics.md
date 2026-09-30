@@ -14,9 +14,9 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | KeyBindManager | 339 | 12 | 4 | 5 | Core/Inputs/KeyBind |
 | Player | 333 | 19 | 35 | 24 | Gameplay/Entities/Players |
 | QuestManager | 333 | 34 | 7 | 19 | Gameplay/QuestSystems/Quest |
-| InventoryManager | 315 | 43 | 22 | 28 | UI/Inventory |
+| InventoryManager | 319 | 43 | 25 | 29 | UI/Inventory |
+| ShopManager | 287 | 37 | 19 | 15 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
-| ShopManager | 275 | 36 | 17 | 14 | UI/Shop |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
 | NPC | 243 | 21 | 18 | 17 | Gameplay/Entities/NPCs |
 | EnemyNavAgentBase | 228 | 26 | 29 | 12 | Gameplay/Entities/Enemies/NavAgents/Core |
@@ -53,7 +53,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 
 | Type | Depends on |
 |---|---|
-| InventoryManager | 28 |
+| InventoryManager | 29 |
 | Player | 24 |
 | SaveBridge | 22 |
 | EnemyBrain | 19 |
@@ -63,8 +63,8 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | NPC | 17 |
 | GameManager | 17 |
 | TutorialPromptUI | 15 |
+| ShopManager | 15 |
 | EnemyWanderState | 14 |
-| ShopManager | 14 |
 | PlayerSelfDialogueUI | 13 |
 | Enemy | 12 |
 | EnemyNavAgentBase | 12 |
@@ -84,7 +84,7 @@ AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManage
 | Gameplay/MainCameras/PlayerCamera.cs | 1 |
 | UI/UIManager/UIManager.cs | 1 |
 
-## `Debug.Log*` calls — 84 in 34 files
+## `Debug.Log*` calls — 85 in 35 files
 
 | File | Count |
 |---|---|
@@ -160,7 +160,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | 33 | Boid, Bullet, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity, EntityDeathHandler … +21 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
-| 3 | DraggableItem, InventoryManager, InventorySlot |
+| 4 | DraggableItem, InventoryManager, InventorySlot, SlotBuilder |
 | 2 | EnemyFSM, IEnemyState |
 | 2 | EnemySearchState, EnemyStateBase |
 | 2 | UIManager, UIWindow |

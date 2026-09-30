@@ -11,7 +11,7 @@
 ## Facts this plan relies on (checked 2026-09-30 in the YAML)
 
 - `AS_PlayerHUD`: `InventoryManager.inventorySlots` = 14 instances of `Prefabs/Buttons/Inventory/Slot_Items.prefab` (guid `3b971edacb3fed845ba3c8164e940a38`), all children of scene object `ItemsSlot` (has `GridLayoutGroup`). Array order == sibling order (0..13), so generated slot `i` lands where old slot `i` was and old saves map 1:1.
-- Every one of those 28 instances (14 HUD + 14 shop) overrides `Image.m_Sprite` to none. The base `Slot_Items.prefab` has a sprite and is also used by `WeaponUIPanel.prefab` (the building slot), so the base prefab is **not** edited; a variant is created instead.
+- Every one of those 28 instances (14 HUD + 14 shop) overrides `Image.m_Sprite` (to `UI_1_12`, not none as first noted; the variant keeps it). The base `Slot_Items.prefab` has a sprite and is also used by `WeaponUIPanel.prefab` (the building slot), so the base prefab is **not** edited; a variant is created instead.
 - Shop: `ShopManager` is in `Land_Map`; its `shopInventorySlots` = 14 `Slot_Items` instances named `InShopSlot_Items (n)` inside `FishShopPanel.prefab` → `ItemsSlot` (`GridLayoutGroup`), each overriding `isShopSlot = 1`.
 - The building slot (1 slot inside `WeaponUIPanel.prefab`) and its hint panels stay hand-placed: it is a fixed HUD element, not a grid.
 
@@ -326,21 +326,23 @@ if (shopType == null || slotType == null) return "types not found";
 
 // 1. Prefab asset: a scene instance can't delete children that belong to its prefab.
 var prefabRoot = UnityEditor.PrefabUtility.LoadPrefabContents(prefabPath);
-string containerPath = null;
-int removed = 0;
+// Find the grid first; deleting inside this loop would leave destroyed transforms in the array.
+Transform grid = null;
 foreach (var t in prefabRoot.GetComponentsInChildren<Transform>(true))
 {
     if (t.GetComponent<UnityEngine.UI.GridLayoutGroup>() == null || t.childCount == 0 || t.GetChild(0).GetComponent(slotType) == null) continue;
-    if (containerPath != null) { UnityEditor.PrefabUtility.UnloadPrefabContents(prefabRoot); return "more than one slot grid in FishShopPanel"; }
-    containerPath = UnityEditor.AnimationUtility.CalculateTransformPath(t, prefabRoot.transform);
-    for (int i = t.childCount - 1; i >= 0; i--)
-    {
-        if (t.GetChild(i).GetComponent(slotType) == null) continue;
-        UnityEngine.Object.DestroyImmediate(t.GetChild(i).gameObject);
-        removed++;
-    }
+    if (grid != null) { UnityEditor.PrefabUtility.UnloadPrefabContents(prefabRoot); return "more than one slot grid in FishShopPanel"; }
+    grid = t;
 }
-if (containerPath == null) { UnityEditor.PrefabUtility.UnloadPrefabContents(prefabRoot); return "shop slot grid not found"; }
+if (grid == null) { UnityEditor.PrefabUtility.UnloadPrefabContents(prefabRoot); return "shop slot grid not found"; }
+string containerPath = UnityEditor.AnimationUtility.CalculateTransformPath(grid, prefabRoot.transform);
+int removed = 0;
+for (int i = grid.childCount - 1; i >= 0; i--)
+{
+    if (grid.GetChild(i).GetComponent(slotType) == null) continue;
+    UnityEngine.Object.DestroyImmediate(grid.GetChild(i).gameObject);
+    removed++;
+}
 UnityEditor.PrefabUtility.SaveAsPrefabAsset(prefabRoot, prefabPath);
 UnityEditor.PrefabUtility.UnloadPrefabContents(prefabRoot);
 
@@ -358,7 +360,7 @@ foreach (var root in scene.GetRootGameObjects())
     foreach (var t in root.GetComponentsInChildren<Transform>(true))
     {
         if (!UnityEditor.PrefabUtility.IsAnyPrefabInstanceRoot(t.gameObject)) continue;
-        if (UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestPrefabInstanceRoot(t.gameObject) != prefabPath) continue;
+        if (UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(t.gameObject) != prefabPath) continue;
         var c = t.Find(containerPath);
         if (c == null) continue;
         if (container != null) return "two FishShopPanel instances";

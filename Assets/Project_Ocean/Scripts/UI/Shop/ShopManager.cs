@@ -22,8 +22,10 @@ namespace Game.UI
         [SerializeField] private Item tutorialBuyItem;
 
         [Header("Shop Slots Sell Display")]
-        [SerializeField] private InventorySlot[] shopInventorySlots;
+        [SerializeField] private InventorySlot shopSlotPrefab;
+        [SerializeField] private Transform shopSlotContainer;
         [SerializeField] private GameObject inventoryItemPrefab;
+        private InventorySlot[] shopInventorySlots = new InventorySlot[0];
 
         [Header("Display")]
         [SerializeField] private TMP_Text totalPriceText;
@@ -134,11 +136,25 @@ namespace Game.UI
 
             var inventory = InventoryManager.Instance;
             if (inventory == null) return;
+            EnsureShopSlots(inventory.PlayerSlotCount);
 
             for (int i = 0; i < shopInventorySlots.Length && i < inventory.PlayerSlotCount; i++)
                 MirrorInventorySlot(inventory.GetStack(i), inventory.IsSlotUnlocked(i), shopInventorySlots[i]);
 
             UpdateClickedItemPriceDisplay();
+        }
+
+        // Built on first refresh, not Awake: the count comes from the persistent InventoryManager.
+        private void EnsureShopSlots(int count)
+        {
+            if (shopInventorySlots.Length == count) return;
+
+            foreach (InventorySlot old in shopInventorySlots)
+                if (old != null) Destroy(old.gameObject);
+
+            shopInventorySlots = SlotBuilder.Build(shopSlotPrefab, shopSlotContainer, count, "InShopSlot_Items");
+            foreach (InventorySlot slot in shopInventorySlots)
+                slot.isShopSlot = true;
         }
 
         public void UpdateClickedItemPriceDisplay()

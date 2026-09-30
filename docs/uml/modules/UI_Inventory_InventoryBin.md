@@ -1,6 +1,6 @@
 # UI/Inventory/InventoryBin
 
-1 types · 56 LOC (non-blank) · depends on: [UI/Inventory](UI_Inventory.md) ×1, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×1
+1 types · 56 LOC (non-blank) · depends on: [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×1, [UI/Inventory](UI_Inventory.md) ×1
 
 [← index](../README.md)
 

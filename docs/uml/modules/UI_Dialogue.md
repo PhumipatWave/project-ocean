@@ -1,6 +1,6 @@
 # UI/Dialogue
 
-1 types · 19 LOC (non-blank) · depends on: [UI](UI.md) ×1, [Gameplay/Contracts](Gameplay_Contracts.md) ×1
+1 types · 19 LOC (non-blank) · depends on: [Gameplay/Contracts](Gameplay_Contracts.md) ×1, [UI](UI.md) ×1
 
 [← index](../README.md)
 

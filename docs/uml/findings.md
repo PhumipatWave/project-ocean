@@ -141,6 +141,12 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Accepted behaviour notes:** partial quest-item removal (fewer held than asked) now raises change and delta; one extra inventory-changed event at Start; shop mirror slots ignore drops.
 - **Next:** 7d generated slots.
 
+### Phase 7d: slot grids are generated from a slot count
+**Status:** done 2026-09-30. The 14 hand-placed inventory slots (`AS_PlayerHUD`) and the 14 shop sell-mirror slots (`FishShopPanel.prefab`) are gone; `SlotBuilder` instantiates `Slot_Items_Grid.prefab` into each `ItemsSlot` grid. `InventoryManager` LOC 315 -> 319, deps 22 -> 25; `ShopManager` 287 LOC. EditMode 58/58, compile clean. Live smoke passed (old save loads into the same slot indices, 14 + 14 slots in sibling order, shop select + sell one, sell all, unlock slot shows in both grids, drag 1 -> 3).
+- `Slot_Items_Grid.prefab` is a variant of `Slot_Items.prefab` carrying the same sprite override the scene slots had; the base prefab is untouched (the `WeaponUIPanel` building slot still uses it).
+- **Change the size:** `InventoryManager.playerSlotCount` in `AS_PlayerHUD`. The shop grid follows on its next refresh. Never go below 14 while old saves exist: items in higher slot indices are dropped on load (logged by `InventorySaveMapper`).
+- The building slot stays hand-placed (a fixed HUD element, not a grid).
+
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.
