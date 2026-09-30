@@ -12,6 +12,7 @@ namespace Game.Tests
         {
             Assert.IsTrue(typeof(IQuestOfferView).IsAssignableFrom(typeof(QuestDetailPanel)));
             Assert.IsTrue(typeof(IModalPrompt).IsAssignableFrom(typeof(ConfirmationDialog)));
+            Assert.IsTrue(typeof(IInteractPopupView).IsAssignableFrom(typeof(InteractPopupView)));
         }
 
         [Test]

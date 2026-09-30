@@ -15,12 +15,6 @@ namespace Game.Gameplay
 
         public GameState GameState { get => GameSession.State; set => GameSession.State = value; }
 
-        [SerializeField] private bool miniHubAvaliable;
-        public bool MiniHubAvaliable { get { return miniHubAvaliable; } set { miniHubAvaliable = value; } }
-
-        [SerializeField] private Transform miniHubLocation;
-        public Transform MiniHubLocation { get { return miniHubLocation; } set { miniHubLocation = value; } }
-
         public static GameManager Instance { get; private set; }
 
         private void Awake()

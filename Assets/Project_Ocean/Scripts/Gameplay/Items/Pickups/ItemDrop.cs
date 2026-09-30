@@ -70,7 +70,6 @@ namespace Game.Gameplay
             StopAllCoroutines();
             _runtimeItem  = null;
             _owner        = null;
-            playerInRange = false;
             IsCollectable = true;
         }
     }

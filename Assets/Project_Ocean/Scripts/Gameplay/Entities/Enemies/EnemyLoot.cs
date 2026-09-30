@@ -10,7 +10,10 @@ namespace Game.Gameplay
 
         private bool isCollected;
 
-        protected override bool CanCollect => enemy != null && enemy.IsDead && !isCollected;
+        public override bool CanInteract => enemy != null && enemy.IsDead && !isCollected;
+
+        // Enemy loot never needed the InteractItem unlock.
+        protected override bool IsFeatureUnlocked => true;
 
         private void Awake()
         {
@@ -25,7 +28,7 @@ namespace Game.Gameplay
 
         public override void TryCollect()
         {
-            if (!CanCollect) return;
+            if (!CanInteract) return;
             Collect();
         }
 

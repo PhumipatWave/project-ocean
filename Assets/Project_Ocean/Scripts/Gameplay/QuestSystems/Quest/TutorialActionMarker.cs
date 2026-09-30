@@ -5,11 +5,11 @@ using Game.Core;
 namespace Game.Gameplay
 {
     /// <summary>
-    /// Shows a Marker — same handoff pattern as NPC.markerUI/DoorInteract.markerUI — when the
+    /// Shows a Marker — same handoff pattern as NPC.markerUI/DoorQuestMarker.markerUI — when the
     /// tracked quest's current step requires the given TutorialActionId and the player is
     /// within QuestNavigation.CloseRangeMeters. For an objective that's neither an NPC nor a
     /// warp door (e.g. PlayerShip, which represents the Dive action). Self-registers like
-    /// DoorInteract does, so QuestCompass can find "the object for action X" generically.
+    /// DoorQuestMarker does, so QuestCompass can find "the object for action X" generically.
     /// </summary>
     public class TutorialActionMarker : MonoBehaviour
     {

@@ -177,9 +177,6 @@ namespace Game.Gameplay
                 DayManager.Instance.SetDivesToday(0);
                 DayManager.Instance.SetTotalDives(0);
             }
-
-            if (GameManager.Instance != null)
-                GameManager.Instance.MiniHubAvaliable = false;
         }
 
         /// <summary>
@@ -210,7 +207,6 @@ namespace Game.Gameplay
             {
                 gameState        = gm.GameState,
                 currentScene     = SceneManager.GetActiveScene().name,
-                miniHubAvailable = gm.MiniHubAvaliable,
             };
 
             CollectPosition(data);
@@ -266,8 +262,7 @@ namespace Game.Gameplay
             var gm = GameManager.Instance;
             if (gm == null) { Debug.LogError("[SaveBridge] GameManager not found"); return; }
 
-            gm.GameState        = data.gameState;
-            gm.MiniHubAvaliable = data.miniHubAvailable;
+            gm.GameState = data.gameState;
 
             _pendingData = data;
 

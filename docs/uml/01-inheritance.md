@@ -2,7 +2,7 @@
 
 [← index](README.md)
 
-63 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
+70 types in project-internal inheritance / implementation. Unity bases (MonoBehaviour, ScriptableObject) are stereotypes.
 
 ```mermaid
 classDiagram
@@ -17,9 +17,12 @@ classDiagram
     <<MB>>
     <<abstract>>
   }
-  class CollectableItemBase {
+  class ChestInteract {
     <<MB>>
+  }
+  class CollectableItemBase {
     <<abstract>>
+    <<MB>>
   }
   class ConfirmationDialog {
     <<MB>>
@@ -31,6 +34,9 @@ classDiagram
     <<MB>>
   }
   class DialoguePanelView {
+    <<MB>>
+  }
+  class DoorInteract {
     <<MB>>
   }
   class Enemy {
@@ -118,6 +124,9 @@ classDiagram
   class IEntityHealth {
     <<interface>>
   }
+  class IInteractPopupView {
+    <<interface>>
+  }
   class IInventory {
     <<interface>>
   }
@@ -135,6 +144,16 @@ classDiagram
   }
   class ISaveParticipant {
     <<interface>>
+  }
+  class InteractPopupView {
+    <<MB>>
+  }
+  class InteractUI {
+    <<MB>>
+  }
+  class Interactable {
+    <<MB>>
+    <<abstract>>
   }
   class InventoryManager {
     <<MB>>
@@ -190,14 +209,20 @@ classDiagram
   class TranquilizerBullet {
     <<MB>>
   }
+  class TrashInteract {
+    <<MB>>
+  }
   class UpgradeService {
   }
   EnemyBaseProfile <|-- AggressiveEnemyProfile
   IPoolable <|.. Boid
+  Interactable <|-- ChestInteract
+  Interactable <|-- CollectableItemBase
   IModalPrompt <|.. ConfirmationDialog
   IDamagePopup <|.. DamagePoint
   ISaveParticipant <|.. DayManager
   IDialogueView <|.. DialoguePanelView
+  Interactable <|-- DoorInteract
   Entity <|-- Enemy
   EnemyNavAgentBase <|-- EnemyAgent
   EnemyStateBase <|-- EnemyAttackState
@@ -222,6 +247,8 @@ classDiagram
   EnemyBaseProfile <|-- FriendlyEnemyProfile
   Bullet <|-- GranadeBullet
   Bullet <|-- GrapplingHookBullet
+  IInteractPopupView <|.. InteractPopupView
+  Interactable <|-- InteractUI
   ISaveParticipant <|.. InventoryManager
   IInventory <|.. InventoryManager
   CollectableItemBase <|-- ItemDrop
@@ -243,5 +270,6 @@ classDiagram
   NotificationView <|-- StackNotificationView
   NotificationView <|-- ToastNotificationView
   Bullet <|-- TranquilizerBullet
+  Interactable <|-- TrashInteract
   ISaveParticipant <|.. UpgradeService
 ```

@@ -6,7 +6,7 @@ namespace Game.Gameplay
 
     /// <summary>
     /// Tracks which building interior the player is currently inside — purely from the
-    /// MoveIn/MoveOut tutorial events DoorInteract already raises on every door use,
+    /// MoveIn/MoveOut tutorial events DoorQuestMarker already raises on every door use,
     /// independent of whether any quest currently cares about them. Lets QuestCompass always
     /// point at the exit while indoors regardless of quest state (see CurrentExitAction).
     /// </summary>

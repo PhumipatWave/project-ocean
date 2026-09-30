@@ -147,6 +147,13 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - **Change the size:** `InventoryManager.playerSlotCount` in `AS_PlayerHUD`. The shop grid follows on its next refresh. Never go below 14 while old saves exist: items in higher slot indices are dropped on load (logged by `InventorySaveMapper`).
 - The building slot stays hand-placed (a fixed HUD element, not a grid).
 
+### Phase 8: one Interactable hierarchy
+**Status:** done 2026-09-30. Abstract `Interactable` (trigger zone, icon, feature gate, UI-lock ownership) with subclasses `InteractUI` (UnityEvent zones: NPC, shops, ship, quest board), `DoorInteract`, `ChestInteract`, `TrashInteract`, `CollectableItemBase` (`ItemDrop`, `EnemyLoot`). `PlayerInteractor` on `Player.prefab` is the only Interact-press listener: the lock holder gets repeat presses, otherwise the closest ready target, and only that target shows its icon. EditMode 61/61, compile clean. Live smoke passed (chest reward + second popup + close, shop door in/out with tutorial action, locked trash, trash junk + money popup + same-day repeat, NPC talk advance/close, pearl pickup, shell closed/open).
+- Door, chest and trash lost their sibling `InteractUI` and Inspector `UnityEvent` wiring; their UI goes through `IInteractPopupView` (`InteractPopupView` on both popup panels). Pickups lost their own `InputReader` subscription and closest-item scan.
+- `DoorQuestMarker` split from `DoorInteract` (registry, quest marker, tutorial action on `Warped`); the door uses `CinemachineCore.OnTargetObjectWarped` instead of `FindFirstObjectByType`.
+- **Accepted behaviour notes:** overlapping zones go to the closest target (was: first entered); pickups are also blocked during cutscenes and loading. Chest opened state stays an unsaved static set (user decision).
+- **Open, pre-existing:** `BaseCollectableItem.prefab` has a 60 s pool-return delay and stays collectable during it, so it can be collected again.
+
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.

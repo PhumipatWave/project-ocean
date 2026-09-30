@@ -7,12 +7,12 @@
 ```mermaid
 flowchart LR
   AmmoWheel[AmmoWheel] -->|OnAmmoSelected| InputReader[InputReader]
-  CollectableItemBase[CollectableItemBase] -->|OnInteracted| InputReader[InputReader]
   Cutscene[Cutscene] -->|OnSkipCutscene| InputReader[InputReader]
   CutsceneManager[CutsceneManager] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   CutsceneManager[CutsceneManager] -->|OnQuestUpdated| QuestManager[QuestManager]
   CutsceneSkipHint[CutsceneSkipHint] -->|OnPlayingChanged| CutsceneGate[CutsceneGate]
-  DoorInteract[DoorInteract] -->|OnQuestUpdated| QuestManager[QuestManager]
+  DoorQuestMarker[DoorQuestMarker] -->|Warped| DoorInteract[DoorInteract]
+  DoorQuestMarker[DoorQuestMarker] -->|OnQuestUpdated| QuestManager[QuestManager]
   EnemyKillTracker[EnemyKillTracker] -->|OnEnemyReset| DayManager[DayManager]
   Entity[Entity] -->|OnDamaged, OnDied| IEntityHealth[IEntityHealth]
   ExploreAreaTrigger[ExploreAreaTrigger] -->|OnQuestUpdated| QuestManager[QuestManager]
@@ -22,7 +22,6 @@ flowchart LR
   GameManager[GameManager] -->|OnReturnToLandRequested| GameFlowEvents[GameFlowEvents]
   GameObjectSpawnManager[GameObjectSpawnManager] -->|OnDayAdvanced, OnEnemyReset| DayManager[DayManager]
   InputReader[InputReader] -->|OnInitialized| KeyBindManager[KeyBindManager]
-  InteractUI[InteractUI] -->|OnInteracted| InputReader[InputReader]
   InventoryManager[InventoryManager] -->|OnInventoryToggled| InputReader[InputReader]
   InventoryManager[InventoryManager] -->|Changed, ItemDelta| InventoryModel[InventoryModel]
   InventoryManager[InventoryManager] -->|OnLevelGranted, OnLevelsLoaded| UpgradeService[UpgradeService]
@@ -33,13 +32,14 @@ flowchart LR
   LandUI[LandUI] -->|OnFeatureUnlocked| FeatureUnlockService[FeatureUnlockService]
   LandUI[LandUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   MoveKeyBindUI[MoveKeyBindUI] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
-  NPC[NPC] -->|PlayerExited| InteractUI[InteractUI]
+  NPC[NPC] -->|PlayerExited| Interactable[Interactable]
   NPC[NPC] -->|OnQuestUpdated| QuestManager[QuestManager]
   NextDayAnimationUI[NextDayAnimationUI] -->|OnDayAdvanced| DayManager[DayManager]
   NotificationView[NotificationView] -->|OnClear, OnNotify| NotificationManager[NotificationManager]
   Player[Player] -->|OnAttacked, OnSprinted, OnTeleport, OnUseItem| InputReader[InputReader]
   PlayerFeedbackVFX[PlayerFeedbackVFX] -->|OnPlayerDamaged| Player[Player]
   PlayerHealth[PlayerHealth] -->|OnLevelGranted| UpgradeService[UpgradeService]
+  PlayerInteractor[PlayerInteractor] -->|OnInteracted| InputReader[InputReader]
   PlayerInteriorState[PlayerInteriorState] -->|OnActionPerformed| TutorialEvents[TutorialEvents]
   PlayerMoney[PlayerMoney] -->|OnMoneyRewarded| RewardEvents[RewardEvents]
   PlayerSelfDialogueUI[PlayerSelfDialogueUI] -->|OnInteracted| InputReader[InputReader]
@@ -85,6 +85,7 @@ flowchart LR
 | DayManager | OnDivedToday | LandUI, QuestProgressTracker |
 | DayManager | OnEnemyReset | EnemyKillTracker, GameObjectSpawnManager |
 | DialogueState | OnChanged | LandUI, QuestProgressTracker |
+| DoorInteract | Warped | DoorQuestMarker |
 | EnemyEvents | OnEnemyKilled | QuestProgressTracker |
 | ExploreEvents | OnAreaReached | QuestProgressTracker |
 | FeatureUnlockService | OnFeatureUnlocked | ItemSpawner, LandUI |
@@ -94,14 +95,14 @@ flowchart LR
 | IEntityHealth | OnDied | Entity |
 | InputReader | OnAmmoSelected | AmmoWheel |
 | InputReader | OnAttacked | Player |
-| InputReader | OnInteracted | CollectableItemBase, InteractUI, PlayerSelfDialogueUI |
+| InputReader | OnInteracted | PlayerInteractor, PlayerSelfDialogueUI |
 | InputReader | OnInventoryToggled | InventoryManager |
 | InputReader | OnMenuToggled | GameHUD |
 | InputReader | OnSkipCutscene | Cutscene |
 | InputReader | OnSprinted | Player |
 | InputReader | OnTeleport | Player |
 | InputReader | OnUseItem | Player |
-| InteractUI | PlayerExited | NPC |
+| Interactable | PlayerExited | NPC |
 | InventoryManager | OnItemDelta | ResourceNotificationPresenter |
 | InventoryModel | Changed | InventoryManager |
 | InventoryModel | ItemDelta | InventoryManager |
@@ -120,7 +121,7 @@ flowchart LR
 | PlayerMoney | OnMoneyDelta | ResourceNotificationPresenter |
 | PlayerUIState | OnLockChanged | GameHUD, TutorialPromptUI |
 | QuestManager | OnQuestCompleted | QuestCompleteUI |
-| QuestManager | OnQuestUpdated | CutsceneManager, DoorInteract, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialActionMarker, TutorialPromptUI, TutorialUIMarker, UpgradeSlot |
+| QuestManager | OnQuestUpdated | CutsceneManager, DoorQuestMarker, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialActionMarker, TutorialPromptUI, TutorialUIMarker, UpgradeSlot |
 | RewardEvents | OnMoneyRewarded | PlayerMoney |
 | SaveBridge | OnSaved | SaveNotificationUI |
 | TutorialEvents | OnActionPerformed | PlayerInteriorState, QuestProgressTracker |

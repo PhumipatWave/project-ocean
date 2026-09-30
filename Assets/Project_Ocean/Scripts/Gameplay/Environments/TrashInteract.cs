@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System.Collections;
 using Game.Core;
 
 namespace Game.Gameplay
 {
-    public class TrashInteract : MonoBehaviour
+    public class TrashInteract : Interactable
     {
         [Header("Basic Settings")]
         [SerializeField] private float shakeAmount = 0.05f;
@@ -19,54 +17,49 @@ namespace Game.Gameplay
         [SerializeField] private float throwForce = 6f;
 
         [Header("Dialogue Content")]
+        [SerializeField] private string speakerName = "Billy";
         [TextArea(3, 10)]
         [SerializeField] private string dialogueText = "I found MONEY!?";
         [SerializeField] private Sprite npcPortrait;
         [SerializeField] private float autoCloseTime = 1.5f;
 
         [Header("UI Reference")]
-        [SerializeField] private GameObject dialogueBox;
-        [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private TextMeshProUGUI contentDisplay;
-        [SerializeField] private GameObject portraitDisplay;
+        [Tooltip("InteractPopupView on the land dialogue panel (an IInteractPopupView).")]
+        [SerializeField] private MonoBehaviour popupView;
 
         private bool wasSearched;
         private Vector3 originalPosition;
-        private PlayerMoney targetPlayerMoney;
         private Coroutine shakeCoroutine;
-        private Image portraitImage;
 
-        void Awake()
+        private IInteractPopupView Popup => popupView as IInteractPopupView;
+
+        void Awake() => originalPosition = transform.localPosition;
+
+        protected override void OnEnable()
         {
-            originalPosition = transform.localPosition;
-            if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
+            base.OnEnable();
+            DayManager.OnDayAdvanced += ResetForNewDay;
         }
 
-        void OnEnable() => DayManager.OnDayAdvanced += ResetForNewDay;
-        void OnDisable() => DayManager.OnDayAdvanced -= ResetForNewDay;
+        protected override void OnDisable()
+        {
+            DayManager.OnDayAdvanced -= ResetForNewDay;
+            base.OnDisable();
+        }
 
         void ResetForNewDay() => wasSearched = false;
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected override void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
-                targetPlayerMoney = other.GetComponent<PlayerMoney>();
+            if (other.CompareTag("Player")) Popup?.Hide();
+            base.OnTriggerExit2D(other);
         }
 
-        void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                targetPlayerMoney = null;
-                if (dialogueBox != null) dialogueBox.SetActive(false);
-            }
-        }
-
-        public void SearchTrash()
+        protected override void Interact(Player player)
         {
             if (wasSearched)
-            { 
-                PlayerUIState.Close(); 
+            {
+                ReleasePlayerLock();
                 return;
             }
 
@@ -77,7 +70,7 @@ namespace Game.Gameplay
             shakeCoroutine = StartCoroutine(ShakeEffect());
 
             if (Random.value > 0.8f)
-                StartCoroutine(MoneySequence());
+                StartCoroutine(MoneySequence(player.GetComponent<PlayerMoney>()));
             else
             {
                 if (junkPrefabs.Length > 0)
@@ -86,50 +79,29 @@ namespace Game.Gameplay
             }
         }
 
-        IEnumerator MoneySequence()
+        IEnumerator MoneySequence(PlayerMoney money)
         {
             int randomAmount = Random.Range(minMoney, maxMoney);
-            targetPlayerMoney?.AddMoney(randomAmount);
+            money?.AddMoney(randomAmount);
             SpawnObject(moneyPrefab);
 
             yield return new WaitForSeconds(0.5f);
 
             StopEverything();
-            ShowUI(string.Format(dialogueText, randomAmount));
+            Popup?.Show(speakerName, string.Format(dialogueText, randomAmount), npcPortrait);
 
             yield return new WaitForSeconds(autoCloseTime);
 
-            if (dialogueBox != null)
-                dialogueBox.SetActive(false);
-
-            PlayerUIState.Close();
-        }
-
-        void ShowUI(string message)
-        {
-            if (dialogueBox == null) return;
-
-            if (nameText != null)
-                nameText.text = "Billy";
-
-            if (contentDisplay != null) 
-                contentDisplay.text = message;
-
-            if (portraitDisplay != null)
-            {
-                portraitDisplay.SetActive(npcPortrait != null);
-                if (portraitImage != null && npcPortrait != null) portraitImage.sprite = npcPortrait;
-            }
-
-            dialogueBox.SetActive(true);
+            Popup?.Hide();
+            ReleasePlayerLock();
         }
 
         void StopEverything()
         {
-            if (shakeCoroutine != null) 
-            { 
+            if (shakeCoroutine != null)
+            {
                 StopCoroutine(shakeCoroutine);
-                shakeCoroutine = null; 
+                shakeCoroutine = null;
             }
 
             transform.localPosition = originalPosition;
@@ -166,7 +138,7 @@ namespace Game.Gameplay
         {
             yield return new WaitForSeconds(t);
             StopEverything();
-            PlayerUIState.Close();
+            ReleasePlayerLock();
         }
     }
 }

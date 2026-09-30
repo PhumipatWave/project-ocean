@@ -1,6 +1,6 @@
 # Gameplay/Items/Pickups
 
-3 types · 219 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Core](Core.md) ×2, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Inventory](Gameplay_Inventory.md) ×1, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1
+3 types · 157 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core](Core.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Inventory](Gameplay_Inventory.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1
 
 [← index](../README.md)
 
@@ -8,16 +8,13 @@
 classDiagram
   direction LR
   class CollectableItemBase {
-    <<MB>>
     <<abstract>>
-    #bool playerInRange
+    <<MB>>
     +bool IsCollectable
-    #bool CanCollect
-    #OnEnable() void
-    #OnDisable() void
-    #Update() void
-    #OnTriggerEnter2D(Collider2D) void
-    #OnTriggerExit2D(Collider2D) void
+    #bool TakesPlayerLock
+    #bool IsFeatureUnlocked
+    +bool CanInteract
+    #Interact(Player) void
     +TryCollect()* void
   }
   class ItemDrop {
@@ -36,9 +33,13 @@ classDiagram
   class IPoolable {
     <<Core/Pool>>
   }
+  class Interactable {
+    <<Gameplay/Interaction>>
+  }
   CollectableItemBase <|-- ItemDrop
   IPoolable <|.. ItemDrop
   IPoolable <|.. ShelleController
+  Interactable <|-- CollectableItemBase
   ShelleController --> ItemDrop : itemDrop
 ```
 
@@ -46,13 +47,12 @@ classDiagram
 
 | Subscriber | Publisher | Event |
 |---|---|---|
-| CollectableItemBase | InputReader | OnInteracted |
 | ShelleController | ItemDrop | OnCollected |
 
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| CollectableItemBase | MB, abstract | `CollectableItemBase.cs:7` | 70 |
-| ItemDrop | MB | `ItemDrop.cs:7` | 51 |
+| CollectableItemBase | abstract, MB | `CollectableItemBase.cs:6` | 9 |
+| ItemDrop | MB | `ItemDrop.cs:7` | 50 |
 | ShelleController | MB | `ShelleController.cs:7` | 98 |

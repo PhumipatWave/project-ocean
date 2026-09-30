@@ -11,9 +11,9 @@ namespace Game.Gameplay
     /// action with one registered (e.g. PlayerShip for Dive). Hides itself whenever there's
     /// no resolvable position (every other quest/step type), once the player is within
     /// QuestNavigation.CloseRangeMeters of the target (at that range the target's own Marker —
-    /// NPC/DoorInteract/TutorialActionMarker — takes over instead, so only one arrow is ever
+    /// NPC/DoorQuestMarker/TutorialActionMarker — takes over instead, so only one arrow is ever
     /// showing), or while indoors (see PlayerInteriorState) — there's nothing on the player to
-    /// navigate to inside a building except the exit, and DoorInteract's own Marker already
+    /// navigate to inside a building except the exit, and DoorQuestMarker's own Marker already
     /// covers that regardless of quest state. The parent Player never rotates its own
     /// transform (facing is done by flipping sprites, not rotating), so this component's own
     /// rotation is already world space, no counter-rotation needed.
@@ -30,13 +30,13 @@ namespace Game.Gameplay
         {
             // Re-resolved every frame rather than cached off QuestManager.OnQuestUpdated —
             // a door target (MoveInHouse/Shop/UpgradeShop) self-registers on its own OnEnable
-            // (see DoorInteract), which can race the quest step actually advancing onto it
+            // (see DoorQuestMarker), which can race the quest step actually advancing onto it
             // (e.g. right after an additive scene load). Caching off the event alone could
             // resolve null at that instant and never retry until the NEXT quest update: NPCs
             // are always present from scene load, so only door targets ever hit this.
             var target = QuestNavigation.ResolveCompassTarget();
 
-            // Indoors, the exit door's own Marker (see DoorInteract) is the only guidance —
+            // Indoors, the exit door's own Marker (see DoorQuestMarker) is the only guidance —
             // no point spinning an arrow around inside a small room.
             if (target == null || PlayerInteriorState.Current != PlayerInterior.None)
             {

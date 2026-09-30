@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5970979413300643891}
   - component: {fileID: 8319848885211161949}
-  - component: {fileID: 2206190854057479041}
   - component: {fileID: 3487833443549373734}
   - component: {fileID: 6708675970675297715}
   m_Layer: 0
@@ -94,36 +93,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &2206190854057479041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2106709285743409095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d81b3107be048c46bf882cad2a9e85e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.InteractUI
-  interactIcon: {fileID: 5616692211198612076}
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3487833443549373734}
-        m_TargetAssemblyTypeName: Game.Testing.TrashInteract, Game.Testing
-        m_MethodName: SearchTrash
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  requireSpecificFeature: 0
-  specificFeature: 0
 --- !u!114 &3487833443549373734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ab4733147b49046a55ec89c248b4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::TrashInteract
+  interactIcon: {fileID: 5616692211198612076}
+  requireSpecificFeature: 1
+  specificFeature: 7
   shakeAmount: 0.3
   minMoney: 20
   maxMoney: 50
@@ -147,13 +119,11 @@ MonoBehaviour:
   - {fileID: 7656683435692581888, guid: 3f18a4d7a4bb793408f9747ecd9d808f, type: 3}
   - {fileID: 3618179008643292891, guid: 9f4396f23b59cf1409785f9c97d1b5df, type: 3}
   throwForce: 1
+  speakerName: Billy
   dialogueText: I found money!?
   npcPortrait: {fileID: 3319299164644070594, guid: 4495b0057f683e24dbdc41dcf6baba02, type: 3}
   autoCloseTime: 1.5
-  dialogueBox: {fileID: 0}
-  nameText: {fileID: 0}
-  contentDisplay: {fileID: 0}
-  portraitDisplay: {fileID: 0}
+  popupView: {fileID: 0}
 --- !u!61 &6708675970675297715
 BoxCollider2D:
   m_ObjectHideFlags: 0

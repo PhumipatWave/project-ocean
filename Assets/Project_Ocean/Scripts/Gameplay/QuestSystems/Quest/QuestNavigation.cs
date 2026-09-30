@@ -4,7 +4,7 @@ using Game.Core;
 namespace Game.Gameplay
 {
     /// <summary>Shared tuning for the quest-objective navigation arrows (QuestCompass on the
-    /// player, and the per-objective Marker on NPC/DoorInteract/TutorialActionMarker) so the
+    /// player, and the per-objective Marker on NPC/DoorQuestMarker/TutorialActionMarker) so the
     /// "close enough to switch" distance can't drift between them.</summary>
     public static class QuestNavigation
     {
@@ -38,9 +38,9 @@ namespace Game.Gameplay
         /// quest/step type, including ExploreArea — deliberately unguided, see
         /// ExploreAreaTrigger's class doc, so the player has to actually search rather than
         /// follow a compass to it). Shared by QuestCompass (what to point the player's own
-        /// arrow at) and DoorInteract (an exit door's "always show while indoors" fallback must
+        /// arrow at) and DoorQuestMarker (an exit door's "always show while indoors" fallback must
         /// yield to this when it names something more specific, e.g. a shop counter inside the
-        /// same building — see DoorInteract.ShouldShowMarker).
+        /// same building — see DoorQuestMarker.ShouldShowMarker).
         /// </summary>
         public static Transform ResolveQuestTarget()
         {
@@ -54,7 +54,7 @@ namespace Game.Gameplay
             if (step.Type == QuestType.Tutorial)
             {
                 if (IsMoveDoorAction(step.TutorialAction))
-                    return DoorInteract.FindByTutorialAction(step.TutorialAction);
+                    return DoorQuestMarker.FindByTutorialAction(step.TutorialAction);
                 return TutorialActionMarker.FindByTutorialAction(step.TutorialAction);
             }
 
@@ -74,12 +74,12 @@ namespace Game.Gameplay
             if (target == null || PlayerInteriorState.Current != PlayerInterior.None)
                 return target;
 
-            var exit = DoorInteract.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
+            var exit = DoorQuestMarker.FindNearestExitAction(InteractPosition(target), InteriorRadiusMeters);
             if (exit == null)
                 return target;
 
             var entry = PlayerInteriorState.EntryActionFor(exit.Value);
-            return entry != null ? DoorInteract.FindByTutorialAction(entry.Value) : null;
+            return entry != null ? DoorQuestMarker.FindByTutorialAction(entry.Value) : null;
         }
 
         private static bool IsMoveDoorAction(TutorialActionId action) => action is

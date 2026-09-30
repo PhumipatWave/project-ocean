@@ -1,6 +1,6 @@
 # Gameplay/Items/Placeables
 
-1 types · 10 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Game](Gameplay_Game.md) ×1
+1 types · 4 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1
 
 [← index](../README.md)
 
@@ -16,4 +16,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| MiniHubItem | MB | `MiniHubItem.cs:6` | 10 |
+| MiniHubItem | MB | `MiniHubItem.cs:5` | 4 |
