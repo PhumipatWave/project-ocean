@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class ShopInventoryBuy : MonoBehaviour
     {
@@ -27,18 +29,16 @@ namespace Game.Testing
             {
                 if (i < shopbuySlots.Length)
                 {
-                    // เปลี่ยนพารามิเตอร์ตรงนี้เป็น ShopSlot ด้วย
                     SpawnItemInShop(itemsToSell[i], shopbuySlots[i]);
                 }
             }
         }
 
-        // เปลี่ยน InventorySlot เป็น ShopSlot
         void SpawnItemInShop(Item item, ShopBuySlot slot)
         {
             GameObject newItemGo = Instantiate(shopItemPrefab, slot.transform);
 
-            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
+            DraggableItem shopItem = newItemGo.GetComponent<DraggableItem>();
             shopItem.InitialiseItem(item);
 
             // This is a catalog listing (one entry per purchasable item), not a real stack —
@@ -48,7 +48,7 @@ namespace Game.Testing
 
             shopItem.enabled = false;
 
-            // ⭐ สำคัญมาก: ผูก item เข้ากับ slot
+            // The shop reads the selected item from the slot, so buying needs this link.
             slot.SetItem(shopItem);
         }
     }

@@ -2,8 +2,9 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class PlayerCamera : MonoBehaviour
     {
@@ -21,7 +22,7 @@ namespace Game.Testing
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            var player = GameManager.CurPlayer;
+            var player = PlayerRegistry.Local;
             if (player == null) return;
 
             if (playerCam == null)

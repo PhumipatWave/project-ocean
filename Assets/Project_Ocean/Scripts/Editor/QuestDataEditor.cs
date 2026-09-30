@@ -1,19 +1,15 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Editor
 {
-    /// <summary>
-    /// Groups QuestData's flat fields into labeled foldout sections instead of one long
-    /// list. Presentation only — no serialized data changes. Identity/Steps default open
-    /// (what you edit per-quest). All NPC identity, dialogue (accept, in-progress, turn-in)
-    /// and reward now live inside each Steps entry (via QuestStepDataDrawer) — a step is
-    /// fully self-contained, including the offer conversation, which only ever applies to
-    /// the first step in practice (a quest is never New once past step 0).
-    /// </summary>
+    /// <summary>Groups QuestData's fields into foldouts; display only, no data changes.</summary>
     [CustomEditor(typeof(QuestData))]
-    public class QuestDataEditor : Editor
+    public class QuestDataEditor : UnityEditor.Editor
     {
         private bool showIdentity = true;
         private bool showSteps = true;

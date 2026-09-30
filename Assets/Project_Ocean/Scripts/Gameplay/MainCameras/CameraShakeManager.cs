@@ -1,22 +1,17 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    public class CameraShakeManager : MonoBehaviour
+    public class CameraShakeManager : Singleton<CameraShakeManager>
     {
         private CinemachineImpulseSource impulseSource;
 
-        public static CameraShakeManager Instance;
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(this.gameObject);
-            }
-
-            Instance = this;
-
+            base.Awake();
+            if (IsDuplicate) return;
             impulseSource = GetComponent<CinemachineImpulseSource>();
         }
 

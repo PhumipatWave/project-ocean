@@ -1,15 +1,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
-    /// <summary>
-    /// The one place a dialogue panel's speaker name and portrait get filled from a characterId
-    /// (NPC.cs and PlayerSelfDialogueUI both use it). Resolves through NPCManager — the
-    /// CharacterDatabase first, then the loaded NPC — and falls back to the caller's own
-    /// name/portrait when the id is unknown or has nothing authored for that field.
-    /// </summary>
+    /// <summary>Fills a dialogue panel's speaker name and portrait from a characterId, else the caller's fallback.</summary>
     public static class DialogueSpeaker
     {
         public static void Apply(TMP_Text nameText, Image avatar, string characterId,

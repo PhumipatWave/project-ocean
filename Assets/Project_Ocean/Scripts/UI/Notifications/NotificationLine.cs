@@ -2,8 +2,10 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// <summary>One line in a notification stack; fades out and destroys itself.</summary>
     [RequireComponent(typeof(CanvasGroup))]

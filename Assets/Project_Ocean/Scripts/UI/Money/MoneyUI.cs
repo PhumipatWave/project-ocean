@@ -1,14 +1,16 @@
 using UnityEngine;
 using TMPro;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class MoneyUI : MonoBehaviour
     {
         [Header("Money Display")]
         [SerializeField] private TMP_Text moneyText;
 
-        [Tooltip("เปิด = แสดง Money: 1,250 | ปิด = แสดง 1,250")]
+        [Tooltip("On: \"Money: 1,250\". Off: \"1,250\".")]
         [SerializeField] private bool showMoneyLabel = false;
 
         private PlayerMoney playerMoney;
@@ -29,10 +31,10 @@ namespace Game.Testing
 
         private void FindPlayerMoney()
         {
-            if (GameManager.CurPlayer != null)
+            if (PlayerRegistry.Local != null)
             {
                 playerMoney =
-                    GameManager.CurPlayer.GetComponent<PlayerMoney>();
+                    PlayerRegistry.Local.GetComponent<PlayerMoney>();
             }
         }
 

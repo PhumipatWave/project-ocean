@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// <summary>Briefly scales this object up and back to draw the eye.</summary>
     public class PunchScale : MonoBehaviour

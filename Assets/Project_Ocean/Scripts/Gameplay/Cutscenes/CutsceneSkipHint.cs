@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     /// <summary>Shows the skip hint on the System channel for the whole cutscene.</summary>
     public class CutsceneSkipHint : MonoBehaviour

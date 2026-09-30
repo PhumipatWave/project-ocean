@@ -1,35 +1,44 @@
-namespace Game.Testing
+using UnityEngine;
+using Game.Core;
+
+namespace Game.Gameplay
 {
     public enum PlayerInterior { None, House, Shop, UpgradeShop }
 
-    /// <summary>
-    /// Tracks which building interior the player is currently inside — purely from the
-    /// MoveIn/MoveOut tutorial events DoorInteract already raises on every door use,
-    /// independent of whether any quest currently cares about them. Lets QuestCompass always
-    /// point at the exit while indoors regardless of quest state (see CurrentExitAction).
-    /// </summary>
+    /// <summary>Which building interior the player is in, worked out from the nearest interior exit door.</summary>
     public static class PlayerInteriorState
     {
-        public static PlayerInterior Current { get; private set; } = PlayerInterior.None;
+        private static int cachedFrame = -1;
+        private static PlayerInterior cached;
 
-        static PlayerInteriorState()
+        // Derived from position, not door events, so it is right after a save load or a return to the menu.
+        public static PlayerInterior Current
         {
-            TutorialEvents.OnActionPerformed += HandleAction;
+            get
+            {
+                // Every door marker reads this each frame; one door scan per frame is enough.
+                if (cachedFrame != Time.frameCount)
+                {
+                    cached = FromPlayerPosition();
+                    cachedFrame = Time.frameCount;
+                }
+                return cached;
+            }
         }
 
-        private static void HandleAction(TutorialActionId action)
+        private static PlayerInterior FromPlayerPosition()
         {
-            switch (action)
+            var player = PlayerRegistry.Local;
+            if (player == null)
+                return PlayerInterior.None;
+
+            return DoorQuestMarker.FindNearestExitAction(player.transform.position, QuestNavigation.InteriorRadiusMeters) switch
             {
-                case TutorialActionId.MoveInHouse: Current = PlayerInterior.House; break;
-                case TutorialActionId.MoveInShop: Current = PlayerInterior.Shop; break;
-                case TutorialActionId.MoveInUpgradeShop: Current = PlayerInterior.UpgradeShop; break;
-                case TutorialActionId.MoveOutHouse:
-                case TutorialActionId.MoveOutShop:
-                case TutorialActionId.MoveOutUpgradeShop:
-                    Current = PlayerInterior.None;
-                    break;
-            }
+                TutorialActionId.MoveOutHouse => PlayerInterior.House,
+                TutorialActionId.MoveOutShop => PlayerInterior.Shop,
+                TutorialActionId.MoveOutUpgradeShop => PlayerInterior.UpgradeShop,
+                _ => PlayerInterior.None,
+            };
         }
 
         /// <summary>The entrance action paired with an interior's exit action, or null if

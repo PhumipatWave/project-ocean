@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class TrashBin : MonoBehaviour,
         IPointerEnterHandler,
@@ -31,8 +33,8 @@ namespace Game.Testing
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Draggableltem draggableItem =
-                eventData.pointerDrag?.GetComponent<Draggableltem>();
+            DraggableItem draggableItem =
+                eventData.pointerDrag?.GetComponent<DraggableItem>();
 
             if (draggableItem == null)
                 return;
@@ -52,8 +54,8 @@ namespace Game.Testing
             if (dropped == null)
                 return;
 
-            Draggableltem draggableItem =
-                dropped.GetComponent<Draggableltem>();
+            DraggableItem draggableItem =
+                dropped.GetComponent<DraggableItem>();
 
             if (draggableItem == null)
                 return;

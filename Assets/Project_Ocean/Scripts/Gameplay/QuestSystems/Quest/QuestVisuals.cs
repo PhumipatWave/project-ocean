@@ -1,12 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    /// <summary>
-    /// Shared sprite lookups/application for the quest UI panels (QuestSlot, QuestDetailPanel,
-    /// QuestTrackerUI, ReviceQuestSlot) — was copy-pasted identically into each of them.
-    /// </summary>
+    /// <summary>Shared sprite lookups for the quest UI panels.</summary>
     public static class QuestVisuals
     {
         /// <summary>Resolves a quest item id (as authored on TargetQuestItemId — a stringified
@@ -15,7 +13,7 @@ namespace Game.Testing
         {
             if (string.IsNullOrEmpty(questItemId)) return null;
             if (!int.TryParse(questItemId, out int id)) return null;
-            return InventoryManager.Instance?.FindItemInDatabase(id)?.ItemVisual;
+            return Inventory.Current?.FindItemInDatabase(id)?.ItemVisual;
         }
 
         /// <summary>The shared "show it if we have art, hide it otherwise" pattern every quest
@@ -28,16 +26,12 @@ namespace Game.Testing
         }
 
         private static string ItemNameOf(int itemId) =>
-            InventoryManager.Instance?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
+            Inventory.Current?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
 
         private static int HeldCountOf(int itemId) =>
-            InventoryManager.Instance != null ? InventoryManager.Instance.GetQuestItemCount(itemId) : 0;
+            Inventory.Current != null ? Inventory.Current.GetQuestItemCount(itemId) : 0;
 
-        /// <summary>Delivery only — "{item name} {held}/{required}" (PerItem: one per requirement,
-        /// comma-joined; CombinedTotal: one entry against the shared Target Count, name omitted when
-        /// several items count), plus
-        /// " · {N} Money" appended when the step has RequiredMoney. Null for every other step
-        /// type — QuestTrackerUI/ReviceQuestSlot fall back to their normal description text.</summary>
+        /// <summary>Delivery only: "{item} {held}/{required}", plus " · {N} Money" when money is required; null for other steps.</summary>
         public static string GetDeliveryStatusSuffix(Quest quest)
         {
             var step = quest?.CurrentStep;
@@ -70,8 +64,8 @@ namespace Game.Testing
             if (step.RequiredMoney <= 0)
                 return itemsPart;
 
-            var money = Game.Testing.GameManager.CurPlayer != null
-                ? Game.Testing.GameManager.CurPlayer.GetComponent<PlayerMoney>()
+            var money = Game.Gameplay.PlayerRegistry.Local != null
+                ? Game.Gameplay.PlayerRegistry.Local.GetComponent<PlayerMoney>()
                 : null;
             int currentMoney = money != null ? money.CurrentMoney : 0;
             return $"{itemsPart} · {Mathf.Min(currentMoney, step.RequiredMoney)}/{step.RequiredMoney} Money";

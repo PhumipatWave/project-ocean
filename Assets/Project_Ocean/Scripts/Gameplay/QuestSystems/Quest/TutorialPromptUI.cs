@@ -1,29 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    /// <summary>
-    /// Drives the current step's instruction text for whichever active quest's CURRENT
-    /// checkpoint is authored as guided (QuestStepData.isGuidedSequence →
-    /// QuestStep.IsGuidedSequence, surfaced quest-wide via Quest.IsGuidedSequence), and
-    /// clears it once no such step is active. Guided is per-checkpoint, not per-quest — a
-    /// Tutorial step's own action, or a Talk step, is only gated/prompted if THAT step has
-    /// the flag set. A step with isGuidedSequence left off is never treated as guided — no
-    /// prompt, no input restriction.
-    /// Scans active quests directly (not GetTrackedQuest()) so switching the player's
-    /// tracked quest can never hide a tutorial prompt they haven't finished yet.
-    /// Sets TutorialGate.RequiredAction while showing (restricting the player to just
-    /// that action — ESC/pause stays available) and clears it when the prompt hides.
-    /// Hides itself under any OTHER blocking panel (dialogue, shop, menu) rather than
-    /// showing over it, but never sets PlayerUIState's lock itself.
-    /// Shows the prompt as a Center-channel toast; decision logic only, no UI of its own.
-    /// </summary>
+    /// <summary>Shows the prompt for the current guided step and sets TutorialGate to require its action.</summary>
+    // Guided is per step. Scans all active quests, so changing the tracked quest can't hide an unfinished tutorial.
+    // Hides under any other blocking panel but never takes the UI lock itself.
     public class TutorialPromptUI : MonoBehaviour
     {
-        /// <summary>Prompt text currently in effect, or null — re-shown when the player presses a blocked key.</summary>
-        public static string CurrentPrompt { get; private set; }
-
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
@@ -44,16 +29,15 @@ namespace Game.Testing
 
         private bool pausingForUseItem;
 
-        // Guided "Use MiniHub" step in the ocean: freeze the game (breach countdown, fish, movement)
-        // until the player places it. Re-asserted every frame — aim, UIManager and chests all write
-        // timeScale. ponytail: scans active quests per frame; cache on OnQuestUpdated if quests grow.
+        // Guided "Use MiniHub" step freezes the ocean until the hub is placed. Re-applied every frame because
+        // aim, UIManager and chests also write timeScale. ponytail: scans quests per frame; cache on OnQuestUpdated if slow.
         private void LateUpdate()
         {
             bool shouldPause = TutorialStep.IsActive(TutorialActionId.UseItem)
-                && GameManager.Instance != null && GameManager.Instance.GameState == GameState.Ocean
+                && GameSession.State == GameState.Ocean
                 && !LoadingManager.IsLoading
-                && InventoryManager.Instance != null
-                && InventoryManager.Instance.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
+                && Inventory.Current != null
+                && Inventory.Current.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
 
             if (shouldPause)
             {
@@ -102,22 +86,19 @@ namespace Game.Testing
         private void Show(string text, Sprite image, TutorialActionId requiredAction)
         {
             // Refresh runs on many events; only toast when the prompt actually changes.
-            if (text != CurrentPrompt)
-            {
-                CurrentPrompt = text;
+            bool changed = text != TutorialGate.CurrentPrompt;
+            TutorialGate.Set(requiredAction, text);
+            if (changed)
                 NotificationManager.Notify(text, NotificationChannel.Center, image);
-            }
-            TutorialGate.RequiredAction = requiredAction;
         }
 
         private void Hide()
         {
             if (TutorialGate.RequiredAction.HasValue)
-                Debug.Log($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
+                GameLog.Info($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
                     $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
 
-            CurrentPrompt = null;
-            TutorialGate.RequiredAction = null;
+            TutorialGate.Clear();
         }
     }
 }

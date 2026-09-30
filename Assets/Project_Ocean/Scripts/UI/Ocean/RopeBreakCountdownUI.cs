@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class RopeBreakCountdownUI : MonoBehaviour
     {
@@ -64,7 +66,7 @@ namespace Game.Testing
 
         private void HandleBreachStart(float duration)
         {
-            if (GameManager.Instance == null || GameManager.Instance.GameState != GameState.Ocean)
+            if (GameSession.State != GameState.Ocean)
                 return;
 
             if (countdownRoutine != null)

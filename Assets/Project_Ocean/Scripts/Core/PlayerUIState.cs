@@ -2,20 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Testing
+namespace Game.Core
 {
-    /// <summary>
-    /// Lightweight counter that tracks how many land UI panels are currently open.
-    /// Any system that opens a blocking UI calls Open(); when it closes, calls Close().
-    /// Player movement and inventory are gated on IsLocked.
-    /// </summary>
+    /// <summary>Counts open blocking panels; player movement and inventory are disabled while any is open.</summary>
     public static class PlayerUIState
     {
         private static int openCount;
 
-        // One slot per Open() call, so nested panels (e.g. a panel opened from within
-        // another panel) unwind in the same order they were opened — Esc closes the
-        // topmost one first, then the next Esc closes what's underneath it.
+        // One closer per Open, so Esc closes nested panels from the top down.
         private static readonly Stack<Action> closers = new Stack<Action>();
 
         public static bool IsLocked => openCount > 0;

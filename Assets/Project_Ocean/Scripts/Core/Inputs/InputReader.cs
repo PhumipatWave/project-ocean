@@ -121,11 +121,7 @@ namespace Game.Core
             else if (context.canceled) OnInteracted?.Invoke(false);
         }
 
-        /// <summary>
-        /// Simulates pressing the Interact input. Wire this to an on-screen UI Button's
-        /// OnClick() so tapping it goes through the exact same locking path as pressing E
-        /// (whichever InteractUI/ChestInteract/etc. the player is currently in range of).
-        /// </summary>
+        /// <summary>Presses Interact from an on-screen button, through the same path as the E key.</summary>
         public void TriggerInteract() => OnInteracted?.Invoke(true);
 
         public void OnItemConsume(InputAction.CallbackContext context)

@@ -1,12 +1,13 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
-    public class QuestCompleteUI : MonoBehaviour
+    public class QuestCompleteUI : Singleton<QuestCompleteUI>
     {
-        public static QuestCompleteUI Instance { get; private set; }
 
         [Header("UI")]
         [SerializeField] private GameObject panel;
@@ -21,18 +22,22 @@ namespace Game.Testing
 
         private Coroutine hideCoroutine;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            base.Awake();
+            if (IsDuplicate) return;
 
             if (panel != null)
                 panel.SetActive(false);
+
+            QuestManager.OnQuestCompleted += Show;
+        }
+
+        protected override void OnDestroy()
+        {
+            if (Instance == this)
+                QuestManager.OnQuestCompleted -= Show;
+            base.OnDestroy();
         }
 
         public void Show(Quest quest)
@@ -55,16 +60,9 @@ namespace Game.Testing
 
         private void Display(Quest quest)
         {
-            // ==============================
-            // OPEN PANEL
-            // ==============================
 
             if (panel != null)
                 panel.SetActive(true);
-
-            // ==============================
-            // QUEST COMPLETE
-            // ==============================
 
             if (questCompleteText != null)
             {
@@ -72,29 +70,17 @@ namespace Game.Testing
                     "QUEST COMPLETE!";
             }
 
-            // ==============================
-            // QUEST NAME
-            // ==============================
-
             if (questNameText != null)
             {
                 questNameText.text =
                     quest.QuestName;
             }
 
-            // ==============================
-            // QUEST DETAIL
-            // ==============================
-
             if (questDetailText != null)
             {
                 questDetailText.text =
                     quest.StepDescription;
             }
-
-            // ==============================
-            // REWARDS
-            // ==============================
 
             if (rewardText != null)
             {
@@ -119,10 +105,6 @@ namespace Game.Testing
 
                 rewardText.text = rewards; // empty when there is no reward
             }
-
-            // ==============================
-            // AUTO CLOSE
-            // ==============================
 
             if (hideCoroutine != null)
             {

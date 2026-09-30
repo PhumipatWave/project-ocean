@@ -1,9 +1,6 @@
-namespace Game.Testing
+namespace Game.Core
 {
-    /// <summary>
-    /// A gate-able system, unlocked by completing a quest step whose
-    /// QuestStepData.unlocksFeatures lists it — see FeatureUnlockService.
-    /// </summary>
+    /// <summary>A system that quest steps unlock or lock (see FeatureUnlockService).</summary>
     public enum GameFeature
     {
         Interact,
@@ -21,7 +18,7 @@ namespace Game.Testing
         EnemySpawnLevel1,
         EnemySpawnLevel2,
         EnemySpawnLevel3,
-        // Ocean world collectables (starfish, shells, etc.) — see CollectableItemBase.CanCollect.
+        // Ocean world collectables (starfish, shells, etc.) — see CollectableItemBase.IsFeatureUnlocked.
         InteractItem,
         // Gates the Next Day button (the "bed"/sleep interaction) in the Home Panel —
         // see LandUI.TryAdvanceDay/RefreshNextDayButton.
@@ -30,9 +27,7 @@ namespace Game.Testing
         BackToLand,
         // Gates the F "use item" press — see Player.HandleUseItem.
         UseItem,
-        // Gates ItemSpawner_MQ001 (Rock Breaker material, item id 80001) spawning in the
-        // ocean — unlocked once MQ_1002 finishes and auto-accepts MQ_1003's "Find materials"
-        // step, so the material isn't findable before that quest needs it.
+        // Rock Breaker material (item 80001) spawns only once MQ_1003 needs it.
         RockBreakerMaterial,
     }
 }
