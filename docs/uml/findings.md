@@ -179,6 +179,31 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - 11f `Singleton<T>` (Core) for 18 managers: first wins, `Instance` cleared on destroy, `DontDestroyOnLoad` only on a root. This removed the 4 "DontDestroyOnLoad only works for root GameObjects" warnings. `ShopManager`, `ShopInventoryBuy`, `UpgradeTooltip` keep their newest-copy-wins behaviour on purpose.
 - **Open:** normal-key rebinds have no Esc cancel (move keys do).
 
+### Phase 12: static classes, names, comments, dead button calls, folders
+**Status:** done 2026-10-01. EditMode 67/67, compile clean, each step tested live in Play mode (save slots and keybinds backed up and restored).
+- 12a Static classes. 34 of 40 were already fine (constants, pure helpers, one-event buses). Fixed:
+  - `PlayerInteriorState` is now derived from the player's position (nearest interior exit door within 40 m) instead of door events. It no longer stays stuck on `House` after returning to the menu, and it is right after loading a save made indoors.
+  - `Inventory.OnChanged`, `InventoryManager.OnInventoryChanged` and `OnInventoryClosed` are `event`s, so no caller can overwrite the subscriber list.
+  - `TutorialGate.RequiredAction` / `CurrentPrompt` are read-only outside the class; `TutorialPromptUI` uses `Set()` / `Clear()`.
+  - `PlayerRegistry.GetNearest(position)` → `GetLiveLocal()` (it ignored the position).
+- 12b Names. Spelling: `IsAimming` → `IsAiming`, `Aimming()` → `UpdateAim()`, `HandlerGunRotation` → `RotateGun`, `Shooting()` → `Shoot()`. Classes (file and `.meta` moved together, so every link kept its GUID):
+
+  | Old name (used in earlier phases above) | New name |
+  |---|---|
+  | `InteractUI` | `EventInteractable` |
+  | `GameObjectSpawnManager` | `SpawnCatalog` |
+  | `ReviceQuestListUI` / `ReviceQuestSlot` | `AcceptedQuestListUI` / `AcceptedQuestSlot` |
+  | `ShelleController` | `ShellPickup` |
+  | `DamagePoint` | `DamagePopup` |
+  | `UILock` | `KeepUpright` |
+  | `GranadeBullet` | `GrenadeBullet` |
+
+  `ShopManager`: `inventorySlot`/`shopbuySlot` → `sellPanel`/`buyPanel` (`[FormerlySerializedAs]`), `OpenFishShopWindow`/`OpenShopWindow` → `OpenSellWindow`/`OpenBuyWindow` (both `Land_Map` wirings updated), empty `SellRoutine` deleted.
+- 12c Comments. Every Thai comment, tooltip and log text is now English; `SimpleAnimLoop.cs` re-saved as UTF-8 (it showed as garbled text). About 300 blocks of 3+ comment lines cut to 1–2 lines that keep the "why"; about 60 `// ====` section banners and the commented-out contact-damage code removed. A comment-stripped comparison with git confirmed only the renamed files changed code.
+- 12d Dead button calls. 18 on-screen interact buttons still called methods removed in Phase 8 (`DoorInteract.Interact`, `TrashInteract.SearchTrash`, `ChestInteract.PressInteract`), and the pause Save button called `OpenSave` (removed earlier). The dead calls are gone; chest and trash buttons now call `InputReader.TriggerInteract` like the doors. In Play mode all 73 button calls resolve.
+- 12e Folders (renamed through Unity, GUIDs unchanged): `Scripts/Core/Datas` → `Data` (`ScriptableDatas` → `ScriptableData`, `Collectables/Fishs` → `Fish`), `Prefabs/Entitys` → `Entities` (`Enemys` → `Enemies`), `Prefabs/Probs` and `Arts/Sprites/Probs` → `Props`, `Arts/Sprites/Fishs` → `Fish`. Module names in these UML pages changed with them (`Core/Datas` → `Core/Data`); older phases above keep the old paths as history.
+- **Open, pre-existing:** 6 prefab `Image` sprite links point to a deleted sprite or a missing sub-sprite (`InventoryItem`, `SlotUpgrad`, `UpgradeShopPanel`, three prefabs in `Buttons/Inventory/NoUes`). `GameManager.OnSceneLoaded` and `PlayerSceneMode` both place the player on scene load (same result, one could go). `IDamagePopup.ShowDamagePoint` still uses the old wording.
+
 ## 5. Risks
 
 - **Scene/prefab links:** folder moves without `.meta` break them. Move in the Editor, then check `git status` shows renames rather than delete + add.
