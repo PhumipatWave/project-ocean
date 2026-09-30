@@ -172,9 +172,21 @@ namespace Game.Gameplay
             StopAgentMovement();
         }
 
+        /// <summary>Stops AI, movement and schooling for good; OnGetFromPool undoes it.</summary>
+        public void StopForDeath()
+        {
+            OnEnemyDead();
+
+            var boid = GetComponent<Boid>();
+            if (boid != null)
+                boid.enabled = false;
+
+            enabled = false;
+        }
+
         protected void StopAgentMovement()
         {
-            if (navAgent == null)
+            if (navAgent == null || !navAgent.isOnNavMesh)
                 return;
 
             navAgent.isStopped = true;
@@ -272,8 +284,16 @@ namespace Game.Gameplay
         {
             deathHandled = false;
             isDormant = false;
+            enabled = true;
             StopAllCoroutines();
             fishAlertUI?.HideAll();
+
+            if (navAgent != null)
+            {
+                navAgent.enabled = true;
+                if (navAgent.isOnNavMesh) navAgent.isStopped = false;
+            }
+
             enemyBrain?.Initialize(BuildBrainContext());
         }
 

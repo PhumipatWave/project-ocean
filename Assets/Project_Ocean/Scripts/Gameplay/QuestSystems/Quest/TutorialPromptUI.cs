@@ -22,9 +22,6 @@ namespace Game.Gameplay
     /// </summary>
     public class TutorialPromptUI : MonoBehaviour
     {
-        /// <summary>Prompt text currently in effect, or null — re-shown when the player presses a blocked key.</summary>
-        public static string CurrentPrompt { get; private set; }
-
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
@@ -103,9 +100,9 @@ namespace Game.Gameplay
         private void Show(string text, Sprite image, TutorialActionId requiredAction)
         {
             // Refresh runs on many events; only toast when the prompt actually changes.
-            if (text != CurrentPrompt)
+            if (text != TutorialGate.CurrentPrompt)
             {
-                CurrentPrompt = text;
+                TutorialGate.CurrentPrompt = text;
                 NotificationManager.Notify(text, NotificationChannel.Center, image);
             }
             TutorialGate.RequiredAction = requiredAction;
@@ -117,7 +114,7 @@ namespace Game.Gameplay
                 GameLog.Info($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
                     $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
 
-            CurrentPrompt = null;
+            TutorialGate.CurrentPrompt = null;
             TutorialGate.RequiredAction = null;
         }
     }

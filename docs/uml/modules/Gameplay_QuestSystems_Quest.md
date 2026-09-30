@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-36 types · 1739 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×24, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
+35 types · 1710 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×22, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×5, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 
@@ -38,7 +38,6 @@ classDiagram
   }
   class PlayerSelfDialogueUI {
     <<MB>>
-    +bool BlocksInteraction$
   }
   class Line {
     <<struct>>
@@ -281,21 +280,13 @@ classDiagram
     <<MB>>
     +FindByTutorialAction(TutorialActionId)$ Transform
   }
-  class TutorialGate {
-    <<static>>
-    +TutorialActionId RequiredAction$
-    +bool IsRestricting$
-    +Blocks(TutorialActionId)$ bool
-    +NotifyBlocked()$ void
+  class TutorialPromptUI {
+    <<MB>>
   }
   class TutorialStep {
     <<static>>
     +IsActive(TutorialActionId)$ bool
     +BlocksShop(TutorialActionId)$ bool
-  }
-  class TutorialPromptUI {
-    <<MB>>
-    +string CurrentPrompt$
   }
   class TutorialUIMarker {
     <<MB>>
@@ -342,7 +333,7 @@ classDiagram
 | NextQuestMode | enum | `QuestData.cs:32` | 6 |
 | PlayerInterior | enum | `PlayerInteriorState.cs:5` | 1 |
 | PlayerInteriorState | static | `PlayerInteriorState.cs:13` | 36 |
-| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 128 |
+| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 124 |
 | Quest | class | `Quest.cs:44` | 163 |
 | QuestCategory | enum | `QuestData.cs:14` | 8 |
 | QuestClassification | enum | `QuestData.cs:24` | 6 |
@@ -357,14 +348,13 @@ classDiagram
 | QuestStatus | enum | `Quest.cs:34` | 8 |
 | QuestStep | class | `QuestStep.cs:13` | 117 |
 | QuestStepData | class | `QuestData.cs:108` | 47 |
-| QuestStepEffects | static | `QuestStepEffects.cs:7` | 71 |
+| QuestStepEffects | static | `QuestStepEffects.cs:7` | 68 |
 | QuestType | enum | `Quest.cs:8` | 9 |
 | QuestVisuals | static | `QuestVisuals.cs:11` | 53 |
 | ReviceQuestListUI | MB | `ReviceQuestListUI.cs:14` | 52 |
 | ReviceQuestSlot | MB | `ReviceQuestSlot.cs:8` | 28 |
 | TalkCompletionMode | enum | `QuestData.cs:65` | 5 |
 | TutorialActionMarker | MB | `TutorialActionMarker.cs:14` | 42 |
-| TutorialGate | static | `TutorialGate.cs:11` | 21 |
-| TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 78 |
-| TutorialStep | static | `TutorialGate.cs:58` | 24 |
+| TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 77 |
+| TutorialStep | static | `TutorialStep.cs:10` | 24 |
 | TutorialUIMarker | MB | `TutorialUIMarker.cs:15` | 22 |

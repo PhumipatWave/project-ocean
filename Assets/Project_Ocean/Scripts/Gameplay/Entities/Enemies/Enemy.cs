@@ -86,7 +86,9 @@ namespace Game.Gameplay
             // collected (pooled) before the next Update cycle runs CanTick.
             navAgentHost?.NotifyKill();
 
-            entityDeathHandler?.HandleDeath(brain);
+            if (navAgentHost != null) navAgentHost.StopForDeath();
+            else brain?.OnDeath();
+            entityDeathHandler?.HandleDeath();
             StartCoroutine(AutoReturnRoutine());
         }
 

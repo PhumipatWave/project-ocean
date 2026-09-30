@@ -1,16 +1,17 @@
-using Game.Core;
-
-namespace Game.Gameplay
+namespace Game.Core
 {
     /// <summary>
     /// While a Tutorial/Talk checkpoint is active, restricts the player to only the
     /// action that checkpoint requires (ESC/pause is deliberately never gated by this —
-    /// see GameHUD/PlayerUIState for that). TutorialPromptUI owns RequiredAction: it
-    /// sets it while its prompt is showing and clears it when the prompt hides.
+    /// see GameHUD/PlayerUIState for that). TutorialPromptUI owns RequiredAction and
+    /// CurrentPrompt: it sets them while its prompt is showing and clears them when it hides.
     /// </summary>
     public static class TutorialGate
     {
         public static TutorialActionId? RequiredAction;
+
+        /// <summary>Prompt text currently in effect, or null — re-shown when the player presses a blocked key.</summary>
+        public static string CurrentPrompt;
 
         /// <summary>Any restriction active right now (regardless of which action).</summary>
         public static bool IsRestricting => RequiredAction.HasValue;
@@ -47,43 +48,6 @@ namespace Game.Gameplay
 
         /// <summary>Call when Blocks() rejects a key press, so the player sees the current prompt again.</summary>
         public static void NotifyBlocked() =>
-            NotificationManager.Notify(TutorialPromptUI.CurrentPrompt, NotificationChannel.Center);
-    }
-
-    /// <summary>
-    /// Reads the quest state directly, for UI inside blocking panels (shop, upgrade) — there
-    /// TutorialGate.RequiredAction is always null, because TutorialPromptUI hides and clears it
-    /// while any panel holds PlayerUIState's lock.
-    /// </summary>
-    public static class TutorialStep
-    {
-        /// <summary>Some active quest's current step is a Tutorial step for this action
-        /// (scans every active quest, like TutorialPromptUI, not just the tracked one).</summary>
-        public static bool IsActive(TutorialActionId action)
-        {
-            if (QuestManager.Instance == null) return false;
-
-            foreach (var quest in QuestManager.Instance.GetActiveQuests())
-            {
-                var step = quest.CurrentStep;
-                if (quest.Status == QuestStatus.InProgress && step != null &&
-                    step.Type == QuestType.Tutorial && step.TutorialAction == action)
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>A shop-panel tutorial step (sell / buy / upgrade) is active and wants an
-        /// action other than this one — so this shop button must stay locked.</summary>
-        public static bool BlocksShop(TutorialActionId action)
-        {
-            foreach (var shopAction in ShopActions)
-                if (shopAction != action && IsActive(shopAction))
-                    return true;
-            return false;
-        }
-
-        private static readonly TutorialActionId[] ShopActions =
-            { TutorialActionId.SellItem, TutorialActionId.BuyItem, TutorialActionId.UpgradeRope };
+            NotificationManager.Notify(CurrentPrompt, NotificationChannel.Center);
     }
 }

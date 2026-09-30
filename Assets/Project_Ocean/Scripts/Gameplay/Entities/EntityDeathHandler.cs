@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 using Game.Core;
 
 namespace Game.Gameplay
@@ -11,8 +10,8 @@ namespace Game.Gameplay
         [SerializeField] private SpriteRenderer entitySprite;
         [SerializeField] private Color deathSpriteColor = Color.red;
 
-        private EnemyNavAgentBase navAgent;
         private Color originalSpriteColor;
+        private string originalTag;
         #endregion
 
         #region Unity Callbacks
@@ -33,14 +32,11 @@ namespace Game.Gameplay
             if (entitySprite != null)
                 originalSpriteColor = entitySprite.color;
 
-            navAgent = GetComponent<EnemyNavAgentBase>();
+            originalTag = gameObject.tag;
         }
         #endregion
 
-        /// <summary>
-        /// Shared death path — used by Player and any entity without a brain.
-        /// Stops movement, applies death color, shows damage point.
-        /// </summary>
+        /// <summary>Stops the body, applies the death color, retags it as an item and shows the death popup.</summary>
         public void HandleDeath()
         {
             if (rb != null)
@@ -50,40 +46,6 @@ namespace Game.Gameplay
 
             ApplyDeathVisual();
             ShowDeathDamagePoint();
-        }
-
-        /// <summary>
-        /// Enemy overload — handles brain shutdown and NavMesh cleanup
-        /// before calling the shared HandleDeath().
-        /// </summary>
-        public void HandleDeath(IEnemyBrain brain)
-        {
-            brain?.OnDeath();
-            StopAllNavigation();
-            DisableNavAgent();
-            HandleDeath();
-        }
-
-        // ── Private helpers ───────────────────────────────────────────────
-
-        private void StopAllNavigation()
-        {
-            NavMeshAgent agent = GetComponent<NavMeshAgent>();
-            if (agent == null || !agent.isOnNavMesh) return;
-
-            agent.isStopped = true;
-            agent.ResetPath();
-            agent.velocity  = Vector3.zero;
-        }
-
-        private void DisableNavAgent()
-        {
-            if (navAgent != null)
-                navAgent.enabled = false;
-
-            Boid boid = GetComponent<Boid>();
-            if (boid != null)
-                boid.enabled = false;
         }
 
         private void ApplyDeathVisual()
@@ -106,21 +68,10 @@ namespace Game.Gameplay
 
         public void OnGetFromPool()
         {
-            // Restore tag, sprite color, and navagent for reuse
-            gameObject.tag = "Enemy";
+            gameObject.tag = originalTag;
 
             if (entitySprite != null)
                 entitySprite.color = originalSpriteColor;
-
-            if (navAgent != null)
-                navAgent.enabled = true;
-
-            var agent = GetComponent<NavMeshAgent>();
-            if (agent != null)
-            {
-                agent.enabled   = true;
-                agent.isStopped = false;
-            }
         }
 
         public void OnReturnToPool() { }

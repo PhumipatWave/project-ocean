@@ -159,7 +159,15 @@ One phase = one branch = one PR. Each phase keeps behaviour unchanged, ends with
 - Bullets damage any `Entity` (null-safe) and no longer call `OnHit` themselves; `Enemy.OnDamagedHandler` already does, so a hit reacted twice, and a killing shot poked a dead brain.
 - One player hit flash: `PlayerHealth.flashTarget` = `Visual` (0.25 s); Player's own flash coroutine removed. Before, `EntityHealth` also flashed the first child sprite, which was the `Navigation` arrow.
 - Dead code removed: `Enemy.ApplyLegacySerializedValues` (never-assigned fields; it only forced red, which every prefab already uses), the two `Configure` methods it called, Player's never-reached death override (`Entity.OnDeathHandler` is now virtual). `PlayerStabAttack` kept, marked unused.
-- **Deferred:** a generic `EntityDeathHandler` (enemy nav/brain shutdown still lives in it) until a third entity type appears; flipping stays per type (Player rotates, enemies scale).
+- **Deferred:** a generic `EntityDeathHandler` (enemy nav/brain shutdown still lives in it) until a third entity type appears; flipping stays per type (Player rotates, enemies scale). *(Done in Phase 10a.)*
+
+### Phase 10: break the 36-type gameplay cycle
+**Status:** done 2026-09-30. Largest type cycle 36 (16 modules) -> 11 (enemy FSM profiles <-> states, by design). Remaining cycles stay inside one feature: player core 8, NPC/quest navigation 7, enemy core 6. EditMode 63/63, compile clean, no scene/prefab edits.
+- 10a: `EntityDeathHandler` is generic (restores its own starting tag); enemy shutdown/restore moved to `EnemyNavAgentBase.StopForDeath()` / `OnGetFromPool`. Live: crab and schooling fish die (red, `Items`, nav + `Boid` off); a killed crab reused from the pool comes back alive, white, `Enemy`, moving.
+- 10b: `TutorialGate` moved to Core (`Core/Events/TutorialGate.cs`) and owns `CurrentPrompt`; the old file keeps only `TutorialStep` (renamed `TutorialStep.cs`).
+- 10c: the self-dialogue "blocks this press" flag lives in `DialogueState` (Core).
+- 10d: `PlayerMoney.Current`; quest money checks/charges no longer go through `PlayerRegistry`.
+- **Note (pre-existing, harmless):** on Unity 6 `NavMeshAgent.ResetPath()` clears `isStopped`, so a dead enemy's agent reads `isStopped == false`; it has no path, zero velocity and a disabled host, so it doesn't move.
 
 ## 5. Risks
 

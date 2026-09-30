@@ -13,11 +13,23 @@ namespace Game.Gameplay
         /// <summary>Signed amount of a player-visible change (gain or spend); never raised by save load.</summary>
         public static event System.Action<int> OnMoneyDelta;
 
+        /// <summary>The local player's wallet, for systems that must not reach the player object (quests).</summary>
+        public static PlayerMoney Current { get; private set; }
+
         public int Money => money;
         public int CurrentMoney => money;
 
-        private void OnEnable() => RewardEvents.OnMoneyRewarded += AddMoney;
-        private void OnDisable() => RewardEvents.OnMoneyRewarded -= AddMoney;
+        private void OnEnable()
+        {
+            Current = this;
+            RewardEvents.OnMoneyRewarded += AddMoney;
+        }
+
+        private void OnDisable()
+        {
+            if (Current == this) Current = null;
+            RewardEvents.OnMoneyRewarded -= AddMoney;
+        }
 
         public void AddMoney(int amount)
         {

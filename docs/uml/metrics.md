@@ -19,7 +19,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
 | NPC | 243 | 21 | 18 | 18 | Gameplay/Entities/NPCs |
-| EnemyNavAgentBase | 228 | 26 | 29 | 12 | Gameplay/Entities/Enemies/NavAgents/Core |
+| EnemyNavAgentBase | 242 | 27 | 29 | 12 | Gameplay/Entities/Enemies/NavAgents/Core |
 | EnemyFollowState | 223 | 11 | 16 | 9 | Gameplay/Entities/Enemies/Brain/FSM/States |
 | PlayerGunHandler | 222 | 13 | 34 | 8 | Gameplay/Entities/Players |
 | EnemySpawner | 209 | 12 | 17 | 11 | Gameplay/Spawning |
@@ -34,15 +34,15 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | Type | Used by | Examples |
 |---|---|---|
 | TutorialActionId | 27 | Bullet, DayManager, DoorQuestMarker, GameHUD, GameManager |
-| PlayerRegistry | 22 | Bullet, Cutscene, DevPanel, DoorQuestMarker, Enemy |
+| PlayerRegistry | 21 | Bullet, Cutscene, DevPanel, DoorQuestMarker, Enemy |
 | QuestManager | 20 | CutsceneManager, DevPanel, DoorQuestMarker, ExploreAreaTrigger, FeatureUnlockService |
 | GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
 | Player | 19 | AmmoWheel, Bullet, ChestInteract, CollectableItemBase, DevPanel |
 | Item | 18 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | QuestType | 18 | DoorQuestMarker, ExploreAreaTrigger, FieldVisibility, NPC, PlayerSelfDialogueUI |
 | Quest | 16 | CutsceneManager, IQuestOfferView, NPC, PlayerSelfDialogueUI, QuestBoardUI |
-| TutorialEvents | 15 | Bullet, DayManager, DoorQuestMarker, GameManager, Interactable |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, Interactable, InventoryManager, LandUI |
+| TutorialEvents | 15 | Bullet, DayManager, DoorQuestMarker, GameManager, Interactable |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
 | PlayerUIState | 14 | ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel, GameHUD |
 | Inventory | 14 | DevPanel, EnemyLoot, InventoryManager, ItemDrop, Player |
@@ -156,10 +156,14 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 
 | Size | Types |
 |---|---|
-| 36 | Boid, Bullet, CollectableItemBase, Cutscene, CutsceneManager, DoorInteract, DoorQuestMarker, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, Entity … +24 |
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
+| 8 | Bullet, IItemEffect, Player, PlayerGunHandler, PlayerHealth, PlayerItemUse, PlayerRegistry, UpgradeService |
+| 7 | Cutscene, CutsceneManager, DoorQuestMarker, NPC, NPCManager, QuestNavigation, TutorialActionMarker |
+| 6 | Boid, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, IEnemyBrain |
+| 4 | FeatureUnlockService, QuestManager, QuestProgressTracker, QuestStepEffects |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
 | 4 | DraggableItem, InventoryManager, InventorySlot, SlotBuilder |
+| 2 | Interactable, PlayerInteractor |
 | 2 | EnemyFSM, IEnemyState |
 | 2 | EnemySearchState, EnemyStateBase |
 | 2 | UIManager, UIWindow |
@@ -167,7 +171,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | 2 | LinearPatrolBrain, LinearPatrolProfile |
 | 2 | SaveMenuUI, SaveSlotUI |
 
-Modules in the largest cycle (16): Gameplay/Cutscenes, Gameplay/Entities, Gameplay/Entities/Enemies, Gameplay/Entities/Enemies/Behaviours, Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/Interfaces, Gameplay/Entities/Enemies/NavAgents/Core, Gameplay/Entities/NPCs, Gameplay/Entities/Players, Gameplay/Environments, Gameplay/Interaction, Gameplay/Items, Gameplay/Items/Pickups, Gameplay/Projectiles, Gameplay/QuestSystems/Quest, Gameplay/Services
+Modules in the largest cycle (2): Gameplay/Entities/Enemies/Brain, Gameplay/Entities/Enemies/Brain/FSM/States
 
 ## Plain types with no code reference
 

@@ -36,7 +36,7 @@ namespace Game.Gameplay
         }
 
         private static bool Blocked =>
-            CutsceneGate.IsPlaying || LoadingManager.IsLoading || PlayerSelfDialogueUI.BlocksInteraction;
+            CutsceneGate.IsPlaying || LoadingManager.IsLoading || DialogueState.BlocksInteraction;
 
         private Interactable PickTarget(bool includeLocked)
         {

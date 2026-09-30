@@ -40,16 +40,6 @@ namespace Game.Gameplay
 
         private struct Line { public string speakerId; public string text; }
 
-        private static bool showing;
-        private static int lastHideFrame = -1;
-
-        /// <summary>True while an auto-display dialogue is up, and for the rest of the frame it
-        /// closes on — every Interact listener (InteractUI, collectables) is handling that SAME
-        /// press, and the one that closes the dialogue must not also start a shop/door/pickup.
-        /// InteractUI alone can't rely on the player lock: an interactable that already holds it
-        /// (the shop the player just left) would still act on the press.</summary>
-        public static bool BlocksInteraction => showing || Time.frameCount <= lastHideFrame;
-
         private Quest activeQuest;
         private bool isShowing;
         private readonly List<Line> lines = new();
@@ -124,7 +114,7 @@ namespace Game.Gameplay
         {
             activeQuest = quest;
             isShowing = true;
-            showing = true;
+            DialogueState.SetSelfDialogueShowing(true);
 
             lines.Clear();
             lineIndex = 0;
@@ -156,8 +146,7 @@ namespace Game.Gameplay
         private void Hide()
         {
             isShowing = false;
-            showing = false;
-            lastHideFrame = Time.frameCount;
+            DialogueState.SetSelfDialogueShowing(false);
             activeQuest = null;
 
             View?.SetOpen(false);

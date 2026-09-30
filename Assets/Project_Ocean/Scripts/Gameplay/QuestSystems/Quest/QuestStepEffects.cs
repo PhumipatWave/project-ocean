@@ -12,7 +12,7 @@ namespace Game.Gameplay
         {
             if (step.RequiredMoney <= 0) return true;
 
-            var money = PlayerRegistry.Local != null ? PlayerRegistry.Local.GetComponent<PlayerMoney>() : null;
+            var money = PlayerMoney.Current;
             return money != null && money.CurrentMoney >= step.RequiredMoney;
         }
 
@@ -58,10 +58,7 @@ namespace Game.Gameplay
                 if (!step.ConsumeOnComplete) return;
 
                 if (step.RequiredMoney > 0)
-                {
-                    var money = PlayerRegistry.Local != null ? PlayerRegistry.Local.GetComponent<PlayerMoney>() : null;
-                    money?.Use(step.RequiredMoney);
-                }
+                    PlayerMoney.Current?.Use(step.RequiredMoney);
 
                 if (step.DeliverySource == DeliverySource.EnemyKills)
                 {

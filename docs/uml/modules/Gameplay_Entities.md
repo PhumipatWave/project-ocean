@@ -1,6 +1,6 @@
 # Gameplay/Entities
 
-7 types · 310 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2, [Gameplay/Entities/Enemies/Behaviours](Gameplay_Entities_Enemies_Behaviours.md) ×1, [Gameplay/Entities/Enemies/Brain/Interfaces](Gameplay_Entities_Enemies_Brain_Interfaces.md) ×1, [Gameplay/Entities/Enemies/NavAgents/Core](Gameplay_Entities_Enemies_NavAgents_Core.md) ×1
+7 types · 279 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×2
 
 [← index](../README.md)
 
@@ -48,7 +48,6 @@ classDiagram
   }
   class EntityDeathHandler {
     <<MB>>
-    +HandleDeath(IEnemyBrain) void
     +OnGetFromPool() void
     +OnReturnToPool() void
   }
@@ -111,7 +110,7 @@ classDiagram
 | AnimHash | static | `AnimHash.cs:11` | 11 |
 | Entity | MB, abstract | `Entity.cs:7` | 78 |
 | EntityAnimation | MB | `EntityAnimation.cs:6` | 43 |
-| EntityDeathHandler | MB | `EntityDeathHandler.cs:7` | 87 |
+| EntityDeathHandler | MB | `EntityDeathHandler.cs:6` | 56 |
 | EntityHealth | MB | `EntityHealth.cs:9` | 75 |
 | IDamagePopup | interface | `IDamagePopup.cs:6` | 5 |
 | IEntityHealth | interface | `IEntityHealth.cs:6` | 11 |

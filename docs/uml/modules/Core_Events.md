@@ -1,6 +1,6 @@
 # Core/Events
 
-11 types · 106 LOC (non-blank) · depends on: none
+12 types · 128 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -77,7 +77,16 @@ classDiagram
     +event Action~TutorialActionId~ OnActionPerformed$
     +RaiseAction(TutorialActionId)$ void
   }
+  class TutorialGate {
+    <<static>>
+    +TutorialActionId RequiredAction$
+    +string CurrentPrompt$
+    +bool IsRestricting$
+    +Blocks(TutorialActionId)$ bool
+    +NotifyBlocked()$ void
+  }
   NotificationMessage --> NotificationChannel : Channel
+  TutorialGate --> TutorialActionId : RequiredAction
 ```
 
 ## Files
@@ -95,3 +104,4 @@ classDiagram
 | RewardEvents | static | `RewardEvents.cs:4` | 5 |
 | TutorialActionId | enum | `TutorialEvents.cs:6` | 23 |
 | TutorialEvents | static | `TutorialEvents.cs:36` | 8 |
+| TutorialGate | static | `TutorialGate.cs:9` | 22 |

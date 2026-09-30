@@ -45,6 +45,20 @@ namespace Game.Core
                 OnChanged?.Invoke();
         }
 
+        private static bool selfDialogueShowing;
+        private static int selfDialogueHideFrame = -1;
+
+        /// <summary>True while an auto-display (self) dialogue is up, and for the rest of the frame it
+        /// closes on — the press that closed it must not also start a shop/door/pickup.</summary>
+        public static bool BlocksInteraction => selfDialogueShowing || Time.frameCount <= selfDialogueHideFrame;
+
+        public static void SetSelfDialogueShowing(bool showing)
+        {
+            if (!showing)
+                selfDialogueHideFrame = Time.frameCount;
+            selfDialogueShowing = showing;
+        }
+
         /// <summary>True if <paramref name="root"/> is, or contains, a showing dialogue panel.</summary>
         public static bool ContainsShowingPanel(Transform root)
         {

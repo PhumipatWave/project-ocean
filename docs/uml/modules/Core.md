@@ -1,6 +1,6 @@
 # Core
 
-8 types · 123 LOC (non-blank) · depends on: none
+8 types · 132 LOC (non-blank) · depends on: none
 
 [← index](../README.md)
 
@@ -11,8 +11,10 @@ classDiagram
     <<static>>
     +event Action OnChanged$
     +bool IsShowing$
+    +bool BlocksInteraction$
     +Show(GameObject)$ void
     +Hide(GameObject)$ void
+    +SetSelfDialogueShowing(bool)$ void
     +ContainsShowingPanel(Transform)$ bool
   }
   class GameFeature {
@@ -73,7 +75,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DialogueState | static | `DialogueState.cs:13` | 36 |
+| DialogueState | static | `DialogueState.cs:13` | 45 |
 | GameFeature | enum | `GameFeature.cs:7` | 20 |
 | GameLog | static | `GameLog.cs:6` | 6 |
 | GameSession | static | `GameSession.cs:4` | 4 |
