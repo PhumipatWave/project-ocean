@@ -21,18 +21,31 @@ namespace Game.Gameplay
         // Typed as MonoBehaviour (an IQuestOfferView) so gameplay doesn't reference the UI class; same name keeps the reference.
         [SerializeField] private MonoBehaviour questDetailPanel;
 
-        // A Main quest's Talk step targeting this NPC (from ANY active quest) counts even
-        // if this NPC has no targetQuest of its own — see ResolveActiveQuest.
-        private bool HasQuest =>
-            targetQuest != null ||
-            (QuestManager.Instance != null && QuestManager.Instance.GetMainQuestTalkQuest(npcId) != null);
-
         [Header("Dialogue UI")]
         [Tooltip("DialoguePanelView on the dialogue panel (an IDialogueView).")]
         [SerializeField] private MonoBehaviour dialogueView;
 
+        [Header("Quest Marker")]
+        [Tooltip("Shown while this NPC is the target of the active quest's current Talk step (and, for a not-yet-accepted quest, only once its prerequisite is unlocked — same gate as the quest conversation).")]
+        [SerializeField] private GameObject markerUI;
+
+        public string NpcId => npcId;
+        public string NpcName => npcName;
+        public Sprite NpcPortrait => npcPortrait;
+
         // Unity null check first: a destroyed view must read as missing.
-        private IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+        internal IDialogueView View => dialogueView != null ? dialogueView as IDialogueView : null;
+        internal IQuestOfferView QuestOfferView => questDetailPanel != null ? questDetailPanel as IQuestOfferView : null;
+
+        // A Main quest's Talk step targeting this NPC counts even without its own targetQuest.
+        private bool HasQuest =>
+            targetQuest != null ||
+            (QuestManager.Instance != null && QuestManager.Instance.GetMainQuestTalkQuest(npcId) != null);
+
+        private NpcQuestMarker questMarker;
+        private NpcQuestConversation questConversation;
+        private bool isUIOpen;
+        private InteractUI interactUI;
 
         // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
         private void OnValidate()
@@ -43,98 +56,46 @@ namespace Game.Gameplay
                 questDetailPanel = questDetailPanel.GetComponent<IQuestOfferView>() as MonoBehaviour;
         }
 
-        [Header("Quest Marker")]
-        [Tooltip("Shown while this NPC is the target of the active quest's current Talk step (and, for a not-yet-accepted quest, only once its prerequisite is unlocked — same gate as StartDialogue).")]
-        [SerializeField] private GameObject markerUI;
-
-        public string NpcId => npcId;
-        public string NpcName => npcName;
-        public Sprite NpcPortrait => npcPortrait;
-
-        private Quest npcQuest;
-        private int currentDialogueIndex;
-        private bool isConversing;
-        private bool isUIOpen;
-        private InteractUI interactUI;
+        private void Awake()
+        {
+            questMarker = new NpcQuestMarker(this, markerUI);
+            questConversation = new NpcQuestConversation(this);
+        }
 
         private void OnEnable()
         {
             NPCManager.Instance?.Register(this);
-            QuestManager.OnQuestUpdated += RefreshMarker;
+            QuestManager.OnQuestUpdated += questMarker.Refresh;
         }
 
         private void OnDisable()
         {
             NPCManager.Instance?.Unregister(this);
-            QuestManager.OnQuestUpdated -= RefreshMarker;
+            QuestManager.OnQuestUpdated -= questMarker.Refresh;
         }
 
         private void Start()
         {
-            // The InteractUI (and its trigger collider) may sit on a child (e.g. the prefab's
-            // "Talk" object) rather than on the NPC itself — find it either way, or the
-            // player lock never gets released when the dialogue closes.
+            // InteractUI may sit on a child (the prefab's "Talk" object); without it the player lock never releases.
             interactUI = GetComponentInChildren<InteractUI>();
 
-            // Trigger events go to the collider's own object, so an NPC whose zone is on a
-            // child never gets its own OnTriggerExit2D — listen through the InteractUI instead.
+            // A child's trigger zone never calls this object's OnTriggerExit2D, so listen through InteractUI.
             if (interactUI != null && interactUI.gameObject != gameObject)
                 interactUI.PlayerExited += HandlePlayerExited;
 
             View?.SetOpen(false);
 
-            RefreshMarker();
+            questMarker.Refresh();
         }
 
-        /// <summary>True while this NPC is the active quest's current Talk-step target — mirrors
-        /// StartDialogue's own unlock gate for a not-yet-accepted (New) quest — and the player
-        /// is close enough that QuestCompass has handed off to this marker (see
-        /// QuestNavigation.CloseRangeMeters).</summary>
-        private bool ShouldShowMarker()
-        {
-            var quest = ResolveActiveQuest();
-            var step = quest?.CurrentStep;
-            if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId))
-                return false;
-
-            bool targeted = quest.Status switch
-            {
-                QuestStatus.New => QuestManager.Instance != null && QuestManager.Instance.IsUnlocked(quest),
-                QuestStatus.InProgress or QuestStatus.ReadyToTurnIn => true,
-                _ => false,
-            };
-            if (!targeted)
-                return false;
-
-            var player = PlayerRegistry.Local;
-            return player != null &&
-                Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(transform)) <= QuestNavigation.CloseRangeMeters;
-        }
-
-        private void RefreshMarker()
-        {
-            if (markerUI != null)
-                markerUI.SetActive(ShouldShowMarker());
-        }
-
-        // Proximity changes every frame as the player walks, unlike the rest of the marker's
-        // condition (which only changes on OnQuestUpdated) — skip entirely for the many NPCs
-        // that never carry a marker (see the dummy "locked door" NPCs) or aren't a live target.
+        // Proximity changes every frame; the quest part of the condition only on OnQuestUpdated.
         private void Update()
         {
-            if (markerUI != null && HasQuest)
-                RefreshMarker();
+            questMarker.Refresh();
         }
 
-        /// <summary>
-        /// Which quest this NPC currently speaks for. A Main quest's Talk step targeting
-        /// this NPC (from any active quest) takes priority over the NPC's own assigned
-        /// targetQuest — main-story dialogue always plays first, regardless of that step's
-        /// IsGuidedSequence (that flag only controls the tutorial prompt/input-lock, not
-        /// which dialogue is shown — see TutorialPromptUI). Resolved fresh each
-        /// conversation, not cached, so it stays correct as the Main quest advances.
-        /// </summary>
-        private Quest ResolveActiveQuest()
+        /// <summary>The quest this NPC speaks for: a Main quest's Talk step first, then its own targetQuest.</summary>
+        internal Quest ResolveActiveQuest()
         {
             if (QuestManager.Instance == null)
                 return null;
@@ -151,25 +112,22 @@ namespace Game.Gameplay
             if (CutsceneGate.IsPlaying || LoadingManager.IsLoading) return;
 
             if (HasQuest)
-                QuestInteract();
+                questConversation.Interact();
             else
                 ToggleDialogue();
         }
 
         private void ToggleDialogue()
         {
-            bool wasOpen = View != null && View.IsOpen;
-
-            if (!wasOpen)
+            if (View == null || !View.IsOpen)
+            {
                 OpenDialogue();
-            else
-                CloseDialogue();
+                return;
+            }
 
-            // Fire only on the close (the player has now actually seen the line) — not
-            // this NPC's own quest, but another quest's (non-guided) Talk step may still
-            // be waiting on this npcId, so keep progressing that in the background.
-            if (wasOpen && !string.IsNullOrEmpty(npcId))
-                NpcEvents.RaiseNpcTalkedTo(npcId);
+            CloseDialogue();
+            // Another quest's Talk step may still be waiting on this npcId.
+            RaiseTalkedTo();
         }
 
         private void OpenDialogue()
@@ -178,10 +136,20 @@ namespace Game.Gameplay
                 return;
 
             View.SetText(npcDialogue);
+            ShowPanel();
+        }
 
-            View.SetSpeaker(npcId, npcName, npcPortrait);
+        internal void ShowPanel()
+        {
+            View?.SetSpeaker(npcId, npcName, npcPortrait);
             SetDialoguePanel(true);
             isUIOpen = true;
+        }
+
+        internal void RaiseTalkedTo()
+        {
+            if (!string.IsNullOrEmpty(npcId))
+                NpcEvents.RaiseNpcTalkedTo(npcId);
         }
 
         // Also reports to DialogueState so other land UI (shop, board...) hides while it shows.
@@ -194,135 +162,9 @@ namespace Game.Gameplay
             else DialogueState.Hide(view.Panel);
         }
 
-        private void QuestInteract()
+        internal void CloseDialogue()
         {
-            if (!isConversing)
-                StartDialogue();
-            else
-                AdvanceDialogue();
-        }
-
-        private void StartDialogue()
-        {
-            npcQuest = ResolveActiveQuest();
-            if (npcQuest == null)
-                return;
-
-            // A New quest with an unfinished prerequisite isn't offered yet.
-            if (npcQuest.Status == QuestStatus.New &&
-                QuestManager.Instance != null && !QuestManager.Instance.IsUnlocked(npcQuest))
-                return;
-
-            isConversing = true;
-            currentDialogueIndex = 0;
-
-            SetDialoguePanel(true);
-
-            isUIOpen = true;
-
-            // Show THIS physical NPC's own identity, not the quest's — several NPCs can
-            // share one targetQuest (e.g. different Talk steps of the same quest), and
-            // each should be labeled as themselves when the player talks to them.
-            View?.SetSpeaker(npcId, npcName, npcPortrait);
-
-            ShowDialogueText();
-        }
-
-        private void ShowDialogueText()
-        {
-            if (View == null)
-                return;
-
-            switch (npcQuest.Status)
-            {
-                case QuestStatus.New:
-                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Offer, currentDialogueIndex));
-                    break;
-                case QuestStatus.InProgress:
-                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.InProgress));
-                    break;
-                // Must show the Finish line here, not fall through blank — the player is
-                // about to turn the quest in, not still working toward it.
-                case QuestStatus.ReadyToTurnIn:
-                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish));
-                    break;
-                case QuestStatus.Finish:
-                    View.SetText(npcQuest.CurrentStep.GetLine(npcId, DialogueType.Finish));
-                    break;
-                case QuestStatus.Reject:
-                    View.SetText("?");
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Plays this line's cutscene (QuestDialogueLine.cutsceneId), if one is authored.
-        /// Called from AdvanceDialogue's closing branches (after CloseDialogue), not from
-        /// ShowDialogueText — the cutscene should start once the player has actually finished
-        /// this exchange, not the moment the line first appears.
-        /// </summary>
-        private void PlayCutsceneIfAny(DialogueType type)
-        {
-            var id = npcQuest.CurrentStep.GetCutsceneId(npcId, type);
-            if (!string.IsNullOrEmpty(id))
-                CutsceneManager.Instance?.Play(id);
-        }
-
-        private void AdvanceDialogue()
-        {
-            if (npcQuest.Status == QuestStatus.New)
-            {
-                currentDialogueIndex++;
-                var offerLines = npcQuest.CurrentStep.GetLines(npcId, DialogueType.Offer);
-                if (currentDialogueIndex < offerLines.Length)
-                    View?.SetText(offerLines[currentDialogueIndex]);
-                else
-                {
-                    // Player has now read this NPC's full greeting — other quests' Talk
-                    // steps targeting this npcId (e.g. a background tutorial step) can
-                    // progress now, same as any other "finished talking" moment below.
-                    if (!string.IsNullOrEmpty(npcId))
-                        NpcEvents.RaiseNpcTalkedTo(npcId);
-
-                    CloseDialogue();
-                    PlayCutsceneIfAny(DialogueType.Offer);
-
-                    if (questDetailPanel != null)
-                        (questDetailPanel as IQuestOfferView)?.ShowPanel(npcQuest, null);
-                }
-            }
-            // Must be handled explicitly, not left to fall into the generic else branch below —
-            // that branch only closes the dialogue, it never calls TurnInQuest, so the quest
-            // would never actually complete.
-            else if (npcQuest.Status == QuestStatus.ReadyToTurnIn)
-            {
-                if (!string.IsNullOrEmpty(npcId))
-                    NpcEvents.RaiseNpcTalkedTo(npcId);
-
-                CloseDialogue();
-                PlayCutsceneIfAny(DialogueType.Finish);
-
-                bool success = QuestManager.Instance.TurnInQuest(npcQuest.QuestID);
-                if (!success)
-                    Debug.LogWarning($"[NPCInteract] TurnInQuest failed for id {npcQuest.QuestID}");
-            }
-            else
-            {
-                // The player has now actually seen this step's line (shown on the previous
-                // press) — only NOW does the Talk step get to progress, not the moment the
-                // conversation was opened. Harmless to raise if the quest already isn't
-                // InProgress (Finish/Reject) — QuestManager only matches InProgress quests.
-                if (!string.IsNullOrEmpty(npcId))
-                    NpcEvents.RaiseNpcTalkedTo(npcId);
-
-                CloseDialogue();
-                PlayCutsceneIfAny(npcQuest.Status == QuestStatus.Finish ? DialogueType.Finish : DialogueType.InProgress);
-            }
-        }
-
-        private void CloseDialogue()
-        {
-            isConversing = false;
+            questConversation.End();
             SetDialoguePanel(false);
 
             if (isUIOpen)
@@ -348,8 +190,8 @@ namespace Game.Gameplay
         {
             CloseDialogue();
 
-            if (HasQuest && questDetailPanel != null)
-                (questDetailPanel as IQuestOfferView)?.HidePanel();
+            if (HasQuest)
+                QuestOfferView?.HidePanel();
         }
     }
 }
