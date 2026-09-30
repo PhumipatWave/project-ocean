@@ -78,7 +78,7 @@ namespace Game.Gameplay
                 wasMoving = dir != Vector2.zero;
             moveTutorialWasRequired = moveTutorialRequired;
 
-            if (player.GunHandler.IsAimming || PlayerUIState.IsLocked)
+            if (player.GunHandler.IsAiming || PlayerUIState.IsLocked)
             {
                 Stop();
                 playerSprintVFX?.SetSprinting(false);

@@ -12,21 +12,13 @@ namespace Game.Gameplay
         /// Fired after a successful save so UI can show a "Game Saved" toast.
         public static event System.Action OnSaved;
 
-        /// <summary>
-        /// The slot most recently used for save/load. The save/load menu should
-        /// set this (or call the (int slot) overloads directly) before the
-        /// player picks a slot; auto-saves (day change, returning to land)
-        /// always write to whichever slot is currently active.
-        /// </summary>
+        /// <summary>The active save slot; auto-saves always write here.</summary>
         public int CurrentSlot { get; private set; } = 0;
 
         private SaveData _pendingData;
 
-        // True once this play session has gone through SaveGame(slot)/LoadGame(slot) — the
-        // explicit "New Game"/"Continue" entry points (see SaveMenuUI). Entering Land_Map
-        // directly (e.g. pressing Play on that scene in the Editor) skips both, so without
-        // this guard OnSceneLoaded's auto-save would silently overwrite the real save with
-        // default/fresh state the moment the scene loads.
+        // Pressing Play on Land_Map in the Editor skips New Game/Continue; without this guard the
+        // scene-load auto-save would overwrite the real save with fresh data.
         private bool _sessionStarted;
 
         // Order is intentional and stable: it is also the apply order on load. Built fresh each
@@ -78,10 +70,7 @@ namespace Game.Gameplay
                 return;
             }
 
-            // Auto-save whenever the player returns to land from the ocean.
-            // Delayed one frame so GameManager.OnSceneLoaded (which repositions
-            // the player to the land PlayerSpawnPoint) has already run before we
-            // capture the position — otherwise this can save the stale ocean pos.
+            // Auto-save on returning to land, one frame late so the player is already at the land spawn point.
             if (scene.name == SceneNames.Land && GameManager.Instance != null)
             {
                 if (_sessionStarted)
@@ -95,10 +84,7 @@ namespace Game.Gameplay
 
         private IEnumerator AutoSaveAfterFrame()
         {
-            // GameManager's OnSceneLoaded runs synchronously in the same
-            // SceneManager.sceneLoaded broadcast (regardless of subscriber
-            // order), so by the time this coroutine resumes next frame the
-            // player has already been moved to the land PlayerSpawnPoint.
+            // Every sceneLoaded handler has run by next frame, so the position is the land one.
             yield return null;
             SaveGame();
         }
@@ -109,9 +95,7 @@ namespace Game.Gameplay
 
             try
             {
-                // Position is applied by GameManager.OnSceneLoaded (via SceneLoadContext),
-                // not here.
-                // Every slice is applied by its owning system, in the fixed order of BuildParticipants.
+                // Position is applied on scene load (SceneLoadContext); each other slice by its owner, in BuildParticipants order.
                 foreach (var p in BuildParticipants())
                     p.Apply(data);
 
@@ -131,16 +115,8 @@ namespace Game.Gameplay
 
         // -------------------- Public API -------------------- //
 
-        /// <summary>
-        /// Resets every persistent system to its fresh-game default — call before SaveGame()
-        /// when starting a New Game. Without this, "New Game" would just snapshot whatever's
-        /// currently in memory into the new slot: every one of these is a DontDestroyOnLoad
-        /// singleton that survives GameManager.ToMainMenu()'s scene load untouched, so a
-        /// previous playthrough's quest progress/unlocks/inventory/day count would carry over.
-        /// Destroys the current player outright (rather than resetting its components
-        /// individually) — GameManager.SpawnPlayer() rebuilds a fresh one, with prefab-default
-        /// stats, the next time a gameplay scene loads.
-        /// </summary>
+        /// <summary>Resets every persistent system for a New Game and destroys the player (a fresh one spawns on the next scene).</summary>
+        // These managers survive the menu scene load, so without this the old run's progress would carry over.
         public void ResetForNewGame()
         {
             if (PlayerRegistry.Local != null)
@@ -152,12 +128,8 @@ namespace Game.Gameplay
                 Destroy(oldPlayer.gameObject);
             }
 
-            // Before QuestManager — clears any coroutine/lock left over from a PREVIOUS
-            // interrupted attempt while activeQuestStep still points at the about-to-be-discarded
-            // quest objects. QuestManager.ResetToDefault() below fires OnQuestUpdated as a side
-            // effect of rebuilding, which CutsceneManager is subscribed to — with this reset
-            // already done, that pass legitimately (re)starts a Cutscene-type first step (e.g.
-            // Prologue) for the fresh game, instead of that trigger racing a stale one.
+            // Before QuestManager: its reset raises OnQuestUpdated, and CutsceneManager must not still hold the old
+            // run's cutscene state when it starts the new game's first Cutscene step.
             CutsceneManager.Instance?.ResetToDefault();
             QuestManager.Instance?.ResetToDefault();
             FeatureUnlockService.Instance.ResetToDefault();
@@ -174,12 +146,7 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>
-        /// New Game entry point: makes <paramref name="slot"/> the active slot WITHOUT writing it yet.
-        /// The fresh player doesn't exist until the next scene loads, so saving now would snapshot
-        /// stale/default values (this used to leak the previous run's money and rope length into
-        /// the new slot). The auto-save that runs after Land loads writes it from the real player.
-        /// </summary>
+        /// <summary>Makes the slot active without writing it; the auto-save after Land loads writes it from the fresh player.</summary>
         public void BeginNewGameSession(int slot)
         {
             CurrentSlot = slot;

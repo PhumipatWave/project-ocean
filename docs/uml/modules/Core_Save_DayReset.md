@@ -71,5 +71,5 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | DayManager | MB | `DayManager.cs:6` | 53 |
-| EnemyKillTracker | MB | `EnemyKillTracker.cs:10` | 23 |
-| OneTimePickupTracker | MB | `OneTimePickupTracker.cs:9` | 15 |
+| EnemyKillTracker | MB | `EnemyKillTracker.cs:8` | 23 |
+| OneTimePickupTracker | MB | `OneTimePickupTracker.cs:7` | 15 |

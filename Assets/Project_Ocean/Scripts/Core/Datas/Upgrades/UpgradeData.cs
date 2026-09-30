@@ -39,11 +39,11 @@ namespace Game.Core
         public int[] prices;
 
         [Header("Upgrade Value")]
-        [Tooltip("ค่าที่เพิ่มต่อการ Upgrade 1 Level เช่น Rope +3m")]
+        [Tooltip("Amount added per upgrade level, e.g. Rope +3 m.")]
         public float value;
 
         [Header("Unlocks")]
-        [Tooltip("สิ่งที่ Upgrade นี้สามารถปลดล็อกได้")]
+        [Tooltip("What this upgrade unlocks.")]
         public List<UpgradeUnlock> unlocks = new List<UpgradeUnlock>();
     }
 }

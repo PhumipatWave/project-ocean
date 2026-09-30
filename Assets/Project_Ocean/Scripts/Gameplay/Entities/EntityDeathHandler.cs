@@ -59,9 +59,9 @@ namespace Game.Gameplay
 
         private void ShowDeathDamagePoint()
         {
-            IDamagePopup damagePoint = GetComponentInChildren<IDamagePopup>();
-            if (damagePoint != null)
-                damagePoint.ShowDeath();
+            IDamagePopup damagePopup = GetComponentInChildren<IDamagePopup>();
+            if (damagePopup != null)
+                damagePopup.ShowDeath();
         }
 
         // ── IPoolable ──

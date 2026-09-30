@@ -36,7 +36,7 @@ classDiagram
   class CutsceneManager {
     <<MB>>
   }
-  class DamagePoint {
+  class DamagePopup {
     <<MB>>
   }
   class DayManager {
@@ -101,6 +101,9 @@ classDiagram
   class EntityHealth {
     <<MB>>
   }
+  class EventInteractable {
+    <<MB>>
+  }
   class FeatureUnlockService {
   }
   class FriendlyEnemyProfile {
@@ -109,13 +112,10 @@ classDiagram
   class GameManager {
     <<MB>>
   }
-  class GameObjectSpawnManager {
-    <<MB>>
-  }
-  class GranadeBullet {
-    <<MB>>
-  }
   class GrapplingHookBullet {
+    <<MB>>
+  }
+  class GrenadeBullet {
     <<MB>>
   }
   class IBrainAttack {
@@ -167,9 +167,6 @@ classDiagram
     <<interface>>
   }
   class InteractPopupView {
-    <<MB>>
-  }
-  class InteractUI {
     <<MB>>
   }
   class Interactable {
@@ -250,12 +247,15 @@ classDiagram
   class ScaredEnemyProfile {
     <<SO>>
   }
-  class ShelleController {
+  class ShellPickup {
     <<MB>>
   }
   class Singleton {
     <<MB>>
     <<abstract>>
+  }
+  class SpawnCatalog {
+    <<MB>>
   }
   class StackNotificationView {
     <<MB>>
@@ -293,7 +293,7 @@ classDiagram
   Singleton <|-- ConfirmationDialog
   IModalPrompt <|.. ConfirmationDialog
   Singleton <|-- CutsceneManager
-  IDamagePopup <|.. DamagePoint
+  IDamagePopup <|.. DamagePopup
   Singleton <|-- DayManager
   ISaveParticipant <|.. DayManager
   IDialogueView <|.. DialoguePanelView
@@ -320,14 +320,13 @@ classDiagram
   IPoolable <|.. EntityDeathHandler
   IEntityHealth <|.. EntityHealth
   IPoolable <|.. EntityHealth
+  Interactable <|-- EventInteractable
   ISaveParticipant <|.. FeatureUnlockService
   EnemyBaseProfile <|-- FriendlyEnemyProfile
   Singleton <|-- GameManager
-  Singleton <|-- GameObjectSpawnManager
-  Bullet <|-- GranadeBullet
   Bullet <|-- GrapplingHookBullet
+  Bullet <|-- GrenadeBullet
   IInteractPopupView <|.. InteractPopupView
-  Interactable <|-- InteractUI
   Singleton <|-- InventoryManager
   ISaveParticipant <|.. InventoryManager
   IInventory <|.. InventoryManager
@@ -356,7 +355,8 @@ classDiagram
   ISaveParticipant <|.. QuestManager
   Singleton <|-- SaveBridge
   EnemyBaseProfile <|-- ScaredEnemyProfile
-  IPoolable <|.. ShelleController
+  IPoolable <|.. ShellPickup
+  Singleton <|-- SpawnCatalog
   NotificationView <|-- StackNotificationView
   NotificationView <|-- ToastNotificationView
   Bullet <|-- TranquilizerBullet

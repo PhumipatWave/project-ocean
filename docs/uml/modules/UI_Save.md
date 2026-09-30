@@ -29,4 +29,4 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | SaveMenuUI | MB | `SaveMenuUI.cs:8` | 102 |
-| SaveSlotUI | MB | `SaveSlotUI.cs:14` | 39 |
+| SaveSlotUI | MB | `SaveSlotUI.cs:10` | 39 |

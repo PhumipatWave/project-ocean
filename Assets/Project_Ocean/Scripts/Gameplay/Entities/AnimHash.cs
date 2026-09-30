@@ -3,11 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Centralised animator parameter hashes shared across all entities.
-    /// Add a new entry here whenever a new animator parameter is needed.
-    /// Using hashes instead of strings avoids GC alloc and string comparison at runtime.
-    /// </summary>
+    /// <summary>Animator parameter hashes shared by all entities; hashes avoid string lookups each frame.</summary>
     public static class AnimHash
     {
         // ── Shared ───────────────────────────────────────────────────────────

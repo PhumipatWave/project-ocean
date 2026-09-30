@@ -3,11 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Implemented by any enemy brain that detects the player through a vision cone or radius.
-    /// External systems (alert managers, stealth, debug overlays) can query any enemy's
-    /// vision state without knowing the concrete brain type.
-    /// </summary>
+    /// <summary>An enemy brain's vision state, readable without knowing the brain type.</summary>
     public interface IBrainVision
     {
         /// <summary>Maximum distance at which this brain can detect the player.</summary>

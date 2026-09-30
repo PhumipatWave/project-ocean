@@ -3,10 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Brain profile for aggressive enemies — chase, prepare, and attack the player.
-    /// Only exposes fields relevant to the aggressive pipeline.
-    /// </summary>
+    /// <summary>Aggressive enemy: chases, winds up and attacks the player.</summary>
     [CreateAssetMenu(fileName = "AggressiveEnemyProfile", menuName = "Enemy/Aggressive Enemy Profile")]
     public class AggressiveEnemyProfile : EnemyBaseProfile
     {

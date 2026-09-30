@@ -84,7 +84,7 @@ classDiagram
 | ChestInteract | MB | `ChestInteract.cs:8` | 53 |
 | DoorInteract | MB | `DoorInteract.cs:8` | 44 |
 | DoorQuestMarker | MB | `DoorQuestMarker.cs:9` | 63 |
-| NPCManager | MB | `NPCManager.cs:17` | 39 |
-| RevealAfterTotalDives | MB | `RevealAfterTotalDives.cs:11` | 9 |
+| NPCManager | MB | `NPCManager.cs:8` | 39 |
+| RevealAfterTotalDives | MB | `RevealAfterTotalDives.cs:7` | 9 |
 | SimpleAnimLoop | MB | `SimpleAnimLoop.cs:8` | 36 |
 | TrashInteract | MB | `TrashInteract.cs:7` | 109 |

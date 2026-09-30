@@ -3,11 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Deactivates this GameObject until the player has reached a lifetime dive count
-    /// (DayManager.TotalDives). Permanent — once revealed it stays revealed every future
-    /// load, since TotalDives never resets.
-    /// </summary>
+    /// <summary>Keeps this object hidden until the lifetime dive count is reached; stays shown after that.</summary>
     public class RevealAfterTotalDives : MonoBehaviour
     {
         [SerializeField] private int requiredTotalDives = 3;

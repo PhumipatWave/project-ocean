@@ -28,7 +28,7 @@ namespace Game.UI
 
             targetAlpha = 0f;
 
-            // ไม่ให้แผ่นดำบล็อกปุ่ม
+            // The dim overlay must not block clicks on the buttons above it.
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
         }

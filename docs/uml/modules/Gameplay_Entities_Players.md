@@ -43,14 +43,14 @@ classDiagram
     +Transform CurrentBulletObj
     +GameObject CurrentHookObj
     +Vector2 AimDir
-    +bool IsAimming
+    +bool IsAiming
     +bool CanAttack
     ... +2 more fields
     +ResetGunRotation(int) void
-    +Aimming(ref int, Vector2) void
+    +UpdateAim(ref int, Vector2) void
     +HandleAttackInput(bool) void
     +ResetAim() void
-    +Shooting() void
+    +Shoot() void
     +AttachRope(GameObject) void
   }
   class PlayerHealth {
@@ -149,8 +149,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DevItemButton | struct | `DevPanel.cs:19` | 6 |
-| DevPanel | MB | `DevPanel.cs:17` | 163 |
+| DevItemButton | struct | `DevPanel.cs:12` | 6 |
+| DevPanel | MB | `DevPanel.cs:10` | 163 |
 | Player | MB | `Player.cs:7` | 62 |
 | PlayerGunHandler | MB | `PlayerGunHandler.cs:9` | 260 |
 | PlayerHealth | MB | `PlayerHealth.cs:6` | 88 |
@@ -160,4 +160,4 @@ classDiagram
 | PlayerSceneMode | MB | `PlayerSceneMode.cs:8` | 49 |
 | PlayerSprintVFX | MB | `PlayerSprintVFX.cs:6` | 48 |
 | PlayerStabAttack | MB | `PlayerStabAttack.cs:8` | 18 |
-| QuestCompass | MB | `QuestCompass.cs:21` | 25 |
+| QuestCompass | MB | `QuestCompass.cs:8` | 25 |

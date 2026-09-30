@@ -6,10 +6,7 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// <summary>
-    /// Lightweight per-slot info for populating a save-list UI (Stardew-style)
-    /// without fully applying a save into the game.
-    /// </summary>
+    /// <summary>Per-slot summary (day, money, time) for the save menu, read without loading the save.</summary>
     [Serializable]
     public class SaveSlotMeta
     {
@@ -22,9 +19,7 @@ namespace Game.Core
 
     public static class SaveSystem
     {
-        // Bump when SaveData structure changes; add a step in Migrate().
-        // v2 -> v3: added killedEnemySpawnIds / hasDivedToday, which older
-        // saves don't have on disk.
+        // Bump when SaveData changes, and add a step to Migrate().
         public const int SAVE_VERSION = 3;
 
         private const string FILE_PREFIX = "gamesave_slot";
@@ -37,9 +32,7 @@ namespace Game.Core
         private static string LegacyPath =>
             Path.Combine(Application.persistentDataPath, LEGACY_FILE);
 
-        // Runs once per session: if an old single-slot save exists and slot 0
-        // doesn't yet, move it into the new slot-based scheme so existing
-        // players don't lose progress when this update ships.
+        // Once per session, move an old single-file save into slot 0 so players keep their progress.
         private static bool _checkedLegacy = false;
         private static void MigrateLegacyFileIfNeeded()
         {
@@ -83,10 +76,7 @@ namespace Game.Core
             }
         }
 
-        /// <summary>
-        /// Loads a save slot. Returns null if missing or unreadable —
-        /// the caller must null-check before use.
-        /// </summary>
+        /// <summary>Loads a slot; null if it is missing or unreadable.</summary>
         public static SaveData Load(int slot = 0)
         {
             MigrateLegacyFileIfNeeded();
@@ -132,14 +122,8 @@ namespace Game.Core
             }
         }
 
-        /// <summary>
-        /// Upgrades an older SaveData in place to the current version.
-        /// v0/v1 → v2: the 'quests' list did not exist; JsonUtility leaves it
-        ///   null (not empty) when the field is absent from the file, which
-        ///   would NRE on the first foreach unless guarded.
-        /// v2 → v3: 'killedEnemySpawnIds' did not exist for the same reason;
-        ///   'hasDivedToday' safely defaults to false with no guard needed.
-        /// </summary>
+        /// <summary>Upgrades an older save in place to SAVE_VERSION.</summary>
+        // JsonUtility leaves a list missing from the file as null, not empty, so each added list needs a guard here.
         private static void Migrate(SaveData data)
         {
             if (data.quests == null)
@@ -194,11 +178,7 @@ namespace Game.Core
             }
         }
 
-        /// <summary>
-        /// Scans all slot files and returns lightweight metadata for each
-        /// occupied slot — for populating a Stardew-style save-list menu
-        /// (day, gold, save time) without applying any data into the game.
-        /// </summary>
+        /// <summary>Summaries of every occupied slot, for the save menu.</summary>
         public static List<SaveSlotMeta> GetAllSlotMeta(int maxSlots = 10)
         {
             MigrateLegacyFileIfNeeded();

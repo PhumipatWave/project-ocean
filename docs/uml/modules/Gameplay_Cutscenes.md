@@ -53,8 +53,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| Cutscene | MB | `Cutscene.cs:43` | 135 |
-| CutsceneGate | static | `CutsceneGate.cs:12` | 15 |
-| CutsceneManager | MB | `CutsceneManager.cs:22` | 127 |
+| Cutscene | MB | `Cutscene.cs:25` | 135 |
+| CutsceneGate | static | `CutsceneGate.cs:7` | 15 |
+| CutsceneManager | MB | `CutsceneManager.cs:11` | 127 |
 | CutsceneSkipHint | MB | `CutsceneSkipHint.cs:7` | 15 |
-| CutsceneTrackBinding | class | `Cutscene.cs:23` | 7 |
+| CutsceneTrackBinding | class | `Cutscene.cs:14` | 7 |

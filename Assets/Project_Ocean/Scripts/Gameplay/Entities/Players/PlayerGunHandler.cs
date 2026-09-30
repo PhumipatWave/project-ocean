@@ -53,13 +53,13 @@ namespace Game.Gameplay
         private Vector2 aimDir;
         public Vector2 AimDir { get { return aimDir; }  }
 
-        private bool isAimming;
-        public bool IsAimming
+        private bool isAiming;
+        public bool IsAiming
         {
-            get { return isAimming; }
+            get { return isAiming; }
             set
             {
-                isAimming = value;
+                isAiming = value;
                 if (!value) SetAimLineActive(false);
             }
         }
@@ -103,7 +103,7 @@ namespace Game.Gameplay
         // LateUpdate so nothing else touching the renderers this frame can override it.
         private void LateUpdate()
         {
-            SetGunVisible(isAimming || isHooked || Time.unscaledTime < visibleUntil);
+            SetGunVisible(isAiming || isHooked || Time.unscaledTime < visibleUntil);
         }
 
         private void SetGunVisible(bool visible)
@@ -115,7 +115,7 @@ namespace Game.Gameplay
                 if (r != null) r.enabled = visible;
         }
 
-        private float HandlerGunRotation(ref int faceDir, float angle)
+        private float RotateGun(ref int faceDir, float angle)
         {
             angle = Mathf.DeltaAngle(0f, angle);
 
@@ -162,13 +162,13 @@ namespace Game.Gameplay
                 gunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
-        public void Aimming(ref int faceDir, Vector2 mousePos)
+        public void UpdateAim(ref int faceDir, Vector2 mousePos)
         {
-            if (isAimming)
+            if (isAiming)
             {
                 if (!canAttack)
                 {
-                    isAimming = false;
+                    isAiming = false;
                     SetAimLineActive(false);
                     return;
                 }
@@ -177,7 +177,7 @@ namespace Game.Gameplay
                 Vector2 rawDir = (aimWorldPos - (Vector2)transform.position).normalized;
 
                 float angle = Mathf.Atan2(rawDir.y, rawDir.x) * Mathf.Rad2Deg;
-                float clamAngle = HandlerGunRotation(ref faceDir, angle);
+                float clamAngle = RotateGun(ref faceDir, angle);
 
                 float rad = clamAngle * Mathf.Deg2Rad;
                 aimDir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
@@ -200,7 +200,7 @@ namespace Game.Gameplay
                 if (!canAttack || player.Movement.IsLand || PlayerUIState.IsLocked) return;
                 if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
                 isAttacked = true;
-                IsAimming = true;
+                IsAiming = true;
 
                 player.Movement.Stop();
                 Time.timeScale = FocusTimeScale;
@@ -212,17 +212,17 @@ namespace Game.Gameplay
                 // Released while a UI is open: cancel the shot. UIManager owns Time.timeScale while locked.
                 if (PlayerUIState.IsLocked)
                 {
-                    IsAimming = false;
+                    IsAiming = false;
                     return;
                 }
 
-                if (isAimming)
+                if (isAiming)
                 {
                     canAttack = false;
                     AudioManager.Instance?.PlaySFX(SoundKeys.Shoot);
-                    Shooting();
+                    Shoot();
                 }
-                IsAimming = false;
+                IsAiming = false;
                 Time.timeScale = 1f;
             }
         }
@@ -230,7 +230,7 @@ namespace Game.Gameplay
         /// <summary>Clears aim state and restores normal time scale.</summary>
         public void ResetAim()
         {
-            IsAimming = false;
+            IsAiming = false;
             canAttack = true;
             Time.timeScale = 1f;
         }
@@ -242,14 +242,13 @@ namespace Game.Gameplay
 
             int level = UpgradeService.Instance.GetLevel(UpgradeType.NormalBullet);
 
-            // Level 0-1 ยังไม่ปลดล็อก Laser
+            // The aim laser unlocks at gun level 2.
             if (level < 1)
             {
                 aimLine.enabled = false;
                 return;
             }
 
-            // Level 2 ขึ้นไป เปิด Laser
             aimLine.enabled = true;
 
             Vector3 start = firePoint.transform.position;
@@ -270,9 +269,7 @@ namespace Game.Gameplay
             aimLine.SetPosition(1, end);
         }
 
-        /// <summary>How far the laser reaches = how far the CURRENT ammo actually flies. Read every
-        /// frame, so it follows upgrades and ammo switches. Falls back to aimLineLength when the ammo
-        /// has no range of its own.</summary>
+        /// <summary>Laser length = the current ammo's range (read every frame), else aimLineLength.</summary>
         private float GetAimRange()
         {
             // The hook flies until the rope is at its maximum length, then pulls back.
@@ -295,7 +292,7 @@ namespace Game.Gameplay
             if (aimLine != null) aimLine.enabled = active;
         }
 
-        public void Shooting()
+        public void Shoot()
         {
             if (isHooked)
             {

@@ -46,7 +46,7 @@ flowchart LR
     M_UI_Quest["UI/Quest<br/>6 types · 493 LOC"]
     M_UI_QuestCompleteUI["UI/QuestCompleteUI<br/>1 types · 100 LOC"]
     M_UI_Save["UI/Save<br/>2 types · 141 LOC"]
-    M_UI_Shop["UI/Shop<br/>2 types · 366 LOC"]
+    M_UI_Shop["UI/Shop<br/>2 types · 359 LOC"]
     M_UI_UIManager["UI/UIManager<br/>4 types · 385 LOC"]
     M_UI_UIMenuSetting["UI/UIMenuSetting<br/>3 types · 137 LOC"]
     M_UI_Upgrades["UI/Upgrades<br/>3 types · 415 LOC"]
@@ -205,8 +205,8 @@ flowchart LR
 | UI/Inventory | 4 | 411 | [open](modules/UI_Inventory.md) |
 | Gameplay/Environments | 8 | 385 | [open](modules/Gameplay_Environments.md) |
 | UI/UIManager | 4 | 385 | [open](modules/UI_UIManager.md) |
-| UI/Shop | 2 | 366 | [open](modules/UI_Shop.md) |
 | Gameplay/Entities/Enemies/Brain | 8 | 363 | [open](modules/Gameplay_Entities_Enemies_Brain.md) |
+| UI/Shop | 2 | 359 | [open](modules/UI_Shop.md) |
 | Core/Inputs/KeyBind | 2 | 345 | [open](modules/Core_Inputs_KeyBind.md) |
 | Gameplay/Cutscenes | 5 | 299 | [open](modules/Gameplay_Cutscenes.md) |
 | Gameplay/Entities | 7 | 279 | [open](modules/Gameplay_Entities.md) |

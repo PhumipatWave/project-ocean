@@ -35,10 +35,7 @@ namespace Game.Core
 
     public static class TutorialEvents
     {
-        /// <summary>
-        /// Raised when the player performs a teachable action. Matched by QuestManager
-        /// against a Tutorial/Talk quest step's TutorialAction.
-        /// </summary>
+        /// <summary>Raised when the player performs a teachable action; matched against Tutorial steps' actions.</summary>
         public static event Action<TutorialActionId> OnActionPerformed;
 
         public static void RaiseAction(TutorialActionId actionId)

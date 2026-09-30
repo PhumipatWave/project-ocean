@@ -172,9 +172,7 @@ namespace Game.Gameplay
             }
         }
 
-        // Random spot on the fish's side of the player (within ±RetreatSpreadAngle of "away"),
-        // so it doesn't swim back through the player to get there. If that side is walled off,
-        // the second half of the samples try any direction.
+        // Retreat to the fish's own side so it doesn't swim through the player; if walled off, try any direction.
         private bool TrySetRetreatPoint(AggressiveEnemyProfile aggressive)
         {
             Vector3 playerPosition = enemyBrainContext.PlayerTransform.position;

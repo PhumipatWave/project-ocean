@@ -4,11 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// School link for small fish. EnemySpawner spawns a leader and links 3-5 followers to it.
-    /// The leader wanders normally; each follower's Wander state swims to GetFollowTarget()
-    /// (leader + own offset + spacing from schoolmates). Any member fleeing makes the school flee.
-    /// </summary>
+    /// <summary>Links small fish into a school that follows a leader; if any member flees, the school flees.</summary>
     public class Boid : MonoBehaviour, IPoolable
     {
         [Header("Formation")]

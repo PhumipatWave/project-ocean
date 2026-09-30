@@ -7,7 +7,7 @@
 ```mermaid
 classDiagram
   direction LR
-  class DamagePoint {
+  class DamagePopup {
     <<MB>>
     +ShowDeath() void
     +ShowDamagePoint(string) void
@@ -15,11 +15,11 @@ classDiagram
   class IDamagePopup {
     <<Gameplay/Entities>>
   }
-  IDamagePopup <|.. DamagePoint
+  IDamagePopup <|.. DamagePopup
 ```
 
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DamagePoint | MB | `DamagePoint.cs:9` | 26 |
+| DamagePopup | MB | `DamagePopup.cs:9` | 26 |

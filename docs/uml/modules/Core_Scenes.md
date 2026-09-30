@@ -51,4 +51,4 @@ classDiagram
 | ILoadingVisual | interface | `ILoadingVisual.cs:4` | 4 |
 | LoadingManager | MB | `LoadingManager.cs:9` | 138 |
 | LoadingType | enum | `LoadingType.cs:3` | 6 |
-| SceneLoadContext | static | `SceneLoadContext.cs:20` | 11 |
+| SceneLoadContext | static | `SceneLoadContext.cs:8` | 11 |

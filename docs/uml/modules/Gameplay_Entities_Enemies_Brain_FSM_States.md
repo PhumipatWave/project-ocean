@@ -53,5 +53,5 @@ classDiagram
 | EnemyFleeState | class | `EnemyFleeState.cs:6` | 108 |
 | EnemyFollowState | class | `EnemyFollowState.cs:7` | 223 |
 | EnemyPrepareAttackState | class | `EnemyPrepareAttackState.cs:5` | 40 |
-| EnemySearchState | class | `EnemySearchState.cs:10` | 62 |
+| EnemySearchState | class | `EnemySearchState.cs:8` | 62 |
 | EnemyWanderState | class | `EnemyWanderState.cs:7` | 154 |

@@ -6,12 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.Core
 {
-    // วิธีใช้:
-    // 1. ผูกสคริปต์นี้กับ GameObject เดียวกับที่มี Video Player (เช่น VideoManager)
-    // 2. ลาก Video Player component ของ object นั้นมาใส่ในช่อง Video Player ด้านล่าง
-    // 3. ใส่ชื่อ Scene ถัดไป (เช่น "MainMenuScene") ในช่อง Next Scene Name
-    // 4. (ถ้ามีปุ่ม Skip) ลากปุ่มมาใส่ในช่อง Skip Button แล้วไม่ต้องผูก OnClick เองใน Inspector สคริปต์จะผูกให้อัตโนมัติ
-
+    /// <summary>Plays the intro video, then loads Next Scene Name; wires the optional Skip button itself.</summary>
     public class IntroPlayer : MonoBehaviour
     {
         [Header("Video")]
@@ -27,7 +22,6 @@ namespace Game.Core
 
         private void Awake()
         {
-            // ถ้าไม่ได้ลาก Video Player มาใส่ใน Inspector จะลองหาใน GameObject เดียวกันให้อัตโนมัติ
             if (videoPlayer == null)
             {
                 videoPlayer = GetComponent<VideoPlayer>();
@@ -67,13 +61,11 @@ namespace Game.Core
                 SkipIntro();
         }
 
-        // เรียกอัตโนมัติเมื่อคลิปเล่นจบ
         private void OnIntroFinished(VideoPlayer vp)
         {
             LoadNextScene();
         }
 
-        // เรียกเมื่อผู้เล่นกดปุ่ม Skip
         public void SkipIntro()
         {
             if (videoPlayer != null && videoPlayer.isPlaying)
@@ -86,13 +78,13 @@ namespace Game.Core
 
         private void LoadNextScene()
         {
-            // กันโหลดซ้ำ เผื่อ event ยิงซ้ำหรือกด Skip พร้อมคลิปจบพอดี
+            // The clip can end on the same frame Skip is pressed; load only once.
             if (hasLoadedNextScene) return;
             hasLoadedNextScene = true;
 
             if (string.IsNullOrEmpty(nextSceneName))
             {
-                Debug.LogWarning("IntroPlayer: ยังไม่ได้ตั้งชื่อ Next Scene Name ใน Inspector");
+                Debug.LogWarning("IntroPlayer: Next Scene Name is not set in the Inspector.");
                 return;
             }
 

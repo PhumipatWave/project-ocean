@@ -45,6 +45,6 @@ classDiagram
 |---|---|---|---|
 | IBrainAttack | interface | `IBrainAttack.cs:5` | 4 |
 | IBrainHitReaction | interface | `IBrainHitReaction.cs:6` | 5 |
-| IBrainVision | interface | `IBrainVision.cs:11` | 6 |
+| IBrainVision | interface | `IBrainVision.cs:7` | 6 |
 | IEnemyBrain | interface | `IEnemyBrain.cs:6` | 8 |
-| IEnemyState | interface | `IEnemyState.cs:9` | 7 |
+| IEnemyState | interface | `IEnemyState.cs:7` | 7 |

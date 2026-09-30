@@ -13,18 +13,12 @@ namespace Game.Gameplay
         Tutorial,
         // Added at the end — existing authored steps are serialized by enum index.
         Cutscene,
-        // Completes once DayManager reports at least RequiredDaysToWait days have passed
-        // since this step became current AND at least RequiredDivesThatDay dives happened
-        // on the current day — see QuestManager.HandleDayOrDiveChanged. Deliberately NOT a
-        // Tutorial step: Tutorial forces TutorialPromptUI's guided/input-locked mode, which
-        // is wrong for an ordinary "come back after you sleep and dive" checkpoint.
+        // Completes after RequiredDaysToWait days and RequiredDivesThatDay dives. Not a Tutorial step, because
+        // Tutorial locks input to one action, which is wrong for "come back after you sleep and dive".
         WaitingQuest
     }
 
-    /// <summary>Delivery only — what drives step progress. InventoryHeld: live-rechecked
-    /// against inventory (QuestManager.HandleInventoryChanged), same as always. EnemyKills:
-    /// one-shot kill events matching TargetEnemyIds (replaces the old, now-removed KillCount
-    /// QuestType) — merged in here since it shared everything else with Delivery already.</summary>
+    /// <summary>Delivery only: InventoryHeld re-checks held items live; EnemyKills counts kill events.</summary>
     public enum DeliverySource
     {
         InventoryHeld,
@@ -63,12 +57,7 @@ namespace Game.Gameplay
             set => status = value;
         }
 
-        // ── Checkpoints ──
-        // A quest is a sequence of steps; only the current one accumulates progress.
-        // Type/TargetEnemyId/TutorialAction/CompletionMode are deliberately NOT exposed
-        // here — read them via CurrentStep so it's obvious at the call site that they're
-        // the active checkpoint's, not some fixed quest-level fact. TargetCount/CurrentCount
-        // stay as quest-level conveniences since they're purely for progress display.
+        // Step-level fields (type, targets) are read through CurrentStep, so call sites show they belong to the current step.
         private List<QuestStep> steps = new();
 
         [SerializeField]
@@ -98,9 +87,7 @@ namespace Game.Gameplay
 
         public bool IsObjectiveComplete => CurrentStep != null && CurrentStep.IsComplete;
 
-        // Sourced from the current checkpoint — no quest-level guided flag. Each step
-        // can be guided independently (e.g. a Tutorial step guided, a later Delivery
-        // step not).
+        // Guided is per step, so a quest can have both guided and unguided steps.
         public bool IsGuidedSequence => CurrentStep?.IsGuidedSequence ?? false;
 
         /// <summary>What to do to NextQuestIds' quests when this one reaches Finish.</summary>
@@ -120,8 +107,7 @@ namespace Game.Gameplay
         private string questGiverNpcId;
         public string DisplayNpcId => string.IsNullOrEmpty(questGiverNpcId) ? NpcId : questGiverNpcId;
 
-        // Sourced from the current checkpoint — was quest-level (QuestData.questItemId),
-        // now per-step so different checkpoints of the same quest can target different items.
+        // Per step, so different steps of one quest can target different items.
         public string TargetQuestItemId => CurrentStep?.TargetQuestItemId;
 
         /// <summary>Delivery + CombinedTotal only — see QuestStep.TargetQuestItemIds.</summary>
@@ -158,9 +144,7 @@ namespace Game.Gameplay
 
             foreach (var s in questData.steps)
             {
-                // Legacy Delivery steps authored before these became lists only have the
-                // singular id set — fall back to that as a one-entry list so old .asset data
-                // keeps working without hand-editing every quest.
+                // Old steps only set the single id; treat it as a one-item list.
                 var enemyIds = s.targetEnemyIds != null && s.targetEnemyIds.Count > 0
                     ? s.targetEnemyIds
                     : (string.IsNullOrEmpty(s.targetEnemyId) ? new List<string>() : new List<string> { s.targetEnemyId });
@@ -168,22 +152,13 @@ namespace Game.Gameplay
                     ? s.targetQuestItemIds
                     : (string.IsNullOrEmpty(s.targetQuestItemId) ? new List<string>() : new List<string> { s.targetQuestItemId });
 
-                // Only consulted when DeliveryCountMode is PerItem (see ComputeDeliveryProgress)
-                // — CombinedTotal uses questItemIds above directly instead. Falls back to that
-                // same plain id list, one requirement per id at the step's old shared Target
-                // Count, for a step authored before PerItem/requirements existed.
+                // Only PerItem reads this; steps without requirements get one per id at the step's Target Count.
                 var itemRequirements = s.targetQuestItemRequirements != null && s.targetQuestItemRequirements.Count > 0
                     ? s.targetQuestItemRequirements
                     : questItemIds.ConvertAll(id => new QuestItemRequirement { itemId = id, count = s.targetCount });
 
-                // PerItem's "how many required" is the requirement count, not an authored
-                // Target Count — deriving it here keeps the Inspector from showing a field
-                // that would just be redundant/easy to leave mismatched. Talk's All mode is
-                // the same idea: "how many NPCs" is just the list length. Never below 1: a
-                // 0-target step is "complete" the moment it starts, so AddProgress (which bails
-                // on an already-complete step) can never advance past it — the quest sticks on
-                // it forever. Talk/Tutorial/Cutscene steps hide this field in the Inspector, so
-                // a freshly added step is easily left at 0.
+                // PerItem and Talk-All derive the target from their list length. Never below 1: a 0-target step counts as
+                // complete at once, AddProgress skips it, and the quest sticks there forever.
                 bool isInventoryHeldPerItem = s.type == QuestType.Delivery &&
                     s.deliverySource == DeliverySource.InventoryHeld &&
                     s.deliveryCountMode == DeliveryCountMode.PerItem;
@@ -232,12 +207,7 @@ namespace Game.Gameplay
             return list;
         }
 
-        /// <summary>
-        /// Adds progress to the current checkpoint only. Finishing a checkpoint that
-        /// isn't the last one just advances to the next checkpoint (returns false —
-        /// the quest overall isn't done). Finishing the last checkpoint flips the
-        /// quest's status per that checkpoint's completionMode and returns true.
-        /// </summary>
+        /// <summary>Adds progress to the current step; true only when the last step completes the quest.</summary>
         public bool AddProgress(int amount = 1)
         {
             if (status != QuestStatus.InProgress)
@@ -265,14 +235,7 @@ namespace Game.Gameplay
             return true;
         }
 
-        /// <summary>
-        /// Steps that have definitely already completed — for one-time-style migration
-        /// purposes only (FeatureUnlockService re-deriving unlocks for a save made before
-        /// that feature existed). Progression is sequential and one-way, so every step
-        /// before CurrentStepIndex is guaranteed done; the step AT CurrentStepIndex counts
-        /// too once the quest has reached Finish/ReadyToTurnIn (that index IS the last step,
-        /// and it's what put the quest into that status).
-        /// </summary>
+        /// <summary>Steps already completed; used to rebuild feature unlocks for older saves.</summary>
         public IEnumerable<QuestStep> GetCompletedSteps()
         {
             int completedCount = (status == QuestStatus.Finish || status == QuestStatus.ReadyToTurnIn)

@@ -25,7 +25,7 @@ classDiagram
     +OnGetFromPool() void
     +OnReturnToPool() void
   }
-  class ShelleController {
+  class ShellPickup {
     <<MB>>
     +OnGetFromPool() void
     +OnReturnToPool() void
@@ -38,16 +38,16 @@ classDiagram
   }
   CollectableItemBase <|-- ItemDrop
   IPoolable <|.. ItemDrop
-  IPoolable <|.. ShelleController
+  IPoolable <|.. ShellPickup
   Interactable <|-- CollectableItemBase
-  ShelleController --> ItemDrop : itemDrop
+  ShellPickup --> ItemDrop : itemDrop
 ```
 
 ## Event subscriptions
 
 | Subscriber | Publisher | Event |
 |---|---|---|
-| ShelleController | ItemDrop | OnCollected |
+| ShellPickup | ItemDrop | OnCollected |
 
 ## Files
 
@@ -55,4 +55,4 @@ classDiagram
 |---|---|---|---|
 | CollectableItemBase | abstract, MB | `CollectableItemBase.cs:6` | 9 |
 | ItemDrop | MB | `ItemDrop.cs:7` | 50 |
-| ShelleController | MB | `ShelleController.cs:7` | 98 |
+| ShellPickup | MB | `ShellPickup.cs:7` | 98 |

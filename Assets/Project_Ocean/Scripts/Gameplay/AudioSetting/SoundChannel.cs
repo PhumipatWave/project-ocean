@@ -4,13 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// One channel of the AudioManager (Master / BGM / SFX). Every sound in the channel is a CHILD object
-    /// with its own AudioSource + clip; the child's NAME is the key the game plays it by.
-    /// To add a sound: add a child object with an AudioSource (clip, volume, loop, mixer Output = this
-    /// channel's group) and name it. To swap a sound: change the clip on that child. Nothing else references
-    /// the clip file directly.
-    /// </summary>
+    /// <summary>One audio channel; each child AudioSource is a sound, played by the child's name.</summary>
     public class SoundChannel : MonoBehaviour
     {
         private Dictionary<string, AudioSource> lookup;

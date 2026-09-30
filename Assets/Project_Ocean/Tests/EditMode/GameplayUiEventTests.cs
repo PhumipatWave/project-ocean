@@ -14,7 +14,7 @@ namespace Game.Tests
             var root = new GameObject("enemy");
             var child = new GameObject("popup");
             child.transform.SetParent(root.transform);
-            child.AddComponent<DamagePoint>();
+            child.AddComponent<DamagePopup>();
             try
             {
                 Assert.IsNotNull(root.GetComponentInChildren<IDamagePopup>());

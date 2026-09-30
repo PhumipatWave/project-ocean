@@ -93,11 +93,7 @@ namespace Game.Gameplay
 
         public void OnPlayerCollision()
         {
-            // contact damage disabled — using animation-driven hitbox instead
-            // if (profile.contactDamage <= 0f) return;
-            // if (Time.time - lastContactDamageTime < profile.contactDamageCooldown) return;
-            // lastContactDamageTime = Time.time;
-            // ctx?.Player?.TakeDamage(profile.contactDamage);
+            // No contact damage: the animation-driven HitBox deals it.
         }
 
         private void HandleMove(float deltaTime)

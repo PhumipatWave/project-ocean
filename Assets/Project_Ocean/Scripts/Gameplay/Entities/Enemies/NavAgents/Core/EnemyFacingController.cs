@@ -3,9 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Handles 2D sprite flip (on visual child) and body rotation for nav-mesh enemies.
-    /// </summary>
+    /// <summary>Flips the visual sprite and rotates the body of a NavMesh enemy.</summary>
     public class EnemyFacingController
     {
         #region FieldProperties
@@ -84,11 +82,7 @@ namespace Game.Gameplay
             RotateTowards(velocity.normalized);
         }
 
-        /// <summary>
-        /// Overload that accepts a Vector3 from NavMeshAgent.velocity.
-        /// Maps XZ-plane velocity to 2D (X,Y) for games using a 2D NavMesh surface.
-        /// Falls back to (X,Y) if the Z component is effectively zero.
-        /// </summary>
+        /// <summary>Faces along a NavMeshAgent velocity, mapping XZ to 2D, or using XY when Z is ~0.</summary>
         public void RotateFromVelocity(Vector3 velocity3d, float minSpeed = 0.01f)
         {
             // Prefer XZ if the agent is on an XZ navmesh (Z is significant)

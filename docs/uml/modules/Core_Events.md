@@ -106,4 +106,4 @@ classDiagram
 | RewardEvents | static | `RewardEvents.cs:4` | 5 |
 | TutorialActionId | enum | `TutorialEvents.cs:6` | 23 |
 | TutorialEvents | static | `TutorialEvents.cs:36` | 8 |
-| TutorialGate | static | `TutorialGate.cs:9` | 32 |
+| TutorialGate | static | `TutorialGate.cs:4` | 32 |

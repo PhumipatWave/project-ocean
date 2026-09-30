@@ -3,21 +3,19 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Flips character sprites on a visual child.
-    /// </summary>
+    /// <summary>Flips character sprites on a visual child.</summary>
     public static class CharacterFacing2D
     {
-        public static Transform RecheckVisualRoot(Transform bodyTranform, Transform visualTranform)
+        public static Transform RecheckVisualRoot(Transform bodyTransform, Transform visualTransform)
         {
-            if (visualTranform != null)
-                return visualTranform;
+            if (visualTransform != null)
+                return visualTransform;
 
-            Transform visual = bodyTranform.Find("Visual");
+            Transform visual = bodyTransform.Find("Visual");
             if (visual != null)
                 return visual;
 
-            SpriteRenderer sprite = bodyTranform.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer sprite = bodyTransform.GetComponentInChildren<SpriteRenderer>();
             return sprite != null ? sprite.transform : null;
         }
 

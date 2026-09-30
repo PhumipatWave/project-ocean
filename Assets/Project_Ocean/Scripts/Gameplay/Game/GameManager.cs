@@ -63,9 +63,7 @@ namespace Game.Gameplay
                 return;
             }
 
-            // StartDive/ReturnToLand also set this explicitly after their own LoadScene call,
-            // but "Start Game" (MainMenu -> Land) never went through either — set it here too
-            // so GameSession.State is always correct regardless of which path loaded the scene.
+            // "Start Game" loads Land without StartDive/ReturnToLand, so set the state here too.
             if (scene.name == SceneNames.Land)
                 GameSession.State = GameState.Land;
             else if (scene.name == SceneNames.Ocean)
@@ -84,9 +82,7 @@ namespace Game.Gameplay
                 // SceneLoadContext.Position is always set before LoadScene().
                 MovePlayerTo(SceneLoadContext.Position);
 
-                // Do NOT clear the flag here.
-                // SaveBridge's coroutine calls SceneLoadContext.Clear() after
-                // applying stats/inventory/etc.
+                // Don't clear the flag: SaveBridge clears it after all save data is applied.
                 return;
             }
 
@@ -130,10 +126,7 @@ namespace Game.Gameplay
         {
             if (LoadingManager.IsLoading) return;
 
-            // UIManager (pause menu, etc.) is DontDestroyOnLoad and closes on this event — without it,
-            // the menu while it's open leaves its panel active, its PlayerUIState lock held,
-            // and (since ApplyBlockingState set it) Time.timeScale stuck at 0 forever, silently
-            // freezing everything that loads next (including a fresh New Game).
+            // UIManager closes its windows on this; otherwise the pause menu keeps its lock and timeScale 0 into the next game.
             OnReturningToMenu?.Invoke();
             LoadWithLoadingScreen(SceneNames.MainMenu, LoadingType.Menu);
             GameSession.State = GameState.Menu;

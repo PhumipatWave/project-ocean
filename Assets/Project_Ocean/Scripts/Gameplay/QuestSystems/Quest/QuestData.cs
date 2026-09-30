@@ -47,30 +47,21 @@ namespace Game.Gameplay
         Reject,
     }
 
-    /// <summary>Delivery only — which item list is authored/scored, and how. CombinedTotal:
-    /// authors Target Quest Item Ids (plain ids, no per-item count) — any mix of them, summed,
-    /// must reach the step's Target Count. PerItem: authors Target Quest Item Requirements
-    /// (id + count pairs) instead — each one independently satisfied, Target Count unused/derived.</summary>
+    /// <summary>Delivery only. CombinedTotal: any mix of the listed items reaches Target Count. PerItem: each id has its own count.</summary>
     public enum DeliveryCountMode
     {
         CombinedTotal,
         PerItem,
     }
 
-    /// <summary>Talk (non-auto-display) only — how multiple Target NPC Ids count. AnyOne:
-    /// talking to any single listed NPC completes the step (default — matches how every Talk
-    /// step behaved before multiple targets existed). All: every listed NPC must be talked to
-    /// (each once; re-talking to the same one doesn't double-count), Target Count is derived
-    /// from the list length rather than authored — same shape as DeliveryCountMode above.</summary>
+    /// <summary>Talk only. AnyOne: any listed NPC completes the step. All: every listed NPC, once each.</summary>
     public enum TalkCompletionMode
     {
         AnyOne,
         All,
     }
 
-    /// <summary>One (item id, required count) pair, used by Delivery's PerItem mode only —
-    /// Unity can't serialize Dictionary directly, so this is the list-of-pairs equivalent.
-    /// CombinedTotal mode doesn't use this at all; see QuestStepData.targetQuestItemIds.</summary>
+    /// <summary>An item id and required count for PerItem delivery; a list of these stands in for a Dictionary.</summary>
     [System.Serializable]
     public class QuestItemRequirement
     {
@@ -80,11 +71,7 @@ namespace Game.Gameplay
         public int count = 1;
     }
 
-    /// <summary>
-    /// One line (or line sequence, for Offer) of dialogue, said by one character. A step's
-    /// dialogue list is a flat collection of these — effectively a (characterId, type) → lines
-    /// dictionary, since Unity can't serialize Dictionary directly.
-    /// </summary>
+    /// <summary>Dialogue lines for one character and dialogue type.</summary>
     [System.Serializable]
     public class QuestDialogueLine
     {
@@ -97,13 +84,8 @@ namespace Game.Gameplay
         public string cutsceneId;
     }
 
-    /// <summary>
-    /// One checkpoint inside a multi-step quest — fully self-contained: its own target,
-    /// its own in-progress/turn-in dialogue, and its own reward, paid when THIS step
-    /// completes (not just the quest's final step). The step's own completionMode only
-    /// controls whether finishing it (as the LAST step) auto-finishes the quest or waits
-    /// for a manual turn-in.
-    /// </summary>
+    /// <summary>One step of a quest, with its own target, dialogue and reward.</summary>
+    // completionMode only matters on the last step: finish the quest at once or wait for a turn-in.
     [System.Serializable]
     public class QuestStepData
     {

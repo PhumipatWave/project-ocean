@@ -69,10 +69,6 @@ namespace Game.Core
                 HideLoading();
         }
 
-        // =========================================================
-        // GENERAL
-        // =========================================================
-
         public void LoadScene(string sceneName)
         {
             if (isLoading)
@@ -89,10 +85,6 @@ namespace Game.Core
             StartCoroutine(LoadSceneRoutine(sceneName));
         }
 
-        // =========================================================
-        // MAIN MENU
-        // =========================================================
-
         public void StartGame()
         {
             LoadScene(landScene, LoadingType.Menu);
@@ -103,10 +95,6 @@ namespace Game.Core
             LoadScene(mainMenuScene, LoadingType.Menu);
         }
 
-        // =========================================================
-        // LAND / OCEAN
-        // =========================================================
-
         public void GoToOcean()
         {
             LoadScene(oceanScene, LoadingType.Ocean);
@@ -116,10 +104,6 @@ namespace Game.Core
         {
             LoadScene(landScene, LoadingType.Land);
         }
-
-        // =========================================================
-        // LOADING
-        // =========================================================
 
         private IEnumerator LoadSceneRoutine(string sceneName)
         {
@@ -148,10 +132,8 @@ namespace Game.Core
 
             operation.allowSceneActivation = false;
 
-            // The bar fills across the loading wait time and reaches 100% exactly when the scene is
-            // ready AND the wait time has passed. Target = whichever is BEHIND: time keeps a fast load
-            // from jumping to full (the old bug: bar full instantly, then sat there for the wait),
-            // real progress keeps a slow load from showing more than is actually done.
+            // Show whichever is behind, time or load progress, so a fast load doesn't jump to full and a slow one
+            // never shows more than is done.
             float shown = 0f;
             while (shown < 1f)
             {
@@ -217,10 +199,6 @@ namespace Game.Core
 
             LoadScene(sceneName);
         }
-
-        // =========================================================
-        // UI
-        // =========================================================
 
         private void ShowLoading()
         {

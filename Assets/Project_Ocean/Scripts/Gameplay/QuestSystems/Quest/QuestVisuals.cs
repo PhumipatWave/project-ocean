@@ -4,10 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Shared sprite lookups/application for the quest UI panels (QuestSlot, QuestDetailPanel,
-    /// QuestTrackerUI, ReviceQuestSlot) — was copy-pasted identically into each of them.
-    /// </summary>
+    /// <summary>Shared sprite lookups for the quest UI panels.</summary>
     public static class QuestVisuals
     {
         /// <summary>Resolves a quest item id (as authored on TargetQuestItemId — a stringified
@@ -34,11 +31,7 @@ namespace Game.Gameplay
         private static int HeldCountOf(int itemId) =>
             Inventory.Current != null ? Inventory.Current.GetQuestItemCount(itemId) : 0;
 
-        /// <summary>Delivery only — "{item name} {held}/{required}" (PerItem: one per requirement,
-        /// comma-joined; CombinedTotal: one entry against the shared Target Count, name omitted when
-        /// several items count), plus
-        /// " · {N} Money" appended when the step has RequiredMoney. Null for every other step
-        /// type — QuestTrackerUI/ReviceQuestSlot fall back to their normal description text.</summary>
+        /// <summary>Delivery only: "{item} {held}/{required}", plus " · {N} Money" when money is required; null for other steps.</summary>
         public static string GetDeliveryStatusSuffix(Quest quest)
         {
             var step = quest?.CurrentStep;

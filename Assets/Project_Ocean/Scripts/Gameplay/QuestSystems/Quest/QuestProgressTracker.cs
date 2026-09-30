@@ -44,9 +44,7 @@ namespace Game.Gameplay
             DayManager.OnDivedToday -= CheckDayOrDive;
         }
 
-        // Not routed through TryProgress — a kill that would complete the step still has to
-        // hold back one short of completion when RequiredMoney isn't paid yet (see
-        // MoneyRequirementMet/HandleMoneyChanged), which a plain type+match predicate can't express.
+        // Not via TryProgress: a completing kill must stay one short while RequiredMoney is unpaid.
         private void HandleEnemyKilled(string enemyId)
         {
             if (string.IsNullOrEmpty(enemyId)) return;
@@ -76,11 +74,7 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>Finalizes any Delivery step that was held back solely on RequiredMoney
-        /// (see QuestStep.MoneyPending) now that the balance can cover it. Also pokes
-        /// OnQuestUpdated unconditionally — QuestVisuals.GetDeliveryStatusSuffix shows the
-        /// player's live balance against RequiredMoney, so the tracker needs to redraw on
-        /// every money change even when no step actually completes.</summary>
+        /// <summary>Completes Delivery steps held back only by RequiredMoney, and always redraws (the tracker shows the balance).</summary>
         private void HandleMoneyChanged(int _)
         {
             raiseUpdated();
@@ -98,11 +92,7 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>
-        /// Not routed through TryProgress — WaitingQuest is a live state condition (day count +
-        /// today's dive count), not a one-shot event match, same reasoning as Delivery's
-        /// CheckInventory. Re-checks every InProgress quest on every day-advance or dive.
-        /// </summary>
+        /// <summary>Re-checks WaitingQuest steps (days passed, dives today) on every day change or dive.</summary>
         public void CheckDayOrDive()
         {
             if (DayManager.Instance == null) return;
@@ -126,9 +116,7 @@ namespace Game.Gameplay
         private void HandleTutorialAction(TutorialActionId actionId) =>
             TryProgress(QuestType.Tutorial, step => step.TutorialAction == actionId);
 
-        // Not routed through the generic TryProgress — All mode needs per-NPC dedup (talking
-        // to the same one twice must not double-count) that a plain type+match predicate can't
-        // express, so this owns its own loop over the quests instead.
+        // Not via TryProgress: All mode must not count the same NPC twice.
         private void HandleNpcTalk(string npcId)
         {
             if (string.IsNullOrEmpty(npcId)) return;
@@ -161,24 +149,14 @@ namespace Game.Gameplay
                 TryProgress(QuestType.Cutscene, step => step.EffectiveCutsceneId == cutsceneId);
         }
 
-        /// <summary>
-        /// Delivery has no single discrete "did the thing" event like every other step type —
-        /// it's satisfied by whatever the player is currently holding, which can go up or down
-        /// as they pick up/drop/sell items. So instead of TryProgress's one-shot event match,
-        /// this re-checks live inventory against the current step's requirements on every
-        /// change. Below the requirement, it just updates CurrentCount for display (no reward
-        /// side effects — see QuestManager.CompleteProgress's doc). At/above it, routes the completing delta
-        /// through the normal CompleteProgress pipeline so Delivery pays out/advances exactly
-        /// like every other type.
-        /// </summary>
+        /// <summary>Re-checks held items against Delivery steps on every inventory change.</summary>
+        // Below target it only updates the count; reaching it goes through CompleteProgress like any other step.
         public void CheckInventory()
         {
             if (Inventory.Current == null)
                 return;
 
-            // PerItem progress only counts fully-met requirements, so picking up 3 of 5 leaves
-            // CurrentCount unchanged and nothing below fires — but the tracker text shows live
-            // held counts (QuestVisuals), so it must still redraw.
+            // Partial PerItem progress doesn't change CurrentCount, but the tracker shows live counts, so redraw anyway.
             bool perItemDisplayStale = false;
 
             foreach (var q in quests)
@@ -196,9 +174,7 @@ namespace Game.Gameplay
 
                 int progress = step.ComputeDeliveryProgress(HeldCountOf);
 
-                // Items are ready but RequiredMoney hasn't been paid yet — hold one short of
-                // completion (AddProgress refuses to act on an already-complete step) and flag
-                // it; HandleMoneyChanged finalizes once the player can afford it.
+                // Items ready but money unpaid: hold one short (AddProgress ignores a complete step) until HandleMoneyChanged.
                 if (progress >= step.TargetCount && !QuestStepEffects.MoneyRequirementMet(step))
                 {
                     step.MoneyPending = true;
@@ -223,11 +199,7 @@ namespace Game.Gameplay
                     continue;
                 }
 
-                // Complete through CompleteProgress — the one place that advances the step, pays its
-                // reward, applies its feature changes and hands off to the next quest. An older inline
-                // copy of that logic used to run first: it finished the step itself, so CompleteProgress
-                // below then paid the reward a SECOND time (a hand-in quest paid again at turn-in), and
-                // AutoComplete quests never handed off to their next quest.
+                // CompleteProgress is the only place that advances, pays and hands off; finishing the step here too paid twice.
                 if (progress >= step.TargetCount)
                 {
                     completeProgress(q, step.TargetCount - step.CurrentCount);
@@ -246,11 +218,7 @@ namespace Game.Gameplay
         private static int HeldCountOf(string itemIdStr) =>
             int.TryParse(itemIdStr, out int id) ? Inventory.Current.GetQuestItemCount(id) : 0;
 
-        /// <summary>
-        /// Routes an event to every InProgress quest whose current checkpoint is of the
-        /// given type and whose target matches. Shared by HandleTutorialAction/HandleAreaReached/
-        /// HandleCutsceneFinished — they differ only in which step type and which field they match on.
-        /// </summary>
+        /// <summary>Progresses every InProgress quest whose current step has this type and a matching target.</summary>
         private void TryProgress(QuestType type, Func<QuestStep, bool> targetMatches)
         {
             foreach (var q in quests)

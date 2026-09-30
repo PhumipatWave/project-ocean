@@ -2,11 +2,7 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// <summary>
-    /// Who a dialogue line's characterId refers to — display name and portrait, keyed by id in
-    /// CharacterDatabase. Lives outside any scene, so it resolves even when that character's
-    /// NPC isn't loaded (or has no NPC at all, like "player").
-    /// </summary>
+    /// <summary>Name and portrait for a dialogue characterId; works even when that character's NPC isn't loaded.</summary>
     [CreateAssetMenu(fileName = "Character", menuName = "Scriptable Objects/Character")]
     public class CharacterData : ScriptableObject
     {

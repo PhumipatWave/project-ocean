@@ -66,7 +66,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| UIManager | MB | `UIManager.cs:23` | 348 |
-| UIManager_UIType | enum | `UIManager.cs:25` | 10 |
+| UIManager | MB | `UIManager.cs:10` | 348 |
+| UIManager_UIType | enum | `UIManager.cs:12` | 10 |
 | UIWindow | MB | `UIWindow.cs:7` | 37 |
 | UIWindow_UIType | enum | `UIWindow.cs:8` | 9 |

@@ -13,29 +13,26 @@ namespace Game.UI
         // True while the panel was opened by New Game with every slot full: picking a slot replaces it.
         private bool replaceMode;
 
-        // ── Main Menu Continue / New Game (ไม่เปิด panel) ──
-
-        /// <summary>ปุ่ม Continue — โหลด save ล่าสุดทันที</summary>
+        /// <summary>Continue button: loads the newest save straight away.</summary>
         public void ContinueGame()
         {
             // Same slot range the menu shows (slotCards.Length) — the default of 10 also picked up
             // saves in slots the menu can't display, so Continue could load a save you can't see.
-            var metas = SaveSystem.GetAllSlotMeta(slotCards.Length); // เรียงใหม่สุดไว้บนสุดอยู่แล้ว
+            var metas = SaveSystem.GetAllSlotMeta(slotCards.Length); // newest first
             if (metas.Count == 0)
             {
-                Debug.LogWarning("[SaveMenuUI] กด Continue แต่ไม่มี save เลย");
+                Debug.LogWarning("[SaveMenuUI] Continue pressed but there are no saves");
                 return;
             }
-            SelectSlot(metas[0].slot, hasSave: true); // ใช้ path โหลดเดิมด้านล่าง
+            SelectSlot(metas[0].slot, hasSave: true);
         }
 
-        /// <summary>ปุ่ม New Game — หา slot ว่างเอง แล้วเข้าเกมทันที</summary>
+        /// <summary>New Game button: picks an empty slot and starts straight away.</summary>
         public void NewGame()
         {
             int slot = FindFirstEmptySlot(maxSlots: slotCards.Length);
 
-            // Every slot is taken: let the player pick one to replace (SelectSlot confirms before wiping).
-            // Never falls back to overwriting a slot on its own — that used to silently clobber slot 0.
+            // Every slot is taken: let the player pick one to replace (SelectSlot confirms first); never overwrite silently.
             if (slot < 0)
             {
                 Open();
@@ -44,7 +41,7 @@ namespace Game.UI
                 return;
             }
 
-            SelectSlot(slot, hasSave: false); // ใช้ path "save ใหม่ + โหลดฉาก" เดิมด้านล่าง
+            SelectSlot(slot, hasSave: false);
         }
 
         // Wipes the slot's data and starts a fresh game in it. Delete() keeps a backup by default, so an
@@ -81,13 +78,7 @@ namespace Game.UI
 
         private void Refresh()
         {
-            // Read slot metadata straight from SaveSystem (a static class) instead of
-            // going through SaveBridge.Instance. SaveBridge might not exist yet at this
-            // point (e.g. we're still in the Main Menu scene and the GameManager/SaveBridge
-            // root hasn't been spawned), and GetAllSlotMeta doesn't need an instance anyway.
-            // This was previously throwing a NullReferenceException here, which meant the
-            // loop below never ran and NONE of the slot buttons ever got their listeners
-            // wired up (only "Back" worked, since that's bound directly in the Inspector).
+            // Read from SaveSystem, not SaveBridge: SaveBridge may not exist yet in the main menu.
             var metas = SaveSystem.GetAllSlotMeta(slotCards.Length);
 
             for (int slot = 0; slot < slotCards.Length; slot++)
@@ -101,11 +92,7 @@ namespace Game.UI
         {
             if (SaveBridge.Instance == null)
             {
-                // If you land here, SaveBridge (usually a child of your GameManager
-                // persistent root) doesn't exist yet in this scene. Make sure that
-                // root object is present/DontDestroyOnLoad'd before the Main Menu
-                // shows this panel (e.g. spawn it from a boot scene, or place it
-                // directly in MainMenuScene).
+                // SaveBridge lives on the persistent GameManager root, which must exist before this panel is used.
                 Debug.LogError("[SaveMenuUI] SaveBridge.Instance is null — can't start/load game. " +
                                 "Is the GameManager/SaveBridge root present in this scene?");
                 return;
@@ -137,8 +124,7 @@ namespace Game.UI
                 SaveBridge.Instance.ResetForNewGame();
                 SaveBridge.Instance.BeginNewGameSession(slot); // file is written by the auto-save after Land loads
 
-                // Through the loading screen, as the old New Game button did. CutsceneManager waits for
-                // LoadingManager to finish before starting the prologue, so resetting first is safe.
+                // Load through the loading screen; CutsceneManager waits for it before the prologue, so resetting first is safe.
                 if (LoadingManager.Instance != null)
                     LoadingManager.Instance.StartGame();
                 else

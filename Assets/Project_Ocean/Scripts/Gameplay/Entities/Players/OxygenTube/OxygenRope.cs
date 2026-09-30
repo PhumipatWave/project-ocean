@@ -63,9 +63,7 @@ namespace Game.Gameplay
         /// (the last fixed pin: start, wrap corner, checkpoint, or hub tie-in).</summary>
         public Vector2 CurrentAnchor => pins.Count > 0 ? pins[^1].pos : (Vector2)transform.position;
 
-        /// <summary>Length already used by the fixed pin-to-pin sections before CurrentAnchor
-        /// (measured from hubLengthStartIndex, same rule MeasureLength uses). Add the
-        /// anchor-to-player leg to this to get the player's total current rope length.</summary>
+        /// <summary>Rope length already used by the pinned sections; add the anchor-to-player leg for the total.</summary>
         public float UsedPinLength
         {
             get
@@ -78,17 +76,7 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>
-        /// Clamp a desired player position so total rope length (fixed pin sections + the
-        /// anchor-to-player leg) never exceeds maxRopeLength. Call this from the swim/movement
-        /// controller BEFORE applying the player's move, e.g.:
-        /// <code>
-        /// Vector2 desired = rb.position + moveInput * speed * Time.fixedDeltaTime;
-        /// rb.MovePosition(oxygenRope.ClampToRopeLimit(desired));
-        /// </code>
-        /// This only clamps position — pair it with cancelling outward radial velocity in the
-        /// movement controller (see notes) so the player doesn't jitter against the limit.
-        /// </summary>
+        /// <summary>Clamps a desired player position so the total rope length stays within maxRopeLength.</summary>
         public Vector2 ClampToRopeLimit(Vector2 desiredPos)
         {
             if (pins.Count == 0)
@@ -133,9 +121,7 @@ namespace Game.Gameplay
 
         private int wrapCooldown;
         private int unwrapCooldown;
-        // Length is measured starting from pins[hubLengthStartIndex] onward, so the section
-        // between the original start and the most recent hub tie-in doesn't count against
-        // the player's rope limit. Defaults to 0 (measure from the true start, as normal).
+        // Rope behind the latest hub tie-in doesn't count against the limit.
         private int hubLengthStartIndex;
         private Coroutine limitRoutine;
 
@@ -209,13 +195,6 @@ namespace Game.Gameplay
             BuildRope();
         }
 
-        /// Re-anchor the rope's fixed start (pins[0]) to a new position WITHOUT clearing
-        /// existing wrap/checkpoint pins and without touching the player's position.
-        /// Use this for structures (e.g. MiniHub) that should re-tie the rope's origin
-        /// while preserving the rope's current shape and any active checkpoints.
-
-
-
         /// Clears all wrap pins and rebuilds segments from start to player.
         public void BuildRope()
         {
@@ -260,11 +239,7 @@ namespace Game.Gameplay
         }
 #endif
 
-        /// Tie the rope in at worldPos without moving or clearing the original start point —
-        /// the old start stays exactly where it is and the rope keeps its current shape
-        /// (wraps + checkpoints preserved). From this point on, rope-length measurement
-        /// (used for the oxygen/max-length limit) counts only from this tie-in to the
-        /// player — the section behind it no longer counts against the limit.
+        /// <summary>Ties the rope in at worldPos; only rope from here to the player counts toward the limit afterwards.</summary>
         public void AttachToHub(Vector2 worldPos)
         {
             pins.Add(new WrapPin { pos = worldPos, side = 0f, isHub = true });
@@ -297,11 +272,7 @@ namespace Game.Gameplay
         #endregion
 
         #region Simulation
-        // Directly overwrites the player's position (and, if a Rigidbody2D is assigned,
-        // its outward velocity) so the total rope length can never exceed maxRopeLength —
-        // regardless of what any other script does. This is the sole hard limit; the
-        // ClampToRopeLimit()/UsedPinLength helpers above exist for other scripts that
-        // want to predict the limit in advance, but this method is what actually enforces it.
+        // The only hard limit: moves the player back so rope length never exceeds maxRopeLength, whatever else runs.
         private void EnforceRopeLimit()
         {
             if (IgnoreRopeLimit || pins.Count == 0 || playerTransform == null)
@@ -326,9 +297,7 @@ namespace Game.Gameplay
                 SnapPlayer(anchor + toPlayer / dist * remaining, anchor);
         }
 
-        // Moves the player to pos. If a Rigidbody2D is present, also strips the velocity
-        // component pointing further outward from anchor, so the player doesn't keep
-        // pushing into the limit and jitter/rubber-band against it every frame.
+        // Also removes outward velocity, or the player jitters against the limit every frame.
         private void SnapPlayer(Vector2 pos, Vector2 anchor)
         {
             if (playerRigidbody != null)
@@ -359,10 +328,8 @@ namespace Game.Gameplay
         #region Wrap & Unwrap
         private void TryWrap()
         {
-            // Cast directly from the last anchor to the player.
-            // Raycasting between adjacent Verlet segments is unreliable because
-            // PushOutColliders has already moved them outside any wall, so the
-            // segment-pair linecast never sees a crossing.
+            // Cast from the last anchor to the player: segments are already pushed out of walls, so a
+            // segment-to-segment cast never sees the crossing.
             Vector2 from = pins[^1].pos;
             Vector2 to   = playerTransform.position;
             Vector2 dir  = (to - from);
@@ -423,10 +390,8 @@ namespace Game.Gameplay
             // Condition A — player swung laterally past the corner to the other side.
             bool sideCrossed = Mathf.Abs(cross) > 0.1f && Mathf.Sign(cross) != last.side;
 
-            // Condition B — player retreated back along the rope past the corner toward prevPin.
-            // Cross-product alone cannot detect this: when the player moves straight back,
-            // toPlayer is nearly anti-parallel to inDir so cross stays near 0 (no side flip).
-            // Project both the corner and the player onto inDir from prevPin to compare.
+            // Player moved straight back past the corner: the cross product stays near 0 then, so compare
+            // positions along inDir instead.
             float playerAlong = Vector2.Dot(playerPos - prevPos, inDir);
             float anchorAlong = Vector2.Dot(last.pos  - prevPos, inDir); // equals distance(prevPin → corner)
             bool  passedBack  = playerAlong < anchorAlong - segmentLength;
@@ -450,10 +415,8 @@ namespace Game.Gameplay
             if (Vector2.Distance(pos, playerTransform.position) < segmentLength * 2f) 
                 return false;
 
-            // Only guard against the pin immediately behind the last one — this stops
-            // an instant flap right after unwrapping, but (unlike scanning the whole
-            // pins list) it still lets the rope wrap the same corner again once the
-            // player has looped further around the object.
+            // Check only the previous pin: stops flapping right after an unwrap but still allows wrapping the
+            // same corner again after looping around.
             if (pins.Count >= 2 && Vector2.Distance(pins[^2].pos, pos) < segmentLength * 3f)
                 return false;
 
@@ -504,19 +467,13 @@ namespace Game.Gameplay
         private bool InOcean() =>
             GameSession.State == GameState.Ocean;
 
-        // EnforceRopeLimit() already hard-clamps the player to exactly maxRopeLength every
-        // frame before this runs, so CurrentLength (summed from Verlet segments, not the same
-        // math as that snap) essentially never lands strictly ABOVE maxRopeLength — "> " here
-        // was nearly unreachable. Reaching the limit (>=, within this tolerance of it) is the
-        // real "broke the limit" moment — 1m instead of a hair's-width epsilon so it reliably
-        // triggers, not just on a razor-exact snap value. The limit checked is
-        // min(maxRopeLength, HealthLimit), so damage-reduced range also starts the countdown.
+        // The player is clamped to exactly the limit, so length never goes strictly above it; treat reaching
+        // within 1 m of min(maxRopeLength, HealthLimit) as breaking it.
         private const float RopeLimitEpsilon = 1f;
 
         private void CheckLimit()
         {
-            // ปิดใช้งานระบบนับถอยหลัง/บังคับกลับขึ้นฝั่งไว้ชั่วคราว
-            // ติ๊ก enableBreachTimeout ใน Inspector เพื่อเปิดกลับมาใช้ตามเดิม โดยไม่ต้องแก้โค้ดส่วนนี้เลย
+            // Breach countdown / forced return is switched off for now; tick enableBreachTimeout to restore it.
             if (!enableBreachTimeout)
                 return;
 

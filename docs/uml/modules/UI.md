@@ -49,6 +49,9 @@ classDiagram
     +Show(string, string, Sprite, Sprite) void
     +Hide() void
   }
+  class KeepUpright {
+    <<MB>>
+  }
   class LandUI {
     <<MB>>
     +OpenUI() void
@@ -82,9 +85,6 @@ classDiagram
     +Show() void
     +Hide() void
     +SetDim(float) void
-  }
-  class UILock {
-    <<MB>>
   }
   class IInteractPopupView {
     <<Gameplay/Contracts>>
@@ -123,12 +123,13 @@ classDiagram
 | AmmoWheel | MB | `AmmoWheel.cs:7` | 50 |
 | ButtonHoverScale | MB | `ButtonHoverScale.cs:9` | 59 |
 | ConfirmationDialog | MB | `ConfirmationDialog.cs:12` | 59 |
-| DialogueSpeaker | static | `DialogueSpeaker.cs:15` | 18 |
+| DialogueSpeaker | static | `DialogueSpeaker.cs:10` | 18 |
 | EnemyHealthDisplay | MB | `EnemyHealthDisplay.cs:8` | 9 |
-| EscClosablePanel | MB | `EscClosablePanel.cs:13` | 11 |
+| EscClosablePanel | MB | `EscClosablePanel.cs:8` | 11 |
 | GameHUD | MB | `GameHUD.cs:12` | 186 |
 | InteractPopupView | MB | `InteractPopupView.cs:9` | 29 |
-| LandUI | MB | `LandUI.cs:12` | 142 |
+| KeepUpright | MB | `KeepUpright.cs:7` | 7 |
+| LandUI | MB | `LandUI.cs:10` | 142 |
 | MainMenu | MB | `MainMenu.cs:8` | 11 |
 | NextDayAnimationUI | MB | `NextDayAnimationUI.cs:10` | 48 |
 | NotificationUI | MB | `NotificationUI.cs:8` | 12 |
@@ -136,4 +137,3 @@ classDiagram
 | SaveNotificationUI | MB | `SaveNotificationUI.cs:8` | 7 |
 | TipPanelUI | MB | `TipPanelUI.cs:8` | 34 |
 | UIFadeBackground | MB | `UIFadeBackground.cs:7` | 40 |
-| UILock | MB | `UILock.cs:7` | 7 |

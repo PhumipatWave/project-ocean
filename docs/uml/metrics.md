@@ -14,7 +14,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | KeyBindManager | 334 | 12 | 4 | 6 | Core/Inputs/KeyBind |
 | QuestManager | 328 | 34 | 7 | 20 | Gameplay/QuestSystems/Quest |
 | InventoryManager | 315 | 43 | 23 | 30 | UI/Inventory |
-| ShopManager | 287 | 37 | 19 | 15 | UI/Shop |
+| ShopManager | 280 | 36 | 19 | 15 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | PlayerGunHandler | 260 | 15 | 37 | 11 | Gameplay/Entities/Players |
 | QuestBoardUI | 249 | 15 | 18 | 11 | UI/Quest |
@@ -36,11 +36,11 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | TutorialActionId | 27 | Bullet, DayManager, DoorQuestMarker, GameHUD, GameManager |
 | Player | 21 | AmmoWheel, Bullet, ChestInteract, CollectableItemBase, DevPanel |
 | PlayerRegistry | 20 | Bullet, Cutscene, DevPanel, Enemy, EnemyLoot |
-| QuestManager | 20 | CutsceneManager, DevPanel, ExploreAreaTrigger, FeatureUnlockService, NPC |
+| QuestManager | 20 | AcceptedQuestListUI, CutsceneManager, DevPanel, ExploreAreaTrigger, FeatureUnlockService |
 | GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
-| Item | 18 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
+| Item | 18 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, IInventory |
 | Singleton | 18 | AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManager |
-| Quest | 17 | CutsceneManager, IQuestOfferView, NPC, NpcQuestConversation, PlayerSelfDialogueUI |
+| Quest | 17 | AcceptedQuestSlot, CutsceneManager, IQuestOfferView, NPC, NpcQuestConversation |
 | PlayerUIState | 16 | ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel, GameHUD |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, Interactable, InventoryManager, LandUI |
 | QuestType | 15 | ExploreAreaTrigger, FieldVisibility, NpcQuestMarker, PlayerSelfDialogueUI, Quest |
@@ -90,7 +90,7 @@ FeatureUnlockService, ShopInventoryBuy, ShopManager, Singleton, UpgradeService, 
 | Core/Save/SaveSystem.cs | 7 |
 | Gameplay/Save/SaveBridge.cs | 7 |
 | Core/Inputs/KeyBind/KeyBindManager.cs | 6 |
-| Gameplay/Spawning/GameObjectSpawnManager.cs | 5 |
+| Gameplay/Spawning/SpawnCatalog.cs | 5 |
 | Gameplay/Cutscenes/Cutscene.cs | 4 |
 | Gameplay/Entities/Players/DevPanel.cs | 4 |
 | Gameplay/QuestSystems/Quest/QuestManager.cs | 4 |
@@ -140,8 +140,8 @@ FeatureUnlockService, ShopInventoryBuy, ShopManager, Singleton, UpgradeService, 
 | UI/EnemyHealthDisplay.cs | 1 |
 | UI/GameHUD.cs | 1 |
 | UI/Inventory/InventoryManager.cs | 1 |
+| UI/KeepUpright.cs | 1 |
 | UI/Loading/LoadingTextAnimation/LoadingTextAnimation.cs | 1 |
-| UI/Money/MoneyUI.cs | 1 |
 
 ## Layer violations — 0 type links
 
@@ -161,7 +161,7 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | 9 | Bullet, IItemEffect, Player, PlayerGunHandler, PlayerHealth, PlayerItemUse, PlayerMovement, PlayerRegistry, UpgradeService |
 | 6 | Boid, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, IEnemyBrain |
 | 4 | FeatureUnlockService, QuestManager, QuestProgressTracker, QuestStepEffects |
-| 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |
+| 4 | EnemySpawner, ItemDrop, ItemSpawner, SpawnCatalog |
 | 4 | DraggableItem, InventoryManager, InventorySlot, SlotBuilder |
 | 2 | Interactable, PlayerInteractor |
 | 2 | EnemyFSM, IEnemyState |

@@ -4,16 +4,8 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Single source of truth for which gate-able systems (see GameFeature) are unlocked.
-    /// Plain C# (no MonoBehaviour, no scene presence) — reachable from any scene, same shape
-    /// as UpgradeService. Everything starts locked; QuestManager.CompleteProgress unlocks a
-    /// step's GameFeature list the moment that step completes — and locks its Locks Features
-    /// list the same moment. A lock always wins over an unlock, however either was granted
-    /// (a different step's Unlocks Features, Unlock() called directly, any order/timing) —
-    /// IsUnlocked checks both sets rather than removing from `unlocked`, so that holds
-    /// structurally instead of depending on Apply()'s re-derivation order.
-    /// </summary>
+    /// <summary>Which GameFeatures are unlocked; quest steps unlock and lock them as they complete.</summary>
+    // A lock always beats an unlock: IsUnlocked checks both sets, so the order they were granted doesn't matter.
     public class FeatureUnlockService : ISaveParticipant
     {
         private static FeatureUnlockService instance;
@@ -30,11 +22,7 @@ namespace Game.Gameplay
 
         public bool IsUnlocked(GameFeature feature) => unlocked.Contains(feature) && !locked.Contains(feature);
 
-        /// <summary>Reopens a feature — clears any earlier Lock() on it, so a later step can
-        /// intentionally re-open something an earlier step locked (e.g. "explore ocean" locks
-        /// Ocean/Sleep until the follow-up talk step unlocks them again). Whichever of
-        /// Lock/Unlock ran most recently for a feature wins; GetCompletedSteps()/live play both
-        /// apply steps in order, so this stays chronologically correct either way.</summary>
+        /// <summary>Unlocks a feature and clears an earlier Lock(), so a later step can reopen it.</summary>
         public void Unlock(GameFeature feature)
         {
             locked.Remove(feature);
@@ -56,12 +44,7 @@ namespace Game.Gameplay
             locked.Clear();
         }
 
-        /// <summary>
-        /// Re-derives unlocks and locks from every quest's already-completed steps. Purely
-        /// additive (both are idempotent), so always safe to run — this is what lets a save
-        /// made before this feature existed retroactively unlock/lock what it already should
-        /// have, instead of soft-locking an in-progress player.
-        /// </summary>
+        /// <summary>Replays every completed step's unlocks and locks; safe to repeat, and fixes saves made before a gate existed.</summary>
         private void ApplyFromQuestProgress()
         {
             if (QuestManager.Instance == null)

@@ -3,9 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Contract for every state in the enemy FSM.
-    /// </summary>
+    /// <summary>A state in the enemy FSM.</summary>
     public interface IEnemyState
     {
         EnemyStateTag StateTag { get; }

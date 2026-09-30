@@ -35,10 +35,7 @@ namespace Game.Gameplay
             return best;
         }
 
-        // If the obstacle has ObjectWrapPoint, use its hand-curated corners only.
-        // This is essential for CompositeCollider2D (tile maps) which expose hundreds of
-        // raw vertices — ObjectWrapPoint filters these down to the meaningful wrap corners.
-        // All other colliders fall back to reading geometry directly.
+        // Prefer ObjectWrapPoint's curated corners: a tilemap's CompositeCollider2D has hundreds of raw vertices.
         private static void GetColliderCorners(Collider2D col, List<Vector2> result, List<Vector2> compositeBuf)
         {
             result.Clear();

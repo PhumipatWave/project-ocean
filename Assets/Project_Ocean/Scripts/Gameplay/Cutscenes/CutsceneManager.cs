@@ -6,29 +6,15 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Every cutscene in the project is a prefab (Cutscene + PlayableDirector), assigned once
-    /// here rather than hand-placed in every scene that needs one. Playing an id instantiates
-    /// the matching prefab, resolves its bindings against whatever's actually in the current
-    /// scene (see Cutscene.ResolveBindings/NPCManager), and destroys the instance the moment
-    /// it finishes — a cutscene plays rarely enough (once per quest beat) that this is plenty
-    /// cheap; a real object pool would only add bookkeeping with no payoff at that frequency.
-    ///
-    /// Also drives QuestType.Cutscene steps directly: unlike a cutscene attached to one
-    /// Talk line (triggered by NPC.cs/PlayerSelfDialogueUI when that line shows), a
-    /// Cutscene-type step has no dialogue to hang off of — it plays the moment it becomes
-    /// the current step and completes itself via CutsceneEvents when done.
-    /// </summary>
+    /// <summary>Plays cutscene prefabs by id and runs Cutscene-type quest steps; each instance is destroyed when it ends.</summary>
+    // Cutscenes are rare (one per quest beat), so instantiate-and-destroy is cheap enough; no pool needed.
     public class CutsceneManager : Singleton<CutsceneManager>
     {
 
         [Tooltip("Every cutscene prefab in the project — each needs a Cutscene component with a unique Cutscene Id.")]
         [SerializeField] private List<GameObject> cutscenePrefabs = new();
 
-        // A Cutscene-type step becomes current the instant the PREVIOUS step's completion
-        // event fires — e.g. NPC.AdvanceDialogue() raises NpcEvents.RaiseNpcTalkedTo before
-        // it even calls CloseDialogue(). Without this delay the cutscene would snatch control
-        // mid-transition, before that prior step has actually finished closing out.
+        // The step becomes current while the previous step is still closing (e.g. mid NPC dialogue close).
         private const float CutsceneStartDelay = 1.0f;
 
         private readonly Dictionary<string, GameObject> prefabsById = new();
@@ -41,15 +27,10 @@ namespace Game.Gameplay
         // re-triggering Play() on every OnQuestUpdated while it's already running.
         private Quest activeQuestStep;
 
-        // The player is locked for the whole CutsceneStartDelay, not just once the cutscene
-        // itself starts — otherwise they can keep walking (or open a panel) for that second and
-        // the cutscene begins from wherever they wandered to. Released once Cutscene.Play has
-        // taken its own lock, or if the wait is abandoned.
+        // Lock the player during the delay too, or they walk off and the cutscene starts from wherever they went.
         private bool holdingStartLock;
 
-        // PlayerUIState.ResetCount when the start lock was taken. A scene load during
-        // CutsceneStartDelay (New Game → Land_Map) resets PlayerUIState; releasing after that
-        // would close the cutscene's OWN lock instead and show the HUD mid-cutscene.
+        // A scene load during the delay resets PlayerUIState; releasing after that would drop the cutscene's own lock.
         private int startLockResetCount;
 
         protected override bool Persistent => true;
@@ -89,11 +70,7 @@ namespace Game.Gameplay
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= HandleSceneLoaded;
             ReleaseStartLock();
 
-            // Safety net: if this gets disabled while PlayStepAfterDelay is still waiting out
-            // CutsceneStartDelay (Play mode stopped mid-wait, etc.), the coroutine dies without
-            // ever reaching its own activeQuestStep = null reset — leaving that quest's Cutscene
-            // step permanently stuck (RefreshQuestStep's q == activeQuestStep guard silently
-            // skips it forever after, even across a fresh Play session with no domain reload).
+            // If disabled mid-delay, the coroutine never clears this, and the step would be skipped forever.
             activeQuestStep = null;
         }
 
@@ -105,30 +82,21 @@ namespace Game.Gameplay
                 PlayerUIState.Close();
         }
 
-        /// <summary>Cancels any in-flight cutscene state — called by SaveBridge.ResetForNewGame().
-        /// This component is DontDestroyOnLoad, so a normal scene load (e.g. returning to Main
-        /// Menu) never disables it — interrupting a cutscene mid-CutsceneStartDelay or mid-play
-        /// that way leaves its coroutine/lock/activeQuestStep running, and it can fire late (or
-        /// block the guard in RefreshQuestStep) on the next "New Game" attempt, without this.</summary>
+        /// <summary>Cancels any pending or running cutscene for a New Game; scene loads never disable this persistent manager.</summary>
         public void ResetToDefault()
         {
             StopAllCoroutines();
             ReleaseStartLock();
             activeQuestStep = null;
 
-            // OnDestroy's safety net (see Cutscene.cs) cleans up PlayerUIState/onComplete for
-            // each one — harmless here since QuestManager.ResetToDefault() (called just before
-            // this) already replaced every Quest object those callbacks could act on.
+            // Each cutscene's OnDestroy cleans up its own lock; the quests its callbacks reference were already replaced.
             foreach (var cutscene in new List<Cutscene>(running.Values))
                 if (cutscene != null)
                     Destroy(cutscene.gameObject);
             running.Clear();
         }
 
-        // QuestManager.InitializeQuests() runs in ITS Awake — a quest authored to start
-        // already InProgress never fires OnQuestUpdated, so this OnEnable's subscription
-        // alone could miss it. Start() is guaranteed to run after every object's
-        // Awake/OnEnable — same fix already used for TutorialPromptUI/PlayerSelfDialogueUI.
+        // Quests start in QuestManager.Awake without an update event, so check once after every Awake.
         private void Start() => RefreshQuestStep();
 
         /// <summary>Plays the current Cutscene-type step's cutscene, if one is waiting and not already running.</summary>
@@ -141,9 +109,7 @@ namespace Game.Gameplay
             if (QuestManager.Instance == null)
                 return;
 
-            // This manager lives from the Main Menu on (AS_PlayerHUD loads with it). A quest
-            // cutscene started there plays unseen and gets destroyed by the Land load, which
-            // marks its step done. Wait for gameplay; OnLoadingFinished/sceneLoaded re-check.
+            // A quest cutscene started in the menu would play unseen and count as done; wait for gameplay.
             if (LoadingManager.IsLoading ||
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == SceneNames.MainMenu)
                 return;
@@ -154,9 +120,7 @@ namespace Game.Gameplay
                     continue;
 
                 var step = q.CurrentStep;
-                // Auto Display Dialogue steps are driven by PlayerSelfDialogueUI instead —
-                // press-to-advance dialogue, not an auto-played Timeline. See Quest.BuildSteps
-                // and PlayerSelfDialogueUI's class doc.
+                // Auto Display Dialogue steps are played by PlayerSelfDialogueUI instead.
                 if (step == null || step.AutoDisplayDialogue ||
                     step.EffectiveCutsceneId == null || !prefabsById.ContainsKey(step.EffectiveCutsceneId))
                     continue;
@@ -197,21 +161,14 @@ namespace Game.Gameplay
             ReleaseStartLock();
         }
 
-        /// <summary>
-        /// Instantiates the cutscene prefab matching this id (into the current active scene),
-        /// plays it, and destroys the instance once it finishes or is skipped. Returns false
-        /// if no prefab is registered for this id.
-        /// </summary>
+        /// <summary>Plays the cutscene prefab with this id; false if none is registered.</summary>
         public bool Play(string cutsceneId, Action onComplete = null)
         {
             if (string.IsNullOrEmpty(cutsceneId) || !prefabsById.TryGetValue(cutsceneId, out var prefab))
                 return false;
 
-            // The same id can be asked for twice at once: a dialogue line's Cutscene Id plays it the
-            // moment the dialogue closes, and a Cutscene-type step with that id starts it again a
-            // second later (CutsceneStartDelay) — while the first is still running. Two copies
-            // overlap, and a skip only ever ends one of them. Join the running one instead: its
-            // completion also completes this request (e.g. the quest's Cutscene step).
+            // A dialogue line and a Cutscene step can request the same id a second apart; join the running copy
+            // instead of overlapping, since a skip only ends one of them.
             if (running.TryGetValue(cutsceneId, out var already) && already != null)
             {
                 already.AddOnComplete(onComplete);
@@ -220,10 +177,7 @@ namespace Game.Gameplay
 
             var instance = Instantiate(prefab);
 
-            // Unity never runs Awake on an inactive GameObject (or its instantiated clone)
-            // until it's activated — if the prefab was ever accidentally saved disabled,
-            // Cutscene's own Awake (which fetches its PlayableDirector) would silently never
-            // run, and Play() below would NRE. Cheap to guard against a plausible authoring mistake.
+            // A prefab saved disabled never runs Cutscene.Awake, so Play would throw; activate it.
             if (!instance.activeSelf)
                 instance.SetActive(true);
 

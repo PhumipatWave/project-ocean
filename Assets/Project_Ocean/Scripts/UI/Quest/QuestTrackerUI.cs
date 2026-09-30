@@ -45,7 +45,6 @@ namespace Game.UI
             Quest activeQuest =
                 QuestManager.Instance.GetTrackedQuest();
 
-            // ไม่มี Quest ที่กำลัง Track
             if (activeQuest == null)
             {
                 if (titleText != null)
@@ -72,9 +71,7 @@ namespace Game.UI
                 return;
             }
 
-            // =========================
-            // Step ปัจจุบันของ Quest ที่กำลัง Track (persistent, unlike the step notification)
-            // =========================
+            // The tracked step stays on screen, unlike the one-off step notification.
 
             if (questNameText != null)
             {
@@ -99,9 +96,6 @@ namespace Game.UI
                 questNamePunch.Play();
             hasBaseline = true;
 
-            // =========================
-            // ส่วนอื่น ๆ
-            // =========================
 
             if (titleText != null)
                 titleText.text = activeQuest.QuestName;

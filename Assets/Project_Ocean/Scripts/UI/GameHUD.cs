@@ -105,15 +105,8 @@ namespace Game.UI
 
             //weaponUIPanel?.SetActive(isOcean);
 
-            // A fresh scene load always starts with no land UI open — except the main menu,
-            // which has no gameplay HUD to show at all (day count, rope panel, weapon UI,
-            // menu/land buttons); leaving it visible there stacks it on top of the menu's own
-            // UI and blocks its raycasts. NotificationLayer/TutorialPromptUI/ConfirmationDialog
-            // live outside hudContentGroup, so they're unaffected either way.
-            // Still respects PlayerUIState.IsLocked — a scene load landing while something's
-            // already locked (e.g. a Cutscene-type step that plays the instant the scene loads,
-            // like Prologue) must not force the HUD back on over it; HandleLockChanged already
-            // hid it and won't fire again since the lock itself didn't change.
+            // The main menu has no gameplay HUD, and a locked scene load (e.g. the Prologue cutscene) keeps it hidden;
+            // HandleLockChanged won't fire again, since the lock itself didn't change.
             SetHudVisible(scene.name != SceneNames.MainMenu && !PlayerUIState.IsLocked);
 
             if (scene.name == "MainMenuScene")
@@ -131,12 +124,7 @@ namespace Game.UI
             }
         }
 
-        /// <summary>Hides the "Back to Land" button until GameFeature.BackToLand is unlocked
-        /// (a quest step's Unlocks Features list) — a permanent, one-time unlock like
-        /// Shop/Inventory/Sleep, not a per-step gate: TutorialGate.RequiredAction only equals
-        /// BackToLand during MQ_1001's own "click Back to Land" step, so gating on that alone
-        /// would re-hide the button on every later dive (e.g. MQ_1002's), which never asks for
-        /// BackToLand as its required action.</summary>
+        /// <summary>Shows "Back to Land" once GameFeature.BackToLand is unlocked; a one-time unlock, not a per-step gate.</summary>
         private void RefreshLandButton()
         {
             if (landButton == null) return;
@@ -232,9 +220,7 @@ namespace Game.UI
                 rope = player.GetComponentInChildren<OxygenRope>();
             if (rope == null) return;
 
-            // Shows remaining health (shrinks on hit) — the player can still always swim out to
-            // rope.MaxRopeLength (the standard/upgraded distance), damage no longer restricts that.
-            // Same whole-metre format as the current length below so the two read consistently.
+            // Remaining health in whole metres, same format as the current length below.
             dangerLengthText.text = $"{(int)Mathf.Abs(player.CurrentHealth)} m.";
 
             if (currentOxygenTubeLength != null)

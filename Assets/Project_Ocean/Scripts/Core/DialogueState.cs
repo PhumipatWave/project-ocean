@@ -4,12 +4,8 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// <summary>
-    /// Which dialogue boxes are on screen right now. NPC and PlayerSelfDialogueUI report their
-    /// panel here; UI that shouldn't stack under a dialogue (see LandUI) listens to OnChanged
-    /// and hides itself while IsShowing. Tracks panels, not a counter, so a panel that gets
-    /// destroyed mid-dialogue (scene unload) can't leave the state stuck on.
-    /// </summary>
+    /// <summary>Which dialogue panels are showing, so other Land UI can hide under them.</summary>
+    // Tracks panels, not a count, so a panel destroyed mid-dialogue can't leave it stuck on.
     public static class DialogueState
     {
         private static readonly HashSet<GameObject> panels = new();

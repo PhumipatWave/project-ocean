@@ -5,20 +5,13 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Runtime copy of one QuestStepData checkpoint, with its own live counter. Each step
-    /// is self-contained: its own in-progress/turn-in dialogue and its own reward, paid
-    /// when THIS step completes.
-    /// </summary>
+    /// <summary>Runtime copy of one QuestStepData step, with its own live counter, dialogue and reward.</summary>
     public class QuestStep
     {
         public QuestType Type;
         public string TargetEnemyId;
 
-        /// <summary>Delivery + EnemyKills: kills of any of these ids count toward TargetCount.
-        /// Talk (non-auto-display): every NPC id that counts as this step's target — see
-        /// EffectiveNpcIds, which is what actually reads it for that case. Whether talking to
-        /// ANY one or ALL of them completes the step is TalkCompletionMode below.</summary>
+        /// <summary>EnemyKills: ids whose kills count. Talk: the target NPC ids (read through EffectiveNpcIds).</summary>
         public List<string> TargetEnemyIds;
         public TutorialActionId TutorialAction;
         public string TargetQuestItemId;
@@ -36,19 +29,13 @@ namespace Game.Gameplay
         /// <summary>Delivery only — what drives progress. See QuestData.DeliverySource.</summary>
         public DeliverySource DeliverySource;
 
-        /// <summary>Delivery only — whether completing this step removes the delivered/killed-for
-        /// item(s) from inventory (see QuestManager.RemoveQuestItems). Defaults true, matching the
-        /// always-consume behavior every Delivery/former-KillCount step had before this existed.</summary>
+        /// <summary>Delivery only: remove the delivered items when the step completes (default true).</summary>
         public bool ConsumeOnComplete;
 
         /// <summary>Delivery only — extra money required alongside the item/kill count. See QuestData.requiredMoney.</summary>
         public int RequiredMoney;
 
-        /// <summary>Delivery only — true while item/kill progress alone would complete this step
-        /// but RequiredMoney hasn't been paid yet (CurrentCount is deliberately held one short,
-        /// since Quest.AddProgress refuses to act on an already-complete step). Cleared once
-        /// QuestManager.HandleMoneyChanged finalizes it, or if item/kill progress drops back
-        /// below completion. See QuestManager for the only reader/writer.</summary>
+        /// <summary>Delivery only: items are done but RequiredMoney isn't paid; CurrentCount is held one short until it is.</summary>
         public bool MoneyPending;
 
         /// <summary>WaitingQuest only — at least this many day-advances must occur after the
@@ -59,10 +46,7 @@ namespace Game.Gameplay
         /// wait finishes. See QuestData.requiredDivesThatDay.</summary>
         public int RequiredDivesThatDay;
 
-        /// <summary>WaitingQuest only — DayManager.CurrentDay when this step became current,
-        /// -1 until QuestManager stamps it (AcceptQuest/CompleteProgress/LoadSaveState — see
-        /// QuestManager.StampWaitingQuestStart, the only writer). Persisted via
-        /// QuestSaveData.dayStepBecameCurrent so a save/quit mid-wait isn't lost.</summary>
+        /// <summary>WaitingQuest only: the day this step became current, -1 until stamped; saved so a quit mid-wait isn't lost.</summary>
         public int DayStepBecameCurrent = -1;
 
         public int TargetCount;
@@ -70,30 +54,15 @@ namespace Game.Gameplay
         public string StepDescription;
         public int CurrentCount;
 
-        /// <summary>Talk (non-auto-display) only — every NPC id that counts as this step's
-        /// target (talking to ANY of them completes it, and each independently shows its own
-        /// marker/greeting — see NPC.ShouldShowMarker/QuestManager.HandleNpcTalk). Reuses
-        /// TargetEnemyIds (already the merged list-or-singular-fallback Quest.BuildSteps
-        /// computes for EnemyKills) rather than a separate field. Empty (not null) for every
-        /// other case, so callers can Contains()/FirstOrDefault() without a null check.</summary>
+        /// <summary>Talk only: every NPC id that counts as the target; empty (never null) for other steps.</summary>
         public List<string> EffectiveNpcIds =>
             Type == QuestType.Talk && !AutoDisplayDialogue ? TargetEnemyIds : EmptyNpcIds;
         private static readonly List<string> EmptyNpcIds = new();
 
-        /// <summary>Default/primary speaker for context-free single-NPC lookups (board/tracker
-        /// avatar, QuestDetailPanel's Accept/Reject) — the first id in EffectiveNpcIds, or null.
-        /// An Auto Display Dialogue step talks to nobody, so it has none — author its lines with
-        /// a blank characterId. Other step types (Delivery, etc.) have no default speaker either.
-        /// Not used for the compass — see NextTalkTargetNpcId for that.
-        /// </summary>
+        /// <summary>First target NPC id, used where one speaker is needed (board avatar, Accept/Reject); null if none.</summary>
         public string EffectiveNpcId => EffectiveNpcIds.Count > 0 ? EffectiveNpcIds[0] : null;
 
-        /// <summary>Talk (non-auto) only — which NPC the compass/marker should point at right
-        /// now. AnyOne: same as EffectiveNpcId, any listed NPC is a valid target. All: the first
-        /// listed id NOT already in talkedToNpcIds, so the arrow advances past an NPC once
-        /// they're done instead of pointing at them forever (see QuestNavigation.ResolveQuestTarget,
-        /// the only reader). Falls back to EffectiveNpcId if every NPC is already talked to
-        /// (the step should already be complete by then).</summary>
+        /// <summary>Talk only: the NPC the compass should point at now; in All mode, the first not yet talked to.</summary>
         public string NextTalkTargetNpcId
         {
             get
@@ -119,9 +88,7 @@ namespace Game.Gameplay
         /// <summary>Authored on QuestStepData — marks THIS checkpoint as guided, so TutorialPromptUI shows/gates it.</summary>
         public bool IsGuidedSequence;
 
-        /// <summary>Talk or Cutscene steps only — see QuestStepData.autoDisplayDialogue
-        /// (PlayerSelfDialogueUI shows it). On a Cutscene step this takes over from
-        /// CutsceneManager's own auto-play-on-current — see its RefreshQuestStep guard.</summary>
+        /// <summary>Talk/Cutscene only: lines play through PlayerSelfDialogueUI instead of an NPC or auto-played cutscene.</summary>
         public bool AutoDisplayDialogue;
 
         /// <summary>Talk (non-auto-display) only — whether ANY or ALL of EffectiveNpcIds must
@@ -130,9 +97,7 @@ namespace Game.Gameplay
 
         private readonly HashSet<string> talkedToNpcIds = new();
 
-        /// <summary>All mode only — records that npcId has been talked to. Returns false (a
-        /// no-op for the caller) if it was already recorded, so re-talking to the same NPC
-        /// never double-counts progress.</summary>
+        /// <summary>All mode: records an NPC as talked to; false if already recorded, so repeats don't double-count.</summary>
         public bool MarkNpcTalkedTo(string npcId) => talkedToNpcIds.Add(npcId);
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
@@ -159,15 +124,7 @@ namespace Game.Gameplay
 
         public bool IsComplete => CurrentCount >= TargetCount;
 
-        /// <summary>
-        /// Delivery only — how much of the requirement is currently satisfied, on the same
-        /// scale as TargetCount. PerItem reads TargetQuestItemRequirements (number of
-        /// individual requirements fully met); CombinedTotal reads the plain TargetQuestItemIds
-        /// instead — no per-item counts to speak of, just summed held count across the listed
-        /// items, clamped to TargetCount. Takes a lookup instead of touching InventoryManager
-        /// directly, so Quest/QuestStep stay decoupled from the inventory layer — QuestManager
-        /// supplies the real one.
-        /// </summary>
+        /// <summary>Delivery only: progress on TargetCount's scale; takes a count lookup so quests don't depend on the inventory.</summary>
         public int ComputeDeliveryProgress(Func<string, int> heldCount)
         {
             if (DeliveryCountMode == DeliveryCountMode.PerItem)
@@ -208,9 +165,7 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>Every authored entry, in authored order and one per entry (the dictionary
-        /// above keeps only the last per character+type) — a multi-speaker exchange (Auto
-        /// Display Dialogue) plays these front to back, whatever type each was authored as.</summary>
+        /// <summary>Every authored line in order (the lookup keeps only the last per speaker and type); used for multi-speaker dialogue.</summary>
         public IReadOnlyList<QuestDialogueLine> DialogueEntries => orderedDialogue;
 
         /// <summary>All lines for one character + dialogue type. Empty array if none authored.</summary>
@@ -238,9 +193,7 @@ namespace Game.Gameplay
         public string AnswerAccept => GetLineFromAnySpeaker(DialogueType.Accept);
         public string AnswerReject => GetLineFromAnySpeaker(DialogueType.Reject);
 
-        /// <summary>Accept/Reject button labels have no speaker context — board quests have no
-        /// Talk NPC, and their lines are authored under any characterId (e.g. "questboard").
-        /// Prefer the Talk NPC's line, else the first authored entry of this type.</summary>
+        // Board quests have no Talk NPC, so prefer the Talk NPC's line, else the first line of this type.
         private string GetLineFromAnySpeaker(DialogueType type)
         {
             var line = GetLine(EffectiveNpcId, type);

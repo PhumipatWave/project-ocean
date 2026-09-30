@@ -33,9 +33,7 @@ namespace Game.Gameplay
             StopAgent();
             prepareTimer -= deltaTime;
 
-            // Only abort if the player has completely disappeared from the scene.
-            // A brief LOS break (player steps behind a rock) should NOT cancel the
-            // windup — the fish has already committed to this attack.
+            // Abort only if the player is gone; a brief line-of-sight break must not cancel a committed windup.
             if (enemyBrainContext.PlayerTransform == null)
             {
                 enemyFSM.TransitionTo(EnemyStateTag.Wander);

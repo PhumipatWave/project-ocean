@@ -71,8 +71,8 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| EnemyFacingController | class | `EnemyFacingController.cs:9` | 109 |
+| EnemyFacingController | class | `EnemyFacingController.cs:7` | 109 |
 | EnemyNavAgentBase | MB, abstract | `EnemyNavAgentBase.cs:7` | 242 |
-| EnemyNavPathfinder | class | `EnemyNavPathfinder.cs:10` | 106 |
+| EnemyNavPathfinder | class | `EnemyNavPathfinder.cs:8` | 106 |
 | EnemyVisionHelper | static | `EnemyVisionHelper.cs:6` | 21 |
-| FacingTurnMode | enum | `EnemyFacingController.cs:35` | 5 |
+| FacingTurnMode | enum | `EnemyFacingController.cs:33` | 5 |

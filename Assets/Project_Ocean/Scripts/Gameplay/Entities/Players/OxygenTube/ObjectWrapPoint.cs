@@ -201,9 +201,7 @@ namespace Game.Gameplay
             return result;
         }
 
-        // In the Filter section — add this new helper
-        /// Returns true if prev, curr, next are on the same straight line.
-        /// Uses cross product — if it's ~0 the points are collinear.
+        /// True if prev, curr and next lie on one straight line (cross product ~0).
         private static bool IsCollinear(Vector2 prev, Vector2 curr, Vector2 next, float tolerance = 0.001f)
         {
             Vector2 a = (curr - prev).normalized;  // ← normalize so scale doesn't matter
@@ -212,9 +210,7 @@ namespace Game.Gameplay
             return Mathf.Abs(cross) < tolerance;
         }
 
-        /// Cross product Z of (curr-prev) × (next-curr).
-        /// Positive = convex (left turn), Negative = concave (right turn)
-        /// for a counter-clockwise wound polygon (Unity's default winding).
+        /// Concave corner test by cross-product sign, for counter-clockwise polygons (Unity's default winding).
         private static bool IsConcave(Vector2 prev, Vector2 curr, Vector2 next)
         {
             Vector2 a = curr - prev;

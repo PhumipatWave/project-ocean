@@ -4,11 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Put on a volume Slider: shows the saved volume for its channel and writes changes back to
-    /// AudioManager. Every settings panel (main menu, in-game pause) uses this, so they always agree
-    /// and no panel needs a scene reference to an AudioManager.
-    /// </summary>
+    /// <summary>Binds a volume slider to AudioManager for its channel, so every settings panel shows the same value.</summary>
     [RequireComponent(typeof(Slider))]
     public class AudioSliderBinder : MonoBehaviour
     {
@@ -20,9 +16,7 @@ namespace Game.Gameplay
 
         private void OnEnable()
         {
-            // Panels are often inactive at startup and opened later — re-read the saved value each time.
-            // Set it WITH notify (before our own listener is added, so there's no echo back to the manager)
-            // so other listeners — e.g. the "NN%" label — update too; SetValueWithoutNotify left it stale.
+            // Re-read on every open. Set with notify, before our listener is added, so the "NN%" label updates without an echo.
             if (AudioManager.Instance != null)
                 slider.value = AudioManager.Instance.GetVolume(channel);
 

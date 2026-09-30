@@ -38,9 +38,7 @@ namespace Game.Gameplay
 
         private static void RaiseQuestUpdated() => OnQuestUpdated?.Invoke();
 
-        /// <summary>Rebuilds every quest from scratch, as if the game had just started —
-        /// called by SaveBridge.ResetForNewGame() so "New Game" doesn't inherit a previous
-        /// playthrough's progress.</summary>
+        /// <summary>Rebuilds every quest from scratch for a New Game.</summary>
         public void ResetToDefault()
         {
             trackedQuestId = -1;
@@ -70,21 +68,13 @@ namespace Game.Gameplay
                 activeQuestList.Add(quest);
             }
 
-            // A quest authored to start already InProgress (e.g. an intro tutorial) never
-            // goes through AcceptQuest — pick up the active Main quest (or any active
-            // quest) so it's tracked from the very start.
+            // A quest authored to start InProgress never goes through AcceptQuest, so track it here.
             EnsureQuestTracked();
 
             GameLog.Info($"[QuestManager] Initialized {activeQuestList.Count} quests.");
         }
 
-        /// <summary>
-        /// Re-syncs the tracked quest whenever nothing valid is currently tracked. The
-        /// active Main quest wins if there is one — so it "stays all the time," auto-tracked
-        /// at game start and automatically re-tracked across a quest chain's hand-offs —
-        /// otherwise falls back to any other active quest. Never overrides an already-valid
-        /// tracked quest, so a player's explicit choice to track a Sub quest is left alone.
-        /// </summary>
+        /// <summary>Tracks the active Main quest (else any active quest) when nothing valid is tracked; never overrides a valid choice.</summary>
         private void EnsureQuestTracked()
         {
             if (GetTrackedQuest() != null)
@@ -111,9 +101,7 @@ namespace Game.Gameplay
                 GameLog.Info($"[QuestManager] Now tracking Quest: {fallback.QuestName}");
         }
 
-        /// <summary>Completes a Talk or Cutscene step authored with Auto Display Dialogue — it
-        /// has no NPC id for NpcEvents.RaiseNpcTalkedTo to match on, so PlayerSelfDialogueUI
-        /// calls this directly.</summary>
+        /// <summary>Completes an Auto Display Dialogue step, which has no NPC id for the talk event to match.</summary>
         public void CompleteAutoDialogue(Quest q)
         {
             var step = q?.CurrentStep;
@@ -122,16 +110,8 @@ namespace Game.Gameplay
                 CompleteProgress(q);
         }
 
-        /// <summary>
-        /// Each checkpoint pays its own reward the moment IT completes — not just the
-        /// quest's final step — so a quest can pay out incrementally per checkpoint.
-        /// Exception: a final step set to ReadyToHandIn pays nothing here — its reward
-        /// waits for TurnInQuest, same as before, so it isn't paid twice. amount is 1 for
-        /// every discrete-event step type (one kill, one talk, ...); Delivery's live
-        /// inventory check passes whatever delta finishes it — see QuestProgressTracker.CheckInventory,
-        /// which never calls this for a delta that DOESN'T finish the step, since the
-        /// partial-progress branch below would otherwise pay reward money mid-collection.
-        /// </summary>
+        /// <summary>Advances a quest; each step pays its own reward when it completes.</summary>
+        // A final ReadyToHandIn step pays at TurnInQuest instead, so it isn't paid twice.
         private void CompleteProgress(Quest q, int amount = 1)
         {
             var completedStep = q.CurrentStep;
@@ -146,9 +126,7 @@ namespace Game.Gameplay
             {
                 QuestStepEffects.ApplyFeatureChanges(completedStep);
 
-                // Consume per step, not per quest — a mid-quest Delivery step (e.g. MQ_1003's
-                // "Find materials") used to never take its items. A final ReadyToHandIn step
-                // consumes in TurnInQuest instead.
+                // Consume per step; a final ReadyToHandIn step consumes in TurnInQuest instead.
                 if (!(justCompleted && completedStep.CompletionMode != QuestCompletionMode.AutoComplete))
                     QuestStepEffects.RemoveQuestItems(completedStep);
             }
@@ -178,11 +156,7 @@ namespace Game.Gameplay
 
             EnsureQuestTracked();
 
-            // A step just became current (this one, or the next one it advanced into) — if
-            // it's an InventoryHeld Delivery step, the player may already be holding enough
-            // (e.g. it was an EnemyKills bounty's own loot, collected before this checkpoint
-            // was even reached). Inventory hasn't changed, so nothing would otherwise trigger
-            // QuestProgressTracker.CheckInventory.
+            // The player may already hold enough for a new InventoryHeld step, and no inventory change will trigger a check.
             if (q.CurrentStep?.Type == QuestType.Delivery && q.CurrentStep?.DeliverySource == DeliverySource.InventoryHeld)
                 progress.CheckInventory();
 
@@ -198,12 +172,7 @@ namespace Game.Gameplay
         private const float StepDescriptionNotifyDelay = 1.5f;
         private Coroutine stepDescriptionRoutine;
 
-        /// <summary>
-        /// Toasts the current checkpoint's Step Description after a short delay. Cancels any
-        /// still-pending call first — advancing two steps within the delay window (e.g.
-        /// dismissing one Talk step and immediately completing the next) would otherwise leave
-        /// a stale toast queued for a step that isn't current anymore.
-        /// </summary>
+        /// <summary>Toasts the current step's description after a short delay, cancelling any stale pending toast.</summary>
         private void NotifyStepDescription(Quest q)
         {
             if (stepDescriptionRoutine != null)
@@ -223,12 +192,7 @@ namespace Game.Gameplay
                 NotificationManager.Notify(q.StepDescription, NotificationChannel.Center);
         }
 
-        /// <summary>
-        /// If this quest's own NextQuestMode is AutoAccept, immediately accept every
-        /// quest in its NextQuestIds. Unlock needs no action here — IsUnlocked already
-        /// re-evaluates live off this quest's Status, so each successor just stops
-        /// being locked.
-        /// </summary>
+        /// <summary>Auto-accepts the next quests when NextQuestMode is AutoAccept; unlocking needs nothing, IsUnlocked is live.</summary>
         private void HandleNextQuest(Quest q)
         {
             if (q.NextQuestMode != NextQuestMode.AutoAccept)
@@ -238,12 +202,7 @@ namespace Game.Gameplay
                 AcceptQuest(id);
         }
 
-        /// <summary>
-        /// A quest is locked if some OTHER quest's NextQuestIds contains it (with mode
-        /// Unlock or AutoAccept) and that other quest hasn't reached Finish yet. A quest
-        /// nothing points to is always unlocked. Rejecting the prerequisite does NOT
-        /// unlock the successor — only an actual Finish counts.
-        /// </summary>
+        /// <summary>Locked while any quest pointing to it via NextQuestIds hasn't finished; rejecting that quest doesn't unlock it.</summary>
         public bool IsUnlocked(Quest quest)
         {
             return !activeQuestList.Exists(other =>
@@ -285,13 +244,7 @@ namespace Game.Gameplay
             return activeQuestList.Find(q => q.QuestID == id);
         }
 
-        /// <summary>
-        /// The active quest (if any) whose CURRENT checkpoint is a Main-quest Talk step
-        /// targeting this NPC. A Main quest takes priority over whatever quest the NPC is
-        /// otherwise assigned to — main-story dialogue always wins over an NPC's own Sub
-        /// quest — independent of IsGuidedSequence, which is purely about the tutorial
-        /// prompt/input-lock (see TutorialPromptUI), not dialogue selection.
-        /// </summary>
+        /// <summary>The active Main quest whose current Talk step targets this NPC; main-story dialogue beats the NPC's own quest.</summary>
         public Quest GetMainQuestTalkQuest(string npcId)
         {
             if (string.IsNullOrEmpty(npcId))
@@ -303,8 +256,6 @@ namespace Game.Gameplay
                 q.CurrentStep != null &&
                 q.CurrentStep.EffectiveNpcIds.Contains(npcId));
         }
-
-        // ── Save support ──
 
         /// <summary>Collects the mutable runtime state (id, status, kill progress) of each quest.</summary>
         public List<QuestSaveData> GetSaveState()
@@ -319,9 +270,7 @@ namespace Game.Gameplay
             );
         }
 
-        /// <summary>
-        /// Restores quest status + kill progress from saved data.
-        /// </summary>
+        /// <summary>Restores quest status and progress from saved data.</summary>
         public void LoadSaveState(
             List<QuestSaveData> saved)
         {
@@ -334,20 +283,12 @@ namespace Game.Gameplay
 
             OnQuestUpdated?.Invoke();
 
-            // A resumed save could land mid-Delivery-step already satisfied (or the player
-            // adjusted their inventory between sessions) — QuestProgressTracker.CheckInventory re-checks
-            // every InProgress quest itself, so one call covers all of them.
+            // A loaded save can already satisfy a Delivery step; one check covers every InProgress quest.
             progress.CheckInventory();
 
-            // Same idea for WaitingQuest — old saves (or a step reached for the first time
-            // this session) have no dayStepBecameCurrent yet; QuestStepEffects.StampWaitingStart inside
-            // it fills that in from the live day as a reasonable fallback.
+            // Older saves have no start day for WaitingQuest steps; this stamps the current day as a fallback.
             progress.CheckDayOrDive();
         }
-
-        // =========================================================
-        // ISaveParticipant
-        // =========================================================
 
         public void Collect(SaveData data)
         {
@@ -358,10 +299,6 @@ namespace Game.Gameplay
         {
             LoadSaveState(data.quests);
         }
-
-        // =========================================================
-        // ACCEPT QUEST
-        // =========================================================
 
         public bool AcceptQuest(int questID)
         {
@@ -387,11 +324,8 @@ namespace Game.Gameplay
                 return false;
             }
 
-            // Quest ที่รับใหม่จะถูก Track ทันที — except a non-Main quest never takes tracking away
-            // from the Main quest that's already tracked: the compass, door/area markers and the HUD
-            // tracker all follow the tracked quest, so a Sub quest taken off the board mid-story
-            // (e.g. the AcceptQuest tutorial step) would otherwise cut off the story's guidance.
-            // The player can still switch to it explicitly via SetTrackedQuest.
+            // Track the new quest, unless that would take tracking away from the Main quest: the compass,
+            // markers and HUD follow it, so a Sub quest taken mid-story would cut off the story's guidance.
             var tracked = GetTrackedQuest();
             bool keepMainTracked = tracked != null &&
                 tracked.Classification == QuestClassification.MainQuest &&
@@ -420,10 +354,6 @@ namespace Game.Gameplay
 
             return true;
         }
-
-        // =========================================================
-        // REJECT QUEST
-        // =========================================================
 
         public bool RejectQuest(int questID)
         {
@@ -479,10 +409,7 @@ namespace Game.Gameplay
 
         public Quest GetCurrentActiveQuest() => activeQuestList.Find(IsActive);
 
-        /// <summary>
-        /// Called by the NPC when the player clicks Turn In. Quest must be ReadyToTurnIn —
-        /// any other state returns false with a warning.
-        /// </summary>
+        /// <summary>Turns in a ReadyToTurnIn quest; any other status returns false.</summary>
         public bool TurnInQuest(int questID)
         {
             Quest quest = GetQuestById(questID);
@@ -497,10 +424,7 @@ namespace Game.Gameplay
 
             QuestStepEffects.RemoveQuestItems(quest.CurrentStep);
 
-            // Notification เดิม
-            //NotificationManager.Notify($"Quest complete: {quest.QuestName}");
             
-            // แสดง Quest Complete UI + Reward
             OnQuestCompleted?.Invoke(quest);
 
             var finalStepReward = quest.CurrentStep.RewardMoney;
@@ -518,10 +442,6 @@ namespace Game.Gameplay
 
             return true;
         }
-
-        // =========================================================
-        // TRACKED QUEST
-        // =========================================================
 
         public Quest GetTrackedQuest()
         {
@@ -541,10 +461,7 @@ namespace Game.Gameplay
             return quest;
         }
 
-        /// <summary>Dev/cheat only — forces the tracked quest's current step to complete
-        /// through the normal CompleteProgress pipeline (rewards, item/money consumption,
-        /// feature unlocks, HandleNextQuest all still run), regardless of whether its real
-        /// requirement is actually met. See DevPanel.</summary>
+        /// <summary>Dev only: completes the tracked step through the normal pipeline, even if its requirement isn't met.</summary>
         public void DevSkipCurrentStep()
         {
             var q = GetTrackedQuest();

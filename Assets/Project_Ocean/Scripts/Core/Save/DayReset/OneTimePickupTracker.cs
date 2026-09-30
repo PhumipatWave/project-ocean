@@ -2,10 +2,8 @@ using System.Collections.Generic;
 
 namespace Game.Core
 {
-    /// Counts pickups from ItemSpawners marked oneTimeOnly, keyed by spawner name.
-    /// Unlike EnemyKillTracker it never resets on day change — only on New Game — so a
-    /// one-time spawner's total across the whole playthrough stays capped at its spawnPerDay.
-    /// Place this on the same persistent GameObject as GameManager / SaveBridge.
+    /// Counts pickups from oneTimeOnly spawners for the whole playthrough (reset only by New Game),
+    /// so each stays capped at its spawnPerDay. Lives on the persistent GameManager root.
     public class OneTimePickupTracker : Singleton<OneTimePickupTracker>, ISaveParticipant
     {
 

@@ -2,11 +2,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Reads the quest state directly, for UI inside blocking panels (shop, upgrade) — there
-    /// TutorialGate.RequiredAction is always null, because TutorialPromptUI hides and clears it
-    /// while any panel holds PlayerUIState's lock.
-    /// </summary>
+    /// <summary>Tutorial checks for UI inside blocking panels, where TutorialGate is cleared.</summary>
     public static class TutorialStep
     {
         /// <summary>Some active quest's current step is a Tutorial step for this action

@@ -1,1 +1,1 @@
-// Superseded by GameObjectSpawnManager.cs
+// Superseded by SpawnCatalog.cs

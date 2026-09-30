@@ -5,7 +5,7 @@ namespace Game.Gameplay
     /// <summary>A world pickup: Interact collects it; no UI lock and no tutorial gating.</summary>
     public abstract class CollectableItemBase : Interactable
     {
-        /// External components (e.g. ShelleController) can set this to false to block collection.
+        /// External components (e.g. ShellPickup) can set this to false to block collection.
         public bool IsCollectable { get; set; } = true;
 
         protected override bool TakesPlayerLock => false;

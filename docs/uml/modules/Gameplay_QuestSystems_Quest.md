@@ -9,6 +9,13 @@
 ```mermaid
 classDiagram
   direction LR
+  class AcceptedQuestListUI {
+    <<MB>>
+  }
+  class AcceptedQuestSlot {
+    <<MB>>
+    +Setup(Quest) void
+  }
   class ExploreAreaTrigger {
     <<MB>>
     +FindByAreaId(string)$ Transform
@@ -180,32 +187,13 @@ classDiagram
     +GetCompletedQuests() List~Quest~
     ... +12 more methods()
   }
-  class QuestMarkerBase {
-    <<MB>>
-    <<abstract>>
-    #GameObject markerUI
-    #bool PollEveryFrame
-    #OnEnable() void
-    #OnDisable() void
-    #Refresh() void
-    #ShouldShow()* bool
-    #SetVisible(bool) void
-  }
-  class QuestNavigation {
-    <<static>>
-    +float CloseRangeMeters$
-    +InteractPosition(Transform)$ Vector3
-    +CurrentTutorialAction()$ TutorialActionId
-    +IsPlayerNear(Transform)$ bool
-    +ResolveQuestTarget()$ Transform
-    +ResolveCompassTarget()$ Transform
-  }
   class ISaveParticipant {
     <<Core/Save>>
   }
   class Singleton {
     <<Core>>
   }
+  AcceptedQuestListUI --> AcceptedQuestSlot : slotPrefab
   ExploreAreaTrigger --> DialogueLine : dialogueLines
   ExploreAreaTrigger --> Mode : mode
   ISaveParticipant <|.. QuestManager
@@ -240,6 +228,26 @@ classDiagram
 ```mermaid
 classDiagram
   direction LR
+  class QuestMarkerBase {
+    <<MB>>
+    <<abstract>>
+    #GameObject markerUI
+    #bool PollEveryFrame
+    #OnEnable() void
+    #OnDisable() void
+    #Refresh() void
+    #ShouldShow()* bool
+    #SetVisible(bool) void
+  }
+  class QuestNavigation {
+    <<static>>
+    +float CloseRangeMeters$
+    +InteractPosition(Transform)$ Vector3
+    +CurrentTutorialAction()$ TutorialActionId
+    +IsPlayerNear(Transform)$ bool
+    +ResolveQuestTarget()$ Transform
+    +ResolveCompassTarget()$ Transform
+  }
   class QuestProgressTracker {
     +QuestProgressTracker(List~Quest~, Action~Quest, int~, Action)
     +Subscribe() void
@@ -284,13 +292,6 @@ classDiagram
     +Apply(Image, Sprite)$ void
     +GetDeliveryStatusSuffix(Quest)$ string
   }
-  class ReviceQuestListUI {
-    <<MB>>
-  }
-  class ReviceQuestSlot {
-    <<MB>>
-    +Setup(Quest) void
-  }
   class TutorialActionMarker {
     <<MB>>
     +FindByTutorialAction(TutorialActionId)$ Transform
@@ -312,18 +313,15 @@ classDiagram
     #ShouldShow() bool
     #SetVisible(bool) void
   }
-  class QuestMarkerBase {
-    <<Gameplay/QuestSystems/Quest>>
-  }
   QuestMarkerBase <|-- TutorialActionMarker
   QuestMarkerBase <|-- TutorialUIMarker
-  ReviceQuestListUI --> ReviceQuestSlot : slotPrefab
 ```
 
 ## Event subscriptions
 
 | Subscriber | Publisher | Event |
 |---|---|---|
+| AcceptedQuestListUI | QuestManager | OnQuestUpdated |
 | ExploreAreaTrigger | QuestManager | OnQuestUpdated |
 | PlayerSelfDialogueUI | InputReader | OnInteracted |
 | PlayerSelfDialogueUI | LoadingManager | OnLoadingFinished |
@@ -338,7 +336,6 @@ classDiagram
 | QuestProgressTracker | NpcEvents | OnNpcTalkedTo |
 | QuestProgressTracker | PlayerMoney | OnMoneyChanged |
 | QuestProgressTracker | TutorialEvents | OnActionPerformed |
-| ReviceQuestListUI | QuestManager | OnQuestUpdated |
 | TutorialPromptUI | LoadingManager | OnLoadingFinished |
 | TutorialPromptUI | PlayerUIState | OnLockChanged |
 | TutorialPromptUI | QuestManager | OnQuestUpdated |
@@ -347,39 +344,39 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DeliveryCountMode | enum | `QuestData.cs:54` | 5 |
-| DeliverySource | enum | `Quest.cs:28` | 5 |
-| DialogueLine | struct | `ExploreAreaTrigger.cs:50` | 1 |
+| AcceptedQuestListUI | MB | `AcceptedQuestListUI.cs:11` | 52 |
+| AcceptedQuestSlot | MB | `AcceptedQuestSlot.cs:8` | 28 |
+| DeliveryCountMode | enum | `QuestData.cs:51` | 5 |
+| DeliverySource | enum | `Quest.cs:22` | 5 |
+| DialogueLine | struct | `ExploreAreaTrigger.cs:36` | 1 |
 | DialogueType | enum | `QuestData.cs:40` | 9 |
-| ExploreAreaTrigger | MB | `ExploreAreaTrigger.cs:23` | 171 |
-| Line | struct | `PlayerSelfDialogueUI.cs:40` | 1 |
-| Mode | enum | `ExploreAreaTrigger.cs:24` | 5 |
+| ExploreAreaTrigger | MB | `ExploreAreaTrigger.cs:9` | 171 |
+| Line | struct | `PlayerSelfDialogueUI.cs:30` | 1 |
+| Mode | enum | `ExploreAreaTrigger.cs:10` | 5 |
 | NextQuestMode | enum | `QuestData.cs:32` | 6 |
 | PlayerInterior | enum | `PlayerInteriorState.cs:6` | 1 |
 | PlayerInteriorState | static | `PlayerInteriorState.cs:9` | 44 |
-| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 124 |
-| Quest | class | `Quest.cs:44` | 163 |
+| PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:11` | 124 |
+| Quest | class | `Quest.cs:38` | 163 |
 | QuestCategory | enum | `QuestData.cs:14` | 8 |
 | QuestClassification | enum | `QuestData.cs:24` | 6 |
 | QuestCompletionMode | enum | `QuestData.cs:7` | 5 |
-| QuestData | SO | `QuestData.cs:178` | 19 |
-| QuestDialogueLine | class | `QuestData.cs:89` | 10 |
-| QuestItemRequirement | class | `QuestData.cs:75` | 7 |
+| QuestData | SO | `QuestData.cs:160` | 19 |
+| QuestDialogueLine | class | `QuestData.cs:76` | 10 |
+| QuestItemRequirement | class | `QuestData.cs:66` | 7 |
 | QuestManager | MB | `QuestManager.cs:8` | 328 |
 | QuestMarkerBase | MB, abstract | `QuestMarkerBase.cs:6` | 23 |
-| QuestNavigation | static | `QuestNavigation.cs:9` | 49 |
+| QuestNavigation | static | `QuestNavigation.cs:7` | 49 |
 | QuestProgressTracker | class | `QuestProgressTracker.cs:8` | 179 |
 | QuestSaveMapper | static | `QuestSaveMapper.cs:8` | 32 |
-| QuestStatus | enum | `Quest.cs:34` | 8 |
-| QuestStep | class | `QuestStep.cs:13` | 117 |
-| QuestStepData | class | `QuestData.cs:108` | 47 |
+| QuestStatus | enum | `Quest.cs:28` | 8 |
+| QuestStep | class | `QuestStep.cs:9` | 117 |
+| QuestStepData | class | `QuestData.cs:90` | 47 |
 | QuestStepEffects | static | `QuestStepEffects.cs:7` | 68 |
 | QuestType | enum | `Quest.cs:8` | 9 |
-| QuestVisuals | static | `QuestVisuals.cs:11` | 53 |
-| ReviceQuestListUI | MB | `ReviceQuestListUI.cs:14` | 52 |
-| ReviceQuestSlot | MB | `ReviceQuestSlot.cs:8` | 28 |
-| TalkCompletionMode | enum | `QuestData.cs:65` | 5 |
+| QuestVisuals | static | `QuestVisuals.cs:8` | 53 |
+| TalkCompletionMode | enum | `QuestData.cs:58` | 5 |
 | TutorialActionMarker | MB | `TutorialActionMarker.cs:8` | 29 |
-| TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 74 |
-| TutorialStep | static | `TutorialStep.cs:10` | 24 |
+| TutorialPromptUI | MB | `TutorialPromptUI.cs:10` | 74 |
+| TutorialStep | static | `TutorialStep.cs:6` | 24 |
 | TutorialUIMarker | MB | `TutorialUIMarker.cs:9` | 14 |

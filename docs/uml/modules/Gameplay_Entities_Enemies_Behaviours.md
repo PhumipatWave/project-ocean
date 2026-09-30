@@ -28,4 +28,4 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| Boid | MB | `Boid.cs:12` | 97 |
+| Boid | MB | `Boid.cs:8` | 97 |

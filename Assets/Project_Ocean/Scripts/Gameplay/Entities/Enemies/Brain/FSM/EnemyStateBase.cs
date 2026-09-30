@@ -3,10 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Convenience base for all concrete enemy states.
-    /// Caches Ctx and Fsm on Enter so subclasses don't repeat the boilerplate.
-    /// </summary>
+    /// <summary>Base for enemy states; caches Ctx and Fsm on Enter.</summary>
     public abstract class EnemyStateBase : IEnemyState
     {
         protected EnemyBrainContext enemyBrainContext { get; private set; }
@@ -90,11 +87,7 @@ namespace Game.Gameplay
             enemyFSM.TransitionTo(EnemyStateTag.Wander);
         }
 
-        /// <summary>
-        /// Casts a ray in <paramref name="direction"/> and steers the agent sideways
-        /// when a wall is detected within <paramref name="detectDistance"/>.
-        /// Call every Tick after the agent destination has been set.
-        /// </summary>
+        /// <summary>Steers sideways when a wall is within detectDistance; call each Tick after setting the destination.</summary>
         protected void ApplyWallAvoidance(Vector2 direction, float detectDistance, LayerMask wallLayer)
         {
             if (direction == Vector2.zero) return;

@@ -60,16 +60,9 @@ namespace Game.UI
 
         private void Display(Quest quest)
         {
-            // ==============================
-            // OPEN PANEL
-            // ==============================
 
             if (panel != null)
                 panel.SetActive(true);
-
-            // ==============================
-            // QUEST COMPLETE
-            // ==============================
 
             if (questCompleteText != null)
             {
@@ -77,29 +70,17 @@ namespace Game.UI
                     "QUEST COMPLETE!";
             }
 
-            // ==============================
-            // QUEST NAME
-            // ==============================
-
             if (questNameText != null)
             {
                 questNameText.text =
                     quest.QuestName;
             }
 
-            // ==============================
-            // QUEST DETAIL
-            // ==============================
-
             if (questDetailText != null)
             {
                 questDetailText.text =
                     quest.StepDescription;
             }
-
-            // ==============================
-            // REWARDS
-            // ==============================
 
             if (rewardText != null)
             {
@@ -124,10 +105,6 @@ namespace Game.UI
 
                 rewardText.text = rewards; // empty when there is no reward
             }
-
-            // ==============================
-            // AUTO CLOSE
-            // ==============================
 
             if (hideCoroutine != null)
             {

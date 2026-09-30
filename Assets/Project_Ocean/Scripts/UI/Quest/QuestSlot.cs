@@ -58,9 +58,7 @@ namespace Game.UI
 
             QuestVisuals.Apply(fishImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
 
-            // NPC avatar — resolved live from NPCManager by id, not stored on the quest. Pure
-            // board quests have no giver id, so DisplayNpcId is null and the image hides.
-            // Falls back to the quest board's own image when there's no giver portrait.
+            // Board quests have no giver, so fall back to the board's own image.
             QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId) ?? fallbackAvatar);
 
             // Reward preview shows the first step's reward (board quests are single-step today)

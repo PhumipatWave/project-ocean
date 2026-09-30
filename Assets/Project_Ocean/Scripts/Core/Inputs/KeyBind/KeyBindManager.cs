@@ -171,7 +171,7 @@ namespace Game.Core
                 .Start();
         }
 
-        // Move Player W A S D แยก -------------------------------------
+        // Move is one composite action; W/A/S/D are rebound as separate parts of it.
 
         public InputAction GetMoveBinding(MoveDirection direction)
         {
@@ -259,7 +259,6 @@ namespace Game.Core
                 return;
             }
 
-            // เก็บปุ่มเดิมของ W/A/S/D
             string oldBindingPath =
                 moveAction.bindings[bindingIndex].effectivePath;
 
@@ -275,13 +274,11 @@ namespace Game.Core
 
                     operation.Dispose();
 
-                    // ตรวจปุ่มซ้ำ
                     if (IsBindingUsed(
                         newBindingPath,
                         KeyAction.Move,
                         bindingIndex))
                     {
-                        // คืนปุ่มเดิม
                         moveAction.ApplyBindingOverride(
                             bindingIndex,
                             oldBindingPath

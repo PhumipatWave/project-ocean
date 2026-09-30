@@ -3,21 +3,8 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Rotates this object (the Player prefab's "Navigation" arrow) to point at the tracked
-    /// quest's current target — the NPC for a Talk step, the relevant door for a Tutorial
-    /// step that requires walking through one (MoveInHouse/Shop/UpgradeShop, MoveOutHouse/
-    /// Shop/UpgradeShop), or a TutorialActionMarker-tagged object for any other Tutorial
-    /// action with one registered (e.g. PlayerShip for Dive). Hides itself whenever there's
-    /// no resolvable position (every other quest/step type), once the player is within
-    /// QuestNavigation.CloseRangeMeters of the target (at that range the target's own Marker —
-    /// NPC/DoorQuestMarker/TutorialActionMarker — takes over instead, so only one arrow is ever
-    /// showing), or while indoors (see PlayerInteriorState) — there's nothing on the player to
-    /// navigate to inside a building except the exit, and DoorQuestMarker's own Marker already
-    /// covers that regardless of quest state. The parent Player never rotates its own
-    /// transform (facing is done by flipping sprites, not rotating), so this component's own
-    /// rotation is already world space, no counter-rotation needed.
-    /// </summary>
+    /// <summary>Points the player's arrow at the tracked quest's target (see QuestNavigation.ResolveCompassTarget).</summary>
+    // Hidden with no target, within CloseRangeMeters (the target's own marker takes over) and indoors.
     public class QuestCompass : MonoBehaviour
     {
         [Tooltip("Degrees/second the arrow eases toward the target direction, instead of snapping.")]
@@ -28,12 +15,7 @@ namespace Game.Gameplay
 
         private void Update()
         {
-            // Re-resolved every frame rather than cached off QuestManager.OnQuestUpdated —
-            // a door target (MoveInHouse/Shop/UpgradeShop) self-registers on its own OnEnable
-            // (see DoorQuestMarker), which can race the quest step actually advancing onto it
-            // (e.g. right after an additive scene load). Caching off the event alone could
-            // resolve null at that instant and never retry until the NEXT quest update: NPCs
-            // are always present from scene load, so only door targets ever hit this.
+            // Resolved every frame: a door registers in its own OnEnable, which can land after the quest update.
             var target = QuestNavigation.ResolveCompassTarget();
 
             // Indoors, the exit door's own Marker (see DoorQuestMarker) is the only guidance —
@@ -44,19 +26,14 @@ namespace Game.Gameplay
                 return;
             }
 
-            // Distance uses the target's actual interact trigger (its Collider2D, if it has
-            // one), not necessarily its transform pivot — PlayerShip's collider sits ~6 units
-            // from its own transform, so comparing raw positions meant "in range" was
-            // essentially unreachable. Rotation below aims at that same point, not the pivot.
+            // Measure to the interact trigger, not the pivot (PlayerShip's collider is ~6 units from its transform).
             bool inRange = Vector3.Distance(transform.position, QuestNavigation.InteractPosition(target)) <= QuestNavigation.CloseRangeMeters;
             if (visual != null) visual.SetActive(!inRange);
             if (inRange)
                 return;
 
             Vector3 direction = QuestNavigation.InteractPosition(target) - transform.position;
-            // The Arrow child's rest position is straight up (+Y) from this pivot, not along
-            // +X — so 0° rotation here already points it up. Atan2 measures from +X, so the
-            // rotation this pivot actually needs is offset by -90° to match that rest pose.
+            // The arrow sprite points up (+Y) at rest, while Atan2 measures from +X.
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             float currentAngle = transform.eulerAngles.z;
             float angle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);

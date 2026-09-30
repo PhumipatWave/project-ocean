@@ -68,9 +68,9 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | EncryptionHelper | static | `EncryptionHelper.cs:8` | 41 |
-| ISaveParticipant | interface | `ISaveParticipant.cs:9` | 5 |
+| ISaveParticipant | interface | `ISaveParticipant.cs:4` | 5 |
 | ItemSaveData | class | `SaveData.cs:61` | 6 |
 | QuestSaveData | class | `SaveData.cs:69` | 8 |
 | SaveData | class | `SaveData.cs:7` | 28 |
-| SaveSlotMeta | class | `SaveSystem.cs:14` | 8 |
-| SaveSystem | static | `SaveSystem.cs:23` | 150 |
+| SaveSlotMeta | class | `SaveSystem.cs:11` | 8 |
+| SaveSystem | static | `SaveSystem.cs:20` | 150 |

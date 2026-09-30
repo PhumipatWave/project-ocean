@@ -43,5 +43,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| FeatureUnlockService | class | `FeatureUnlockService.cs:17` | 66 |
-| UpgradeService | class | `UpgradeService.cs:13` | 80 |
+| FeatureUnlockService | class | `FeatureUnlockService.cs:9` | 66 |
+| UpgradeService | class | `UpgradeService.cs:8` | 80 |

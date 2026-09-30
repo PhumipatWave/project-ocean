@@ -1,6 +1,6 @@
 # UI/Shop
 
-2 types · 366 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [UI](UI.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1
+2 types · 359 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×5, [Core/Datas/Items](Core_Datas_Items.md) ×3, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×3, [UI/Inventory](UI_Inventory.md) ×3, [Gameplay/Inventory](Gameplay_Inventory.md) ×2, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×2, [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [UI](UI.md) ×1, [UI/Inventory/InventoryBuy](UI_Inventory_InventoryBuy.md) ×1
 
 [← index](../README.md)
 
@@ -10,19 +10,19 @@ classDiagram
   class ShopManager {
     <<MB>>
     +ShopManager Instance$
-    +OpenFishShopWindow() void
-    +OpenShopWindow() void
+    +OpenSellWindow() void
+    +OpenBuyWindow() void
     +RefreshShopInventory() void
     +UpdateClickedItemPriceDisplay() void
     +SwitchToBuyMode() void
     +SwitchToSellMode() void
     +CalculateTotal() int
     +Sell() void
-    +SellRoutine() IEnumerator
     +SellAll() void
     +TryBuySelectedItem() void
     +BuySelectedItem() void
-    ... +4 more methods()
+    +DeselectAllShopSlots() void
+    ... +3 more methods()
   }
   class ShopTransactionService {
     +GetSellPrice(Item) int
@@ -48,5 +48,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| ShopManager | MB | `ShopManager.cs:10` | 287 |
+| ShopManager | MB | `ShopManager.cs:10` | 280 |
 | ShopTransactionService | class | `ShopTransactionService.cs:7` | 79 |

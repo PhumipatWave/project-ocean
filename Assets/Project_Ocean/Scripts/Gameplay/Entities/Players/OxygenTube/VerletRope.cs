@@ -55,9 +55,7 @@ namespace Game.Gameplay
         }
 
         #region Segment Growth & Shrink
-        // Add one segment per frame when the gap between the second-to-last seg and the
-        // player is too wide. This ensures the rope has free segments to simulate
-        // even before the first corner wrap.
+        // Grow so the rope has free segments to simulate before the first corner wrap.
         private void GrowSegs(Vector2 playerPos, float segmentLength)
         {
             if (segs.Count < 2)
@@ -72,10 +70,7 @@ namespace Game.Gameplay
             }
         }
 
-        // Remove one segment per frame when we have more segments than the straight-line
-        // distance from anchor to player requires. Gravity sags the rope below the player,
-        // so checking adjacent-segment proximity alone never triggers when the player
-        // returns toward the anchor — this count-based check catches it instead.
+        // Count-based: gravity sags the rope below the player, so a neighbor-distance check never fires on the way back.
         private void ShrinkSegs(Vector2 anchor, Vector2 playerPos, float segmentLength)
         {
             if (segs.Count <= 2)
@@ -114,9 +109,7 @@ namespace Game.Gameplay
             int start = SimStart(s.maxSimulatedSegs);
             for (int iter = 0; iter < s.solverIterations; iter++)
             {
-                // Include the boundary pair so the simulation window stays connected
-                // to the frozen section. segs[start-1] is the frozen anchor; only
-                // segs[start] moves in that pair.
+                // Include the pair touching the frozen section so the rope stays connected; only segs[start] moves.
                 int pairStart = Mathf.Max(0, start - 1);
                 for (int i = pairStart; i < segs.Count - 1; i++)
                     SolvePair(i, i + 1, s.segmentLength);

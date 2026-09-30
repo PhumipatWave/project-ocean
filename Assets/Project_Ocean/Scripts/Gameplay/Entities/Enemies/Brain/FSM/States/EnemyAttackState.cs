@@ -71,15 +71,11 @@ namespace Game.Gameplay
                 return;
             }
 
-            // Chase the last known position even through LOS breaks.
-            // This keeps the dash committed — a fish that wound up won't give up
-            // just because the player ducked behind a rock for a frame.
+            // Keep chasing through brief line-of-sight breaks, so a committed dash isn't dropped behind a rock.
             Vector3 targetPosition = enemyBrainContext.PlayerTransform.position;
             float distance = Vector2.Distance(enemyBrainContext.Transform.position, targetPosition);
 
-            // In bite range: hold here instead of driving on to the player's center.
-            // The mouth HitBox sits about attackRange in front of the body, so pushing
-            // closer puts the mouth past the player. Stay long enough for the bite animation.
+            // Stop at bite range: the mouth HitBox sits attackRange ahead of the body, so closer overshoots the player.
             if (distance <= profile.attackRange)
             {
                 HoldPosition();

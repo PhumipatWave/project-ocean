@@ -4,9 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Shared search state used by enemies that investigate the last known player position.
-    /// </summary>
+    /// <summary>Searches the player's last known position.</summary>
     public class EnemySearchState : EnemyStateBase
     {
         #region FieldsProperties

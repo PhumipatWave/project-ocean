@@ -36,7 +36,7 @@ namespace Game.Gameplay
 
         public IEnemyBrain ActiveBrain => enemyBrain;
 
-        /// Stable ID assigned by EnemySpawnManager — used to track kills across sessions.
+        /// Stable ID assigned by SpawnCatalog — used to track kills across sessions.
         public void SetSpawnId(string id) => spawnId = id;
 
         /// Called synchronously from Enemy.OnDeathHandler so the kill is recorded

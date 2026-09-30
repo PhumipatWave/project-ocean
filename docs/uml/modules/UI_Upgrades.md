@@ -49,6 +49,6 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| UpgradeManager | MB | `UpgradeManager.cs:11` | 31 |
+| UpgradeManager | MB | `UpgradeManager.cs:8` | 31 |
 | UpgradeSlot | MB | `UpgradeSlot.cs:10` | 105 |
 | UpgradeTooltip | MB | `UpgradeTooltip.cs:9` | 279 |

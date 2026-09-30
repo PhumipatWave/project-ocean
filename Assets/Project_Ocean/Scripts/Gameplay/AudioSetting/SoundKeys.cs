@@ -2,11 +2,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Keys for the sounds the game plays from code. A key is the NAME of a sound object under the
-    /// matching channel of the AudioManager (Master / BGM / SFX). Use these instead of raw strings so a
-    /// typo is a compile error, not a silent missing sound.
-    /// </summary>
+    /// <summary>Sound names played from code, so a typo is a compile error instead of a silent missing sound.</summary>
     public static class SoundKeys
     {
         // ---- SFX ----

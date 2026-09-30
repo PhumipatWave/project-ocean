@@ -25,16 +25,14 @@ namespace Game.UI
         {
             originalScale = transform.localScale;
 
-            // เริ่มต้นด้วยขนาดปกติ
             ResetButton();
         }
 
         private void OnEnable()
         {
-            // ทุกครั้งที่ UI เปิดใหม่
+            // A panel closed mid-hover would otherwise reopen with the button still enlarged.
             ResetButton();
 
-            // ถ้าเป็นปุ่มราคา ให้กลับไปแสดงราคาปกติ
             RefreshPrice();
         }
 
@@ -63,9 +61,7 @@ namespace Game.UI
             RefreshPrice();
         }
 
-        /// <summary>
-        /// รีเซ็ตขนาดปุ่มกลับเป็นขนาดปกติทันที
-        /// </summary>
+        /// <summary>Snaps the button back to its normal size.</summary>
         public void ResetButton()
         {
             targetScale = originalScale;

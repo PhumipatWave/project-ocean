@@ -2,21 +2,9 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// <summary>
-    /// Shared handshake for "we are loading from a save file" that must survive a
-    /// scene load. Owns the contract that was previously split across SaveBridge's
-    /// statics and a comment in GameManager.
-    ///
-    /// Sequence (do not reorder):
-    ///   1. SaveBridge.LoadGame sets Position then BeginLoad() BEFORE LoadScene().
-    ///   2. On sceneLoaded, GameManager and PlayerSceneMode read IsLoading + Position to place the player,
-    ///      and intentionally does NOT clear the flag.
-    ///   3. SaveBridge's post-load coroutine applies stats/inventory/etc, then calls
-    ///      Clear() — exactly once, after everything is applied.
-    ///
-    /// Neither GameManager nor SaveBridge references the other for this handshake;
-    /// both reference only this context, breaking the circular type dependency.
-    /// </summary>
+    /// <summary>Save-load handoff across a scene load, so GameManager and SaveBridge never reference each other.</summary>
+    // Order: SaveBridge sets Position + BeginLoad before LoadScene; scene-load code places the player;
+    // SaveBridge calls Clear once, after all save data is applied.
     public static class SceneLoadContext
     {
         /// <summary>True between BeginLoad() and Clear() — i.e. a save-load is in flight.</summary>

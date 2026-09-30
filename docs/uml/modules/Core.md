@@ -85,12 +85,12 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| DialogueState | static | `DialogueState.cs:13` | 45 |
-| GameFeature | enum | `GameFeature.cs:7` | 20 |
+| DialogueState | static | `DialogueState.cs:9` | 45 |
+| GameFeature | enum | `GameFeature.cs:4` | 20 |
 | GameLog | static | `GameLog.cs:6` | 6 |
 | GameSession | static | `GameSession.cs:4` | 4 |
 | GameState | enum | `GameState.cs:3` | 6 |
-| PlayerUIState | static | `PlayerUIState.cs:12` | 39 |
-| SceneNames | static | `SceneNames.cs:7` | 7 |
+| PlayerUIState | static | `PlayerUIState.cs:8` | 39 |
+| SceneNames | static | `SceneNames.cs:4` | 7 |
 | Singleton | MB, abstract | `Singleton.cs:6` | 25 |
 | Tags | static | `Tags.cs:4` | 5 |

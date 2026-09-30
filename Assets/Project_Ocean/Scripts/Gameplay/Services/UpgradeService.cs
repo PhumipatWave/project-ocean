@@ -4,12 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Single source of truth for upgrade levels.
-    /// Plain C# (no MonoBehaviour, no scene presence) — reachable from any scene,
-    /// whether or not the upgrade panel exists or is active.
-    /// UpgradeManager (Land panel UI) and SaveBridge both go through this service; effects are applied by listeners of OnLevelGranted.
-    /// </summary>
+    /// <summary>Upgrade levels, independent of any scene; effects are applied by OnLevelGranted listeners.</summary>
     public class UpgradeService : ISaveParticipant
     {
         private static UpgradeService instance;
@@ -47,12 +42,7 @@ namespace Game.Gameplay
             return data.prices[level];
         }
 
-        /// <summary>
-        /// Attempts to buy the next level of an upgrade:
-        /// checks max level and money, applies the gameplay effect, increments the level.
-        /// Returns true if the purchase succeeded. Shows a "Not enough money" toast
-        /// when the purchase fails specifically due to insufficient funds.
-        /// </summary>
+        /// <summary>Buys the next level if affordable and below max; shows "Not enough money" when short.</summary>
         public bool TryBuyUpgrade(UpgradeData data)
         {
             if (data == null) return false;
@@ -76,9 +66,7 @@ namespace Game.Gameplay
             return true;
         }
 
-        /// <summary>Gives ONE level of this upgrade: applies the effect, raises the level, and raises
-        /// the tutorial action. The shared tail of a purchase — TryBuyUpgrade and the dev button both
-        /// end here, so their effects can never drift apart.</summary>
+        /// <summary>Grants one level; buying and the dev button both end here, so their effects can't drift apart.</summary>
         private void GrantLevel(UpgradeData data)
         {
             OnLevelGranted?.Invoke(data);
@@ -108,11 +96,7 @@ namespace Game.Gameplay
             return true;
         }
 
-        /// <summary>
-        /// Called after a save is loaded: restores levels, then lets receivers re-apply stored effects
-        /// (inventory slots). Rope length is NOT re-applied — PlayerHealth restores it from
-        /// SaveData.maxRopeLength (re-applying would double the length).
-        /// </summary>
+        /// <summary>Restores loaded levels and re-applies stored effects, except rope length (PlayerHealth loads that).</summary>
         public void ApplyLoadedLevels(int inventoryLevel, int ropeLevel)
         {
             SetLevel(UpgradeType.Inventory, inventoryLevel);
@@ -120,10 +104,7 @@ namespace Game.Gameplay
             OnLevelsLoaded?.Invoke();
         }
 
-        /// <summary>Clears every upgrade level — called by SaveBridge.ResetForNewGame(). Doesn't
-        /// need to un-apply rope length/inventory slots itself: the player gets destroyed and
-        /// respawned fresh (default stats) and InventoryManager.ResetToDefault() relocks slots
-        /// independently, so there's nothing left on the old levels to undo.</summary>
+        /// <summary>Clears all levels for a New Game; the player respawns with default stats, so nothing to undo.</summary>
         public void ResetToDefault() => levels.Clear();
 
         // ── ISaveParticipant ──

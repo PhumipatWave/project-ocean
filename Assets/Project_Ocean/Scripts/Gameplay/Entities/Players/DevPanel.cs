@@ -5,28 +5,21 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Dev/Cheat Panel — ทำงานผ่าน public API ของ PlayerHealth, OxygenRope, PlayerMoney,
-    /// Inventory
-    ///
-    /// God Mode         -> เรียก PlayerHealth.Heal() เติมเต็มทุกเฟรม
-    /// Infinite Oxygen   -> ตั้ง OxygenRope.IgnoreRopeLimit ทุกเฟรม ข้าม clamp ระยะ + breach/นับถอยหลัง (ไม่แตะ MaxRopeLength จึงไม่เซฟค่าผิด)
-    /// Add Money         -> เรียก PlayerMoney.AddMoney() ตรงๆ
-    /// Add Item          -> เรียก Inventory.Current.AddItem(item) ตรงๆ ต่อปุ่มที่กด
-    /// </summary>
+    /// <summary>Dev cheat panel (god mode, infinite oxygen, money, items) built only on public gameplay APIs.</summary>
+    // Infinite Oxygen sets IgnoreRopeLimit instead of raising MaxRopeLength, so a cheat value is never saved.
     public class DevPanel : MonoBehaviour
     {
         [System.Serializable]
         private struct DevItemButton
         {
-            public Button button;   // ปุ่มปลา/ไอเทมในกริด (ลากจาก Hierarchy)
-            public Item item;       // Item ScriptableObject ที่ปุ่มนี้จะให้
-            public int amount;      // จำนวนที่ให้ต่อการกด 1 ครั้ง (ค่าเริ่มต้น 1 ถ้าใส่ 0 หรือติดลบ)
+            public Button button;
+            public Item item;
+            public int amount;      // per press; 0 or less counts as 1
         }
 
         [Header("UI References")]
-        [SerializeField] private GameObject panelRoot;   // กล่อง panel ทั้งหมด (ซ่อน/โชว์)
-        [SerializeField] private Button toggleButton;    // ไอคอนมุมจอ กดเปิด-ปิด
+        [SerializeField] private GameObject panelRoot;
+        [SerializeField] private Button toggleButton;
 
         [Header("Cheats")]
         [SerializeField] private Toggle godModeToggle;
@@ -36,7 +29,7 @@ namespace Game.Gameplay
         [SerializeField] private Button skipStepButton;
 
         [Header("Add Item")]
-        [Tooltip("ลากปุ่มแต่ละอันในกริด (เช่น Button Fish S (0)..(8)) มาคู่กับ Item ที่ต้องการให้")]
+        [Tooltip("Pair each grid button (e.g. Button Fish S (0)..(8)) with the item it gives.")]
         [SerializeField] private DevItemButton[] devItemButtons;
 
         [Header("Spawn Any Item")]
@@ -54,7 +47,7 @@ namespace Game.Gameplay
         [SerializeField] private Button upgradeButton;
 
         [Header("Settings")]
-        [Tooltip("ค่าที่ใช้ Heal ทุกเฟรมตอน God Mode เปิดอยู่ (Heal() เดิมจะ clamp ไม่ให้เกิน Max Health เองอยู่แล้ว)")]
+        [Tooltip("Healed every frame in God Mode; Heal() already clamps to max health.")]
         [SerializeField] private float godModeHealAmount = 999999f;
 
         private bool godModeOn;
@@ -105,7 +98,6 @@ namespace Game.Gameplay
             if (godModeOn)
             {
                 PlayerHealth health = player.GetComponent<PlayerHealth>();
-                // ใช้ Heal() ที่มีอยู่แล้ว — เติมเลือด/เชือกให้เต็มทุกเฟรมแทนการรับดาเมจจริง
                 health?.Heal(godModeHealAmount);
             }
         }
@@ -190,14 +182,14 @@ namespace Game.Gameplay
             if (money != null)
                 money.AddMoney(addMoneyAmount);
             else
-                Debug.LogWarning("[DevPanel] ไม่พบ PlayerMoney บน PlayerRegistry.Local");
+                Debug.LogWarning("[DevPanel] No PlayerMoney on PlayerRegistry.Local");
         }
 
         private void SkipStep()
         {
             if (QuestManager.Instance == null)
             {
-                Debug.LogWarning("[DevPanel] ไม่พบ QuestManager.Instance");
+                Debug.LogWarning("[DevPanel] QuestManager.Instance is missing");
                 return;
             }
 
@@ -211,12 +203,11 @@ namespace Game.Gameplay
 
             if (Inventory.Current == null)
             {
-                Debug.LogWarning("[DevPanel] ไม่พบ Inventory.Current");
+                Debug.LogWarning("[DevPanel] Inventory.Current is missing");
                 return;
             }
 
-            // AddItem() เดิมเพิ่มทีละ 1 ชิ้น — เรียกซ้ำตามจำนวนที่ตั้งไว้
-            // (มันจัดการ full-inventory notification และ inventory-changed event ให้เองอยู่แล้วในทุกครั้งที่เรียก)
+            // AddItem adds one at a time and handles the full-bag notice itself.
             int toGive = Mathf.Max(1, amount);
             for (int i = 0; i < toGive; i++)
                 Inventory.Current.AddItem(item);

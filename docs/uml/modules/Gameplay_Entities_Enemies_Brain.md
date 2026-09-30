@@ -118,11 +118,11 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| AggressiveEnemyProfile | SO | `AggressiveEnemyProfile.cs:11` | 44 |
-| EnemyBaseProfile | SO, abstract | `EnemyBaseProfile.cs:10` | 64 |
+| AggressiveEnemyProfile | SO | `AggressiveEnemyProfile.cs:8` | 44 |
+| EnemyBaseProfile | SO, abstract | `EnemyBaseProfile.cs:7` | 64 |
 | EnemyBrain | class | `EnemyBrain.cs:6` | 134 |
 | EnemyBrainBase | abstract | `EnemyBrainBase.cs:6` | 42 |
-| EnemyBrainContext | class | `EnemyBrainContext.cs:10` | 13 |
+| EnemyBrainContext | class | `EnemyBrainContext.cs:8` | 13 |
 | EnemyVision | class | `EnemyVision.cs:6` | 54 |
-| FriendlyEnemyProfile | SO | `FriendlyEnemyProfile.cs:13` | 3 |
-| ScaredEnemyProfile | SO | `ScaredEnemyProfile.cs:14` | 9 |
+| FriendlyEnemyProfile | SO | `FriendlyEnemyProfile.cs:8` | 3 |
+| ScaredEnemyProfile | SO | `ScaredEnemyProfile.cs:8` | 9 |

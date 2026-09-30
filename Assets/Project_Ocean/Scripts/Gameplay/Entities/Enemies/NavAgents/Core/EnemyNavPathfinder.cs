@@ -4,9 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// NavMesh path checks, wall clearance, and wander point sampling for enemies.
-    /// </summary>
+    /// <summary>NavMesh path checks, wall clearance and wander point sampling for enemies.</summary>
     public class EnemyNavPathfinder
     {
         #region FieldProperties

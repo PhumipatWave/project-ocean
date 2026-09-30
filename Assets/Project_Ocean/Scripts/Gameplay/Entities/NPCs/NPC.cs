@@ -45,7 +45,7 @@ namespace Game.Gameplay
         private NpcQuestMarker questMarker;
         private NpcQuestConversation questConversation;
         private bool isUIOpen;
-        private InteractUI interactUI;
+        private EventInteractable interactZone;
 
         // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
         private void OnValidate()
@@ -76,12 +76,12 @@ namespace Game.Gameplay
 
         private void Start()
         {
-            // InteractUI may sit on a child (the prefab's "Talk" object); without it the player lock never releases.
-            interactUI = GetComponentInChildren<InteractUI>();
+            // EventInteractable may sit on a child (the prefab's "Talk" object); without it the player lock never releases.
+            interactZone = GetComponentInChildren<EventInteractable>();
 
-            // A child's trigger zone never calls this object's OnTriggerExit2D, so listen through InteractUI.
-            if (interactUI != null && interactUI.gameObject != gameObject)
-                interactUI.PlayerExited += HandlePlayerExited;
+            // A child's trigger zone never calls this object's OnTriggerExit2D, so listen through EventInteractable.
+            if (interactZone != null && interactZone.gameObject != gameObject)
+                interactZone.PlayerExited += HandlePlayerExited;
 
             View?.SetOpen(false);
 
@@ -169,15 +169,15 @@ namespace Game.Gameplay
 
             if (isUIOpen)
             {
-                interactUI?.ReleasePlayerLock();
+                interactZone?.ReleasePlayerLock();
                 isUIOpen = false;
             }
         }
 
         private void OnDestroy()
         {
-            if (interactUI != null)
-                interactUI.PlayerExited -= HandlePlayerExited;
+            if (interactZone != null)
+                interactZone.PlayerExited -= HandlePlayerExited;
         }
 
         private void OnTriggerExit2D(Collider2D collision)

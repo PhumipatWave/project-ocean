@@ -4,9 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Shared references passed from the nav host into every enemy brain.
-    /// </summary>
+    /// <summary>References every enemy brain gets from its nav host.</summary>
     public class EnemyBrainContext
     {
         public Enemy Owner;

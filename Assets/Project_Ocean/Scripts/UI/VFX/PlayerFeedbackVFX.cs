@@ -32,10 +32,6 @@ namespace Game.UI
         private void OnEnable() => Player.OnPlayerDamaged += PlayDamageVFX;
         private void OnDisable() => Player.OnPlayerDamaged -= PlayDamageVFX;
 
-        // ==========================================
-        // DAMAGE
-        // ==========================================
-
         public void PlayDamageVFX()
         {
             if (damageVignette == null)
@@ -65,10 +61,6 @@ namespace Game.UI
 
             damageCoroutine = null;
         }
-
-        // ==========================================
-        // SPRINT
-        // ==========================================
 
         public void SetSprinting(bool isSprinting)
         {
@@ -106,10 +98,6 @@ namespace Game.UI
 
             sprintCoroutine = null;
         }
-
-        // ==========================================
-        // HELPERS
-        // ==========================================
 
         private IEnumerator FadeImage(
             Image image,

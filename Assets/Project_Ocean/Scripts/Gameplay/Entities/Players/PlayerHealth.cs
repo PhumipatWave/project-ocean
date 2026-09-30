@@ -55,9 +55,7 @@ namespace Game.Gameplay
             oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
-        /// Call when a rope upgrade is purchased so ResetToOriginal uses the new max.
-        /// Also raises the live max/current health (what the HUD's max-length text reads, and
-        /// the rope's HealthLimit) right away, instead of only after the next reset.
+        /// <summary>Raises the base max length after a rope upgrade, and the live max right away.</summary>
         public void IncreaseOriginalMaxLength(float amount)
         {
             originalMaxRopeLength += amount;
@@ -76,10 +74,7 @@ namespace Game.Gameplay
             oxygenTube?.SetHealthLimit(CurrentHealth);
         }
 
-        // Damage depletes CurrentHealth only — it no longer shrinks oxygenTube.MaxRopeLength,
-        // so the player can always swim out to the full standard/upgraded rope length
-        // regardless of how much damage they've taken. Health hitting 0 still pulls the
-        // player back to land instead of killing them.
+        // Damage lowers health only, never the rope length; at 0 the player is pulled back to land, not killed.
         public override void TakeDamage(float amount)
         {
             if (IsDead || IsInvincible) return;

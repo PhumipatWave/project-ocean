@@ -8,7 +8,7 @@ namespace Game.Gameplay
     [Serializable]
     public class ZoneItemEntry : IWeightedEntry
     {
-        [Tooltip("Index in GameObjectSpawnManager.allItems list (0 = first entry, 1 = second, etc.).")]
+        [Tooltip("Index in SpawnCatalog.allItems list (0 = first entry, 1 = second, etc.).")]
         public int itemIndex;
 
         [Tooltip("Relative spawn chance for this zone. Higher = more likely to be picked.")]
@@ -17,13 +17,11 @@ namespace Game.Gameplay
         public float Weight => weight;
     }
 
-    /// Place one ItemSpawner in the scene per zone.
-    /// Assign all possible spawn point Transforms, then set how many spawn per day.
-    /// Each day it randomly picks spawnPerDay points from the list and spawns one item at each.
+    /// <summary>One per zone: each day spawns an item at spawnPerDay random points from its list.</summary>
     public class ItemSpawner : MonoBehaviour
     {
         [Header("Zone Item Entries")]
-        [Tooltip("Which items can spawn and their relative weights. IDs must match GameObjectSpawnManager.")]
+        [Tooltip("Which items can spawn and their relative weights. IDs must match SpawnCatalog.")]
         [SerializeField] private List<ZoneItemEntry> spawnEntries;
 
         [Header("Spawn Points")]
@@ -43,25 +41,23 @@ namespace Game.Gameplay
 
         private void OnEnable()
         {
-            GameObjectSpawnManager.Instance?.RegisterItemSpawner(this);
+            SpawnCatalog.Instance?.RegisterItemSpawner(this);
             FeatureUnlockService.OnFeatureUnlocked += HandleFeatureUnlocked;
         }
 
         private void OnDisable()
         {
-            GameObjectSpawnManager.Instance?.UnregisterItemSpawner(this);
+            SpawnCatalog.Instance?.UnregisterItemSpawner(this);
             FeatureUnlockService.OnFeatureUnlocked -= HandleFeatureUnlocked;
         }
 
         private void Start()
         {
-            GameObjectSpawnManager.Instance?.RegisterItemSpawner(this);
+            SpawnCatalog.Instance?.RegisterItemSpawner(this);
             SpawnItems();
         }
 
-        // Spawning is otherwise only re-rolled once a day (ResetSpawner) — this lets a zone
-        // that was locked at Start() populate immediately the moment its quest unlocks it,
-        // instead of waiting for the next day change.
+        // A zone locked at Start fills as soon as its quest unlocks it, not on the next day.
         private void HandleFeatureUnlocked(GameFeature feature)
         {
             if (feature == requiredFeature && _spawnedGOs.Count == 0)
@@ -117,7 +113,7 @@ namespace Game.Gameplay
                 var entry = PickEntry();
                 if (entry == null) continue;
 
-                var item = GameObjectSpawnManager.Instance?.GetItemAt(entry.itemIndex);
+                var item = SpawnCatalog.Instance?.GetItemAt(entry.itemIndex);
                 if (item == null) continue;
 
                 if (item.ItemPrefab == null)

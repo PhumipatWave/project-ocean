@@ -6,11 +6,7 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
-    /// <summary>
-    /// One card in the save-slot list (Stardew-style). Shows day/money/save-time
-    /// for an occupied slot, or an "Empty" state for a slot with no save file.
-    /// Attach to the slot prefab alongside its Text/Button children.
-    /// </summary>
+    /// <summary>One save-slot card: day, money and save time, or "Empty".</summary>
     public class SaveSlotUI : MonoBehaviour
     {
         [Header("Text fields")]
@@ -50,9 +46,7 @@ namespace Game.UI
                 if (timeText != null)  timeText.text  = $"Save At {meta.saveTime}";
             }
 
-            // Empty slots still load-able: LoadSlot(slot) on a fresh slot just
-            // means "start playing here" — SaveGame(slot) is called on the
-            // first real save from within the game itself.
+            // An empty slot is still clickable: it starts a game there, and the first save writes it.
             loadButton.onClick.RemoveAllListeners();
             loadButton.onClick.AddListener(() => _menu.SelectSlot(_slot, hasSave));
 

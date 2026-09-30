@@ -106,7 +106,7 @@ namespace Game.UI
                 QuestManager.OnQuestUpdated += RefreshCurrentPage;
             }
 
-            // The InteractUI that revealed this board already called PlayerUIState.Open().
+            // The EventInteractable that revealed this board already called PlayerUIState.Open().
             // Register the FULL close action so ESC also releases the PlayerUIState lock.
             PlayerUIState.SetCloser(CloseBoard);
 
@@ -122,10 +122,6 @@ namespace Game.UI
                 QuestManager.OnQuestUpdated -= RefreshCurrentPage;
             }
         }
-
-        // =========================================================
-        // CATEGORY PAGE
-        // =========================================================
 
         private void ShowCategoryPage()
         {
@@ -208,10 +204,6 @@ namespace Game.UI
             RenderQuestPage();
         }
 
-        // =========================================================
-        // QUEST LIST PAGE
-        // =========================================================
-
         private void LoadQuestsForCategory()
         {
             questsInCurrentCategory.Clear();
@@ -280,10 +272,6 @@ namespace Game.UI
             }
         }
 
-        // =========================================================
-        // QUEST DETAIL
-        // =========================================================
-
         private void OnQuestSlotSelected(
             Quest selectedQuest)
         {
@@ -301,10 +289,6 @@ namespace Game.UI
             LoadQuestsForCategory();
             RenderQuestPage();
         }
-
-        // =========================================================
-        // NAVIGATION
-        // =========================================================
 
         public void NavigateToNextPage()
         {
@@ -324,10 +308,6 @@ namespace Game.UI
                 RenderQuestPage();
             }
         }
-
-        // =========================================================
-        // REFRESH
-        // =========================================================
 
         private void RefreshCurrentPage()
         {

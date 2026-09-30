@@ -27,15 +27,15 @@ classDiagram
     #BulletDirection() void
     #ShootCooldownRoutine() IEnumerator
   }
-  class GranadeBullet {
-    <<MB>>
-  }
   class GrapplingHookBullet {
     <<MB>>
     +bool AttachedToObject
     #FixedUpdate() void
     #OnTriggerEnter2D(Collider2D) void
     +HookDashRoutine(Vector2) IEnumerator
+  }
+  class GrenadeBullet {
+    <<MB>>
   }
   class NormalBullet {
     <<MB>>
@@ -47,8 +47,8 @@ classDiagram
   class TranquilizerBullet {
     <<MB>>
   }
-  Bullet <|-- GranadeBullet
   Bullet <|-- GrapplingHookBullet
+  Bullet <|-- GrenadeBullet
   Bullet <|-- NormalBullet
   Bullet <|-- TranquilizerBullet
 ```
@@ -58,7 +58,7 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | Bullet | MB, abstract | `Bullet.cs:7` | 69 |
-| GranadeBullet | MB | `GranadeBullet.cs:5` | 1 |
 | GrapplingHookBullet | MB | `GrapplingHookBullet.cs:7` | 99 |
+| GrenadeBullet | MB | `GrenadeBullet.cs:5` | 1 |
 | NormalBullet | MB | `NormalBullet.cs:6` | 52 |
 | TranquilizerBullet | MB | `TranquilizerBullet.cs:5` | 1 |

@@ -10,7 +10,7 @@ namespace Game.UI
         [Header("Money Display")]
         [SerializeField] private TMP_Text moneyText;
 
-        [Tooltip("เปิด = แสดง Money: 1,250 | ปิด = แสดง 1,250")]
+        [Tooltip("On: \"Money: 1,250\". Off: \"1,250\".")]
         [SerializeField] private bool showMoneyLabel = false;
 
         private PlayerMoney playerMoney;

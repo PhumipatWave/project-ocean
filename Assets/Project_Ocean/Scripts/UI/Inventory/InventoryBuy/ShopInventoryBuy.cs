@@ -29,13 +29,11 @@ namespace Game.UI
             {
                 if (i < shopbuySlots.Length)
                 {
-                    // เปลี่ยนพารามิเตอร์ตรงนี้เป็น ShopSlot ด้วย
                     SpawnItemInShop(itemsToSell[i], shopbuySlots[i]);
                 }
             }
         }
 
-        // เปลี่ยน InventorySlot เป็น ShopSlot
         void SpawnItemInShop(Item item, ShopBuySlot slot)
         {
             GameObject newItemGo = Instantiate(shopItemPrefab, slot.transform);
@@ -50,7 +48,7 @@ namespace Game.UI
 
             shopItem.enabled = false;
 
-            // ⭐ สำคัญมาก: ผูก item เข้ากับ slot
+            // The shop reads the selected item from the slot, so buying needs this link.
             slot.SetItem(shopItem);
         }
     }

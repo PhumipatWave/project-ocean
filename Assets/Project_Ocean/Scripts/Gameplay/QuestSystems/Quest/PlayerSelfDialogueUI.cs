@@ -5,19 +5,9 @@ using UnityEngine;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Drives the shared NPC dialogue panel for a Talk or Cutscene step authored with Auto
-    /// Display Dialogue (QuestStepData.autoDisplayDialogue) — there's no NPC to walk up to and
-    /// press Interact on, so the line auto-opens the moment that step becomes current. Plays
-    /// the step's dialogue entries (any type) in authored order, one line per Interact press,
-    /// each with its own Character Id's name and portrait (blank = the player, "You"); the last
-    /// press closes it and completes the step via QuestManager.CompleteAutoDialogue (same
-    /// CompleteProgress a real NPC conversation ends in, so rewards/next-step/chaining keep
-    /// working unchanged). On a Cutscene step this replaces CutsceneManager's own auto-play —
-    /// see its RefreshQuestStep guard — so a "cinematic" beat can instead be driven by the
-    /// player pressing through dialogue, optionally still chaining into a real Timeline
-    /// cutscene via a line's own cutsceneId (see HandleInteract below).
-    /// </summary>
+    /// <summary>Plays an Auto Display Dialogue step's lines on the shared dialogue panel, one per Interact press.</summary>
+    // The last press completes the step like a real NPC talk. On a Cutscene step it replaces the auto-play;
+    // a line can still start a Timeline cutscene through its cutsceneId.
     public class PlayerSelfDialogueUI : MonoBehaviour
     {
         private const string PlayerId = "player";
@@ -59,14 +49,7 @@ namespace Game.Gameplay
                 Hide();
         }
 
-        // QuestManager.InitializeQuests() runs in ITS Awake — a quest authored to start
-        // already InProgress (like MQ_1001) never fires OnQuestUpdated, so OnEnable's
-        // Refresh() could race Awake ordering and miss it. Start() is guaranteed to run
-        // after every object's Awake/OnEnable, so QuestManager.Instance is ready here —
-        // same fix TutorialPromptUI already uses for the identical race. One frame further:
-        // every NPC's own Start() resets the SAME shared dialogue panel to hidden as a safety
-        // default, and Start() order between sibling GameObjects isn't guaranteed — waiting a
-        // frame guarantees every NPC's reset has already run before we open the panel.
+        // Wait for every Awake (quests start there) and every NPC Start (it hides this shared panel) before opening.
         private void Start() => StartCoroutine(RefreshNextFrame());
 
         private IEnumerator RefreshNextFrame()

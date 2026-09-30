@@ -6,6 +6,7 @@
 
 ```mermaid
 flowchart LR
+  AcceptedQuestListUI[AcceptedQuestListUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   AmmoWheel[AmmoWheel] -->|OnAmmoSelected| InputReader[InputReader]
   Cutscene[Cutscene] -->|OnSkipCutscene| InputReader[InputReader]
   CutsceneManager[CutsceneManager] -->|OnLoadingFinished| LoadingManager[LoadingManager]
@@ -19,7 +20,6 @@ flowchart LR
   GameHUD[GameHUD] -->|OnMenuToggled| InputReader[InputReader]
   GameHUD[GameHUD] -->|OnLockChanged| PlayerUIState[PlayerUIState]
   GameManager[GameManager] -->|OnReturnToLandRequested| GameFlowEvents[GameFlowEvents]
-  GameObjectSpawnManager[GameObjectSpawnManager] -->|OnDayAdvanced, OnEnemyReset| DayManager[DayManager]
   InputReader[InputReader] -->|OnInitialized| KeyBindManager[KeyBindManager]
   InventoryManager[InventoryManager] -->|OnInventoryToggled| InputReader[InputReader]
   InventoryManager[InventoryManager] -->|OnChanged| Inventory[Inventory]
@@ -58,14 +58,14 @@ flowchart LR
   RebindButtonBase[RebindButtonBase] -->|OnBindingsChanged| KeyBindManager[KeyBindManager]
   ResourceNotificationPresenter[ResourceNotificationPresenter] -->|OnItemDelta| InventoryManager[InventoryManager]
   ResourceNotificationPresenter[ResourceNotificationPresenter] -->|OnMoneyDelta| PlayerMoney[PlayerMoney]
-  ReviceQuestListUI[ReviceQuestListUI] -->|OnQuestUpdated| QuestManager[QuestManager]
   RopeBreakCountdownUI[RopeBreakCountdownUI] -->|OnRopeBreachEnd, OnRopeBreachStart| OxygenRope[OxygenRope]
   SaveBridge[SaveBridge] -->|OnDayAdvanced| DayManager[DayManager]
   SaveNotificationUI[SaveNotificationUI] -->|OnSaved| SaveBridge[SaveBridge]
-  ShelleController[ShelleController] -->|OnCollected| ItemDrop[ItemDrop]
+  ShellPickup[ShellPickup] -->|OnCollected| ItemDrop[ItemDrop]
   ShopManager[ShopManager] -->|OnInventoryChanged, OnInventoryClosed| InventoryManager[InventoryManager]
   ShopManager[ShopManager] -->|OnShopSlotClicked| InventorySlot[InventorySlot]
   ShopManager[ShopManager] -->|OnQuestUpdated| QuestManager[QuestManager]
+  SpawnCatalog[SpawnCatalog] -->|OnDayAdvanced, OnEnemyReset| DayManager[DayManager]
   TrashInteract[TrashInteract] -->|OnDayAdvanced| DayManager[DayManager]
   TutorialPromptUI[TutorialPromptUI] -->|OnLoadingFinished| LoadingManager[LoadingManager]
   TutorialPromptUI[TutorialPromptUI] -->|OnLockChanged| PlayerUIState[PlayerUIState]
@@ -80,9 +80,9 @@ flowchart LR
 |---|---|---|
 | CutsceneEvents | OnCutsceneFinished | QuestProgressTracker |
 | CutsceneGate | OnPlayingChanged | CutsceneSkipHint |
-| DayManager | OnDayAdvanced | GameHUD, GameObjectSpawnManager, LandUI, NextDayAnimationUI, QuestProgressTracker, SaveBridge, TrashInteract |
+| DayManager | OnDayAdvanced | GameHUD, LandUI, NextDayAnimationUI, QuestProgressTracker, SaveBridge, SpawnCatalog, TrashInteract |
 | DayManager | OnDivedToday | LandUI, QuestProgressTracker |
-| DayManager | OnEnemyReset | EnemyKillTracker, GameObjectSpawnManager |
+| DayManager | OnEnemyReset | EnemyKillTracker, SpawnCatalog |
 | DialogueState | OnChanged | LandUI |
 | DoorInteract | Warped | DoorQuestMarker |
 | EnemyEvents | OnEnemyKilled | QuestProgressTracker |
@@ -108,7 +108,7 @@ flowchart LR
 | InventoryModel | Changed | InventoryManager |
 | InventoryModel | ItemDelta | InventoryManager |
 | InventorySlot | OnShopSlotClicked | ShopManager |
-| ItemDrop | OnCollected | ShelleController |
+| ItemDrop | OnCollected | ShellPickup |
 | KeyBindManager | OnBindingsChanged | RebindButtonBase |
 | KeyBindManager | OnInitialized | InputReader |
 | LoadingManager | OnLoadingFinished | CutsceneManager, LandUI, PlayerSelfDialogueUI, TutorialPromptUI |
@@ -122,7 +122,7 @@ flowchart LR
 | PlayerMoney | OnMoneyDelta | ResourceNotificationPresenter |
 | PlayerUIState | OnLockChanged | GameHUD, TutorialPromptUI |
 | QuestManager | OnQuestCompleted | QuestCompleteUI |
-| QuestManager | OnQuestUpdated | CutsceneManager, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestMarkerBase, QuestTrackerUI, ReviceQuestListUI, ShopManager, TutorialPromptUI, UpgradeSlot |
+| QuestManager | OnQuestUpdated | AcceptedQuestListUI, CutsceneManager, ExploreAreaTrigger, NPC, PlayerSelfDialogueUI, QuestBoardUI, QuestMarkerBase, QuestTrackerUI, ShopManager, TutorialPromptUI, UpgradeSlot |
 | RewardEvents | OnMoneyRewarded | PlayerMoney |
 | SaveBridge | OnSaved | SaveNotificationUI |
 | TutorialEvents | OnActionPerformed | QuestProgressTracker |

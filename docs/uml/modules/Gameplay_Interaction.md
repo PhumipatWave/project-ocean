@@ -7,6 +7,11 @@
 ```mermaid
 classDiagram
   direction LR
+  class EventInteractable {
+    <<MB>>
+    +UnityEvent onInteract
+    #Interact(Player) void
+  }
   class Interactable {
     <<MB>>
     <<abstract>>
@@ -25,16 +30,11 @@ classDiagram
   class InteractionTargeting {
     <<static>>
   }
-  class InteractUI {
-    <<MB>>
-    +UnityEvent onInteract
-    #Interact(Player) void
-  }
   class PlayerInteractor {
     <<MB>>
   }
   Interactable --> PlayerInteractor : interactor
-  Interactable <|-- InteractUI
+  Interactable <|-- EventInteractable
   PlayerInteractor --> Interactable : inRange
 ```
 
@@ -48,7 +48,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| InteractUI | MB | `InteractUI.cs:10` | 6 |
+| EventInteractable | MB | `EventInteractable.cs:7` | 6 |
 | Interactable | MB, abstract | `Interactable.cs:8` | 75 |
 | InteractionTargeting | static | `InteractionTargeting.cs:8` | 19 |
 | PlayerInteractor | MB | `PlayerInteractor.cs:9` | 47 |

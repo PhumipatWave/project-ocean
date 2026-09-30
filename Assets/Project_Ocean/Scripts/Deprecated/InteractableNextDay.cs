@@ -6,11 +6,11 @@ using Game.UI;
 
 namespace Game.Deprecated
 {
-    // Raw-key handling (E press → TrySleep) is delegated to an InteractUI on the same
+    // Raw-key handling (E press → TrySleep) is delegated to an EventInteractable on the same
     // GameObject, wired to call TrySleep() — same shared PlayerUIState "floor" lock every
     // other interactable (NPC/door/chest) uses, instead of a second, ungated subscription
     // that used to fire TrySleep() even while another panel was already open.
-    [RequireComponent(typeof(InteractUI))]
+    [RequireComponent(typeof(EventInteractable))]
     public class InteractableNextDay : MonoBehaviour
     {
         [Header("UI")]

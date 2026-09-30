@@ -6,20 +6,7 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
-    /// <summary>
-    /// Central controller for blocking UI.
-    ///
-    /// Each UI registers itself through UIWindow.
-    /// UIManager does not need Inspector references to individual panels.
-    ///
-    /// Supported UI:
-    /// MainMenu
-    /// PauseMenu
-    /// SettingMenu   = Setting opened from Main Menu
-    /// SettingPause  = Setting opened from Pause Menu
-    /// Inventory
-    /// Quest
-    /// </summary>
+    /// <summary>Opens and closes the blocking UI windows, which register themselves through UIWindow.</summary>
     public class UIManager : Singleton<UIManager>
     {
 
@@ -56,10 +43,6 @@ namespace Game.UI
 
         public bool IsUIOpen => currentUI != UIType.None;
 
-        // =========================================================
-        // UNITY
-        // =========================================================
-
         protected override bool Persistent => true;
 
         protected override void Awake()
@@ -93,10 +76,6 @@ namespace Game.UI
         {
             HandleEscapeInput();
         }
-
-        // =========================================================
-        // REGISTER
-        // =========================================================
 
         public void Register(UIWindow window)
         {
@@ -186,10 +165,6 @@ namespace Game.UI
                    && window != null;
         }
 
-        // =========================================================
-        // OPEN
-        // =========================================================
-
         public void Open(UIType type)
         {
             if (type == UIType.None)
@@ -212,9 +187,7 @@ namespace Game.UI
                 return;
             }
 
-            // Close the currently managed panel only.
-            // Keep the blocking state while switching directly
-            // from one UI to another.
+            // Keep the blocking state while switching straight from one UI to another.
             CloseCurrentPanelOnly();
 
             target.gameObject.SetActive(true);
@@ -227,10 +200,6 @@ namespace Game.UI
 
             Log($"Open: {type} -> {target.name}");
         }
-
-        // =========================================================
-        // CLOSE
-        // =========================================================
 
         public void CloseCurrent()
         {
@@ -308,10 +277,6 @@ namespace Game.UI
             Log("Close All");
         }
 
-        // =========================================================
-        // MAIN MENU
-        // =========================================================
-
         public void OpenMainMenu()
         {
             Open(UIType.MainMenu);
@@ -322,19 +287,12 @@ namespace Game.UI
             Toggle(UIType.MainMenu);
         }
 
-        // =========================================================
-        // PAUSE MENU
-        // =========================================================
-
         public void OpenPauseMenu()
         {
-            // ถ้ามี UI อื่นเปิดอยู่ ห้ามเปิด Pause Menu ซ้อน
             if (currentUI != UIType.None)
                 return;
 
-            // ถ้ามี UI จากระบบอื่นกำลังเปิดอยู่
-            // เช่น Quest Board / Shop / Upgrade / Interaction
-            // (a playing cutscene holds the lock too, but Pause is allowed over it)
+            // Another system's UI (quest board, shop, upgrade) holds the lock; a cutscene may be paused.
             if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying)
                 return;
 
@@ -343,75 +301,49 @@ namespace Game.UI
 
         public void TogglePauseMenu()
         {
-            // ถ้า Pause Menu เปิดอยู่ ให้กด Menu เพื่อปิดได้
             if (currentUI == UIType.PauseMenu)
             {
                 CloseCurrent();
                 return;
             }
 
-            // มี UI อื่นของ UIManager เปิดอยู่ → ห้ามเปิด Pause ซ้อน
             if (currentUI != UIType.None)
                 return;
 
-            // มี UI จากระบบอื่นเปิดอยู่ → ห้ามเปิด Pause (a playing cutscene is the exception)
+            // Another system's UI holds the lock; a cutscene may be paused.
             if (PlayerUIState.IsLocked && !CutsceneGate.IsPlaying)
                 return;
 
             Open(UIType.PauseMenu);
         }
 
-        // =========================================================
-        // SETTING
-        // =========================================================
-
-        /// <summary>
-        /// Opens SettingPanel_Menu from the Main Menu.
-        /// </summary>
+        /// <summary>Opens Settings from the Main Menu.</summary>
         public void OpenSettingMenu()
         {
             Open(UIType.SettingMenu);
         }
 
-        /// <summary>
-        /// Opens SettingPanel from the in-game Pause Menu.
-        /// </summary>
+        /// <summary>Opens Settings from the Pause Menu.</summary>
         public void OpenSettingPause()
         {
             Open(UIType.SettingPause);
         }
 
-        /// <summary>
-        /// Kept for compatibility with old Button OnClick events.
-        /// If an old button still calls OpenSetting(), it will open
-        /// the Pause/in-game Setting.
-        /// </summary>
+        /// <summary>Old buttons still call this; opens the in-game Settings.</summary>
         public void OpenSetting()
         {
             OpenSettingPause();
         }
-
-        // =========================================================
-        // INVENTORY
-        // =========================================================
 
         public void OpenInventory()
         {
             Open(UIType.Inventory);
         }
 
-        // =========================================================
-        // QUEST
-        // =========================================================
-
         public void OpenQuest()
         {
             Open(UIType.Quest);
         }
-
-        // =========================================================
-        // ESC
-        // =========================================================
 
         private void HandleEscapeInput()
         {
@@ -437,10 +369,6 @@ namespace Game.UI
                 PlayerUIState.CloseCurrent();
             }
         }
-
-        // =========================================================
-        // PLAYER LOCK / TIME SCALE
-        // =========================================================
 
         private void ApplyBlockingState()
         {
@@ -482,10 +410,6 @@ namespace Game.UI
             HideBackgroundDim();
         }
 
-        // =========================================================
-        // ENUM CONVERSION
-        // =========================================================
-
         private UIType ConvertType(UIWindow.UIType type)
         {
             switch (type)
@@ -513,10 +437,6 @@ namespace Game.UI
             }
         }
 
-        // =========================================================
-        // BACKGROUND DIM
-        // =========================================================
-
         private void ShowBackgroundDim()
         {
             if (backgroundDim != null)
@@ -532,10 +452,6 @@ namespace Game.UI
                 backgroundDim.Hide();
             }
         }
-
-        // =========================================================
-        // DEBUG
-        // =========================================================
 
         private void Log(string message)
         {

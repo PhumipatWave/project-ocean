@@ -62,9 +62,7 @@ namespace Game.Gameplay
                 float distToDest = Vector2.Distance(enemyBrainContext.Transform.position,
                     enemyBrainContext.Agent.destination);
 
-                // Check if the player is cutting into the flee path:
-                // project player-to-fish direction onto current flee direction.
-                // If the dot is negative the player is moving into our path — re-route.
+                // Re-route when the player moves into the flee path.
                 Vector3 selfPos = enemyBrainContext.Transform.position;
                 Vector3 playerPos = enemyBrainContext.PlayerTransform.position;
                 Vector3 toDest = ((Vector3)enemyBrainContext.Agent.destination - selfPos).normalized;

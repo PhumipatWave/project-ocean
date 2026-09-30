@@ -3,12 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Brain profile for friendly enemies — wanders away from the player when seen,
-    /// panic-flees when hit by a bullet. No attack fields exposed.
-    /// All shared pathfinding fields (fishClearanceRadius, maxWanderSampleTries,
-    /// nearPlayerSearch*) live on EnemyBaseProfile.
-    /// </summary>
+    /// <summary>Friendly enemy: wanders away from the player on sight and panics when hit.</summary>
     [CreateAssetMenu(fileName = "FriendlyEnemyProfile", menuName = "Enemy/Friendly Enemy Profile")]
     public class FriendlyEnemyProfile : EnemyBaseProfile
     {

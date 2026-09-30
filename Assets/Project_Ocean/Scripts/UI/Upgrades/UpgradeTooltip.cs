@@ -51,7 +51,6 @@ namespace Game.UI
 
                 if (tooltipRect != null)
                 {
-                    // จำขนาดจริงของ Tooltip จาก Scene เอาไว้
                     Vector2 originalSize =
                         tooltipRect.rect.size;
 
@@ -64,13 +63,13 @@ namespace Game.UI
                     tooltipRect.pivot =
                         new Vector2(0f, 1f);
 
-                    // สำคัญมาก!
+                    // Changing anchors resets sizeDelta; restore the size authored in the scene.
                     tooltipRect.sizeDelta =
                         originalSize;
                 }
             }
 
-            // Tooltip ห้ามบังปุ่ม Upgrade
+            // The tooltip must never take clicks meant for the upgrade button under it.
             CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
 
             if (canvasGroup == null)
@@ -108,23 +107,14 @@ namespace Game.UI
             int currentLevel = manager.GetLevel(data);
             int price = manager.GetPrice(data);
 
-            // ─────────────────────────
-            // Title
-            // ─────────────────────────
 
             if (titleText != null)
                 titleText.text = data.upgradeName;
 
-            // ─────────────────────────
-            // Description
-            // ─────────────────────────
 
             if (descriptionText != null)
                 descriptionText.text = data.description;
 
-            // ─────────────────────────
-            // Level
-            // ─────────────────────────
 
             if (levelText != null)
             {
@@ -139,15 +129,9 @@ namespace Game.UI
                 }
             }
 
-            // ─────────────────────────
-            // Value
-            // ─────────────────────────
 
             UpdateValue(data, currentLevel);
 
-            // ─────────────────────────
-            // Price
-            // ─────────────────────────
 
             if (priceText != null)
             {
@@ -157,15 +141,12 @@ namespace Game.UI
                     priceText.text = $"Cost: ${price}";
             }
 
-            // ─────────────────────────
-            // Unlocks
-            // ─────────────────────────
 
             UpdateUnlocks(data, currentLevel);
 
             tooltip.SetActive(true);
 
-            // รอให้ Layout คำนวณขนาดก่อนจัดตำแหน่ง
+            // Layout must size the tooltip before it is positioned.
             Canvas.ForceUpdateCanvases();
 
             FollowTarget();
@@ -186,21 +167,18 @@ namespace Game.UI
             {
                 case UpgradeType.Inventory:
 
-                    // Upgrade 1 ครั้ง = +1 Slot
                     valueText.text = "+1 Slot";
                     break;
 
                 case UpgradeType.Rope:
 
-                    // ความยาวเชือก
                     valueText.text =
                         $"+{data.value:0} meter";
                     break;
 
                 case UpgradeType.NormalBullet:
 
-                    // ความเสียหายกระสุน — read from NormalBullet's own tables (data.value is unused
-                    // for the gun: gains aren't flat per level, levels 1-3 improve range instead).
+                    // Gun gains aren't flat per level, so read NormalBullet's tables, not data.value.
                     valueText.text =
                         $"Damage {NormalBullet.GetDamage(currentLevel):0} > {NormalBullet.GetDamage(currentLevel + 1):0}";
 
@@ -211,7 +189,6 @@ namespace Game.UI
 
                 default:
 
-                    // รองรับ Upgrade ใหม่ในอนาคต
                     valueText.text =
                         $"+{data.value:0}";
                     break;
@@ -285,9 +262,6 @@ namespace Game.UI
             ClearUnlockRows();
         }
 
-        // =========================================================
-        // Tooltip อยู่ข้าง ๆ UpgradeSlot
-        // =========================================================
 
         private void FollowTarget()
         {
@@ -311,9 +285,6 @@ namespace Game.UI
                     ? null
                     : canvas.worldCamera;
 
-            // =====================================================
-            // UpgradeSlot → Screen Position
-            // =====================================================
 
             Vector3[] corners = new Vector3[4];
             targetRect.GetWorldCorners(corners);
@@ -341,22 +312,14 @@ namespace Game.UI
             float slotCenterY =
                 (topLeft.y + bottomLeft.y) * 0.5f;
 
-            // =====================================================
-            // Tooltip ขนาดจริง
-            // =====================================================
 
-            // rect.size is in canvas units, but every position below is in screen pixels
-            // (Screen.width, WorldToScreenPoint). With ScaleWithScreenSize the two only match
-            // when the screen is exactly the reference resolution — on a smaller Game view the
-            // tooltip looked wider than the screen and got clamped to the top-left corner.
+            // rect.size is in canvas units but positions below are screen pixels; scale it, or the tooltip is wrong
+            // at any resolution other than the reference one.
             Vector2 tooltipSize =
                 tooltipRect.rect.size * canvas.scaleFactor;
 
             float spacing = 12f;
 
-            // =====================================================
-            // วางขวาก่อน
-            // =====================================================
 
             float rightX =
                 topRight.x + spacing;
@@ -373,16 +336,12 @@ namespace Game.UI
             }
             else
             {
-                // ถ้าขวาไม่มีที่ → ซ้าย
                 tooltipX =
                     topLeft.x -
                     tooltipSize.x -
                     spacing;
             }
 
-            // =====================================================
-            // กันหลุดซ้าย / ขวา
-            // =====================================================
 
             tooltipX =
                 Mathf.Clamp(
@@ -392,17 +351,11 @@ namespace Game.UI
                     tooltipSize.x -
                     5f);
 
-            // =====================================================
-            // จัดกึ่งกลางกับ UpgradeSlot
-            // =====================================================
 
             float tooltipTop =
                 slotCenterY +
                 tooltipSize.y * 0.5f;
 
-            // =====================================================
-            // กันหลุดบน
-            // =====================================================
 
             if (tooltipTop >
                 Screen.height - 5f)
@@ -411,9 +364,6 @@ namespace Game.UI
                     Screen.height - 5f;
             }
 
-            // =====================================================
-            // กันหลุดล่าง
-            // =====================================================
 
             if (tooltipTop - tooltipSize.y < 5f)
             {
@@ -421,9 +371,6 @@ namespace Game.UI
                     tooltipSize.y + 5f;
             }
 
-            // =====================================================
-            // Screen → Canvas
-            // =====================================================
 
             Vector2 screenPosition =
                 new Vector2(

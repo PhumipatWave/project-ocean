@@ -107,7 +107,7 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| AnimHash | static | `AnimHash.cs:11` | 11 |
+| AnimHash | static | `AnimHash.cs:7` | 11 |
 | Entity | MB, abstract | `Entity.cs:7` | 78 |
 | EntityAnimation | MB | `EntityAnimation.cs:6` | 43 |
 | EntityDeathHandler | MB | `EntityDeathHandler.cs:6` | 56 |

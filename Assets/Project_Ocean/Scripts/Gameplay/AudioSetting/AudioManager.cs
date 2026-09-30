@@ -23,25 +23,8 @@ namespace Game.Gameplay
         public string enterSfx;     // optional short one-shot when the scene starts (SFX channel)
     }
 
-    /// <summary>
-    /// The one audio owner. Lives on the persistent (GameManager) root, NOT inside a settings
-    /// panel — a copy inside an inactive panel never ran Awake, so Instance stayed null.
-    ///
-    /// Layout:  AudioManager (this script)
-    ///          ├─ Master  (SoundChannel → mixer group Master: UI / system sounds)
-    ///          │   └─ one child object per sound: AudioSource + clip, named by its key
-    ///          ├─ BGM     (SoundChannel → mixer group BGM: music + looping ambience)
-    ///          └─ SFX     (SoundChannel → mixer group SFX: effects)
-    /// Play by key (see SoundKeys). Each sound keeps its own volume / pitch / loop on its AudioSource.
-    /// The Master GROUP scales everything; the Master CHANNEL is for sounds that belong to no other
-    /// channel (UI clicks, stingers), so only the master slider affects them.
-    ///
-    /// Music follows the scene by itself: on every scene load the manager looks the scene up in its
-    /// "Scenes" table and switches music / ambience / enter sound. The manager persists, so without this
-    /// the previous scene's music would keep playing. A scene that is not in the table is left alone.
-    ///
-    /// Volumes (0..1) are stored in PlayerPrefs and pushed to the mixer's exposed parameters.
-    /// </summary>
+    /// <summary>Plays every sound by key (SoundKeys) through Master/BGM/SFX channels and switches music per scene.</summary>
+    // Lives on the persistent root: a copy inside an inactive settings panel never ran Awake. Volumes are saved in PlayerPrefs.
     public class AudioManager : Singleton<AudioManager>
     {
 
@@ -126,9 +109,7 @@ namespace Game.Gameplay
 
         // -------------------- One-shots (SFX / Master channels) -------------------- //
 
-        /// <summary>Plays an effect. Overlapping plays of the same sound don't cut each other off.
-        /// A pitch range (e.g. 1.1–1.3) picks a random pitch per play; leave it out to keep the pitch
-        /// set on the sound's AudioSource.</summary>
+        /// <summary>Plays an effect without cutting off earlier plays; a pitch range randomizes pitch per play.</summary>
         public void PlaySFX(string key, float pitchMin = 1f, float pitchMax = 1f)
         {
             if (sfx == null || !sfx.TryGet(key, out AudioSource src)) return;
@@ -162,10 +143,7 @@ namespace Game.Gameplay
         private AudioSource previewBgm;
         private float previewBgmStopAt;
 
-        /// <summary>Plays the sound that lets you hear a channel's level while you drag its slider:
-        /// Master → OpenInventory, SFX → Hurt, BGM → LandTheme. One-shots are throttled so dragging
-        /// doesn't machine-gun; the BGM preview keeps playing while you move and stops shortly after.
-        /// Uses unscaled time, so it also works in the pause menu.</summary>
+        /// <summary>Plays a throttled sample of a channel while its volume slider is dragged; works while paused.</summary>
         public void PlayPreview(AudioChannel channel)
         {
             switch (channel)

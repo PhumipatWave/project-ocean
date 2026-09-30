@@ -41,9 +41,7 @@ namespace Game.Gameplay
             maxHealth = Mathf.Max(1f, healthValue);
         }
 
-        /// Directly sets current health without the death/heal-clamp side effects of
-        /// TakeDamage/Heal. For subclasses that need to track health separately from
-        /// those methods' default behavior (e.g. a "soft fail" instead of death at 0).
+        /// Sets health without TakeDamage/Heal side effects, for subclasses that handle 0 health differently.
         protected void SetCurrentHealth(float value)
         {
             currentHealth = Mathf.Clamp(value, 0f, maxHealth);

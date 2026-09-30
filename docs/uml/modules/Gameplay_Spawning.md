@@ -16,24 +16,6 @@ classDiagram
     <<MB>>
     +ResetZone() void
   }
-  class EnemySpawnEntry {
-    +string id
-    +GameObject prefab
-  }
-  class ItemSpawnEntry {
-    +Item item
-  }
-  class GameObjectSpawnManager {
-    <<MB>>
-    #Awake() void
-    +GetEnemyPrefab(string) GameObject
-    +GetItem(int) Item
-    +GetItemAt(int) Item
-    +RegisterSpawner(EnemySpawner) void
-    +UnregisterSpawner(EnemySpawner) void
-    +RegisterItemSpawner(ItemSpawner) void
-    +UnregisterItemSpawner(ItemSpawner) void
-  }
   class ZoneItemEntry {
     +int itemIndex
     +float weight
@@ -43,6 +25,24 @@ classDiagram
     <<MB>>
     +ResetSpawner() void
     +OnItemCollected(GameObject) void
+  }
+  class EnemySpawnEntry {
+    +string id
+    +GameObject prefab
+  }
+  class ItemSpawnEntry {
+    +Item item
+  }
+  class SpawnCatalog {
+    <<MB>>
+    #Awake() void
+    +GetEnemyPrefab(string) GameObject
+    +GetItem(int) Item
+    +GetItemAt(int) Item
+    +RegisterSpawner(EnemySpawner) void
+    +UnregisterSpawner(EnemySpawner) void
+    +RegisterItemSpawner(ItemSpawner) void
+    +UnregisterItemSpawner(ItemSpawner) void
   }
   class IWeightedEntry {
     <<interface>>
@@ -55,34 +55,34 @@ classDiagram
     <<Core>>
   }
   EnemySpawner --> ZoneSpawnEntry : spawnEntries
-  GameObjectSpawnManager --> EnemySpawnEntry : allEnemies
-  GameObjectSpawnManager --> EnemySpawner : enemySpawners
-  GameObjectSpawnManager --> ItemSpawnEntry : allItems
-  GameObjectSpawnManager --> ItemSpawner : itemSpawners
   IWeightedEntry <|.. ZoneItemEntry
   IWeightedEntry <|.. ZoneSpawnEntry
   ItemSpawner --> ZoneItemEntry : spawnEntries
-  Singleton <|-- GameObjectSpawnManager
+  Singleton <|-- SpawnCatalog
+  SpawnCatalog --> EnemySpawnEntry : allEnemies
+  SpawnCatalog --> EnemySpawner : enemySpawners
+  SpawnCatalog --> ItemSpawnEntry : allItems
+  SpawnCatalog --> ItemSpawner : itemSpawners
 ```
 
 ## Event subscriptions
 
 | Subscriber | Publisher | Event |
 |---|---|---|
-| GameObjectSpawnManager | DayManager | OnDayAdvanced |
-| GameObjectSpawnManager | DayManager | OnEnemyReset |
 | ItemSpawner | FeatureUnlockService | OnFeatureUnlocked |
+| SpawnCatalog | DayManager | OnDayAdvanced |
+| SpawnCatalog | DayManager | OnEnemyReset |
 
 ## Files
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| EnemySpawnEntry | class | `GameObjectSpawnManager.cs:11` | 6 |
+| EnemySpawnEntry | class | `SpawnCatalog.cs:11` | 6 |
 | EnemySpawner | MB | `EnemySpawner.cs:24` | 194 |
-| GameObjectSpawnManager | MB | `GameObjectSpawnManager.cs:27` | 111 |
 | IWeightedEntry | interface | `WeightedPicker.cs:6` | 4 |
-| ItemSpawnEntry | class | `GameObjectSpawnManager.cs:19` | 5 |
-| ItemSpawner | MB | `ItemSpawner.cs:23` | 117 |
+| ItemSpawnEntry | class | `SpawnCatalog.cs:19` | 5 |
+| ItemSpawner | MB | `ItemSpawner.cs:21` | 117 |
+| SpawnCatalog | MB | `SpawnCatalog.cs:27` | 111 |
 | WeightedPicker | static | `WeightedPicker.cs:12` | 24 |
 | ZoneItemEntry | class | `ItemSpawner.cs:9` | 8 |
 | ZoneSpawnEntry | class | `EnemySpawner.cs:11` | 8 |

@@ -195,15 +195,15 @@ namespace Game.UI
             Item found = itemDatabase.FindById(id);
             if (found != null) return found;
 
-            // allItems here and in GameObjectSpawnManager are separate Inspector lists; fall back
+            // allItems here and in SpawnCatalog are separate Inspector lists; fall back
             // so a desynced item isn't dropped on load, and log loudly so the list gets fixed.
-            if (GameObjectSpawnManager.Instance != null)
+            if (SpawnCatalog.Instance != null)
             {
-                Item fallback = GameObjectSpawnManager.Instance.GetItem(id);
+                Item fallback = SpawnCatalog.Instance.GetItem(id);
                 if (fallback != null)
                 {
                     Debug.LogError($"[InventoryManager] Item ID {id} ('{fallback.ItemName}') is missing from " +
-                                   $"InventoryManager.allItems but exists in GameObjectSpawnManager — add it to " +
+                                   $"InventoryManager.allItems but exists in SpawnCatalog — add it to " +
                                    $"the InventoryManager 'Item Database' list in the Inspector to fix this properly.");
                     return fallback;
                 }

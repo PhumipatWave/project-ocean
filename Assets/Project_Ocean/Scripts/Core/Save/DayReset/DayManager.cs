@@ -26,17 +26,10 @@ namespace Game.Core
         [Header("Events")]
         public UnityEvent<int> onNewDay;
 
-        /// <summary>
-        /// Fired by AdvanceDay() — EnemySpawnManager subscribes via OnEnable/OnDisable.
-        /// DayManager never holds a direct reference to EnemySpawnManager.
-        /// </summary>
+        /// <summary>Raised by AdvanceDay so spawners reset; SpawnCatalog listens.</summary>
         public static event System.Action OnEnemyReset;
 
-        /// <summary>
-        /// Fired LAST in AdvanceDay(), after onNewDay and OnEnemyReset, so subscribers
-        /// (e.g. SaveBridge auto-save) see the fully updated world state.
-        /// DayManager never holds a direct reference to the save system.
-        /// </summary>
+        /// <summary>Raised last in AdvanceDay, so listeners such as the auto-save see the fully updated day.</summary>
         public static event System.Action OnDayAdvanced;
 
         /// <summary>Fired whenever today's dive count changes — gates the sleep interaction and the dive panel text.</summary>

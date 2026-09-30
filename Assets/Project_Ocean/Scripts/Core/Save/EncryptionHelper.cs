@@ -7,15 +7,13 @@ namespace Game.Core
 {
     public static class EncryptionHelper
     {
-        // ❌ เอา hardcoded KEY/IV ออก
-        // ✅ ใช้ PBKDF2 derive key+IV จาก passphrase + salt แทน
-        // เปลี่ยน PASSPHRASE ให้เป็นของตัวเอง (ไม่ต้องครบ 16 ตัว)
+        // Key and IV are derived with PBKDF2 instead of hard-coded; changing PASSPHRASE makes old saves unreadable.
         private const string PASSPHRASE = "MyGame_ChangeThis_2025";
         private const int    ITERATIONS  = 10_000;
         private const int    KEY_SIZE    = 32; // AES-256
         private const int    IV_SIZE     = 16;
 
-        // Salt ไม่ต้องลับ แต่ต้องคงที่ระหว่าง encrypt/decrypt
+        // Salt need not be secret, but must never change or old saves can't be decrypted.
         private static readonly byte[] SALT = Encoding.UTF8.GetBytes("SaveGame_Salt_v1");
 
         // -------------------------------------------------- //

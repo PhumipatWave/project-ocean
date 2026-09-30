@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// Tracks which ocean enemy spawn points were cleared this day.
-    /// Persists across ocean→land transitions so killed enemies don't respawn mid-day.
-    /// Resets automatically when the player advances to the next day.
-    /// Place this on the same persistent GameObject as GameManager / SaveBridge.
+    /// Enemy spawn slots cleared today, so killed enemies don't respawn until the next day.
+    /// Lives on the persistent GameManager root.
     public class EnemyKillTracker : Singleton<EnemyKillTracker>, ISaveParticipant
     {
 

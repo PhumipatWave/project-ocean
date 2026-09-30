@@ -3,10 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Identifies each state in the enemy FSM.
-    /// Each brain type only registers the tags it actually uses.
-    /// </summary>
+    /// <summary>Enemy FSM states; each brain registers only the ones it uses.</summary>
     public enum EnemyStateTag
     {
         Wander,

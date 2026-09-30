@@ -24,5 +24,5 @@ classDiagram
 
 | Type | Kind | File | LOC |
 |---|---|---|---|
-| CharacterData | SO | `CharacterData.cs:11` | 8 |
+| CharacterData | SO | `CharacterData.cs:7` | 8 |
 | CharacterDatabase | SO | `CharacterDatabase.cs:9` | 19 |

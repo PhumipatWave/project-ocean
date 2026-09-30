@@ -119,10 +119,6 @@ namespace Game.UI
                    upgradeManager.GetPrice(data);
         }
 
-        // =========================================================
-        // HOVER TOOLTIP
-        // =========================================================
-
         public void OnPointerEnter(
             PointerEventData eventData)
         {

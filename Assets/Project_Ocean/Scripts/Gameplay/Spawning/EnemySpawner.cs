@@ -10,7 +10,7 @@ namespace Game.Gameplay
     [Serializable]
     public class ZoneSpawnEntry : IWeightedEntry
     {
-        [Tooltip("Must match an ID in EnemySpawnManager.allEnemyEntries.")]
+        [Tooltip("Must match an ID in SpawnCatalog.allEnemies.")]
         public string enemyId;
 
         [Tooltip("Relative spawn chance for this zone. Higher = more likely to be picked.")]
@@ -20,11 +20,11 @@ namespace Game.Gameplay
     }
 
     /// Place one EnemySpawner per zone in the Ocean scene.
-    /// References enemy types by ID — prefabs live in EnemySpawnManager.
+    /// References enemy types by ID — prefabs live in SpawnCatalog.
     public class EnemySpawner : MonoBehaviour
     {
         [Header("Zone Spawn Entries")]
-        [Tooltip("Which enemy types spawn here and their relative weights. IDs must match EnemySpawnManager.")]
+        [Tooltip("Which enemy types spawn here and their relative weights. IDs must match SpawnCatalog.")]
         [SerializeField] private List<ZoneSpawnEntry> spawnEntries;
 
         [Tooltip("This zone only spawns once GameFeature.EnemySpawnLevel<N> is unlocked (1-3) — see FeatureUnlockService.")]
@@ -77,12 +77,12 @@ namespace Game.Gameplay
         private readonly List<GameObject> _spawnedEnemies = new();
         private bool _isActive;
 
-        private void OnEnable()  => GameObjectSpawnManager.Instance?.RegisterSpawner(this);
-        private void OnDisable() => GameObjectSpawnManager.Instance?.UnregisterSpawner(this);
+        private void OnEnable()  => SpawnCatalog.Instance?.RegisterSpawner(this);
+        private void OnDisable() => SpawnCatalog.Instance?.UnregisterSpawner(this);
 
         private void Start()
         {
-            GameObjectSpawnManager.Instance?.RegisterSpawner(this);
+            SpawnCatalog.Instance?.RegisterSpawner(this);
             StartCoroutine(ProximityCheckRoutine());
         }
 
@@ -154,7 +154,7 @@ namespace Game.Gameplay
                 var entry = PickEntry();
                 if (entry == null) continue;
 
-                var prefab = GameObjectSpawnManager.Instance?.GetEnemyPrefab(entry.enemyId);
+                var prefab = SpawnCatalog.Instance?.GetEnemyPrefab(entry.enemyId);
                 if (prefab == null) continue;
 
                 if (!TryGetNavMeshPosition(transform.position, spawnRadius, NeedsGround(prefab), out Vector3 spawnPos))
@@ -255,9 +255,7 @@ namespace Game.Gameplay
                     Vector2 rayOrigin = (Vector2)candidate + Vector2.up * groundCheckUpOffset;
                     var groundHit = Physics2D.Raycast(rayOrigin, Vector2.down, groundCheckUpOffset + groundCheckDistance, groundLayer);
 
-                    // Ground collider height can drift slightly from the baked NavMesh height.
-                    // Only accept the ground-corrected point if it's still on the NavMesh —
-                    // otherwise the agent spawns off-mesh and NEVER ticks (isOnNavMesh stays false).
+                    // Ground can sit off the baked NavMesh; an off-mesh agent never ticks, so keep only on-mesh points.
                     if (groundHit.collider != null)
                     {
                         Vector3 groundCandidate = new(candidate.x, groundHit.point.y, candidate.z);
@@ -265,9 +263,7 @@ namespace Game.Gameplay
                             candidate = groundNavHit.position;
                     }
 
-                    // Checked at the FINAL point (the NavMesh snaps above can move it sideways off
-                    // the ledge the first ray found): ground must be right underneath, not
-                    // somewhere far below in open water.
+                    // Check at the final point: the NavMesh snap can move it off the ledge the first ray hit.
                     if (requireGround &&
                         Physics2D.Raycast((Vector2)candidate + Vector2.up * 0.05f, Vector2.down, maxGroundGap + 0.05f, groundLayer).collider == null)
                         continue;

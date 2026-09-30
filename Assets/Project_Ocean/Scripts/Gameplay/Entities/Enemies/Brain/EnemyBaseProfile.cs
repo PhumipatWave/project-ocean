@@ -3,10 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Abstract base ScriptableObject shared by all enemy brain settings.
-    /// Contains every field that is common to ALL enemy types.
-    /// </summary>
+    /// <summary>Settings shared by every enemy brain profile.</summary>
     public abstract class EnemyBaseProfile : ScriptableObject
     {
         [Header("Identity")]

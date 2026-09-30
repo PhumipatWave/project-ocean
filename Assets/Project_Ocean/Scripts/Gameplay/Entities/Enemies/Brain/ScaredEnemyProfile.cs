@@ -3,13 +3,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>
-    /// Brain profile for scared enemies — flees immediately on sight,
-    /// panic-flees when hit by a bullet. Can alert nearby allies when fleeing.
-    /// No attack fields exposed.
-    /// All shared pathfinding fields (fishClearanceRadius, maxWanderSampleTries,
-    /// nearPlayerSearch*) live on EnemyBaseProfile.
-    /// </summary>
+    /// <summary>Scared enemy: flees on sight, panics when hit, and can alert nearby allies.</summary>
     [CreateAssetMenu(fileName = "ScaredEnemyProfile", menuName = "Enemy/Scared Enemy Profile")]
     public class ScaredEnemyProfile : EnemyBaseProfile
     {

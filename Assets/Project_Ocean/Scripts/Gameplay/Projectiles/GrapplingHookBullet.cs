@@ -131,9 +131,7 @@ namespace Game.Gameplay
             while (!isDashReachingTarget)
             {
                 Vector2 playerPos = player.transform.position;
-                // Never dash past the current (possibly-upgraded) max rope length —
-                // otherwise EnforceRopeLimit pins the player at the boundary while this
-                // loop keeps waiting to reach the out-of-range hitPos, hanging forever.
+                // Clamp to the rope limit: the player is pinned there, so a target beyond it would never be reached.
                 Vector2 target = player.OxygenTube != null ? player.OxygenTube.ClampToRopeLimit(hitPos) : hitPos;
                 Vector2 dir = (target - playerPos).normalized;
 

@@ -16,9 +16,7 @@ namespace Game.Gameplay
             return money != null && money.CurrentMoney >= step.RequiredMoney;
         }
 
-        /// <summary>WaitingQuest only — records the day this step became current, once. Safe to
-        /// call repeatedly (AcceptQuest/CompleteProgress/LoadSaveState all call it) — a no-op once
-        /// DayStepBecameCurrent is already set, since a step only becomes current once.</summary>
+        /// <summary>Records the day a WaitingQuest step became current; later calls do nothing.</summary>
         public static void StampWaitingStart(QuestStep step)
         {
             if (step != null && step.Type == QuestType.WaitingQuest &&
@@ -39,16 +37,9 @@ namespace Game.Gameplay
                     FeatureUnlockService.Instance.Lock(feature);
         }
 
-        /// <summary>
-        /// Removes the item(s) the given step consumes — called when that step completes (or at
-        /// turn-in for a final ReadyToHandIn step). Delivery steps skip entirely when
-        /// ConsumeOnComplete is off. InventoryHeld removes according to its count mode: PerItem
-        /// takes each requirement's own count from TargetQuestItemRequirements; CombinedTotal has
-        /// no per-item counts to go by (its ids are the plain TargetQuestItemIds list), so it
-        /// takes greedily in list order until the shared Target Count is consumed. EnemyKills
-        /// (and every non-Delivery type) keeps the single-item field (e.g. a kill bounty's
-        /// hand-in loot item) — always consumed, no ConsumeOnComplete toggle for those.
-        /// </summary>
+        /// <summary>Removes the items a step consumes when it completes.</summary>
+        // Delivery obeys ConsumeOnComplete. PerItem takes each requirement's count; CombinedTotal takes in
+        // list order until Target Count is met. Other step types always consume their single item.
         public static void RemoveQuestItems(QuestStep step)
         {
             if (Inventory.Current == null || step == null) return;

@@ -85,5 +85,5 @@ classDiagram
 | Seg | struct | `VerletRope.cs:17` | 6 |
 | Settings | struct | `VerletRope.cs:9` | 7 |
 | VerletRope | class | `VerletRope.cs:7` | 139 |
-| WrapPin | struct | `OxygenRope.cs:115` | 7 |
+| WrapPin | struct | `OxygenRope.cs:103` | 7 |
 | WrapPoint | class | `ObjectWrapPoint.cs:10` | 11 |

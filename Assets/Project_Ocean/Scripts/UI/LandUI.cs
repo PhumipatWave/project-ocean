@@ -6,9 +6,7 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
-    /// Binds all Land-scene buttons to global singleton managers at runtime,
-    /// avoiding cross-scene Inspector references that break on scene reload.
-    /// Also exposes Open/Close for wiring any land UI close button to PlayerUIState.
+    /// <summary>Wires Land buttons to the persistent managers at runtime, since cross-scene Inspector links break on reload.</summary>
     public class LandUI : MonoBehaviour
     {
         /// <summary>Wire to any button that opens a blocking land UI.</summary>
@@ -54,9 +52,7 @@ namespace Game.UI
             LoadingManager.OnLoadingFinished -= HandleLoadingFinished;
         }
 
-        // Dive/shop/upgrade/board/home panels would otherwise stack under a dialogue box. They
-        // stay open (and keep their PlayerUIState lock) — just invisible and unclickable until
-        // the dialogue closes. Dialogue boxes themselves live under this canvas too, so skip them.
+        // Land panels hide under a dialogue box but stay open and keep their lock; dialogue boxes themselves are skipped.
         private void HandleDialogueChanged()
         {
             if (DialogueState.IsShowing) HideOtherPanels();
@@ -105,7 +101,7 @@ namespace Game.UI
             if (startDiveButton != null)
                 startDiveButton.onClick.AddListener(() =>
                 {
-                    // Release the lock that InteractUI.Open() placed when E was pressed
+                    // Release the lock that EventInteractable.Open() placed when E was pressed
                     PlayerUIState.Close();
 
                     // Out of dives: tell the player to sleep instead of opening the dive confirm.
@@ -151,12 +147,7 @@ namespace Game.UI
                 "Are you sure you want to end the day?",
                 () =>
                 {
-                    // Close HomePanel BEFORE advancing the day, not after — AdvanceDay() raises
-                    // TutorialEvents' Sleep action, which can itself open other UI (e.g. an
-                    // auto-display tutorial line for the next step). Closing first means
-                    // CloseCurrent() unambiguously targets HomePanel's own slot (the current top
-                    // right after ConfirmationDialog.Confirm() released its own), instead of
-                    // racing whatever AdvanceDay() might push on top afterward.
+                    // Close HomePanel before AdvanceDay: its Sleep action can open other UI, and CloseCurrent must hit HomePanel.
                     PlayerUIState.CloseCurrent();
                     DayManager.Instance?.AdvanceDay();
                 }
