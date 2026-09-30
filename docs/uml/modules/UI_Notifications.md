@@ -1,6 +1,6 @@
 # UI/Notifications
 
-5 types · 180 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×8, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [UI/Inventory](UI_Inventory.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+5 types · 180 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×8, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [UI/Inventory](UI_Inventory.md) ×1
 
 [← index](../README.md)
 

@@ -464,7 +464,7 @@ def page_modules(types, by_name, modules):
             for e in edges_of(t):
                 if e in by_name and by_name[e].module != mod:
                     depends[by_name[e].module] += 1
-        dep_txt = ", ".join(f"[{m}]({nid(m)}.md) ×{c}" for m, c in sorted(depends.items(), key=lambda x: -x[1])) or "none"
+        dep_txt = ", ".join(f"[{m}]({nid(m)}.md) ×{c}" for m, c in sorted(depends.items(), key=lambda x: (-x[1], x[0]))) or "none"
         lines = [f"# {mod}", "", f"{len(ts)} types · {loc} LOC (non-blank) · depends on: {dep_txt}", "",
                  "[← index](../README.md)", ""]
         for title, part in chunks:

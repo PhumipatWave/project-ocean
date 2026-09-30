@@ -1,6 +1,6 @@
 # UI/Inventory/InventoryBuy
 
-2 types · 70 LOC (non-blank) · depends on: [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [Core](Core.md) ×1, [UI/Shop](UI_Shop.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1
+2 types · 70 LOC (non-blank) · depends on: [UI/Inventory/InventoryPlayer](UI_Inventory_InventoryPlayer.md) ×2, [Core](Core.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [UI/Shop](UI_Shop.md) ×1
 
 [← index](../README.md)
 

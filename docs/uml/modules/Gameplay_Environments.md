@@ -1,6 +1,6 @@
 # Gameplay/Environments
 
-7 types · 480 LOC (non-blank) · depends on: [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×4, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×4, [Core/Events](Core_Events.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1, [Core/Datas/ScriptableDatas/Characters](Core_Datas_ScriptableDatas_Characters.md) ×1, [Core](Core.md) ×1
+7 types · 480 LOC (non-blank) · depends on: [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×4, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×4, [Gameplay/QuestSystems/Quest](Gameplay_QuestSystems_Quest.md) ×4, [Core/Events](Core_Events.md) ×2, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core](Core.md) ×1, [Core/Datas/ScriptableDatas/Characters](Core_Datas_ScriptableDatas_Characters.md) ×1, [Gameplay/Entities/NPCs](Gameplay_Entities_NPCs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1
 
 [← index](../README.md)
 
