@@ -3,70 +3,19 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+using Game.UI;
 
-namespace Game.Testing
+namespace Game.Editor
 {
-    /// <summary>
-    /// Shows the right target field for the step's type: the TutorialActionId dropdown
-    /// for Tutorial steps (pick an action, don't type a matching string), "Cutscene Id"
-    /// for Cutscene steps (plays automatically and completes itself — no dialogue needed,
-    /// unlike a cutscene attached to one Talk line via QuestDialogueLine.cutsceneId), and
-    /// "Target Enemy Id" for ExploreArea (hidden for Delivery — see below). Talk (non-auto)
-    /// shows a "Target NPC Ids" list instead of a singular field — talking to ANY NPC in it
-    /// completes the step, and each shows its own dialogue (author one Dialogue entry per
-    /// NPC, keyed by that NPC's own Character Id; see QuestStep.EffectiveNpcIds). Talk+auto
-    /// keeps the old singular field, disabled and cleared — Auto Display Dialogue talks to
-    /// nobody, so there's nothing to list.
-    ///
-    /// Delivery shows a Delivery Source dropdown first (InventoryHeld/EnemyKills — see
-    /// DeliverySource; EnemyKills replaces the old, now-removed KillCount QuestType, since it
-    /// shared everything else with Delivery). InventoryHeld then shows a Delivery Count Mode
-    /// dropdown, then ONE of two lists depending on it — never both, they're mutually exclusive
-    /// ways to author the same requirement (QuestManager live-checks whichever's active against
-    /// the player's actual inventory via InventoryManager.OnInventoryChanged, not a one-shot
-    /// event like every other step type): CombinedTotal shows Target Quest Item Ids (plain ids,
-    /// no per-item count — any mix of them, summed, must reach the step's Target Count); PerItem
-    /// shows Target Quest Item Requirements (id + count pairs, each independently required), and
-    /// Target Count itself is derived there (hidden — it's just the requirement list's length)
-    /// rather than authored. EnemyKills instead shows Target Enemy Ids (kills of ANY listed id
-    /// count toward Target Count) plus the singular Target Quest Item Id as an optional hand-in
-    /// loot item. Either Delivery source shows a Consume On Complete toggle — OFF skips removing
-    /// the delivered/killed-for item(s) when the step completes.
-    ///
-    /// Per-type field visibility (see the FieldVisibility struct below — computed once per
-    /// type/source and shared by OnGUI/GetPropertyHeight): Talk hides Target Count (a Talk step
-    /// always completes in one exchange) and Notification
-    /// Images (no guide banner icon for a conversation); Tutorial hides both Dialogue and
-    /// Reward (it completes off TutorialAction alone, no dialogue box, no payout); Delivery
-    /// hides Notification Images (no guide banner for a grind objective) but keeps Dialogue and
-    /// Reward; Cutscene shows Reward Item Id/Reward Money directly (no foldout —
-    /// it has no dialogue to tuck them behind). Everything else shows the full field set.
-    ///
-    /// Unlocks Features and Locks Features show for Tutorial/Talk/ExploreArea steps — the
-    /// checkpoint types a quest actually uses to gate features (see FeatureUnlockService; a
-    /// lock always wins over an unlock, however/whenever granted). Is Guided
-    /// Sequence is no longer author-controlled: it's forced true for Tutorial (the only type
-    /// TutorialGate/TutorialPromptUI restrict input for) and false everywhere else, shown
-    /// disabled so the Inspector still communicates the value without inviting a mismatch.
-    ///
-    /// Dialogue is per-step (tucked behind a foldout, since most steps are the generic
-    /// case and don't need it expanded) — each checkpoint is self-contained: its own
-    /// dialogue lines (keyed by character id + DialogueType), and its own payout, paid
-    /// when that step completes.
-    ///
-    /// The dialogue list uses a ReorderableList rather than the default array GUI: each
-    /// entry has a nested "lines" array of variable size, and Unity's default array-of-array
-    /// GUI doesn't reliably self-report height for that at an absolute Rect inside another
-    /// custom drawer — it was causing fields below it to overlap. ReorderableList measures
-    /// and draws each element itself, so it stays correct regardless of nesting.
-    /// </summary>
+    /// <summary>Quest step Inspector that shows only the fields the step's type and delivery source use.</summary>
+    // Which fields show per type is decided once in FieldVisibility. Dialogue uses a ReorderableList because
+    // Unity's default nested-array GUI misreports its height inside a custom drawer and overlaps the fields below.
     [CustomPropertyDrawer(typeof(QuestStepData))]
     public class QuestStepDataDrawer : PropertyDrawer
     {
-        /// <summary>
-        /// Which fields show for a given step type — computed once here instead of as eight
-        /// separate booleans duplicated by hand across OnGUI and GetPropertyHeight.
-        /// </summary>
+        /// <summary>Which fields show for a step type, shared by OnGUI and GetPropertyHeight so they can't disagree.</summary>
         private readonly struct FieldVisibility
         {
             public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures, LocksFeatures,
@@ -76,8 +25,8 @@ namespace Game.Testing
             private FieldVisibility(QuestType type, DeliverySource deliverySource, bool autoDisplayDialogue)
             {
                 bool isDelivery = type == QuestType.Delivery;
-                bool isEnemyKills = isDelivery && deliverySource == Game.Testing.DeliverySource.EnemyKills;
-                bool isInventoryHeld = isDelivery && deliverySource == Game.Testing.DeliverySource.InventoryHeld;
+                bool isEnemyKills = isDelivery && deliverySource == Game.Gameplay.DeliverySource.EnemyKills;
+                bool isInventoryHeld = isDelivery && deliverySource == Game.Gameplay.DeliverySource.InventoryHeld;
                 bool isTalkNonAuto = type == QuestType.Talk && !autoDisplayDialogue;
                 bool isWaitingQuest = type == QuestType.WaitingQuest;
 
@@ -87,12 +36,7 @@ namespace Game.Testing
                 Reward = type != QuestType.Tutorial;
                 UnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk || type == QuestType.ExploreArea;
                 LocksFeatures = UnlocksFeatures;
-                // Delivery and Talk (non-auto-display) target item/enemy/NPC id(s) through a
-                // list field instead of the singular one (see class doc) — EnemyKills still
-                // uses the singular Target Quest Item Id, but only as the optional hand-in loot
-                // (LootItemId below). Talk+auto keeps showing the singular field (disabled,
-                // cleared) same as always — it talks to nobody, there's nothing to list.
-                // WaitingQuest has no id to target at all — it's driven entirely by DayManager.
+                // Delivery and non-auto Talk target ids through a list field instead; WaitingQuest has no target at all.
                 TargetField = !isDelivery && !isTalkNonAuto && !isWaitingQuest;
                 DeliverySource = isDelivery;
                 TargetEnemyIds = isEnemyKills || isTalkNonAuto;
@@ -129,10 +73,7 @@ namespace Game.Testing
 
             list = new ReorderableList(dialogueProp.serializedObject, dialogueProp, true, true, true, true);
             list.drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Dialogue");
-            // Draws characterId/type/lines explicitly rather than the default recursive
-            // PropertyField — QuestDialogueLine.cutsceneId stays a real, working field (still
-            // set/read normally, e.g. by script), just not shown in this everyday list so it
-            // doesn't clutter authoring a normal line.
+            // cutsceneId is left out to keep ordinary lines uncluttered; it still works when set from script.
             list.elementHeightCallback = index =>
             {
                 var element = list.serializedProperty.GetArrayElementAtIndex(index);
@@ -164,24 +105,8 @@ namespace Game.Testing
             return list;
         }
 
-        // ── Talk (non-auto) grouped dialogue editor ──
-        //
-        // Talk steps with a populated Target NPC Ids list replace the single flat
-        // ReorderableList above with this: one group per listed NPC (Character Id implied by
-        // the group, not shown per-row), plus a trailing "Other" group for any entry whose
-        // Character Id doesn't match a listed NPC (so a stray/renamed id is still visible and
-        // editable instead of silently vanishing from view). The underlying `dialogue` field
-        // itself is untouched — still one flat List<QuestDialogueLine>, same as every other
-        // step type — this only changes how it's grouped/rendered for Talk.
-        //
-        // No drag-reorder within a group: lookup is by (characterId, type) — see
-        // QuestStep.GetLine/GetLines — so list position carries no meaning here, unlike
-        // Auto Display Dialogue's Offer sequence, which is why a plain add/remove button pair
-        // is enough (a full ReorderableList per group would be pure overhead).
-        //
-        // A pending delete/add is applied AFTER the full draw pass, not mid-loop, so a click
-        // never mutates the array indices the rest of that same pass is still iterating over —
-        // the next repaint recomputes fresh groups from the now-mutated array.
+        // Talk: one group per listed NPC, plus "Other" so a line with an unknown Character Id stays visible.
+        // Add/delete run after the draw pass, so a click never shifts indices the loop is still using.
         private static (string label, string characterId, List<int> indices)[] BuildDialogueGroups(
             SerializedProperty dialogueProp, List<string> npcIds)
         {
@@ -348,11 +273,7 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, typeProp);
             rect.y += lineHeight;
 
-            // A Cutscene step normally has almost nothing else to author — it plays and
-            // completes itself off this one id, no target count/completion mode to configure —
-            // but it can still reward an item like any other step. Auto Display Dialogue below
-            // switches it to the same press-to-advance dialogue Talk uses instead (see
-            // PlayerSelfDialogueUI/CutsceneManager.RefreshQuestStep's guard).
+            // A Cutscene step completes itself from this id; Auto Display Dialogue turns it into a press-to-advance step.
             if (type == QuestType.Cutscene)
             {
                 var cutsceneAutoDisplayDialogueProp = property.FindPropertyRelative("autoDisplayDialogue");
@@ -417,10 +338,7 @@ namespace Game.Testing
                     EditorGUI.PropertyField(rect, tutorialActionProp, new GUIContent("Action"));
                 else if (type == QuestType.Talk)
                 {
-                    // Only reachable when auto is true — Talk+non-auto hides TargetField in
-                    // favor of the Target NPC Ids list below (see FieldVisibility). Auto Display
-                    // Dialogue talks to nobody — no NPC id, and its lines are authored with a
-                    // blank characterId (see QuestStep.EffectiveNpcId).
+                    // Auto Display Dialogue talks to nobody, so it has no NPC id.
                     targetEnemyIdProp.stringValue = "";
                     using (new EditorGUI.DisabledScope(true))
                         EditorGUI.PropertyField(rect, targetEnemyIdProp, new GUIContent("Target NPC Id",
@@ -545,9 +463,7 @@ namespace Game.Testing
             EditorGUI.PropertyField(rect, completionModeProp);
             rect.y += lineHeight;
 
-            // Guided sequence is derived from type, not author-controlled — only a Tutorial
-            // step locks player input to one required action (see TutorialGate), so it's
-            // forced true there and false (and disabled) for every other type.
+            // Only Tutorial steps lock input to one action, so guided follows the type instead of being authored.
             isGuidedSequenceProp.boolValue = type == QuestType.Tutorial;
             using (new EditorGUI.DisabledScope(true))
                 EditorGUI.PropertyField(rect, isGuidedSequenceProp, new GUIContent("Is Guided Sequence"));
@@ -658,12 +574,7 @@ namespace Game.Testing
                 (DeliveryCountMode)deliveryCountModeProp.enumValueIndex == DeliveryCountMode.PerItem;
             bool showTargetCount = vis.TargetCount && !isDeliveryPerItem;
 
-            // type, completionMode, isGuidedSequence = 3 single lines, +1 if delivery source
-            // shows, +1 if target field shows, +1 if loot item id shows, +1 if consume toggle
-            // shows, +1 if targetCount shows, plus Unlocks/Locks Features (Tutorial/Talk/
-            // ExploreArea only, variable height below), then description. Target Enemy Ids and
-            // the Delivery Count Mode + Target Quest Item Requirements pair are variable height
-            // too, added separately below.
+            // Fixed rows plus each optional row; variable-height lists are added below.
             int lineCount = 3
                 + (vis.DeliverySource ? 1 : 0)
                 + (vis.TargetField ? 1 : 0)

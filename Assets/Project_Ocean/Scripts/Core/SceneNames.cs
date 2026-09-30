@@ -1,9 +1,6 @@
-namespace Game.Testing
+namespace Game.Core
 {
-    /// <summary>
-    /// Central place for all scene name strings.
-    /// Change a scene name here and it updates everywhere — no more magic strings.
-    /// </summary>
+    /// <summary>Every scene name string, in one place.</summary>
     public static class SceneNames
     {
         public const string Land      = "Land_Map";

@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public abstract class Bullet : MonoBehaviour
     {
@@ -24,7 +25,7 @@ namespace Game.Testing
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameManager.CurPlayer;
+            player = PlayerRegistry.Local;
         }
 
         protected virtual void Start()
@@ -61,13 +62,11 @@ namespace Game.Testing
                     break;
 
                 case "Enemy":
-                    Enemy enemy = collision.GetComponent<Enemy>();
-                    enemy.TakeDamage(attackDamage);
-                    (enemy.Brain as IBrainHitReaction)?.OnHit();
+                    // The brain's hit reaction runs from Enemy.OnDamagedHandler.
+                    collision.GetComponent<Entity>()?.TakeDamage(attackDamage);
                     TutorialEvents.RaiseAction(TutorialActionId.HitEnemy);
 
-                    var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
-                    darmagePoint.ShowDamagePoint(attackDamage.ToString());
+                    collision.GetComponentInChildren<IDamagePopup>()?.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
 

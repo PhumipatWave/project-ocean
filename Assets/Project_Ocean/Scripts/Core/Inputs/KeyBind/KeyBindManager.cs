@@ -5,9 +5,8 @@ using UnityEngine.InputSystem;
 
 namespace Game.Core
 {
-    public class KeyBindManager : MonoBehaviour
+    public class KeyBindManager : Singleton<KeyBindManager>
     {
-        public static KeyBindManager Instance { get; private set; }
 
         public static event Action OnInitialized;
 
@@ -19,16 +18,12 @@ namespace Game.Core
 
         private string SavePath => Path.Combine(Application.persistentDataPath,"keybinds.json");
 
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        protected override bool Persistent => true;
 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+        protected override void Awake()
+        {
+            base.Awake();
+            if (IsDuplicate) return;
 
             inputActions = new InputSystem_Actions();
 
@@ -37,13 +32,11 @@ namespace Game.Core
             OnInitialized?.Invoke();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (Instance != this)
-                return;
-
-            inputActions?.Dispose();
-            Instance = null;
+            if (Instance == this)
+                inputActions?.Dispose();
+            base.OnDestroy();
         }
 
         public bool IsBindingUsed(string bindingPath,KeyAction excludeAction,int excludeBindingIndex = -1)
@@ -119,6 +112,7 @@ namespace Game.Core
                     $"[KeyBind] Action not found: {action}"
                 );
 
+                onComplete?.Invoke("", false);
                 return;
             }
 
@@ -170,14 +164,14 @@ namespace Game.Core
 
                     OnBindingsChanged?.Invoke();
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] {action} → {newBindingPath}"
                     );
                 })
                 .Start();
         }
 
-        // Move Player W A S D แยก -------------------------------------
+        // Move is one composite action; W/A/S/D are rebound as separate parts of it.
 
         public InputAction GetMoveBinding(MoveDirection direction)
         {
@@ -265,7 +259,6 @@ namespace Game.Core
                 return;
             }
 
-            // เก็บปุ่มเดิมของ W/A/S/D
             string oldBindingPath =
                 moveAction.bindings[bindingIndex].effectivePath;
 
@@ -281,13 +274,11 @@ namespace Game.Core
 
                     operation.Dispose();
 
-                    // ตรวจปุ่มซ้ำ
                     if (IsBindingUsed(
                         newBindingPath,
                         KeyAction.Move,
                         bindingIndex))
                     {
-                        // คืนปุ่มเดิม
                         moveAction.ApplyBindingOverride(
                             bindingIndex,
                             oldBindingPath
@@ -313,7 +304,7 @@ namespace Game.Core
 
                     OnBindingsChanged?.Invoke();
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] Move {direction} → {newBindingPath}"
                     );
 
@@ -330,7 +321,7 @@ namespace Game.Core
 
                     onComplete?.Invoke("", false);
 
-                    Debug.Log(
+                    GameLog.Info(
                         $"[KeyBind] Move {direction} rebind cancelled."
                     );
                 })
@@ -378,7 +369,7 @@ namespace Game.Core
                 json
             );
 
-            Debug.Log(
+            GameLog.Info(
                 $"[KeyBind] Saved: {SavePath}"
             );
         }
@@ -387,7 +378,7 @@ namespace Game.Core
         {
             if (!File.Exists(SavePath))
             {
-                Debug.Log(
+                GameLog.Info(
                     "[KeyBind] No saved bindings found. Using defaults."
                 );
 
@@ -435,7 +426,7 @@ namespace Game.Core
                 }
             }
 
-            Debug.Log("[KeyBind] Bindings loaded.");
+            GameLog.Info("[KeyBind] Bindings loaded.");
         }
 
         public void ResetAllToDefault()
@@ -457,7 +448,7 @@ namespace Game.Core
 
             OnBindingsChanged?.Invoke();
 
-            Debug.Log(
+            GameLog.Info(
                 "[KeyBind] All bindings reset to default."
             );
         }

@@ -1,18 +1,11 @@
 using Game.Core;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    // Raw-key handling (E press) is delegated to an InteractUI on the same GameObject, wired
-    // to call Interact() — same shared PlayerUIState "floor" lock every other interactable
-    // (NPC/door/collectible) uses, instead of a second, ungated subscription that used to
-    // open/close this chest's dialogue even while another panel was already open.
-    [RequireComponent(typeof(InteractUI))]
-    public class ChestInteract : MonoBehaviour
+    public class ChestInteract : Interactable
     {
         [Header("Settings")]
         [SerializeField] private int moneyAmount = 100;
@@ -28,108 +21,54 @@ namespace Game.Testing
         [SerializeField] private Sprite secondExtraSprite;
 
         [Header("UI Reference")]
-        [SerializeField] private GameObject dialogueBox;
-        [SerializeField] private TextMeshProUGUI contentDisplay;
-        [SerializeField] private GameObject portraitDisplay;
-        [SerializeField] private GameObject extraImageObject;
+        [Tooltip("InteractPopupView on the chest's dialogue panel (an IInteractPopupView).")]
+        [SerializeField] private MonoBehaviour popupView;
 
-        private static readonly List<string> globalOpenedChests = new();
+        // Not saved on purpose: opened chests refill after the game restarts.
+        private static readonly HashSet<string> globalOpenedChests = new();
         private string uniqueID;
-        private bool wasOpened;
-        private PlayerMoney targetPlayerMoney;
-        private Image portraitImage;
-        private Image extraImage;
-        private InteractUI interactUI;
+
+        private IInteractPopupView Popup => popupView as IInteractPopupView;
 
         void Awake()
         {
             uniqueID = SceneManager.GetActiveScene().name + "_" + gameObject.name + "_" + transform.position;
-            wasOpened = globalOpenedChests.Contains(uniqueID);
-
-            if (portraitDisplay != null) portraitImage = portraitDisplay.GetComponent<Image>();
-            if (extraImageObject != null) extraImage = extraImageObject.GetComponent<Image>();
-            interactUI = GetComponent<InteractUI>();
-
-            // The scene's InteractUI had no onInteract call wired, so E did nothing.
-            if (interactUI.onInteract.GetPersistentEventCount() == 0)
-                interactUI.onInteract.AddListener(Interact);
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected override void Interact(Player player)
         {
-            if (other.CompareTag("Player"))
-                targetPlayerMoney = other.GetComponent<PlayerMoney>();
+            if (Popup == null) return;
+
+            if (Popup.IsOpen) Close();
+            else Open(player);
         }
 
-        void OnTriggerExit2D(Collider2D other)
+        protected override void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player")) Close();
+            base.OnTriggerExit2D(other);
+        }
+
+        void Open(Player player)
+        {
+            if (globalOpenedChests.Add(uniqueID))
             {
-                targetPlayerMoney = null;
-                CloseUI();
-            }
-        }
-
-        /// Called by InteractUI's onInteract (wired in the Inspector) on E press.
-        public void Interact()
-        {
-            if (!dialogueBox.activeSelf) OpenUI();
-            else CloseUI();
-        }
-
-        /// Wire the on-screen interact button's onClick here — same path as pressing E.
-        public void PressInteract() => GameManager.CurPlayer?.input?.TriggerInteract();
-
-        void OpenUI()
-        {
-            if (dialogueBox == null) return;
-
-            string currentText;
-            Sprite currentPortrait;
-            Sprite currentExtraSprite;
-
-            if (!wasOpened)
-            {
-                wasOpened = true;
-                if (!globalOpenedChests.Contains(uniqueID))
-                    globalOpenedChests.Add(uniqueID);
-
-                targetPlayerMoney?.AddMoney(moneyAmount);
-                currentText       = string.Format(firstDialogue, moneyAmount);
-                currentPortrait   = firstPortrait;
-                currentExtraSprite = firstExtraSprite;
+                player.GetComponent<PlayerMoney>()?.AddMoney(moneyAmount);
+                Popup.Show(null, string.Format(firstDialogue, moneyAmount), firstPortrait, firstExtraSprite);
             }
             else
             {
-                currentText       = secondDialogue;
-                currentPortrait   = secondPortrait;
-                currentExtraSprite = secondExtraSprite;
+                Popup.Show(null, secondDialogue, secondPortrait, secondExtraSprite);
             }
 
-            if (contentDisplay != null) contentDisplay.text = currentText;
-
-            if (portraitDisplay != null)
-            {
-                portraitDisplay.SetActive(currentPortrait != null);
-                if (portraitImage != null && currentPortrait != null) portraitImage.sprite = currentPortrait;
-            }
-
-            if (extraImageObject != null)
-            {
-                extraImageObject.SetActive(currentExtraSprite != null);
-                if (extraImage != null && currentExtraSprite != null) extraImage.sprite = currentExtraSprite;
-            }
-
-            dialogueBox.SetActive(true);
             Time.timeScale = 0f;
         }
 
-        void CloseUI()
+        void Close()
         {
-            if (dialogueBox != null) dialogueBox.SetActive(false);
-            if (extraImageObject != null) extraImageObject.SetActive(false);
+            Popup?.Hide();
             Time.timeScale = 1f;
-            interactUI?.ReleasePlayerLock();
+            ReleasePlayerLock();
         }
     }
 }

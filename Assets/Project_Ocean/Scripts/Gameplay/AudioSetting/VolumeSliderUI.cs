@@ -1,26 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Game.Core;
 
-public class VolumeSliderUI : MonoBehaviour
+namespace Game.Gameplay
 {
-    [SerializeField] private Slider slider;
-    [SerializeField] private TMP_Text percentText;
-
-    private void Start()
+    public class VolumeSliderUI : MonoBehaviour
     {
-        slider.onValueChanged.AddListener(UpdatePercent);
-        UpdatePercent(slider.value);
-    }
+        [SerializeField] private Slider slider;
+        [SerializeField] private TMP_Text percentText;
 
-    private void UpdatePercent(float value)
-    {
-        int percent = Mathf.RoundToInt(value * 100f);
-        percentText.text = percent + "%";
-    }
+        private void Start()
+        {
+            slider.onValueChanged.AddListener(UpdatePercent);
+            UpdatePercent(slider.value);
+        }
 
-    private void OnDestroy()
-    {
-        slider.onValueChanged.RemoveListener(UpdatePercent);
+        private void UpdatePercent(float value)
+        {
+            int percent = Mathf.RoundToInt(value * 100f);
+            percentText.text = percent + "%";
+        }
+
+        private void OnDestroy()
+        {
+            slider.onValueChanged.RemoveListener(UpdatePercent);
+        }
     }
 }

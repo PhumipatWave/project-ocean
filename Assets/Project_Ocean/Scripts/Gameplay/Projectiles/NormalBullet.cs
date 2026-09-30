@@ -1,6 +1,7 @@
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public class NormalBullet : Bullet
     {
@@ -15,7 +16,7 @@ namespace Game.Testing
         protected override void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameManager.CurPlayer;
+            player = PlayerRegistry.Local;
 
             int level = UpgradeService.Instance.GetLevel(
                 UpgradeType.NormalBullet

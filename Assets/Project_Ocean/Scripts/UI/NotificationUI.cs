@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class NotificationUI : MonoBehaviour
     {

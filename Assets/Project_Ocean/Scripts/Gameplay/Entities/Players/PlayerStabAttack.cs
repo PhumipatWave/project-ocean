@@ -1,0 +1,34 @@
+using System.Collections;
+using UnityEngine;
+using Game.Core;
+
+namespace Game.Gameplay
+{
+    // Unused for now: nothing starts Stab(). Kept (and still on the Player prefab) for a future melee attack.
+    public class PlayerStabAttack : MonoBehaviour
+    {
+        [Header("Hitbox")]
+        [SerializeField] private GameObject stabHitbox;
+
+        [Header("Settings")]
+        [SerializeField] private float activeTime = 0.15f;
+        [SerializeField] private float cooldown = 0.5f;
+
+        private bool canAttack = true;
+
+        private IEnumerator Stab()
+        {
+            canAttack = false;
+
+            stabHitbox.SetActive(true);
+
+            yield return new WaitForSeconds(activeTime);
+
+            stabHitbox.SetActive(false);
+
+            yield return new WaitForSeconds(cooldown);
+
+            canAttack = true;
+        }
+    }
+}

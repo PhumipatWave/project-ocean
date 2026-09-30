@@ -1,9 +1,11 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class ShopManager : MonoBehaviour
     {
@@ -12,16 +14,18 @@ namespace Game.Testing
         [Header("UI Objects (Drag & Drop Here)")]
         [SerializeField] private GameObject sellAllButton;
         [SerializeField] private GameObject sellSelectButton;
-        [SerializeField] private GameObject inventorySlot;
-        [SerializeField] private GameObject shopbuySlot;
+        [SerializeField, FormerlySerializedAs("inventorySlot")] private GameObject sellPanel;
+        [SerializeField, FormerlySerializedAs("shopbuySlot")] private GameObject buyPanel;
 
         [Header("Tutorial")]
         [Tooltip("The only item buyable while a Tutorial BuyItem step is active (MQ_1002: Mini Hub).")]
         [SerializeField] private Item tutorialBuyItem;
 
         [Header("Shop Slots Sell Display")]
-        [SerializeField] private InventorySlot[] shopInventorySlots;
+        [SerializeField] private InventorySlot shopSlotPrefab;
+        [SerializeField] private Transform shopSlotContainer;
         [SerializeField] private GameObject inventoryItemPrefab;
+        private InventorySlot[] shopInventorySlots = new InventorySlot[0];
 
         [Header("Display")]
         [SerializeField] private TMP_Text totalPriceText;
@@ -34,27 +38,15 @@ namespace Game.Testing
         [SerializeField] private TMP_Text previewPrice;
         [SerializeField] private TMP_Text previewDescription;
 
-        private TMP_Text[] ammoTexts;
         private readonly int[] ammoCounts = new int[4];
         private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
         private void Awake()
         {
             Instance = this;
-            ammoTexts = new TMP_Text[]
-            {
-                FindTMP("AMM_WP1"), FindTMP("AMM_WP2"),
-                FindTMP("AMM_WP3"), FindTMP("AMM_WP4"),
-            };
         }
 
         private void OnDestroy() { if (Instance == this) Instance = null; }
-
-        private static TMP_Text FindTMP(string goName)
-        {
-            var go = GameObject.Find(goName);
-            return go != null ? go.GetComponent<TMP_Text>() : null;
-        }
 
         private void OnEnable()
         {
@@ -114,11 +106,7 @@ namespace Game.Testing
             UpdateUI();
         }
 
-        // ──────────────────────────────────────────
-        // Panel navigation (replaces UIManager)
-        // ──────────────────────────────────────────
-
-        public void OpenFishShopWindow()
+        public void OpenSellWindow()
         {
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
@@ -126,7 +114,7 @@ namespace Game.Testing
             SwitchToSellMode();
         }
 
-        public void OpenShopWindow()
+        public void OpenBuyWindow()
         {
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
@@ -134,24 +122,31 @@ namespace Game.Testing
             SwitchToBuyMode();
         }
 
-        // ──────────────────────────────────────────
-        // Inventory display
-        // ──────────────────────────────────────────
-
         public void RefreshShopInventory()
         {
             ClearShopInventoryMirror();
 
-            if (InventoryManager.Instance == null) return;
-            InventorySlot[] realPlayerSlots = InventoryManager.Instance.InventorySlots;
+            var inventory = InventoryManager.Instance;
+            if (inventory == null) return;
+            EnsureShopSlots(inventory.PlayerSlotCount);
 
-            for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                if (i >= realPlayerSlots.Length) break;
-                MirrorInventorySlot(realPlayerSlots[i], shopInventorySlots[i]);
-            }
+            for (int i = 0; i < shopInventorySlots.Length && i < inventory.PlayerSlotCount; i++)
+                MirrorInventorySlot(inventory.GetStack(i), inventory.IsSlotUnlocked(i), shopInventorySlots[i]);
 
             UpdateClickedItemPriceDisplay();
+        }
+
+        // Built on first refresh, not Awake: the count comes from the persistent InventoryManager.
+        private void EnsureShopSlots(int count)
+        {
+            if (shopInventorySlots.Length == count) return;
+
+            foreach (InventorySlot old in shopInventorySlots)
+                if (old != null) Destroy(old.gameObject);
+
+            shopInventorySlots = SlotBuilder.Build(shopSlotPrefab, shopSlotContainer, count, "InShopSlot_Items");
+            foreach (InventorySlot slot in shopInventorySlots)
+                slot.isShopSlot = true;
         }
 
         public void UpdateClickedItemPriceDisplay()
@@ -167,16 +162,12 @@ namespace Game.Testing
             clickedItemPriceText.text = $"Price: {price}";
         }
 
-        // ──────────────────────────────────────────
-        // Sell / Buy mode toggle
-        // ──────────────────────────────────────────
-
         public void SwitchToBuyMode()
         {
             if (sellAllButton != null)    sellAllButton.SetActive(false);
             if (sellSelectButton != null) sellSelectButton.SetActive(false);
-            if (inventorySlot != null)    inventorySlot.SetActive(false);
-            if (shopbuySlot != null)      shopbuySlot.SetActive(true);
+            if (sellPanel != null)        sellPanel.SetActive(false);
+            if (buyPanel != null)         buyPanel.SetActive(true);
 
             isSellMode = false;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price: 0";
@@ -187,22 +178,18 @@ namespace Game.Testing
         {
             if (sellAllButton != null)    sellAllButton.SetActive(true);
             if (sellSelectButton != null) sellSelectButton.SetActive(true);
-            if (inventorySlot != null)    inventorySlot.SetActive(true);
-            if (shopbuySlot != null)      shopbuySlot.SetActive(false);
+            if (sellPanel != null)        sellPanel.SetActive(true);
+            if (buyPanel != null)         buyPanel.SetActive(false);
 
             isSellMode = true;
             RefreshSellButton();
             RefreshShopInventory();
         }
 
-        // ──────────────────────────────────────────
-        // Transactions
-        // ──────────────────────────────────────────
-
         public int CalculateTotal()
         {
             if (InventoryManager.Instance == null) return 0;
-            return transactionService.CalculateSellTotal(InventoryManager.Instance.InventorySlots);
+            return transactionService.CalculateSellTotal(InventoryManager.Instance);
         }
 
         public void Sell()
@@ -218,15 +205,7 @@ namespace Game.Testing
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex))
-                Invoke(nameof(RefreshShopInventory), 0.02f);
-
-            StartCoroutine(SellRoutine());
-        }
-
-        public IEnumerator SellRoutine()
-        {
-            yield return new WaitForSeconds(1f);
+            transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex);
         }
 
         public void SellAll()
@@ -236,10 +215,7 @@ namespace Game.Testing
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellAll(InventoryManager.Instance, playerMoney))
-                Invoke(nameof(RefreshShopInventory), 0.05f);
-
-            StartCoroutine(SellRoutine());
+            transactionService.SellAll(InventoryManager.Instance, playerMoney);
         }
 
         public void TryBuySelectedItem()
@@ -269,13 +245,7 @@ namespace Game.Testing
                 UpdateUI();
                 RefreshShopInventory();
             }
-
-            StartCoroutine(SellRoutine());
         }
-
-        // ──────────────────────────────────────────
-        // Slot helpers
-        // ──────────────────────────────────────────
 
         public void DeselectAllShopSlots()
         {
@@ -285,15 +255,15 @@ namespace Game.Testing
 
         public void DeselectAllBuySlots()
         {
-            if (shopbuySlot == null) return;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
+            if (buyPanel == null) return;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
                 slot.Deselect();
         }
 
         public void SelectFirstBuySlot()
         {
-            if (shopbuySlot == null) return;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
+            if (buyPanel == null) return;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
             {
                 if (slot.currentItem == null || slot.currentItem.GetItem() == null) continue;
                 DeselectAllBuySlots();
@@ -313,18 +283,10 @@ namespace Game.Testing
             if (previewDescription != null) previewDescription.text   = item.ItemDescription;
         }
 
-        // ──────────────────────────────────────────
-        // Private helpers
-        // ──────────────────────────────────────────
-
         private void UpdateUI()
         {
             if (totalPriceText != null)
                 totalPriceText.text = "Total Value: " + CalculateTotal();
-
-            for (int i = 0; i < ammoTexts.Length; i++)
-                if (ammoTexts[i] != null)
-                    ammoTexts[i].text = ammoCounts[i].ToString();
         }
 
         private void ClearShopInventoryMirror()
@@ -338,32 +300,26 @@ namespace Game.Testing
             }
         }
 
-        private void MirrorInventorySlot(InventorySlot realSlot, InventorySlot shopSlot)
+        private void MirrorInventorySlot(ItemStack stack, bool unlocked, InventorySlot shopSlot)
         {
-            if (realSlot == null || shopSlot == null) return;
+            if (shopSlot == null) return;
 
-            if (!realSlot.isUnlocked) { shopSlot.SetLocked(true); return; }
+            if (!unlocked) { shopSlot.SetLocked(true); return; }
 
             shopSlot.SetLocked(false);
             shopSlot.Deselect();
+            if (stack.IsEmpty) return;
 
-            Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
-            if (realItem == null) return;
-
-            GameObject newItemGo   = Instantiate(inventoryItemPrefab, shopSlot.transform);
-            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
-            shopItem.InitialiseItem(realItem.GetItem());
-            shopItem.count   = realItem.count;
-            shopItem.RefreshCount();
+            DraggableItem shopItem = Instantiate(inventoryItemPrefab, shopSlot.transform).GetComponent<DraggableItem>();
+            shopItem.InitialiseItem(stack.Item, stack.Count);
             shopItem.enabled = false;
         }
 
         private Item GetSelectedSellItem()
         {
             InventorySlot slot = GetSelectedSlot();
-            if (slot == null) return null;
-            Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
-            return item?.GetItem();
+            if (slot == null || InventoryManager.Instance == null) return null;
+            return InventoryManager.Instance.GetStack(GetShopSlotIndex(slot)).Item;
         }
 
         private Item GetSelectedBuyItem()
@@ -375,8 +331,8 @@ namespace Game.Testing
 
         private ShopBuySlot GetSelectedShopSlot()
         {
-            if (shopbuySlot == null) return null;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>(true))
+            if (buyPanel == null) return null;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
                 if (slot.isSelected) return slot;
             return null;
         }
@@ -398,8 +354,8 @@ namespace Game.Testing
 
         private PlayerMoney GetPlayerMoney()
         {
-            if (GameManager.CurPlayer == null) return null;
-            return GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            if (PlayerRegistry.Local == null) return null;
+            return PlayerRegistry.Local.GetComponent<PlayerMoney>();
         }
     }
 }

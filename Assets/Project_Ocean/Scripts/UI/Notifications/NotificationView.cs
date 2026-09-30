@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// <summary>Base for anything that displays notifications of one channel.</summary>
     public abstract class NotificationView : MonoBehaviour

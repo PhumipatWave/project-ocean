@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class PlayerFeedbackVFX : MonoBehaviour
     {
@@ -27,9 +29,8 @@ namespace Game.Testing
             SetAlpha(sprintVignette, 0f);
         }
 
-        // ==========================================
-        // DAMAGE
-        // ==========================================
+        private void OnEnable() => Player.OnPlayerDamaged += PlayDamageVFX;
+        private void OnDisable() => Player.OnPlayerDamaged -= PlayDamageVFX;
 
         public void PlayDamageVFX()
         {
@@ -60,10 +61,6 @@ namespace Game.Testing
 
             damageCoroutine = null;
         }
-
-        // ==========================================
-        // SPRINT
-        // ==========================================
 
         public void SetSprinting(bool isSprinting)
         {
@@ -101,10 +98,6 @@ namespace Game.Testing
 
             sprintCoroutine = null;
         }
-
-        // ==========================================
-        // HELPERS
-        // ==========================================
 
         private IEnumerator FadeImage(
             Image image,

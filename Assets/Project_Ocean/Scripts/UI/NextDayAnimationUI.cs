@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     /// Full-screen day-transition animation driven by an Animator.
     /// Lives on GameHUD — persists across all scenes.
