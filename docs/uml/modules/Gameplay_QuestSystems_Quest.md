@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-36 types · 1722 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×21, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Core/Save](Core_Save.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
+36 types · 1722 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×21, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Core/Save](Core_Save.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Data/Items](Core_Data_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 

@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b4b8e69d`
+- Built from commit: `b104fbd6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -344,7 +344,7 @@ Nodes (12): ExploreEvents, UnityEvent, EventInteractable, Collider2D, List, Tran
 
 ### Community 12 - "UI.md"
 Cohesion: 0.10
-Nodes (15): Core/Datas, Files, Files, UI/Dialogue, Event subscriptions, Files, Event subscriptions, Files (+7 more)
+Nodes (15): Core/Data, Files, Files, UI/Dialogue, Event subscriptions, Files, Event subscriptions, Files (+7 more)
 
 ### Community 13 - "system_collections_generic"
 Cohesion: 0.04
@@ -492,7 +492,7 @@ Nodes (14): IBrainHitReaction, Collider2D, Component, Rigidbody2D, Transform, Ve
 
 ### Community 49 - "03-all-scripts.md"
 Cohesion: 0.09
-Nodes (15): Core/Datas/ScriptableDatas/Characters, Files, Core/VideoManager, Files, Files, Gameplay/MainCameras, Files, UI/Loading/LoadingTextAnimation (+7 more)
+Nodes (15): Core/Data/ScriptableData/Characters, Files, Core/VideoManager, Files, Files, Gameplay/MainCameras, Files, UI/Loading/LoadingTextAnimation (+7 more)
 
 ### Community 50 - "QuestData.cs"
 Cohesion: 0.11
@@ -928,7 +928,7 @@ Nodes (11): Rigidbody2D, Vector2, PlayerMovement, DashSpeed, FaceDir, IsLand, Mo
 
 ### Community 162 - "Gameplay_Services.md"
 Cohesion: 0.15
-Nodes (11): Core/Datas/Upgrades, Files, Files, Gameplay/Projectiles, Files, Gameplay/RopeSystems, Files, Gameplay/Services (+3 more)
+Nodes (11): Core/Data/Upgrades, Files, Files, Gameplay/Projectiles, Files, Gameplay/RopeSystems, Files, Gameplay/Services (+3 more)
 
 ### Community 163 - "SimpleAnimLoop"
 Cohesion: 0.47
@@ -1172,7 +1172,7 @@ Nodes (6): QuestStatus, Finish, InProgress, New, ReadyToTurnIn, Reject
 
 ### Community 240 - "Gameplay_Entities_Players.md"
 Cohesion: 0.07
-Nodes (29): Core/Datas/Items, Files, Files, Gameplay/AudioSetting, Event subscriptions, Files, Gameplay/Entities/Players, Files (+21 more)
+Nodes (29): Core/Data/Items, Files, Files, Gameplay/AudioSetting, Event subscriptions, Files, Gameplay/Entities/Players, Files (+21 more)
 
 ### Community 241 - "com.unity.collab-proxy"
 Cohesion: 0.33
@@ -1207,11 +1207,11 @@ Nodes (7): RopeStructureData, EnemyType, Boss, Normal, Special, FishData, 2. Unu
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Gameplay (131 files)` connect `Gameplay (131 files)` to `OxygenRope`, `EnemyNavAgentBase`, `ExploreAreaTrigger`, `ObjectWrapPoint`, `Enemy`, `QuestProgressTracker`, `EnemyBrain`, `Quest`, `1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)`, `QuestStep`, `LoadingManager`, `CutsceneManager`, `PlayerGunHandler`, `Refactor Phase 5a: Split QuestManager — Implementation Plan`, `Player`, `NPC`, `UpgradeService`, `GameFeature`, `EnemyBrainContext`, `TrashInteract`, `LinearPatrolBrain`, `QuestData.cs`, `EnemySpawner`, `TutorialActionId`, `SpawnCatalog`, `Player`, `EnemyFacingController`, `Entity`, `PlayerHealth`, `ItemSaveData`, `Notification Channels — Design`, `PlayerSelfDialogueUI`, `ItemSpawner`, `ChestInteract`, `EnemySearchState`, `QuestManager`, `QuestBoardUI`, `Boid`, `QuestStepDataDrawer`, `Interactable`, `EnemyFollowState`, `EnemyBrainBase`, `InventoryModel`, `QuestSlot`, `ShellPickup`, `DevPanel`, `ItemDrop`, `Inventory`, `CollectableItemBase`, `Phase 11: split god classes and share repeated code`, `Phase 8: one Interactable hierarchy`, `NPCManager`, `.Pick`, `ConfirmationDialog`, `UpgradeSlot`, `FishAlertUI`, `EnemyStateBase`, `Refactor Phase 5b: Split OxygenRope — Implementation Plan`, `GrapplingHookBullet`, `AudioManager`, `Bird`, `Item`, `QuestMarkerBase`, `PlayerFeedbackVFX`, `PlayerMovement`, `SimpleAnimLoop`, `.Awake`, `IDialogueView`, `EntityDeathHandler`, `PlayerSprintVFX`, `TutorialUIMarker`, `PlayerMoney`, `QuestSaveData`, `QuestType`, `.PickClosest`, `AcceptedQuestListUI`, `VolumeSliderUI`, `Cutscene`, `.AttachRope`, `EnemyVision`, `EnemyAttackState`, `RopeCornerFinder`, `EnemyWanderState`, `PlayerCamera`, `NormalBullet`, `GameManager`, `QuestStatus`, `DoorInteract`, `EntityAnimation`?**
-  _High betweenness centrality (0.240) - this node is a cross-community bridge._
+  _High betweenness centrality (0.236) - this node is a cross-community bridge._
 - **Why does `All scripts` connect `QuestStepDataDrawer` to `03-all-scripts.md`, `Core (51 files)`, `MonoBehaviour`, `Gameplay (131 files)`?**
   _High betweenness centrality (0.088) - this node is a cross-community bridge._
 - **Why does `Core (51 files)` connect `Core (51 files)` to `NotificationView`, `EnemyType`, `InputReader`, `ObjectPoolManager`, `ExploreAreaTrigger`, `SaveData`, `Item`, `.Info`, `1. What changed since the old UML (2026-09-19, `develop-18sep-hotfix`)`, `LoadingManager`, `DayManager`, `KeyAction`, `CutsceneManager`, `UpgradeService`, `GameFeature`, `IntroPlayer`, `KeyBindManager`, `RebindButtonBase`, `ScriptableObject`, `TutorialActionId`, `DialogueState`, `ItemSaveData`, `PlayerUIState`, `Singleton`, `PlayerMoney`, `QuestSaveData`, `Risks`, `QuestBoardUI`, `EncryptionHelper`, `NotificationMessage`, `UpgradeData`, `QuestStepDataDrawer`, `AmmoWheel`, `GameManager`, `NPCManager`?**
-  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
 - **Are the 166 inferred relationships involving `Gameplay (131 files)` (e.g. with `AudioChannel` and `AudioManager`) actually correct?**
   _`Gameplay (131 files)` has 166 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `IsVisible`, `IconStyle`, `BadgeStyle` to the rest of the system?**

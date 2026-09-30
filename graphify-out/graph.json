@@ -1400,7 +1400,7 @@
       "source_location": "L6"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "label": "Item",
       "_callable": true,
       "_callable_class": true,
@@ -1415,7 +1415,7 @@
         ]
       },
       "norm_label": "item",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L6"
     },
     {
@@ -2412,7 +2412,7 @@
       "source_location": "L7"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_bulletdata",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_bulletdata",
       "label": "BulletData",
       "_callable": true,
       "_callable_class": true,
@@ -2427,11 +2427,11 @@
         ]
       },
       "norm_label": "bulletdata",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L13"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "label": "CharacterData",
       "_callable": true,
       "_callable_class": true,
@@ -2446,11 +2446,11 @@
         ]
       },
       "norm_label": "characterdata",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L6"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "label": "CharacterDatabase",
       "_callable": true,
       "_callable_class": true,
@@ -2465,7 +2465,7 @@
         ]
       },
       "norm_label": "characterdatabase",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L8"
     },
     {
@@ -3306,7 +3306,7 @@
       "source_location": "L6"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "label": "ItemType",
       "_callable": true,
       "_callable_class": true,
@@ -3321,11 +3321,11 @@
         ]
       },
       "norm_label": "itemtype",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L48"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "label": "UpgradeData",
       "_callable": true,
       "_callable_class": true,
@@ -3340,11 +3340,11 @@
         ]
       },
       "norm_label": "upgradedata",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L24"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradeunlock",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradeunlock",
       "label": "UpgradeUnlock",
       "_callable": true,
       "_callable_class": true,
@@ -3359,7 +3359,7 @@
         ]
       },
       "norm_label": "upgradeunlock",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L14"
     },
     {
@@ -4176,7 +4176,7 @@
       "source_location": "L6"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "id": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "label": "RopeStructureData",
       "_callable": true,
       "_callable_class": true,
@@ -4191,7 +4191,7 @@
         ]
       },
       "norm_label": "ropestructuredata",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L5"
     },
     {
@@ -4709,7 +4709,7 @@
       "source_location": "L16"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "label": "UpgradeType",
       "_callable": true,
       "_callable_class": true,
@@ -4724,7 +4724,7 @@
         ]
       },
       "norm_label": "upgradetype",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L7"
     },
     {
@@ -6444,7 +6444,7 @@
       "source_location": "L8"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "id": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
       "label": "InventoryItemDatabase",
       "_callable": true,
       "_callable_class": true,
@@ -6459,7 +6459,7 @@
         ]
       },
       "norm_label": "inventoryitemdatabase",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L3"
     },
     {
@@ -7082,7 +7082,7 @@
       "source_location": "L804"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
       "label": "AmmoType",
       "_callable": true,
       "_callable_class": true,
@@ -7097,7 +7097,7 @@
         ]
       },
       "norm_label": "ammotype",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L5"
     },
     {
@@ -10155,7 +10155,7 @@
       "source_location": "L19"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_get",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_get",
       "label": ".Get()",
       "_callable": true,
       "_origin": "ast",
@@ -10177,7 +10177,7 @@
         ]
       },
       "norm_label": ".get()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L15"
     },
     {
@@ -14825,7 +14825,7 @@
       "source_location": "L22"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
+      "id": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
       "label": ".FindById()",
       "_callable": true,
       "_origin": "ast",
@@ -14839,7 +14839,7 @@
         ]
       },
       "norm_label": ".findbyid()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L12"
     },
     {
@@ -21155,7 +21155,7 @@
       "source_location": "L48"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_onvalidate",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_onvalidate",
       "label": ".OnValidate()",
       "_callable": true,
       "_origin": "ast",
@@ -21169,7 +21169,7 @@
         ]
       },
       "norm_label": ".onvalidate()",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L32"
     },
     {
@@ -46814,14 +46814,14 @@
       "source_location": null
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata",
       "label": "BulletData.cs",
       "_origin": "ast",
       "community": 1,
       "community_name": "Game.Core",
       "file_type": "code",
       "norm_label": "bulletdata.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L1"
     },
     {
@@ -47672,7 +47672,7 @@
         "namespace": "Game.Core"
       },
       "norm_label": "game.core",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L3",
       "type": "namespace"
     },
@@ -48142,36 +48142,36 @@
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item",
+      "id": "assets_project_ocean_scripts_core_data_items_item",
       "label": "Item.cs",
       "_origin": "ast",
       "community": 101,
       "community_name": "unityengine",
       "file_type": "code",
       "norm_label": "item.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_ropestructuredata",
+      "id": "assets_project_ocean_scripts_core_data_ropestructuredata",
       "label": "RopeStructureData.cs",
       "_origin": "ast",
       "community": 101,
       "community_name": "unityengine",
       "file_type": "code",
       "norm_label": "ropestructuredata.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata",
       "label": "CharacterData.cs",
       "_origin": "ast",
       "community": 101,
       "community_name": "unityengine",
       "file_type": "code",
       "norm_label": "characterdata.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L1"
     },
     {
@@ -50019,31 +50019,31 @@
       "source_location": "L35"
     },
     {
-      "id": "docs_uml_modules_core_datas",
-      "label": "Core_Datas.md",
+      "id": "docs_uml_modules_core_data",
+      "label": "Core_Data.md",
       "_origin": "ast",
       "community": 12,
       "community_name": "UI.md",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "core_datas.md",
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "norm_label": "core_data.md",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_core_datas",
-      "label": "Core/Datas",
+      "id": "docs_uml_modules_core_data_core_data",
+      "label": "Core/Data",
       "_origin": "ast",
       "community": 12,
       "community_name": "UI.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "core/datas",
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "norm_label": "core/data",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_files",
+      "id": "docs_uml_modules_core_data_files",
       "label": "Files",
       "_origin": "ast",
       "community": 12,
@@ -50051,7 +50051,7 @@
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "files",
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L31"
     },
     {
@@ -51253,25 +51253,25 @@
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
       "label": "CharacterDatabase.cs",
       "_origin": "ast",
       "community": 13,
       "community_name": "system_collections_generic",
       "file_type": "code",
       "norm_label": "characterdatabase.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L1"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
       "label": "UpgradeData.cs",
       "_origin": "ast",
       "community": 13,
       "community_name": "system_collections_generic",
       "file_type": "code",
       "norm_label": "upgradedata.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L1"
     },
     {
@@ -52909,7 +52909,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_cs_gameobject",
+      "id": "assets_project_ocean_scripts_core_data_items_item_cs_gameobject",
       "label": "GameObject",
       "_origin": "ast",
       "community": 142,
@@ -52920,7 +52920,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_cs_sprite",
+      "id": "assets_project_ocean_scripts_core_data_items_item_cs_sprite",
       "label": "Sprite",
       "_origin": "ast",
       "community": 142,
@@ -52931,7 +52931,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_canbuy",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_canbuy",
       "label": "CanBuy",
       "_origin": "ast",
       "community": 142,
@@ -52944,11 +52944,11 @@
         ]
       },
       "norm_label": "canbuy",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L44"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_cansell",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_cansell",
       "label": "CanSell",
       "_origin": "ast",
       "community": 142,
@@ -52961,11 +52961,11 @@
         ]
       },
       "norm_label": "cansell",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L45"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemdescription",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemdescription",
       "label": "ItemDescription",
       "_origin": "ast",
       "community": 142,
@@ -52978,11 +52978,11 @@
         ]
       },
       "norm_label": "itemdescription",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L38"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemid",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemid",
       "label": "ItemID",
       "_origin": "ast",
       "community": 142,
@@ -52995,11 +52995,11 @@
         ]
       },
       "norm_label": "itemid",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L36"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemname",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemname",
       "label": "ItemName",
       "_origin": "ast",
       "community": 142,
@@ -53012,11 +53012,11 @@
         ]
       },
       "norm_label": "itemname",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L37"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemprefab",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemprefab",
       "label": "ItemPrefab",
       "_origin": "ast",
       "community": 142,
@@ -53029,11 +53029,11 @@
         ]
       },
       "norm_label": "itemprefab",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L40"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemprice",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemprice",
       "label": "ItemPrice",
       "_origin": "ast",
       "community": 142,
@@ -53046,11 +53046,11 @@
         ]
       },
       "norm_label": "itemprice",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L41"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "label": "ItemType",
       "_origin": "ast",
       "community": 142,
@@ -53063,11 +53063,11 @@
         ]
       },
       "norm_label": "itemtype",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L43"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemvisual",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemvisual",
       "label": "ItemVisual",
       "_origin": "ast",
       "community": 142,
@@ -53080,11 +53080,11 @@
         ]
       },
       "norm_label": "itemvisual",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L39"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_maxstackable",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_item_maxstackable",
       "label": "MaxStackable",
       "_origin": "ast",
       "community": 142,
@@ -53097,7 +53097,7 @@
         ]
       },
       "norm_label": "maxstackable",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L42"
     },
     {
@@ -55224,31 +55224,31 @@
       "source_location": ""
     },
     {
-      "id": "docs_uml_modules_core_datas_upgrades",
-      "label": "Core_Datas_Upgrades.md",
+      "id": "docs_uml_modules_core_data_upgrades",
+      "label": "Core_Data_Upgrades.md",
       "_origin": "ast",
       "community": 162,
       "community_name": "Gameplay_Services.md",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "core_datas_upgrades.md",
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "norm_label": "core_data_upgrades.md",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_upgrades_core_datas_upgrades",
-      "label": "Core/Datas/Upgrades",
+      "id": "docs_uml_modules_core_data_upgrades_core_data_upgrades",
+      "label": "Core/Data/Upgrades",
       "_origin": "ast",
       "community": 162,
       "community_name": "Gameplay_Services.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "core/datas/upgrades",
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "norm_label": "core/data/upgrades",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_upgrades_files",
+      "id": "docs_uml_modules_core_data_upgrades_files",
       "label": "Files",
       "_origin": "ast",
       "community": 162,
@@ -55256,7 +55256,7 @@
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "files",
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L34"
     },
     {
@@ -56390,7 +56390,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_cs_sprite",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_cs_sprite",
       "label": "Sprite",
       "_origin": "ast",
       "community": 179,
@@ -56401,7 +56401,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_cs_dictionary",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_cs_dictionary",
       "label": "Dictionary",
       "_origin": "ast",
       "community": 179,
@@ -56412,7 +56412,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_cs_list",
+      "id": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_cs_list",
       "label": "List",
       "_origin": "ast",
       "community": 179,
@@ -61001,7 +61001,7 @@
       "source_location": "L8"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_ammo",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_ammo",
       "label": "Ammo",
       "_origin": "ast",
       "community": 218,
@@ -61014,11 +61014,11 @@
         ]
       },
       "norm_label": "ammo",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L54"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_building",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_building",
       "label": "Building",
       "_origin": "ast",
       "community": 218,
@@ -61031,11 +61031,11 @@
         ]
       },
       "norm_label": "building",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L53"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_checkpointitem",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_checkpointitem",
       "label": "CheckpointItem",
       "_origin": "ast",
       "community": 218,
@@ -61048,11 +61048,11 @@
         ]
       },
       "norm_label": "checkpointitem",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L56"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_consumable",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_consumable",
       "label": "Consumable",
       "_origin": "ast",
       "community": 218,
@@ -61065,11 +61065,11 @@
         ]
       },
       "norm_label": "consumable",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L51"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_keyitem",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_keyitem",
       "label": "KeyItem",
       "_origin": "ast",
       "community": 218,
@@ -61082,11 +61082,11 @@
         ]
       },
       "norm_label": "keyitem",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L52"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_normal",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_normal",
       "label": "Normal",
       "_origin": "ast",
       "community": 218,
@@ -61099,11 +61099,11 @@
         ]
       },
       "norm_label": "normal",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L50"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_quest",
+      "id": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_quest",
       "label": "Quest",
       "_origin": "ast",
       "community": 218,
@@ -61116,11 +61116,11 @@
         ]
       },
       "norm_label": "quest",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L55"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_cs_list",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_cs_list",
       "label": "List",
       "_origin": "ast",
       "community": 218,
@@ -63571,31 +63571,31 @@
       "source_location": "L128"
     },
     {
-      "id": "docs_uml_modules_core_datas_items",
-      "label": "Core_Datas_Items.md",
+      "id": "docs_uml_modules_core_data_items",
+      "label": "Core_Data_Items.md",
       "_origin": "ast",
       "community": 240,
       "community_name": "Gameplay_Entities_Players.md",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "core_datas_items.md",
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "norm_label": "core_data_items.md",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_items_core_datas_items",
-      "label": "Core/Datas/Items",
+      "id": "docs_uml_modules_core_data_items_core_data_items",
+      "label": "Core/Data/Items",
       "_origin": "ast",
       "community": 240,
       "community_name": "Gameplay_Entities_Players.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "core/datas/items",
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "norm_label": "core/data/items",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_items_files",
+      "id": "docs_uml_modules_core_data_items_files",
       "label": "Files",
       "_origin": "ast",
       "community": 240,
@@ -63603,7 +63603,7 @@
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "files",
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L41"
     },
     {
@@ -69343,7 +69343,7 @@
       "type": "namespace"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_inventory",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_inventory",
       "label": "Inventory",
       "_origin": "ast",
       "community": 42,
@@ -69356,11 +69356,11 @@
         ]
       },
       "norm_label": "inventory",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L9"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_normalbullet",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_normalbullet",
       "label": "NormalBullet",
       "_origin": "ast",
       "community": 42,
@@ -69373,11 +69373,11 @@
         ]
       },
       "norm_label": "normalbullet",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L11"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_rope",
+      "id": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_rope",
       "label": "Rope",
       "_origin": "ast",
       "community": 42,
@@ -69390,7 +69390,7 @@
         ]
       },
       "norm_label": "rope",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L10"
     },
     {
@@ -70878,31 +70878,31 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_scriptabledatas_characters",
-      "label": "Core_Datas_ScriptableDatas_Characters.md",
+      "id": "docs_uml_modules_core_data_scriptabledata_characters",
+      "label": "Core_Data_ScriptableData_Characters.md",
       "_origin": "ast",
       "community": 49,
       "community_name": "03-all-scripts.md",
       "file_type": "document",
       "node_kind": "page",
-      "norm_label": "core_datas_scriptabledatas_characters.md",
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "norm_label": "core_data_scriptabledata_characters.md",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_scriptabledatas_characters_core_datas_scriptabledatas_characters",
-      "label": "Core/Datas/ScriptableDatas/Characters",
+      "id": "docs_uml_modules_core_data_scriptabledata_characters_core_data_scriptabledata_characters",
+      "label": "Core/Data/ScriptableData/Characters",
       "_origin": "ast",
       "community": 49,
       "community_name": "03-all-scripts.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "core/datas/scriptabledatas/characters",
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "norm_label": "core/data/scriptabledata/characters",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L1"
     },
     {
-      "id": "docs_uml_modules_core_datas_scriptabledatas_characters_files",
+      "id": "docs_uml_modules_core_data_scriptabledata_characters_files",
       "label": "Files",
       "_origin": "ast",
       "community": 49,
@@ -70910,7 +70910,7 @@
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "files",
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L23"
     },
     {
@@ -78253,14 +78253,14 @@
       "source_location": "L59"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase",
+      "id": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase",
       "label": "InventoryItemDatabase.cs",
       "_origin": "ast",
       "community": 86,
       "community_name": "QuestBoardUI",
       "file_type": "code",
       "norm_label": "inventoryitemdatabase.cs",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L1"
     },
     {
@@ -80617,7 +80617,7 @@
       "source_location": ""
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_granade",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_granade",
       "label": "Granade",
       "_origin": "ast",
       "community": 97,
@@ -80630,11 +80630,11 @@
         ]
       },
       "norm_label": "granade",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L10"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_grapplinghook",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_grapplinghook",
       "label": "GrapplingHook",
       "_origin": "ast",
       "community": 97,
@@ -80647,11 +80647,11 @@
         ]
       },
       "norm_label": "grapplinghook",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L9"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_normal",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_normal",
       "label": "Normal",
       "_origin": "ast",
       "community": 97,
@@ -80664,11 +80664,11 @@
         ]
       },
       "norm_label": "normal",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L7"
     },
     {
-      "id": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_tranquilizer",
+      "id": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_tranquilizer",
       "label": "Tranquilizer",
       "_origin": "ast",
       "community": 97,
@@ -80681,7 +80681,7 @@
         ]
       },
       "norm_label": "tranquilizer",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L8"
     },
     {
@@ -98207,7 +98207,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_playergunhandler_game_gameplay_playergunhandler",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -98222,7 +98222,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_ammowheel_game_ui_ammowheel",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -98837,7 +98837,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_environments_npcmanager_game_gameplay_npcmanager",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -99451,8 +99451,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_cs_dictionary",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_cs_dictionary",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -99461,7 +99461,7 @@
       "metadata": {
         "ref_token": "Dictionary"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L13",
       "weight": 1.0
     },
@@ -100621,8 +100621,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_cs_gameobject",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_cs_gameobject",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -100631,7 +100631,7 @@
       "metadata": {
         "ref_token": "GameObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L40",
       "weight": 1.0
     },
@@ -102212,7 +102212,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102286,8 +102286,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "source": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102296,13 +102296,13 @@
       "metadata": {
         "ref_token": "Item"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
       "source": "assets_project_ocean_scripts_deprecated_itemui_game_deprecated_itemui",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102317,7 +102317,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_enemies_enemyloot_game_gameplay_enemyloot",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102332,7 +102332,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_devpanel_game_gameplay_devitembutton",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102347,7 +102347,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_itemstack_game_gameplay_itemstack",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102362,7 +102362,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_items_pickups_itemdrop_game_gameplay_itemdrop",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102377,7 +102377,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_spawning_spawncatalog_game_gameplay_itemspawnentry",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102392,7 +102392,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorybuy_shopinventorybuy_game_ui_shopinventorybuy",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102407,7 +102407,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventoryplayer_draggableitem_game_ui_draggableitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102422,7 +102422,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shopmanager_game_ui_shopmanager",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102706,8 +102706,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_cs_list",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_cs_list",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102716,13 +102716,13 @@
       "metadata": {
         "ref_token": "List"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_cs_list",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_cs_list",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -102731,7 +102731,7 @@
       "metadata": {
         "ref_token": "List"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L45",
       "weight": 1.0
     },
@@ -104702,7 +104702,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_playergunhandler_game_gameplay_playergunhandler",
-      "target": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "target": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -104941,8 +104941,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_cs_sprite",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_cs_sprite",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -104951,13 +104951,13 @@
       "metadata": {
         "ref_token": "Sprite"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L39",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_cs_sprite",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_cs_sprite",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -104966,7 +104966,7 @@
       "metadata": {
         "ref_token": "Sprite"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L12",
       "weight": 1.0
     },
@@ -106202,7 +106202,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_devpanel_game_gameplay_devpanel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -106217,7 +106217,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgradeslot_game_ui_upgradeslot",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -106232,7 +106232,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_upgradeserviceeventtests_game_tests_upgradeserviceeventtests",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -106261,8 +106261,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -106271,7 +106271,7 @@
       "metadata": {
         "ref_token": "UpgradeType"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L33",
       "weight": 1.0
     },
@@ -106963,122 +106963,122 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemid",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemid",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L36",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemname",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemname",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L37",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemdescription",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemdescription",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L38",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemvisual",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemvisual",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L39",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemprefab",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemprefab",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L40",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemprice",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemprice",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L41",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_maxstackable",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_maxstackable",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L42",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L43",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_canbuy",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_canbuy",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L44",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_cansell",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_cansell",
       "relation": "defines",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "field",
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L45",
       "weight": 1.0
     },
@@ -111183,8 +111183,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -111193,7 +111193,7 @@
       "metadata": {
         "ref_token": "CharacterData"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L13",
       "weight": 1.0
     },
@@ -112759,7 +112759,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112774,7 +112774,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_inventorymodel_game_gameplay_inventorymodel_removeallwhere",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112789,7 +112789,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_spawning_spawncatalog_game_gameplay_spawncatalog",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112804,7 +112804,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112819,7 +112819,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_removeallwhere",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112834,7 +112834,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112849,7 +112849,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_playersplittests_buildingitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112864,7 +112864,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112879,7 +112879,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_testitems_game_tests_testitems",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -112894,7 +112894,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_testitems_game_tests_testitems_make",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -114934,7 +114934,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_upgradeserviceeventtests_game_tests_upgradeserviceeventtests_setup",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -114964,7 +114964,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -114978,8 +114978,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradeunlock",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradeunlock",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -114988,7 +114988,7 @@
       "metadata": {
         "ref_token": "UpgradeUnlock"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L45",
       "weight": 1.0
     },
@@ -121234,7 +121234,7 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
       "target": "system",
       "relation": "imports",
       "_origin": "ast",
@@ -121246,12 +121246,12 @@
         "target_fqn": "System",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
       "target": "system",
       "relation": "imports",
       "_origin": "ast",
@@ -121263,7 +121263,7 @@
         "target_fqn": "System",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L1",
       "weight": 1.0
     },
@@ -122713,7 +122713,7 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
       "target": "system_collections_generic",
       "relation": "imports",
       "_origin": "ast",
@@ -122725,12 +122725,12 @@
         "target_fqn": "System.Collections.Generic",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L2",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
       "target": "system_collections_generic",
       "relation": "imports",
       "_origin": "ast",
@@ -122742,7 +122742,7 @@
         "target_fqn": "System.Collections.Generic",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -125365,7 +125365,7 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125377,12 +125377,12 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item",
+      "source": "assets_project_ocean_scripts_core_data_items_item",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125394,12 +125394,12 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_ropestructuredata",
+      "source": "assets_project_ocean_scripts_core_data_ropestructuredata",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125411,12 +125411,12 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125428,12 +125428,12 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125445,12 +125445,12 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L3",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
       "target": "unityengine",
       "relation": "imports",
       "_origin": "ast",
@@ -125462,7 +125462,7 @@
         "target_fqn": "UnityEngine",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L3",
       "weight": 1.0
     },
@@ -130023,7 +130023,7 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item",
+      "source": "assets_project_ocean_scripts_core_data_items_item",
       "target": "unityengine_serialization",
       "relation": "imports",
       "_origin": "ast",
@@ -130035,7 +130035,7 @@
         "target_fqn": "UnityEngine.Serialization",
         "scope_kind": "file"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L2",
       "weight": 1.0
     },
@@ -135724,7 +135724,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_devpanel_game_gameplay_devpanel_giveitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135739,7 +135739,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_additem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135754,7 +135754,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135769,7 +135769,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_inventorymodel_game_gameplay_inventorymodel_add",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135784,7 +135784,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_inventorymodel_game_gameplay_inventorymodel_raise",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135799,7 +135799,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_items_pickups_itemdrop_game_gameplay_itemdrop_setup",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135814,7 +135814,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_items_playeritemuse_game_gameplay_playeritemuse_execute",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135829,7 +135829,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorybuy_shopinventorybuy_game_ui_shopinventorybuy_spawniteminshop",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135844,7 +135844,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_additem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135859,7 +135859,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135874,7 +135874,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_discardstack",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135889,7 +135889,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventoryplayer_draggableitem_game_ui_draggableitem_initialiseitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135904,7 +135904,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_notifications_resourcenotificationpresenter_game_ui_resourcenotificationpresenter_handleitemdelta",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135919,7 +135919,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shopmanager_game_ui_shopmanager_showitemdetail",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135934,7 +135934,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shopmanager_game_ui_shopmanager_tutorialbuyblockreason",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135949,7 +135949,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shoptransactionservice_game_ui_shoptransactionservice_addammo",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135964,7 +135964,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shoptransactionservice_game_ui_shoptransactionservice_buyitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135979,7 +135979,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shoptransactionservice_game_ui_shoptransactionservice_getsellprice",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -135994,7 +135994,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shoptransactionservice_game_ui_shoptransactionservice_issellallitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136009,7 +136009,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_additem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136024,7 +136024,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136039,7 +136039,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_additem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136054,7 +136054,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136069,7 +136069,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_additem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136084,7 +136084,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136204,7 +136204,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136219,7 +136219,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136234,7 +136234,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_items_playeritemuse_game_gameplay_playeritemuse_use",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136249,7 +136249,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136264,7 +136264,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136279,7 +136279,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136294,7 +136294,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136309,7 +136309,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136324,7 +136324,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136339,7 +136339,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_consumeitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136354,7 +136354,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -136369,7 +136369,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_testitems_game_tests_testitems_make",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140029,7 +140029,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_entities_players_playerhealth_game_gameplay_playerhealth_handlelevelgranted",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140044,7 +140044,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_devgrantnextlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140059,7 +140059,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_getprice",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140074,7 +140074,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_grantlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140089,7 +140089,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_trybuyupgrade",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140104,7 +140104,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_handleupgradegranted",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140119,7 +140119,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgrademanager_game_ui_upgrademanager_buyupgrade",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140134,7 +140134,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgrademanager_game_ui_upgrademanager_getlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140149,7 +140149,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgrademanager_game_ui_upgrademanager_getprice",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140164,7 +140164,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgrademanager_game_ui_upgrademanager_setlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140179,7 +140179,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgradetooltip_game_ui_upgradetooltip_show",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140194,7 +140194,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgradetooltip_game_ui_upgradetooltip_updateunlocks",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140209,7 +140209,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_upgrades_upgradetooltip_game_ui_upgradetooltip_updatevalue",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140224,7 +140224,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_upgradeserviceeventtests_game_tests_upgradeserviceeventtests_ongranted",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140254,7 +140254,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_getlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -140269,7 +140269,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_services_upgradeservice_game_gameplay_upgradeservice_setlevel",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -141157,8 +141157,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_get",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_get",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -141167,7 +141167,7 @@
       "metadata": {
         "ref_token": "CharacterData"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L15",
       "weight": 1.0
     },
@@ -142297,8 +142297,8 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "source": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142307,13 +142307,13 @@
       "metadata": {
         "ref_token": "Item"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L12",
       "weight": 1.0
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142328,7 +142328,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_iinventory_game_gameplay_iinventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142343,7 +142343,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_inventory_inventorymodel_game_gameplay_inventorymodel_removeone",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142358,7 +142358,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_spawning_spawncatalog_game_gameplay_spawncatalog_getitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142373,7 +142373,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_spawning_spawncatalog_game_gameplay_spawncatalog_getitemat",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142388,7 +142388,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142403,7 +142403,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142418,7 +142418,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_removeoneat",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142433,7 +142433,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventoryplayer_draggableitem_game_ui_draggableitem_getitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142448,7 +142448,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shopmanager_game_ui_shopmanager_getselectedbuyitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142463,7 +142463,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_shop_shopmanager_game_ui_shopmanager_getselectedsellitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142478,7 +142478,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142493,7 +142493,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_inventoryaccesstests_game_tests_fakeinventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142508,7 +142508,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142523,7 +142523,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_playersplittests_game_tests_oneiteminventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142538,7 +142538,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -142553,7 +142553,7 @@
     },
     {
       "source": "assets_project_ocean_tests_editmode_questsplittests_game_tests_recordinginventory_peekitem",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -146636,7 +146636,7 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_bulletdata",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata_game_core_bulletdata",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146645,12 +146645,12 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L13",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146659,12 +146659,12 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L6",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "source": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146673,12 +146673,12 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146687,12 +146687,12 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L6",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146701,12 +146701,12 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L8",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "target": "scriptableobject",
       "relation": "inherits",
       "_origin": "ast",
@@ -146715,7 +146715,7 @@
       "metadata": {
         "ref_token": "ScriptableObject"
       },
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L24",
       "weight": 1.0
     },
@@ -147295,156 +147295,156 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_granade",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_granade",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_normal",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_normal",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L7",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_tranquilizer",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_tranquilizer",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L8",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype_grapplinghook",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype_grapplinghook",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L9",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_normal",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_normal",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L50",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_consumable",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_consumable",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L51",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_keyitem",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_keyitem",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L52",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_building",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_building",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L53",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_ammo",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_ammo",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L54",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_quest",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_quest",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L55",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype_checkpointitem",
+      "source": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype_checkpointitem",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L56",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_rope",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_rope",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L10",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_normalbullet",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_normalbullet",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L11",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype_inventory",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype_inventory",
       "relation": "case_of",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -149803,200 +149803,200 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_bulletdata",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_bulletdata",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L13",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L3",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_bulletdata",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
+      "source": "assets_project_ocean_scripts_core_data_bulletdata",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/BulletData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/BulletData.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase",
+      "source": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "source": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L3",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item",
+      "source": "assets_project_ocean_scripts_core_data_items_item",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L4",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "source": "assets_project_ocean_scripts_core_data_items_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L48",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_item",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "source": "assets_project_ocean_scripts_core_data_items_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/Item.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/Item.cs",
       "source_location": "L6",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_ropestructuredata",
+      "source": "assets_project_ocean_scripts_core_data_ropestructuredata",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L3",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_ropestructuredata",
-      "target": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "source": "assets_project_ocean_scripts_core_data_ropestructuredata",
+      "target": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/RopeStructureData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/RopeStructureData.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L3",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterData.cs",
       "source_location": "L6",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L8",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradeunlock",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradeunlock",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L14",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L24",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
       "target": "csharp_namespace:47dd3340150f465d",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "source": "assets_project_ocean_scripts_core_data_upgrades_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Upgrades/UpgradeData.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Upgrades/UpgradeData.cs",
       "source_location": "L7",
       "weight": 1.0
     },
@@ -159967,90 +159967,90 @@
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas",
-      "target": "docs_uml_modules_core_datas_core_datas",
+      "source": "docs_uml_modules_core_data",
+      "target": "docs_uml_modules_core_data_core_data",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_core_datas",
-      "target": "docs_uml_modules_core_datas_files",
+      "source": "docs_uml_modules_core_data_core_data",
+      "target": "docs_uml_modules_core_data_files",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L31",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_items",
-      "target": "docs_uml_modules_core_datas_items_core_datas_items",
+      "source": "docs_uml_modules_core_data_items",
+      "target": "docs_uml_modules_core_data_items_core_data_items",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_items_core_datas_items",
-      "target": "docs_uml_modules_core_datas_items_files",
+      "source": "docs_uml_modules_core_data_items_core_data_items",
+      "target": "docs_uml_modules_core_data_items_files",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L41",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_scriptabledatas_characters",
-      "target": "docs_uml_modules_core_datas_scriptabledatas_characters_core_datas_scriptabledatas_characters",
+      "source": "docs_uml_modules_core_data_scriptabledata_characters",
+      "target": "docs_uml_modules_core_data_scriptabledata_characters_core_data_scriptabledata_characters",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_scriptabledatas_characters_core_datas_scriptabledatas_characters",
-      "target": "docs_uml_modules_core_datas_scriptabledatas_characters_files",
+      "source": "docs_uml_modules_core_data_scriptabledata_characters_core_data_scriptabledata_characters",
+      "target": "docs_uml_modules_core_data_scriptabledata_characters_files",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L23",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_upgrades",
-      "target": "docs_uml_modules_core_datas_upgrades_core_datas_upgrades",
+      "source": "docs_uml_modules_core_data_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades_core_data_upgrades",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L1",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_upgrades_core_datas_upgrades",
-      "target": "docs_uml_modules_core_datas_upgrades_files",
+      "source": "docs_uml_modules_core_data_upgrades_core_data_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades_files",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L34",
       "weight": 1.0
     },
@@ -172633,35 +172633,35 @@
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
+      "source": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/Items/InventoryItemDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/Items/InventoryItemDatabase.cs",
       "source_location": "L12",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_get",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_get",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L15",
       "weight": 1.0
     },
     {
-      "source": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_onvalidate",
+      "source": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_onvalidate",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "Assets/Project_Ocean/Scripts/Core/Datas/ScriptableDatas/Characters/CharacterDatabase.cs",
+      "source_file": "Assets/Project_Ocean/Scripts/Core/Data/ScriptableData/Characters/CharacterDatabase.cs",
       "source_location": "L32",
       "weight": 1.0
     },
@@ -190696,7 +190696,7 @@
     },
     {
       "source": "docs_uml_00_overview",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -190795,7 +190795,7 @@
     },
     {
       "source": "docs_uml_00_overview",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -190828,7 +190828,7 @@
     },
     {
       "source": "docs_uml_00_overview",
-      "target": "docs_uml_modules_core_datas_scriptabledatas_characters",
+      "target": "docs_uml_modules_core_data_scriptabledata_characters",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -190850,7 +190850,7 @@
     },
     {
       "source": "docs_uml_00_overview",
-      "target": "docs_uml_modules_core_datas",
+      "target": "docs_uml_modules_core_data",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -191213,7 +191213,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts",
-      "target": "docs_uml_modules_core_datas",
+      "target": "docs_uml_modules_core_data",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -191235,7 +191235,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -191367,7 +191367,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts",
-      "target": "docs_uml_modules_core_datas_scriptabledatas_characters",
+      "target": "docs_uml_modules_core_data_scriptabledata_characters",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -191466,7 +191466,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -191762,46 +191762,46 @@
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas",
+      "source": "docs_uml_modules_core_data",
       "target": "docs_uml_readme",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas.md",
+      "source_file": "docs/uml/modules/Core_Data.md",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_items",
+      "source": "docs_uml_modules_core_data_items",
       "target": "docs_uml_readme",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Items.md",
+      "source_file": "docs/uml/modules/Core_Data_Items.md",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_scriptabledatas_characters",
+      "source": "docs_uml_modules_core_data_scriptabledata_characters",
       "target": "docs_uml_readme",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_ScriptableDatas_Characters.md",
+      "source_file": "docs/uml/modules/Core_Data_ScriptableData_Characters.md",
       "source_location": "L5",
       "weight": 1.0
     },
     {
-      "source": "docs_uml_modules_core_datas_upgrades",
+      "source": "docs_uml_modules_core_data_upgrades",
       "target": "docs_uml_readme",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "docs/uml/modules/Core_Datas_Upgrades.md",
+      "source_file": "docs/uml/modules/Core_Data_Upgrades.md",
       "source_location": "L5",
       "weight": 1.0
     },
@@ -192258,7 +192258,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_entities_enemies",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -192907,7 +192907,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_entities_players",
-      "target": "docs_uml_modules_core_datas",
+      "target": "docs_uml_modules_core_data",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -192918,7 +192918,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_entities_players",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -192929,7 +192929,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_entities_players",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193149,7 +193149,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_environments",
-      "target": "docs_uml_modules_core_datas_scriptabledatas_characters",
+      "target": "docs_uml_modules_core_data_scriptabledata_characters",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193413,7 +193413,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_inventory",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193457,7 +193457,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_items",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193512,7 +193512,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_items_pickups",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193666,7 +193666,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_projectiles",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -193743,7 +193743,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_questsystems_quest",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194007,7 +194007,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_services",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194084,7 +194084,7 @@
     },
     {
       "source": "docs_uml_modules_gameplay_spawning",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194194,7 +194194,7 @@
     },
     {
       "source": "docs_uml_modules_ui",
-      "target": "docs_uml_modules_core_datas",
+      "target": "docs_uml_modules_core_data",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194480,7 +194480,7 @@
     },
     {
       "source": "docs_uml_modules_ui_inventory",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194491,7 +194491,7 @@
     },
     {
       "source": "docs_uml_modules_ui_inventory",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194678,7 +194678,7 @@
     },
     {
       "source": "docs_uml_modules_ui_inventory_inventorybuy",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194722,7 +194722,7 @@
     },
     {
       "source": "docs_uml_modules_ui_inventory_inventoryplayer",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -194832,7 +194832,7 @@
     },
     {
       "source": "docs_uml_modules_ui_notifications",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -195129,7 +195129,7 @@
     },
     {
       "source": "docs_uml_modules_ui_shop",
-      "target": "docs_uml_modules_core_datas_items",
+      "target": "docs_uml_modules_core_data_items",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -195316,7 +195316,7 @@
     },
     {
       "source": "docs_uml_modules_ui_upgrades",
-      "target": "docs_uml_modules_core_datas_upgrades",
+      "target": "docs_uml_modules_core_data_upgrades",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -196351,7 +196351,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_environments_npcmanager_game_gameplay_npcmanager_getnpcavatar",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_get",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_get",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -196363,7 +196363,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_gameplay_environments_npcmanager_game_gameplay_npcmanager_getnpcname",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase_get",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase_get",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -196699,7 +196699,7 @@
     },
     {
       "source": "assets_project_ocean_scripts_ui_inventory_inventorymanager_game_ui_inventorymanager_finditemindatabase",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase_findbyid",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199459,7 +199459,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_ammotype",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_ammotype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199759,7 +199759,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_bulletdata_game_core_bulletdata",
+      "target": "assets_project_ocean_scripts_core_data_bulletdata_game_core_bulletdata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199831,7 +199831,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199843,7 +199843,7 @@
     },
     {
       "source": "docs_uml_findings_1_what_changed_since_the_old_uml_2026_09_19_develop_18sep_hotfix",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdata_game_core_characterdata",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdata_game_core_characterdata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199855,7 +199855,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -199867,7 +199867,7 @@
     },
     {
       "source": "docs_uml_findings_1_what_changed_since_the_old_uml_2026_09_19_develop_18sep_hotfix",
-      "target": "assets_project_ocean_scripts_core_datas_scriptabledatas_characters_characterdatabase_game_core_characterdatabase",
+      "target": "assets_project_ocean_scripts_core_data_scriptabledata_characters_characterdatabase_game_core_characterdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -204355,7 +204355,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -204367,7 +204367,7 @@
     },
     {
       "source": "docs_uml_findings_phase_2_put_types_in_the_right_layer_medium_risk_biggest_win",
-      "target": "assets_project_ocean_scripts_core_datas_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
+      "target": "assets_project_ocean_scripts_core_data_items_inventoryitemdatabase_game_core_inventoryitemdatabase",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205291,7 +205291,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_file_map",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205303,7 +205303,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_task_3_move_shared_data_and_event_types_down_to_core",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205315,7 +205315,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_29_cleanup_phase6d_item_encapsulation_cleanup_phase_6d_encapsulate_item_fields_implementation_plan",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205327,7 +205327,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_29_cleanup_phase6d_item_encapsulation_global_constraints",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205339,7 +205339,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_29_cleanup_phase6d_item_encapsulation_task_1_snapshot",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205351,7 +205351,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_30_refactor_phase7b_inventory_funnel_task_2_read_remove_api_shop_and_slot_clicks_stop_touching_item_views",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205363,7 +205363,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_30_refactor_phase7c_inventory_model_why_this_design_2026_09_30",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205375,7 +205375,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205387,7 +205387,7 @@
     },
     {
       "source": "docs_uml_findings_3_root_causes",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205399,7 +205399,7 @@
     },
     {
       "source": "docs_uml_findings_phase_2_put_types_in_the_right_layer_medium_risk_biggest_win",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205411,7 +205411,7 @@
     },
     {
       "source": "docs_uml_findings_phase_6_cleanup_low_risk_any_time_after_phase_4",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_item",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_item",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205711,7 +205711,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_file_map",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205723,7 +205723,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205735,7 +205735,7 @@
     },
     {
       "source": "docs_uml_findings_3_root_causes",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -205747,7 +205747,7 @@
     },
     {
       "source": "docs_uml_findings_phase_2_put_types_in_the_right_layer_medium_risk_biggest_win",
-      "target": "assets_project_ocean_scripts_core_datas_items_item_game_core_itemtype",
+      "target": "assets_project_ocean_scripts_core_data_items_item_game_core_itemtype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -210679,7 +210679,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "target": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -210691,7 +210691,7 @@
     },
     {
       "source": "docs_uml_findings_2_unused_scripts_moved_to_scripts_deprecated",
-      "target": "assets_project_ocean_scripts_core_datas_ropestructuredata_game_core_ropestructuredata",
+      "target": "assets_project_ocean_scripts_core_data_ropestructuredata_game_core_ropestructuredata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213343,7 +213343,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_file_map",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213355,7 +213355,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_task_3_move_shared_data_and_event_types_down_to_core",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213367,7 +213367,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase3d_upgrade_events_task_1_event_tests_red",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213379,7 +213379,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213391,7 +213391,7 @@
     },
     {
       "source": "docs_uml_findings_3_root_causes",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213403,7 +213403,7 @@
     },
     {
       "source": "docs_uml_findings_phase_2_put_types_in_the_right_layer_medium_risk_biggest_win",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradedata",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradedata",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213607,7 +213607,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_file_map",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213619,7 +213619,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213631,7 +213631,7 @@
     },
     {
       "source": "docs_uml_findings_3_root_causes",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213643,7 +213643,7 @@
     },
     {
       "source": "docs_uml_findings_phase_2_put_types_in_the_right_layer_medium_risk_biggest_win",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradetype",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradetype",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213655,7 +213655,7 @@
     },
     {
       "source": "docs_superpowers_plans_2026_09_26_refactor_phase2_layers_file_map",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradeunlock",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradeunlock",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213667,7 +213667,7 @@
     },
     {
       "source": "docs_uml_03_all_scripts_core_51_files",
-      "target": "assets_project_ocean_scripts_core_datas_upgrades_upgradedata_game_core_upgradeunlock",
+      "target": "assets_project_ocean_scripts_core_data_upgrades_upgradedata_game_core_upgradeunlock",
       "relation": "references",
       "_origin": "ast",
       "confidence": "INFERRED",
@@ -213895,5 +213895,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b4b8e69d61d577e5072df8873ce4b2813a51e96d"
+  "built_at_commit": "b104fbd6e47b8ff1bf28005c654c6606cdbd84af"
 }

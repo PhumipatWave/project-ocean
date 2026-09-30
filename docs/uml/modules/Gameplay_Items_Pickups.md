@@ -1,6 +1,6 @@
 # Gameplay/Items/Pickups
 
-3 types · 157 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core](Core.md) ×1, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Inventory](Gameplay_Inventory.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1
+3 types · 157 LOC (non-blank) · depends on: [Core/Pool](Core_Pool.md) ×3, [Gameplay/AudioSetting](Gameplay_AudioSetting.md) ×2, [Core](Core.md) ×1, [Core/Data/Items](Core_Data_Items.md) ×1, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Inventory](Gameplay_Inventory.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1, [Gameplay/Spawning](Gameplay_Spawning.md) ×1
 
 [← index](../README.md)
 

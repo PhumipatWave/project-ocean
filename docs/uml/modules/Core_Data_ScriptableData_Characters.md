@@ -1,4 +1,4 @@
-# Core/Datas/ScriptableDatas/Characters
+# Core/Data/ScriptableData/Characters
 
 2 types · 27 LOC (non-blank) · depends on: none
 

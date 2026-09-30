@@ -1,6 +1,6 @@
 # Gameplay/Inventory
 
-5 types · 224 LOC (non-blank) · depends on: [Core/Datas/Items](Core_Datas_Items.md) ×6, [Core/Save](Core_Save.md) ×1
+5 types · 224 LOC (non-blank) · depends on: [Core/Data/Items](Core_Data_Items.md) ×6, [Core/Save](Core_Save.md) ×1
 
 [← index](../README.md)
 

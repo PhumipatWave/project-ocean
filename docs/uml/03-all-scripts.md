@@ -17,13 +17,13 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | SceneNames.cs | [Core](modules/Core.md) | `SceneNames` static | — | 11 |
 | Singleton.cs | [Core](modules/Core.md) | `Singleton` MB/abstract | — | 34 |
 | Tags.cs | [Core](modules/Core.md) | `Tags` static | — | 9 |
-| BulletData.cs | [Core/Datas](modules/Core_Datas.md) | `AmmoType` enum<br>`BulletData` SO | —<br>— | 19 |
-| RopeStructureData.cs | [Core/Datas](modules/Core_Datas.md) | `RopeStructureData` SO | — | 10 |
-| InventoryItemDatabase.cs | [Core/Datas/Items](modules/Core_Datas_Items.md) | `InventoryItemDatabase` | — | 21 |
-| Item.cs | [Core/Datas/Items](modules/Core_Datas_Items.md) | `Item` SO<br>`ItemType` enum | —<br>— | 49 |
-| CharacterData.cs | [Core/Datas/ScriptableDatas/Characters](modules/Core_Datas_ScriptableDatas_Characters.md) | `CharacterData` SO | — | 14 |
-| CharacterDatabase.cs | [Core/Datas/ScriptableDatas/Characters](modules/Core_Datas_ScriptableDatas_Characters.md) | `CharacterDatabase` SO | — | 28 |
-| UpgradeData.cs | [Core/Datas/Upgrades](modules/Core_Datas_Upgrades.md) | `UpgradeType` enum<br>`UpgradeUnlock`<br>`UpgradeData` SO | —<br>—<br>— | 39 |
+| BulletData.cs | [Core/Data](modules/Core_Data.md) | `AmmoType` enum<br>`BulletData` SO | —<br>— | 19 |
+| RopeStructureData.cs | [Core/Data](modules/Core_Data.md) | `RopeStructureData` SO | — | 10 |
+| InventoryItemDatabase.cs | [Core/Data/Items](modules/Core_Data_Items.md) | `InventoryItemDatabase` | — | 21 |
+| Item.cs | [Core/Data/Items](modules/Core_Data_Items.md) | `Item` SO<br>`ItemType` enum | —<br>— | 49 |
+| CharacterData.cs | [Core/Data/ScriptableData/Characters](modules/Core_Data_ScriptableData_Characters.md) | `CharacterData` SO | — | 14 |
+| CharacterDatabase.cs | [Core/Data/ScriptableData/Characters](modules/Core_Data_ScriptableData_Characters.md) | `CharacterDatabase` SO | — | 28 |
+| UpgradeData.cs | [Core/Data/Upgrades](modules/Core_Data_Upgrades.md) | `UpgradeType` enum<br>`UpgradeUnlock`<br>`UpgradeData` SO | —<br>—<br>— | 39 |
 | CutsceneEvents.cs | [Core/Events](modules/Core_Events.md) | `CutsceneEvents` static | — | 13 |
 | EnemyEvents.cs | [Core/Events](modules/Core_Events.md) | `EnemyEvents` static | — | 12 |
 | ExploreEvents.cs | [Core/Events](modules/Core_Events.md) | `ExploreEvents` static | — | 13 |

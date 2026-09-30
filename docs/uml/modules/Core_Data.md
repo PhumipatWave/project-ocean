@@ -1,4 +1,4 @@
-# Core/Datas
+# Core/Data
 
 3 types · 19 LOC (non-blank) · depends on: none
 

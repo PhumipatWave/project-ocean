@@ -1,4 +1,4 @@
-# Core/Datas/Items
+# Core/Data/Items
 
 3 types · 60 LOC (non-blank) · depends on: none
 

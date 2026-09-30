@@ -1,4 +1,4 @@
-# Core/Datas/Upgrades
+# Core/Data/Upgrades
 
 3 types · 31 LOC (non-blank) · depends on: none
 

@@ -87,10 +87,10 @@ flowchart LR
   end
   subgraph L_Core["Core layer"]
     M_Core["Core<br/>9 types · 157 LOC"]
-    M_Core_Datas["Core/Datas<br/>3 types · 19 LOC"]
-    M_Core_Datas_Items["Core/Datas/Items<br/>3 types · 60 LOC"]
-    M_Core_Datas_ScriptableDatas_Characters["Core/Datas/ScriptableDatas/Characters<br/>2 types · 27 LOC"]
-    M_Core_Datas_Upgrades["Core/Datas/Upgrades<br/>3 types · 31 LOC"]
+    M_Core_Data["Core/Data<br/>3 types · 19 LOC"]
+    M_Core_Data_Items["Core/Data/Items<br/>3 types · 60 LOC"]
+    M_Core_Data_ScriptableData_Characters["Core/Data/ScriptableData/Characters<br/>2 types · 27 LOC"]
+    M_Core_Data_Upgrades["Core/Data/Upgrades<br/>3 types · 31 LOC"]
     M_Core_Events["Core/Events<br/>12 types · 138 LOC"]
     M_Core_Inputs["Core/Inputs<br/>1 types · 137 LOC"]
     M_Core_Inputs_KeyBind["Core/Inputs/KeyBind<br/>2 types · 345 LOC"]
@@ -123,8 +123,8 @@ flowchart LR
   M_Gameplay_Entities_Enemies_NavAgents -->|3| M_Gameplay_Entities_Enemies_Brain
   M_Gameplay_Entities_NPCs -->|11| M_Gameplay_QuestSystems_Quest
   M_Gameplay_Entities_Players -->|10| M_Core
-  M_Gameplay_Entities_Players -->|3| M_Core_Datas_Items
-  M_Gameplay_Entities_Players -->|4| M_Core_Datas_Upgrades
+  M_Gameplay_Entities_Players -->|3| M_Core_Data_Items
+  M_Gameplay_Entities_Players -->|4| M_Core_Data_Upgrades
   M_Gameplay_Entities_Players -->|5| M_Core_Events
   M_Gameplay_Entities_Players -->|4| M_Core_Save
   M_Gameplay_Entities_Players -->|6| M_Gameplay_AudioSetting
@@ -143,7 +143,7 @@ flowchart LR
   M_Gameplay_Interaction -->|3| M_Core
   M_Gameplay_Interaction -->|4| M_Core_Events
   M_Gameplay_Interaction -->|3| M_Gameplay_Entities_Players
-  M_Gameplay_Inventory -->|6| M_Core_Datas_Items
+  M_Gameplay_Inventory -->|6| M_Core_Data_Items
   M_Gameplay_Items_Pickups -->|3| M_Core_Pool
   M_Gameplay_Projectiles -->|3| M_Gameplay_Entities
   M_Gameplay_Projectiles -->|3| M_Gameplay_Entities_Players
@@ -170,7 +170,7 @@ flowchart LR
   M_UI -->|3| M_Gameplay_Contracts
   M_UI -->|3| M_Gameplay_Save
   M_UI_Inventory -->|4| M_Core
-  M_UI_Inventory -->|3| M_Core_Datas_Items
+  M_UI_Inventory -->|3| M_Core_Data_Items
   M_UI_Inventory -->|3| M_Core_Events
   M_UI_Inventory -->|5| M_Gameplay_Inventory
   M_UI_Inventory -->|3| M_UI_Inventory_InventoryPlayer
@@ -179,13 +179,13 @@ flowchart LR
   M_UI_Quest -->|3| M_Core
   M_UI_Quest -->|4| M_Core_Events
   M_UI_Quest -->|13| M_Gameplay_QuestSystems_Quest
-  M_UI_Shop -->|3| M_Core_Datas_Items
+  M_UI_Shop -->|3| M_Core_Data_Items
   M_UI_Shop -->|5| M_Core_Events
   M_UI_Shop -->|3| M_Gameplay_Entities_Players
   M_UI_Shop -->|3| M_UI_Inventory
   M_UI_UIManager -->|3| M_Core
   M_UI_UIManager -->|3| M_UI
-  M_UI_Upgrades -->|6| M_Core_Datas_Upgrades
+  M_UI_Upgrades -->|6| M_Core_Data_Upgrades
 ```
 
 ## Module table
@@ -241,7 +241,7 @@ flowchart LR
 | Core/Pool | 2 | 71 | [open](modules/Core_Pool.md) |
 | Core/VideoManager | 1 | 70 | [open](modules/Core_VideoManager.md) |
 | UI/Inventory/InventoryBuy | 2 | 70 | [open](modules/UI_Inventory_InventoryBuy.md) |
-| Core/Datas/Items | 3 | 60 | [open](modules/Core_Datas_Items.md) |
+| Core/Data/Items | 3 | 60 | [open](modules/Core_Data_Items.md) |
 | UI/Inventory/InventoryBin | 1 | 56 | [open](modules/UI_Inventory_InventoryBin.md) |
 | Gameplay/Items | 2 | 55 | [open](modules/Gameplay_Items.md) |
 | Gameplay/RopeSystems | 1 | 49 | [open](modules/Gameplay_RopeSystems.md) |
@@ -250,12 +250,12 @@ flowchart LR
 | Gameplay/MainCameras | 2 | 36 | [open](modules/Gameplay_MainCameras.md) |
 | Gameplay/Contracts | 5 | 34 | [open](modules/Gameplay_Contracts.md) |
 | UI/Loading/LoadingVisualController | 2 | 34 | [open](modules/UI_Loading_LoadingVisualController.md) |
-| Core/Datas/Upgrades | 3 | 31 | [open](modules/Core_Datas_Upgrades.md) |
+| Core/Data/Upgrades | 3 | 31 | [open](modules/Core_Data_Upgrades.md) |
 | Gameplay/Entities/Enemies/Brain/Interfaces | 5 | 30 | [open](modules/Gameplay_Entities_Enemies_Brain_Interfaces.md) |
 | Core/Inputs/KeyBind/SaveKeyBind | 3 | 28 | [open](modules/Core_Inputs_KeyBind_SaveKeyBind.md) |
-| Core/Datas/ScriptableDatas/Characters | 2 | 27 | [open](modules/Core_Datas_ScriptableDatas_Characters.md) |
+| Core/Data/ScriptableData/Characters | 2 | 27 | [open](modules/Core_Data_ScriptableData_Characters.md) |
 | UI/Interactions | 1 | 26 | [open](modules/UI_Interactions.md) |
-| Core/Datas | 3 | 19 | [open](modules/Core_Datas.md) |
+| Core/Data | 3 | 19 | [open](modules/Core_Data.md) |
 | Gameplay/Entities/Enemies/PartBreak | 1 | 19 | [open](modules/Gameplay_Entities_Enemies_PartBreak.md) |
 | UI/Dialogue | 1 | 19 | [open](modules/UI_Dialogue.md) |
 | UI/Loading/LoadingTextAnimation | 1 | 19 | [open](modules/UI_Loading_LoadingTextAnimation.md) |
