@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Game.Core;
 
 namespace Game.Gameplay
@@ -65,6 +66,11 @@ namespace Game.Gameplay
 
         [SerializeField] private bool canAttack = true;
         public bool CanAttack { get { return canAttack; } set { canAttack = value; } }
+
+        private const float FocusTimeScale = .6f;
+
+        private bool isAttacked;
+        public bool IsAttacked { get { return isAttacked; } }
 
         public AmmoType currentAmmoType;
 
@@ -180,11 +186,53 @@ namespace Game.Gameplay
 
                 UpdateAimLine();
             }
-            else if (!player.IsAttacked)
+            else if (!isAttacked)
             {
                 ResetGunRotation(player.FaceDir);
                 SetAimLineActive(false);
             }
+        }
+
+        public void HandleAttackInput(bool isAttack)
+        {
+            if (isAttack)
+            {
+                if (!canAttack || player.Movement.IsLand || PlayerUIState.IsLocked) return;
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
+                isAttacked = true;
+                IsAimming = true;
+
+                player.Movement.Stop();
+                Time.timeScale = FocusTimeScale;
+            }
+            else
+            {
+                isAttacked = false;
+
+                // Released while a UI is open: cancel the shot. UIManager owns Time.timeScale while locked.
+                if (PlayerUIState.IsLocked)
+                {
+                    IsAimming = false;
+                    return;
+                }
+
+                if (isAimming)
+                {
+                    canAttack = false;
+                    AudioManager.Instance?.PlaySFX(SoundKeys.Shoot);
+                    Shooting();
+                }
+                IsAimming = false;
+                Time.timeScale = 1f;
+            }
+        }
+
+        /// <summary>Clears aim state and restores normal time scale.</summary>
+        public void ResetAim()
+        {
+            IsAimming = false;
+            canAttack = true;
+            Time.timeScale = 1f;
         }
 
         private void UpdateAimLine()

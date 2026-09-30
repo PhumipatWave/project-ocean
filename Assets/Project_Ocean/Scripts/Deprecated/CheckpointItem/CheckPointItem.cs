@@ -1,5 +1,6 @@
 // Checkpoint item is unused in the game (only MiniHub is). To re-enable: move this folder's files back
 // (script → Gameplay/Items/Placeables) and add ENABLE_CHECKPOINT_ITEM to Scripting Define Symbols.
+// Player's checkpoint API was removed; restore it from Player.cs at commit cd63b00.
 #if ENABLE_CHECKPOINT_ITEM
 using System.Collections;
 using UnityEngine;

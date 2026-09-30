@@ -1271,6 +1271,8 @@ GameObject:
   - component: {fileID: 2838524825290089987}
   - component: {fileID: 4142717464964212000}
   - component: {fileID: 771060560994052445}
+  - component: {fileID: 5826845997447228869}
+  - component: {fileID: 3954728909328108062}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1489,12 +1491,6 @@ MonoBehaviour:
   entityHealth: {fileID: 3811799620726562632}
   input: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
   playerSprite: {fileID: 1845563972653589313}
-  landMoveSpeed: 5
-  landDashSpeed: 25
-  landSprintSpeed: 12
-  oceanMoveSpeed: 8
-  oceanDashSpeed: 25
-  oceanSprintSpeed: 10
 --- !u!114 &4000928468899383921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,6 +1535,7 @@ MonoBehaviour:
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.25
   flashTarget: {fileID: 1086155692845509329}
+  invincibleDuration: 0.75
 --- !u!114 &4982446044669505593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,6 +1639,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15069108329ca0f469b5b212ce31cc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.PlayerInteractor
+--- !u!114 &5826845997447228869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b38f75654c0e44eaf51d74f95c118b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.PlayerMovement
+  landMoveSpeed: 5
+  landDashSpeed: 25
+  landSprintSpeed: 12
+  oceanMoveSpeed: 8
+  oceanDashSpeed: 25
+  oceanSprintSpeed: 10
+--- !u!114 &3954728909328108062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747670493676788167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dc6055741b0a549a8c9ac8ea1b97fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.PlayerSceneMode
 --- !u!1 &8786999036951660336
 GameObject:
   m_ObjectHideFlags: 0
