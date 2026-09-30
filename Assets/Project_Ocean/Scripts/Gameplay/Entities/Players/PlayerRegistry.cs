@@ -21,7 +21,8 @@ namespace Game.Gameplay
                 Local = null;
         }
 
-        public static Player GetNearest(Vector2 position)
+        /// <summary>The local player if alive, else null.</summary>
+        public static Player GetLiveLocal()
         {
             if (Local == null || Local.IsDead) return null;
             return Local;

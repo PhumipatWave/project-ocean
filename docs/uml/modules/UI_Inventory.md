@@ -9,8 +9,8 @@ classDiagram
   direction LR
   class InventoryManager {
     <<MB>>
-    +System.Action OnInventoryChanged$
-    +System.Action OnInventoryClosed$
+    +event System.Action OnInventoryChanged$
+    +event System.Action OnInventoryClosed$
     +event System.Action~Item, int~ OnItemDelta$
     +GameObject InventoryMenu
     +IReadOnlyList~Item~ AllItems
@@ -71,6 +71,7 @@ classDiagram
 | Subscriber | Publisher | Event |
 |---|---|---|
 | InventoryManager | InputReader | OnInventoryToggled |
+| InventoryManager | Inventory | OnChanged |
 | InventoryManager | InventoryModel | Changed |
 | InventoryManager | InventoryModel | ItemDelta |
 | InventoryManager | UpgradeService | OnLevelGranted |

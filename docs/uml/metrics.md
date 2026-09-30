@@ -13,7 +13,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | UIManager | 348 | 31 | 11 | 10 | UI/UIManager |
 | KeyBindManager | 334 | 12 | 4 | 6 | Core/Inputs/KeyBind |
 | QuestManager | 328 | 34 | 7 | 20 | Gameplay/QuestSystems/Quest |
-| InventoryManager | 315 | 43 | 25 | 30 | UI/Inventory |
+| InventoryManager | 315 | 43 | 23 | 30 | UI/Inventory |
 | ShopManager | 287 | 37 | 19 | 15 | UI/Shop |
 | UpgradeTooltip | 279 | 8 | 14 | 5 | UI/Upgrades |
 | PlayerGunHandler | 260 | 15 | 37 | 11 | Gameplay/Entities/Players |
@@ -25,7 +25,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | SaveBridge | 183 | 14 | 4 | 23 | Gameplay/Save |
 | ObjectWrapPoint | 182 | 10 | 7 | 1 | Gameplay/Entities/Players/OxygenTube |
 | LinearPatrolBrain | 179 | 19 | 18 | 8 | Gameplay/Entities/Enemies/Brain/LinearPatrol |
-| QuestProgressTracker | 179 | 12 | 3 | 18 | Gameplay/QuestSystems/Quest |
+| QuestProgressTracker | 179 | 12 | 3 | 17 | Gameplay/QuestSystems/Quest |
 | ExploreAreaTrigger | 171 | 17 | 11 | 11 | Gameplay/QuestSystems/Quest |
 | DevPanel | 163 | 10 | 18 | 11 | Gameplay/Entities/Players |
 
@@ -35,17 +35,17 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 |---|---|---|
 | TutorialActionId | 27 | Bullet, DayManager, DoorQuestMarker, GameHUD, GameManager |
 | Player | 21 | AmmoWheel, Bullet, ChestInteract, CollectableItemBase, DevPanel |
+| PlayerRegistry | 20 | Bullet, Cutscene, DevPanel, Enemy, EnemyLoot |
 | QuestManager | 20 | CutsceneManager, DevPanel, ExploreAreaTrigger, FeatureUnlockService, NPC |
 | GameLog | 19 | DayManager, Enemy, EnemyNavAgentBase, EnemySpawner, EnemyVision |
-| PlayerRegistry | 19 | Bullet, Cutscene, DevPanel, Enemy, EnemyLoot |
 | Item | 18 | DevItemButton, DevPanel, DraggableItem, EnemyLoot, GameObjectSpawnManager |
 | Singleton | 18 | AudioManager, CameraShakeManager, ConfirmationDialog, CutsceneManager, DayManager |
 | Quest | 17 | CutsceneManager, IQuestOfferView, NPC, NpcQuestConversation, PlayerSelfDialogueUI |
 | PlayerUIState | 16 | ConfirmationDialog, Cutscene, CutsceneManager, EscClosablePanel, GameHUD |
 | NotificationManager | 15 | CutsceneSkipHint, GameManager, Interactable, InventoryManager, LandUI |
-| TutorialEvents | 15 | Bullet, DayManager, DoorQuestMarker, GameManager, Interactable |
 | QuestType | 15 | ExploreAreaTrigger, FieldVisibility, NpcQuestMarker, PlayerSelfDialogueUI, Quest |
 | EnemyBrainContext | 15 | EnemyAttackState, EnemyBrain, EnemyBrainBase, EnemyFSM, EnemyFleeState |
+| TutorialEvents | 14 | Bullet, DayManager, DoorQuestMarker, GameManager, Interactable |
 | Inventory | 13 | DevPanel, EnemyLoot, InventoryManager, ItemDrop, PlayerItemUse |
 | SaveData | 12 | DayManager, EnemyKillTracker, FeatureUnlockService, ISaveParticipant, InventoryManager |
 
@@ -59,7 +59,7 @@ Generated. Coupling = distinct project types referenced (associations + usages).
 | EnemyBrain | 19 |
 | GameHUD | 19 |
 | GameManager | 18 |
-| QuestProgressTracker | 18 |
+| QuestProgressTracker | 17 |
 | Player | 16 |
 | TutorialPromptUI | 15 |
 | ShopManager | 15 |
@@ -157,8 +157,8 @@ Types that transitively depend on each other. Small cycles are cheapest to break
 | Size | Types |
 |---|---|
 | 11 | AggressiveEnemyProfile, EnemyAttackState, EnemyBaseProfile, EnemyBrain, EnemyFleeState, EnemyFollowState, EnemyPrepareAttackState, EnemyVision, EnemyWanderState, FriendlyEnemyProfile, ScaredEnemyProfile |
+| 10 | Cutscene, CutsceneManager, DoorQuestMarker, NPC, NPCManager, NpcQuestConversation, NpcQuestMarker, PlayerInteriorState, QuestNavigation, TutorialActionMarker |
 | 9 | Bullet, IItemEffect, Player, PlayerGunHandler, PlayerHealth, PlayerItemUse, PlayerMovement, PlayerRegistry, UpgradeService |
-| 9 | Cutscene, CutsceneManager, DoorQuestMarker, NPC, NPCManager, NpcQuestConversation, NpcQuestMarker, QuestNavigation, TutorialActionMarker |
 | 6 | Boid, Enemy, EnemyBrainContext, EnemyLoot, EnemyNavAgentBase, IEnemyBrain |
 | 4 | FeatureUnlockService, QuestManager, QuestProgressTracker, QuestStepEffects |
 | 4 | EnemySpawner, GameObjectSpawnManager, ItemDrop, ItemSpawner |

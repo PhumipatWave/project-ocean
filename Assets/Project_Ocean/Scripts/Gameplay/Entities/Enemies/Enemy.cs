@@ -107,7 +107,7 @@ namespace Game.Gameplay
                 yield return wait;
                 if (IsDead) yield break;
 
-                var nearest = PlayerRegistry.GetNearest(transform.position);
+                var nearest = PlayerRegistry.GetLiveLocal();
                 if (nearest == null) continue;
 
                 float sqrDist = ((Vector2)(nearest.transform.position - transform.position)).sqrMagnitude;

@@ -9,7 +9,7 @@ namespace Game.Core
     ///
     /// Sequence (do not reorder):
     ///   1. SaveBridge.LoadGame sets Position then BeginLoad() BEFORE LoadScene().
-    ///   2. On sceneLoaded, GameManager reads IsLoading + Position to place the player,
+    ///   2. On sceneLoaded, GameManager and PlayerSceneMode read IsLoading + Position to place the player,
     ///      and intentionally does NOT clear the flag.
     ///   3. SaveBridge's post-load coroutine applies stats/inventory/etc, then calls
     ///      Clear() — exactly once, after everything is applied.

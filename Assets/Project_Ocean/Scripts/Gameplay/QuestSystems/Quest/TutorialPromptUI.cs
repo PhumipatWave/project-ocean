@@ -100,12 +100,10 @@ namespace Game.Gameplay
         private void Show(string text, Sprite image, TutorialActionId requiredAction)
         {
             // Refresh runs on many events; only toast when the prompt actually changes.
-            if (text != TutorialGate.CurrentPrompt)
-            {
-                TutorialGate.CurrentPrompt = text;
+            bool changed = text != TutorialGate.CurrentPrompt;
+            TutorialGate.Set(requiredAction, text);
+            if (changed)
                 NotificationManager.Notify(text, NotificationChannel.Center, image);
-            }
-            TutorialGate.RequiredAction = requiredAction;
         }
 
         private void Hide()
@@ -114,8 +112,7 @@ namespace Game.Gameplay
                 GameLog.Info($"[TutorialPromptUI] Hide — was requiring {TutorialGate.RequiredAction.Value} " +
                     $"(locked={PlayerUIState.IsLocked}, questManagerNull={QuestManager.Instance == null})");
 
-            TutorialGate.CurrentPrompt = null;
-            TutorialGate.RequiredAction = null;
+            TutorialGate.Clear();
         }
     }
 }

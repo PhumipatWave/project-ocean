@@ -1,6 +1,6 @@
 # Project Ocean — UML
 
-Source: `Assets/Project_Ocean/Scripts` · 242 files · 291 types · 19061 non-blank lines · 135 MonoBehaviours · 13 ScriptableObjects · 17 interfaces · 30 enums
+Source: `Assets/Project_Ocean/Scripts` · 242 files · 291 types · 19076 non-blank lines · 135 MonoBehaviours · 13 ScriptableObjects · 17 interfaces · 30 enums
 
 Regenerate after any script change: `python tools/uml/gen_uml.py` (self-test: `python tools/uml/test_gen_uml.py`).
 

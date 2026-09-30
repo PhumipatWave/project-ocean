@@ -1,6 +1,6 @@
 # Gameplay/QuestSystems/Quest
 
-36 types · 1717 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×22, [Core](Core.md) ×13, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×5, [Core/Save](Core_Save.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Gameplay/Environments](Gameplay_Environments.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
+36 types · 1722 LOC (non-blank) · depends on: [Core/Events](Core_Events.md) ×21, [Core](Core.md) ×12, [Gameplay/Entities/Players](Gameplay_Entities_Players.md) ×6, [Core/Save](Core_Save.md) ×4, [Gameplay/Environments](Gameplay_Environments.md) ×4, [Gameplay/Inventory](Gameplay_Inventory.md) ×4, [Gameplay/Cutscenes](Gameplay_Cutscenes.md) ×3, [Core/Save/DayReset](Core_Save_DayReset.md) ×2, [Core/Scenes](Core_Scenes.md) ×2, [Gameplay/Contracts](Gameplay_Contracts.md) ×2, [Core/Datas/Items](Core_Datas_Items.md) ×1, [Core/Inputs](Core_Inputs.md) ×1, [Gameplay/Interaction](Gameplay_Interaction.md) ×1, [Gameplay/Services](Gameplay_Services.md) ×1
 
 [← index](../README.md)
 
@@ -209,7 +209,7 @@ classDiagram
   ExploreAreaTrigger --> DialogueLine : dialogueLines
   ExploreAreaTrigger --> Mode : mode
   ISaveParticipant <|.. QuestManager
-  PlayerInteriorState --> PlayerInterior : Current
+  PlayerInteriorState --> PlayerInterior : cached
   PlayerSelfDialogueUI --> Line : lines
   PlayerSelfDialogueUI --> Quest : activeQuest
   Quest --> NextQuestMode : NextQuestMode
@@ -325,7 +325,6 @@ classDiagram
 | Subscriber | Publisher | Event |
 |---|---|---|
 | ExploreAreaTrigger | QuestManager | OnQuestUpdated |
-| PlayerInteriorState | TutorialEvents | OnActionPerformed |
 | PlayerSelfDialogueUI | InputReader | OnInteracted |
 | PlayerSelfDialogueUI | LoadingManager | OnLoadingFinished |
 | PlayerSelfDialogueUI | QuestManager | OnQuestUpdated |
@@ -333,9 +332,9 @@ classDiagram
 | QuestProgressTracker | CutsceneEvents | OnCutsceneFinished |
 | QuestProgressTracker | DayManager | OnDayAdvanced |
 | QuestProgressTracker | DayManager | OnDivedToday |
-| QuestProgressTracker | DialogueState | OnChanged |
 | QuestProgressTracker | EnemyEvents | OnEnemyKilled |
 | QuestProgressTracker | ExploreEvents | OnAreaReached |
+| QuestProgressTracker | Inventory | OnChanged |
 | QuestProgressTracker | NpcEvents | OnNpcTalkedTo |
 | QuestProgressTracker | PlayerMoney | OnMoneyChanged |
 | QuestProgressTracker | TutorialEvents | OnActionPerformed |
@@ -356,8 +355,8 @@ classDiagram
 | Line | struct | `PlayerSelfDialogueUI.cs:40` | 1 |
 | Mode | enum | `ExploreAreaTrigger.cs:24` | 5 |
 | NextQuestMode | enum | `QuestData.cs:32` | 6 |
-| PlayerInterior | enum | `PlayerInteriorState.cs:5` | 1 |
-| PlayerInteriorState | static | `PlayerInteriorState.cs:13` | 36 |
+| PlayerInterior | enum | `PlayerInteriorState.cs:6` | 1 |
+| PlayerInteriorState | static | `PlayerInteriorState.cs:9` | 44 |
 | PlayerSelfDialogueUI | MB | `PlayerSelfDialogueUI.cs:21` | 124 |
 | Quest | class | `Quest.cs:44` | 163 |
 | QuestCategory | enum | `QuestData.cs:14` | 8 |
@@ -381,6 +380,6 @@ classDiagram
 | ReviceQuestSlot | MB | `ReviceQuestSlot.cs:8` | 28 |
 | TalkCompletionMode | enum | `QuestData.cs:65` | 5 |
 | TutorialActionMarker | MB | `TutorialActionMarker.cs:8` | 29 |
-| TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 77 |
+| TutorialPromptUI | MB | `TutorialPromptUI.cs:23` | 74 |
 | TutorialStep | static | `TutorialStep.cs:10` | 24 |
 | TutorialUIMarker | MB | `TutorialUIMarker.cs:9` | 14 |

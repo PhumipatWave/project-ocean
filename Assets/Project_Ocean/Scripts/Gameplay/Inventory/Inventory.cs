@@ -8,7 +8,9 @@ namespace Game.Gameplay
         public static IInventory Current { get; private set; }
 
         /// <summary>Raised whenever inventory contents change (InventoryManager.OnInventoryChanged forwards here).</summary>
-        public static System.Action OnChanged;
+        public static event System.Action OnChanged;
+
+        public static void RaiseChanged() => OnChanged?.Invoke();
 
         public static void Register(IInventory inventory) => Current = inventory;
 

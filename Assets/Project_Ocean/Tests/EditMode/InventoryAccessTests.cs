@@ -44,9 +44,10 @@ namespace Game.Tests
             Assert.IsTrue(typeof(IInventory).IsAssignableFrom(typeof(InventoryManager)));
             int calls = 0;
             System.Action h = () => calls++;
-            Inventory.OnChanged += h;
-            InventoryManager.OnInventoryChanged?.Invoke();
-            Inventory.OnChanged -= h;
+            InventoryManager.OnInventoryChanged += h;
+            Inventory.RaiseChanged();
+            InventoryManager.OnInventoryChanged -= h;
+            Inventory.RaiseChanged();
             Assert.AreEqual(1, calls);
         }
     }

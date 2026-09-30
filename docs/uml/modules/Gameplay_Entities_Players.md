@@ -94,7 +94,7 @@ classDiagram
     +Player Local$
     +Register(Player)$ void
     +Unregister(Player)$ void
-    +GetNearest(Vector2)$ Player
+    +GetLiveLocal()$ Player
   }
   class PlayerSceneMode {
     <<MB>>

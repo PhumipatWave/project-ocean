@@ -13,7 +13,7 @@ namespace Game.Gameplay
         // ponytail: proximity heuristic — a target within this distance of an interior's exit door
         // is inside that interior (interiors are stacked far from the town, so outdoor targets
         // are never this close). Explicit per-target interior field if layouts ever overlap.
-        private const float InteriorRadiusMeters = 40f;
+        internal const float InteriorRadiusMeters = 40f;
 
         /// <summary>
         /// The point proximity should actually be measured against for this object — its

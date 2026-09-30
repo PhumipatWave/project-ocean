@@ -39,6 +39,8 @@ classDiagram
 
 | Subscriber | Publisher | Event |
 |---|---|---|
+| ShopManager | InventoryManager | OnInventoryChanged |
+| ShopManager | InventoryManager | OnInventoryClosed |
 | ShopManager | InventorySlot | OnShopSlotClicked |
 | ShopManager | QuestManager | OnQuestUpdated |
 

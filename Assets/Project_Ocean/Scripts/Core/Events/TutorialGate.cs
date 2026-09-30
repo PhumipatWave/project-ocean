@@ -8,10 +8,22 @@ namespace Game.Core
     /// </summary>
     public static class TutorialGate
     {
-        public static TutorialActionId? RequiredAction;
+        public static TutorialActionId? RequiredAction { get; private set; }
 
         /// <summary>Prompt text currently in effect, or null — re-shown when the player presses a blocked key.</summary>
-        public static string CurrentPrompt;
+        public static string CurrentPrompt { get; private set; }
+
+        public static void Set(TutorialActionId requiredAction, string prompt)
+        {
+            RequiredAction = requiredAction;
+            CurrentPrompt = prompt;
+        }
+
+        public static void Clear()
+        {
+            RequiredAction = null;
+            CurrentPrompt = null;
+        }
 
         /// <summary>Any restriction active right now (regardless of which action).</summary>
         public static bool IsRestricting => RequiredAction.HasValue;

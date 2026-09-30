@@ -1,6 +1,6 @@
 # Gameplay/Inventory
 
-5 types · 223 LOC (non-blank) · depends on: [Core/Datas/Items](Core_Datas_Items.md) ×6, [Core/Save](Core_Save.md) ×1
+5 types · 224 LOC (non-blank) · depends on: [Core/Datas/Items](Core_Datas_Items.md) ×6, [Core/Save](Core_Save.md) ×1
 
 [← index](../README.md)
 
@@ -24,7 +24,8 @@ classDiagram
   class Inventory {
     <<static>>
     +IInventory Current$
-    +System.Action OnChanged$
+    +event System.Action OnChanged$
+    +RaiseChanged()$ void
     +Register(IInventory)$ void
     +Unregister(IInventory)$ void
   }
@@ -70,7 +71,7 @@ classDiagram
 | Type | Kind | File | LOC |
 |---|---|---|---|
 | IInventory | interface | `IInventory.cs:7` | 14 |
-| Inventory | static | `Inventory.cs:6` | 10 |
+| Inventory | static | `Inventory.cs:6` | 11 |
 | InventoryModel | class | `InventoryModel.cs:8` | 142 |
 | InventorySaveMapper | static | `InventorySaveMapper.cs:8` | 45 |
 | ItemStack | struct | `ItemStack.cs:6` | 12 |

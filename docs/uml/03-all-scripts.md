@@ -34,7 +34,7 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | NpcEvents.cs | [Core/Events](modules/Core_Events.md) | `NpcEvents` static | — | 12 |
 | RewardEvents.cs | [Core/Events](modules/Core_Events.md) | `RewardEvents` static | — | 9 |
 | TutorialEvents.cs | [Core/Events](modules/Core_Events.md) | `TutorialActionId` enum<br>`TutorialEvents` static | —<br>— | 46 |
-| TutorialGate.cs | [Core/Events](modules/Core_Events.md) | `TutorialGate` static | — | 48 |
+| TutorialGate.cs | [Core/Events](modules/Core_Events.md) | `TutorialGate` static | — | 58 |
 | InputReader.cs | [Core/Inputs](modules/Core_Inputs.md) | `InputReader` SO | — | 154 |
 | KeyAction.cs | [Core/Inputs/KeyBind](modules/Core_Inputs_KeyBind.md) | `KeyAction` enum | — | 15 |
 | KeyBindManager.cs | [Core/Inputs/KeyBind](modules/Core_Inputs_KeyBind.md) | `KeyBindManager` MB | Singleton | 346 |
@@ -128,7 +128,7 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | PlayerHealth.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerHealth` MB | EntityHealth, ISaveParticipant | 104 |
 | PlayerMoney.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerMoney` MB | ISaveParticipant | 50 |
 | PlayerMovement.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerMovement` MB | — | 111 |
-| PlayerRegistry.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerRegistry` static | — | 26 |
+| PlayerRegistry.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerRegistry` static | — | 27 |
 | PlayerSceneMode.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerSceneMode` MB | — | 61 |
 | PlayerSprintVFX.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerSprintVFX` MB | — | 58 |
 | PlayerStabAttack.cs | [Gameplay/Entities/Players](modules/Gameplay_Entities_Players.md) | `PlayerStabAttack` MB | — | 25 |
@@ -151,7 +151,7 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | InteractUI.cs | [Gameplay/Interaction](modules/Gameplay_Interaction.md) | `InteractUI` MB | Interactable | 15 |
 | PlayerInteractor.cs | [Gameplay/Interaction](modules/Gameplay_Interaction.md) | `PlayerInteractor` MB | — | 56 |
 | IInventory.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `IInventory` interface | — | 20 |
-| Inventory.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `Inventory` static | — | 17 |
+| Inventory.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `Inventory` static | — | 18 |
 | InventoryModel.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `InventoryModel` | — | 159 |
 | InventorySaveMapper.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `InventorySaveMapper` static | — | 55 |
 | ItemStack.cs | [Gameplay/Inventory](modules/Gameplay_Inventory.md) | `ItemStack` struct | — | 17 |
@@ -169,7 +169,7 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | NormalBullet.cs | [Gameplay/Projectiles](modules/Gameplay_Projectiles.md) | `NormalBullet` MB | Bullet | 61 |
 | TranquilizerBullet.cs | [Gameplay/Projectiles](modules/Gameplay_Projectiles.md) | `TranquilizerBullet` MB | Bullet | 5 |
 | ExploreAreaTrigger.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `ExploreAreaTrigger` MB<br>`Mode` enum<br>`DialogueLine` struct | —<br>—<br>— | 211 |
-| PlayerInteriorState.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `PlayerInterior` enum<br>`PlayerInteriorState` static | —<br>— | 50 |
+| PlayerInteriorState.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `PlayerInterior` enum<br>`PlayerInteriorState` static | —<br>— | 56 |
 | PlayerSelfDialogueUI.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `PlayerSelfDialogueUI` MB<br>`Line` struct | —<br>— | 158 |
 | Quest.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `QuestType` enum<br>`DeliverySource` enum<br>`QuestStatus` enum<br>`Quest` | —<br>—<br>—<br>— | 251 |
 | QuestData.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `QuestCompletionMode` enum<br>`QuestCategory` enum<br>`QuestClassification` enum<br>`NextQuestMode` enum<br>`DialogueType` enum<br>`DeliveryCountMode` enum<br>`TalkCompletionMode` enum<br>`QuestItemRequirement`<br>`QuestDialogueLine`<br>`QuestStepData`<br>`QuestData` SO | —<br>—<br>—<br>—<br>—<br>—<br>—<br>—<br>—<br>—<br>— | 165 |
@@ -184,7 +184,7 @@ Every script in `Assets/Project_Ocean/Scripts` on one page: 242 files, 291 types
 | ReviceQuestListUI.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `ReviceQuestListUI` MB | — | 69 |
 | ReviceQuestSlot.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `ReviceQuestSlot` MB | — | 37 |
 | TutorialActionMarker.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `TutorialActionMarker` MB | QuestMarkerBase | 37 |
-| TutorialPromptUI.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `TutorialPromptUI` MB | — | 104 |
+| TutorialPromptUI.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `TutorialPromptUI` MB | — | 101 |
 | TutorialStep.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `TutorialStep` static | — | 37 |
 | TutorialUIMarker.cs | [Gameplay/QuestSystems/Quest](modules/Gameplay_QuestSystems_Quest.md) | `TutorialUIMarker` MB | QuestMarkerBase | 24 |
 | RopeSystemUtil.cs | [Gameplay/RopeSystems](modules/Gameplay_RopeSystems.md) | `RopeSystemUtil` static | — | 56 |

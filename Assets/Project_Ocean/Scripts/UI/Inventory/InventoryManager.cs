@@ -10,12 +10,12 @@ namespace Game.UI
     public class InventoryManager : Singleton<InventoryManager>, ISaveParticipant, IInventory
     {
         // Forwards to Inventory.OnChanged so gameplay listens without referencing this UI class.
-        public static System.Action OnInventoryChanged
+        public static event System.Action OnInventoryChanged
         {
-            get => Inventory.OnChanged;
-            set => Inventory.OnChanged = value;
+            add => Inventory.OnChanged += value;
+            remove => Inventory.OnChanged -= value;
         }
-        public static System.Action OnInventoryClosed;
+        public static event System.Action OnInventoryClosed;
 
         /// <summary>Signed count of a player-visible item change; save load and reset never raise it.</summary>
         public static event System.Action<Item, int> OnItemDelta;
@@ -339,7 +339,7 @@ namespace Game.UI
         private void HandleModelChanged()
         {
             Render();
-            OnInventoryChanged?.Invoke();
+            Inventory.RaiseChanged();
         }
 
         private void Render()

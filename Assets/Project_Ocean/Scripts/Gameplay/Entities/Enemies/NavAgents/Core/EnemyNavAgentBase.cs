@@ -310,7 +310,7 @@ namespace Game.Gameplay
             if (playerTransform != null)
                 return playerTransform;
 
-            var nearest = PlayerRegistry.GetNearest(transform.position);
+            var nearest = PlayerRegistry.GetLiveLocal();
             return nearest != null ? nearest.transform : null;
         }
     }
