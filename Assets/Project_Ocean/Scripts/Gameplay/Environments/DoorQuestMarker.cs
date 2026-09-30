@@ -6,14 +6,11 @@ namespace Game.Gameplay
 {
     /// <summary>Tags a door with a MoveIn/MoveOut tutorial action: raises it on warp and shows the quest marker.</summary>
     [RequireComponent(typeof(DoorInteract))]
-    public class DoorQuestMarker : MonoBehaviour
+    public class DoorQuestMarker : QuestMarkerBase
     {
         [Tooltip("Raised once the warp completes, if set — lets a guided Tutorial quest step require walking through this specific door (e.g. MoveInHouse for a house's entry door, MoveOutHouse for its exit door).")]
         [SerializeField] private bool raiseTutorialAction = true;
         [SerializeField] private TutorialActionId tutorialAction;
-
-        [Tooltip("Shown when this door is the tracked quest's current target and the player is within QuestNavigation.CloseRangeMeters — same handoff QuestCompass makes to NPC's marker.")]
-        [SerializeField] private GameObject markerUI;
 
         // Self-registers so QuestCompass can find "the door for MoveInShop" without a scene search.
         private static readonly List<DoorQuestMarker> all = new();
@@ -54,18 +51,18 @@ namespace Game.Gameplay
 
         void Awake() => door = GetComponent<DoorInteract>();
 
-        void OnEnable()
+        protected override void OnEnable()
         {
             all.Add(this);
             door.Warped += RaiseAction;
-            QuestManager.OnQuestUpdated += RefreshMarker;
+            base.OnEnable();
         }
 
-        void OnDisable()
+        protected override void OnDisable()
         {
             all.Remove(this);
             door.Warped -= RaiseAction;
-            QuestManager.OnQuestUpdated -= RefreshMarker;
+            base.OnDisable();
         }
 
         private void RaiseAction()
@@ -76,34 +73,19 @@ namespace Game.Gameplay
 
         // Shows when the quest wants this door, or as a fallback for the exit of the interior the
         // player is in, unless the quest targets something else specific (e.g. a counter inside).
-        private bool ShouldShowMarker()
+        protected override bool ShouldShow()
         {
             if (!raiseTutorialAction)
                 return false;
 
-            var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
-            bool questWantsThis = (step != null && step.Type == QuestType.Tutorial && step.TutorialAction == tutorialAction) ||
+            bool questWantsThis = QuestNavigation.CurrentTutorialAction() == tutorialAction ||
                 QuestNavigation.ResolveCompassTarget() == transform;
 
             var questTarget = QuestNavigation.ResolveQuestTarget();
             bool isCurrentExit = PlayerInteriorState.CurrentExitAction == tutorialAction &&
                 (questTarget == null || questTarget == transform);
 
-            if (!questWantsThis && !isCurrentExit)
-                return false;
-
-            var player = PlayerRegistry.Local;
-            return player != null &&
-                Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(transform)) <= QuestNavigation.CloseRangeMeters;
+            return (questWantsThis || isCurrentExit) && QuestNavigation.IsPlayerNear(transform);
         }
-
-        private void RefreshMarker()
-        {
-            if (markerUI != null)
-                markerUI.SetActive(ShouldShowMarker());
-        }
-
-        // Proximity changes every frame as the player walks.
-        void Update() => RefreshMarker();
     }
 }

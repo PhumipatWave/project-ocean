@@ -35,12 +35,7 @@ namespace Game.Gameplay
                 QuestStatus.InProgress or QuestStatus.ReadyToTurnIn => true,
                 _ => false,
             };
-            if (!targeted)
-                return false;
-
-            var player = PlayerRegistry.Local;
-            return player != null &&
-                Vector3.Distance(player.transform.position, QuestNavigation.InteractPosition(npc.transform)) <= QuestNavigation.CloseRangeMeters;
+            return targeted && QuestNavigation.IsPlayerNear(npc.transform);
         }
     }
 }

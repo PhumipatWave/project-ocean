@@ -30,6 +30,20 @@ namespace Game.Gameplay
             return collider != null ? (Vector3)collider.bounds.center : t.position;
         }
 
+        /// <summary>The tracked quest's current Tutorial action, or null if its step isn't a Tutorial step.</summary>
+        public static TutorialActionId? CurrentTutorialAction()
+        {
+            var step = QuestManager.Instance?.GetTrackedQuest()?.CurrentStep;
+            return step != null && step.Type == QuestType.Tutorial ? step.TutorialAction : (TutorialActionId?)null;
+        }
+
+        /// <summary>True when the local player is within CloseRangeMeters of this object's interact point.</summary>
+        public static bool IsPlayerNear(Transform t)
+        {
+            var player = PlayerRegistry.Local;
+            return player != null && Vector3.Distance(player.transform.position, InteractPosition(t)) <= CloseRangeMeters;
+        }
+
         /// <summary>
         /// What the tracked quest's current step actually wants right now — the NPC for a
         /// Talk step, the relevant door for a Tutorial step that requires walking through one,
