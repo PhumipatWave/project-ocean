@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    // Explicit values: scenes store these as ints, and 3 (SwitchItem) was removed.
+    // Keybind rows store these as ints: add new values at the end; removing or reordering means remapping the prefabs.
     public enum KeyAction
     {
-        Move = 0,
-        Interact = 1,
-        Inventory = 2,
-        UseItem = 4,
-        Sprint = 5,
-        Attack = 6,
-        Aim = 7
+        Move,
+        Interact,
+        Inventory,
+        UseItem,
+        Sprint,
+        Attack,
+        Aim
     }
 
     /// <summary>Which device family a keybind row edits; values are the binding groups in the .inputactions.</summary>

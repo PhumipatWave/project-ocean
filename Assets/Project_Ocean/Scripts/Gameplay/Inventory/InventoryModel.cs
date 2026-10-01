@@ -37,9 +37,9 @@ namespace Game.Gameplay
         {
             if (item == null) return false;
 
-            bool building = item.ItemType == ItemType.Building;
-            int end = building ? SlotCount : PlayerSlotCount;
-            for (int i = building ? PlayerSlotCount : 0; i < end; i++)
+            bool consumable = item.ItemType == ItemType.Consumable;
+            int end = consumable ? SlotCount : PlayerSlotCount;
+            for (int i = consumable ? PlayerSlotCount : 0; i < end; i++)
             {
                 if (!unlocked[i]) continue;
 
@@ -145,9 +145,9 @@ namespace Game.Gameplay
             return true;
         }
 
-        // Same rule as Add: building items live only in building slots, everything else only in player slots.
+        // Same rule as Add: consumables live only in building slots, everything else only in player slots.
         private bool Fits(ItemStack stack, int slot) =>
-            stack.IsEmpty || (stack.Item.ItemType == ItemType.Building) == (slot >= PlayerSlotCount);
+            stack.IsEmpty || (stack.Item.ItemType == ItemType.Consumable) == (slot >= PlayerSlotCount);
 
         /// <summary>Unlocks the first locked player slot; false when all are unlocked.</summary>
         public bool UnlockNext()

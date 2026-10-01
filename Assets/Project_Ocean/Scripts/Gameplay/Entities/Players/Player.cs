@@ -77,7 +77,7 @@ namespace Game.Gameplay
         {
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.UseItem)) return;
             if (GameSession.State == GameState.Ocean)
-                PlayerItemUse.Use(this, ItemType.Building);
+                PlayerItemUse.Use(this, ItemType.Consumable);
         }
 
         protected override void OnDamagedHandler()

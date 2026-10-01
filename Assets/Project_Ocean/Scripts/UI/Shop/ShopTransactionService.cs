@@ -84,7 +84,7 @@ public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item it
                 return true;
             }
 
-            if (item.ItemType == ItemType.Building || item.ItemType == ItemType.Normal)
+            if (item.ItemType == ItemType.Consumable || item.ItemType == ItemType.Normal)
             {
                 if (!inventory.AddItem(item)) return false;
 

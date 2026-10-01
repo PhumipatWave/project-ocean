@@ -54,7 +54,7 @@ namespace Game.Tests
         public void Add_BuildingItem_OnlyGoesToBuildingSlots()
         {
             var model = new InventoryModel(2, 1);
-            Item hub = TestItems.Make(9, ItemType.Building);
+            Item hub = TestItems.Make(9, ItemType.Consumable);
 
             Assert.IsTrue(model.Add(hub));
             Assert.IsFalse(model.Add(hub)); // max stack 1, no second building slot
@@ -128,7 +128,7 @@ namespace Game.Tests
         public void RemoveAllWhere_GroupsCountsPerItem_LeavesBuildingSlots()
         {
             var model = new InventoryModel(3, 1);
-            Item fish = TestItems.Make(1, maxStack: 5), shell = TestItems.Make(2, maxStack: 5), hub = TestItems.Make(9, ItemType.Building);
+            Item fish = TestItems.Make(1, maxStack: 5), shell = TestItems.Make(2, maxStack: 5), hub = TestItems.Make(9, ItemType.Consumable);
             model.Load(new[] { new ItemStack(fish, 2), new ItemStack(shell, 1), new ItemStack(fish, 3) }, new[] { new ItemStack(hub, 1) });
 
             Dictionary<Item, int> removed = model.RemoveAllWhere(item => item.ItemType == ItemType.Normal);
@@ -162,7 +162,7 @@ namespace Game.Tests
         {
             var model = new InventoryModel(3, 1);
             model.ResetLocks(2);
-            Item a = TestItems.Make(1), b = TestItems.Make(2), hub = TestItems.Make(9, ItemType.Building);
+            Item a = TestItems.Make(1), b = TestItems.Make(2), hub = TestItems.Make(9, ItemType.Consumable);
             model.Load(new[] { new ItemStack(a, 1), new ItemStack(b, 2), ItemStack.Empty }, new[] { new ItemStack(hub, 1) });
 
             Assert.IsTrue(model.Swap(0, 1));
@@ -196,7 +196,7 @@ namespace Game.Tests
         public void Stacks_AreCopies_AndLoadTruncatesExtraRows()
         {
             var model = new InventoryModel(2, 1);
-            Item fish = TestItems.Make(1), hub = TestItems.Make(9, ItemType.Building);
+            Item fish = TestItems.Make(1), hub = TestItems.Make(9, ItemType.Consumable);
             model.Load(new[] { new ItemStack(fish, 1), ItemStack.Empty, new ItemStack(fish, 1) }, new[] { new ItemStack(hub, 1) });
 
             ItemStack[] player = model.PlayerStacks();

@@ -37,7 +37,7 @@ namespace Game.Gameplay
                 && GameSession.State == GameState.Ocean
                 && !LoadingManager.IsLoading
                 && Inventory.Current != null
-                && Inventory.Current.PeekItem(ItemType.Building) != null; // no Mini Hub = no freeze (soft-lock guard)
+                && Inventory.Current.PeekItem(ItemType.Consumable) != null; // no Mini Hub = no freeze (soft-lock guard)
 
             if (shouldPause)
             {
