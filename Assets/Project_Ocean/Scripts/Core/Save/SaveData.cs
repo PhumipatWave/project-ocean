@@ -21,6 +21,7 @@ namespace Game.Core
         public int money = 100;
 
         public List<ItemSaveData> inventoryItems = new();
+        public List<int> collectedFishItemIds = new();
         // Mini Hub (building) slot items; slotIndex = index into InventoryManager's building slots.
         public List<ItemSaveData> buildingItems = new();
 

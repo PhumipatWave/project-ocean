@@ -224,10 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bfed5c2e0c5c438198d440aee5ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::MoveKeyBindUI
-  direction: 2
   keyText: {fileID: 110137783}
-  errorUI: {fileID: 1813194945}
   rebindButton: {fileID: 2111478215}
+  errorUI: {fileID: 1813194945}
+  direction: 2
 --- !u!114 &104551892 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6937301685725555095, guid: 87f41d36381142149ad04b97c50c7be2, type: 3}
@@ -821,10 +821,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bfed5c2e0c5c438198d440aee5ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::MoveKeyBindUI
-  direction: 3
   keyText: {fileID: 1351121495}
-  errorUI: {fileID: 1813194945}
   rebindButton: {fileID: 285047181}
+  errorUI: {fileID: 1813194945}
+  direction: 3
 --- !u!1 &387871268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,10 +1978,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2fbd369b244c1499a82dc6caa067ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindUI
-  action: 5
   keyText: {fileID: 2016863912}
   rebindButton: {fileID: 1909861493}
   errorUI: {fileID: 1813194945}
+  action: 5
 --- !u!1001 &552487937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2502,10 +2502,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2fbd369b244c1499a82dc6caa067ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindUI
-  action: 2
   keyText: {fileID: 1960119389}
   rebindButton: {fileID: 663214365}
   errorUI: {fileID: 1813194945}
+  action: 2
 --- !u!1 &695674781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3368,10 +3368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bfed5c2e0c5c438198d440aee5ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::MoveKeyBindUI
-  direction: 1
   keyText: {fileID: 104551892}
-  errorUI: {fileID: 1813194945}
   rebindButton: {fileID: 788981867}
+  errorUI: {fileID: 1813194945}
+  direction: 1
 --- !u!1 &909432377 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8135028558769199530, guid: 87f41d36381142149ad04b97c50c7be2, type: 3}
@@ -3394,10 +3394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2fbd369b244c1499a82dc6caa067ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindUI
-  action: 4
   keyText: {fileID: 261732173}
   rebindButton: {fileID: 2031440516}
   errorUI: {fileID: 1813194945}
+  action: 4
 --- !u!1 &966665628
 GameObject:
   m_ObjectHideFlags: 0
@@ -4932,10 +4932,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2fbd369b244c1499a82dc6caa067ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindUI
-  action: 1
   keyText: {fileID: 1969937048}
   rebindButton: {fileID: 1824297515}
   errorUI: {fileID: 1813194945}
+  action: 1
 --- !u!114 &1360370104 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6422587179000768395, guid: 5e0fe149e3287704ab085409e6c83c23, type: 3}
@@ -6124,10 +6124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2fbd369b244c1499a82dc6caa067ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::Game.Core.KeyBindUI
-  action: 6
   keyText: {fileID: 1215561322}
   rebindButton: {fileID: 1481987743}
   errorUI: {fileID: 1813194945}
+  action: 6
 --- !u!1 &1619024929
 GameObject:
   m_ObjectHideFlags: 0
@@ -7111,10 +7111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761bfed5c2e0c5c438198d440aee5ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Core::MoveKeyBindUI
-  direction: 0
   keyText: {fileID: 1751383024}
-  errorUI: {fileID: 1813194945}
   rebindButton: {fileID: 1899965447}
+  errorUI: {fileID: 1813194945}
+  direction: 0
 --- !u!114 &2016863912 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6937301685725555095, guid: 87f41d36381142149ad04b97c50c7be2, type: 3}

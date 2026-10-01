@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: ItemFishL
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  ItemID: 33001
-  ItemName: Tiger Shark
-  ItemDescription: 
-  ItemVisual: {fileID: -5933327472554854397, guid: 75148b64d893bcf4ab63b6db3b4446f6, type: 3}
-  ItemPrefab: {fileID: 0}
-  ItemPrice: 200
-  MaxStackable: 1
-  ItemType: 0
-  CanBuy: 1
-  CanSell: 1
+  itemID: 33001
+  itemName: Tiger Shark
+  itemDescription: 
+  itemVisual: {fileID: -5933327472554854397, guid: 75148b64d893bcf4ab63b6db3b4446f6, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 200
+  maxStackable: 1
+  itemType: 0
+  fishSize: 3
+  canBuy: 1
+  canSell: 1
