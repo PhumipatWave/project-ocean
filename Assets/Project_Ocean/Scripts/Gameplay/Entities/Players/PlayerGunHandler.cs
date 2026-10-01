@@ -53,6 +53,9 @@ namespace Game.Gameplay
         private Vector2 aimDir;
         public Vector2 AimDir { get { return aimDir; }  }
 
+        private const float StickAimDeadzone = 0.3f;
+        private Vector2 stickAimDir = Vector2.right;
+
         private bool isAiming;
         public bool IsAiming
         {
@@ -162,7 +165,11 @@ namespace Game.Gameplay
                 gunSprite.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
 
-        public void UpdateAim(ref int faceDir, Vector2 mousePos)
+        /// <summary>New stick aim direction: the stick's direction when pushed past the deadzone, else the last one.</summary>
+        public static Vector2 ResolveStickAim(Vector2 stick, Vector2 lastDir, float deadzone = StickAimDeadzone) =>
+            stick.sqrMagnitude > deadzone * deadzone ? stick.normalized : lastDir;
+
+        public void UpdateAim(ref int faceDir, Vector2 mousePos, Vector2 aimStick, bool useStick)
         {
             if (isAiming)
             {
@@ -173,8 +180,17 @@ namespace Game.Gameplay
                     return;
                 }
 
-                Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
-                Vector2 rawDir = (aimWorldPos - (Vector2)transform.position).normalized;
+                Vector2 rawDir;
+                if (useStick)
+                {
+                    stickAimDir = ResolveStickAim(aimStick, stickAimDir);
+                    rawDir = stickAimDir;
+                }
+                else
+                {
+                    Vector2 aimWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+                    rawDir = (aimWorldPos - (Vector2)transform.position).normalized;
+                }
 
                 float angle = Mathf.Atan2(rawDir.y, rawDir.x) * Mathf.Rad2Deg;
                 float clamAngle = RotateGun(ref faceDir, angle);
@@ -201,6 +217,8 @@ namespace Game.Gameplay
                 if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
                 isAttacked = true;
                 IsAiming = true;
+                // Gamepad aim starts straight ahead until the right stick is pushed.
+                stickAimDir = new Vector2(player.FaceDir, 0f);
 
                 player.Movement.Stop();
                 Time.timeScale = FocusTimeScale;

@@ -133,6 +133,22 @@ namespace Game.Gameplay
             return true;
         }
 
+        /// <summary>Swaps two unlocked slots' stacks (either may be empty); false and no change when a stack can't go there.</summary>
+        public bool Swap(int a, int b)
+        {
+            if (a == b || !IsUnlocked(a) || !IsUnlocked(b)) return false;
+            if (Get(a).IsEmpty && Get(b).IsEmpty) return false;
+            if (!Fits(stacks[a], b) || !Fits(stacks[b], a)) return false;
+
+            (stacks[a], stacks[b]) = (stacks[b], stacks[a]);
+            Changed?.Invoke();
+            return true;
+        }
+
+        // Same rule as Add: building items live only in building slots, everything else only in player slots.
+        private bool Fits(ItemStack stack, int slot) =>
+            stack.IsEmpty || (stack.Item.ItemType == ItemType.Building) == (slot >= PlayerSlotCount);
+
         /// <summary>Unlocks the first locked player slot; false when all are unlocked.</summary>
         public bool UnlockNext()
         {

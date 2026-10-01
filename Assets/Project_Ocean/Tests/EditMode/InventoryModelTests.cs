@@ -158,6 +158,25 @@ namespace Game.Tests
         }
 
         [Test]
+        public void Swap_ExchangesStacks_RespectingLocksAndSlotKinds()
+        {
+            var model = new InventoryModel(3, 1);
+            model.ResetLocks(2);
+            Item a = TestItems.Make(1), b = TestItems.Make(2), hub = TestItems.Make(9, ItemType.Building);
+            model.Load(new[] { new ItemStack(a, 1), new ItemStack(b, 2), ItemStack.Empty }, new[] { new ItemStack(hub, 1) });
+
+            Assert.IsTrue(model.Swap(0, 1));
+            Assert.AreSame(b, model.Get(0).Item);
+            Assert.AreEqual(2, model.Get(0).Count);
+            Assert.AreSame(a, model.Get(1).Item);
+
+            Assert.IsFalse(model.Swap(0, 2)); // locked
+            Assert.IsFalse(model.Swap(0, 0)); // same slot
+            Assert.IsFalse(model.Swap(0, 3)); // building slot rejects a normal item
+            Assert.AreSame(hub, model.Get(3).Item);
+        }
+
+        [Test]
         public void ResetLocks_And_UnlockNext()
         {
             var model = new InventoryModel(4, 1);

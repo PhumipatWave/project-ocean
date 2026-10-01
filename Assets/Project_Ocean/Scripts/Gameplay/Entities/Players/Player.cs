@@ -67,7 +67,7 @@ namespace Game.Gameplay
         private void Update()
         {
             int faceDir = movement.FaceDir;
-            gunHandler.UpdateAim(ref faceDir, input.MousePos);
+            gunHandler.UpdateAim(ref faceDir, input.MousePos, input.AimStick, input.UsingGamepadAim);
             movement.FaceDir = faceDir;
 
             entityAnimation?.PlayAnim(AnimHash.IsAim, gunHandler.IsAiming);

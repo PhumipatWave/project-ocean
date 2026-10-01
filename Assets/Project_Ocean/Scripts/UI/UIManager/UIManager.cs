@@ -347,11 +347,15 @@ namespace Game.UI
 
         private void HandleEscapeInput()
         {
-            if (Keyboard.current == null)
+            if (!WasBackPressed())
                 return;
 
-            if (!Keyboard.current.escapeKey.wasPressedThisFrame)
+            // The dialog sits on top of whatever opened it (e.g. a discard from the inventory).
+            if (ConfirmationDialog.Instance != null && ConfirmationDialog.Instance.IsShowing)
+            {
+                ConfirmationDialog.Instance.Cancel();
                 return;
+            }
 
             // Close UIManager-owned UI first.
             // (Not on the frame it opened: the Menu input action also opens the pause menu on Esc.)
@@ -368,6 +372,19 @@ namespace Game.UI
             {
                 PlayerUIState.CloseCurrent();
             }
+        }
+
+        // Menu (Esc / Start) or the UI module's Cancel (Esc / gamepad East) closes the top panel.
+        private static bool WasBackPressed()
+        {
+            InputAction menu = KeyBindManager.Instance != null ? KeyBindManager.Instance.Actions.Player.Menu : null;
+            if (menu != null && menu.WasPerformedThisFrame())
+                return true;
+
+            var module = UnityEngine.EventSystems.EventSystem.current?.currentInputModule
+                as UnityEngine.InputSystem.UI.InputSystemUIInputModule;
+            InputAction cancel = module != null && module.cancel != null ? module.cancel.action : null;
+            return cancel != null && cancel.WasPerformedThisFrame();
         }
 
         private void ApplyBlockingState()

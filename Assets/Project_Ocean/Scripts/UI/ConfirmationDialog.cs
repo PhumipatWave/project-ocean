@@ -34,6 +34,8 @@ namespace Game.UI
         // A menu (pause, settings) owns the screen — don't stack the prompt over it.
         public bool CanShow => UIManager.Instance == null || !UIManager.Instance.IsUIOpen;
 
+        public bool IsShowing => _isShowing;
+
         protected override void OnDestroy()
         {
             if (Instance == this)
