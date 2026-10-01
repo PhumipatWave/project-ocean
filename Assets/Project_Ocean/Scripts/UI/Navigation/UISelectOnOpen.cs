@@ -69,8 +69,11 @@ namespace Game.UI
             }
             else if (alive)
             {
-                // Automatic navigation can step out of the panel (e.g. onto world-space interact buttons).
-                Select(lastSelectedHere != null ? lastSelectedHere.GetComponent<Selectable>() : firstSelected);
+                // Automatic navigation scores every button on screen, so it can land behind this panel
+                // (main menu under Settings, world-space interact buttons). Redo that move among this panel's buttons.
+                Selectable from = lastSelectedHere != null ? lastSelectedHere.GetComponent<Selectable>() : null;
+                Selectable target = from != null ? FindInDirection(from, ScreenCenter(current) - ScreenCenter(from.gameObject)) : null;
+                Select(target != null ? target : from != null ? from : firstSelected);
                 return;
             }
             else if (WasPressed(es, m => m.move) || WasPressed(es, m => m.submit))
@@ -95,6 +98,38 @@ namespace Game.UI
 
             Selectable target = IsUsable(preferred) ? preferred : FirstUsable();
             if (target != null) es.SetSelectedGameObject(target.gameObject);
+        }
+
+        // Same weighting as Selectable.FindSelectable: in front of the move, then aligned and near.
+        private Selectable FindInDirection(Selectable from, Vector2 dir)
+        {
+            if (dir.sqrMagnitude < 0.01f) return null;
+            dir.Normalize();
+            Vector2 origin = ScreenCenter(from.gameObject);
+
+            Selectable best = null;
+            float bestScore = 0f;
+            foreach (Selectable s in GetComponentsInChildren<Selectable>())
+            {
+                if (s == from || !IsUsable(s)) continue;
+                Vector2 offset = ScreenCenter(s.gameObject) - origin;
+                float dot = Vector2.Dot(dir, offset);
+                if (dot <= 0f) continue;
+                float score = dot / offset.sqrMagnitude;
+                if (score > bestScore) { bestScore = score; best = s; }
+            }
+            return best;
+        }
+
+        // Screen space, so a button on a world-space canvas compares fairly with overlay UI.
+        private static Vector2 ScreenCenter(GameObject go)
+        {
+            Vector3 world = go.transform is RectTransform rt ? rt.TransformPoint(rt.rect.center) : go.transform.position;
+            Canvas canvas = go.GetComponentInParent<Canvas>();
+            Camera cam = canvas == null || canvas.renderMode == RenderMode.ScreenSpaceOverlay
+                ? null
+                : (canvas.worldCamera != null ? canvas.worldCamera : Camera.main);
+            return RectTransformUtility.WorldToScreenPoint(cam, world);
         }
 
         private Selectable FirstUsable()

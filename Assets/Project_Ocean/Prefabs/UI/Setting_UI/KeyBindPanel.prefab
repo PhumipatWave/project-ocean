@@ -2885,7 +2885,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7491465229811088334}
   - component: {fileID: 4104446864713391824}
-  - component: {fileID: 6105100602458056387}
   - component: {fileID: 1873331385159150320}
   m_Layer: 0
   m_Name: KeyBindPanel
@@ -2925,20 +2924,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6804733617020824216}
   m_CullTransparentMesh: 1
---- !u!114 &6105100602458056387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6804733617020824216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb073b6422f231544a8456bc17565026, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.UI::Game.UI.UISelectOnOpen
-  firstSelected: {fileID: 0}
-  cancelButton: {fileID: 0}
 --- !u!114 &1873331385159150320
 MonoBehaviour:
   m_ObjectHideFlags: 0
