@@ -8,7 +8,6 @@ namespace Game.Gameplay
 {
     public class PlayerGunHandler : MonoBehaviour
     {
-        //[SerializeField] private AmmoWheel ammoWheel;
         [SerializeField] private Player player;
 
 

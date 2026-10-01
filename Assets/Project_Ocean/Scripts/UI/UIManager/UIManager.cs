@@ -353,7 +353,9 @@ namespace Game.UI
             // The dialog sits on top of whatever opened it (e.g. a discard from the inventory).
             if (ConfirmationDialog.Instance != null && ConfirmationDialog.Instance.IsShowing)
             {
-                ConfirmationDialog.Instance.Cancel();
+                // Gamepad East both opens the cutscene-skip prompt and is Cancel; skip the press that opened it.
+                if (!ConfirmationDialog.Instance.ShownThisFrame)
+                    ConfirmationDialog.Instance.Cancel();
                 return;
             }
 
@@ -377,6 +379,10 @@ namespace Game.UI
         // Menu (Esc / Start) or the UI module's Cancel (Esc / gamepad East) closes the top panel.
         private static bool WasBackPressed()
         {
+            // Esc / Start cancel a rebind; that same press must not also close the settings panel.
+            if (KeyBindManager.IsRebinding || Time.frameCount - KeyBindManager.LastRebindFrame < 2)
+                return false;
+
             InputAction menu = KeyBindManager.Instance != null ? KeyBindManager.Instance.Actions.Player.Menu : null;
             if (menu != null && menu.WasPerformedThisFrame())
                 return true;

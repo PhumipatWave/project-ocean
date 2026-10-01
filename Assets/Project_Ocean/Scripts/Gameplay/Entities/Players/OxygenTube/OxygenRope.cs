@@ -50,9 +50,6 @@ namespace Game.Gameplay
         public bool IgnoreRopeLimit { get; set; }
         public GameObject StartPointObj    { get; private set; }
         public GameObject StartPointPrefab => startPointPrefab;
-#if ENABLE_CHECKPOINT_ITEM
-        public bool HasCheckpoint => pins.Count > 0 && pins[^1].isCheckpoint;
-#endif
 
         /// <summary>Current health-based rope length, synced from PlayerHealth. Display-only —
         /// does not clamp movement (see PlayerHealth.TakeDamage).</summary>
@@ -60,7 +57,7 @@ namespace Game.Gameplay
         public void SetHealthLimit(float value) => HealthLimit = value;
 
         /// <summary>Position of the current rope anchor the player is swinging/swimming from
-        /// (the last fixed pin: start, wrap corner, checkpoint, or hub tie-in).</summary>
+        /// (the last fixed pin: start, wrap corner, or hub tie-in).</summary>
         public Vector2 CurrentAnchor => pins.Count > 0 ? pins[^1].pos : (Vector2)transform.position;
 
         /// <summary>Rope length already used by the pinned sections; add the anchor-to-player leg for the total.</summary>
@@ -105,7 +102,6 @@ namespace Game.Gameplay
         {
             public Vector2 pos;
             public float side;         // cross-product side when this anchor was created
-            public bool isCheckpoint;  // true = manually placed, never auto-unwrapped
             public bool isHub;         // true = MiniHub tie-in point; length counted from here onward, never auto-unwrapped
         }
 
@@ -227,17 +223,6 @@ namespace Game.Gameplay
 
         public void IncreaseMaxLength(float amount) => maxRopeLength += amount;
 
-#if ENABLE_CHECKPOINT_ITEM
-        /// Add a manual pin at worldPos (checkpoint placed by the player).
-        /// Rope runs: start → [...wraps...] → checkpoint → player.
-        public void AttachToCheckpoint(Vector2 worldPos)
-        {
-            pins.Add(new WrapPin { pos = worldPos, side = 0f, isCheckpoint = true });
-            RebuildSegs();
-            wrapCooldown   = wrapCooldownFrames;
-            unwrapCooldown = wrapCooldownFrames;
-        }
-#endif
 
         /// <summary>Ties the rope in at worldPos; only rope from here to the player counts toward the limit afterwards.</summary>
         public void AttachToHub(Vector2 worldPos)
@@ -250,25 +235,6 @@ namespace Game.Gameplay
         }
 
 
-#if ENABLE_CHECKPOINT_ITEM
-        /// Remove the checkpoint pin at worldPos and all pins added after it.
-        /// Supports multiple checkpoints — finds the matching one by position.
-        public void DetachFromCheckpoint(Vector2 worldPos)
-        {
-            float toleranceSqr = 0.25f; // 0.5m tolerance
-            for (int i = pins.Count - 1; i >= 1; i--)
-            {
-                if (!pins[i].isCheckpoint) continue;
-                if ((pins[i].pos - worldPos).sqrMagnitude > toleranceSqr) continue;
-
-                pins.RemoveRange(i, pins.Count - i);
-                RebuildSegs();
-                wrapCooldown   = wrapCooldownFrames;
-                unwrapCooldown = wrapCooldownFrames;
-                return;
-            }
-        }
-#endif
         #endregion
 
         #region Simulation
@@ -372,9 +338,8 @@ namespace Game.Gameplay
         {
             if (pins.Count <= 1)
                 return;
-            // Never auto-unwrap a checkpoint or hub tie-in pin — only DetachFromCheckpoint()
-            // removes a checkpoint, and hub tie-ins are never removed automatically.
-            if (pins[^1].isCheckpoint || pins[^1].isHub)
+            // Hub tie-ins are never removed automatically.
+            if (pins[^1].isHub)
                 return;
 
             WrapPin last = pins[^1];

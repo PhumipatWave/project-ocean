@@ -15,13 +15,11 @@ namespace Game.Core
         public event Action<bool> OnAttacked;
         public event Action<bool> OnSprinted;
         public event Action<bool> OnInteracted;
-        public event Action<bool> OnAmmoSelected;
         public event Action<bool> OnInventoryToggled;
         public event Action OnMenuToggled;
         public event Action<Vector2> OnMoved;
 
         public event Action OnUseItem;
-        public event Action OnTeleport;
         public event Action OnSkipCutscene;
 
         public Vector2 MousePos { get; private set; }
@@ -142,20 +140,9 @@ namespace Game.Core
             if (context.performed) OnUseItem?.Invoke();
         }
 
-        void IPlayerActions.OnTeleport(InputAction.CallbackContext context)
-        {
-            if (context.performed) OnTeleport?.Invoke();
-        }
-
         void IPlayerActions.OnSkipCutscene(InputAction.CallbackContext context)
         {
             if (context.performed) OnSkipCutscene?.Invoke();
-        }
-
-        public void OnSwitchItem(InputAction.CallbackContext context)
-        {
-            if (context.performed) OnAmmoSelected?.Invoke(true);
-            else if (context.canceled) OnAmmoSelected?.Invoke(false);
         }
 
         public void OnInventory(InputAction.CallbackContext context)
