@@ -13,7 +13,8 @@ namespace Game.UI
             SettingMenu,
             SettingPause,
             Inventory,
-            Quest
+            Quest,
+            Tips
         }
 
         [SerializeField]

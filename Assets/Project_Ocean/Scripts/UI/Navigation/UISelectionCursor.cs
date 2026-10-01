@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -17,6 +19,9 @@ namespace Game.UI
         private RectTransform frame;
         private readonly Vector3[] corners = new Vector3[4];
         private bool wasVisible;
+
+        // Mouse users click what they see; the frame only helps the device that moves a selection.
+        private bool gamepadActive;
 
         private void Awake()
         {
@@ -41,10 +46,12 @@ namespace Game.UI
 
         private void LateUpdate()
         {
+            UpdateGamepadActive();
+
             var es = EventSystem.current;
             GameObject selected = es != null ? es.currentSelectedGameObject : null;
             Rect target = default;
-            bool visible = selected != null && selected.activeInHierarchy && TryGetScreenRect(selected, out target);
+            bool visible = gamepadActive && selected != null && selected.activeInHierarchy && TryGetScreenRect(selected, out target);
 
             if (!visible)
             {
@@ -71,6 +78,36 @@ namespace Game.UI
                 frame.sizeDelta = Vector2.Lerp(frame.sizeDelta, size, t);
             }
             wasVisible = true;
+        }
+
+        private void UpdateGamepadActive()
+        {
+            Mouse mouse = Mouse.current;
+            if (mouse != null && (mouse.delta.ReadValue().sqrMagnitude > 4f || mouse.leftButton.wasPressedThisFrame))
+            {
+                gamepadActive = false;
+                return;
+            }
+
+            Gamepad pad = Gamepad.current;
+            if (pad == null || gamepadActive)
+                return;
+
+            // Not wasUpdatedThisFrame: a DualSense reports every frame even when untouched.
+            if (pad.leftStick.ReadValue().sqrMagnitude > 0.25f || pad.rightStick.ReadValue().sqrMagnitude > 0.25f)
+            {
+                gamepadActive = true;
+                return;
+            }
+
+            foreach (InputControl control in pad.allControls)
+            {
+                if (control is ButtonControl button && !button.synthetic && button.wasPressedThisFrame)
+                {
+                    gamepadActive = true;
+                    return;
+                }
+            }
         }
 
         private bool TryGetScreenRect(GameObject go, out Rect rect)

@@ -18,7 +18,8 @@ namespace Game.UI
             SettingMenu,
             SettingPause,
             Inventory,
-            Quest
+            Quest,
+            Tips
         }
 
         private readonly Dictionary<UIType, UIWindow> windows =
@@ -345,6 +346,12 @@ namespace Game.UI
             Open(UIType.Quest);
         }
 
+        /// <summary>Swaps the pause menu (or any open window) for the tips panel.</summary>
+        public void OpenTips()
+        {
+            Open(UIType.Tips);
+        }
+
         private void HandleEscapeInput()
         {
             if (!WasBackPressed())
@@ -454,6 +461,9 @@ namespace Game.UI
 
                 case UIWindow.UIType.Quest:
                     return UIType.Quest;
+
+                case UIWindow.UIType.Tips:
+                    return UIType.Tips;
 
                 default:
                     return UIType.None;

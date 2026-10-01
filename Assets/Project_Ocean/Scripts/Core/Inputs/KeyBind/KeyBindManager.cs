@@ -288,6 +288,10 @@ namespace Game.Core
 
             string json = File.ReadAllText(SavePath);
 
+            // Saving with no overrides (e.g. right after a reset) writes an empty file.
+            if (string.IsNullOrWhiteSpace(json))
+                return;
+
             // ponytail: the old index-based file ({"bindings":[{"bindingPaths":..}]}) is ignored, not migrated; add a migration if players already shipped with it.
             if (json.Contains("\"bindingPaths\""))
             {
