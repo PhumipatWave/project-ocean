@@ -18,7 +18,8 @@ namespace Game.UI
             SettingMenu,
             SettingPause,
             Inventory,
-            Quest
+            Quest,
+            FishCollection
         }
 
         private readonly Dictionary<UIType, UIWindow> windows =
@@ -345,6 +346,16 @@ namespace Game.UI
             Open(UIType.Quest);
         }
 
+        public void OpenFishCollection()
+        {
+            Open(UIType.FishCollection);
+        }
+
+        public void ToggleFishCollection()
+        {
+            Toggle(UIType.FishCollection);
+        }
+
         private void HandleEscapeInput()
         {
             if (Keyboard.current == null)
@@ -431,6 +442,9 @@ namespace Game.UI
 
                 case UIWindow.UIType.Quest:
                     return UIType.Quest;
+
+                case UIWindow.UIType.FishCollection:
+                    return UIType.FishCollection;
 
                 default:
                     return UIType.None;

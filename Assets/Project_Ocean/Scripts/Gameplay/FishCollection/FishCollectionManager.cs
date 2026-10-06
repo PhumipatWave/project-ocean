@@ -47,6 +47,14 @@ namespace Game.Gameplay
                 GameLog.Info(
                     $"[FishCollection] New discovery: {item.ItemName} (ID: {item.ItemID})"
                 );
+
+                if (CollectedCount >= TotalFishCount && TotalFishCount > 0)
+                {
+                    NotificationManager.Notify(
+                        "FISH COLLECTION COMPLETE!",
+                        NotificationChannel.Resource
+                    );
+                }
             }
 
             return isNew;

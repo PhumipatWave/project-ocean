@@ -1,4 +1,5 @@
 using Game.Core;
+using TMPro;
 using Game.Gameplay;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ namespace Game.UI
         [Header("Collection")]
         [SerializeField] private Transform content;
         [SerializeField] private FishCollectionSlot slotPrefab;
+
+        [Header("Collection Progress")]
+        [SerializeField] private TextMeshProUGUI collectionCountText;
 
         [Header("Category Buttons")]
         [SerializeField] private Button allButton;
@@ -60,6 +64,8 @@ namespace Game.UI
 
         public void RefreshCollection()
         {
+            UpdateCollectionProgress();
+          
             if (content == null)
             {
                 Debug.LogWarning(
@@ -190,6 +196,22 @@ namespace Game.UI
 
             if (largeButton != null)
                 largeButton.onClick.RemoveListener(ShowLarge);
+        }
+
+        private void UpdateCollectionProgress()
+        {
+            if (FishCollectionManager.Instance == null)
+                return;
+
+            int collected = FishCollectionManager.Instance.CollectedCount;
+            int total = FishCollectionManager.Instance.TotalFishCount;
+
+            if (collectionCountText != null)
+            {
+                collectionCountText.text = $"{collected} / {total}";
+            }
+
+            
         }
     }
 }
