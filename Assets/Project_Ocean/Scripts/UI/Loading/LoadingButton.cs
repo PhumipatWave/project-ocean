@@ -49,5 +49,7 @@ namespace Game.UI
 
             LoadingManager.Instance.BackToLand();
         }
+
+
     }
 }
