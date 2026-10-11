@@ -40,6 +40,10 @@ namespace Game.UI
         [Header("Background Dim")]
         [SerializeField] private UIFadeBackground backgroundDim;
 
+        [Header("HUD Buttons")]
+        [SerializeField] private GameObject menuButtonNew;
+        [SerializeField] private GameObject fishCollectionButton;
+
         public UIType CurrentUI => currentUI;
 
         public bool IsUIOpen => currentUI != UIType.None;
@@ -76,6 +80,31 @@ namespace Game.UI
         private void Update()
         {
             HandleEscapeInput();
+            RefreshHUDButtonsVisibility();
+        }
+
+        /// <summary>
+        /// Hide the in-game HUD buttons whenever a UIManager window or another
+        /// blocking UI system owns the UI lock. This also handles external panels
+        /// such as shops or quest boards that use PlayerUIState.
+        /// </summary>
+        private void RefreshHUDButtonsVisibility()
+        {
+            bool shouldShowButtons =
+                currentUI == UIType.None &&
+                !PlayerUIState.IsLocked;
+
+            if (menuButtonNew != null &&
+                menuButtonNew.activeSelf != shouldShowButtons)
+            {
+                menuButtonNew.SetActive(shouldShowButtons);
+            }
+
+            if (fishCollectionButton != null &&
+                fishCollectionButton.activeSelf != shouldShowButtons)
+            {
+                fishCollectionButton.SetActive(shouldShowButtons);
+            }
         }
 
         public void Register(UIWindow window)
