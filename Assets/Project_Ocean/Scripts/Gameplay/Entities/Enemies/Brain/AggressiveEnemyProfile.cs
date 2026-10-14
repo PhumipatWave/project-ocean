@@ -53,12 +53,34 @@ namespace Game.Gameplay
         [Tooltip("Damage dealt per attack hit.")]
         public float attackDamage = 10f;
 
+        [Tooltip("Seconds a new attack is blocked after an attack timed out without connecting (prevents Prepare/Attack loops).")]
+        public float attackRetryDelay = 1f;
+
         [Header("Reposition")]
         [Tooltip("After an attack, the enemy swims to a random spot at least this far from the player before attacking again.")]
         public float retreatMinDistance = 3f;
 
         [Tooltip("Maximum distance from the player for the post-attack reposition spot.")]
         public float retreatMaxDistance = 5f;
+
+        [Header("Lurk (player out of reach)")]
+        [Tooltip("If enabled, a fish that cannot reach the player lurks nearby for a while, then gives up and wanders.")]
+        public bool enableLurk = true;
+
+        [Tooltip("How long the player must stay unreachable before the fish starts to lurk.")]
+        public float unreachableBeforeLurk = 1f;
+
+        [Tooltip("How long the fish lurks before it gives up.")]
+        public float lurkDuration = 6f;
+
+        [Tooltip("Radius of the ring the fish swims around while lurking.")]
+        public float lurkOrbitRadius = 4f;
+
+        [Tooltip("Lurk orbit speed in degrees per second.")]
+        public float lurkOrbitSpeed = 40f;
+
+        [Tooltip("After giving up, the fish ignores a player it cannot reach for this many seconds. A reachable player is chased immediately.")]
+        public float chaseGiveUpCooldown = 8f;
 
         [Header("Group Alert")]
         [Tooltip("Radius within which nearby allies are alerted when this enemy detects the player.")]

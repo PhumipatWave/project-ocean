@@ -10,6 +10,9 @@ namespace Game.Gameplay
 
         private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
+        private readonly FleeDestinationPicker fleePicker;
+        private readonly RepathTimer repathTimer;
+        private readonly StuckDetector stuckDetector;
 
         private Vector2 currentDirection;
         private float safeTimer;
@@ -22,6 +25,9 @@ namespace Game.Gameplay
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
+            fleePicker = new FleeDestinationPicker(pathfinder.Resolve);
+            repathTimer = new RepathTimer(profile.repathInterval);
+            stuckDetector = new StuckDetector(profile.stuckWindow, profile.stuckMinProgress);
         }
         #endregion
 
@@ -32,6 +38,8 @@ namespace Game.Gameplay
             ResumeAgent(profile.speed * 1.5f);  // flee boost
             safeTimer = profile.followAfterLost;
             minFleeTimer = MinFleeDuration;
+            repathTimer.Reset();
+            stuckDetector.Reset(enemyBrainContext.Transform.position);
             enemyBrainContext.AlertUI?.ShowFleeWarning();
             PickFleeDestination();
 
@@ -51,6 +59,9 @@ namespace Game.Gameplay
                 return;
             }
 
+            bool repath = repathTimer.Tick(deltaTime);
+            bool stuck = stuckDetector.Tick(deltaTime, enemyBrainContext.Transform.position);
+
             float dist = Vector2.Distance(enemyBrainContext.Transform.position,
                 enemyBrainContext.PlayerTransform.position);
 
@@ -59,26 +70,30 @@ namespace Game.Gameplay
             {
                 safeTimer = profile.followAfterLost;
 
-                float distToDest = Vector2.Distance(enemyBrainContext.Transform.position,
-                    enemyBrainContext.Agent.destination);
-
-                // Re-route when the player moves into the flee path.
-                Vector3 selfPos = enemyBrainContext.Transform.position;
-                Vector3 playerPos = enemyBrainContext.PlayerTransform.position;
-                Vector3 toDest = ((Vector3)enemyBrainContext.Agent.destination - selfPos).normalized;
-                Vector3 toPlayer = (playerPos - selfPos).normalized;
-                float dot = Vector3.Dot(toDest, toPlayer);
-
-                // dot > 0.5 means player is roughly ahead on our escape route
-                bool playerBlockingPath = dot > 0.5f;
-
-                if (distToDest < 1.5f || playerBlockingPath)
+                // Re-evaluate the escape route on the repath timer, not every frame.
+                if (repath || stuck)
                 {
-                    PickFleeDestination();
+                    float distToDest = Vector2.Distance(enemyBrainContext.Transform.position,
+                        enemyBrainContext.Agent.destination);
 
-                    // Give a little extra flee time when the player cuts us off
-                    if (playerBlockingPath)
-                        safeTimer += 0.8f;
+                    // Re-route when the player moves into the flee path.
+                    Vector3 selfPos = enemyBrainContext.Transform.position;
+                    Vector3 playerPos = enemyBrainContext.PlayerTransform.position;
+                    Vector3 toDest = ((Vector3)enemyBrainContext.Agent.destination - selfPos).normalized;
+                    Vector3 toPlayer = (playerPos - selfPos).normalized;
+                    float dot = Vector3.Dot(toDest, toPlayer);
+
+                    // dot > 0.5 means player is roughly ahead on our escape route
+                    bool playerBlockingPath = dot > 0.5f;
+
+                    if (distToDest < 1.5f || playerBlockingPath || stuck)
+                    {
+                        PickFleeDestination();
+
+                        // Give a little extra flee time when the player cuts us off
+                        if (playerBlockingPath)
+                            safeTimer += 0.8f;
+                    }
                 }
             }
             else
@@ -92,7 +107,6 @@ namespace Game.Gameplay
             }
 
             UpdateDirectionFromAgentVelocity(ref currentDirection);
-            ApplyWallAvoidance(currentDirection, profile.wallDetectDistance, profile.wallLayer);
             RotateTowardsDirection(currentDirection);
         }
 
@@ -109,23 +123,15 @@ namespace Game.Gameplay
             Vector3 playerPos = enemyBrainContext.PlayerTransform.position;
             Vector3 selfPos   = enemyBrainContext.Transform.position;
 
-            Vector3 awayDir = (selfPos - playerPos).normalized;
-            if (awayDir == Vector3.zero)
-                awayDir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f).normalized;
-
-            // Try distances from wanderRadius down to 2 units
+            // Reachable spot with open water behind it (avoids dead ends), up to wanderRadius away.
             float maxDist = Mathf.Max(profile.wanderRadius, 4f);
-            for (float d = maxDist; d >= 2f; d -= 2f)
-            {
-                Vector3 candidate = selfPos + awayDir * d;
-                candidate.z = selfPos.z;
-                if (enemyBrainContext.Agent.SetDestination(candidate))
-                    return;
-            }
+            if (fleePicker.TryPick(selfPos, playerPos, maxDist, out Vector3 destination)
+                && pathfinder.SetSafeDestination(destination))
+                return;
 
             // Fallback: let pathfinder find any valid nearby point
             if (pathfinder.TryPickWanderPoint(selfPos, maxDist * 0.5f, out Vector3 fallback))
-                enemyBrainContext.Agent.SetDestination(fallback);
+                pathfinder.SetSafeDestination(fallback);
         }
 
         public void EnterPanic()

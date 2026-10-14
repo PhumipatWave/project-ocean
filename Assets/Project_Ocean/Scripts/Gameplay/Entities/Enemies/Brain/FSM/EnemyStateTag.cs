@@ -14,5 +14,6 @@ namespace Game.Gameplay
         Panic,
         Flee,
         Flock,
+        Lurk,
     }
 }

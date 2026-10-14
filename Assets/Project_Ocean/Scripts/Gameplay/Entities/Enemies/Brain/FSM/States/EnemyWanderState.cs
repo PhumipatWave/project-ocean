@@ -12,9 +12,15 @@ namespace Game.Gameplay
         private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
         private readonly EnemyVision vision;
+        private readonly ChaseInterest chaseInterest;
 
         private float wanderTimer;
         private Vector3 wanderTarget;
+        private bool hasWanderTarget;
+
+        private RepathTimer repathTimer;
+        private StuckDetector stuckDetector;
+        private bool chaseAllowed = true;
 
         // School followers: re-aim at the leader a few times a second, not every frame (each re-aim runs a path check).
         private const float FollowRepathInterval = 0.25f;
@@ -28,11 +34,12 @@ namespace Game.Gameplay
         #endregion
 
         #region Constructors
-        public EnemyWanderState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyWanderState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision, ChaseInterest chaseInterest = null)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
             this.vision = vision;
+            this.chaseInterest = chaseInterest;
         }
         #endregion
 
@@ -45,18 +52,26 @@ namespace Game.Gameplay
             wanderTimer = profile.wanderInterval;
             followRepathTimer = 0f;
             wasFollowing = false;
+            hasWanderTarget = false;
+
+            repathTimer = new RepathTimer(profile.repathInterval, Random.value * profile.repathInterval);
+            stuckDetector = new StuckDetector(profile.stuckWindow, profile.stuckMinProgress);
+            stuckDetector.Reset(enemyBrainContext.Transform.position);
+            chaseAllowed = EvaluateChaseAllowed();
+
             PickNewWanderTarget();
         }
 
         public override void Tick(float deltaTime)
         {
+            bool repath = repathTimer.Tick(deltaTime);
+            if (repath)
+                chaseAllowed = EvaluateChaseAllowed();
+
             // Check for player FIRST — before committing to any wander movement.
             // This eliminates the delay where the fish walks into the player before fleeing.
-            if (ShouldTransitionAway())
-            {
-                OnPlayerDetected();
+            if (ShouldTransitionAway() && OnPlayerDetected())
                 return;
-            }
 
             var school = enemyBrainContext.School;
             if (school != null && school.HasLeader)
@@ -74,14 +89,18 @@ namespace Game.Gameplay
             }
 
             wanderTimer -= deltaTime;
+            bool stuck = stuckDetector.Tick(deltaTime, enemyBrainContext.Transform.position);
 
-            if (wanderTimer <= 0f || HasArrived())
+            if (wanderTimer <= 0f || HasArrived() || stuck)
             {
-                PickNewWanderTarget();
                 wanderTimer = profile.wanderInterval;
+                PickNewWanderTarget();
+            }
+            else if (repath)
+            {
+                ApplyMovement();
             }
 
-            ApplyMovement();
             UpdateFacing();
         }
         #endregion
@@ -110,32 +129,45 @@ namespace Game.Gameplay
                 TrySetFollowDestination(school.Leader.transform.position);
         }
 
-        // Transforms sit off the NavMesh plane (fish z ≈ -1 vs mesh z ≈ 0): project before pathing.
+        // Transforms sit off the NavMesh plane (fish z ≈ -1 vs mesh z ≈ 0): Resolve projects before pathing.
         private bool TrySetFollowDestination(Vector3 point)
         {
-            return NavMesh.SamplePosition(point, out NavMeshHit hit, FollowNavSampleDistance, NavMesh.AllAreas)
-                && pathfinder.SetSafeDestination(hit.position);
+            ReachResult result = pathfinder.Resolve(point);
+
+            // A spot just off the mesh (rock edge) still counts: swim to the nearest mesh point.
+            if (result.Status == ReachStatus.Unreachable && result.Gap > FollowNavSampleDistance)
+                return false;
+
+            return pathfinder.MoveTo(result, true);
         }
 
+        // Keeps the previous target when no new point is found.
         private void PickNewWanderTarget()
         {
-            bool foundTarget = pathfinder.TryPickWanderPoint(enemyBrainContext.Transform.position, profile.wanderRadius, out wanderTarget);
+            if (pathfinder.TryPickWanderPoint(enemyBrainContext.Transform.position, profile.wanderRadius, out Vector3 point))
+            {
+                wanderTarget = point;
+                hasWanderTarget = true;
+                pathfinder.SetSafeDestination(wanderTarget);
+                return;
+            }
 
-            if (!foundTarget)
-                wanderTimer = Mathf.Min(wanderTimer, 0.25f);
+            // Nothing valid this time: try again soon.
+            wanderTimer = Mathf.Min(wanderTimer, 0.25f);
         }
 
+        // Re-issues the destination on the repath timer in case the path was lost.
         private void ApplyMovement()
         {
-            if (pathfinder.SetSafeDestination(wanderTarget))
+            if (!hasWanderTarget)
                 return;
 
-            PickNewWanderTarget();
-            pathfinder.SetSafeDestination(wanderTarget);
+            if (!pathfinder.SetSafeDestination(wanderTarget))
+                PickNewWanderTarget();
         }
 
-        private bool HasArrived() => 
-            Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f;
+        private bool HasArrived() =>
+            hasWanderTarget && Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f;
 
         private void UpdateFacing()
         {
@@ -150,14 +182,28 @@ namespace Game.Gameplay
                 && vision.CheckLineOfSight();
         }
 
-        private void OnPlayerDetected()
+        // Aggressive fish ignore a player they cannot reach for a while after giving up.
+        private bool EvaluateChaseAllowed()
+        {
+            if (chaseInterest == null || !chaseInterest.IsOnCooldown)
+                return true;
+
+            Transform player = enemyBrainContext.PlayerTransform;
+            if (player == null)
+                return true;
+
+            return pathfinder.Resolve(player.position).Status == ReachStatus.Reachable;
+        }
+
+        // Returns false when the fish keeps wandering (aggressive fish blocked by the give-up cooldown).
+        private bool OnPlayerDetected()
         {
             // Scared fish => immediately flee
             if (profile is ScaredEnemyProfile scaredProfile && enemyFSM.HasState(EnemyStateTag.Flee))
             {
                 if (scaredProfile.alertNearbyAllies) AlertNearbyAllies(scaredProfile.groupAlertRadius);
                 enemyFSM.TransitionTo(EnemyStateTag.Flee);
-                return;
+                return true;
             }
 
             // Friendly fish => bias next wander point away from player, stay in Wander
@@ -177,18 +223,23 @@ namespace Game.Gameplay
                     if (!pathfinder.SetSafeDestination(candidate))
                         pathfinder.TryPickWanderPoint(selfPos, profile.wanderRadius, out candidate);
                 }
-                return;
+                return true;
             }
 
             // Aggressive fish => Follow state
             if (profile is AggressiveEnemyProfile aggressiveProfile)
             {
+                if (!chaseAllowed)
+                    return false;
+
                 if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
                     follow.LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
 
                 if (aggressiveProfile.alertNearbyAllies) AlertNearbyAllies(aggressiveProfile.groupAlertRadius);
                 enemyFSM.TransitionTo(EnemyStateTag.Follow);
             }
+
+            return true;
         }
 
         private void AlertNearbyAllies(float radius)
