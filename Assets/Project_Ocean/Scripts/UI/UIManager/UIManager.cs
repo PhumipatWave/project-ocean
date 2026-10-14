@@ -43,6 +43,11 @@ namespace Game.UI
         [Header("HUD Buttons")]
         [SerializeField] private GameObject menuButtonNew;
         [SerializeField] private GameObject fishCollectionButton;
+        [SerializeField] private GameObject landButton;
+
+        [Header("Player Area State")]
+        [Tooltip("True while the player is underwater. Keep false on land.")]
+        [SerializeField] private bool isUnderwater;
 
         public UIType CurrentUI => currentUI;
 
@@ -90,21 +95,37 @@ namespace Game.UI
         /// </summary>
         private void RefreshHUDButtonsVisibility()
         {
-            bool shouldShowButtons =
+            // HUD controls are hidden whenever a blocking UI is open.
+            bool noBlockingUI =
                 currentUI == UIType.None &&
                 !PlayerUIState.IsLocked;
 
-            if (menuButtonNew != null &&
-                menuButtonNew.activeSelf != shouldShowButtons)
-            {
-                menuButtonNew.SetActive(shouldShowButtons);
-            }
+            SetActiveIfNeeded(menuButtonNew, noBlockingUI);
+            SetActiveIfNeeded(fishCollectionButton, noBlockingUI);
 
-            if (fishCollectionButton != null &&
-                fishCollectionButton.activeSelf != shouldShowButtons)
+            // LandButton is only available underwater, and only when no UI is open.
+            bool shouldShowLandButton = isUnderwater && noBlockingUI;
+            SetActiveIfNeeded(landButton, shouldShowLandButton);
+        }
+
+        private static void SetActiveIfNeeded(GameObject target, bool shouldBeActive)
+        {
+            if (target != null && target.activeSelf != shouldBeActive)
             {
-                fishCollectionButton.SetActive(shouldShowButtons);
+                target.SetActive(shouldBeActive);
             }
+        }
+
+        /// <summary>
+        /// Call with true when entering the ocean and false when returning to land.
+        /// The button is automatically hidden while any blocking UI is open.
+        /// </summary>
+        public void SetUnderwater(bool underwater)
+        {
+            isUnderwater = underwater;
+            RefreshHUDButtonsVisibility();
+
+            Log($"Underwater state: {isUnderwater}");
         }
 
         public void Register(UIWindow window)
