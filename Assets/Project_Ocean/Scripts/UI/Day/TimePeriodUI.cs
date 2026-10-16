@@ -1,23 +1,30 @@
 
 using UnityEngine;
+using UnityEngine.UI;
 using Game.Core;
 
 namespace Game.UI
 {
     public class TimePeriodUI : MonoBehaviour
     {
-        [Header("Pointer")]
+        [Header("Clock Needle")]
         [SerializeField] private RectTransform timePointer;
 
-        [Header("Pointer Targets")]
-        [SerializeField] private RectTransform morningTarget;
-        [SerializeField] private RectTransform afternoonTarget;
-        [SerializeField] private RectTransform eveningTarget;
+        [Header("Needle Angles (Z Rotation)")]
+        [SerializeField] private float morningAngle = 35f;
+        [SerializeField] private float afternoonAngle = 0f;
+        [SerializeField] private float eveningAngle = -40f;
+
+        [Header("Time Period Image")]
+        [SerializeField] private Image timePeriodImage;
+
+        [Header("Period Sprites")]
+        [SerializeField] private Sprite morningSprite;
+        [SerializeField] private Sprite afternoonSprite;
+        [SerializeField] private Sprite eveningSprite;
 
         private void OnEnable()
         {
-            Debug.Log("[TimeDebug] TimePeriodUI เปิดใช้งาน");
-
             DayManager.OnTimePeriodChanged += HandleTimePeriodChanged;
 
             Refresh();
@@ -30,9 +37,7 @@ namespace Game.UI
 
         private void HandleTimePeriodChanged(TimePeriod period)
         {
-            Debug.Log($"[TimeDebug] UI ได้รับ Event | Period = {period}");
-
-            MovePointerTo(period);
+            UpdateTimePeriodUI(period);
         }
 
         public void Refresh()
@@ -40,34 +45,72 @@ namespace Game.UI
             if (DayManager.Instance == null)
                 return;
 
-            MovePointerTo(DayManager.Instance.CurrentPeriod);
+            UpdateTimePeriodUI(
+                DayManager.Instance.CurrentPeriod
+            );
         }
 
-        private void MovePointerTo(TimePeriod period)
+        private void UpdateTimePeriodUI(TimePeriod period)
         {
+            RotateNeedle(period);
+            UpdatePeriodImage(period);
+        }
+
+        private void RotateNeedle(TimePeriod period)
+        {
+            if (timePointer == null)
+                return;
+
+            float angle;
+
             switch (period)
             {
                 case TimePeriod.Morning:
-                    MovePointer(morningTarget);
+                    angle = morningAngle;
                     break;
 
                 case TimePeriod.Afternoon:
-                    MovePointer(afternoonTarget);
+                    angle = afternoonAngle;
                     break;
 
                 case TimePeriod.Evening:
-                    MovePointer(eveningTarget);
+                    angle = eveningAngle;
                     break;
+
+                default:
+                    return;
             }
+
+            timePointer.localRotation =
+                Quaternion.Euler(0f, 0f, angle);
         }
 
-        private void MovePointer(RectTransform target)
+        private void UpdatePeriodImage(TimePeriod period)
         {
-            if (timePointer == null || target == null)
+            if (timePeriodImage == null)
                 return;
 
-            timePointer.position = target.position;
-        }
+            Sprite targetSprite = null;
 
+            switch (period)
+            {
+                case TimePeriod.Morning:
+                    targetSprite = morningSprite;
+                    break;
+
+                case TimePeriod.Afternoon:
+                    targetSprite = afternoonSprite;
+                    break;
+
+                case TimePeriod.Evening:
+                    targetSprite = eveningSprite;
+                    break;
+            }
+
+            if (targetSprite != null)
+            {
+                timePeriodImage.sprite = targetSprite;
+            }
+        }
     }
 }
