@@ -6,6 +6,7 @@ namespace Game.Core
     public class KeyBindResetAllButton : MonoBehaviour
     {
         [SerializeField] private Button resetAllButton;
+        [SerializeField] private ControlScheme scheme = ControlScheme.KeyboardMouse;
 
         private void Start()
         {
@@ -23,7 +24,7 @@ namespace Game.Core
             if (KeyBindManager.Instance == null)
                 return;
 
-            KeyBindManager.Instance.ResetAllToDefault();
+            KeyBindManager.Instance.ResetScheme(scheme);
         }
     }
 }

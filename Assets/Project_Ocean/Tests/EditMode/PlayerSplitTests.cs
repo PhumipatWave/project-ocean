@@ -60,7 +60,7 @@ namespace Game.Tests
         {
             var item = ScriptableObject.CreateInstance<Item>();
             var so = new UnityEditor.SerializedObject(item);
-            so.FindProperty("itemType").enumValueIndex = (int)ItemType.Building;
+            so.FindProperty("itemType").enumValueIndex = (int)ItemType.Consumable;
             so.FindProperty("itemName").stringValue = "TestHub";
             so.FindProperty("itemPrefab").objectReferenceValue = prefab;
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -75,7 +75,7 @@ namespace Game.Tests
             created.Add(prefab);
             inventory.Held = BuildingItem(prefab);
 
-            PlayerItemUse.Use(player, ItemType.Building);
+            PlayerItemUse.Use(player, ItemType.Consumable);
 
             Assert.AreEqual(1, inventory.Consumed);
             var spawned = GameObject.Find("PlayerSplitTests_Hub(Clone)");
@@ -86,7 +86,7 @@ namespace Game.Tests
         [Test]
         public void Use_NoItemHeld_ConsumesNothing()
         {
-            PlayerItemUse.Use(player, ItemType.Building);
+            PlayerItemUse.Use(player, ItemType.Consumable);
             Assert.AreEqual(0, inventory.Consumed);
         }
     }

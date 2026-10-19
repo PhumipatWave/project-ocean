@@ -15,17 +15,19 @@ namespace Game.Core
         public event Action<bool> OnAttacked;
         public event Action<bool> OnSprinted;
         public event Action<bool> OnInteracted;
-        public event Action<bool> OnAmmoSelected;
         public event Action<bool> OnInventoryToggled;
         public event Action OnMenuToggled;
         public event Action<Vector2> OnMoved;
 
         public event Action OnUseItem;
-        public event Action OnTeleport;
         public event Action OnSkipCutscene;
 
         public Vector2 MousePos { get; private set; }
         public Vector2 MovePos { get; private set; }
+        public Vector2 AimStick { get; private set; }
+
+        /// <summary>True after the last aim input came from a gamepad (stick or Attack), false after mouse input.</summary>
+        public bool UsingGamepadAim { get; private set; }
 
         private InputSystem_Actions InputActions =>
           KeyBindManager.Instance != null
@@ -88,6 +90,13 @@ namespace Game.Core
         public void OnMousePos(InputAction.CallbackContext context)
         {
             MousePos = context.ReadValue<Vector2>();
+            UsingGamepadAim = false;
+        }
+
+        public void OnAimStick(InputAction.CallbackContext context)
+        {
+            AimStick = context.ReadValue<Vector2>();
+            if (AimStick != Vector2.zero) UsingGamepadAim = true;
         }
 
         public void OnAim(InputAction.CallbackContext context)
@@ -104,6 +113,8 @@ namespace Game.Core
                 TriggerInteract();
                 return;
             }
+
+            if (context.started) UsingGamepadAim = context.control?.device is Gamepad;
 
             if (context.performed) OnAttacked?.Invoke(true);
             else if (context.canceled) OnAttacked?.Invoke(false);
@@ -129,20 +140,9 @@ namespace Game.Core
             if (context.performed) OnUseItem?.Invoke();
         }
 
-        void IPlayerActions.OnTeleport(InputAction.CallbackContext context)
-        {
-            if (context.performed) OnTeleport?.Invoke();
-        }
-
         void IPlayerActions.OnSkipCutscene(InputAction.CallbackContext context)
         {
             if (context.performed) OnSkipCutscene?.Invoke();
-        }
-
-        public void OnSwitchItem(InputAction.CallbackContext context)
-        {
-            if (context.performed) OnAmmoSelected?.Invoke(true);
-            else if (context.canceled) OnAmmoSelected?.Invoke(false);
         }
 
         public void OnInventory(InputAction.CallbackContext context)

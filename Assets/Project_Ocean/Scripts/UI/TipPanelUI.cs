@@ -5,6 +5,7 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
+    /// <summary>Tips window (UIWindow type Tips); UIManager opens it, pauses the game and closes it on Esc/B.</summary>
     public class TipPanelUI : MonoBehaviour
     {
         [SerializeField] private GameObject[] tips;
@@ -13,18 +14,15 @@ namespace Game.UI
         [SerializeField] private Button closeButton;
 
         private int currentIndex;
-        private const string SeenKey = "HasSeenTips";
 
         private void Awake()
         {
             arrowRight.onClick.AddListener(() => Navigate(1));
             arrowLeft.onClick.AddListener(() => Navigate(-1));
             closeButton.onClick.AddListener(Close);
-            ShowTip(0);
-
-            if (PlayerPrefs.GetInt(SeenKey, 0) == 1)
-                gameObject.SetActive(false);
         }
+
+        private void OnEnable() => ShowTip(0);
 
         private void Navigate(int dir)
         {
@@ -40,9 +38,11 @@ namespace Game.UI
 
         private void Close()
         {
-            PlayerPrefs.SetInt(SeenKey, 1);
-            PlayerPrefs.Save();
-            gameObject.SetActive(false);
+            // Through UIManager so the pause and player lock it applied are lifted too.
+            if (UIManager.Instance != null && UIManager.Instance.CurrentUI == UIManager.UIType.Tips)
+                UIManager.Instance.CloseCurrent();
+            else
+                gameObject.SetActive(false);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Game.Gameplay
         // If true: item stays in inventory when used; cleared only when all placed instances are gone.
         bool KeepInInventory => false;
 
-        // Hint text shown in UI when this item is the active building slot (e.g. "T - Teleport").
+        // Hint text shown in UI when this item is the active building slot.
         // Empty means no hint panel shown.
         string ActionHint => string.Empty;
     }

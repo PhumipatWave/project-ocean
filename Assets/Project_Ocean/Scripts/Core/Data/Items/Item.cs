@@ -70,14 +70,12 @@ namespace Game.Core
         Large
     }
 
+    // Assets store these as ints: add new values at the end; removing or reordering means remapping the item assets.
     public enum ItemType
     {
         Normal,
         Consumable,
         KeyItem,
-        Building,
         Ammo,
-        Quest,
-        CheckpointItem,
     }
 }
