@@ -151,9 +151,6 @@ namespace Game.Gameplay
 
         [Tooltip("Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.")]
         public List<GameFeature> unlocksFeatures = new();
-
-        [Tooltip("Feature(s) locked when this checkpoint completes — always wins over an unlock, however/whenever that was granted (this step's own Unlocks Features, another step's, or a direct Unlock() call). See FeatureUnlockService.")]
-        public List<GameFeature> locksFeatures = new();
     }
 
     [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]

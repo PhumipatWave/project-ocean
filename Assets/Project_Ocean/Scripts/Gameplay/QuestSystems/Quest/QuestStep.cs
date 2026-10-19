@@ -118,10 +118,6 @@ namespace Game.Gameplay
         /// <summary>Feature(s) unlocked when this checkpoint completes — see FeatureUnlockService.</summary>
         public List<GameFeature> UnlocksFeatures;
 
-        /// <summary>Feature(s) locked when this checkpoint completes — always wins over an
-        /// unlock, however/whenever that was granted. See FeatureUnlockService.</summary>
-        public List<GameFeature> LocksFeatures;
-
         public bool IsComplete => CurrentCount >= TargetCount;
 
         /// <summary>Delivery only: progress on TargetCount's scale; takes a count lookup so quests don't depend on the inventory.</summary>

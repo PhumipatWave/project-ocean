@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Game.Core;
@@ -81,6 +82,8 @@ namespace Game.Gameplay
             bool left = mirrorDirection == MirrorDirection.Left;
             var outward = left ? Vector3Int.left : Vector3Int.down;
             var flip = left ? FlipX : FlipY;
+            // Copy the drawn sprite, not the tile asset: a RuleTile would re-pick its sprite from the mirror's neighbours.
+            var tiles = new Dictionary<Sprite, Tile>();
 
             sourceMap.CompressBounds();
             foreach (var cell in sourceMap.cellBounds.allPositionsWithin)
@@ -91,11 +94,18 @@ namespace Game.Gameplay
                 for (int k = 0; k < depth; k++)
                 {
                     var from = cell - outward * k;
-                    if (!sourceMap.HasTile(from)) break;
+                    var sprite = sourceMap.GetSprite(from);
+                    if (sprite == null) break;
+                    if (!tiles.TryGetValue(sprite, out var tile))
+                    {
+                        tile = ScriptableObject.CreateInstance<Tile>();
+                        tile.sprite = sprite;
+                        // Default flags lock the transform, which would ignore the flip below.
+                        tile.flags = TileFlags.None;
+                        tiles[sprite] = tile;
+                    }
                     var to = cell + outward * (k + 1);
-                    target.SetTile(to, sourceMap.GetTile(from));
-                    // Tile assets lock their transform by default; SetTransformMatrix is ignored otherwise.
-                    target.SetTileFlags(to, TileFlags.None);
+                    target.SetTile(to, tile);
                     target.SetTransformMatrix(to, sourceMap.GetTransformMatrix(from) * flip);
                 }
             }
