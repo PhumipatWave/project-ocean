@@ -45,6 +45,25 @@ namespace Game.Core
         [SerializeField]
         private MonoBehaviour loadingVisualController;
 
+        private void Awake()
+        {
+            Debug.Log("[TimeDebug] LoadingManager Awake เริ่มทำงาน");
+            Debug.Log($"[TimeDebug] Instance ก่อน Awake = {Instance}");
+
+            base.Awake();
+
+            Debug.Log($"[TimeDebug] Instance หลัง Awake = {Instance}");
+        }
+
+        protected override void OnDestroy()
+        {
+            Debug.LogWarning(
+                $"[TimeDebug] LoadingManager ถูกทำลาย | Object={gameObject.name} | Instance={Instance}"
+            );
+
+            base.OnDestroy();
+        }
+
         // A dragged GameObject can land on the wrong component (e.g. its Image); keep the one implementing the interface.
         private void OnValidate()
         {
@@ -59,7 +78,7 @@ namespace Game.Core
 
         /// <summary>Fired after the loading screen hides.</summary>
         public static event System.Action OnLoadingFinished;
-
+        public static event System.Action OnReturnedToLand;
         protected override bool Persistent => true;
 
         private void Start()
@@ -104,6 +123,8 @@ namespace Game.Core
         {
             LoadScene(landScene, LoadingType.Land);
         }
+
+
 
         private IEnumerator LoadSceneRoutine(string sceneName)
         {
@@ -182,6 +203,13 @@ namespace Game.Core
             HideLoading();
 
             OnLoadingFinished?.Invoke();
+
+
+            if (sceneName == landScene)
+            {
+                OnReturnedToLand?.Invoke();
+            }
+
         }
 
         public void LoadScene(string sceneName, LoadingType loadingType)

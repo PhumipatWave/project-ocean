@@ -8,12 +8,14 @@ namespace Game.UI
     {
         public enum UIType
         {
+            None,
             MainMenu,
             PauseMenu,
             SettingMenu,
             SettingPause,
             Inventory,
-            Quest
+            Quest,
+            FishCollection
         }
 
         [SerializeField]
