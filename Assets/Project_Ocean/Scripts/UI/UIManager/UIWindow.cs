@@ -15,7 +15,8 @@ namespace Game.UI
             SettingPause,
             Inventory,
             Quest,
-            FishCollection
+            FishCollection,
+            Tips
         }
 
         [SerializeField]

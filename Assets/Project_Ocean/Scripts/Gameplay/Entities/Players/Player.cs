@@ -67,7 +67,7 @@ namespace Game.Gameplay
         private void Update()
         {
             int faceDir = movement.FaceDir;
-            gunHandler.UpdateAim(ref faceDir, input.MousePos);
+            gunHandler.UpdateAim(ref faceDir, input.MousePos, input.AimStick, input.UsingGamepadAim);
             movement.FaceDir = faceDir;
 
             entityAnimation?.PlayAnim(AnimHash.IsAim, gunHandler.IsAiming);
@@ -77,7 +77,7 @@ namespace Game.Gameplay
         {
             if (!FeatureUnlockService.Instance.IsUnlocked(GameFeature.UseItem)) return;
             if (GameSession.State == GameState.Ocean)
-                PlayerItemUse.Use(this, ItemType.Building);
+                PlayerItemUse.Use(this, ItemType.Consumable);
         }
 
         protected override void OnDamagedHandler()

@@ -39,6 +39,10 @@ namespace Game.Core
             if (manager == null)
                 return;
 
+            // The button that just finished a rebind can reach this as a Submit; don't start another.
+            if (KeyBindManager.IsRebinding || Time.frameCount - KeyBindManager.LastRebindFrame < 2)
+                return;
+
             keyText.text = "Press Key...";
             if (rebindButton != null)
                 rebindButton.interactable = false;

@@ -34,6 +34,11 @@ namespace Game.UI
         // A menu (pause, settings) owns the screen — don't stack the prompt over it.
         public bool CanShow => UIManager.Instance == null || !UIManager.Instance.IsUIOpen;
 
+        public bool IsShowing => _isShowing;
+
+        private int _shownFrame = -1;
+        public bool ShownThisFrame => _shownFrame == Time.frameCount;
+
         protected override void OnDestroy()
         {
             if (Instance == this)
@@ -46,6 +51,7 @@ namespace Game.UI
         {
             _onConfirm = onConfirm;
             _onCancel  = onCancel;
+            _shownFrame = Time.frameCount;
 
             if (messageText != null) messageText.text = message;
             if (panel != null) BGPanel.SetActive(true);
