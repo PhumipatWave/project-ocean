@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: ItemFishM
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  ItemID: 32001
-  ItemName: Barracuda
-  ItemDescription: 
-  ItemVisual: {fileID: -1586706376951250328, guid: 391e3b4cf6308bd4fa183d8adae1c575, type: 3}
-  ItemPrefab: {fileID: 0}
-  ItemPrice: 35
-  MaxStackable: 1
-  ItemType: 0
-  CanBuy: 1
-  CanSell: 1
+  itemID: 32001
+  itemName: Barracuda
+  itemDescription: 
+  itemVisual: {fileID: -1586706376951250328, guid: 391e3b4cf6308bd4fa183d8adae1c575, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 35
+  maxStackable: 1
+  itemType: 0
+  fishSize: 2
+  canBuy: 1
+  canSell: 1

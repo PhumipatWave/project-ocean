@@ -39,6 +39,7 @@ namespace Game.Gameplay
             list.Add(UpgradeService.Instance);
             if (QuestManager.Instance != null)         list.Add(QuestManager.Instance);
             if (EnemyKillTracker.Instance != null)     list.Add(EnemyKillTracker.Instance);
+            if (FishCollectionManager.Instance != null)list.Add(FishCollectionManager.Instance);
             if (OneTimePickupTracker.Instance != null) list.Add(OneTimePickupTracker.Instance);
             // Must come after QuestManager — it re-derives unlocks from quest progress on load.
             list.Add(FeatureUnlockService.Instance);
@@ -135,6 +136,7 @@ namespace Game.Gameplay
             FeatureUnlockService.Instance.ResetToDefault();
             Inventory.Current?.ResetToDefault();
             EnemyKillTracker.Instance?.ResetAll();
+            FishCollectionManager.Instance?.ResetToDefault();
             OneTimePickupTracker.Instance?.ResetAll();
             UpgradeService.Instance.ResetToDefault();
 
