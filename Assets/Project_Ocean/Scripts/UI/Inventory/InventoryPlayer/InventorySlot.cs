@@ -7,12 +7,19 @@ using Game.Gameplay;
 
 namespace Game.UI
 {
-    public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
+    public class InventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler, ISubmitHandler
     {
         public static event Action<InventorySlot> OnShopSlotClicked;
 
+        // Gamepad has no drag: first Submit picks a slot, a second Submit on another slot swaps them.
+        private static InventorySlot picked;
+
+        /// <summary>Slot picked with gamepad Submit and waiting for a target, or null.</summary>
+        public static InventorySlot Picked => picked;
+
         public Image image;
         public Color SelectedColor, notSelectedColor;
+        [SerializeField] private Color pickedColor = Color.cyan;
         public bool isSelected = false;
 
         public bool isUnlocked = true;
@@ -23,6 +30,54 @@ namespace Game.UI
             image = GetComponent<Image>();
             Deselect();
             gameObject.SetActive(isUnlocked);
+        }
+
+        private void OnEnable() => InventoryManager.OnInventoryClosed += HandleInventoryClosed;
+
+        private void OnDisable()
+        {
+            InventoryManager.OnInventoryClosed -= HandleInventoryClosed;
+            HandleInventoryClosed();
+        }
+
+        private void HandleInventoryClosed()
+        {
+            if (picked == this) ClearPick();
+        }
+
+        public void OnSubmit(BaseEventData eventData)
+        {
+            if (!isUnlocked) return;
+
+            if (isShopSlot)
+            {
+                OnShopSlotClicked?.Invoke(this);
+                return;
+            }
+
+            var inventory = InventoryManager.Instance;
+            if (inventory == null) return;
+
+            if (picked == null)
+            {
+                if (inventory.GetStack(inventory.IndexOfSlot(transform)).IsEmpty) return;
+                picked = this;
+                image.color = pickedColor;
+                return;
+            }
+
+            if (picked != this)
+                inventory.SwapSlots(picked.transform, transform);
+            ClearPick();
+        }
+
+        public static void ClearPick()
+        {
+            InventorySlot slot = picked;
+            picked = null;
+            if (slot == null) return;
+            if (slot.isSelected) slot.Select();
+            else slot.Deselect();
         }
 
         public void OnPointerClick(PointerEventData eventData)
