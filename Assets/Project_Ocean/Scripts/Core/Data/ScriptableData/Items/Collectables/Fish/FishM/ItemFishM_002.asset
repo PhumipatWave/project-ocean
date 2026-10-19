@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
   m_Name: ItemFishM_002
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
-  ItemID: 32002
-  ItemName: Moray
-  ItemDescription: 
-  ItemVisual: {fileID: 9171922718767813765, guid: d9eef3b4a7dc420449f5b85b74a69f4f, type: 3}
-  ItemPrefab: {fileID: 0}
-  ItemPrice: 50
-  MaxStackable: 1
-  ItemType: 0
-  CanBuy: 1
-  CanSell: 1
+  itemID: 32002
+  itemName: Moray
+  itemDescription: 
+  itemVisual: {fileID: 9171922718767813765, guid: d9eef3b4a7dc420449f5b85b74a69f4f, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 50
+  maxStackable: 1
+  itemType: 0
+  fishSize: 2
+  canBuy: 1
+  canSell: 1

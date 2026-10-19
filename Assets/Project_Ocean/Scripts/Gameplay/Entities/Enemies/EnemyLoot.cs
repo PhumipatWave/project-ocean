@@ -46,6 +46,9 @@ namespace Game.Gameplay
                 }
             }
 
+            // Register the fish only after it was successfully added to Inventory.
+            FishCollectionManager.Instance?.RegisterCatch(dropItem);
+
             if (PlayerRegistry.Local != null)
                 AudioManager.Instance?.PlaySFX(SoundKeys.Collect);
 
