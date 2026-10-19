@@ -28,7 +28,11 @@ namespace Game.UI
 
             targetAlpha = 0f;
 
-            // The dim overlay must not block clicks on the buttons above it.
+            // Needs a raycast target to catch clicks; it sits first in the canvas, so windows drawn above stay clickable.
+            var graphic = GetComponent<UnityEngine.UI.Graphic>();
+            if (graphic != null)
+                graphic.raycastTarget = true;
+
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
         }
@@ -45,11 +49,14 @@ namespace Game.UI
         public void Show()
         {
             targetAlpha = dimAlpha;
+            // Stops clicks reaching panels behind the open window (e.g. a shop on another canvas).
+            canvasGroup.blocksRaycasts = true;
         }
 
         public void Hide()
         {
             targetAlpha = 0f;
+            canvasGroup.blocksRaycasts = false;
         }
 
         public void SetDim(float alpha)
