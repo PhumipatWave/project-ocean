@@ -17,6 +17,8 @@ namespace Game.UI
         [Header("Buttons")]
         [SerializeField] private Button loadButton;
         [SerializeField] private Button deleteButton;
+        [Tooltip("Shown instead of Load/Delete when New Game found every slot full.")]
+        [SerializeField] private Button selectButton;
 
         [Header("Empty slot state")]
         [SerializeField] private GameObject emptyStateLabel; // e.g. a "New Game" label, shown when meta == null
@@ -25,12 +27,13 @@ namespace Game.UI
         private SaveMenuUI _menu;
 
         /// <summary>Populates this card. Pass meta = null for an empty/unused slot.</summary>
-        public void Setup(int slot, SaveSlotMeta meta, SaveMenuUI menu)
+        public void Setup(int slot, SaveSlotMeta meta, SaveMenuUI menu, bool replaceMode)
         {
             _slot = slot;
             _menu = menu;
 
             bool hasSave = meta != null;
+            bool replacing = replaceMode && hasSave;
 
             if (emptyStateLabel != null)
                 emptyStateLabel.SetActive(!hasSave);
@@ -46,13 +49,22 @@ namespace Game.UI
                 if (timeText != null)  timeText.text  = $"Save At {meta.saveTime}";
             }
 
-            // An empty slot is still clickable: it starts a game there, and the first save writes it.
+            // Nothing to load in an empty slot; New Game fills empty slots itself.
+            loadButton.gameObject.SetActive(!replacing);
+            loadButton.interactable = hasSave;
             loadButton.onClick.RemoveAllListeners();
             loadButton.onClick.AddListener(() => _menu.SelectSlot(_slot, hasSave));
 
+            if (selectButton != null)
+            {
+                selectButton.gameObject.SetActive(replacing);
+                selectButton.onClick.RemoveAllListeners();
+                selectButton.onClick.AddListener(() => _menu.SelectSlot(_slot, hasSave));
+            }
+
             if (deleteButton != null)
             {
-                deleteButton.gameObject.SetActive(hasSave);
+                deleteButton.gameObject.SetActive(hasSave && !replacing);
                 deleteButton.onClick.RemoveAllListeners();
                 deleteButton.onClick.AddListener(() => _menu.DeleteSlot(_slot));
             }

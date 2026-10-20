@@ -24,17 +24,11 @@ namespace Game.Gameplay
                 step.DayStepBecameCurrent = DayManager.Instance.CurrentDay;
         }
 
-        // Locks always win over unlocks (see FeatureUnlockService.IsUnlocked) — order here
-        // doesn't matter, but unlocking first reads naturally as "grant, then restrict".
         public static void ApplyFeatureChanges(QuestStep step)
         {
             if (step.UnlocksFeatures != null)
                 foreach (var feature in step.UnlocksFeatures)
                     FeatureUnlockService.Instance.Unlock(feature);
-
-            if (step.LocksFeatures != null)
-                foreach (var feature in step.LocksFeatures)
-                    FeatureUnlockService.Instance.Lock(feature);
         }
 
         /// <summary>Removes the items a step consumes when it completes.</summary>
