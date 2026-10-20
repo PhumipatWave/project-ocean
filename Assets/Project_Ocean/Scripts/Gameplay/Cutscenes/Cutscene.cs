@@ -150,7 +150,7 @@ namespace Game.Gameplay
         }
 
         // ponytail: only track bindings are resolved, not per-clip ExposedReferences; add SetReferenceValue if needed.
-        // ponytail: Skip is bound to Space in .inputactions but has no rebind slot, same as Teleport.
+        // ponytail: Skip is bound to Space / gamepad East in .inputactions but has no rebind slot.
         private void HandleSkipPressed()
         {
             var prompt = ModalPrompt.Current;

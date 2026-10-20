@@ -299,18 +299,23 @@ namespace Game.UI
                 Render();
         }
 
+        /// <summary>Swaps the stacks of two slot views (gamepad pick-and-place); false when the model refuses.</summary>
+        public bool SwapSlots(Transform a, Transform b) => model.Swap(IndexOfSlot(a), IndexOfSlot(b));
+
         public void RemoveSelectedItem()
         {
-            if (!IsValidSlotIndex(selectedSlot)) return;
+            // A gamepad pick (A on a slot, then A on the bin) wins over the hotbar selection.
+            int slot = InventorySlot.Picked != null ? IndexOfSlot(InventorySlot.Picked.transform) : selectedSlot;
+            InventorySlot.ClearPick();
+            if (slot < 0 || slot >= slotViews.Length) return;
 
-            Item item = model.Get(selectedSlot).Item;
+            Item item = model.Get(slot).Item;
             if (item == null)
             {
                 Debug.LogWarning("Selected slot has no item to remove.");
                 return;
             }
 
-            int slot = selectedSlot;
             ConfirmationDialog.Instance?.Show($"Discard {item.ItemName}?", () => DiscardStack(slot, item));
         }
 
@@ -400,11 +405,6 @@ namespace Game.UI
                 var effect = item != null && item.ItemPrefab != null ? item.ItemPrefab.GetComponent<IItemEffect>() : null;
                 string hint = effect?.ActionHint ?? string.Empty;
 
-#if ENABLE_CHECKPOINT_ITEM
-                // Show "T" in the active slot while any checkpoint is placed in the world
-                if (string.IsNullOrEmpty(hint) && PlayerRegistry.Local?.CheckpointCount > 0)
-                    hint = "T";
-#endif
 
                 bool show = !string.IsNullOrEmpty(hint);
                 buildingSlotKeyPanels[i].SetActive(show);

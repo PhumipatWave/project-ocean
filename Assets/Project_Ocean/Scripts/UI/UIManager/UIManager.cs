@@ -18,7 +18,9 @@ namespace Game.UI
             SettingMenu,
             SettingPause,
             Inventory,
-            Quest
+            Quest,
+            FishCollection,
+            Tips
         }
 
         private readonly Dictionary<UIType, UIWindow> windows =
@@ -38,6 +40,15 @@ namespace Game.UI
 
         [Header("Background Dim")]
         [SerializeField] private UIFadeBackground backgroundDim;
+
+        [Header("HUD Buttons")]
+        [SerializeField] private GameObject menuButtonNew;
+        [SerializeField] private GameObject fishCollectionButton;
+        [SerializeField] private GameObject landButton;
+
+        [Header("Player Area State")]
+        [Tooltip("True while the player is underwater. Keep false on land.")]
+        [SerializeField] private bool isUnderwater;
 
         public UIType CurrentUI => currentUI;
 
@@ -75,6 +86,47 @@ namespace Game.UI
         private void Update()
         {
             HandleEscapeInput();
+            RefreshHUDButtonsVisibility();
+        }
+
+        /// <summary>
+        /// Hide the in-game HUD buttons whenever a UIManager window or another
+        /// blocking UI system owns the UI lock. This also handles external panels
+        /// such as shops or quest boards that use PlayerUIState.
+        /// </summary>
+        private void RefreshHUDButtonsVisibility()
+        {
+            // HUD controls are hidden whenever a blocking UI is open.
+            bool noBlockingUI =
+                currentUI == UIType.None &&
+                !PlayerUIState.IsLocked;
+
+            SetActiveIfNeeded(menuButtonNew, noBlockingUI);
+            SetActiveIfNeeded(fishCollectionButton, noBlockingUI);
+
+            // LandButton is only available underwater, and only when no UI is open.
+            bool shouldShowLandButton = isUnderwater && noBlockingUI;
+            SetActiveIfNeeded(landButton, shouldShowLandButton);
+        }
+
+        private static void SetActiveIfNeeded(GameObject target, bool shouldBeActive)
+        {
+            if (target != null && target.activeSelf != shouldBeActive)
+            {
+                target.SetActive(shouldBeActive);
+            }
+        }
+
+        /// <summary>
+        /// Call with true when entering the ocean and false when returning to land.
+        /// The button is automatically hidden while any blocking UI is open.
+        /// </summary>
+        public void SetUnderwater(bool underwater)
+        {
+            isUnderwater = underwater;
+            RefreshHUDButtonsVisibility();
+
+            Log($"Underwater state: {isUnderwater}");
         }
 
         public void Register(UIWindow window)
@@ -345,13 +397,35 @@ namespace Game.UI
             Open(UIType.Quest);
         }
 
+        public void OpenFishCollection()
+        {
+            Open(UIType.FishCollection);
+        }
+
+        public void ToggleFishCollection()
+        {
+            Toggle(UIType.FishCollection);
+        }
+
+        /// <summary>Swaps the pause menu (or any open window) for the tips panel.</summary>
+        public void OpenTips()
+        {
+            Open(UIType.Tips);
+        }
+
         private void HandleEscapeInput()
         {
-            if (Keyboard.current == null)
+            if (!WasBackPressed())
                 return;
 
-            if (!Keyboard.current.escapeKey.wasPressedThisFrame)
+            // The dialog sits on top of whatever opened it (e.g. a discard from the inventory).
+            if (ConfirmationDialog.Instance != null && ConfirmationDialog.Instance.IsShowing)
+            {
+                // Gamepad East both opens the cutscene-skip prompt and is Cancel; skip the press that opened it.
+                if (!ConfirmationDialog.Instance.ShownThisFrame)
+                    ConfirmationDialog.Instance.Cancel();
                 return;
+            }
 
             // Close UIManager-owned UI first.
             // (Not on the frame it opened: the Menu input action also opens the pause menu on Esc.)
@@ -368,6 +442,23 @@ namespace Game.UI
             {
                 PlayerUIState.CloseCurrent();
             }
+        }
+
+        // Menu (Esc / Start) or the UI module's Cancel (Esc / gamepad East) closes the top panel.
+        private static bool WasBackPressed()
+        {
+            // Esc / Start cancel a rebind; that same press must not also close the settings panel.
+            if (KeyBindManager.IsRebinding || Time.frameCount - KeyBindManager.LastRebindFrame < 2)
+                return false;
+
+            InputAction menu = KeyBindManager.Instance != null ? KeyBindManager.Instance.Actions.Player.Menu : null;
+            if (menu != null && menu.WasPerformedThisFrame())
+                return true;
+
+            var module = UnityEngine.EventSystems.EventSystem.current?.currentInputModule
+                as UnityEngine.InputSystem.UI.InputSystemUIInputModule;
+            InputAction cancel = module != null && module.cancel != null ? module.cancel.action : null;
+            return cancel != null && cancel.WasPerformedThisFrame();
         }
 
         private void ApplyBlockingState()
@@ -431,6 +522,12 @@ namespace Game.UI
 
                 case UIWindow.UIType.Quest:
                     return UIType.Quest;
+
+                case UIWindow.UIType.FishCollection:
+                    return UIType.FishCollection;
+
+                case UIWindow.UIType.Tips:
+                    return UIType.Tips;
 
                 default:
                     return UIType.None;

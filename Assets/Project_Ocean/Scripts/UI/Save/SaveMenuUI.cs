@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Game.Core;
 using Game.Gameplay;
 
@@ -9,6 +10,7 @@ namespace Game.UI
     {
         [SerializeField] private GameObject panelRoot;   // the whole panel — toggled on/off
         [SerializeField] private SaveSlotUI[] slotCards; // drag SlotCard_0, SlotCard_1, ... here in order
+        [SerializeField] private Button continueButton;
 
         // True while the panel was opened by New Game with every slot full: picking a slot replaces it.
         private bool replaceMode;
@@ -35,8 +37,7 @@ namespace Game.UI
             // Every slot is taken: let the player pick one to replace (SelectSlot confirms first); never overwrite silently.
             if (slot < 0)
             {
-                Open();
-                replaceMode = true;
+                OpenPanel(replace: true);
                 NotificationManager.Notify("All save slots are full — select a save to replace with a new game.");
                 return;
             }
@@ -63,9 +64,12 @@ namespace Game.UI
             return -1; // every slot is occupied — the caller must NOT fall back to overwriting one
         }
 
-        public void Open()
+        public void Open() => OpenPanel(replace: false);
+
+        // Set before Refresh: the cards pick Select vs Load/Delete from it.
+        private void OpenPanel(bool replace)
         {
-            replaceMode = false; // NewGame turns it on again right after opening
+            replaceMode = replace;
             panelRoot.SetActive(true);
             Refresh();
         }
@@ -74,6 +78,14 @@ namespace Game.UI
         {
             replaceMode = false;
             panelRoot.SetActive(false);
+            RefreshContinueButton();
+        }
+
+        /// <summary>Continue only works when at least one slot the menu shows has a save.</summary>
+        public void RefreshContinueButton()
+        {
+            if (continueButton != null)
+                continueButton.interactable = SaveSystem.GetAllSlotMeta(slotCards.Length).Count > 0;
         }
 
         private void Refresh()
@@ -84,7 +96,7 @@ namespace Game.UI
             for (int slot = 0; slot < slotCards.Length; slot++)
             {
                 var meta = metas.Find(m => m.slot == slot);
-                slotCards[slot].Setup(slot, meta, this);
+                slotCards[slot].Setup(slot, meta, this, replaceMode);
             }
         }
 
@@ -134,8 +146,21 @@ namespace Game.UI
 
         public void DeleteSlot(int slot)
         {
-            SaveSystem.Delete(slot);
-            Refresh();
+            // Never delete without asking.
+            if (ConfirmationDialog.Instance == null)
+            {
+                NotificationManager.Notify("Can't confirm — no save was deleted.");
+                return;
+            }
+
+            ConfirmationDialog.Instance.Show(
+                $"Delete save slot {slot + 1}? The save will be erased.",
+                () =>
+                {
+                    SaveSystem.Delete(slot);
+                    Refresh();
+                    RefreshContinueButton();
+                });
         }
     }
 }

@@ -195,7 +195,6 @@ namespace Game.Gameplay
                     RewardItemId = s.rewardItemId,
                     RewardMoney = s.rewardMoney,
                     UnlocksFeatures = s.unlocksFeatures,
-                    LocksFeatures = s.locksFeatures,
                 };
                 step.SetDialogue(s.dialogue);
                 list.Add(step);
