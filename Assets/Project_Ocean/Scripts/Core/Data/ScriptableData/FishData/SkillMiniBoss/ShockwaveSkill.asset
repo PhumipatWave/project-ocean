@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebf96bca4033b741900fecc54439e07, type: 3}
+  m_Name: ShockwaveSkill
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.ShockwaveSkillData
+  telegraphTime: 0.8
+  recoverTime: 0.5
+  cooldown: 6
+  weight: 1
+  maxRange: 20
+  projectilePrefab: {fileID: 6652574029940466104, guid: 3c193adbdb3e1874ab6f57a1850ef013, type: 3}
+  projectileCount: 3
+  spreadAngle: 25
+  projectileSpeed: 10
+  projectileLifetime: 4
+  damage: 10

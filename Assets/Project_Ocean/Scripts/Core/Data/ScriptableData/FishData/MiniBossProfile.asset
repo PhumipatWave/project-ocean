@@ -9,48 +9,72 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583f5f4b3d0038344a5759d628473aa8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d703527f04814d47a219ce7f9d894ab, type: 3}
   m_Name: MiniBossProfile
-  m_EditorClassIdentifier: Game.Testing::Game.Testing.AggressiveEnemyProfile
-  fishId: shark
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.MiniBossProfile
+  fishId: miniBoss
   schoolMinFollowers: 0
   schoolMaxFollowers: 0
-  speed: 6.25
+  speed: 2
   viewDistance: 25
   viewAngle: 90
-  debugVision: 1
+  debugVision: 0
   wallLayer:
     serializedVersion: 2
     m_Bits: 512
   wallDetectDistance: 1
-  wanderRadius: 75
-  wanderInterval: 12
-  hitChaseDuration: 6
+  wanderRadius: 35
+  wanderInterval: 2
+  hitChaseDuration: 5
   chasePlayerWhenHit: 1
   followAfterLost: 6
-  fishClearanceRadius: 0.8
+  fishClearanceRadius: 0.5
   maxWanderSampleTries: 20
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+  edgeMargin: 0.5
+  reachTolerance: 1
+  repathInterval: 0.25
+  stuckWindow: 1.5
+  stuckMinProgress: 0.3
+  debugNavigation: 0
   contactDamage: 0
   contactDamageCooldown: 1
   autoReturnDelay: 60
   tickFacingFromVelocity: 0
   searchAfterLost: 1
-  prepareBeforeAttack: 1
+  prepareBeforeAttack: 0
   canAttack: 1
   alertNearbyAllies: 0
-  searchDuration: 6
-  searchRadius: 25
-  prepareTime: 0.75
-  boostSpeed: 15
-  dashAcceleration: 40
-  dashThrough: 1
+  searchDuration: 4
+  searchRadius: 2.5
+  prepareTime: 1
+  boostSpeed: 7
+  dashAcceleration: 200
+  dashThrough: 0
   dashDuration: 1.5
-  attackRange: 5
-  attackCooldown: 1.25
-  attackDamage: 10.25
-  retreatMinDistance: 10
-  retreatMaxDistance: 16
+  attackRange: 1.5
+  attackCooldown: 2
+  attackDamage: 10
+  attackRetryDelay: 1
+  retreatMinDistance: 3
+  retreatMaxDistance: 5
+  enableLurk: 1
+  unreachableBeforeLurk: 1
+  lurkDuration: 6
+  lurkOrbitRadius: 4
+  lurkOrbitSpeed: 40
+  chaseGiveUpCooldown: 8
   groupAlertRadius: 3
+  skills:
+  - data: {fileID: 11400000, guid: aaaa5cfce657d694f9cc3f945a5db922, type: 2}
+    unlockBelowHealth: 0.5
+  - data: {fileID: 11400000, guid: fb6bdc9f531b73441a6f7c48de6742a7, type: 2}
+    unlockBelowHealth: 1
+  - data: {fileID: 11400000, guid: 887fa32f85fc8144f9fd259ba21dead8, type: 2}
+    unlockBelowHealth: 0.5
+  globalSkillCooldown: 1.5
+  leashRadius: 40
+  homeArriveDistance: 1.5
+  fullHealOnReset: 1

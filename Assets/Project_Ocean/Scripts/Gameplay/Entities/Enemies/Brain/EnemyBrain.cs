@@ -88,6 +88,8 @@ namespace Game.Gameplay
                     break;
             }
 
+            SetupExtraStates(pathfinder);
+
             HideAllAlerts();
 
             if (context.PlayerTransform != null)
@@ -147,6 +149,9 @@ namespace Game.Gameplay
         {
             enemyFSM.Register(new EnemyFleeState(scared, pathfinder));
         }
+
+        /// <summary>Hook for subclasses (e.g. a miniboss) to register extra states. Runs after the profile states, before the FSM starts.</summary>
+        protected virtual void SetupExtraStates(EnemyNavPathfinder pathfinder) { }
 
         public override void OnHit(Transform attacker)
         {

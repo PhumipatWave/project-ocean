@@ -15,5 +15,7 @@ namespace Game.Gameplay
         Flee,
         Flock,
         Lurk,
+        Skill,
+        ReturnHome,
     }
 }
