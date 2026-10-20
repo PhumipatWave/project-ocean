@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 1086155692845509329}
   - component: {fileID: 5104021302464229878}
   - component: {fileID: 5452845977717802553}
+  - component: {fileID: 1439448207307140882}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -444,6 +445,24 @@ MonoBehaviour:
     - rid: 7477717527144955904
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &1439448207307140882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845563972653589313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c1f1173e15d0b45be1da503621b7c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.WaterReflection
+  reflectionMaterial: {fileID: 2100000, guid: df5624875cf1b644593bb16506f67136, type: 2}
+  tint: {r: 0.6, g: 0.8, b: 1, a: 0.4}
+  sortingLayer: StoneMain
+  sortingOrder: 2
+  extraOffsetY: 0
+  landOnly: 1
 --- !u!1 &2014239042003075728
 GameObject:
   m_ObjectHideFlags: 0

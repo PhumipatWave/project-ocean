@@ -18,7 +18,7 @@ namespace Game.Editor
         /// <summary>Which fields show for a step type, shared by OnGUI and GetPropertyHeight so they can't disagree.</summary>
         private readonly struct FieldVisibility
         {
-            public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures, LocksFeatures,
+            public readonly bool TargetCount, NotificationImages, Dialogue, Reward, UnlocksFeatures,
                 TargetField, DeliverySource, TargetEnemyIds, TargetQuestItemIds, ConsumeOnComplete, LootItemId,
                 TalkCompletionMode, RequiredMoney, WaitingQuestFields;
 
@@ -35,7 +35,6 @@ namespace Game.Editor
                 Dialogue = type != QuestType.Tutorial;
                 Reward = type != QuestType.Tutorial;
                 UnlocksFeatures = type == QuestType.Tutorial || type == QuestType.Talk || type == QuestType.ExploreArea;
-                LocksFeatures = UnlocksFeatures;
                 // Delivery and non-auto Talk target ids through a list field instead; WaitingQuest has no target at all.
                 TargetField = !isDelivery && !isTalkNonAuto && !isWaitingQuest;
                 DeliverySource = isDelivery;
@@ -262,7 +261,6 @@ namespace Game.Editor
             var rewardItemIdProp = property.FindPropertyRelative("rewardItemId");
             var rewardMoneyProp = property.FindPropertyRelative("rewardMoney");
             var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
-            var locksFeaturesProp = property.FindPropertyRelative("locksFeatures");
             var talkCompletionModeProp = property.FindPropertyRelative("talkCompletionMode");
             var type = (QuestType)typeProp.enumValueIndex;
             var deliverySource = (DeliverySource)deliverySourceProp.enumValueIndex;
@@ -445,15 +443,6 @@ namespace Game.Editor
                 rect.height = EditorGUIUtility.singleLineHeight;
             }
 
-            if (vis.LocksFeatures)
-            {
-                rect.height = EditorGUI.GetPropertyHeight(locksFeaturesProp, true);
-                EditorGUI.PropertyField(rect, locksFeaturesProp, new GUIContent("Locks Features",
-                    "Locked when this checkpoint completes — always wins over an unlock, however/whenever that was granted."), true);
-                rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
-                rect.height = EditorGUIUtility.singleLineHeight;
-            }
-
             if (vis.TargetCount && !isDeliveryPerItem)
             {
                 EditorGUI.PropertyField(rect, targetCountProp);
@@ -614,12 +603,6 @@ namespace Game.Editor
             {
                 var unlocksFeaturesProp = property.FindPropertyRelative("unlocksFeatures");
                 height += EditorGUI.GetPropertyHeight(unlocksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
-            }
-
-            if (vis.LocksFeatures)
-            {
-                var locksFeaturesProp = property.FindPropertyRelative("locksFeatures");
-                height += EditorGUI.GetPropertyHeight(locksFeaturesProp, true) + EditorGUIUtility.standardVerticalSpacing;
             }
 
             if (vis.NotificationImages)
