@@ -44,7 +44,7 @@ namespace Game.Gameplay
             locked.Clear();
         }
 
-        /// <summary>Replays every completed step's unlocks and locks; safe to repeat, and fixes saves made before a gate existed.</summary>
+        /// <summary>Replays every completed step's unlocks; safe to repeat, and fixes saves made before a gate existed.</summary>
         private void ApplyFromQuestProgress()
         {
             if (QuestManager.Instance == null)
@@ -57,10 +57,6 @@ namespace Game.Gameplay
                     if (step.UnlocksFeatures != null)
                         foreach (var feature in step.UnlocksFeatures)
                             Unlock(feature);
-
-                    if (step.LocksFeatures != null)
-                        foreach (var feature in step.LocksFeatures)
-                            Lock(feature);
                 }
             }
         }
