@@ -20,6 +20,7 @@ namespace Game.Gameplay
         private float dashTimer;
         private float savedAcceleration;
         private bool savedAutoBraking;
+        private RepathTimer repathTimer;
 
         public bool IsAttacking { get; private set; }
         #endregion
@@ -47,6 +48,7 @@ namespace Game.Gameplay
             agent.autoBraking = false;
 
             attackTimer = profile.attackCooldown;
+            repathTimer = new RepathTimer(profile.repathInterval, profile.repathInterval);
             IsAttacking = true;
             enemyBrainContext.AlertUI?.ShowAttackWarning();
 
@@ -86,8 +88,9 @@ namespace Game.Gameplay
                 return;
             }
 
-            if (!pathfinder.SetSafeDestination(targetPosition))
-                pathfinder.SetSafeDestinationNear(targetPosition);
+            // Re-target on a timer instead of every frame; an unreachable player sends the fish to the nearest reachable water.
+            if (repathTimer.Tick(deltaTime))
+                pathfinder.MoveTo(pathfinder.Resolve(targetPosition), true);
 
             if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
                 enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
@@ -115,12 +118,20 @@ namespace Game.Gameplay
 
         private void ReturnToFollow(bool applyCooldown)
         {
-            if (applyCooldown && enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
+            if (enemyFSM.GetState(EnemyStateTag.Follow) is EnemyFollowState follow)
             {
-                // Stay alerted past the cooldown: the fish faces away while backing off,
-                // so vision alone would lose the player right when the next attack is due.
-                follow.SetHitChaseTimer(Mathf.Max(profile.hitChaseDuration, profile.attackCooldown));
-                follow.SetAttackCooldown(profile.attackCooldown);
+                if (applyCooldown)
+                {
+                    // Stay alerted past the cooldown: the fish faces away while backing off,
+                    // so vision alone would lose the player right when the next attack is due.
+                    follow.SetHitChaseTimer(Mathf.Max(profile.hitChaseDuration, profile.attackCooldown));
+                    follow.SetAttackCooldown(profile.attackCooldown);
+                }
+                else
+                {
+                    // The attack never connected (timed out or player gone): do not restart it at once.
+                    follow.BlockAttackFor(profile.attackRetryDelay);
+                }
             }
 
             enemyFSM.TransitionTo(EnemyStateTag.Follow);

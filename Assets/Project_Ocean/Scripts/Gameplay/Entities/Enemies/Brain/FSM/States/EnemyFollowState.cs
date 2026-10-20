@@ -12,11 +12,14 @@ namespace Game.Gameplay
         private readonly EnemyBaseProfile profile;
         private readonly EnemyNavPathfinder pathfinder;
         private readonly EnemyVision vision;
+        private readonly ChaseInterest chaseInterest;
+        private readonly bool isAggressive;
 
         private Vector2 currentDirection;
         private float followTimer;
         private float hitChaseTimer;
         private float attackTimer;
+        private float attackBlockTimer;
         private bool hasSeenPlayer;
 
         // Post-attack reposition: hop between random spots away from the player during cooldown, then attack again.
@@ -25,19 +28,31 @@ namespace Game.Gameplay
         private const float RetreatArriveDistance = 0.75f;
         private const float RetreatTimeout = 5f;
 
+        // Stuck recovery: swim to a nearby random spot for a moment before chasing again.
+        private const float StuckNudgeRadius = 2f;
+        private const float StuckNudgeDuration = 0.75f;
+
         private bool isRepositioning;
         private bool hasRetreatPoint;
         private float repositionTimer;
+
+        private RepathTimer repathTimer;
+        private StuckDetector stuckDetector;
+        private ReachResult lastReach;
+        private bool hasReach;
+        private float nudgeTimer;
 
         public Vector3 LastKnownPlayerPosition { get; set; }
         #endregion
 
         #region Constructors
-        public EnemyFollowState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision)
+        public EnemyFollowState(EnemyBaseProfile profile, EnemyNavPathfinder pathfinder, EnemyVision vision, ChaseInterest chaseInterest = null)
         {
             this.profile = profile;
             this.pathfinder = pathfinder;
             this.vision = vision;
+            this.chaseInterest = chaseInterest;
+            isAggressive = profile is AggressiveEnemyProfile;
         }
         #endregion
 
@@ -48,6 +63,13 @@ namespace Game.Gameplay
             SetAgentSpeed(profile.speed);
             followTimer = profile.followAfterLost;
             hasSeenPlayer = false;
+
+            // First Tick re-targets immediately; later ones follow the repath interval.
+            repathTimer = new RepathTimer(profile.repathInterval, profile.repathInterval);
+            stuckDetector = new StuckDetector(profile.stuckWindow, profile.stuckMinProgress);
+            stuckDetector.Reset(enemyBrainContext.Transform.position);
+            hasReach = false;
+            nudgeTimer = 0f;
 
             if (enemyBrainContext.PlayerTransform != null)
                 LastKnownPlayerPosition = enemyBrainContext.PlayerTransform.position;
@@ -65,6 +87,12 @@ namespace Game.Gameplay
 
             if (attackTimer > 0f)
                 attackTimer -= deltaTime;
+
+            if (attackBlockTimer > 0f)
+                attackBlockTimer -= deltaTime;
+
+            if (nudgeTimer > 0f)
+                nudgeTimer -= deltaTime;
 
             if (enemyBrainContext.PlayerTransform == null)
             {
@@ -89,15 +117,30 @@ namespace Game.Gameplay
                 return;
             }
 
+            bool repath = repathTimer.Tick(deltaTime);
+            bool stuck = stuckDetector.Tick(deltaTime, enemyBrainContext.Transform.position);
+
+            if (repath && isAggressive)
+            {
+                RefreshReach();
+
+                if (chaseInterest != null && chaseInterest.ShouldGiveUp)
+                {
+                    GiveUpChase();
+                    return;
+                }
+            }
+
             if (profile is FriendlyEnemyProfile)
                 MoveAwayFromLastKnownPosition();
             else if ((isRepositioning || attackTimer > 0f) && profile is AggressiveEnemyProfile aggressive)
                 Reposition(aggressive, deltaTime); // keeps hopping between spots until the cooldown ends
-            else
+            else if (stuck)
+                NudgeToNearbySpot();
+            else if (repath && nudgeTimer <= 0f)
                 MoveTowardLastKnownPosition();
 
             UpdateDirectionFromAgentVelocity(ref currentDirection);
-            ApplyWallAvoidance(currentDirection, profile.wallDetectDistance, profile.wallLayer);
             RotateTowardsDirection(currentDirection);
 
             TryTransitionToAttack(canSee || alerted);
@@ -121,6 +164,32 @@ namespace Game.Gameplay
         {
             attackTimer = duration;
             StartReposition();
+        }
+
+        // Called by the Attack state when an attack timed out without connecting.
+        public void BlockAttackFor(float seconds)
+        {
+            attackBlockTimer = Mathf.Max(attackBlockTimer, seconds);
+        }
+
+        private void RefreshReach()
+        {
+            lastReach = pathfinder.Resolve(LastKnownPlayerPosition);
+            hasReach = true;
+            chaseInterest?.Observe(lastReach.Status, profile.repathInterval);
+        }
+
+        private void GiveUpChase()
+        {
+            if (enemyFSM.HasState(EnemyStateTag.Lurk))
+            {
+                enemyFSM.TransitionTo(EnemyStateTag.Lurk);
+                return;
+            }
+
+            // No Lurk state: ignore an unreachable player for a while and take the normal lost-player path.
+            chaseInterest.StartCooldown();
+            TransitionOnLost();
         }
 
         private void StartReposition()
@@ -203,10 +272,26 @@ namespace Game.Gameplay
             return false;
         }
 
+        // Swim toward the player's last known spot. A reachable target gets the normal path; an unreachable one
+        // sends the fish to the nearest reachable water until ChaseInterest decides to lurk.
         private void MoveTowardLastKnownPosition()
         {
-            if (!pathfinder.SetSafeDestination(LastKnownPlayerPosition))
-                pathfinder.SetSafeDestinationNear(LastKnownPlayerPosition);
+            if (!hasReach)
+                RefreshReach();
+
+            pathfinder.MoveTo(lastReach, true);
+        }
+
+        // Not making progress: pick a nearby spot once and swim there before chasing again.
+        private void NudgeToNearbySpot()
+        {
+            Vector3 selfPosition = enemyBrainContext.Transform.position;
+
+            if (pathfinder.TryPickWanderPoint(selfPosition, StuckNudgeRadius, out Vector3 point)
+                && pathfinder.SetSafeDestination(point))
+            {
+                nudgeTimer = StuckNudgeDuration;
+            }
         }
 
         // Fallback when no random retreat spot is reachable: back straight away from the player.
@@ -265,6 +350,10 @@ namespace Game.Gameplay
         private void TryTransitionToAttack(bool targetKnown)
         {
             if (!(profile is AggressiveEnemyProfile enemy) || !enemy.canAttack || !targetKnown)
+                return;
+
+            // Never wind up an attack on a player the fish cannot actually reach, or right after a failed attack.
+            if (attackBlockTimer > 0f || !hasReach || lastReach.Status != ReachStatus.Reachable)
                 return;
 
             float distance = enemyBrainContext.PlayerTransform != null
