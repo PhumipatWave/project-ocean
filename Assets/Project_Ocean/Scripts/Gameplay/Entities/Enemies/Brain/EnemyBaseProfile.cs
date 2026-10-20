@@ -74,6 +74,25 @@ namespace Game.Gameplay
         [Tooltip("Step size between concentric sample rings near the player.")]
         public float nearPlayerSearchStep = 0.5f;
 
+        [Header("Navigation")]
+        [Tooltip("Destinations are pushed at least this far in from the NavMesh border. Keep it >= Fish Clearance Radius.")]
+        [Min(0f)] public float edgeMargin = 0.5f;
+
+        [Tooltip("A target farther than this from the nearest NavMesh point counts as unreachable.")]
+        [Min(0f)] public float reachTolerance = 1f;
+
+        [Tooltip("Seconds between path queries while chasing, searching, wandering or fleeing (instead of every frame).")]
+        [Min(0.05f)] public float repathInterval = 0.25f;
+
+        [Tooltip("Time window used to detect a fish that is not making progress.")]
+        [Min(0.1f)] public float stuckWindow = 1.5f;
+
+        [Tooltip("Minimum distance a fish must cover within the stuck window, otherwise it picks a new target.")]
+        [Min(0f)] public float stuckMinProgress = 0.3f;
+
+        [Tooltip("Draw reach checks in the Scene view (green = reachable, yellow = approximate, red = unreachable).")]
+        public bool debugNavigation;
+
         [Header("Contact Damage")]
         [Tooltip("Damage dealt to the player on body contact. 0 = no contact damage.")]
         public float contactDamage = 0f;

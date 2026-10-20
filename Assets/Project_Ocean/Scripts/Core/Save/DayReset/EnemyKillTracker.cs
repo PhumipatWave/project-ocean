@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    /// Enemy spawn slots cleared today, so killed enemies don't respawn until the next day.
-    /// Lives on the persistent GameManager root.
+    
     public class EnemyKillTracker : Singleton<EnemyKillTracker>, ISaveParticipant
     {
+        public const string PermanentPrefix = "Boss_";
 
         private readonly HashSet<string> killedSpawnIds = new();
 
@@ -24,7 +24,8 @@ namespace Game.Core
 
         public bool IsKilled(string spawnId) => killedSpawnIds.Contains(spawnId);
 
-        public void ResetAll() => killedSpawnIds.Clear();
+        public void ResetAll() =>
+            killedSpawnIds.RemoveWhere(id => !id.StartsWith(PermanentPrefix));
 
         // ── ISaveParticipant ──
 

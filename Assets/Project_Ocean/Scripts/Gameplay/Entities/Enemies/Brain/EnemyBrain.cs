@@ -12,6 +12,7 @@ namespace Game.Gameplay
         private EnemyVision vision;
         private EnemyFollowState followState;
         private EnemyAttackState attackState;
+        private ChaseInterest chaseInterest;
 
         public override bool IsAttacking => attackState?.IsAttacking ?? false;
         public float ViewDistance => profile.viewDistance;
@@ -45,13 +46,27 @@ namespace Game.Gameplay
                 return;
             }
 
-            var pathfinder = new EnemyNavPathfinder(context.Agent, profile.wallLayer, profile.fishClearanceRadius, profile.maxWanderSampleTries, profile.nearPlayerSearchRadius, profile.nearPlayerSearchSamples, profile.nearPlayerSearchStep
+            var pathfinder = new EnemyNavPathfinder(
+                context.Agent,
+                profile.wallLayer,
+                profile.fishClearanceRadius,
+                profile.maxWanderSampleTries,
+                profile.nearPlayerSearchRadius,
+                profile.nearPlayerSearchSamples,
+                profile.nearPlayerSearchStep,
+                profile.edgeMargin,
+                profile.reachTolerance,
+                profile.debugNavigation
             );
 
             vision = new EnemyVision(profile, context);
-            followState = new EnemyFollowState(profile, pathfinder, vision);
 
-            enemyFSM.Register(new EnemyWanderState(profile, pathfinder, vision));
+            // Rebuilt on every Initialize, so a pooled fish never keeps a stale give-up cooldown.
+            chaseInterest = CreateChaseInterest();
+
+            followState = new EnemyFollowState(profile, pathfinder, vision, chaseInterest);
+
+            enemyFSM.Register(new EnemyWanderState(profile, pathfinder, vision, chaseInterest));
             enemyFSM.Register(followState);
 
             switch (profile)
@@ -73,12 +88,23 @@ namespace Game.Gameplay
                     break;
             }
 
+            SetupExtraStates(pathfinder);
+
             HideAllAlerts();
 
             if (context.PlayerTransform != null)
                 followState.LastKnownPlayerPosition = context.PlayerTransform.position;
 
             enemyFSM.Start(EnemyStateTag.Wander);
+        }
+
+        // Only aggressive fish give up on an unreachable player; other profiles keep their behavior.
+        private ChaseInterest CreateChaseInterest()
+        {
+            if (!(profile is AggressiveEnemyProfile aggressive))
+                return null;
+
+            return new ChaseInterest(aggressive.unreachableBeforeLurk, aggressive.chaseGiveUpCooldown, () => Time.time);
         }
 
         private void SetupAggressiveStates(AggressiveEnemyProfile aggressive, EnemyNavPathfinder pathfinder)
@@ -91,9 +117,14 @@ namespace Game.Gameplay
                     aggressive.searchRadius,
                     pathfinder,
                     vision.CheckLineOfSight,
-                    position => followState.LastKnownPlayerPosition = position
+                    position => followState.LastKnownPlayerPosition = position,
+                    chaseInterest,
+                    profile.repathInterval
                 ));
             }
+
+            if (aggressive.enableLurk)
+                enemyFSM.Register(new EnemyLurkState(aggressive, pathfinder, chaseInterest));
 
             if (aggressive.canAttack)
             {
@@ -118,6 +149,9 @@ namespace Game.Gameplay
         {
             enemyFSM.Register(new EnemyFleeState(scared, pathfinder));
         }
+
+        /// <summary>Hook for subclasses (e.g. a miniboss) to register extra states. Runs after the profile states, before the FSM starts.</summary>
+        protected virtual void SetupExtraStates(EnemyNavPathfinder pathfinder) { }
 
         public override void OnHit(Transform attacker)
         {
