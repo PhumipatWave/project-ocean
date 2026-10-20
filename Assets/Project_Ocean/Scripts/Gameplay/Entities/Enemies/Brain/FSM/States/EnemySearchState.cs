@@ -16,16 +16,21 @@ namespace Game.Gameplay
         private readonly EnemyNavPathfinder pathfinder;
         private readonly Func<bool> canSeePlayer;
         private readonly Action<Vector3> onPlayerSpotted;
+        private readonly ChaseInterest chaseInterest;
+        private readonly float repathInterval;
 
         private float searchTimer;
         private Vector3 wanderTarget;
+        private bool hasTarget;
+        private bool chaseAllowed;
+        private RepathTimer repathTimer;
 
         private Vector3 searchOrigin;
         public Vector3 SearchOrigin { get { return searchOrigin; } set { searchOrigin = value; } }
         #endregion
 
         #region Constructors
-        public EnemySearchState(float speed, float searchDuration, float searchRadius, EnemyNavPathfinder pathfinder, Func<bool> canSeePlayer, Action<Vector3> onPlayerSpotted)
+        public EnemySearchState(float speed, float searchDuration, float searchRadius, EnemyNavPathfinder pathfinder, Func<bool> canSeePlayer, Action<Vector3> onPlayerSpotted, ChaseInterest chaseInterest = null, float repathInterval = 0.25f)
         {
             this.speed = speed;
             this.searchDuration = searchDuration;
@@ -33,6 +38,8 @@ namespace Game.Gameplay
             this.pathfinder = pathfinder;
             this.canSeePlayer = canSeePlayer;
             this.onPlayerSpotted = onPlayerSpotted;
+            this.chaseInterest = chaseInterest;
+            this.repathInterval = repathInterval;
         }
         #endregion
 
@@ -42,6 +49,9 @@ namespace Game.Gameplay
             base.Enter(ctx, fsm);
             enemyBrainContext.Agent.speed = speed;
             searchTimer = searchDuration;
+            hasTarget = false;
+            repathTimer = new RepathTimer(repathInterval, repathInterval);
+            chaseAllowed = EvaluateChaseAllowed();
             PickSearchPoint();
             enemyBrainContext.AlertUI?.HideAttackWarning();
         }
@@ -50,11 +60,14 @@ namespace Game.Gameplay
         {
             searchTimer -= deltaTime;
 
-            if (canSeePlayer())
-            {
-                if (enemyBrainContext.PlayerTransform != null)
-                    onPlayerSpotted?.Invoke(enemyBrainContext.PlayerTransform.position);
+            bool repath = repathTimer.Tick(deltaTime);
+            if (repath)
+                chaseAllowed = EvaluateChaseAllowed();
 
+            // Spotting the player resumes the chase, unless we just gave up on a player we cannot reach.
+            if (canSeePlayer() && enemyBrainContext.PlayerTransform != null && chaseAllowed)
+            {
+                onPlayerSpotted?.Invoke(enemyBrainContext.PlayerTransform.position);
                 enemyFSM.TransitionTo(EnemyStateTag.Follow);
                 return;
             }
@@ -65,19 +78,46 @@ namespace Game.Gameplay
                 return;
             }
 
-            if (Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f)
+            if (!hasTarget)
+            {
+                if (repath)
+                    PickSearchPoint();
+            }
+            else if (Vector2.Distance(enemyBrainContext.Transform.position, wanderTarget) < 0.5f)
+            {
                 PickSearchPoint();
-
-            pathfinder.SetSafeDestination(wanderTarget);
+            }
+            else if (repath)
+            {
+                pathfinder.SetSafeDestination(wanderTarget);
+            }
 
             if (enemyBrainContext.Agent.velocity.sqrMagnitude > 0.01f)
                 enemyBrainContext.Facing.RotateFromVelocity(enemyBrainContext.Agent.velocity);
         }
         #endregion
 
+        // Keeps the previous target when no new point is found (never falls back to the origin).
         private void PickSearchPoint()
         {
-            pathfinder.TryPickWanderPoint(searchOrigin, searchRadius, out wanderTarget);
+            if (!pathfinder.TryPickWanderPoint(searchOrigin, searchRadius, out Vector3 point))
+                return;
+
+            wanderTarget = point;
+            hasTarget = true;
+            pathfinder.SetSafeDestination(wanderTarget);
+        }
+
+        private bool EvaluateChaseAllowed()
+        {
+            if (chaseInterest == null || !chaseInterest.IsOnCooldown)
+                return true;
+
+            Transform player = enemyBrainContext.PlayerTransform;
+            if (player == null)
+                return true;
+
+            return pathfinder.Resolve(player.position).Status == ReachStatus.Reachable;
         }
     }
 }
