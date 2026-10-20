@@ -5,7 +5,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    /// <summary>Spawns a flipped copy of this sprite or tilemap that only shows where ground tiles leave water uncovered.</summary>
+    /// <summary>Spawns a reflection copy of this sprite or tilemap that only shows where ground tiles leave water uncovered.</summary>
     public class WaterReflection : MonoBehaviour
     {
         public enum ReflectionSource { Sprite, Tilemap }
@@ -26,9 +26,6 @@ namespace Game.Gameplay
         [Header("Tilemap")]
         [SerializeField] private MirrorDirection mirrorDirection;
         [SerializeField, Min(1)] private int depth = 1;
-
-        private static readonly Matrix4x4 FlipX = Matrix4x4.Scale(new Vector3(-1f, 1f, 1f));
-        private static readonly Matrix4x4 FlipY = Matrix4x4.Scale(new Vector3(1f, -1f, 1f));
 
         private SpriteRenderer sourceSprite;
         private SpriteRenderer reflectionSprite;
@@ -81,7 +78,6 @@ namespace Game.Gameplay
 
             bool left = mirrorDirection == MirrorDirection.Left;
             var outward = left ? Vector3Int.left : Vector3Int.down;
-            var flip = left ? FlipX : FlipY;
             // Copy the drawn sprite, not the tile asset: a RuleTile would re-pick its sprite from the mirror's neighbours.
             var tiles = new Dictionary<Sprite, Tile>();
 
@@ -90,23 +86,25 @@ namespace Game.Gameplay
             {
                 if (!sourceMap.HasTile(cell) || sourceMap.HasTile(cell + outward)) continue;
 
-                // cell is an edge facing the water: mirror the cells behind it to the cells past it.
-                for (int k = 0; k < depth; k++)
+                // cell is an edge facing the water: copy the run behind it past it, keeping row order.
+                int run = 0;
+                while (run < depth && sourceMap.GetSprite(cell - outward * run) != null) run++;
+
+                for (int k = 0; k < run; k++)
                 {
                     var from = cell - outward * k;
                     var sprite = sourceMap.GetSprite(from);
-                    if (sprite == null) break;
                     if (!tiles.TryGetValue(sprite, out var tile))
                     {
                         tile = ScriptableObject.CreateInstance<Tile>();
                         tile.sprite = sprite;
-                        // Default flags lock the transform, which would ignore the flip below.
+                        // Default flags lock the transform, which would ignore the copied rotation below.
                         tile.flags = TileFlags.None;
                         tiles[sprite] = tile;
                     }
-                    var to = cell + outward * (k + 1);
+                    var to = from + outward * run;
                     target.SetTile(to, tile);
-                    target.SetTransformMatrix(to, sourceMap.GetTransformMatrix(from) * flip);
+                    target.SetTransformMatrix(to, sourceMap.GetTransformMatrix(from));
                 }
             }
         }
