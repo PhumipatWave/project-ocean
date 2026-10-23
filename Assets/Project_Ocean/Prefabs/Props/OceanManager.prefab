@@ -1321,6 +1321,7 @@ Transform:
   - {fileID: 1104517696777380938}
   - {fileID: 1070243054456207469}
   - {fileID: 3365988984929261893}
+  - {fileID: 7310452918846021002}
   m_Father: {fileID: 2516746549401683590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3171250581992997748
@@ -1762,6 +1763,8 @@ MonoBehaviour:
     prefab: {fileID: 4626553553997363230, guid: 9ac86866a241e7e4e8e9b1432d68bae0, type: 3}
   - id: jellyFish
     prefab: {fileID: 4048463696750882407, guid: 56ed2f2b22b0d8d4b8301575c35ddb7a, type: 3}
+  - id: miniBoss
+    prefab: {fileID: 9019548347739726233, guid: c0ae47dde2b654a4e8b2f5d94e54df41, type: 3}
   allItems:
   - item: {fileID: 11400000, guid: 87dfe936b6bca134aa685fff21173716, type: 2}
   - item: {fileID: 11400000, guid: 8697797b5c97a3449bd4a204a6f025ee, type: 2}
@@ -3409,4 +3412,70 @@ MonoBehaviour:
   groundCheckDistance: 20
   maxGroundGap: 0.6
   activateRadius: 50
+  proximityCheckInterval: 1.25
+--- !u!1 &7310452918846021001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7310452918846021002}
+  - component: {fileID: 7310452918846021003}
+  m_Layer: 0
+  m_Name: Boss_MiniBoss
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7310452918846021002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7310452918846021001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -50.8, y: 6.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1820906176125577428}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7310452918846021003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7310452918846021001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb5c8aa4a518e4499602c321656077c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemySpawner
+  spawnEntries:
+  - enemyId: miniBoss
+    weight: 1
+  requiredLevel: 1
+  useFeatureGate: 1
+  requiredFeature: 17
+  enemyCount: 1
+  spawnRadius: 3
+  navSampleDistance: 2
+  maxSpawnAttempts: 10
+  spawnClearanceRadius: 0.3
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundCheckUpOffset: 1
+  groundCheckDistance: 20
+  maxGroundGap: 0.6
+  activateRadius: 35
   proximityCheckInterval: 1.25

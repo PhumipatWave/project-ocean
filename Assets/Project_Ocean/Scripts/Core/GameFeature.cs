@@ -29,5 +29,7 @@ namespace Game.Core
         UseItem,
         // Rock Breaker material (item 80001) spawns only once MQ_1003 needs it.
         RockBreakerMaterial,
+        // Gates boss EnemySpawners (useFeatureGate) — a quest step unlocks it right before the kill step.
+        BossSpawn,
     }
 }

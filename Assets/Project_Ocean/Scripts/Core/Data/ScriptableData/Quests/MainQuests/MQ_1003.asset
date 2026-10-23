@@ -21,22 +21,21 @@ MonoBehaviour:
   steps:
   - type: 0
     targetEnemyId: 
-    targetEnemyIds: []
+    targetEnemyIds:
+    - miniBoss
     tutorialAction: 9
     targetQuestItemId: 
-    deliverySource: 0
+    deliverySource: 1
     targetQuestItemIds: []
-    targetQuestItemRequirements:
-    - itemId: 80001
-      count: 5
-    deliveryCountMode: 1
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
     consumeOnComplete: 1
-    requiredMoney: 5000
-    requiredDaysToWait: 1
-    requiredDivesThatDay: 1
+    requiredMoney: 0
+    requiredDaysToWait: 0
+    requiredDivesThatDay: 0
     targetCount: 1
     completionMode: 0
-    stepDescription: Find materials
+    stepDescription: Eliminate mystery shark!
     dialogue: []
     isGuidedSequence: 0
     autoDisplayDialogue: 0
@@ -45,7 +44,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 2
     targetEnemyId: Upgrade Shop
     targetEnemyIds:
@@ -62,13 +60,13 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: Turn in materials at the Upgrade Shop.
+    stepDescription: Talk to the Upgrade Shop.
     dialogue:
     - characterId: femboy
       type: 1
       lines:
-      - ' "Materials received. Crafting will take 1 day. Check back tomorrow after
-        your morning dive."'
+      - Thank you. Now i will Crafting but it take 1 day. Check back tomorrow after
+        your morning dive.
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
@@ -77,7 +75,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 10000000
   - type: 5
     targetEnemyId: Upgrade Shop
     targetEnemyIds: []
@@ -102,7 +99,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 2
     targetEnemyId: Upgrade Shop
     targetEnemyIds:
@@ -133,7 +129,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 5
     targetEnemyId: 
     targetEnemyIds: []
@@ -158,6 +153,5 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   questName: Main Quest III
   questGiverNpcId: 

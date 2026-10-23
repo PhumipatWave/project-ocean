@@ -31,6 +31,10 @@ namespace Game.Gameplay
         [Range(1, 3)]
         [SerializeField] private int requiredLevel = 1;
 
+        [Tooltip("Gate on Required Feature instead of EnemySpawnLevel — e.g. a boss zone a quest step unlocks. Name the GameObject 'Boss_...' so its kill survives the daily reset.")]
+        [SerializeField] private bool useFeatureGate;
+        [SerializeField] private GameFeature requiredFeature = GameFeature.BossSpawn;
+
         [Header("Spawn Settings")]
         [Tooltip("How many enemies to spawn in this zone.")]
         [SerializeField] private int enemyCount = 5;
@@ -117,7 +121,8 @@ namespace Game.Gameplay
         private void CheckProximity()
         {
             if (_isActive) return;
-            if (!FeatureUnlockService.Instance.IsUnlocked(LevelFeatures[requiredLevel - 1])) return;
+            var gate = useFeatureGate ? requiredFeature : LevelFeatures[requiredLevel - 1];
+            if (!FeatureUnlockService.Instance.IsUnlocked(gate)) return;
 
             var player = PlayerRegistry.Local;
             if (player == null) return;
