@@ -43,7 +43,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 4
     targetEnemyId: MQ1002_01
     targetEnemyIds: []
@@ -73,7 +72,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 2
     targetEnemyId: 
     targetEnemyIds: []
@@ -94,7 +92,7 @@ MonoBehaviour:
     - characterId: hunter
       type: 0
       lines:
-      - '"Check the Quest Board over there. Island villagers post jobs with rewards." '
+      - 'Check the Quest Board over there. Island villagers post jobs with rewards. '
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -103,7 +101,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 08000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
@@ -128,7 +125,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
@@ -153,7 +149,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 02000000
-    locksFeatures: 
   - type: 2
     targetEnemyId: 
     targetEnemyIds: []
@@ -175,6 +170,7 @@ MonoBehaviour:
       type: 0
       lines:
       - Upgrade your equipment at the shop before diving today.
+      - Here take this gold to upgrade your rope.
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -183,7 +179,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 500
     unlocksFeatures: 02000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
@@ -213,7 +208,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: hunter
     targetEnemyIds: []
@@ -243,7 +237,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 2
     targetEnemyId: 
     targetEnemyIds: []
@@ -265,6 +258,7 @@ MonoBehaviour:
       type: 0
       lines:
       - Upgrade complete. Your tether line is now longer.
+      - Try this Minihub. This one on the house.
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -273,7 +267,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 175
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -303,7 +296,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -333,7 +325,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: AR001
     targetEnemyIds: []
@@ -364,7 +355,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0f000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -394,7 +384,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 1
     targetEnemyId: AR001
     targetEnemyIds: []
@@ -415,8 +404,7 @@ MonoBehaviour:
     - characterId: 
       type: 0
       lines:
-      - '"A solid obstacle is blocking the path. Return to the surface to find a
-        solution."'
+      - A solid obstacle is blocking the path. Return to the surface to find a solution.
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -425,7 +413,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d00000003000000
-    locksFeatures: 0d00000003000000
   - type: 2
     targetEnemyId: 
     targetEnemyIds:
@@ -455,19 +442,20 @@ MonoBehaviour:
     - characterId: hunter
       type: 1
       lines:
-      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      - I don't have tools for heavy demolition.
       cutsceneId: 
     - characterId: shop
       type: 1
       lines:
-      - '"I don''t have tools for heavy demolition. Talk to the Upgrade Shop."'
+      - I don't have tools for heavy demolition.
       cutsceneId: 
     - characterId: femboy
       type: 1
       lines:
-      - '"That rock needs a heavy demolition tool. I can craft one, but I need specific
-        materials and gold. I''ll post the work order on the Quest Board tomorrow
-        morning." '
+      - That rock needs a heavy demolition tool. I have one.
+      - But there's a dangerous mystery shark lurking in the ocean.
+      - Help me eliminate it, and I'll help you get the heavy demolition tool you
+        need.
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
@@ -475,7 +463,6 @@ MonoBehaviour:
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
-    unlocksFeatures: 0d0000000300000010000000
-    locksFeatures: 
+    unlocksFeatures: 0d0000000300000011000000
   questName: Main Quest II
   questGiverNpcId: 

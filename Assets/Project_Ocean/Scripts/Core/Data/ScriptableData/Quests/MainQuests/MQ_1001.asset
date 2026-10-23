@@ -43,7 +43,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -68,7 +67,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 00000000
-    locksFeatures: 
   - type: 2
     targetEnemyId: hunter
     targetEnemyIds:
@@ -99,7 +97,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0300000009000000
-    locksFeatures: 
   - type: 4
     targetEnemyId: MQ1001_01
     targetEnemyIds: []
@@ -129,7 +126,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -154,7 +150,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 05000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -185,7 +180,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 04000000
-    locksFeatures: 
   - type: 0
     targetEnemyId: 
     targetEnemyIds: []
@@ -218,7 +212,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -249,7 +242,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0e000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -280,7 +272,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 01000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -311,7 +302,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: 
     targetEnemyIds: []
@@ -342,7 +332,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 2
     targetEnemyId: 
     targetEnemyIds: []
@@ -369,7 +358,7 @@ MonoBehaviour:
     - characterId: shop
       type: 0
       lines:
-      - '"Thanks! Come back anytime."'
+      - Thank you sweetie! Come back anytime
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 1
@@ -378,7 +367,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -414,7 +402,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 0d000000
-    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -450,7 +437,6 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
-    locksFeatures: 
   - type: 3
     targetEnemyId: player
     targetEnemyIds: []
@@ -486,6 +472,5 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 070000000c0000000a0000000b000000
-    locksFeatures: 
   questName: Main Quest I
   questGiverNpcId: 
