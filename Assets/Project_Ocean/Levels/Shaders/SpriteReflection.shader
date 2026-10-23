@@ -24,6 +24,14 @@ Shader "Project_Ocean/2D/Sprite-Reflection"
         Cull Off
         ZWrite Off
 
+        // Only where Sprite-WaterMask drew, so dark non-water layers below don't show the reflection.
+        Stencil
+        {
+            Ref 128
+            ReadMask 128
+            Comp Equal
+        }
+
         Pass
         {
             Tags { "LightMode" = "Universal2D" }
