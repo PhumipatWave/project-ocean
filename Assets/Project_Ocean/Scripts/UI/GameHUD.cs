@@ -124,11 +124,15 @@ namespace Game.UI
             }
         }
 
-        /// <summary>Shows "Back to Land" once GameFeature.BackToLand is unlocked; a one-time unlock, not a per-step gate.</summary>
+        /// <summary>Shows "Back to Land" once GameFeature.BackToLand is unlocked, hidden while any blocking UI is open.</summary>
+        // Only this method may toggle landButton — a second per-frame writer flickers it over open UI.
         private void RefreshLandButton()
         {
             if (landButton == null) return;
-            landButton.SetActive(FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand));
+            bool uiOpen = PlayerUIState.IsLocked || (UIManager.Instance != null && UIManager.Instance.IsUIOpen);
+            bool show = FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand) && !uiOpen;
+            if (landButton.activeSelf != show)
+                landButton.SetActive(show);
         }
 
         private void Start()

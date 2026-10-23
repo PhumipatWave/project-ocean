@@ -27,7 +27,7 @@ namespace Game.UI
 
         public void SetText(string text)
         {
-            if (bodyText != null) bodyText.text = text;
+            if (bodyText != null) bodyText.text = KeyBindText.Format(text);
         }
     }
 }
