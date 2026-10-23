@@ -4542,7 +4542,6 @@ MonoBehaviour:
   backgroundDim: {fileID: 596145110}
   menuButtonNew: {fileID: 2859862566564051383}
   fishCollectionButton: {fileID: 911857948}
-  landButton: {fileID: 2107770972}
   isUnderwater: 0
 --- !u!1 &628339454
 GameObject:
@@ -17034,7 +17033,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1102545578592768294, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.4484863
+      value: 1.4485474
       objectReference: {fileID: 0}
     - target: {fileID: 1102545578592768294, guid: 92a6e246ad42e1b42b74bdae54b1edc3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -17255,6 +17254,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.PunchScale
   peakScale: 1.5
   duration: 0.45
+--- !u!114 &7310452918846021101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780993714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7e2c94a1d34f6e9c0a8b3d7f41e2a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.TimePeriodVolumeController
+  sceneWeights:
+  - sceneName: Land_Map
+    morning: 0
+    afternoon: 0.6
+    evening: 1
+  - sceneName: Ocean_Map
+    morning: 1
+    afternoon: 0.6
+    evening: 0.25
 --- !u!1001 &7382225959707700065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17413,27 +17433,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.44232178, y: 0.15930176}
   m_SizeDelta: {x: -1.0494385, y: -1.0578613}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7310452918846021101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780993714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b7e2c94a1d34f6e9c0a8b3d7f41e2a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.TimePeriodVolumeController
-  sceneWeights:
-  - sceneName: Land_Map
-    morning: 0
-    afternoon: 0.6
-    evening: 1
-  - sceneName: Ocean_Map
-    morning: 1
-    afternoon: 0.6
-    evening: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

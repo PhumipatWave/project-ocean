@@ -28,6 +28,7 @@ namespace Game.UI
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += Refresh;
+            KeyBindManager.OnBindingsChanged += Refresh;
             hasBaseline = false;
             Refresh();
         }
@@ -35,6 +36,7 @@ namespace Game.UI
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= Refresh;
+            KeyBindManager.OnBindingsChanged -= Refresh;
         }
 
         private void Refresh()

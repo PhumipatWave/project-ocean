@@ -44,7 +44,6 @@ namespace Game.UI
         [Header("HUD Buttons")]
         [SerializeField] private GameObject menuButtonNew;
         [SerializeField] private GameObject fishCollectionButton;
-        [SerializeField] private GameObject landButton;
 
         [Header("Player Area State")]
         [Tooltip("True while the player is underwater. Keep false on land.")]
@@ -103,10 +102,7 @@ namespace Game.UI
 
             SetActiveIfNeeded(menuButtonNew, noBlockingUI);
             SetActiveIfNeeded(fishCollectionButton, noBlockingUI);
-
-            // LandButton is only available underwater, and only when no UI is open.
-            bool shouldShowLandButton = isUnderwater && noBlockingUI;
-            SetActiveIfNeeded(landButton, shouldShowLandButton);
+            // landButton is owned by GameHUD.RefreshLandButton (needs the BackToLand unlock too).
         }
 
         private static void SetActiveIfNeeded(GameObject target, bool shouldBeActive)

@@ -58,7 +58,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: Press W A S D to move
+    stepDescription: Press {key:Move.Up} {key:Move.Left} {key:Move.Down} {key:Move.Right} to move
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: Press [E] to Talk with Hunter
+    stepDescription: Press {key:Interact} to Talk with Hunter
     dialogue:
     - characterId: hunter
       type: 1
@@ -171,7 +171,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: Press [Left Click] to fire gun to Fish.
+    stepDescription: Press {key:Attack} to fire gun to Fish.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 1
     completionMode: 0
-    stepDescription: Press [I] to check inventory.
+    stepDescription: Press {key:Inventory} to check inventory.
     dialogue: []
     isGuidedSequence: 1
     autoDisplayDialogue: 0

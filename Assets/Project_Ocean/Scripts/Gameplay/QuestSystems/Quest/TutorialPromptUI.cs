@@ -14,6 +14,7 @@ namespace Game.Gameplay
             QuestManager.OnQuestUpdated += Refresh;
             PlayerUIState.OnLockChanged += HandleLockChanged;
             LoadingManager.OnLoadingFinished += Refresh;
+            KeyBindManager.OnBindingsChanged += Refresh;
         }
 
         private void OnDisable()
@@ -21,6 +22,7 @@ namespace Game.Gameplay
             QuestManager.OnQuestUpdated -= Refresh;
             PlayerUIState.OnLockChanged -= HandleLockChanged;
             LoadingManager.OnLoadingFinished -= Refresh;
+            KeyBindManager.OnBindingsChanged -= Refresh;
 
             Hide();
         }
