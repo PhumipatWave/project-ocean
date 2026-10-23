@@ -12527,6 +12527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1780993715}
   - component: {fileID: 1780993716}
+  - component: {fileID: 7310452918846021101}
   m_Layer: 0
   m_Name: DayManager
   m_TagString: Untagged
@@ -17412,6 +17413,27 @@ RectTransform:
   m_AnchoredPosition: {x: -0.44232178, y: 0.15930176}
   m_SizeDelta: {x: -1.0494385, y: -1.0578613}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7310452918846021101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780993714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7e2c94a1d34f6e9c0a8b3d7f41e2a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.TimePeriodVolumeController
+  sceneWeights:
+  - sceneName: Land_Map
+    morning: 0
+    afternoon: 0.6
+    evening: 1
+  - sceneName: Ocean_Map
+    morning: 1
+    afternoon: 0.6
+    evening: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
