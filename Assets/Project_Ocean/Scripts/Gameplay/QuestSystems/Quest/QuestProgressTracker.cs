@@ -131,7 +131,8 @@ namespace Game.Gameplay
                 if (q.Status != QuestStatus.InProgress) continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId))
+                if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npcId) ||
+                    !step.PassesOnTalk(npcId))
                     continue;
 
                 // Already talked to this one — no further progress, no re-triggered rewards.

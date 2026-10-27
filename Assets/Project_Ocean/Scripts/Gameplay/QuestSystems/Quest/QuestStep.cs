@@ -67,7 +67,10 @@ namespace Game.Gameplay
         {
             get
             {
-                if (TalkCompletionMode == TalkCompletionMode.AnyOne)
+                if (HasPassNpc)
+                    return PassNpcId;
+
+                if (TalkCompletionMode != TalkCompletionMode.All)
                     return EffectiveNpcId;
 
                 foreach (var id in EffectiveNpcIds)
@@ -94,6 +97,15 @@ namespace Game.Gameplay
         /// <summary>Talk (non-auto-display) only — whether ANY or ALL of EffectiveNpcIds must
         /// be talked to. See QuestManager.HandleNpcTalk, the only reader.</summary>
         public TalkCompletionMode TalkCompletionMode;
+
+        /// <summary>Talk + Specific only — the one NPC id whose talk completes the step.</summary>
+        public string PassNpcId;
+
+        // Specific with no Pass NPC Id falls back to AnyOne; otherwise no talk could ever complete the step.
+        private bool HasPassNpc => TalkCompletionMode == TalkCompletionMode.Specific && !string.IsNullOrEmpty(PassNpcId);
+
+        /// <summary>False only in Specific mode for an NPC other than PassNpcId.</summary>
+        public bool PassesOnTalk(string npcId) => !HasPassNpc || npcId == PassNpcId;
 
         private readonly HashSet<string> talkedToNpcIds = new();
 

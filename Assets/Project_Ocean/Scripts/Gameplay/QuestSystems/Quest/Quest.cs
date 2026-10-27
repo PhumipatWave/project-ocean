@@ -201,6 +201,7 @@ namespace Game.Gameplay
                     DeliveryCountMode = s.deliveryCountMode,
                     DeliverySource = s.deliverySource,
                     TalkCompletionMode = s.talkCompletionMode,
+                    PassNpcId = s.passNpcId,
                     ConsumeOnComplete = s.consumeOnComplete,
                     RequiredMoney = s.requiredMoney,
                     RequiredDaysToWait = s.requiredDaysToWait,

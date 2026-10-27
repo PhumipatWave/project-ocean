@@ -54,11 +54,12 @@ namespace Game.Gameplay
         PerItem,
     }
 
-    /// <summary>Talk only. AnyOne: any listed NPC completes the step. All: every listed NPC, once each.</summary>
+    /// <summary>Talk only. AnyOne: any listed NPC completes the step. All: every listed NPC, once each. Specific: only Pass NPC Id.</summary>
     public enum TalkCompletionMode
     {
         AnyOne,
         All,
+        Specific,
     }
 
     /// <summary>An item id and required count for PerItem delivery; a list of these stands in for a Dictionary.</summary>
@@ -141,8 +142,11 @@ namespace Game.Gameplay
         [Tooltip("Talk only — ON: the line shows by itself the moment this step becomes current (self-talk, no NPC to walk up to; Target Id is just the key its dialogue lines are stored under) and one Interact press completes it. OFF: the player must walk up to the Target NPC and talk to them.")]
         public bool autoDisplayDialogue;
 
-        [Tooltip("Talk (non-auto) only — AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to before it completes.")]
+        [Tooltip("Talk (non-auto) only — AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to before it completes. Specific: every listed NPC shows its lines, but only Pass NPC Id completes it.")]
         public TalkCompletionMode talkCompletionMode = TalkCompletionMode.AnyOne;
+
+        [Tooltip("Talk + Specific only — the one NPC id that completes this step. Must also be in Target NPC Ids, or that NPC never gets this step's conversation.")]
+        public string passNpcId;
 
         [Tooltip("Optional image(s) for this checkpoint's guide notification. The banner shows the first entry; leave empty for a text-only notification.")]
         public List<Sprite> notificationImages = new();

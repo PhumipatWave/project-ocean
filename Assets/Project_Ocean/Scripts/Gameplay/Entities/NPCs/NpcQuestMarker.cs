@@ -26,7 +26,8 @@ namespace Game.Gameplay
         {
             var quest = npc.ResolveActiveQuest();
             var step = quest?.CurrentStep;
-            if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npc.NpcId))
+            if (step == null || step.Type != QuestType.Talk || !step.EffectiveNpcIds.Contains(npc.NpcId) ||
+                !step.PassesOnTalk(npc.NpcId))
                 return false;
 
             bool targeted = quest.Status switch
