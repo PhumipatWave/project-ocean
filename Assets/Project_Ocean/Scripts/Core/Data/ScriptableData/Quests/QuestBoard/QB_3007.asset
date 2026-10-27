@@ -24,7 +24,7 @@ MonoBehaviour:
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 31003
-    deliverySource: 1
+    deliverySource: 0
     targetQuestItemIds:
     - 31003
     targetQuestItemRequirements: []
@@ -35,7 +35,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 5
     completionMode: 0
-    stepDescription: 'Collect Fish Size S : 5'
+    stepDescription: 'Collect {item} : 5'
     dialogue:
     - characterId: questboard
       type: 4

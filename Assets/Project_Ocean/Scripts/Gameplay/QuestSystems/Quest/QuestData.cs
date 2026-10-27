@@ -129,6 +129,7 @@ namespace Game.Gameplay
 
         public int targetCount = 1;
         public QuestCompletionMode completionMode = QuestCompletionMode.AutoComplete;
+        [Tooltip("Tokens: {key:Interact} / {key:Move.Up} show the bound key; {item:1001} shows that item's name; {item} shows this step's own target item's name.")]
         [TextArea(2, 4)] public string stepDescription;
 
         [Tooltip("Collected by (character id, dialogue type). For a Talk step, leave characterId blank to default to Target NPC Id.")]

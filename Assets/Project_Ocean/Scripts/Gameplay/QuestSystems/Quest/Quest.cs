@@ -73,8 +73,9 @@ namespace Game.Gameplay
         public QuestStep CurrentStep =>
             steps.Count == 0 ? null : steps[currentStepIndex];
 
-        // Formatted on read so tracker, quest board and tutorial prompts all show the current key binding.
-        public string StepDescription => KeyBindText.Format(CurrentStep?.StepDescription);
+        // Formatted on read so tracker, quest board and tutorial prompts all show the current key binding and item names.
+        public string StepDescription =>
+            QuestVisuals.FormatItemTokens(KeyBindText.Format(CurrentStep?.StepDescription), CurrentStep);
 
         public int TargetCount => CurrentStep.TargetCount;
 

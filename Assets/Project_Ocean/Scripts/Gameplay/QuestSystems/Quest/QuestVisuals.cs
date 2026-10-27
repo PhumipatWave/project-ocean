@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Game.Core;
@@ -27,6 +28,43 @@ namespace Game.Gameplay
 
         private static string ItemNameOf(int itemId) =>
             Inventory.Current?.FindItemInDatabase(itemId)?.ItemName ?? itemId.ToString();
+
+        private static readonly Regex ItemToken = new(@"\{item(?::(\d+))?\}", RegexOptions.Compiled);
+
+        /// <summary>Replaces {item:ID} with that item's name, and {item} with the step's own target item's name.</summary>
+        public static string FormatItemTokens(string text, QuestStep step)
+        {
+            if (string.IsNullOrEmpty(text) || !text.Contains("{item"))
+                return text;
+
+            return ItemToken.Replace(text, match =>
+            {
+                string idText = match.Groups[1].Success ? match.Groups[1].Value : StepItemId(step);
+                var inventory = Inventory.Current;
+                string name = inventory != null && int.TryParse(idText, out int id)
+                    ? inventory.FindItemInDatabase(id)?.ItemName
+                    : null;
+                if (name != null) return name;
+
+                // No inventory yet during load is expected; text is re-formatted on every read.
+                if (inventory != null)
+                    Debug.LogWarning($"[QuestVisuals] Unknown item token '{match.Value}' in: {text}");
+                return match.Value; // left visible so authoring typos get noticed
+            });
+        }
+
+        // InventoryHeld authors its items in the lists; TargetQuestItemId can be a stale leftover there.
+        private static string StepItemId(QuestStep step)
+        {
+            if (step == null) return null;
+            if (step.Type == QuestType.Delivery && step.DeliverySource == DeliverySource.InventoryHeld)
+            {
+                if (step.DeliveryCountMode == DeliveryCountMode.PerItem)
+                    return step.TargetQuestItemRequirements is { Count: > 0 } reqs ? reqs[0].itemId : null;
+                return step.TargetQuestItemIds is { Count: > 0 } ids ? ids[0] : null;
+            }
+            return step.TargetQuestItemId;
+        }
 
         private static int HeldCountOf(int itemId) =>
             Inventory.Current != null ? Inventory.Current.GetQuestItemCount(itemId) : 0;

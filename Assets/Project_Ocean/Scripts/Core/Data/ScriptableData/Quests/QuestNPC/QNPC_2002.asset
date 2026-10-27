@@ -29,9 +29,12 @@ MonoBehaviour:
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
     targetCount: 2
     completionMode: 1
-    stepDescription: 'Kill fish size L : 2'
+    stepDescription: 'Kill {item} : 2'
     dialogue:
     - characterId: hunter
       type: 0
@@ -67,9 +70,12 @@ MonoBehaviour:
       cutsceneId: 
     isGuidedSequence: 0
     autoDisplayDialogue: 0
+    talkCompletionMode: 0
     notificationImages: []
     rewardItemId: 0
     rewardMoney: 500
     unlocksFeatures: 
   questName: '[Hunter]'
   questGiverNpcId: hunter
+  isDaily: 0
+  dailyWeight: 1
