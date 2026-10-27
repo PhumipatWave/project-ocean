@@ -16,6 +16,7 @@ namespace Game.Editor
 
         private SerializedProperty questId, questName, questGiverNpcId, category, classification, status;
         private SerializedProperty nextQuestMode, nextQuestIds;
+        private SerializedProperty isDaily, dailyWeight;
         private SerializedProperty steps;
 
         private void OnEnable()
@@ -29,6 +30,9 @@ namespace Game.Editor
 
             nextQuestMode = serializedObject.FindProperty("nextQuestMode");
             nextQuestIds = serializedObject.FindProperty("nextQuestIds");
+
+            isDaily = serializedObject.FindProperty("isDaily");
+            dailyWeight = serializedObject.FindProperty("dailyWeight");
 
             steps = serializedObject.FindProperty("steps");
         }
@@ -50,6 +54,9 @@ namespace Game.Editor
                 EditorGUILayout.PropertyField(nextQuestMode);
                 if ((NextQuestMode)nextQuestMode.enumValueIndex != NextQuestMode.None)
                     EditorGUILayout.PropertyField(nextQuestIds, true);
+                EditorGUILayout.PropertyField(isDaily);
+                if (isDaily.boolValue)
+                    EditorGUILayout.PropertyField(dailyWeight);
                 EditorGUI.indentLevel--;
             }
 

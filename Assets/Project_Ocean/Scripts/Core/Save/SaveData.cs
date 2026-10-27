@@ -56,6 +56,10 @@ namespace Game.Core
         // ── v8: one-time item pickups ── (ItemSpawner name per pickup, see OneTimePickupTracker)
         // Absent in older saves (empty), which is correct — nothing collected yet.
         public List<string> collectedPickupIds = new();
+
+        // ── v9: daily board quests ── ids rolled for dailyQuestDay. Absent in older saves (0): QuestManager rolls fresh without expiring anything.
+        public int dailyQuestDay = 0;
+        public List<int> dailyQuestIds = new();
     }
 
     [Serializable]

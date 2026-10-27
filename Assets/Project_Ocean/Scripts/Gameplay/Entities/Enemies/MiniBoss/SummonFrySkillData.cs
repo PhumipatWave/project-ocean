@@ -6,7 +6,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "SummonFrySkill", menuName = "Enemy/Boss Skills/Summon Fry")]
+    [CreateAssetMenu(fileName = "SummonFrySkill", menuName = "ScriptableObjects/Enemies/Mini Boss/Skills/Summon Fry")]
     public class SummonFrySkillData : BossSkillData
     {
         [Header("Summon Fry")]

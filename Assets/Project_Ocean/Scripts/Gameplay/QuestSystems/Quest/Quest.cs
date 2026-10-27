@@ -35,7 +35,7 @@ namespace Game.Gameplay
     }
 
     [System.Serializable]
-    public class Quest
+    public class Quest : IWeightedEntry
     {
         [SerializeField]
         private int questId;
@@ -117,6 +117,12 @@ namespace Game.Gameplay
         /// <summary>Delivery + PerItem only — see QuestStep.TargetQuestItemRequirements.</summary>
         public List<QuestItemRequirement> TargetQuestItemRequirements => CurrentStep?.TargetQuestItemRequirements;
 
+        /// <summary>In the daily pool — see QuestData.isDaily.</summary>
+        public bool IsDaily { get; private set; }
+
+        /// <summary>Daily roll weight (QuestData.dailyWeight), read by WeightedPicker.</summary>
+        public float Weight { get; private set; }
+
         public Quest(QuestData questData)
         {
             questId = questData.questId;
@@ -131,8 +137,20 @@ namespace Game.Gameplay
             NextQuestMode = questData.nextQuestMode;
             NextQuestIds = questData.nextQuestIds ?? new List<int>();
 
+            IsDaily = questData.isDaily;
+            Weight = questData.dailyWeight;
+
             steps = BuildSteps(questData);
             currentStepIndex = 0;
+        }
+
+        /// <summary>Daily quests: back to an untouched New quest so it can be rolled again.</summary>
+        public void ResetForReroll()
+        {
+            status = QuestStatus.New;
+            currentStepIndex = 0;
+            foreach (var step in steps)
+                step.ResetProgress();
         }
 
         /// <summary>Builds the runtime step list from QuestData's authored Steps.</summary>

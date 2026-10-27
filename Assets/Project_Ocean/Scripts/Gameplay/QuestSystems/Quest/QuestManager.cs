@@ -21,6 +21,10 @@ namespace Game.Gameplay
 
         private QuestProgressTracker progress;
 
+        // Board dailies rolled for dailyDay; 0 = never rolled (fresh game, or a save from before dailies).
+        private readonly List<int> todaysDailyIds = new();
+        private int dailyDay;
+
         protected override bool Persistent => true;
 
         protected override void Awake()
@@ -32,9 +36,19 @@ namespace Game.Gameplay
             progress = new QuestProgressTracker(activeQuestList, CompleteProgress, RaiseQuestUpdated);
         }
 
-        private void OnEnable() => progress?.Subscribe();   // null on a duplicate destroyed in Awake
+        private void OnEnable()
+        {
+            if (progress == null) return; // a duplicate destroyed in Awake
+            progress.Subscribe();
+            DayManager.OnDayAdvanced += EnsureDailyRolled;
+        }
 
-        private void OnDisable() => progress?.Unsubscribe();
+        private void OnDisable()
+        {
+            if (progress == null) return;
+            progress.Unsubscribe();
+            DayManager.OnDayAdvanced -= EnsureDailyRolled;
+        }
 
         private static void RaiseQuestUpdated() => OnQuestUpdated?.Invoke();
 
@@ -42,7 +56,43 @@ namespace Game.Gameplay
         public void ResetToDefault()
         {
             trackedQuestId = -1;
+            todaysDailyIds.Clear();
+            dailyDay = 0;
             InitializeQuests();
+            OnQuestUpdated?.Invoke();
+        }
+
+        /// <summary>Rolls today's dailies once per day; on a real day change, every daily left from before resets first.</summary>
+        // Also called from Collect and the board, so the auto-save on OnDayAdvanced can't store yesterday's roll.
+        private void EnsureDailyRolled()
+        {
+            if (DayManager.Instance == null) return;
+            int today = DayManager.Instance.CurrentDay;
+            if (dailyDay == today) return;
+
+            bool expiredActive = false;
+            if (dailyDay > 0)
+            {
+                foreach (var q in activeQuestList)
+                {
+                    if (!q.IsDaily || q.Status == QuestStatus.New) continue;
+
+                    expiredActive |= IsActive(q);
+                    if (q.QuestID == trackedQuestId) trackedQuestId = -1;
+                    q.ResetForReroll();
+                }
+            }
+
+            todaysDailyIds.Clear();
+            foreach (var q in DailyQuestRoller.Roll(activeQuestList,
+                         q => q.Status == QuestStatus.New && IsUnlocked(q), () => UnityEngine.Random.value))
+                todaysDailyIds.Add(q.QuestID);
+            dailyDay = today;
+
+            if (expiredActive)
+                NotificationManager.Notify("Yesterday's unfinished daily quests have expired.");
+
+            EnsureQuestTracked();
             OnQuestUpdated?.Invoke();
         }
 
@@ -222,10 +272,13 @@ namespace Game.Gameplay
 
         public List<Quest> GetQuestsByCategory(QuestCategory category)
         {
+            EnsureDailyRolled();
+
             var quests = activeQuestList.FindAll(q =>
                 q.Category == category &&
                 q.Status == QuestStatus.New &&
-                IsUnlocked(q)
+                IsUnlocked(q) &&
+                (!q.IsDaily || todaysDailyIds.Contains(q.QuestID))
             );
 
             // MainQuest before SubQuest before Special — matches enum declaration order.
@@ -292,12 +345,22 @@ namespace Game.Gameplay
 
         public void Collect(SaveData data)
         {
+            EnsureDailyRolled();
             data.quests = GetSaveState();
+            data.dailyQuestDay = dailyDay;
+            data.dailyQuestIds = new List<int>(todaysDailyIds);
         }
 
+        // Daily state first: LoadSaveState raises OnQuestUpdated, and the board would roll a fresh set without it.
         public void Apply(SaveData data)
         {
+            todaysDailyIds.Clear();
+            if (data.dailyQuestIds != null)
+                todaysDailyIds.AddRange(data.dailyQuestIds);
+            dailyDay = data.dailyQuestDay;
+
             LoadSaveState(data.quests);
+            EnsureDailyRolled();
         }
 
         public bool AcceptQuest(int questID)

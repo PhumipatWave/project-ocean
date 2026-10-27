@@ -100,6 +100,15 @@ namespace Game.Gameplay
         /// <summary>All mode: records an NPC as talked to; false if already recorded, so repeats don't double-count.</summary>
         public bool MarkNpcTalkedTo(string npcId) => talkedToNpcIds.Add(npcId);
 
+        /// <summary>Clears live progress (count, pending flag, wait stamp, NPCs talked to) for a re-rolled daily.</summary>
+        public void ResetProgress()
+        {
+            CurrentCount = 0;
+            RequirementPending = false;
+            DayStepBecameCurrent = -1;
+            talkedToNpcIds.Clear();
+        }
+
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
 

@@ -4,7 +4,7 @@ using Game.Core;
 namespace Game.Gameplay
 {
     /// <summary>Scared enemy: flees on sight, panics when hit, and can alert nearby allies.</summary>
-    [CreateAssetMenu(fileName = "ScaredEnemyProfile", menuName = "Enemy/Scared Enemy Profile")]
+    [CreateAssetMenu(fileName = "ScaredEnemyProfile", menuName = "ScriptableObjects/Enemies/Profiles/Scared Enemy Profile")]
     public class ScaredEnemyProfile : EnemyBaseProfile
     {
         [Header("Behavior")]

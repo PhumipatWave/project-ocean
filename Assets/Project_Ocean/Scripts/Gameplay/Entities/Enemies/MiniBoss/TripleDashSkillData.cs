@@ -4,7 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "TripleDashSkill", menuName = "Enemy/Boss Skills/Triple Dash")]
+    [CreateAssetMenu(fileName = "TripleDashSkill", menuName = "ScriptableObjects/Enemies/Mini Boss/Skills/Triple Dash")]
     public class TripleDashSkillData : BossSkillData
     {
         [Header("Triple Dash")]

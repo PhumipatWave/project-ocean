@@ -5,7 +5,7 @@ using static InputSystem_Actions;
 
 namespace Game.Core
 {
-    [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
+    [CreateAssetMenu(fileName = "New Input Reader", menuName = "ScriptableObjects/Input/Input Reader")]
     public class InputReader : ScriptableObject, IPlayerActions, IUIActions
     {
         /// <summary>Set by DialogueState (other assembly) so a left click can advance dialogue.</summary>

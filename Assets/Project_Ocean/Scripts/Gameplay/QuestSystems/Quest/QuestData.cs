@@ -153,7 +153,7 @@ namespace Game.Gameplay
         public List<GameFeature> unlocksFeatures = new();
     }
 
-    [CreateAssetMenu(fileName = "QuestData", menuName = "Scriptable Objects/QuestData")]
+    [CreateAssetMenu(fileName = "QuestData", menuName = "ScriptableObjects/Quests/Quest Data")]
     public class QuestData : ScriptableObject
     {
         [Header("Quest Category")]
@@ -177,5 +177,12 @@ namespace Game.Gameplay
 
         [Tooltip("Optional — npcId / CharacterDatabase id of the NPC who gave this quest; drives the tracker/accepted-quest avatar. Leave blank for quest-board quests (no avatar).")]
         public string questGiverNpcId;
+
+        [Header("Daily")]
+        [Tooltip("In the daily pool: the board shows one rolled daily per category each day; unfinished ones reset when the day ends.")]
+        public bool isDaily;
+
+        [Tooltip("Relative chance of being rolled among this category's dailies.")]
+        [Min(0f)] public float dailyWeight = 1f;
     }
 }
