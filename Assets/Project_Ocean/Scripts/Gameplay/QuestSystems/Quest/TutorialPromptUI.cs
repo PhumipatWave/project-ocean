@@ -57,9 +57,9 @@ namespace Game.Gameplay
 
         private void Refresh()
         {
-            // Quests stay active in memory back at the main menu — no prompt there.
+            // Quests stay active in memory in Bootstrap/Intro/menu — no prompt there.
             if (PlayerUIState.IsLocked || QuestManager.Instance == null || LoadingManager.IsLoading
-                || SceneManager.GetActiveScene().name == SceneNames.MainMenu)
+                || !SceneNames.IsGameplay(SceneManager.GetActiveScene().name))
             {
                 Hide();
                 return;

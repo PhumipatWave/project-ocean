@@ -96,9 +96,11 @@ namespace Game.UI
         private void RefreshHUDButtonsVisibility()
         {
             // HUD controls are hidden whenever a blocking UI is open.
+            // Bootstrap/Intro/menu have no player, so no HUD buttons there either.
             bool noBlockingUI =
                 currentUI == UIType.None &&
-                !PlayerUIState.IsLocked;
+                !PlayerUIState.IsLocked &&
+                SceneNames.IsGameplay(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
 
             SetActiveIfNeeded(menuButtonNew, noBlockingUI);
             SetActiveIfNeeded(fishCollectionButton, noBlockingUI);

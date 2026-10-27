@@ -7,5 +7,8 @@ namespace Game.Core
         public const string Ocean     = "Ocean_Map";
         public const string MainMenu  = "MainMenuScene";
         public const string Intro     = "IntroScene";
+
+        /// <summary>True for scenes with a player (Land/Ocean); Bootstrap, Intro and the menu have none.</summary>
+        public static bool IsGameplay(string sceneName) => sceneName == Land || sceneName == Ocean;
     }
 }

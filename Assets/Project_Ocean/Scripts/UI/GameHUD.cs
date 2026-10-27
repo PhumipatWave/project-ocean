@@ -94,6 +94,8 @@ namespace Game.UI
         private void SetHudVisible(bool visible)
         {
             if (hudContentGroup == null) return;
+            // Bootstrap/Intro/menu have no player; a lock released there must not bring the HUD back.
+            visible &= SceneNames.IsGameplay(SceneManager.GetActiveScene().name);
             hudContentGroup.alpha = visible ? 1f : 0f;
             hudContentGroup.interactable = visible;
             hudContentGroup.blocksRaycasts = visible;
@@ -107,7 +109,7 @@ namespace Game.UI
 
             // The main menu has no gameplay HUD, and a locked scene load (e.g. the Prologue cutscene) keeps it hidden;
             // HandleLockChanged won't fire again, since the lock itself didn't change.
-            SetHudVisible(scene.name != SceneNames.MainMenu && !PlayerUIState.IsLocked);
+            SetHudVisible(SceneNames.IsGameplay(scene.name) && !PlayerUIState.IsLocked);
 
             if (scene.name == "MainMenuScene")
             {
