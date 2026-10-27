@@ -35,8 +35,8 @@ namespace Game.Gameplay
         /// <summary>Delivery only — extra money required alongside the item/kill count. See QuestData.requiredMoney.</summary>
         public int RequiredMoney;
 
-        /// <summary>Delivery only: items are done but RequiredMoney isn't paid; CurrentCount is held one short until it is.</summary>
-        public bool MoneyPending;
+        /// <summary>Delivery only: count is done but money or loot (QuestStepEffects.RequirementsMet) isn't; CurrentCount is held one short until it is.</summary>
+        public bool RequirementPending;
 
         /// <summary>WaitingQuest only — at least this many day-advances must occur after the
         /// step becomes current. See QuestData.requiredDaysToWait.</summary>

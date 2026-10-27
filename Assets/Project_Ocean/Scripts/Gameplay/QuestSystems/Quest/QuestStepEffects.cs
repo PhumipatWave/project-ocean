@@ -16,6 +16,20 @@ namespace Game.Gameplay
             return money != null && money.CurrentMoney >= step.RequiredMoney;
         }
 
+        /// <summary>True unless the step is a kill step that consumes its loot and the player holds less than TargetCount of it.</summary>
+        // Kills alone would complete it, and RemoveQuestItems would then take only what's held.
+        public static bool LootRequirementMet(QuestStep step)
+        {
+            if (step.Type != QuestType.Delivery || step.DeliverySource != DeliverySource.EnemyKills ||
+                !step.ConsumeOnComplete || !int.TryParse(step.TargetQuestItemId, out int lootItemId))
+                return true;
+
+            return Inventory.Current != null && Inventory.Current.GetQuestItemCount(lootItemId) >= step.TargetCount;
+        }
+
+        /// <summary>Everything besides the step's own count that must hold before it may complete.</summary>
+        public static bool RequirementsMet(QuestStep step) => MoneyRequirementMet(step) && LootRequirementMet(step);
+
         /// <summary>Records the day a WaitingQuest step became current; later calls do nothing.</summary>
         public static void StampWaitingStart(QuestStep step)
         {

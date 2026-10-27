@@ -44,7 +44,7 @@ namespace Game.Gameplay
             DayManager.OnDivedToday -= CheckDayOrDive;
         }
 
-        // Not via TryProgress: a completing kill must stay one short while RequiredMoney is unpaid.
+        // Not via TryProgress: a completing kill must stay one short while money is unpaid or the loot isn't held yet.
         private void HandleEnemyKilled(string enemyId)
         {
             if (string.IsNullOrEmpty(enemyId)) return;
@@ -59,9 +59,9 @@ namespace Game.Gameplay
                     step.TargetEnemyIds == null || !step.TargetEnemyIds.Contains(enemyId))
                     continue;
 
-                if (step.CurrentCount + 1 >= step.TargetCount && !QuestStepEffects.MoneyRequirementMet(step))
+                if (step.CurrentCount + 1 >= step.TargetCount && !QuestStepEffects.RequirementsMet(step))
                 {
-                    step.MoneyPending = true;
+                    step.RequirementPending = true;
                     if (step.CurrentCount != step.TargetCount - 1)
                     {
                         step.CurrentCount = step.TargetCount - 1;
@@ -74,20 +74,25 @@ namespace Game.Gameplay
             }
         }
 
-        /// <summary>Completes Delivery steps held back only by RequiredMoney, and always redraws (the tracker shows the balance).</summary>
+        /// <summary>Always redraws (the tracker shows the balance), then completes steps the payment unblocked.</summary>
         private void HandleMoneyChanged(int _)
         {
             raiseUpdated();
+            CompletePendingSteps();
+        }
 
+        /// <summary>Completes Delivery steps held one short once money and loot are both in hand.</summary>
+        private void CompletePendingSteps()
+        {
             foreach (var q in quests)
             {
                 if (q.Status != QuestStatus.InProgress) continue;
 
                 var step = q.CurrentStep;
-                if (step == null || step.Type != QuestType.Delivery || !step.MoneyPending) continue;
-                if (!QuestStepEffects.MoneyRequirementMet(step)) continue;
+                if (step == null || step.Type != QuestType.Delivery || !step.RequirementPending) continue;
+                if (!QuestStepEffects.RequirementsMet(step)) continue;
 
-                step.MoneyPending = false;
+                step.RequirementPending = false;
                 completeProgress(q, step.TargetCount - step.CurrentCount);
             }
         }
@@ -177,7 +182,7 @@ namespace Game.Gameplay
                 // Items ready but money unpaid: hold one short (AddProgress ignores a complete step) until HandleMoneyChanged.
                 if (progress >= step.TargetCount && !QuestStepEffects.MoneyRequirementMet(step))
                 {
-                    step.MoneyPending = true;
+                    step.RequirementPending = true;
                     int capped = step.TargetCount - 1;
                     if (step.CurrentCount != capped)
                     {
@@ -186,7 +191,7 @@ namespace Game.Gameplay
                     }
                     continue;
                 }
-                step.MoneyPending = false;
+                step.RequirementPending = false;
 
                 if (progress == step.CurrentCount)
                     continue;
@@ -213,6 +218,9 @@ namespace Game.Gameplay
 
             if (perItemDisplayStale)
                 raiseUpdated();
+
+            // The last kill's loot is picked up after the kill event, so a kill step held one short finishes here.
+            CompletePendingSteps();
         }
 
         private static int HeldCountOf(string itemIdStr) =>

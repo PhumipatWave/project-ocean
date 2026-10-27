@@ -420,6 +420,10 @@ namespace Game.Gameplay
             if (quest.Status != QuestStatus.ReadyToTurnIn)
                 return false;
 
+            // The loot or money may have been sold/spent since the step became ready.
+            if (!QuestStepEffects.RequirementsMet(quest.CurrentStep))
+                return false;
+
             quest.Status = QuestStatus.Finish;
 
             QuestStepEffects.RemoveQuestItems(quest.CurrentStep);
