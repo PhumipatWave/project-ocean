@@ -59,14 +59,14 @@ namespace Game.Gameplay
         private void OnEnable()
         {
             QuestManager.OnQuestUpdated += RefreshQuestStep;
-            LoadingManager.OnLoadingFinished += RefreshQuestStep;
+            LoadingManager.OnLoadingFinished += HandleLoadingFinished;
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += HandleSceneLoaded;
         }
 
         private void OnDisable()
         {
             QuestManager.OnQuestUpdated -= RefreshQuestStep;
-            LoadingManager.OnLoadingFinished -= RefreshQuestStep;
+            LoadingManager.OnLoadingFinished -= HandleLoadingFinished;
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= HandleSceneLoaded;
             ReleaseStartLock();
 
@@ -104,14 +104,19 @@ namespace Game.Gameplay
         private void HandleSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
             => RefreshQuestStep();
 
-        private void RefreshQuestStep()
+        // No step is closing right after a load, so skip the delay; otherwise gameplay shows for a second before the cutscene.
+        private void HandleLoadingFinished() => RefreshQuestStep(delayStart: false);
+
+        private void RefreshQuestStep() => RefreshQuestStep(delayStart: true);
+
+        private void RefreshQuestStep(bool delayStart)
         {
             if (QuestManager.Instance == null)
                 return;
 
-            // A quest cutscene started in the menu would play unseen and count as done; wait for gameplay.
+            // Bootstrap/Intro/menu would play it unseen and count it as done; wait for a gameplay scene.
             if (LoadingManager.IsLoading ||
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == SceneNames.MainMenu)
+                !SceneNames.IsGameplay(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name))
                 return;
 
             foreach (var q in QuestManager.Instance.GetActiveQuests())
@@ -129,14 +134,15 @@ namespace Game.Gameplay
                 PlayerUIState.Open();
                 holdingStartLock = true;
                 startLockResetCount = PlayerUIState.ResetCount;
-                StartCoroutine(PlayStepAfterDelay(q, step.EffectiveCutsceneId));
+                StartCoroutine(PlayStepAfterDelay(q, step.EffectiveCutsceneId, delayStart ? CutsceneStartDelay : 0f));
                 return;
             }
         }
 
-        private IEnumerator PlayStepAfterDelay(Quest q, string cutsceneId)
+        private IEnumerator PlayStepAfterDelay(Quest q, string cutsceneId, float delay)
         {
-            yield return new WaitForSeconds(CutsceneStartDelay);
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
 
             // Re-check rather than trust the snapshot — the quest could have moved on
             // (or been cancelled) during the wait.
