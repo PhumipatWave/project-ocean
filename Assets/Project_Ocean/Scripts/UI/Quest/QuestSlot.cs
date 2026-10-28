@@ -56,7 +56,7 @@ namespace Game.UI
                 npcNameText.text = NPCManager.Instance?.GetNpcName(quest.DisplayNpcId);
             }
 
-            QuestVisuals.Apply(fishImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
+            QuestVisuals.Apply(fishImage, QuestVisuals.GetStepItemSprite(quest.CurrentStep));
 
             // Board quests have no giver, so fall back to the board's own image.
             QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId) ?? fallbackAvatar);

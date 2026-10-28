@@ -44,7 +44,7 @@ namespace Game.UI
             if (acceptButtonText != null) acceptButtonText.text = quest.CurrentStep.AnswerAccept;
             if (rejectButtonText != null) rejectButtonText.text = quest.CurrentStep.AnswerReject;
 
-            QuestVisuals.Apply(itemImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
+            QuestVisuals.Apply(itemImage, QuestVisuals.GetStepItemSprite(quest.CurrentStep));
 
             gameObject.SetActive(true);
         }

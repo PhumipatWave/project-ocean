@@ -17,6 +17,9 @@ namespace Game.Gameplay
             return Inventory.Current?.FindItemInDatabase(id)?.ItemVisual;
         }
 
+        /// <summary>Icon of the item the step's {item} text names, so image and text always agree.</summary>
+        public static Sprite GetStepItemSprite(QuestStep step) => GetItemSprite(StepItemId(step));
+
         /// <summary>The shared "show it if we have art, hide it otherwise" pattern every quest
         /// panel applies to its item/avatar Image.</summary>
         public static void Apply(Image image, Sprite sprite)
