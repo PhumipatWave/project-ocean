@@ -17,6 +17,8 @@ MonoBehaviour:
   cooldown: 6
   weight: 1
   maxRange: 20
+  telegraphTrigger: shockWave
+  executeTrigger: 
   projectilePrefab: {fileID: 6652574029940466104, guid: 3c193adbdb3e1874ab6f57a1850ef013, type: 3}
   projectileCount: 3
   spreadAngle: 25

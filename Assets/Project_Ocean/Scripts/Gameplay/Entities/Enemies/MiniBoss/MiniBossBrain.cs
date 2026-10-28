@@ -22,9 +22,6 @@ namespace Game.Gameplay
             bossProfile = profile;
         }
 
-        // The attack animation (and its hitbox) must also run during melee skills such as the dash.
-        public override bool IsAttacking => base.IsAttacking || (skillState != null && skillState.IsMeleeActive);
-
         protected override void SetupExtraStates(EnemyNavPathfinder pathfinder)
         {
             bossContext = new BossContext(enemyBrainContext, pathfinder, bossProfile, enemyBrainContext.Transform.position);

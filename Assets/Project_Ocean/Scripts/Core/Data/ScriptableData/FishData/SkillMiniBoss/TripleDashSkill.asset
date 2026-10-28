@@ -17,8 +17,10 @@ MonoBehaviour:
   cooldown: 8
   weight: 1
   maxRange: 25
+  telegraphTrigger: 
+  executeTrigger: trippleAttack
   dashCount: 3
-  dashSpeed: 12
-  dashDuration: 0.6
-  pauseBetween: 0.4
+  dashSpeed: 14.4
+  dashDuration: 0.5
+  pauseBetween: 0.5
   damage: 10
