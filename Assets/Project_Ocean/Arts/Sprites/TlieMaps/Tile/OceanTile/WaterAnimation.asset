@@ -9,27 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 836a8327ce4de3d4bb9f8a9d58dab5e6, type: 3}
   m_Name: WaterAnimation
   m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AnimatedTile
   m_AnimatedSprites:
   - {fileID: 6049605792901559095, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 674835960, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 1489300830, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: -896356665, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
   - {fileID: 907949635, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 514275276, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: -1774962554, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 359549260, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
   - {fileID: 323093132, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: -1029270819, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 2145079423, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: 1151807544, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
   - {fileID: 749738016, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  - {fileID: -857311255, guid: 97e62ca1cd6db35499bb9400063026e3, type: 3}
-  m_MinSpeed: 4
-  m_MaxSpeed: 4
+  m_MinSpeed: 0.5
+  m_MaxSpeed: 0.5
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
   m_TileAnimationFlags: 0
+  noiseScale: 0.15

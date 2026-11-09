@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3099965044140729080
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 29123986964430142, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604155198946700088, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604155198946700088, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4738588234762349161, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428581210912805024, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2318859831075951602}
+    - target: {fileID: 5428581210912805024, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Game.Testing.NPC, Game.Testing
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: npcId
+      value: peachzy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: hasQuest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: markerUI
+      value: 
+      objectReference: {fileID: 5311085831851042887}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: npcDialogue
+      value: Hm? Why are you looking at me like that? Did you fall in love with me?
+        ...Hehe, just kidding!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: npcPortrait
+      value: 
+      objectReference: {fileID: -8331839177789629585, guid: cd8c0acba6598174082be30717d2a09d, type: 3}
+    - target: {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: targetQuestId
+      value: 2001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917247770266187225, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592997628015165808, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592997628015165808, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_Size.y
+      value: 1.1875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592997628015165808, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f146687349e75a744a1410a14ca73f72, type: 3}
+    - target: {fileID: 6592997628015165808, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_Name
+      value: Femboy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906456317786598898, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844767358560791598, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_fontSize
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844767358560791598, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 1.25
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5882694135732751971, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+    - {fileID: 4661900574750797600, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2318859831075951602}
+  m_SourcePrefab: {fileID: 100100000, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+--- !u!1 &5311085831851042887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7111621022968023743, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+  m_PrefabInstance: {fileID: 3099965044140729080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5344566878394878239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002814342775794663, guid: 5421e05c9c9af21458bed83e3a33bdd3, type: 3}
+  m_PrefabInstance: {fileID: 3099965044140729080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2318859831075951602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344566878394878239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0818c1510947a594bbf1e0d6feb987b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Testing::NPCInteract
+  npcId: femboy
+  npcName: 
+  npcDialogue: Hm? Why are you looking at me like that? Did you fall in love with
+    me? ...Hehe, just kidding!
+  npcPortrait: {fileID: -8331839177789629585, guid: cd8c0acba6598174082be30717d2a09d, type: 3}
+  targetQuest: {fileID: 11400000, guid: ea65199b23b4461488444f4b7377bdcf, type: 2}
+  questDetailPanel: {fileID: 0}
+  dialoguePanel: {fileID: 0}
+  npcNameText: {fileID: 0}
+  dialogueText: {fileID: 0}
+  npcAvatarImage: {fileID: 0}
+  markerUI: {fileID: 5311085831851042887}

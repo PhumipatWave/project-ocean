@@ -1,9 +1,11 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class ShopManager : MonoBehaviour
     {
@@ -12,12 +14,18 @@ namespace Game.Testing
         [Header("UI Objects (Drag & Drop Here)")]
         [SerializeField] private GameObject sellAllButton;
         [SerializeField] private GameObject sellSelectButton;
-        [SerializeField] private GameObject inventorySlot;
-        [SerializeField] private GameObject shopbuySlot;
+        [SerializeField, FormerlySerializedAs("inventorySlot")] private GameObject sellPanel;
+        [SerializeField, FormerlySerializedAs("shopbuySlot")] private GameObject buyPanel;
+
+        [Header("Tutorial")]
+        [Tooltip("The only item buyable while a Tutorial BuyItem step is active (MQ_1002: Mini Hub).")]
+        [SerializeField] private Item tutorialBuyItem;
 
         [Header("Shop Slots Sell Display")]
-        [SerializeField] private InventorySlot[] shopInventorySlots;
+        [SerializeField] private InventorySlot shopSlotPrefab;
+        [SerializeField] private Transform shopSlotContainer;
         [SerializeField] private GameObject inventoryItemPrefab;
+        private InventorySlot[] shopInventorySlots = new InventorySlot[0];
 
         [Header("Display")]
         [SerializeField] private TMP_Text totalPriceText;
@@ -30,30 +38,67 @@ namespace Game.Testing
         [SerializeField] private TMP_Text previewPrice;
         [SerializeField] private TMP_Text previewDescription;
 
-        [Header("Ammo UI Display")]
-        [SerializeField] private TMP_Text[] ammoTexts;
         private readonly int[] ammoCounts = new int[4];
         private readonly ShopTransactionService transactionService = new ShopTransactionService();
 
-        /// <summary>
-        /// Cross-reference to UpgradeManager — drag in Inspector.
-        /// Used to switch from the Shop view to the Upgrade view.
-        /// Replaces UIManager.ShowUpgrade().
-        /// </summary>
-        [Header("Navigation")]
-        [SerializeField] private UpgradeManager upgradeManager;
+        private void Awake()
+        {
+            Instance = this;
+        }
 
-                private void Awake()     { Instance = this; }
         private void OnDestroy() { if (Instance == this) Instance = null; }
 
-private void OnEnable()
+        private void OnEnable()
         {
             InventoryManager.OnInventoryChanged += RefreshShopInventory;
+            InventoryManager.OnInventoryClosed += DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked += HandleShopSlotClicked;
+            QuestManager.OnQuestUpdated += RefreshSellButton;
+            RefreshSellButton();
         }
 
         private void OnDisable()
         {
             InventoryManager.OnInventoryChanged -= RefreshShopInventory;
+            InventoryManager.OnInventoryClosed -= DeselectAllShopSlots;
+            InventorySlot.OnShopSlotClicked -= HandleShopSlotClicked;
+            QuestManager.OnQuestUpdated -= RefreshSellButton;
+        }
+
+        // The tutorial's SellItem step teaches Sell All, so single Sell stays locked until it's done;
+        // a buy/upgrade tutorial step locks both sell buttons.
+        private static bool SellBlocked() =>
+            TutorialStep.IsActive(TutorialActionId.SellItem) || TutorialStep.BlocksShop(TutorialActionId.SellItem);
+
+        private static bool SellAllBlocked() => TutorialStep.BlocksShop(TutorialActionId.SellItem);
+
+        private void RefreshSellButton()
+        {
+            SetInteractable(sellSelectButton, !SellBlocked());
+            SetInteractable(sellAllButton, !SellAllBlocked());
+        }
+
+        private static void SetInteractable(GameObject go, bool interactable)
+        {
+            var button = go != null ? go.GetComponent<Button>() : null;
+            if (button != null) button.interactable = interactable;
+        }
+
+        /// <summary>Tutorial reason this item can't be bought right now, or null if it can.</summary>
+        private string TutorialBuyBlockReason(Item item)
+        {
+            if (TutorialStep.BlocksShop(TutorialActionId.BuyItem))
+                return "Follow the tutorial step first.";
+            if (TutorialStep.IsActive(TutorialActionId.BuyItem) && tutorialBuyItem != null && item != tutorialBuyItem)
+                return $"Buy the {tutorialBuyItem.ItemName} first.";
+            return null;
+        }
+
+        private void HandleShopSlotClicked(InventorySlot clickedSlot)
+        {
+            DeselectAllShopSlots();
+            clickedSlot.Select();
+            UpdateClickedItemPriceDisplay();
         }
 
         private void Update()
@@ -61,11 +106,7 @@ private void OnEnable()
             UpdateUI();
         }
 
-        // ──────────────────────────────────────────
-        // Panel navigation (replaces UIManager)
-        // ──────────────────────────────────────────
-
-        public void OpenShopWindow()
+        public void OpenSellWindow()
         {
             if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
                 InventoryManager.Instance.InventoryMenu.SetActive(false);
@@ -73,33 +114,39 @@ private void OnEnable()
             SwitchToSellMode();
         }
 
-        /// <summary>Switch from Shop panel to Upgrade panel. Replaces UIManager.ShowUpgrade().</summary>
-        public void OpenUpgradeView()
+        public void OpenBuyWindow()
         {
-            if (upgradeManager != null)
-                upgradeManager.OpenFromShop();
-            else
-                Debug.LogWarning("[ShopManager] upgradeManager ref not assigned in Inspector");
-        }
+            if (InventoryManager.Instance != null && InventoryManager.Instance.InventoryMenu != null)
+                InventoryManager.Instance.InventoryMenu.SetActive(false);
 
-        // ──────────────────────────────────────────
-        // Inventory display
-        // ──────────────────────────────────────────
+            SwitchToBuyMode();
+        }
 
         public void RefreshShopInventory()
         {
             ClearShopInventoryMirror();
 
-            if (InventoryManager.Instance == null) return;
-            InventorySlot[] realPlayerSlots = InventoryManager.Instance.InventorySlots;
+            var inventory = InventoryManager.Instance;
+            if (inventory == null) return;
+            EnsureShopSlots(inventory.PlayerSlotCount);
 
-            for (int i = 0; i < shopInventorySlots.Length; i++)
-            {
-                if (i >= realPlayerSlots.Length) break;
-                MirrorInventorySlot(realPlayerSlots[i], shopInventorySlots[i]);
-            }
+            for (int i = 0; i < shopInventorySlots.Length && i < inventory.PlayerSlotCount; i++)
+                MirrorInventorySlot(inventory.GetStack(i), inventory.IsSlotUnlocked(i), shopInventorySlots[i]);
 
             UpdateClickedItemPriceDisplay();
+        }
+
+        // Built on first refresh, not Awake: the count comes from the persistent InventoryManager.
+        private void EnsureShopSlots(int count)
+        {
+            if (shopInventorySlots.Length == count) return;
+
+            foreach (InventorySlot old in shopInventorySlots)
+                if (old != null) Destroy(old.gameObject);
+
+            shopInventorySlots = SlotBuilder.Build(shopSlotPrefab, shopSlotContainer, count, "InShopSlot_Items");
+            foreach (InventorySlot slot in shopInventorySlots)
+                slot.isShopSlot = true;
         }
 
         public void UpdateClickedItemPriceDisplay()
@@ -115,44 +162,40 @@ private void OnEnable()
             clickedItemPriceText.text = $"Price: {price}";
         }
 
-        // ──────────────────────────────────────────
-        // Sell / Buy mode toggle
-        // ──────────────────────────────────────────
-
         public void SwitchToBuyMode()
         {
             if (sellAllButton != null)    sellAllButton.SetActive(false);
             if (sellSelectButton != null) sellSelectButton.SetActive(false);
-            if (inventorySlot != null)    inventorySlot.SetActive(false);
-            if (shopbuySlot != null)      shopbuySlot.SetActive(true);
+            if (sellPanel != null)        sellPanel.SetActive(false);
+            if (buyPanel != null)         buyPanel.SetActive(true);
 
             isSellMode = false;
             if (clickedItemPriceText != null) clickedItemPriceText.text = "Price: 0";
+            SelectFirstBuySlot();
         }
 
         public void SwitchToSellMode()
         {
             if (sellAllButton != null)    sellAllButton.SetActive(true);
             if (sellSelectButton != null) sellSelectButton.SetActive(true);
-            if (inventorySlot != null)    inventorySlot.SetActive(true);
-            if (shopbuySlot != null)      shopbuySlot.SetActive(false);
+            if (sellPanel != null)        sellPanel.SetActive(true);
+            if (buyPanel != null)         buyPanel.SetActive(false);
 
             isSellMode = true;
+            RefreshSellButton();
             RefreshShopInventory();
         }
-
-        // ──────────────────────────────────────────
-        // Transactions
-        // ──────────────────────────────────────────
 
         public int CalculateTotal()
         {
             if (InventoryManager.Instance == null) return 0;
-            return transactionService.CalculateSellTotal(InventoryManager.Instance.InventorySlots);
+            return transactionService.CalculateSellTotal(InventoryManager.Instance);
         }
 
         public void Sell()
         {
+            if (SellBlocked()) return;
+
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot == null) return;
 
@@ -162,32 +205,37 @@ private void OnEnable()
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex))
-                Invoke(nameof(RefreshShopInventory), 0.02f);
-
-            StartCoroutine(SellRoutine());
-        }
-
-        public IEnumerator SellRoutine()
-        {
-            yield return new WaitForSeconds(1f);
+            transactionService.SellSingle(InventoryManager.Instance, playerMoney, slotIndex);
         }
 
         public void SellAll()
         {
+            if (SellAllBlocked()) return;
+
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
 
-            if (transactionService.SellAll(InventoryManager.Instance, playerMoney))
-                Invoke(nameof(RefreshShopInventory), 0.05f);
+            transactionService.SellAll(InventoryManager.Instance, playerMoney);
+        }
 
-            StartCoroutine(SellRoutine());
+        public void TryBuySelectedItem()
+        {
+            Item item = GetSelectedBuyItem();
+            if (item == null) return;
+
+            string blocked = TutorialBuyBlockReason(item);
+            if (blocked != null) { NotificationManager.Notify(blocked); return; }
+
+            ConfirmationDialog.Instance?.Show(
+                $"Buy {item.ItemName} for {item.ItemPrice}?",
+                BuySelectedItem
+            );
         }
 
         public void BuySelectedItem()
         {
             Item selectedItem = GetSelectedBuyItem();
-            if (selectedItem == null) return;
+            if (selectedItem == null || TutorialBuyBlockReason(selectedItem) != null) return;
 
             PlayerMoney playerMoney = GetPlayerMoney();
             if (playerMoney == null || InventoryManager.Instance == null) return;
@@ -197,13 +245,7 @@ private void OnEnable()
                 UpdateUI();
                 RefreshShopInventory();
             }
-
-            StartCoroutine(SellRoutine());
         }
-
-        // ──────────────────────────────────────────
-        // Slot helpers
-        // ──────────────────────────────────────────
 
         public void DeselectAllShopSlots()
         {
@@ -213,9 +255,23 @@ private void OnEnable()
 
         public void DeselectAllBuySlots()
         {
-            if (shopbuySlot == null) return;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            if (buyPanel == null) return;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
                 slot.Deselect();
+        }
+
+        public void SelectFirstBuySlot()
+        {
+            if (buyPanel == null) return;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
+            {
+                if (slot.currentItem == null || slot.currentItem.GetItem() == null) continue;
+                DeselectAllBuySlots();
+                slot.Select();
+                ShowItemDetail(slot.currentItem.GetItem());
+                UpdateClickedItemPriceDisplay();
+                return;
+            }
         }
 
         public void ShowItemDetail(Item item)
@@ -227,18 +283,10 @@ private void OnEnable()
             if (previewDescription != null) previewDescription.text   = item.ItemDescription;
         }
 
-        // ──────────────────────────────────────────
-        // Private helpers
-        // ──────────────────────────────────────────
-
         private void UpdateUI()
         {
             if (totalPriceText != null)
                 totalPriceText.text = "Total Value: " + CalculateTotal();
-
-            for (int i = 0; i < ammoTexts.Length; i++)
-                if (ammoTexts[i] != null)
-                    ammoTexts[i].text = ammoCounts[i].ToString();
         }
 
         private void ClearShopInventoryMirror()
@@ -252,32 +300,26 @@ private void OnEnable()
             }
         }
 
-        private void MirrorInventorySlot(InventorySlot realSlot, InventorySlot shopSlot)
+        private void MirrorInventorySlot(ItemStack stack, bool unlocked, InventorySlot shopSlot)
         {
-            if (realSlot == null || shopSlot == null) return;
+            if (shopSlot == null) return;
 
-            if (!realSlot.isUnlocked) { shopSlot.SetLocked(true); return; }
+            if (!unlocked) { shopSlot.SetLocked(true); return; }
 
             shopSlot.SetLocked(false);
             shopSlot.Deselect();
+            if (stack.IsEmpty) return;
 
-            Draggableltem realItem = realSlot.GetComponentInChildren<Draggableltem>();
-            if (realItem == null) return;
-
-            GameObject newItemGo   = Instantiate(inventoryItemPrefab, shopSlot.transform);
-            Draggableltem shopItem = newItemGo.GetComponent<Draggableltem>();
-            shopItem.InitialiseItem(realItem.GetItem());
-            shopItem.count   = realItem.count;
-            shopItem.RefreshCount();
+            DraggableItem shopItem = Instantiate(inventoryItemPrefab, shopSlot.transform).GetComponent<DraggableItem>();
+            shopItem.InitialiseItem(stack.Item, stack.Count);
             shopItem.enabled = false;
         }
 
         private Item GetSelectedSellItem()
         {
             InventorySlot slot = GetSelectedSlot();
-            if (slot == null) return null;
-            Draggableltem item = slot.GetComponentInChildren<Draggableltem>();
-            return item?.GetItem();
+            if (slot == null || InventoryManager.Instance == null) return null;
+            return InventoryManager.Instance.GetStack(GetShopSlotIndex(slot)).Item;
         }
 
         private Item GetSelectedBuyItem()
@@ -289,8 +331,8 @@ private void OnEnable()
 
         private ShopBuySlot GetSelectedShopSlot()
         {
-            if (shopbuySlot == null) return null;
-            foreach (ShopBuySlot slot in shopbuySlot.GetComponentsInChildren<ShopBuySlot>())
+            if (buyPanel == null) return null;
+            foreach (ShopBuySlot slot in buyPanel.GetComponentsInChildren<ShopBuySlot>(true))
                 if (slot.isSelected) return slot;
             return null;
         }
@@ -312,8 +354,8 @@ private void OnEnable()
 
         private PlayerMoney GetPlayerMoney()
         {
-            if (GameManager.CurPlayer == null) return null;
-            return GameManager.CurPlayer.GetComponent<PlayerMoney>();
+            if (PlayerRegistry.Local == null) return null;
+            return PlayerRegistry.Local.GetComponent<PlayerMoney>();
         }
     }
 }

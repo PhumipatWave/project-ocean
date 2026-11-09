@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee5cd72c16c45e44b094c3020f552e1, type: 3}
+  m_Name: ScaredEnemyProfile
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.ScaredEnemyProfile
+  fishId: scare
+  schoolMinFollowers: 3
+  schoolMaxFollowers: 5
+  speed: 3.25
+  viewDistance: 18
+  viewAngle: 90
+  debugVision: 0
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallDetectDistance: 2
+  wanderRadius: 35
+  wanderInterval: 7.5
+  hitChaseDuration: 5
+  chasePlayerWhenHit: 0
+  followAfterLost: 6
+  fishClearanceRadius: 0.5
+  maxWanderSampleTries: 20
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
+  contactDamage: 0
+  contactDamageCooldown: 1
+  autoReturnDelay: 60
+  tickFacingFromVelocity: 0
+  alertNearbyAllies: 1
+  groupAlertRadius: 3

@@ -1,6 +1,8 @@
 using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
 
-namespace Game.Testing
+namespace Game.UI
 {
     public class ShopTransactionService
     {
@@ -12,34 +14,39 @@ namespace Game.Testing
             return (int)(item.ItemPrice * SellPriceMultiplier);
         }
 
-        public int CalculateSellTotal(InventorySlot[] inventorySlots)
+        // SellAll only clears Normal-type items; CanSell (Item's Shop Settings) blocks any sale.
+        private static bool IsSellAllItem(Item item) =>
+            item != null && item.CanSell && item.ItemType == ItemType.Normal;
+
+        public int SellValue(ItemStack stack) =>
+            IsSellAllItem(stack.Item) ? GetSellPrice(stack.Item) * stack.Count : 0;
+
+        public int CalculateSellTotal(InventoryManager inventory)
         {
-            if (inventorySlots == null) return 0;
+            if (inventory == null) return 0;
 
             int total = 0;
-            foreach (InventorySlot slot in inventorySlots)
-            {
-                if (slot == null) continue;
-
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.GetItem() == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
-
-                total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
-            }
-
+            for (int i = 0; i < inventory.PlayerSlotCount; i++)
+                total += SellValue(inventory.GetStack(i));
             return total;
         }
 
         public bool SellSingle(InventoryManager inventory, PlayerMoney playerMoney, int slotIndex)
         {
-            if (inventory == null || playerMoney == null) return false;
+            // Shop mirrors player slots only; a higher index would reach the building slot.
+            if (inventory == null || playerMoney == null || (uint)slotIndex >= (uint)inventory.PlayerSlotCount) return false;
 
-            Draggableltem realItem = inventory.GetItemInSlot(slotIndex);
-            if (realItem == null || realItem.GetItem() == null) return false;
+            Item item = inventory.GetStack(slotIndex).Item;
+            if (item == null) return false;
 
-            playerMoney.AddMoney(GetSellPrice(realItem.GetItem()));
-            RemoveOne(realItem);
-            inventory.NotifyChanged();
+            if (!item.CanSell)
+            {
+                NotificationManager.Notify("This item can't be sold.");
+                return false;
+            }
+
+            playerMoney.AddMoney(GetSellPrice(item));
+            inventory.RemoveOneAt(slotIndex);
             return true;
         }
 
@@ -47,57 +54,46 @@ namespace Game.Testing
         {
             if (inventory == null || playerMoney == null) return false;
 
+            var sold = inventory.RemoveAllWhere(IsSellAllItem);
+            if (sold.Count == 0) return false;
+
             int total = 0;
-            bool soldAny = false;
-            foreach (InventorySlot slot in inventory.InventorySlots)
-            {
-                if (slot == null) continue;
-
-                Draggableltem itemUI = slot.GetComponentInChildren<Draggableltem>();
-                if (itemUI == null || itemUI.GetItem() == null || itemUI.GetItem().ItemType != ItemType.Normal) continue;
-
-                total += GetSellPrice(itemUI.GetItem()) * itemUI.count;
-                Object.Destroy(itemUI.gameObject);
-                soldAny = true;
-            }
-
-            if (!soldAny) return false;
-
+            foreach (var pair in sold)
+                total += GetSellPrice(pair.Key) * pair.Value;
             playerMoney.AddMoney(total);
-            inventory.NotifyChanged();
+
+            TutorialEvents.RaiseAction(TutorialActionId.SellItem);
             return true;
         }
 
-        public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item item, int[] ammoCounts)
+public bool BuyItem(InventoryManager inventory, PlayerMoney playerMoney, Item item, int[] ammoCounts)
         {
             if (inventory == null || playerMoney == null || item == null) return false;
-            if (playerMoney.Money < item.ItemPrice) return false;
+
+            if (playerMoney.Money < item.ItemPrice)
+            {
+                NotificationManager.Notify("Not enough money");
+                return false;
+            }
 
             if (item.ItemType == ItemType.Ammo)
             {
                 AddAmmo(item, ammoCounts);
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 
-            if (item.ItemType == ItemType.Building || item.ItemType == ItemType.Normal)
+            if (item.ItemType == ItemType.Consumable || item.ItemType == ItemType.Normal)
             {
                 if (!inventory.AddItem(item)) return false;
 
                 playerMoney.Use(item.ItemPrice);
+                TutorialEvents.RaiseAction(TutorialActionId.BuyItem);
                 return true;
             }
 
             return false;
-        }
-
-        private void RemoveOne(Draggableltem itemUI)
-        {
-            itemUI.count--;
-            if (itemUI.count <= 0)
-                Object.Destroy(itemUI.gameObject);
-            else
-                itemUI.RefreshCount();
         }
 
         private void AddAmmo(Item item, int[] ammoCounts)

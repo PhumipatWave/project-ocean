@@ -1,29 +1,6 @@
-using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
-    public class TranquilizerBullet : Bullet
-    {
-        private float Torpidity;
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            base.OnTriggerEnter2D(collision);
-        }
-    }
+    public class TranquilizerBullet : Bullet { }
 }

@@ -1,7 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Game.Core;
+using Game.Gameplay;
 
+namespace Game.UI
+{
 public class UISlotHoverHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Image targetImage;
@@ -26,4 +30,5 @@ public class UISlotHoverHighlight : MonoBehaviour, IPointerEnterHandler, IPointe
         if (targetImage != null)
             targetImage.color = normalColor;
     }
+}
 }

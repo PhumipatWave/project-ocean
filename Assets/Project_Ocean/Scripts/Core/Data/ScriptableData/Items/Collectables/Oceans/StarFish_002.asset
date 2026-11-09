@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: StarFish_002
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  ItemID: 41004
+  ItemName: Purple Star Fish
+  ItemDescription: 
+  ItemVisual: {fileID: -7759720057408582079, guid: 6d47e5fbfd57b0d4eba5a9ff46f4f516, type: 3}
+  ItemPrefab: {fileID: 6883167005791567184, guid: 56a2adefc6542de4dae5c6fc0876b6b5, type: 3}
+  ItemPrice: 10
+  MaxStackable: 5
+  ItemType: 0
+  CanBuy: 1
+  CanSell: 1

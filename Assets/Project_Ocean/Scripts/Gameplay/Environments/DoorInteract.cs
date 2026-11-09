@@ -1,119 +1,67 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Cinemachine;
+using Game.Core;
 
-public class DoorInteract : MonoBehaviour
+namespace Game.Gameplay
 {
-    [Header("Warp Logic")]
-    [SerializeField] private Transform warpDestination;
-    [SerializeField] private bool requireInteraction = true;
-    [SerializeField] private string playerTag = "Player";
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource audioSource; // ลาก AudioSource มาใส่
-    [SerializeField] private AudioClip doorOpenSound; // ลากไฟล์เสียงประตูมาใส่
-
-    [Header("UI Reference")]
-    [SerializeField] private CanvasGroup blackScreenGroup;
-    [SerializeField] private float fadeDuration = 0.5f;
-
-    [Header("Camera Control")]
-    [SerializeField] private bool snapCamera = true;
-
-    private bool isPlayerInside = false;
-    private GameObject playerObject;
-    private static bool isWarping = false;
-
-    void OnTriggerEnter2D(Collider2D other)
+    public class DoorInteract : Interactable
     {
-        if (other.CompareTag(playerTag))
+        [Header("Warp Logic")]
+        [SerializeField] private Transform warpDestination;
+
+        [Header("UI Reference")]
+        [SerializeField] private CanvasGroup blackScreenGroup;
+        [SerializeField] private float fadeDuration = 0.5f;
+
+        private static bool isWarping;
+
+        /// <summary>Raised right after the player is moved, while the screen is still black.</summary>
+        public event System.Action Warped;
+
+        protected override void Interact(Player player)
         {
-            isPlayerInside = true;
-            playerObject = other.gameObject;
-
-            if (!requireInteraction && !isWarping)
-            {
-                StartCoroutine(WarpSequence());
-            }
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag(playerTag))
-        {
-            isPlayerInside = false;
-        } 
-    }
-
-    void Update()
-    {
-        // จังหวะคลิกขวา (Input.GetMouseButtonDown(1))
-        if (requireInteraction && isPlayerInside && Input.GetKeyDown(KeyCode.E) && !isWarping)
-        {
-            StartCoroutine(WarpSequence());
-        }
-    }
-
-    IEnumerator WarpSequence()
-    {
-        isWarping = true;
-
-        // --- เพิ่มส่วนการเล่นเสียง ---
-        if (audioSource != null && doorOpenSound != null)
-        {
-            audioSource.PlayOneShot(doorOpenSound);
+            if (!isWarping)
+                StartCoroutine(WarpSequence(player.transform));
         }
 
-        if (blackScreenGroup != null)
+        IEnumerator WarpSequence(Transform player)
         {
-            blackScreenGroup.gameObject.SetActive(true);
-            blackScreenGroup.alpha = 0;
-        }
+            isWarping = true;
 
-        // 1. Fade In
-        float timer = 0;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
+            AudioManager.Instance?.PlaySFX(SoundKeys.DoorOpen);
+
             if (blackScreenGroup != null)
-                blackScreenGroup.alpha = timer / fadeDuration;
-            yield return null;
-        }
-        if (blackScreenGroup != null) blackScreenGroup.alpha = 1;
-
-        // 2. Warp Player
-        Vector3 oldPosition = playerObject.transform.position;
-        playerObject.transform.position = warpDestination.position;
-
-        // 3. Warp Cinemachine
-        if (snapCamera)
-        {
-            var vcam = Object.FindFirstObjectByType<CinemachineCamera>();
-            if (vcam != null)
             {
-                vcam.OnTargetObjectWarped(playerObject.transform, warpDestination.position - oldPosition);
+                blackScreenGroup.gameObject.SetActive(true);
+                blackScreenGroup.alpha = 0;
             }
-        }
 
-        yield return new WaitForSeconds(0.1f);
+            yield return Fade(0f, 1f);
 
-        // 4. Fade Out
-        timer = 0;
-        while (timer < fadeDuration)
-        {
-            timer += Time.deltaTime;
+            Vector3 oldPosition = player.position;
+            player.position = warpDestination.position;
+            CinemachineCore.OnTargetObjectWarped(player, warpDestination.position - oldPosition);
+
+            Warped?.Invoke();
+
+            yield return new WaitForSeconds(0.1f);
+            yield return Fade(1f, 0f);
+
             if (blackScreenGroup != null)
-                blackScreenGroup.alpha = 1 - (timer / fadeDuration);
-            yield return null;
+                blackScreenGroup.gameObject.SetActive(false);
+
+            isWarping = false;
         }
 
-        if (blackScreenGroup != null)
+        IEnumerator Fade(float from, float to)
         {
-            blackScreenGroup.alpha = 0;
-            blackScreenGroup.gameObject.SetActive(false);
+            for (float timer = 0f; timer < fadeDuration; timer += Time.deltaTime)
+            {
+                if (blackScreenGroup != null) blackScreenGroup.alpha = Mathf.Lerp(from, to, timer / fadeDuration);
+                yield return null;
+            }
+            if (blackScreenGroup != null) blackScreenGroup.alpha = to;
         }
-
-        isWarping = false;
     }
 }

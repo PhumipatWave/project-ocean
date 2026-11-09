@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     [RequireComponent(typeof(Animator))]
     public class SimpleAnimLoop : MonoBehaviour
@@ -27,30 +28,24 @@ namespace Game.Testing
 
         IEnumerator ToggleAnimRoutine()
         {
-            // --- ส่วนที่เพิ่ม: ปิดการทำงาน 1 วินาทีก่อนเริ่มครั้งแรก ---
             anim.enabled = false;
             yield return new WaitForSeconds(1f);
-            // --------------------------------------------------
 
             while (true)
             {
-                // 1. เปิด Animator และเริ่มว่ายจากเฟรม 0
                 anim.enabled = true;
                 anim.Play(0, 0, 0f);
 
-                // 2. รอจนแอนิเมชันเล่นจบ
-                yield return null;
+                yield return null; // state info is only valid a frame after Play
                 float animLength = anim.GetCurrentAnimatorStateInfo(0).length;
                 yield return new WaitForSeconds(animLength);
 
-                // 3. บังคับไปเฟรมสุดท้ายก่อนปิด เพื่อไม่ให้เห็นเป็นภาพขาว/ปลาหาย
+                // Hold on the last frame before disabling, or the sprite blanks out while paused.
                 anim.Play(0, 0, 0.99f);
-                yield return new WaitForEndOfFrame(); // รอให้ GPU วาดเฟรมสุดท้ายเสร็จ
+                yield return new WaitForEndOfFrame();
 
-                // 4. ปิด Animator เพื่อค้างท่าจบไว้
                 anim.enabled = false;
 
-                // 5. สุ่มเวลาพัก 5-10 วินาที
                 float waitTime = Random.Range(minWaitTime, maxWaitTime);
                 yield return new WaitForSeconds(waitTime);
             }

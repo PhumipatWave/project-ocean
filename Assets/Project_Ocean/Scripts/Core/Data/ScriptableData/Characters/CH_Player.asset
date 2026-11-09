@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ffab360b835f949a985d2f0a6d6f08, type: 3}
+  m_Name: CH_Player
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.CharacterData
+  id: player
+  displayName: Billy
+  portrait: {fileID: 5146575971132831547, guid: 7a491a199e183c844b1107a515ff4ec9, type: 3}

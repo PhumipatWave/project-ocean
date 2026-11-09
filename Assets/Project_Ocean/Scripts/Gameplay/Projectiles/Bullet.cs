@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public abstract class Bullet : MonoBehaviour
     {
@@ -11,14 +12,20 @@ namespace Game.Testing
         [SerializeField] protected float moveSpeed = 15f;
         [SerializeField] protected float attackDamage = 25f;
 
+        [SerializeField] protected GameObject vfxObject;
+
         protected bool isHit;
 
         protected Vector2 shootDir;
 
+        /// <summary>How far this ammo flies before it stops on its own (world units) — the aim laser
+        /// is drawn this long. 0 = the ammo has no range of its own (e.g. it flies until it hits).</summary>
+        public virtual float MaxRange => 0f;
+
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            player = PlayerRegistry.Local;
         }
 
         protected virtual void Start()
@@ -41,32 +48,40 @@ namespace Game.Testing
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
+            // One shot = one hit. Overlapping fish all queue a trigger in the same physics step,
+            // before the collider disable below takes effect.
+            if (isHit) return;
+
             switch (collision.tag)
             {
                 case "Environment":
                     isHit = true;
                     rb.linearVelocity = Vector2.zero;
-                    gameObject.GetComponent<Collider2D>().enabled = false;
-                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    GetComponent<Collider2D>().enabled = false;
+                    HideVisuals();
                     break;
 
                 case "Enemy":
+                    // The brain's hit reaction runs from Enemy.OnDamagedHandler.
+                    collision.GetComponent<Entity>()?.TakeDamage(attackDamage);
+                    TutorialEvents.RaiseAction(TutorialActionId.HitEnemy);
 
-                    Enemy enemy = collision.GetComponent<Enemy>();
-                    enemy.TakeDamage(attackDamage);
-                    (enemy.Brain as IBrainHitReaction)?.OnHit();
-
-                    var darmagePoint = collision.GetComponentInChildren<DamagePoint>();
-                    darmagePoint.ShowDamagePoint(attackDamage.ToString());
+                    collision.GetComponentInChildren<IDamagePopup>()?.ShowDamagePoint(attackDamage.ToString());
 
                     player.GunHandler.ResetGunRotation(player.FaceDir);
-                    
+
                     isHit = true;
                     rb.linearVelocity = Vector2.zero;
-                    gameObject.GetComponent<Collider2D>().enabled = false;
-                    gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                    GetComponent<Collider2D>().enabled = false;
+                    HideVisuals();
                     break;
             }
+        }
+
+        protected virtual void HideVisuals()
+        {
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            if (vfxObject != null) vfxObject.SetActive(false);
         }
 
         protected void BulletDirection()
@@ -79,9 +94,8 @@ namespace Game.Testing
         {
             player.GunHandler.ResetGunRotation(player.FaceDir);
 
-            yield return new WaitForSeconds(2.25f);
+            yield return new WaitForSeconds(.4f);
             player.GunHandler.CanAttack = true;
-            Destroy(gameObject);
         }
     }
 }

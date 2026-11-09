@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Core;
 
-namespace Game.Testing
+namespace Game.Gameplay
 {
     public static class RopeSystemUtil
     {
@@ -58,7 +59,7 @@ namespace Game.Testing
             line.positionCount = 2;
             line.enabled = false;
 
-            Debug.Log("Clear Rope");
+            GameLog.Info("Clear Rope");
         }
         #endregion
 

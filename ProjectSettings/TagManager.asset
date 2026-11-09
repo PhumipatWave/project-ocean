@@ -21,6 +21,8 @@ TagManager:
   - UpgradeUI
   - InventoryUI
   - InteractBuild
+  - CamBounds
+  - Volume
   layers:
   - Default
   - TransparentFX
@@ -32,8 +34,8 @@ TagManager:
   - Obstacle
   - Player
   - Wall
-  - 
-  - 
+  - Enemy
+  - Item
   - 
   - 
   - 
@@ -69,6 +71,9 @@ TagManager:
     locked: 0
   - name: Fog
     uniqueID: 1989344569
+    locked: 0
+  - name: Powder
+    uniqueID: 2930263293
     locked: 0
   - name: StoneMain
     uniqueID: 939201407

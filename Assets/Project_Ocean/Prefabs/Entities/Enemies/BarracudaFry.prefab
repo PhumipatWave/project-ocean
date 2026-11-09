@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7502694753034564490
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 406743540907641800, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745126138116000233, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198828334094354248, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.87335205
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198828334094354248, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198828334094354248, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5060759525976410366, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: loot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5060759525976410366, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: enemyId
+      value: barracudaFry
+      objectReference: {fileID: 0}
+    - target: {fileID: 5060759525976410366, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: navAgentHost
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5060759525976410366, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: sleepDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5060759525976410366, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: despawnDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098824303329575402, guid: 295941172876259468532877166f3b2f, type: 3}
+      propertyPath: m_Name
+      value: BarracudaFry
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 295941172876259468532877166f3b2f, type: 3}

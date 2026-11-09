@@ -1,23 +1,57 @@
 using UnityEngine;
 using TMPro;
+using Game.Core;
+using Game.Gameplay;
 
-
-namespace Game.Testing
+namespace Game.UI
 {
     public class MoneyUI : MonoBehaviour
     {
-        public TMP_Text moneyText;
-        
-        void Update()
+        [Header("Money Display")]
+        [SerializeField] private TMP_Text moneyText;
+
+        [Tooltip("On: \"Money: 1,250\". Off: \"1,250\".")]
+        [SerializeField] private bool showMoneyLabel = false;
+
+        private PlayerMoney playerMoney;
+
+        private void Start()
         {
-            if (GameManager.CurPlayer != null)
+            FindPlayerMoney();
+            Refresh();
+        }
+
+        private void Update()
+        {
+            if (playerMoney == null)
+                FindPlayerMoney();
+
+            Refresh();
+        }
+
+        private void FindPlayerMoney()
+        {
+            if (PlayerRegistry.Local != null)
             {
-                PlayerMoney pm = GameManager.CurPlayer.GetComponent<PlayerMoney>();
-                if (pm != null && moneyText != null)
-                {
-                    // ใช้ .Money หรือ .CurrentMoney ตามที่นิยามไว้ใน PlayerMoney.cs
-                    moneyText.text = "Money: " + pm.Money;
-                }
+                playerMoney =
+                    PlayerRegistry.Local.GetComponent<PlayerMoney>();
+            }
+        }
+
+        private void Refresh()
+        {
+            if (playerMoney == null || moneyText == null)
+                return;
+
+            string value = playerMoney.Money.ToString("N0");
+
+            if (showMoneyLabel)
+            {
+                moneyText.text = "Money: " + value;
+            }
+            else
+            {
+                moneyText.text = value;
             }
         }
     }

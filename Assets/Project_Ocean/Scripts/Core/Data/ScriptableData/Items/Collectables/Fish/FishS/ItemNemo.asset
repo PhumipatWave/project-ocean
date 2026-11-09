@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: ItemNemo
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  itemID: 31005
+  itemName: Nemo
+  itemDescription: 
+  itemVisual: {fileID: -1642440991784651635, guid: c5529cd6656ad3845b6f19fbd9f1c70c, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 15
+  maxStackable: 3
+  itemType: 0
+  fishSize: 1
+  canBuy: 1
+  canSell: 1

@@ -1,139 +1,74 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using Game.Core;
 using System.Collections.Generic;
-using Game.Testing;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChestInteract : MonoBehaviour
+namespace Game.Gameplay
 {
-    [Header("Settings")]
-    [SerializeField] private string playerTag = "Player";
-    [SerializeField] private int moneyAmount = 100;
-    private bool wasOpened = false;
-    private bool isPlayerInRange = false;
-    private PlayerMoney targetPlayerMoney;
-
-    [Header("First Interaction (ชุดที่ 1)")]
-    [TextArea(3, 10)][SerializeField] private string firstDialogue;
-    [SerializeField] private Sprite firstPortrait;
-    [SerializeField] private Sprite firstExtraSprite;
-
-    [Header("Subsequent Interaction (ชุดที่ 2)")]
-    [TextArea(3, 10)][SerializeField] private string secondDialogue;
-    [SerializeField] private Sprite secondPortrait;
-    [SerializeField] private Sprite secondExtraSprite;
-
-    [Header("UI Reference")]
-    [SerializeField] private GameObject dialogueBox;
-    [SerializeField] private TextMeshProUGUI contentDisplay;
-    [SerializeField] private GameObject portraitDisplay;
-    [SerializeField] private GameObject extraImageObject;
-
-    // ใช้ Static List เพื่อจำว่ากล่องใบไหนถูกเปิดไปแล้วบ้างใน "รอบการเล่นนี้"
-    // ค่านี้จะหายไปเมื่อปิดเกม หรือ Compile Code ใหม่
-    private static List<string> globalOpenedChests = new List<string>();
-    private string uniqueID;
-
-    void Awake()
+    public class ChestInteract : Interactable
     {
-        // สร้าง ID ที่อ้างอิงจาก ชื่อฉาก + ชื่อ Object + ตำแหน่ง เพื่อไม่ให้ซ้ำกับกล่องใบอื่น
-        uniqueID = SceneManager.GetActiveScene().name + "_" + gameObject.name + "_" + transform.position.ToString();
+        [Header("Settings")]
+        [SerializeField] private int moneyAmount = 100;
 
-        // เช็คว่าใน List ส่วนกลางมี ID ของเราอยู่หรือยัง
-        if (globalOpenedChests.Contains(uniqueID))
+        [Header("First Interaction")]
+        [TextArea(3, 10)][SerializeField] private string firstDialogue;
+        [SerializeField] private Sprite firstPortrait;
+        [SerializeField] private Sprite firstExtraSprite;
+
+        [Header("Subsequent Interaction")]
+        [TextArea(3, 10)][SerializeField] private string secondDialogue;
+        [SerializeField] private Sprite secondPortrait;
+        [SerializeField] private Sprite secondExtraSprite;
+
+        [Header("UI Reference")]
+        [Tooltip("InteractPopupView on the chest's dialogue panel (an IInteractPopupView).")]
+        [SerializeField] private MonoBehaviour popupView;
+
+        // Not saved on purpose: opened chests refill after the game restarts.
+        private static readonly HashSet<string> globalOpenedChests = new();
+        private string uniqueID;
+
+        private IInteractPopupView Popup => popupView as IInteractPopupView;
+
+        void Awake()
         {
-            wasOpened = true;
+            uniqueID = SceneManager.GetActiveScene().name + "_" + gameObject.name + "_" + transform.position;
         }
-    }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag(playerTag))
+        protected override void Interact(Player player)
         {
-            isPlayerInRange = true;
-            targetPlayerMoney = other.GetComponent<PlayerMoney>();
+            if (Popup == null) return;
+
+            if (Popup.IsOpen) Close();
+            else Open(player);
         }
-    }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag(playerTag))
+        protected override void OnTriggerExit2D(Collider2D other)
         {
-            isPlayerInRange = false;
-            targetPlayerMoney = null;
-            CloseUI();
+            if (other.CompareTag("Player")) Close();
+            base.OnTriggerExit2D(other);
         }
-    }
 
-    void Update()
-    {
-        if (isPlayerInRange && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
+        void Open(Player player)
         {
-            if (!dialogueBox.activeSelf) OpenUI();
-            else CloseUI();
-        }
-    }
-
-    void OpenUI()
-    {
-        if (dialogueBox == null) return;
-
-        string currentText;
-        Sprite currentPortrait;
-        Sprite currentExtraSprite;
-
-        if (!wasOpened)
-        {
-            wasOpened = true;
-
-            // เพิ่ม ID เข้าไปใน List ส่วนกลางเพื่อบอกว่ากล่องนี้ถูกเปิดแล้วนะ
-            if (!globalOpenedChests.Contains(uniqueID))
+            if (globalOpenedChests.Add(uniqueID))
             {
-                globalOpenedChests.Add(uniqueID);
+                player.GetComponent<PlayerMoney>()?.AddMoney(moneyAmount);
+                Popup.Show(null, string.Format(firstDialogue, moneyAmount), firstPortrait, firstExtraSprite);
+            }
+            else
+            {
+                Popup.Show(null, secondDialogue, secondPortrait, secondExtraSprite);
             }
 
-            if (targetPlayerMoney != null) targetPlayerMoney.AddMoney(moneyAmount);
-
-            currentText = string.Format(firstDialogue, moneyAmount);
-            currentPortrait = firstPortrait;
-            currentExtraSprite = firstExtraSprite;
+            Time.timeScale = 0f;
         }
-        else
+
+        void Close()
         {
-            // ถ้าเคยเปิดไปแล้วใน Session นี้ จะเข้าเงื่อนไขนี้ตลอด
-            currentText = secondDialogue;
-            currentPortrait = secondPortrait;
-            currentExtraSprite = secondExtraSprite;
+            Popup?.Hide();
+            Time.timeScale = 1f;
+            ReleasePlayerLock();
         }
-
-        if (contentDisplay != null) contentDisplay.text = currentText;
-
-        if (portraitDisplay != null)
-        {
-            portraitDisplay.SetActive(currentPortrait != null);
-            Image img = portraitDisplay.GetComponent<Image>();
-            if (img != null && currentPortrait != null) img.sprite = currentPortrait;
-        }
-
-        if (extraImageObject != null)
-        {
-            extraImageObject.SetActive(currentExtraSprite != null);
-            Image extraImg = extraImageObject.GetComponent<Image>();
-            if (extraImg != null && currentExtraSprite != null)
-            {
-                extraImg.sprite = currentExtraSprite;
-            }
-        }
-
-        dialogueBox.SetActive(true);
-        Time.timeScale = 0f;
-    }
-
-    void CloseUI()
-    {
-        if (dialogueBox != null) dialogueBox.SetActive(false);
-        if (extraImageObject != null) extraImageObject.SetActive(false);
-        Time.timeScale = 1f;
     }
 }

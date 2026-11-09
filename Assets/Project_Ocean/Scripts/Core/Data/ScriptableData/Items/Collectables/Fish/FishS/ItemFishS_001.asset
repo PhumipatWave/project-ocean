@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: ItemFishS_001
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  itemID: 31003
+  itemName: One Eyed
+  itemDescription: 
+  itemVisual: {fileID: 3658569535416648312, guid: c7f761763e2b4204a9f4fdb7159d264e, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 15
+  maxStackable: 3
+  itemType: 0
+  fishSize: 1
+  canBuy: 1
+  canSell: 1
