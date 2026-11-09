@@ -59,6 +59,8 @@ PlayableDirector:
     value: {fileID: 3783906036997120016}
   - key: {fileID: -7498374736993140011, guid: 630b03cbb5ac11247b84b17c3092d3f3, type: 2}
     value: {fileID: 8028058908548189152}
+  - key: {fileID: -2009117956906482482, guid: 630b03cbb5ac11247b84b17c3092d3f3, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - : {fileID: 2506275256597147502}
@@ -88,6 +90,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1994338665496147447}
   - component: {fileID: 3499386864071951740}
+  - component: {fileID: 4180326021754263483}
+  - component: {fileID: 1749845566718776497}
   m_Layer: 0
   m_Name: PLS_0_0
   m_TagString: Untagged
@@ -169,6 +173,43 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &4180326021754263483
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910284944393874394}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 30b178bafa1512142a135b46a7d87a79, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1749845566718776497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3910284944393874394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals: []
+    m_Events: []
 --- !u!1 &4313986015115629369
 GameObject:
   m_ObjectHideFlags: 0

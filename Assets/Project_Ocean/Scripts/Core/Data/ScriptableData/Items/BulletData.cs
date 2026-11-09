@@ -10,7 +10,7 @@ namespace Game.Core
         Granade
     }
 
-    [CreateAssetMenu(fileName = "BulletData", menuName = "Data/BulletData")]
+    [CreateAssetMenu(fileName = "BulletData", menuName = "ScriptableObjects/Player/Bullet Data")]
     public class BulletData : ScriptableObject
     {
         public float attackDamage;

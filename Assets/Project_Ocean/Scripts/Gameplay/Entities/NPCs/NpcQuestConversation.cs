@@ -56,6 +56,10 @@ namespace Game.Gameplay
                 case QuestStatus.InProgress:
                     view.SetText(quest.CurrentStep.GetLine(npc.NpcId, DialogueType.InProgress));
                     break;
+                // Ready but the loot/money is gone again: TurnInQuest will refuse, so don't promise the Finish line.
+                case QuestStatus.ReadyToTurnIn when !QuestStepEffects.RequirementsMet(quest.CurrentStep):
+                    view.SetText(quest.CurrentStep.GetLine(npc.NpcId, DialogueType.InProgress));
+                    break;
                 // The player is about to turn in, so show the Finish line, not a blank.
                 case QuestStatus.ReadyToTurnIn:
                 case QuestStatus.Finish:
@@ -82,6 +86,11 @@ namespace Game.Gameplay
 
                 Finish(DialogueType.Offer);
                 npc.QuestOfferView?.ShowPanel(quest, null);
+            }
+            else if (quest.Status == QuestStatus.ReadyToTurnIn && !QuestStepEffects.RequirementsMet(quest.CurrentStep))
+            {
+                Finish(DialogueType.InProgress);
+                NotificationManager.Notify("You don't have enough items to turn this quest in.");
             }
             else if (quest.Status == QuestStatus.ReadyToTurnIn)
             {

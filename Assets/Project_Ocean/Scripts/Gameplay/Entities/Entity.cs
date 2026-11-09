@@ -18,6 +18,7 @@ namespace Game.Gameplay
         public float CurrentHealth => healthSource != null ? healthSource.CurrentHealth : 0f;
         public float MaxHealth => healthSource != null ? healthSource.MaxHealth : 1f;
         public bool IsDead => healthSource != null && healthSource.IsDead;
+        public EntityAnimation Animation => entityAnimation;
 
         protected abstract void OnDamagedHandler();
         protected virtual void OnDeathHandler() { }

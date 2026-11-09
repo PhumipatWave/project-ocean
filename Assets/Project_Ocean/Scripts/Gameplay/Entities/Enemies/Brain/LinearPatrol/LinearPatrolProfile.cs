@@ -13,7 +13,7 @@ namespace Game.Gameplay
         UntilWall 
     }
 
-    [CreateAssetMenu(menuName = "Game/Enemy/LinearPatrolProfile", fileName = "LinearPatrolProfile")]
+    [CreateAssetMenu(fileName = "LinearPatrolProfile", menuName = "ScriptableObjects/Enemies/Profiles/Linear Patrol Profile")]
     public class LinearPatrolProfile : EnemyBaseProfile
     {
         [Header("Linear Patrol")]

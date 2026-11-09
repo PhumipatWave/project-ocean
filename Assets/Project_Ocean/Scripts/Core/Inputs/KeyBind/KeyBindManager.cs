@@ -90,6 +90,11 @@ namespace Game.Core
         // Gamepad bindings are generic (<Gamepad>/buttonSouth); name them after the connected pad ("Cross", "A").
         private static string DisplayString(InputAction action, int index)
         {
+            // Live keyboard names follow the OS layout (Thai layout turns W into "ไ", which our font lacks); the layout's own names are fixed English.
+            string path = action.bindings[index].effectivePath;
+            if (InputControlPath.TryGetDeviceLayout(path) == "Keyboard")
+                return InputControlPath.ToHumanReadableString(path, InputControlPath.HumanReadableStringOptions.OmitDevice);
+
             string text = action.GetBindingDisplayString(index, out string layout, out string controlPath,
                 InputBinding.DisplayStringOptions.DontIncludeInteractions);
 

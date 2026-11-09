@@ -4,7 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "ShockwaveSkill", menuName = "Enemy/Boss Skills/Shockwave")]
+    [CreateAssetMenu(fileName = "ShockwaveSkill", menuName = "ScriptableObjects/Enemies/Mini Boss/Skills/Shockwave")]
     public class ShockwaveSkillData : BossSkillData
     {
         [Header("Shockwave")]

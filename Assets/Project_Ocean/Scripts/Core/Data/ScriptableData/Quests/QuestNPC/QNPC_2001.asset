@@ -35,7 +35,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 3
     completionMode: 1
-    stepDescription: 'Deliver fish size M : 3'
+    stepDescription: 'Deliver {item} : 3'
     dialogue:
     - characterId: femboy
       type: 0
@@ -76,6 +76,7 @@ MonoBehaviour:
     rewardItemId: 0
     rewardMoney: 200
     unlocksFeatures: 
-    locksFeatures: 
   questName: '[Upgrade]'
   questGiverNpcId: femboy
+  isDaily: 0
+  dailyWeight: 1

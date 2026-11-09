@@ -23,6 +23,13 @@ namespace Game.Gameplay
         [Tooltip("The skill is only used when the player is within this distance.")]
         [Min(0f)] public float maxRange = 10f;
 
+        [Header("Animation")]
+        [Tooltip("Animator trigger fired when the telegraph starts. Leave empty for none.")]
+        public string telegraphTrigger;
+
+        [Tooltip("Animator trigger fired when the telegraph ends and the skill executes. Leave empty for none.")]
+        public string executeTrigger;
+
         /// <summary>Builds the runtime skill. unlockBelowHealth comes from the profile slot (1 = always available).</summary>
         public abstract BossSkill CreateSkill(float unlockBelowHealth);
     }

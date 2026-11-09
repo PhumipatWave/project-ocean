@@ -24,8 +24,9 @@ MonoBehaviour:
     targetEnemyIds: []
     tutorialAction: 0
     targetQuestItemId: 31003
-    deliverySource: 1
-    targetQuestItemIds: []
+    deliverySource: 0
+    targetQuestItemIds:
+    - 31003
     targetQuestItemRequirements: []
     deliveryCountMode: 0
     consumeOnComplete: 1
@@ -34,7 +35,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 3
     completionMode: 0
-    stepDescription: 'Kill Fish Size S : 3'
+    stepDescription: 'Collect  {item} : 3'
     dialogue:
     - characterId: questboard
       type: 4
@@ -53,6 +54,7 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 50
     unlocksFeatures: 
-    locksFeatures: 
   questName: '[Quest01]'
   questGiverNpcId: 
+  isDaily: 1
+  dailyWeight: 1

@@ -35,7 +35,7 @@ MonoBehaviour:
     requiredDivesThatDay: 1
     targetCount: 3
     completionMode: 0
-    stepDescription: 'Collect Fish Size M : 3'
+    stepDescription: 'Collect {item} : 3'
     dialogue:
     - characterId: questboard
       type: 4
@@ -54,6 +54,7 @@ MonoBehaviour:
     rewardItemId: 
     rewardMoney: 200
     unlocksFeatures: 
-    locksFeatures: 
   questName: '[Quest09]'
   questGiverNpcId: 
+  isDaily: 1
+  dailyWeight: 1

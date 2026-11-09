@@ -46,6 +46,8 @@ namespace Game.Gameplay
 
         protected readonly BossSkillData data;
         private readonly float unlockBelowHealth;
+        private readonly int telegraphTriggerHash;
+        private readonly int executeTriggerHash;
 
         protected BossContext ctx { get; private set; }
 
@@ -53,7 +55,6 @@ namespace Game.Gameplay
         private float timer;
         private float readyAt;
 
-        public virtual bool IsMelee => false;
         public float Weight => data.weight;
         public bool IsActive => phase != Phase.Idle;
 
@@ -61,7 +62,12 @@ namespace Game.Gameplay
         {
             this.data = data;
             this.unlockBelowHealth = unlockBelowHealth;
+            telegraphTriggerHash = ToHash(data.telegraphTrigger);
+            executeTriggerHash = ToHash(data.executeTrigger);
         }
+
+        private static int ToHash(string trigger) =>
+            string.IsNullOrEmpty(trigger) ? 0 : Animator.StringToHash(trigger);
 
         // ---- Selection ----
 
@@ -81,6 +87,7 @@ namespace Game.Gameplay
 
             HoldPosition();
             ctx.Brain.AlertUI?.ShowAttackWarning();
+            PlayTrigger(telegraphTriggerHash);
             OnTelegraph();
         }
 
@@ -96,6 +103,7 @@ namespace Game.Gameplay
                     {
                         ctx.Brain.AlertUI?.HideAttackWarning();
                         phase = Phase.Execute;
+                        PlayTrigger(executeTriggerHash);
                         OnExecute();
                     }
                     return false;
@@ -150,6 +158,12 @@ namespace Game.Gameplay
         protected virtual void OnCancel() { }
 
         // ---- Helpers ----
+
+        private void PlayTrigger(int hash)
+        {
+            if (hash != 0)
+                ctx.Owner?.Animation?.PlayAnim(hash);
+        }
 
         protected void HoldPosition()
         {
