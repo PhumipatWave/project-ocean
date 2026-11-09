@@ -71,6 +71,31 @@ namespace Game.Tests
             Assert.IsTrue(QuestStepEffects.MoneyRequirementMet(new QuestStep { RequiredMoney = 0 }));
         }
 
+        private static QuestStep KillAndCollect(bool consume) => new QuestStep
+        {
+            Type = QuestType.Delivery,
+            DeliverySource = DeliverySource.EnemyKills,
+            ConsumeOnComplete = consume,
+            TargetQuestItemId = "31003",
+            TargetCount = 3,
+        };
+
+        [Test]
+        public void LootRequirementMet_KillStep_NeedsFullLootHeld()
+        {
+            inventory.Held[31003] = 2;
+            Assert.IsFalse(QuestStepEffects.LootRequirementMet(KillAndCollect(consume: true)));
+
+            inventory.Held[31003] = 3;
+            Assert.IsTrue(QuestStepEffects.LootRequirementMet(KillAndCollect(consume: true)));
+        }
+
+        [Test]
+        public void LootRequirementMet_ConsumeOff_IgnoresLoot()
+        {
+            Assert.IsTrue(QuestStepEffects.LootRequirementMet(KillAndCollect(consume: false)));
+        }
+
         private static Quest TwoStepQuest(int id, QuestType firstType, string target)
         {
             var data = ScriptableObject.CreateInstance<QuestData>();
@@ -116,6 +141,43 @@ namespace Game.Tests
             finally { tracker.Unsubscribe(); }
 
             CollectionAssert.AreEqual(new[] { 1 }, completed);
+        }
+
+        [Test]
+        public void Tracker_LastKillWithoutLoot_HoldsOneShortUntilLootPickedUp()
+        {
+            var data = ScriptableObject.CreateInstance<QuestData>();
+            data.questId = 3;
+            data.status = QuestStatus.InProgress;
+            data.steps = new List<QuestStepData>
+            {
+                new QuestStepData
+                {
+                    type = QuestType.Delivery, deliverySource = DeliverySource.EnemyKills, consumeOnComplete = true,
+                    targetEnemyId = "FISH", targetQuestItemId = "31003", targetCount = 3,
+                },
+            };
+            var quest = new Quest(data);
+            Object.DestroyImmediate(data);
+
+            int progressed = 0;
+            var tracker = new QuestProgressTracker(new List<Quest> { quest },
+                (q, n) => { progressed += n; q.AddProgress(n); }, () => { });
+            inventory.Held[31003] = 2;
+
+            tracker.Subscribe();
+            try
+            {
+                for (int i = 0; i < 3; i++) EnemyEvents.RaiseEnemyKilled("FISH");
+                Assert.AreEqual(2, progressed, "third kill must not complete with only 2 fish held");
+                Assert.IsTrue(quest.CurrentStep.RequirementPending);
+
+                inventory.Held[31003] = 3;
+                Inventory.RaiseChanged();
+            }
+            finally { tracker.Unsubscribe(); }
+
+            Assert.AreEqual(3, progressed);
         }
     }
 }

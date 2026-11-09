@@ -4,7 +4,7 @@ using Game.Core;
 namespace Game.Gameplay
 {
     /// <summary>Aggressive enemy: chases, winds up and attacks the player.</summary>
-    [CreateAssetMenu(fileName = "AggressiveEnemyProfile", menuName = "Enemy/Aggressive Enemy Profile")]
+    [CreateAssetMenu(fileName = "AggressiveEnemyProfile", menuName = "ScriptableObjects/Enemies/Profiles/Aggressive Enemy Profile")]
     public class AggressiveEnemyProfile : EnemyBaseProfile
     {
         [Header("Behavior")]

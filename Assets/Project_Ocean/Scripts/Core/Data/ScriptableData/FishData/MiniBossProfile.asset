@@ -54,12 +54,12 @@ MonoBehaviour:
   dashAcceleration: 200
   dashThrough: 0
   dashDuration: 1.5
-  attackRange: 1.5
+  attackRange: 8
   attackCooldown: 2
   attackDamage: 10
   attackRetryDelay: 1
-  retreatMinDistance: 3
-  retreatMaxDistance: 5
+  retreatMinDistance: 10
+  retreatMaxDistance: 14
   enableLurk: 1
   unreachableBeforeLurk: 1
   lurkDuration: 6
@@ -75,6 +75,6 @@ MonoBehaviour:
   - data: {fileID: 11400000, guid: 887fa32f85fc8144f9fd259ba21dead8, type: 2}
     unlockBelowHealth: 0.5
   globalSkillCooldown: 1.5
-  leashRadius: 40
+  leashRadius: 60
   homeArriveDistance: 1.5
   fullHealOnReset: 1

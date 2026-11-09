@@ -21,7 +21,7 @@ namespace Game.Core
         public int unlockLevel = 1;
     }
 
-    [CreateAssetMenu(menuName = "Game/Upgrade")]
+    [CreateAssetMenu(fileName = "UpgradeData", menuName = "ScriptableObjects/Upgrades/Upgrade")]
     public class UpgradeData : ScriptableObject
     {
         [Header("Basic Info")]

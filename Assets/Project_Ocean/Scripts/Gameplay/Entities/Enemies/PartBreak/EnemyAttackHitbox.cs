@@ -20,6 +20,8 @@ namespace Game.Gameplay
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player")) return;
+            // A clip can keep the hitbox open after death when no death state interrupts it.
+            if (enemy == null || enemy.IsDead) return;
             if (Time.time - lastHitTime < hitCooldown) return;
 
             lastHitTime = Time.time;

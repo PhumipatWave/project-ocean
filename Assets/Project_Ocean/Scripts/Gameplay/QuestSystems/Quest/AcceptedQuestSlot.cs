@@ -36,7 +36,7 @@ namespace Game.Gameplay
 
             // NPC avatar — resolved live from NPCManager by id, not stored on the quest.
             QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(quest.DisplayNpcId));
-            QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(quest.TargetQuestItemId));
+            QuestVisuals.Apply(targetImage, QuestVisuals.GetStepItemSprite(quest.CurrentStep));
 
             if (canvasGroup != null)
                 canvasGroup.alpha = quest.Status == QuestStatus.Finish ? completedAlpha : 1f;

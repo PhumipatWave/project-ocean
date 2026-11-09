@@ -15,8 +15,6 @@ namespace Game.Gameplay
         /// <summary>Raised when a skill ends, finished or cancelled.</summary>
         public event Action SkillEnded;
 
-        public bool IsMeleeActive => active != null && active.IsMelee;
-
         public EnemyBossSkillState(BossContext boss)
         {
             this.boss = boss;

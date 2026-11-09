@@ -15,6 +15,23 @@ namespace Game.Editor
     [CustomPropertyDrawer(typeof(QuestStepData))]
     public class QuestStepDataDrawer : PropertyDrawer
     {
+        private static bool IsTalkSpecific(SerializedProperty property) =>
+            (TalkCompletionMode)property.FindPropertyRelative("talkCompletionMode").enumValueIndex == TalkCompletionMode.Specific;
+
+        /// <summary>Why the Specific setup can't complete as authored, or null if it's fine.</summary>
+        private static string PassNpcIdWarning(SerializedProperty property)
+        {
+            string passNpcId = property.FindPropertyRelative("passNpcId").stringValue;
+            if (string.IsNullOrEmpty(passNpcId))
+                return "Pass NPC Id is empty — the step falls back to AnyOne.";
+
+            var targets = property.FindPropertyRelative("targetEnemyIds");
+            for (int i = 0; i < targets.arraySize; i++)
+                if (targets.GetArrayElementAtIndex(i).stringValue == passNpcId)
+                    return null;
+            return $"'{passNpcId}' is not in Target NPC Ids — that NPC never gets this step, so it can't complete.";
+        }
+
         /// <summary>Which fields show for a step type, shared by OnGUI and GetPropertyHeight so they can't disagree.</summary>
         private readonly struct FieldVisibility
         {
@@ -371,8 +388,24 @@ namespace Game.Editor
             if (vis.TalkCompletionMode)
             {
                 EditorGUI.PropertyField(rect, talkCompletionModeProp, new GUIContent("Talk Completion Mode",
-                    "AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to (Target Count is derived from the list length, not authored)."));
+                    "AnyOne: talking to any single listed NPC completes the step. All: every listed NPC must be talked to (Target Count is derived from the list length, not authored). Specific: every listed NPC shows its lines, only Pass NPC Id completes it."));
                 rect.y += lineHeight;
+
+                if (IsTalkSpecific(property))
+                {
+                    EditorGUI.PropertyField(rect, property.FindPropertyRelative("passNpcId"), new GUIContent("Pass NPC Id",
+                        "The one NPC whose talk completes this step. Must also be in Target NPC Ids."));
+                    rect.y += lineHeight;
+
+                    string warning = PassNpcIdWarning(property);
+                    if (warning != null)
+                    {
+                        rect.height = lineHeight * 2 - EditorGUIUtility.standardVerticalSpacing;
+                        EditorGUI.HelpBox(rect, warning, MessageType.Warning);
+                        rect.y += lineHeight * 2;
+                        rect.height = EditorGUIUtility.singleLineHeight;
+                    }
+                }
             }
 
             if (vis.LootItemId)
@@ -572,6 +605,8 @@ namespace Game.Editor
                 + (vis.RequiredMoney ? 1 : 0)
                 + (vis.WaitingQuestFields ? 2 : 0)
                 + (vis.TalkCompletionMode ? 1 : 0)
+                + (vis.TalkCompletionMode && IsTalkSpecific(property) ? 1 : 0) // Pass NPC Id
+                + (vis.TalkCompletionMode && IsTalkSpecific(property) && PassNpcIdWarning(property) != null ? 2 : 0)
                 + (type == QuestType.Talk ? 1 : 0) // Auto Display Dialogue
                 + (showTargetCount ? 1 : 0);
             float height = lineHeight * lineCount

@@ -112,7 +112,7 @@ namespace Game.UI
             QuestVisuals.Apply(npcAvatarImage, NPCManager.Instance?.GetNpcAvatar(activeQuest.DisplayNpcId));
 
             // Quest Target Image
-            QuestVisuals.Apply(targetImage, QuestVisuals.GetItemSprite(activeQuest.TargetQuestItemId));
+            QuestVisuals.Apply(targetImage, QuestVisuals.GetStepItemSprite(activeQuest.CurrentStep));
         }
 
         public void OnClickCancelQuest()

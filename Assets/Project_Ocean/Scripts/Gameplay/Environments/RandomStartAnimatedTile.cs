@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 namespace Game.Gameplay
 {
     /// <summary>AnimatedTile whose start frame varies per cell (Perlin noise), so a big water area doesn't animate in lockstep.</summary>
-    [CreateAssetMenu(menuName = "2D/Tiles/Random Start Animated Tile")]
+    [CreateAssetMenu(fileName = "RandomStartAnimatedTile", menuName = "ScriptableObjects/Environment/Random Start Animated Tile")]
     public class RandomStartAnimatedTile : AnimatedTile
     {
         // Low = large patches sharing a phase (wave fronts), high = near-random per tile.

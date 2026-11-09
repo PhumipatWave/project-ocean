@@ -14,7 +14,7 @@ namespace Game.Gameplay
     }
 
     /// <summary>Profile of a fixed-position miniboss: chases like an aggressive fish, fights with skills, stays near its home.</summary>
-    [CreateAssetMenu(fileName = "MiniBossProfile", menuName = "Enemy/Mini Boss Profile")]
+    [CreateAssetMenu(fileName = "MiniBossProfile", menuName = "ScriptableObjects/Enemies/Mini Boss/Mini Boss Profile")]
     public class MiniBossProfile : AggressiveEnemyProfile
     {
         [Header("Skills")]

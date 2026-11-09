@@ -4,7 +4,7 @@ using Game.Core;
 
 namespace Game.Gameplay
 {
-    [CreateAssetMenu(fileName = "TripleDashSkill", menuName = "Enemy/Boss Skills/Triple Dash")]
+    [CreateAssetMenu(fileName = "TripleDashSkill", menuName = "ScriptableObjects/Enemies/Mini Boss/Skills/Triple Dash")]
     public class TripleDashSkillData : BossSkillData
     {
         [Header("Triple Dash")]
@@ -34,7 +34,7 @@ namespace Game.Gameplay
 
     /// <summary>
     /// Dashes at the player several times in a row. Each dash is aimed again at the player's position,
-    /// and stops at the first wall on its line. The boss's attack animation (and hitbox) runs only while a dash is under way.
+    /// and stops at the first wall on its line. The hitbox windows are keyed in the TrippleAttack clip, so they must match dashDuration and pauseBetween.
     /// </summary>
     public class TripleDashSkill : BossSkill
     {
@@ -49,9 +49,6 @@ namespace Game.Gameplay
         private bool agentOverridden;
         private float savedAcceleration;
         private bool savedAutoBraking;
-
-        // Switches the attack animation on for each dash and off during the pauses, so the hitbox opens once per dash.
-        public override bool IsMelee => dashing;
 
         public TripleDashSkill(TripleDashSkillData data, float unlockBelowHealth) : base(data, unlockBelowHealth)
         {

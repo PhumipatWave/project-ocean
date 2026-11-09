@@ -35,8 +35,8 @@ namespace Game.Gameplay
         /// <summary>Delivery only — extra money required alongside the item/kill count. See QuestData.requiredMoney.</summary>
         public int RequiredMoney;
 
-        /// <summary>Delivery only: items are done but RequiredMoney isn't paid; CurrentCount is held one short until it is.</summary>
-        public bool MoneyPending;
+        /// <summary>Delivery only: count is done but money or loot (QuestStepEffects.RequirementsMet) isn't; CurrentCount is held one short until it is.</summary>
+        public bool RequirementPending;
 
         /// <summary>WaitingQuest only — at least this many day-advances must occur after the
         /// step becomes current. See QuestData.requiredDaysToWait.</summary>
@@ -67,7 +67,10 @@ namespace Game.Gameplay
         {
             get
             {
-                if (TalkCompletionMode == TalkCompletionMode.AnyOne)
+                if (HasPassNpc)
+                    return PassNpcId;
+
+                if (TalkCompletionMode != TalkCompletionMode.All)
                     return EffectiveNpcId;
 
                 foreach (var id in EffectiveNpcIds)
@@ -95,10 +98,28 @@ namespace Game.Gameplay
         /// be talked to. See QuestManager.HandleNpcTalk, the only reader.</summary>
         public TalkCompletionMode TalkCompletionMode;
 
+        /// <summary>Talk + Specific only — the one NPC id whose talk completes the step.</summary>
+        public string PassNpcId;
+
+        // Specific with no Pass NPC Id falls back to AnyOne; otherwise no talk could ever complete the step.
+        private bool HasPassNpc => TalkCompletionMode == TalkCompletionMode.Specific && !string.IsNullOrEmpty(PassNpcId);
+
+        /// <summary>False only in Specific mode for an NPC other than PassNpcId.</summary>
+        public bool PassesOnTalk(string npcId) => !HasPassNpc || npcId == PassNpcId;
+
         private readonly HashSet<string> talkedToNpcIds = new();
 
         /// <summary>All mode: records an NPC as talked to; false if already recorded, so repeats don't double-count.</summary>
         public bool MarkNpcTalkedTo(string npcId) => talkedToNpcIds.Add(npcId);
+
+        /// <summary>Clears live progress (count, pending flag, wait stamp, NPCs talked to) for a re-rolled daily.</summary>
+        public void ResetProgress()
+        {
+            CurrentCount = 0;
+            RequirementPending = false;
+            DayStepBecameCurrent = -1;
+            talkedToNpcIds.Clear();
+        }
 
         /// <summary>Optional images for this checkpoint's guide notification.</summary>
         public List<Sprite> NotificationImages;
