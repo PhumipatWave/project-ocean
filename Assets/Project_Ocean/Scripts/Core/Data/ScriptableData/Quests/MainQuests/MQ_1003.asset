@@ -40,6 +40,7 @@ MonoBehaviour:
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0
+    passNpcId: 
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -71,6 +72,7 @@ MonoBehaviour:
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0
+    passNpcId: 
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -87,7 +89,7 @@ MonoBehaviour:
     consumeOnComplete: 1
     requiredMoney: 0
     requiredDaysToWait: 1
-    requiredDivesThatDay: 1
+    requiredDivesThatDay: 0
     targetCount: 1
     completionMode: 0
     stepDescription: Waiting for crafting.
@@ -95,6 +97,7 @@ MonoBehaviour:
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0
+    passNpcId: 
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -125,6 +128,7 @@ MonoBehaviour:
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0
+    passNpcId: 
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
@@ -149,9 +153,12 @@ MonoBehaviour:
     isGuidedSequence: 0
     autoDisplayDialogue: 0
     talkCompletionMode: 0
+    passNpcId: 
     notificationImages: []
     rewardItemId: 
     rewardMoney: 0
     unlocksFeatures: 
   questName: Main Quest III
   questGiverNpcId: 
+  isDaily: 0
+  dailyWeight: 1

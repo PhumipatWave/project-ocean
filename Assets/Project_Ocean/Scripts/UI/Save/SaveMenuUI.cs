@@ -125,7 +125,14 @@ namespace Game.UI
             }
             else if (hasSave)
             {
-                SaveBridge.Instance.LoadGame(slot);
+                // Opened in-game (Land home panel): loading drops unsaved progress, so ask first.
+                bool inGame = SceneNames.IsGameplay(SceneManager.GetActiveScene().name);
+                if (inGame && ConfirmationDialog.Instance != null)
+                    ConfirmationDialog.Instance.Show(
+                        "Load this save? Unsaved progress will be lost.",
+                        () => { Close(); SaveBridge.Instance.LoadGame(slot); });
+                else
+                    SaveBridge.Instance.LoadGame(slot);
             }
             else
             {

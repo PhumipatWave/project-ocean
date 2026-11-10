@@ -81,8 +81,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  collectButton: {fileID: 7297601441578033892}
+  interactIcon: {fileID: 7297601441578033892}
+  requireSpecificFeature: 0
+  specificFeature: 0
   dropItem: {fileID: 11400000, guid: 4f60f280739d3834b850166343d12fe5, type: 2}
   enemy: {fileID: 3207163715615100706}
 --- !u!1 &2653616273152447755
@@ -188,7 +189,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4373255698068515926}
@@ -242,12 +243,12 @@ SpriteRenderer:
   m_SortingLayer: 12
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3658569535416648312, guid: c7f761763e2b4204a9f4fdb7159d264e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c7f761763e2b4204a9f4fdb7159d264e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1001,6 +1002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.15
+  flashTarget: {fileID: 0}
 --- !u!114 &8718789635762861312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,15 +1084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d5a83bd96a26b4abfcb9de452bf714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Boid
-  neighborRadius: 3
+  followRadiusMin: 1
+  followRadiusMax: 2.5
   separationDistance: 1.5
-  coeffSeparation: 1.2
-  coeffAlignment: 0.5
-  coeffCohesion: 0.3
-  steeringLookAhead: 1.5
-  fishId: 
-  assignedLeader: {fileID: 0}
-  velocity: {x: 0, y: 0}
 --- !u!1001 &4061545682395695563
 PrefabInstance:
   m_ObjectHideFlags: 0

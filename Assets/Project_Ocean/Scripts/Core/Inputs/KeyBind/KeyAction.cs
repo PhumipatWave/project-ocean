@@ -11,7 +11,8 @@ namespace Game.Core
         UseItem,
         Sprint,
         Attack,
-        Aim
+        Aim,
+        Menu
     }
 
     /// <summary>Which device family a keybind row edits; values are the binding groups in the .inputactions.</summary>

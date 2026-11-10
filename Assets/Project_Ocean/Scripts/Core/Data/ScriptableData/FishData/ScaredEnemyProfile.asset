@@ -33,9 +33,17 @@ MonoBehaviour:
   nearPlayerSearchRadius: 5
   nearPlayerSearchSamples: 24
   nearPlayerSearchStep: 0.5
+  edgeMargin: 0.5
+  reachTolerance: 1
+  repathInterval: 0.25
+  stuckWindow: 1.5
+  stuckMinProgress: 0.3
+  debugNavigation: 0
   contactDamage: 0
   contactDamageCooldown: 1
   autoReturnDelay: 60
   tickFacingFromVelocity: 0
   alertNearbyAllies: 1
   groupAlertRadius: 3
+  fleeSpeedMultiplier: 1.25
+  panicSpeedMultiplier: 1.75
