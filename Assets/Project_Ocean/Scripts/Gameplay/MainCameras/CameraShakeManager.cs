@@ -15,8 +15,8 @@ namespace Game.Gameplay
             impulseSource = GetComponent<CinemachineImpulseSource>();
         }
 
-        public void SmallShake() => impulseSource.GenerateImpulse(new Vector3(0f, .5f, 0f));
-        public void NormalShake() => impulseSource.GenerateImpulse(new Vector3(0f, 1.5f, 0f));
-        public void HighShake() => impulseSource.GenerateImpulse(new Vector3(0f, 3f, 0f));
+        public void SmallShake() => impulseSource.GenerateImpulse(new Vector3(0f, .25f, 0f));
+        public void NormalShake() => impulseSource.GenerateImpulse(new Vector3(0f, .5f, 0f));
+        public void HighShake() => impulseSource.GenerateImpulse(new Vector3(0f, 1f, 0f));
     }
 }
