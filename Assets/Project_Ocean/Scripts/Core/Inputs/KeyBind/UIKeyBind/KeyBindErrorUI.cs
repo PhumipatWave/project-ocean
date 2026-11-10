@@ -32,7 +32,8 @@ namespace Game.Core
 
         private IEnumerator HideAfterDelay()
         {
-            yield return new WaitForSeconds(displayTime);
+            // Realtime: settings menu runs with Time.timeScale = 0, scaled wait never ends.
+            yield return new WaitForSecondsRealtime(displayTime);
 
             gameObject.SetActive(false);
             hideCoroutine = null;
