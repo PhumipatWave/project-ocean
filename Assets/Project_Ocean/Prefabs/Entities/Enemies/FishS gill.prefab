@@ -81,8 +81,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6bd4aee533b5149954e4db9525d1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EnemyLoot
-  inputReader: {fileID: 11400000, guid: bd639583f8b7cb24d97b4d1c3e01a148, type: 2}
-  collectButton: {fileID: 9038542294651051483}
+  interactIcon: {fileID: 9038542294651051483}
+  requireSpecificFeature: 0
+  specificFeature: 0
   dropItem: {fileID: 11400000, guid: 7f5f416aed10ca741b2116d46d119b9a, type: 2}
   enemy: {fileID: 3207163715615100706}
 --- !u!1 &2653616273152447755
@@ -188,7 +189,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.2, y: -0.69, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4373255698068515926}
@@ -927,7 +928,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.050000012, y: -0.14999998}
+  m_Offset: {x: -0.17, y: -0.05}
   m_Size: {x: 1.25, y: 1.25}
   m_Direction: 0
 --- !u!195 &2849432993923143802
@@ -1001,6 +1002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game.Testing::Game.Testing.EntityHealth
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.15
+  flashTarget: {fileID: 0}
 --- !u!114 &8718789635762861312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,15 +1084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d5a83bd96a26b4abfcb9de452bf714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Testing::Game.Testing.Boid
-  neighborRadius: 3
+  followRadiusMin: 1
+  followRadiusMax: 2.5
   separationDistance: 1.5
-  coeffSeparation: 1.2
-  coeffAlignment: 0.5
-  coeffCohesion: 0.3
-  steeringLookAhead: 1.5
-  fishId: 
-  assignedLeader: {fileID: 0}
-  velocity: {x: 0, y: 0}
 --- !u!1001 &2338654410186536692
 PrefabInstance:
   m_ObjectHideFlags: 0

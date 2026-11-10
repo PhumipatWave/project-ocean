@@ -14,5 +14,11 @@ namespace Game.Gameplay
         [Header("Group Alert")]
         [Tooltip("Radius within which nearby allies are alerted when this enemy flees.")]
         public float groupAlertRadius = 3f;
+
+        [Header("Flee Speed")]
+        [Tooltip("Speed multiplier (x Speed) while fleeing after seeing the player.")]
+        [Min(0f)] public float fleeSpeedMultiplier = 1.5f;
+        [Tooltip("Speed multiplier (x Speed) while panicking after being hit.")]
+        [Min(0f)] public float panicSpeedMultiplier = 2.2f;
     }
 }
