@@ -60,6 +60,7 @@ namespace Game.Core
                 KeyAction.Sprint => inputActions.Player.Sprint,
                 KeyAction.Attack => inputActions.Player.Attack,
                 KeyAction.Aim => inputActions.Player.Aim,
+                KeyAction.Menu => inputActions.Player.Menu,
                 _ => null
             };
         }
