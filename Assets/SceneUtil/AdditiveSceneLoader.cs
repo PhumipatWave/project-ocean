@@ -10,14 +10,28 @@ public class AdditiveSceneLoader : MonoBehaviour
 {
     [SerializeField] private AdditiveSceneConfig config;
 
+    private static AdditiveSceneLoader instance;
+
     private void Awake()
     {
+        // MainMenuScene is reloaded on "back to menu" and brings a fresh copy; keep the first one.
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
+        if (instance != this)
+            return;
+
+        instance = null;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
