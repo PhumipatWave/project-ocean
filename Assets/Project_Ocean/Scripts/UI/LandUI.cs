@@ -23,8 +23,11 @@ namespace Game.UI
         [SerializeField] private Button nextDayButton;
 
         [Header("Home Panel")]
-        //[SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
+        [Tooltip("Same slot picker as the main menu (Prefabs/UI/MainMenu_UI/LoadMenuPanel).")]
+        [SerializeField] private SaveMenuUI loadMenuPrefab;
+
+        private SaveMenuUI loadMenu;
 
         // Panels hidden while a dialogue shows, with the CanvasGroup state to restore afterwards.
         private readonly Dictionary<CanvasGroup, (float alpha, bool interactable, bool blocksRaycasts)> hiddenPanels = new();
@@ -122,21 +125,26 @@ namespace Game.UI
                 RefreshNextDayButton();
             }
 
-            /*if (saveButton != null)
-                saveButton.onClick.AddListener(() =>
-                    ConfirmationDialog.Instance?.Show(
-                        "Save game?",
-                        () => SaveBridge.Instance?.SaveGame()
-                    ));*/
+            WireButton("HomePanel/SaveButton", () =>
+                ConfirmationDialog.Instance?.Show(
+                    "Save game?",
+                    () => SaveBridge.Instance?.SaveGame()
+                ));
 
             if (loadButton != null)
-                loadButton.onClick.AddListener(() =>
-                    ConfirmationDialog.Instance?.Show(
-                        "Load game? Unsaved progress will be lost.",
-                        () => SaveBridge.Instance?.LoadGame()
-                    ));
+                loadButton.onClick.AddListener(OpenLoadMenu);
 
             WireShopButtons();
+        }
+
+        // Spawned on first use and kept: one copy of the main-menu slot picker, drawn on top of the land panels.
+        private void OpenLoadMenu()
+        {
+            if (loadMenuPrefab == null) return;
+            if (loadMenu == null)
+                loadMenu = Instantiate(loadMenuPrefab, transform, false);
+            loadMenu.transform.SetAsLastSibling();
+            loadMenu.Open();
         }
 
         private void TryAdvanceDay()

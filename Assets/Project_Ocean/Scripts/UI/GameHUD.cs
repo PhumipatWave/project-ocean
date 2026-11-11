@@ -126,13 +126,12 @@ namespace Game.UI
             }
         }
 
-        /// <summary>Shows "Back to Land" once GameFeature.BackToLand is unlocked, hidden while any blocking UI is open.</summary>
-        // Only this method may toggle landButton — a second per-frame writer flickers it over open UI.
+        /// <summary>Shows "Back to Land" once GameFeature.BackToLand is unlocked. It lives in the pause menu, so the menu itself hides it.</summary>
+        // Only this method may toggle landButton — a second per-frame writer flickers it.
         private void RefreshLandButton()
         {
             if (landButton == null) return;
-            bool uiOpen = PlayerUIState.IsLocked || (UIManager.Instance != null && UIManager.Instance.IsUIOpen);
-            bool show = FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand) && !uiOpen;
+            bool show = FeatureUnlockService.Instance.IsUnlocked(GameFeature.BackToLand);
             if (landButton.activeSelf != show)
                 landButton.SetActive(show);
         }
@@ -185,7 +184,12 @@ namespace Game.UI
                     if (BlockedByUseItemTutorial()) return;
                     ConfirmationDialog.Instance?.Show(
                         "Return to land?",
-                        () => GameManager.Instance?.ReturnToLand()
+                        () =>
+                        {
+                            // Button sits in the pause menu: close it, or its lock and timeScale 0 follow us to land.
+                            UIManager.Instance?.CloseAll();
+                            GameManager.Instance?.ReturnToLand();
+                        }
                     );
                 });
             }

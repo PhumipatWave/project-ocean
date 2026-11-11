@@ -35,7 +35,7 @@ namespace Game.Gameplay
         public override void Enter(EnemyBrainContext ctx, EnemyFSM fsm)
         {
             base.Enter(ctx, fsm);
-            ResumeAgent(profile.speed * 1.5f);  // flee boost
+            ResumeAgent(profile.speed * (profile is ScaredEnemyProfile s ? s.fleeSpeedMultiplier : 1.5f));
             safeTimer = profile.followAfterLost;
             minFleeTimer = MinFleeDuration;
             repathTimer.Reset();
@@ -136,7 +136,7 @@ namespace Game.Gameplay
 
         public void EnterPanic()
         {
-            SetAgentSpeed(profile.speed * 2.2f);  // panic boost, higher than normal flee (1.5x)
+            SetAgentSpeed(profile.speed * (profile is ScaredEnemyProfile s ? s.panicSpeedMultiplier : 2.2f));
             minFleeTimer = Mathf.Max(minFleeTimer, MinFleeDuration);  // reset min flee time
             safeTimer = Mathf.Max(safeTimer, profile.followAfterLost);
             PickFleeDestination();  // immediately re-route away

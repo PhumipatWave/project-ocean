@@ -27,8 +27,9 @@ namespace Game.Gameplay
 
         [SerializeField] private float maxHealth = 100f;
 
-        private Player player;
-        public Player Player => player;
+        // Read live, never cached: pooled enemies outlive a New Game (old player destroyed), and
+        // scene-placed enemies Awake before GameManager spawns the player on sceneLoaded.
+        public Player Player => PlayerRegistry.Local;
 
         private IEnemyBrain brain;
         public IEnemyBrain Brain => brain;
@@ -135,7 +136,6 @@ namespace Game.Gameplay
 
         private void InitializeState()
         {
-            player = PlayerRegistry.Local;
             healthSource?.Initialize();
         }
     }
