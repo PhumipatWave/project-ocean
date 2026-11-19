@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: ItemPearl
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  ItemID: 41001
+  ItemName: Pearl
+  ItemDescription: 
+  ItemVisual: {fileID: -4234091430829767758, guid: e9479ff9a14314b49a438d245108847b, type: 3}
+  ItemPrefab: {fileID: 4048463696750882407, guid: 4d8a7013385756947aba7be7dcfb0d68, type: 3}
+  ItemPrice: 13
+  MaxStackable: 5
+  ItemType: 0
+  CanBuy: 1
+  CanSell: 1

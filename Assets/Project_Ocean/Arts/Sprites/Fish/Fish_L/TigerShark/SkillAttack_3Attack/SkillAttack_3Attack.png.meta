@@ -1,0 +1,507 @@
+fileFormatVersion: 2
+guid: e2c25c5bc76b99a468e983fc41225392
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6909309427108647927
+    second: SkillAttack_3Attack_0
+  - first:
+      213: -1903580662330114056
+    second: SkillAttack_3Attack_1
+  - first:
+      213: 7590232006693819539
+    second: SkillAttack_3Attack_2
+  - first:
+      213: 3674484563829631879
+    second: SkillAttack_3Attack_3
+  - first:
+      213: 997022681218660971
+    second: SkillAttack_3Attack_4
+  - first:
+      213: -1241784853167977068
+    second: SkillAttack_3Attack_5
+  - first:
+      213: -1596539767888554995
+    second: SkillAttack_3Attack_6
+  - first:
+      213: 4918738595065661266
+    second: SkillAttack_3Attack_7
+  - first:
+      213: -3827481308826876191
+    second: SkillAttack_3Attack_8
+  - first:
+      213: 4849916372630307428
+    second: SkillAttack_3Attack_9
+  - first:
+      213: 5926666997082322108
+    second: SkillAttack_3Attack_10
+  - first:
+      213: -4594103225735658952
+    second: SkillAttack_3Attack_11
+  - first:
+      213: -1159908403374557734
+    second: SkillAttack_3Attack_12
+  - first:
+      213: 4155334704672927981
+    second: SkillAttack_3Attack_13
+  - first:
+      213: 5295111593202546271
+    second: SkillAttack_3Attack_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 20
+        width: 162
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f3911e115cc2ef50800000000000000
+      internalID: 6909309427108647927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_1
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 14
+        width: 162
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ffb284297f1595e0800000000000000
+      internalID: -1903580662330114056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_2
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 14
+        width: 163
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39419c99bcbe55960800000000000000
+      internalID: 7590232006693819539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_3
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 14
+        width: 162
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78ba8b71e346ef230800000000000000
+      internalID: 3674484563829631879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_4
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 14
+        width: 163
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6abb0b98d226dd00800000000000000
+      internalID: 997022681218660971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_5
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 20
+        width: 162
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d467b514b44cee0800000000000000
+      internalID: -1241784853167977068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_6
+      rect:
+        serializedVersion: 2
+        x: 987
+        y: 15
+        width: 162
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d04d7393a83f7d9e0800000000000000
+      internalID: -1596539767888554995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_7
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 19
+        width: 161
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25784ed01bed24440800000000000000
+      internalID: 4918738595065661266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_8
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 24
+        width: 164
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e64dea470e02eac0800000000000000
+      internalID: -3827481308826876191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_9
+      rect:
+        serializedVersion: 2
+        x: 1476
+        y: 20
+        width: 162
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4620bf4be3d5e4340800000000000000
+      internalID: 4849916372630307428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_10
+      rect:
+        serializedVersion: 2
+        x: 1640
+        y: 20
+        width: 162
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb47f17ab30cf3250800000000000000
+      internalID: 5926666997082322108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_11
+      rect:
+        serializedVersion: 2
+        x: 1804
+        y: 14
+        width: 162
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 832cc80f4777e30c0800000000000000
+      internalID: -4594103225735658952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_12
+      rect:
+        serializedVersion: 2
+        x: 1968
+        y: 14
+        width: 163
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad57edcd37d27efe0800000000000000
+      internalID: -1159908403374557734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_13
+      rect:
+        serializedVersion: 2
+        x: 2132
+        y: 14
+        width: 162
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de0f1e2e5e6baa930800000000000000
+      internalID: 4155334704672927981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillAttack_3Attack_14
+      rect:
+        serializedVersion: 2
+        x: 2296
+        y: 14
+        width: 163
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f56f3e670f30c7940800000000000000
+      internalID: 5295111593202546271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SkillAttack_3Attack_0: 6909309427108647927
+      SkillAttack_3Attack_1: -1903580662330114056
+      SkillAttack_3Attack_10: 5926666997082322108
+      SkillAttack_3Attack_11: -4594103225735658952
+      SkillAttack_3Attack_12: -1159908403374557734
+      SkillAttack_3Attack_13: 4155334704672927981
+      SkillAttack_3Attack_14: 5295111593202546271
+      SkillAttack_3Attack_2: 7590232006693819539
+      SkillAttack_3Attack_3: 3674484563829631879
+      SkillAttack_3Attack_4: 997022681218660971
+      SkillAttack_3Attack_5: -1241784853167977068
+      SkillAttack_3Attack_6: -1596539767888554995
+      SkillAttack_3Attack_7: 4918738595065661266
+      SkillAttack_3Attack_8: -3827481308826876191
+      SkillAttack_3Attack_9: 4849916372630307428
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

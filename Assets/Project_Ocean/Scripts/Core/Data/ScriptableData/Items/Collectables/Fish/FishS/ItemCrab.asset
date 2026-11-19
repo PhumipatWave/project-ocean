@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: ItemCrab
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  itemID: 31001
+  itemName: Fiddler Crab
+  itemDescription: 
+  itemVisual: {fileID: -7471344107689168931, guid: 39ae5861d3544aa49a8e0ce35453ecbf, type: 3}
+  itemPrefab: {fileID: 0}
+  itemPrice: 13
+  maxStackable: 5
+  itemType: 0
+  fishSize: 1
+  canBuy: 1
+  canSell: 1

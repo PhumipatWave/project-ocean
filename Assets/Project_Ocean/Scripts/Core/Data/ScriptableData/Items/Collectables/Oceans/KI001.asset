@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85b66f6d617d6d42964a523b739413f, type: 3}
+  m_Name: KI001
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.Item
+  ItemID: 90001
+  ItemName: Rock Breaker
+  ItemDescription: 
+  ItemVisual: {fileID: -5281422124547630143, guid: 99b7737ee9718d740b778e2a078fcf8b, type: 3}
+  ItemPrefab: {fileID: 0}
+  ItemPrice: 0
+  MaxStackable: 1
+  ItemType: 2
+  CanBuy: 0
+  CanSell: 0

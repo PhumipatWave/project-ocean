@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583f5f4b3d0038344a5759d628473aa8, type: 3}
+  m_Name: BarracudaProfile
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.AggressiveEnemyProfile
+  fishId: barracuda
+  speed: 5.5
+  viewDistance: 25
+  viewAngle: 90
+  debugVision: 1
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  wallDetectDistance: 1
+  wanderRadius: 45
+  wanderInterval: 8
+  hitChaseDuration: 6
+  chasePlayerWhenHit: 1
+  followAfterLost: 6
+  fishClearanceRadius: 0.8
+  maxWanderSampleTries: 20
+  nearPlayerSearchRadius: 5
+  nearPlayerSearchSamples: 24
+  nearPlayerSearchStep: 0.5
+  contactDamage: 0
+  contactDamageCooldown: 1
+  autoReturnDelay: 60
+  tickFacingFromVelocity: 0
+  searchAfterLost: 0
+  prepareBeforeAttack: 0
+  canAttack: 1
+  alertNearbyAllies: 0
+  searchDuration: 6
+  searchRadius: 25
+  prepareTime: 2.25
+  boostSpeed: 6
+  attackRange: 1.5
+  attackCooldown: 3
+  attackDamage: 15
+  groupAlertRadius: 3

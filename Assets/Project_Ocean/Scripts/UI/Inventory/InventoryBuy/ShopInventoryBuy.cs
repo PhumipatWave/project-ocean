@@ -1,0 +1,55 @@
+using UnityEngine;
+using Game.Core;
+using Game.Gameplay;
+
+namespace Game.UI
+{
+    public class ShopInventoryBuy : MonoBehaviour
+    {
+        public static ShopInventoryBuy Instance { get; private set; }
+
+        public ShopBuySlot[] shopbuySlots;
+
+        public GameObject shopItemPrefab;
+        public Item[] itemsToSell;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        private void Start()
+        {
+            InitializeShop();
+        }
+
+        void InitializeShop()
+        {
+            for (int i = 0; i < itemsToSell.Length; i++)
+            {
+                if (i < shopbuySlots.Length)
+                {
+                    SpawnItemInShop(itemsToSell[i], shopbuySlots[i]);
+                }
+            }
+        }
+
+        void SpawnItemInShop(Item item, ShopBuySlot slot)
+        {
+            GameObject newItemGo = Instantiate(shopItemPrefab, slot.transform);
+
+            DraggableItem shopItem = newItemGo.GetComponent<DraggableItem>();
+            shopItem.InitialiseItem(item);
+
+            // This is a catalog listing (one entry per purchasable item), not a real stack —
+            // RefreshCount()'s "1/99" reads as a held-item count, which is misleading here.
+            if (shopItem.countText != null)
+                shopItem.countText.gameObject.SetActive(false);
+
+            shopItem.enabled = false;
+
+            // The shop reads the selected item from the slot, so buying needs this link.
+            slot.SetItem(shopItem);
+        }
+    }
+}

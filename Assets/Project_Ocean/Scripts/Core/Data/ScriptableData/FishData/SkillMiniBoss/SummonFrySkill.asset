@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcea4c9519abd824d94d3e595c036145, type: 3}
+  m_Name: SummonFrySkill
+  m_EditorClassIdentifier: Game.Gameplay::Game.Gameplay.SummonFrySkillData
+  telegraphTime: 1
+  recoverTime: 0.6
+  cooldown: 20
+  weight: 1
+  maxRange: 25
+  fryPrefab: {fileID: 1610997150427738720, guid: b1e5a218026be594d9b50b8cf40967ca, type: 3}
+  spawnCount: 3
+  spawnRadius: 3
+  corpseTime: 2
+  fadeTime: 0.5
+  dissolveVfxPrefab: {fileID: 0}
+  dissolveVfxLifetime: 2

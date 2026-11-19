@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
+  m_Name: QNPC_2003
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  category: 1
+  classification: 1
+  questId: 2003
+  status: 0
+  nextQuestMode: 0
+  nextQuestIds: 
+  steps:
+  - type: 0
+    targetEnemyId: fishM
+    targetEnemyIds: []
+    tutorialAction: 0
+    targetQuestItemId: 32001
+    deliverySource: 1
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 6
+    completionMode: 1
+    stepDescription: 'Kill {item}: 6'
+    dialogue:
+    - characterId: shop
+      type: 0
+      lines:
+      - Hello
+      - Can I ask you
+      - I Need you to
+      cutsceneId: 
+    - characterId: shop
+      type: 1
+      lines:
+      - 'Is there anything I can help with? '
+      cutsceneId: 
+    - characterId: shop
+      type: 2
+      lines:
+      - Oh, thank you very much.
+      cutsceneId: 
+    - characterId: shop
+      type: 3
+      lines:
+      - Let's try again.
+      cutsceneId: 
+    - characterId: shop
+      type: 4
+      lines:
+      - Yes
+      cutsceneId: 
+    - characterId: shop
+      type: 5
+      lines:
+      - No
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 0
+    rewardMoney: 350
+    unlocksFeatures: 
+  questName: '[Shop]'
+  questGiverNpcId: shop
+  isDaily: 0
+  dailyWeight: 1

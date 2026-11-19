@@ -1,0 +1,469 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e998b7de47bef11429759a9f4a22a19e, type: 3}
+  m_Name: MQ_1002
+  m_EditorClassIdentifier: Game.Testing::Game.Testing.QuestData
+  category: 4
+  classification: 0
+  questId: 1002
+  status: 0
+  nextQuestMode: 2
+  nextQuestIds: eb030000
+  steps:
+  - type: 3
+    targetEnemyId: player
+    targetEnemyIds: []
+    tutorialAction: 10
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue: []
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 4
+    targetEnemyId: MQ1002_01
+    targetEnemyIds: []
+    tutorialAction: 0
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 10
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 0
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: hunter
+      type: 0
+      lines:
+      - 'Check the Quest Board over there. Island villagers post jobs with rewards. '
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 08000000
+  - type: 3
+    targetEnemyId: hunter
+    targetEnemyIds: []
+    tutorialAction: 5
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Check quests in quest board
+    dialogue: []
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: hunter
+    targetEnemyIds: []
+    tutorialAction: 16
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Accept quest on quest board
+    dialogue: []
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 02000000
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 0
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: hunter
+      type: 0
+      lines:
+      - Upgrade your equipment at the shop before diving today.
+      - Here take this gold to upgrade your rope.
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 500
+    unlocksFeatures: 02000000
+  - type: 3
+    targetEnemyId: hunter
+    targetEnemyIds: []
+    tutorialAction: 9
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Go to the Upgrade Shop.
+    dialogue:
+    - characterId: hunter
+      type: 0
+      lines:
+      - Upgrade your equipment at the shop before diving today.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: hunter
+    targetEnemyIds: []
+    tutorialAction: 17
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: hunter
+      type: 0
+      lines:
+      - Upgrade your equipment at the shop before diving today.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 0
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 0
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: 
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      - Try this Minihub. This one on the house.
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 175
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 2
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Buy a MiniHub item.
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 4
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Head to the boat to begin Day 2 diving.
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 3
+    targetEnemyId: AR001
+    targetEnemyIds: []
+    tutorialAction: 19
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Explore Ocean until rope hit limit.
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0f000000
+  - type: 3
+    targetEnemyId: 
+    targetEnemyIds: []
+    tutorialAction: 18
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Press {key:UseItem} to use MiniHub item.
+    dialogue:
+    - characterId: femboy
+      type: 0
+      lines:
+      - Upgrade complete. Your tether line is now longer.
+      cutsceneId: 
+    isGuidedSequence: 1
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 
+  - type: 1
+    targetEnemyId: AR001
+    targetEnemyIds: []
+    tutorialAction: 4
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Explore Ocean.
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - A solid obstacle is blocking the path. Return to the surface to find a solution.
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 1
+    talkCompletionMode: 0
+    notificationImages: []
+    rewardItemId: 
+    rewardMoney: 0
+    unlocksFeatures: 0d00000003000000
+  - type: 2
+    targetEnemyId: 
+    targetEnemyIds:
+    - hunter
+    - shop
+    - femboy
+    tutorialAction: 4
+    targetQuestItemId: 
+    deliverySource: 0
+    targetQuestItemIds: []
+    targetQuestItemRequirements: []
+    deliveryCountMode: 0
+    consumeOnComplete: 1
+    requiredMoney: 0
+    requiredDaysToWait: 1
+    requiredDivesThatDay: 1
+    targetCount: 1
+    completionMode: 0
+    stepDescription: Ask the islanders about the underwater obstacle.
+    dialogue:
+    - characterId: 
+      type: 0
+      lines:
+      - '"A solid obstacle is blocking the path. Return to the surface to find a
+        solution."'
+      cutsceneId: 
+    - characterId: hunter
+      type: 1
+      lines:
+      - I don't have tools for heavy demolition.
+      cutsceneId: 
+    - characterId: shop
+      type: 1
+      lines:
+      - I don't have tools for heavy demolition.
+      cutsceneId: 
+    - characterId: femboy
+      type: 1
+      lines:
+      - That rock needs a heavy demolition tool. I have one.
+      - But there's a dangerous mystery shark lurking in the ocean.
+      - Help me eliminate it, and I'll help you get the heavy demolition tool you
+        need.
+      cutsceneId: 
+    isGuidedSequence: 0
+    autoDisplayDialogue: 0
+    talkCompletionMode: 2
+    passNpcId: femboy
+    notificationImages: []
+    rewardItemId:
+    rewardMoney: 0
+    unlocksFeatures: 0d0000000300000011000000
+  questName: Main Quest II
+  questGiverNpcId: 

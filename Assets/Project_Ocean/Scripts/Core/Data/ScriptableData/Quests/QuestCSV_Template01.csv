@@ -1,0 +1,10 @@
+QuestId,StepIndex,CharacterId,DialogueType,LineIndex,Text,StepDescription
+1,1,hunter,InProgress,0,"Nice, you found me! Let's continue your training.","Talk to Hunter"
+2001,0,peachzy,Offer,0,"Hello","Kill fish size M : 3 "
+2001,0,peachzy,Offer,1,"Can I ask you","Kill fish size M : 3 "
+2001,0,peachzy,Offer,2,"I Need you to","Kill fish size M : 3 "
+2001,0,peachzy,InProgress,0,"Is there anything I can help with? ","Kill fish size M : 3 "
+2001,0,peachzy,Finish,0,"Oh, thank you very much.","Kill fish size M : 3 "
+2001,0,peachzy,NotFinish,0,"Let's try again.","Kill fish size M : 3 "
+2001,0,peachzy,Accept,0,"Yes","Kill fish size M : 3 "
+2001,0,peachzy,Reject,0,"No","Kill fish size M : 3 "
